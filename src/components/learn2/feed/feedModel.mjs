@@ -58,7 +58,7 @@ export function upNextText(slot) {
   if (item?.origin === 'mistake') {
     const label = String(item.mistake?.label || '');
     const said = label.replace(/^You missed this\s*/i, '').trim();
-    return said ? `Up next: a question you missed ${said}` : 'Up next: an old mistake';
+    return said ? `Up next: a question you missed ${said}` : 'Up next: an open mistake';
   }
   return 'Up next: a question';
 }
@@ -104,6 +104,6 @@ export function sheetRows(items, states, base = 0) {
     const res = st.answer?.res;
     const state = item.type === 'card' ? (st.kept ? 'kept' : st.seen ? 'seen' : null) : res ? (res.correct ? 'right' : 'wrong') : st.skipped ? 'seen' : null;
     const words = item.type === 'card' ? String(item.card?.front || '') : String(item.question?.body || '');
-    return { id: item.id, n: base + i + 1, kind: item.type === 'card' ? 'Key card' : item.origin === 'mistake' ? 'Old mistake' : 'Question', words: words.replace(/_{3,}/g, '___').replace(/\s+/g, ' ').trim(), state };
+    return { id: item.id, n: base + i + 1, kind: item.type === 'card' ? 'Key card' : item.origin === 'mistake' ? 'Open mistake' : 'Question', words: words.replace(/_{3,}/g, '___').replace(/\s+/g, ' ').trim(), state };
   });
 }

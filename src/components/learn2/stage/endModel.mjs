@@ -1,18 +1,20 @@
-// The end screen's one formula (R2 ruling 5, LK31), shared by the run and the feed. Pure, so node --test holds it
+// The end screen's one formula (R2 ruling 5, LK31, R3-SPEC L5), shared by the run and the feed. Pure, so node --test holds it
 // (run/runView.test.mjs). Top to bottom the screen draws:
 //   the chapter name as a quiet line, a headline, one row of up to 3 numbers (every zero dropped), the chapter's progress
 //   bar growing, one main key and at most one quiet text link. The X is the only other way out.
 // Never a zero: a count that is 0 is dropped, and "0 of 2 right" becomes "2 questions tried" (R2 ruling 1).
+import { FREE_END_LINE } from '../../../../data/learn/allowance.js';
+import { WORDS, reviseDue, withMinutes } from '../../../../data/learn/words.js';
 
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 const num = (x) => (Number.isFinite(Number(x)) ? Math.max(0, Math.round(Number(x))) : 0);
 
-/** The free line of an end after the day's session (R2 ruling 1's Free row). See Pro is its inline text key. */
-export const FREE_END_LINE = 'That was today’s free session. Pro has no daily limit.';
+/** The one quiet line of a Free end after the day's session (ruling F): FREE_DONE_HEADLINE + " Questions come back tomorrow." */
+export { FREE_END_LINE };
 
 /**
- * The headline: "20 done in 9 min", "20 done", or "Stopped at 7 of 20". `stopped` or reached < of reads as a stop.
- * Nothing reached gives null (the screen leads with the chapter instead of a zero).
+ * The headline (R3 L5): "18 done", with " in 12 min" only from 2 minutes; a stop part way reads "5 of 20 done". `stopped` or
+ * reached < of reads as a stop. Nothing reached gives null (the screen leads with the chapter instead of a zero).
  */
 export function endHeadline({ reached = 0, of = 0, minutes = null, stopped = false } = {}) {
   const r = num(reached);
@@ -20,9 +22,9 @@ export function endHeadline({ reached = 0, of = 0, minutes = null, stopped = fal
   if (!o || !r) return null;
   if (r >= o && !stopped) {
     const m = num(minutes);
-    return m ? `${o} done in ${m} min` : `${o} done`;
+    return m >= 2 ? `${o} done in ${m} min` : `${o} done`;
   }
-  return `Stopped at ${Math.min(r, o)} of ${o}`;
+  return `${Math.min(r, o)} of ${o} done`;
 }
 
 /** "in Revise, back Wed" from the server's return groups ([{ label: 'back on Wed', count }]): the soonest one. */
@@ -33,25 +35,23 @@ export function reviseLabel(groups) {
 }
 
 /**
- * The numbers row: up to 3 { value, n, label }, in this order, each only when it is more than 0.
- *   revise    cards sent to (or kept for) Revise; label from reviseLabel or given
- *   seen      cards seen, shown only when nothing went to Revise (a feed with nothing kept)
- *   answered  questions answered; right of answered, or "N questions tried" when none was right
- *   mistakes  old mistakes tried; fixed of tried, or "N mistakes tried" when none was fixed
+ * The numbers row (R3 L5): up to 3 { value, n, label }, in this order, each only when it is more than 0, with the same labels
+ * on run and feed ends:
+ *   revise    cards sent to (or kept for) Revise: "14" / "in Revise, back Wed" (label from reviseLabel or given)
+ *   answered  questions answered: "1 of 2" / "questions right"; none right: "2" / "questions tried" (never "0 of 2")
+ *   fixed     open mistakes fixed: "2" / "open mistakes fixed" (none fixed: no number; never "mistakes tried")
+ * No "cards seen" number: the chapter's bar carries it ("20 of 45 cards seen"). `seen` and `mistakes` are read and ignored.
  * `n` is the leading figure (the count-up animates it); `value` is the whole figure as drawn.
  */
-export function endNumbers({ revise = 0, reviseText = 'in Revise', seen = 0, answered = 0, right = 0, mistakes = 0, fixed = 0 } = {}) {
+export function endNumbers({ revise = 0, reviseText = 'in Revise', answered = 0, right = 0, mistakes = null, fixed = 0 } = {}) {
   const out = [];
   const rv = num(revise);
-  const sn = num(seen);
   if (rv) out.push({ value: String(rv), n: rv, label: reviseText });
-  else if (sn) out.push({ value: String(sn), n: sn, label: sn === 1 ? 'card seen' : 'cards seen' });
   const a = num(answered);
   const r = Math.min(num(right), a);
   if (a) out.push(r ? { value: `${r} of ${a}`, n: r, label: a === 1 ? 'question right' : 'questions right' } : { value: String(a), n: a, label: a === 1 ? 'question tried' : 'questions tried' });
-  const m = num(mistakes);
-  const f = Math.min(num(fixed), m);
-  if (m) out.push(f ? { value: `${f} of ${m}`, n: f, label: m === 1 ? 'mistake fixed' : 'mistakes fixed' } : { value: String(m), n: m, label: m === 1 ? 'mistake tried' : 'mistakes tried' });
+  const f = mistakes === null ? num(fixed) : Math.min(num(fixed), num(mistakes));
+  if (f) out.push({ value: String(f), n: f, label: f === 1 ? 'open mistake fixed' : 'open mistakes fixed' });
   return out.slice(0, 3);
 }
 
@@ -84,3 +84,18 @@ export const stopSheetLine = (done, of) => (num(of) ? `${num(done)} of ${num(of)
 
 /** A pile card's front size: 12 px when its longest word is over 11 characters, else 13 (R2 screens 11). */
 export const pileFrontSize = (text) => (String(text || '').split(/\s+/).some((w) => w.replace(/[^\p{L}\p{N}]/gu, '').length > 11) ? 12 : 13);
+
+/** The Or rows of ruling F, in order, at most 2: [{ id, label }] from the 402 body (pure; runView.test.mjs). */
+export function freeUsedRows(data = {}) {
+  const r = data?.resume || null;
+  const options = Array.isArray(data?.options) ? data.options : [];
+  const revise = options.find((o) => o?.run?.kind === 'cards') || null;
+  const rows = [];
+  if (r && Number(r.of) > Number(r.done)) rows.push({ id: 'continue', label: withMinutes(WORDS.continue, r.minutesLeft) });
+  if (revise) {
+    const n = Number(revise.run.cardIds?.length) || Number((String(revise.label || '').match(/(\d+) due card/) || [])[1]) || 0;
+    rows.push({ id: 'revise', label: n ? reviseDue(n, revise.run.minutes) : revise.label });
+  }
+  rows.push({ id: 'singles', label: WORDS.singles });
+  return rows.slice(0, 2);
+}

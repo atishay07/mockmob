@@ -8,7 +8,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { CHECKPOINT_LINE, FEED_RULES, FREE_FEED_DONE, checkpointNumber, coverLine, coverOrder, feedEndLines, feedOrderProblems, feedSlots, feedsOnDay, freeFeed, keptLine } from '../learn/feed.js';
 import { composeRun, feedCardPool, isAnaphoric, orderProblems } from '../learn/compose.js';
-import { FREE_SESSION_DONE } from '../learn/allowance.js';
+import { FREE_END_LINE, FREE_SESSION_DONE } from '../learn/allowance.js';
 import { istDay, schedule, tasteIds } from '../keycards.js';
 import { previewAnswer } from '../../src/lib/server/keycardsPreview.js';
 
@@ -216,11 +216,15 @@ test('preview: the Pro feed keeps its shape, no answer key before an answer, Kee
   assert.equal(end.feed.kept.count, 1);
   assert.equal(end.feed.kept.cards[0].id, cards[0].card.id);
   assert.equal(end.feed.kept.stamp, keep.stamp);
-  // BUILD-1101 1.3: "Another 10 minutes" sends fresh, so it never resumes the feed just played.
-  assert.deepEqual(end.feed.lead, { label: 'Another 10 minutes', run: { kind: 'feed', chapterKey: AOP, minutes: 10, fresh: true } });
+  // BUILD-1101 1.3 with R3 W: "Keep going · 10 min" sends fresh, so it never resumes the feed just played.
+  assert.deepEqual(end.feed.lead, { label: 'Keep going · 10 min', run: { kind: 'feed', chapterKey: AOP, minutes: 10, fresh: true } });
   assert.equal(end.feed.kept.line, '1 kept. They are first in Revise.');
   assert.equal(end.feed.free, null);
-  assert.match(end.feed.next.label, /^Next chapter: Retirement and Death of a Partner$/);
+  assert.deepEqual([end.feed.next.label, end.feed.next.title], ['Next chapter · 10 min', 'Retirement and Death of a Partner']);
+  // R3 L5: the end's own keys are a feed's too: one main key, at most one quiet link, each a feed or a new run.
+  assert.ok(['Keep going · 10 min', 'Next chapter · 10 min'].includes(end.lead.label), end.lead.label);
+  assert.equal(end.lead.run.kind, 'feed');
+  assert.ok(end.options.length <= 1);
   assert.equal(end.feed.next.run.kind, 'feed');
   const again = await call('/api/learn/runs', { method: 'POST', body: { chapterKey: AOP, minutes: 10, kind: 'feed' } });
   assert.equal(again.http, 200, 'Pro plays as many feeds as it likes');
@@ -228,7 +232,7 @@ test('preview: the Pro feed keeps its shape, no answer key before an answer, Kee
 
 // BUILD-1101 1.6 (LK15): Free's one Learn session a day is claimed at the first answered question (a feed opened and left
 // costs nothing), the line names the session, and the 402 code is FREE_SESSION_USED.
-const SESSION_DONE = 'Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like.';
+const SESSION_DONE = "That was today's free session. Questions come back tomorrow. Your Key cards stay open.";
 test('preview: Free plays one Learn session a day; its end says so and a second feed does not start', async () => {
   const call = student('free');
   const first = await call('/api/learn/runs', { method: 'POST', body: { chapterKey: AOP, minutes: 10, kind: 'feed' } });
@@ -237,7 +241,9 @@ test('preview: Free plays one Learn session a day; its end says so and a second 
   assert.equal((await call(`/api/learn/runs/${first.body.id}/answer`, { method: 'POST', body: { itemId: q.id, choice: 'A' } })).http, 200);
   const end = (await call(`/api/learn/runs/${first.body.id}/end`)).body;
   assert.equal(end.feed.lead, null);
-  assert.deepEqual(end.feed.free, { text: SESSION_DONE });
+  assert.equal(SESSION_DONE, FREE_SESSION_DONE);
+  assert.deepEqual(end.feed.free, { text: FREE_END_LINE });
+  assert.equal(end.lead.line, "That was today's free session. Questions come back tomorrow.", 'R3 F: the one quiet line above the keys');
   assert.equal(end.feed.next.run, null, 'the next chapter opens its chapter page, not a second feed');
   const second = await call('/api/learn/runs', { method: 'POST', body: { chapterKey: PF, minutes: 10, kind: 'feed' } });
   assert.equal(second.http, 402);

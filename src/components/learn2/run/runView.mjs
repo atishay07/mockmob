@@ -4,10 +4,10 @@
 
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
-/** The front's size step by its length in characters (B1): 's' up to 60, 'm' up to 120, 'l' longer. */
+/** The front's size step by its length in characters (R3-SPEC L1): 's' up to 60, 'm' up to 140, 'l' longer. */
 export function frontStep(text) {
   const n = String(text || '').replace(/\s+/g, ' ').trim().length;
-  return n <= 60 ? 's' : n <= 120 ? 'm' : 'l';
+  return n <= 60 ? 's' : n <= 140 ? 'm' : 'l';
 }
 
 /** The tag at the card's head: why this card is here (a recap shows none). */
@@ -20,9 +20,10 @@ export function stageTag(item, { recap = false } = {}) {
 }
 
 const pileOf = (item) => (item?.type === 'question' ? (item.origin === 'mistake' ? 'mistakes' : 'questions') : item?.type === 'lesson' ? 'lesson' : 'cards');
-export const PILE_NAMES = Object.freeze({ cards: 'Key cards', questions: 'Questions', mistakes: 'Old mistakes', lesson: 'Lesson' });
-/** "16 Key cards", "2 questions", "1 old mistake", "1 lesson": a pile's total before any of it is done. */
-export const pileTotal = (id, n) => (id === 'cards' ? `${n} Key ${n === 1 ? 'card' : 'cards'}` : id === 'questions' ? plural(n, 'question') : id === 'mistakes' ? plural(n, 'old mistake') : plural(n, 'lesson'));
+// R3-SPEC ruling W: question mistakes are "open mistakes" everywhere (never "old mistakes").
+export const PILE_NAMES = Object.freeze({ cards: 'Key cards', questions: 'Questions', mistakes: 'Open mistakes', lesson: 'Lesson' });
+/** "16 Key cards", "2 questions", "1 open mistake", "1 lesson": a pile's total before any of it is done. */
+export const pileTotal = (id, n) => (id === 'cards' ? `${n} Key ${n === 1 ? 'card' : 'cards'}` : id === 'questions' ? plural(n, 'question') : id === 'mistakes' ? plural(n, 'open mistake') : plural(n, 'lesson'));
 
 /**
  * The piles of this run worked down (A4 3.3.3): one row per pile the run holds, `done` of `of` counted by distinct cards
@@ -54,7 +55,7 @@ export function runPiles(items, finished, { at = -1, resumed = false } = {}) {
   });
 }
 
-/** Plain questions answered and right, the old mistakes tried and fixed, and the current streak of right answers (B7 G). */
+/** Plain questions answered and right, the open mistakes tried and fixed, and the current streak of right answers (B7 G). */
 export function answerTally(items, answers) {
   const t = { answered: 0, right: 0, tried: 0, fixed: 0, streak: 0 };
   for (const item of items || []) {
@@ -132,7 +133,7 @@ export function reviseSummary(groups) {
  * The end's lines (A4 3.4.2, B7 G): label and value, only rows with something in them.
  *   Key cards     "16 rated, all got it" | "16 rated: 12 got it, 3 easy, 1 missed" (+ ", 2 looked at")
  *   Questions     "3 of 3 right"
- *   Old mistakes  "2 of 2 fixed" | "1 of 2 fixed, 1 still open"
+ *   Open mistakes "2 of 2 fixed" | "1 of 2 fixed, 1 still open"
  */
 export function endLines(data, { kind = 'mix' } = {}) {
   const n = data?.numbers || {};
@@ -152,9 +153,9 @@ export function endLines(data, { kind = 'mix' } = {}) {
   }
   const q = lineOf('questions') || n.detail?.questions;
   if (q) out.push({ label: 'Questions', value: q });
-  // Old mistakes the run never reached (a stop before them) are not a line: nothing was tried.
+  // Open mistakes the run never reached (a stop before them) are not a line: nothing was tried.
   const m = n.mistakes === 0 ? null : lineOf('mistakes') || n.detail?.fixed;
-  if (m) out.push({ label: 'Old mistakes', value: /fixed/.test(m) ? m : `${m} fixed` });
+  if (m) out.push({ label: 'Open mistakes', value: /fixed/.test(m) ? m : `${m} fixed` });
   return out;
 }
 

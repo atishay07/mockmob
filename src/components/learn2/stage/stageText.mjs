@@ -5,7 +5,7 @@ export const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many
 /** The front's size step by its length in characters (A1 3.4): 's' up to 60, 'm' up to 120, 'l' longer. */
 export function frontSize(text) {
   const n = String(text || '').replace(/\s+/g, ' ').trim().length;
-  return n <= 60 ? 's' : n <= 120 ? 'm' : 'l';
+  return n <= 60 ? 's' : n <= 140 ? 'm' : 'l';
 }
 
 /** The back's size step (A8 3.2): its characters plus 12 per line break; 's' to 110, 'm' to 200, 'l' to 320, 'xl' longer. */

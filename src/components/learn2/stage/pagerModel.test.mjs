@@ -114,7 +114,8 @@ test('the key table', () => {
 test('text: front and back sizes, blanks read aloud, options stripped only when every option carries its letter', () => {
   assert.equal(frontSize('What is goodwill?'), 's');
   assert.equal(frontSize('x'.repeat(100)), 'm');
-  assert.equal(frontSize('x'.repeat(121)), 'l');
+  assert.equal(frontSize('x'.repeat(140)), 'm', 'R3 L1: m up to 140');
+  assert.equal(frontSize('x'.repeat(141)), 'l');
   assert.equal(backSize('x'.repeat(100)), 's');
   assert.equal(backSize('x'.repeat(330)), 'xl');
   assert.equal(speakable('The ____ ratio'), 'The blank ratio');

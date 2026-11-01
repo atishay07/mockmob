@@ -10,9 +10,11 @@
 // Kinds: pickup (an unfinished run), due (due cards in a chapter), fix (open mistakes), next (next chapter in book order),
 // start (a new student's first chapter), feed (that chapter as a feed: a new student's third, A3 3.10), level (Find your
 // level), recap (a studied chapter's Must-know lines), search.
+// R3-SPEC ruling W: every key says its thing in the one word of data/learn/words.js, with " · N min" after it.
 import { LEARN_RULES, minutesFor } from './compose.js';
 import { SECONDS } from './seconds.js';
-import { FREE_SESSION_DONE, isCounted } from './allowance.js';
+import { FREE_END_LINE, isCounted } from './allowance.js';
+import { WORDS, fixMistakes, reviseDue, withMinutes, wholeMinutes } from './words.js';
 
 export const SUGGESTION_KINDS = Object.freeze(['pickup', 'due', 'fix', 'next', 'start', 'feed', 'level', 'recap', 'search']);
 export const CARDS_ONLY_TODAY = 'Key cards only today.';
@@ -30,7 +32,7 @@ export const cardRunMinutes = (n, seconds = null) => minutesFor(known(seconds) ?
 export const fixMinutes = (n, seconds = null) => minutesFor(known(seconds) ? Number(seconds) : n * SECONDS.mistake);
 /** Minutes of a recap of `n` Must-know cards (10 s each; `seconds` when the caller summed the cards' own seconds). */
 export const recapMinutes = (n, seconds = null) => minutesFor(known(seconds) ? Number(seconds) : n * SECONDS.card.recap);
-/** Minutes of a Find-your-level run of `n` questions (55 s each: "6 questions, about 6 minutes"). */
+/** Minutes of a level run ("Skip what you already know") of `n` questions (55 s each: "6 questions, about 6 minutes"). */
 export const levelMinutes = (n) => minutesFor(n * SECONDS.level);
 
 function bookLine(c, subjectName) {
@@ -53,7 +55,7 @@ function contents(c) {
  *               mistakeSeconds?, recapSeconds?, questions, studied, state? ('none' = Not started), lastActivityAt?,
  *               mistakeWhere?, mistakeWhen? } (mistakes: the eligible ones, R10.1)
  *   run         null | { id, chapterKey, title, done, of, minutesLeft, kind, minutes, leaveOut }
- *   level       { questions } questions in the student's first chapters (Find your level)
+ *   level       { questions } questions in the student's first chapters (Skip what you already know)
  *   minutes     the student's usual length (default 10)
  *   isPro, sessionUsed   Free with today's Learn session used (R9.6); sessionRunId: the run holding it (its pick-up is free)
  * Returns [Suggestion x3]: { kind, title, headline, chapterTitle, evidence, chapterKey, action: { label, run?, href?, go? } }.
@@ -95,7 +97,7 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
       return {
         kind: 'pickup', chapterKey: run.chapterKey, title: `Pick up ${run.title}`, headline: 'Pick up', chapterTitle: run.title,
         evidence: `You stopped at ${run.done} of ${run.of}. About ${minutesWord(left)} left.`,
-        action: { label: `Pick up, ${minutesWord(left)}`, run: { chapterKey: run.chapterKey, minutes: left, leaveOut: run.leaveOut || [], kind: run.kind || 'mix', resume: run.id } },
+        action: { label: withMinutes(WORDS.continue, left), run: { chapterKey: run.chapterKey, minutes: left, leaveOut: run.leaveOut || [], kind: run.kind || 'mix', resume: run.id } },
       };
     },
     due() {
@@ -107,7 +109,7 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
       return {
         kind: 'due', chapterKey: c.key, title: `${plural(c.due, 'card')} due in ${c.title}`, headline: `${plural(c.due, 'card')} due`, chapterTitle: c.title,
         evidence: `Due today, about ${minutesWord(m)}.`,
-        action: { label: 'Revise these', run: { chapterKey: c.key, minutes: m, leaveOut: ['questions', 'mistakes', 'lesson'], kind: 'cards', ...(ids?.length ? { cardIds: ids } : {}) } },
+        action: { label: reviseDue(c.due, m), run: { chapterKey: c.key, minutes: m, leaveOut: ['questions', 'mistakes', 'lesson'], kind: 'cards', ...(ids?.length ? { cardIds: ids } : {}) } },
       };
     },
     fix() {
@@ -120,7 +122,7 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
       return {
         kind: 'fix', chapterKey: c.key, title: `${plural(c.mistakes, 'open mistake')} in ${c.title}`, headline: plural(c.mistakes, 'open mistake'), chapterTitle: c.title,
         evidence,
-        action: { label: `Fix them, about ${minutesWord(m)}`, run: mixRun(c, m, ['questions', 'cards', 'lesson']) },
+        action: { label: fixMistakes(c.mistakes, m), run: mixRun(c, m, ['questions', 'cards', 'lesson']) },
       };
     },
     next() {
@@ -136,7 +138,7 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
       return {
         kind: 'next', chapterKey: after.key, title: `Next in the book: ${after.title}`, headline: 'Next in the book', chapterTitle: after.title,
         evidence: `${where ? `${where} ` : ''}${minutes} minutes of its ${contents(after)}.`, place: where,
-        action: { label: `Start ${minutesWord(minutes)}`, run: mixRun(after) },
+        action: { label: withMinutes('Start', minutes), run: mixRun(after) },
       };
     },
     start() {
@@ -146,7 +148,7 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
       return {
         kind: 'start', chapterKey: c.key, title: `Start with ${c.title}`, headline: 'Start with', chapterTitle: c.title,
         evidence: [where, `${minutes} minutes of its ${contents(c)}.`].filter(Boolean).join(' '), place: where,
-        action: { label: `Start ${minutesWord(minutes)}`, run: mixRun(c) },
+        action: { label: withMinutes('Start', minutes), run: mixRun(c) },
       };
     },
     feed() {
@@ -165,9 +167,9 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
       const first = rows.find((r) => r.questions > 0);
       const m = levelMinutes(n);
       return {
-        kind: 'level', chapterKey: first?.key || null, title: 'Find your level', headline: 'Find your level', chapterTitle: null,
-        evidence: `${plural(n, 'question')} from your first chapters, about ${minutesWord(m)}.`,
-        action: { label: `Start ${minutesWord(m)}`, run: { chapterKey: first?.key || null, minutes: n, leaveOut: [], kind: 'level' } },
+        kind: 'level', chapterKey: first?.key || null, title: WORDS.skipKnown, headline: WORDS.skipKnown, chapterTitle: null,
+        evidence: `${plural(n, 'question')} · about ${wholeMinutes(m)} min`,
+        action: { label: withMinutes('Start', m), run: { chapterKey: first?.key || null, minutes: n, leaveOut: [], kind: 'level' } },
       };
     },
     recap() {
@@ -177,7 +179,7 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
       return {
         kind: 'recap', chapterKey: c.key, title: `Quick recap: ${c.title}`, headline: 'Quick recap', chapterTitle: c.title,
         evidence: `Its ${plural(c.mustKnow, 'Must-know line')}, about ${minutesWord(m)}.`,
-        action: { label: 'Start the recap', run: { chapterKey: c.key, minutes: m, leaveOut: [], kind: 'recap' } },
+        action: { label: withMinutes(WORDS.quickRecap, m), run: { chapterKey: c.key, minutes: m, leaveOut: [], kind: 'recap' } },
       };
     },
     search() {
@@ -215,86 +217,86 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
   // Last resort for a one-chapter subject with nothing else to offer: a shorter start of its first chapter.
   if (out.length < 3 && rows.length) {
     const c = rows[0];
-    if (!used.has('next')) add({ kind: 'next', chapterKey: c.key, title: `A short start: ${c.title}`, headline: 'A short start', chapterTitle: c.title, evidence: `5 minutes of its ${contents(c)}.`, action: { label: 'Start 5 minutes', run: mixRun(c, 5) } });
-    if (!used.has('start')) add({ kind: 'start', chapterKey: c.key, title: `Start with ${c.title}`, headline: 'Start with', chapterTitle: c.title, evidence: `${minutes} minutes of its ${contents(c)}.`, action: { label: `Start ${minutesWord(minutes)}`, run: mixRun(c) } });
+    if (!used.has('next')) add({ kind: 'next', chapterKey: c.key, title: `A short start: ${c.title}`, headline: 'A short start', chapterTitle: c.title, evidence: `5 minutes of its ${contents(c)}.`, action: { label: withMinutes('Start', 5), run: mixRun(c, 5) } });
+    if (!used.has('start')) add({ kind: 'start', chapterKey: c.key, title: `Start with ${c.title}`, headline: 'Start with', chapterTitle: c.title, evidence: `${minutes} minutes of its ${contents(c)}.`, action: { label: withMinutes('Start', minutes), run: mixRun(c) } });
   }
   return out.slice(0, 3);
 }
 
-// ---------------------------------------------------------------- the session end's next options (B 3.6)
+// ---------------------------------------------------------------- the session end's keys (B 3.6, R3-SPEC L5, W, F)
 
 /**
- * The end screen's lead and three options. input:
+ * The end screen's main key (`lead`) and its quiet link (`options[0]`), the same for a run and a feed (R3-SPEC L5). input:
  *   subject       the subject id (the full mock's link)
- *   chapter       { key, title }   minutes   the run's length (run.asked unless shrunk, R4)
- *   missed        cards whose first rating in the run was Missed       fresh   new cards left in the chapter
- *   here          null | { cards, questions }: the real 5-minute dry run of the chapter ("10 Key cards and 2 questions", R6.2)
+ *   chapter       { key, title, name? }   minutes   the session's length (run.asked unless shrunk, R4)
+ *   kind          the session's kind: 'feed' keeps a feed a feed; anything else plays a chapter run ('mix')
+ *   missed        cards whose first rating was Missed      fresh   new cards left in the chapter
+ *   here          null | { cards, questions }: the real dry run of the chapter (the key's evidence, R6.2)
  *   next          null | { key, title } next chapter in book order
- *   mistakeElsewhere null | { key, title, count, seconds? }      due   { count, seconds? } Key cards due in the subject
+ *   mistakes      null | { count, seconds? } this chapter's open mistakes ("Fix 3 open mistakes · 3 min", a NEW mistakes-only run)
  *   mustKnow      the chapter's Must-know count (Quick recap)      recapSeconds   its recap's own seconds (optional)
- *   freeSessionUsed  Free with today's session used: nothing that serves questions; the line leads with "See Pro" (BUILD 1.6)
- *   unseen        the chapter's open cards not seen yet (R2 ruling 3, optional). With STAY_UNSEEN or more the student stays: the lead
- *                 is "30 new cards left here" with the key "Next 10 minutes here", and the next chapter follows as "Next chapter: ...".
- * Every lead and option also carries (BUILD-1101 B7 item 6) `kind` ('next' | 'here' | 'fix' | 'revise' | 'recap' | 'mock' | 'explore'),
- * `title` (the heading that names it: "Next: Goodwill", "Another 5 minutes here", "Fix 2 open mistakes") and `minutes` (the
- * length the key says, null when it is not a timed run). `label` is the older whole line and stays.
+ *   freeSessionUsed  Free with today's session used (ruling F): nothing that serves questions
+ *   hadCards      the session served Key cards (Free's main key is then "Quick recap · 1 min", else "See Pro")
+ *   unseen        the chapter's open cards not seen yet (R2 ruling 3). Known: more than 0 is "Keep going · 10 min", 0 is
+ *                 "Next chapter · 10 min". Unknown: the next chapter leads unless 3 or more cards were missed.
+ *   stopped       null | { runId, kind, minutesLeft }: a run stopped part way (C2-1). The main key is "Continue · N min" and
+ *                 resumes that run by its id; the quiet link is the fix key (a new run, `fresh`), never a resume.
+ * R2 ruling 5: one main key and at most one quiet link, so `options` holds one option at most: this chapter's open mistakes
+ * when there are any, else the other of Keep going and Next chapter (other keys of the subject live on Learn home).
+ * Every option carries `kind` ('continue' | 'here' | 'next' | 'fix' | 'recap' | 'pro'), `label` (the key's
+ * exact words), `title` (the same words, for older readers), `minutes` (null when not a timed run), and `run` or `href`.
+ * A Free end after the day's session puts FREE_END_LINE on the lead as `line`.
  */
-export function endOptions({ subject = null, chapter, minutes = 10, missed = 0, fresh = 0, here: hereCounts = null, next = null, mistakeElsewhere = null, due = { count: 0 }, mustKnow = 0, recapSeconds = null, freeSessionUsed = false, unseen = null }) {
+export function endOptions({ subject = null, chapter, minutes = 10, kind = 'mix', missed = 0, here: hereCounts = null, next = null, mistakes = null, mustKnow = 0, recapSeconds = null, freeSessionUsed = false, hadCards = true, unseen = null, stopped = null }) {
+  const runKind = kind === 'feed' ? 'feed' : 'mix';
+  const m10 = wholeMinutes(minutes);
   const recap = mustKnow > 0 ? (() => {
     const m = recapMinutes(mustKnow, recapSeconds);
-    return { kind: 'recap', title: 'Quick recap of this chapter', minutes: m, label: `Quick recap of this chapter, ${m} min`, evidence: `Its ${plural(mustKnow, 'Must-know line')}, answers showing.`, run: { chapterKey: chapter.key, minutes: m, leaveOut: [], kind: 'recap' } };
+    const label = withMinutes(WORDS.quickRecap, m);
+    return { kind: 'recap', title: label, minutes: m, label, evidence: `Its ${plural(mustKnow, 'Must-know line')}, answers showing.`, run: { chapterKey: chapter.key, minutes: m, leaveOut: [], kind: 'recap' } };
   })() : null;
-  const dueOpt = due?.count ? (() => {
-    const m = cardRunMinutes(due.count, due.seconds);
-    return { kind: 'revise', title: `Revise ${plural(due.count, 'due card')}`, minutes: m, label: `Revise ${plural(due.count, 'due card')}, ${m} min`, evidence: 'Key cards due today across your chapters.', href: '/review/revise?source=keycards', go: 'revise' };
+  const fix = mistakes?.count ? (() => {
+    const m = fixMinutes(mistakes.count, mistakes.seconds);
+    const label = fixMistakes(mistakes.count, m);
+    // A NEW run of the chapter's open mistakes only (`fresh`), so a stopped run of the chapter is never resumed by it.
+    return { kind: 'fix', title: label, minutes: m, label, evidence: chapter.title, run: { chapterKey: chapter.key, minutes: m, leaveOut: ['questions', 'cards', 'lesson'], kind: 'mix', fresh: true } };
   })() : null;
+  const seePro = { kind: 'pro', title: WORDS.seePro, minutes: null, label: WORDS.seePro, href: '/pricing', go: 'pro' };
+
+  // A run stopped part way: Continue resumes it by its id; the fix key starts a new mistakes-only run (never on Free's used day).
+  if (stopped?.runId) {
+    const m = wholeMinutes(stopped.minutesLeft);
+    const label = withMinutes(WORDS.continue, m);
+    const lead = { kind: 'continue', title: label, minutes: m, label, evidence: null, run: { chapterKey: chapter.key, minutes: m, leaveOut: [], kind: stopped.kind || runKind, resume: stopped.runId } };
+    return { lead, options: fix && !freeSessionUsed ? [fix] : [] };
+  }
+  // Free after the day's session (ruling F): one line, then Quick recap when the session had cards, else See Pro; See Pro quiet.
   if (freeSessionUsed) {
-    const options = [dueOpt, recap, { kind: 'explore', title: 'Questions on this chapter in Explore', minutes: null, label: 'Questions on this chapter in Explore', evidence: 'Explore questions stay free.', href: `/explore?${new URLSearchParams({ subject: subject || String(chapter.key).split('.')[0], chapter: chapter.name || chapter.title })}`, go: 'explore' }].filter(Boolean);
-    return { lead: { line: FREE_SESSION_DONE, label: 'See Pro', href: '/pricing', go: 'pro' }, options: options.slice(0, 3) };
+    const first = hadCards && recap ? recap : null;
+    return first
+      ? { lead: { ...first, line: FREE_END_LINE }, options: [seePro] }
+      : { lead: { ...seePro, line: FREE_END_LINE }, options: [] };
   }
   const hereParts = hereCounts
     ? [hereCounts.cards ? `${hereCounts.cards} Key ${hereCounts.cards === 1 ? 'card' : 'cards'}` : null, hereCounts.questions ? plural(hereCounts.questions, 'question') : null].filter(Boolean)
     : [];
-  const here = {
-    kind: 'here', title: 'Another 5 minutes here', minutes: 5,
-    label: 'Another 5 minutes here',
+  const keepLabel = withMinutes(WORDS.keepGoing, m10);
+  const keep = {
+    kind: 'here', title: keepLabel, minutes: m10, label: keepLabel,
     evidence: hereParts.length ? hereParts.join(' and ')
-      : [missed ? plural(missed, 'missed card') : null, fresh ? `${fresh} new ${fresh === 1 ? 'one' : 'ones'}` : null].filter(Boolean).join(', ') || `More of ${chapter.title}.`,
-    run: { chapterKey: chapter.key, minutes: 5, leaveOut: [], kind: 'mix' },
+      : [Number.isFinite(unseen) && unseen > 0 ? `${unseen} new ${unseen === 1 ? 'card' : 'cards'} left here` : null, missed ? plural(missed, 'missed card') : null].filter(Boolean).join(', ') || `More of ${chapter.title}.`,
+    // `fresh`: more of the chapter, never a resume of a run of it that is still open today.
+    run: { chapterKey: chapter.key, minutes: m10, leaveOut: [], kind: runKind, fresh: true },
   };
+  const nextLabel = withMinutes(WORDS.nextChapter, m10);
   const nextOpt = next ? {
-    kind: 'next', title: `Next: ${next.title}`, minutes,
-    label: `Next: ${next.title}, ${minutesWord(minutes)}`,
-    evidence: 'The next chapter in your book.',
-    run: { chapterKey: next.key, minutes, leaveOut: [], kind: 'mix' },
+    kind: 'next', title: nextLabel, minutes: m10, label: nextLabel, chapterTitle: next.title, evidence: next.title,
+    run: { chapterKey: next.key, minutes: m10, leaveOut: [], kind: runKind },
   } : null;
-  let lead;
-  let second;
-  if (Number.isFinite(unseen) && unseen >= STAY_UNSEEN) {
-    // R2 ruling 3: a chapter is finished before the next one leads (its unseen cards are exactly the ones not served yet).
-    lead = {
-      kind: 'here', title: `${unseen} new cards left here`, minutes, label: `Next ${minutesWord(minutes)} here`,
-      evidence: `More of ${chapter.title}.`, run: { chapterKey: chapter.key, minutes, leaveOut: [], kind: 'mix' },
-    };
-    second = nextOpt ? { ...nextOpt, title: `Next chapter: ${next.title}` } : null;
-  } else if (missed >= 3 || !nextOpt) { lead = here; second = nextOpt; } else { lead = nextOpt; second = here; }
-  let third = null;
-  if (mistakeElsewhere?.count) {
-    const m = fixMinutes(mistakeElsewhere.count, mistakeElsewhere.seconds);
-    third = {
-      kind: 'fix', title: mistakeElsewhere.count === 1 ? 'Fix your last open mistake' : `Fix ${mistakeElsewhere.count} open mistakes`, minutes: m,
-      label: mistakeElsewhere.count === 1 ? 'Fix your last open mistake' : `Fix ${mistakeElsewhere.count} open mistakes`,
-      evidence: `${mistakeElsewhere.title}, ${m} min`,
-      run: { chapterKey: mistakeElsewhere.key, minutes: m, leaveOut: ['questions', 'cards', 'lesson'], kind: 'mix' },
-    };
-  } else if (dueOpt) {
-    third = dueOpt;
-  } else if (recap) {
-    third = recap;
-  }
-  const mock = { kind: 'mock', title: 'Test it in a full mock', minutes: null, label: 'Test it in a full mock', evidence: 'A timed 50-question paper of the whole subject.', href: `/test?${new URLSearchParams({ subject: subject || String(chapter.key).split('.')[0], count: '50', mode: 'full' })}`, go: 'mock' };
-  const options = [second, third, mock].filter(Boolean);
-  if (options.length < 3 && lead !== here && !options.includes(here)) options.unshift(here);
-  return { lead, options: options.slice(0, 3) };
+  // R2 ruling 3 with W: a chapter is finished (every card seen once) before the next one leads.
+  const more = Number.isFinite(unseen) ? unseen > 0 : missed >= 3;
+  const lead = more || !nextOpt ? keep : nextOpt;
+  const other = lead === keep ? nextOpt : keep;
+  // The quiet link is options[0]: this chapter's open mistakes when there are any, else the other of Keep going / Next chapter.
+  return { lead, options: [fix || other].filter(Boolean) };
 }
-

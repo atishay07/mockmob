@@ -1,7 +1,8 @@
 'use client';
 // The study stage's frame (BUILD-1101 B1, B7; A1 3.2-3.6, 3.14; A8 3.1): the parts the feed and the run share.
 //
-//   <Stage label rootRef viewRef trackRef mode panel top ticks rail bar end overlay say busy>{pages}</Stage>
+//   <Stage label rootRef viewRef trackRef mode panel top ticks rail bar end overlay say busy chip>{pages}</Stage>
+//     chip: the first feed's cue, drawn in the peek strip at the foot of the item area (R3-SPEC L3)
 //     A focus place over the whole shell: role dialog, focus moves in on mount and back on unmount, the app shell is inert
 //     while it is open, one polite live region that exists before its text (A8 F2, F7). mode 'items' | 'end'.
 //     Bands: phone (top bar, item, action bar), tablet (top bar, item + rail, bar), desktop (panel, ticks + item + bar, rail).
@@ -9,7 +10,8 @@
 //   <TopBar onClose title counter onCounter kept ticks meta next />   phone and tablet
 //   <Panel onClose title bookRef position of time note rows next foot />   desktop only; rows = [{ label, value, sub, extra }]
 //   <MiniPile />                               the kept pile (the Keep flight's target)
-//   <KeptCount count />                        the phone and tablet kept count (the flight's target there)
+//   <KeptCount count />                        the Revise-later pile in the top bar from 1024 px: "4 to revise" (R3-SPEC L4)
+//   <CardStack />                              the card-stack glyph of Revise later (questions keep the bookmark of Save)
 //   <RailKey icon label on busy pop disabled onClick href describedBy />
 //   <ActionBar left right prev wide hint>{main}</ActionBar>   left/right are the phone's side keys (the rail's), prev the
 //                                              desktop's Previous key, main the step slot
@@ -20,6 +22,7 @@ import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { ChevronDown, ChevronUp, LoaderCircle, X } from 'lucide-react';
 import { ncertFont } from '@/components/keycards/ncertFont';
+import { pileLabel } from '../../../../data/learn/words.js';
 import { openUpgrade, useUpgradeState } from '@/components/pro/proNudgeStore';
 import '@/components/keycards/keycards.css';
 import './stage.css';
@@ -172,13 +175,13 @@ function useFocusPlace(rootRef, paused) {
   }, [paused]);
 }
 
-export function Stage({ label, rootRef, viewRef, trackRef, mode = 'items', busy = false, panel = null, top = null, ticks = null, rail = null, bar = null, end = null, overlay = null, say = '', feedLabel, children, className = '' }) {
+export function Stage({ label, rootRef, viewRef, trackRef, mode = 'items', busy = false, panel = null, top = null, ticks = null, rail = null, bar = null, end = null, overlay = null, say = '', feedLabel, chip = null, children, className = '' }) {
   const own = useRef(null);
   const ref = rootRef || own;
   const upgrade = useUpgradeState();
   useFocusPlace(ref, upgrade.open);
   return (
-    <div ref={ref} className={`kc st ${className} ${ncertFont.variable}`.trim()} role="dialog" aria-modal="true" aria-label={label} tabIndex={-1} data-mode={mode} aria-busy={busy || undefined}>
+    <div ref={ref} className={`kc st ${className} ${ncertFont.variable}`.trim()} role="dialog" aria-modal="true" aria-label={label} tabIndex={-1} data-mode={mode} aria-busy={busy || undefined} data-chip={chip ? '' : undefined}>
       <div className="st-grid" aria-hidden={mode === 'end' || undefined} inert={mode === 'end' || undefined}>
         {panel}
         {top}
@@ -187,6 +190,7 @@ export function Stage({ label, rootRef, viewRef, trackRef, mode = 'items', busy 
           <div className="st-track" ref={trackRef} role={feedLabel ? 'feed' : undefined} aria-roledescription={feedLabel ? 'feed' : undefined} aria-label={feedLabel || undefined} aria-busy={busy || undefined}>
             {children}
           </div>
+          {chip}
         </div>
         {rail ? <div className="st-side">{rail}</div> : null}
         {bar}
@@ -214,10 +218,21 @@ export function Ticks({ total = 0, done = 0, current = -1 }) {
 export function KeptCount({ count, refEl }) {
   if (!count) return <span ref={refEl} className="st-kept" hidden />;
   return (
-    <span ref={refEl} className="st-kept" aria-label={`${count} kept`}>
-      <BookmarkFill />
-      <b key={count}>{count}</b>
+    <span ref={refEl} className="st-kept" role="img" aria-label={`${count} ${count === 1 ? 'card' : 'cards'} to revise later`}>
+      <CardStack size={18} strokeWidth={2} />
+      <b key={count} aria-hidden="true">{pileLabel(count)}</b>
     </span>
+  );
+}
+
+/** The card-stack glyph (Revise later, the Revise pile): three cards, the front one whole. Takes lucide's props. */
+export function CardStack({ size = 24, strokeWidth = 2, className, style }) {
+  return (
+    <svg className={className} style={style} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="4.5" y="8" width="15" height="13" rx="2.4" />
+      <path d="M6.5 5h11" />
+      <path d="M8.5 2.2h7" />
+    </svg>
   );
 }
 
@@ -273,11 +288,11 @@ export function MiniPile({ refEl }) {
   return <span ref={refEl} className="st-mini" aria-hidden="true"><i /><i /><i /></span>;
 }
 
-export function RailKey({ icon: Icon, label, on = false, busy = false, pop = false, disabled = false, onClick, href, describedBy, refEl, title }) {
+export function RailKey({ icon: Icon, label, on = false, filled = on, busy = false, pop = false, disabled = false, onClick, href, describedBy, refEl, title }) {
   const body = (
     <>
       <span className="st-railkey__glyph" data-pop={pop || undefined}>
-        {busy ? <LoaderCircle className="kc-spin" size={20} strokeWidth={2} aria-hidden="true" /> : <Icon size={22} strokeWidth={1.9} fill={on ? 'currentColor' : 'none'} aria-hidden="true" />}
+        {busy ? <LoaderCircle className="kc-spin" size={20} strokeWidth={2} aria-hidden="true" /> : <Icon size={22} strokeWidth={1.9} fill={filled ? 'currentColor' : 'none'} aria-hidden="true" />}
       </span>
       <span className="st-railkey__label">{label}</span>
     </>
@@ -328,7 +343,7 @@ export const STAGE_KEYS = Object.freeze([
   ['Up, k or Page Up', 'Previous item'],
   ['Space or Enter', 'Turn the card over, or go on'],
   ['1 to 6, or A to F', 'Answer the question'],
-  ['S', 'Keep the card, or save the question'],
+  ['S', 'Revise later for a card, or save the question'],
   ['Home, End', 'The first item, the end'],
   ['Esc', 'Stop for now, or close this list'],
 ]);

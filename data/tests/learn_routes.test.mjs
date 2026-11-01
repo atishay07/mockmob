@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { createKeycards } from '../../src/lib/server/keycards.js';
 import { fakeDb } from '../../src/lib/server/keycardsMemoryDb.js';
 import { syllabusFrom } from '../../src/lib/server/keycardsSyllabus.js';
-import { createLearn, clientKeyOf, FREE_SESSION_DONE, FREE_CAPPED, FREE_CARDS_ONLY, keyLetter, servedOptions, mistakeText } from '../../src/lib/server/learn.js';
+import { createLearn, clientKeyOf, FREE_SESSION_DONE, FREE_END_LINE, FREE_CAPPED, FREE_CARDS_ONLY, keyLetter, servedOptions, mistakeText } from '../../src/lib/server/learn.js';
 import { toState } from '../../src/lib/server/learnStore.js';
 import { istDay, schedule, tasteIds } from '../keycards.js';
 
@@ -196,8 +196,12 @@ test('LK15: the claim is at the first answered question; then a feed is 402, a c
   const other = await learn.start('u1', { chapterKey: ST, minutes: 10, kind: 'feed', requestKey: 'free-feed-0003' });
   assert.equal(other.http, 402);
   assert.deepEqual([other.body.error, other.body.reason, other.body.line], ['FREE_SESSION_USED', 'learn_session', FREE_SESSION_DONE]);
-  assert.ok(other.body.options.some((o) => o.label === 'Questions on this chapter in Explore'));
+  // R3 ruling F: the refusal's Or rows in order (due cards when there are any, then Explore's single questions), and today's
+  // own unfinished feed to continue.
+  assert.equal(other.body.options.at(-1).label, 'Answer single questions');
+  assert.equal(other.body.options.at(-1).go, 'explore');
   assert.equal(other.body.resume.id, feed.id);
+  assert.match(other.body.resume.label, /^Continue · \d+ min$/);
   // A chapter run: Key cards only, with the line.
   const mix = await learn.start('u1', { chapterKey: ST, minutes: 10, kind: 'mix', requestKey: 'free-mix-00001' });
   assert.equal(mix.http, 200);
@@ -434,8 +438,14 @@ test('end: numbers, ended_at once, and Free after the claim leads with the line 
   assert.equal(end.numbers.questions, 2);
   assert.equal(end.lines.find((l) => l.label === 'Questions').text, '1 of 2 right');
   assert.equal(end.title, '10 minutes on Planning');
-  assert.deepEqual([end.lead.line, end.lead.label, end.lead.href], [FREE_SESSION_DONE, 'See Pro', '/pricing']);
-  assert.ok(end.options.every((o) => !(o.run && ['mix', 'feed'].includes(o.run.kind))), 'no option serves questions');
+  // R3 ruling F: one line; the session had cards, so the main key is Quick recap and See Pro is the quiet link.
+  assert.equal(end.lead.line, FREE_END_LINE);
+  assert.deepEqual([end.lead.kind, end.lead.run.kind], ['recap', 'recap']);
+  assert.match(end.lead.label, /^Quick recap · \d+ min$/);
+  assert.deepEqual(end.options.map((o) => [o.label, o.href]), [['See Pro', '/pricing']]);
+  assert.ok([end.lead, ...end.options].every((o) => !(o.run && ['mix', 'feed'].includes(o.run.kind))), 'no key serves questions');
+  // Every key is accepted by the server for this student: the recap starts (not counted).
+  assert.equal((await learn.start('u1', { ...end.lead.run, requestKey: 'end-recap-001' })).http, 200);
   const endedAt = runOf(tables, run.id).ended_at;
   assert.ok(endedAt);
   const twice = (await learn.end('u1', run.id)).body;
@@ -461,6 +471,68 @@ test('R2 ruling 6: a run stopped part way stays open to pick up today; its end s
   const ended = await learn.end('u1', run.id);
   assert.equal(ended.body.stopped, false);
   assert.ok(runOf(tables, run.id).ended_at, 'a full end closes it');
+});
+
+test('R3 L5 (C2-1): stop, then the end\'s fix key starts a NEW mistakes-only run and its main key resumes the stopped run', async () => {
+  const tables = { user_question_progress: [wrongMistake('q-p3', T0 - 3 * DAY), wrongMistake('q-p5', T0 - 4 * DAY)] };
+  const { learn, tables: t } = setup({ isPro: true, tables });
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'c21-stop-0001' })).body;
+  const items = run.items;
+  // Three items done, then "Stop here".
+  for (const item of items.slice(0, 3)) {
+    if (item.type === 'card') await learn.rate('u1', run.id, { itemId: item.id, rating: 3 });
+    else await learn.answer('u1', run.id, { itemId: item.id, choice: 'A' });
+  }
+  const end = (await learn.end('u1', run.id, { stop: true })).body;
+  assert.equal(end.stopped, true);
+  assert.deepEqual([end.lead.kind, end.lead.run.resume, end.lead.run.kind], ['continue', run.id, 'mix']);
+  assert.match(end.lead.label, /^Continue · \d+ min$/);
+  assert.equal(end.options.length, 1);
+  const fix = end.options[0];
+  assert.match(fix.label, /^Fix 2 open mistakes · \d+ min$/);
+  assert.deepEqual([fix.run.kind, fix.run.fresh, fix.run.leaveOut], ['mix', true, ['questions', 'cards', 'lesson']]);
+  // The fix key: a new run of the open mistakes only, never the stopped run at item 4.
+  const fixed = (await learn.start('u1', { ...fix.run, requestKey: 'c21-fix-00001' })).body;
+  assert.notEqual(fixed.id, run.id, 'a new run');
+  assert.equal(fixed.resumed, null);
+  assert.ok(fixed.items.length > 0 && fixed.items.every((i) => i.type === 'question' && i.origin === 'mistake'), 'mistakes only');
+  // Even without `fresh`, a mistakes-only start never resumes a stopped full run (start()'s resume branch).
+  const plain = (await learn.start('u1', { chapterKey: PL, minutes: fix.run.minutes, kind: 'mix', leaveOut: ['questions', 'cards', 'lesson'], requestKey: 'c21-fix-00002' })).body;
+  assert.notEqual(plain.id, run.id);
+  assert.ok(plain.items.every((i) => i.origin === 'mistake'));
+  // The main key: the stopped run, picked up after its 3 done items.
+  const back = (await learn.start('u1', { ...end.lead.run, requestKey: 'c21-cont-0001' })).body;
+  assert.equal(back.id, run.id);
+  assert.equal(back.resumed.done, 3);
+  assert.equal(back.items[0].id, items[3].id, 'it goes on at item 4');
+  assert.equal(runOf(t, run.id).ended_at ?? null, null);
+  // A plain start of the same chapter (a full mix) still picks the stopped run up.
+  assert.equal((await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'c21-again-001' })).body.id, run.id);
+});
+
+test('R3 ruling F: every key a Free end and the feed refusal offer is accepted by the server for that student', async () => {
+  const s = setup();
+  const { learn } = s;
+  const feed = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'feed', requestKey: 'f-keys-feed01' })).body;
+  await learn.answer('u1', feed.id, { itemId: feed.items.find((i) => i.type === 'question').id, choice: 'A' });
+  // The feed refusal: Continue (today's own feed), the Or rows.
+  const refused = await learn.start('u1', { chapterKey: ST, minutes: 10, kind: 'feed', requestKey: 'f-keys-feed02' });
+  assert.equal(refused.http, 402);
+  const { resume, options } = refused.body;
+  assert.equal((await learn.start('u1', { resume: resume.id, kind: resume.kind, chapterKey: resume.chapterKey, requestKey: 'f-keys-cont01' })).body.id, feed.id, 'Continue resumes today\'s own run');
+  for (const o of options.filter((x) => x.run)) assert.equal((await learn.start('u1', { ...o.run, requestKey: `f-keys-${o.kind}-01` })).http, 200, o.label);
+  assert.ok(options.every((o) => o.run || o.href === '/explore' || o.href.startsWith('/explore?')));
+  // A Free run end after the session: Quick recap (not counted) is accepted; a stopped run's Continue resumes it.
+  const mix = (await learn.start('u1', { chapterKey: ST, minutes: 10, kind: 'mix', requestKey: 'f-keys-mix-01' })).body;
+  await learn.rate('u1', mix.id, { itemId: mix.items[0].id, rating: 3 });
+  const stopped = (await learn.end('u1', mix.id, { stop: true })).body;
+  assert.equal(stopped.lead.kind, 'continue');
+  assert.deepEqual(stopped.options, [], 'no fix key on Free\'s used day');
+  assert.equal((await learn.start('u1', { ...stopped.lead.run, requestKey: 'f-keys-cont02' })).body.id, mix.id);
+  const done = (await learn.end('u1', feed.id)).body;
+  assert.equal(done.lead.line, FREE_END_LINE);
+  if (done.lead.run) assert.equal((await learn.start('u1', { ...done.lead.run, requestKey: 'f-keys-recap1' })).http, 200);
+  else assert.equal(done.lead.href, '/pricing');
 });
 
 // ---------------------------------------------------------------- cards, shelves, search, covers
@@ -643,10 +715,10 @@ test('B7 6: after the Free session is used, the end\'s options still carry kind,
   const a = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'feed', requestKey: 'freeend-00001' })).body;
   await learn.answer('u1', a.id, { itemId: a.items.find((i) => i.type === 'question').id, choice: 'A' });
   const end = (await learn.end('u1', a.id)).body;
-  assert.equal(end.lead.label, 'See Pro');
-  assert.ok(end.options.length > 0);
-  for (const o of end.options) assert.deepEqual([typeof o.kind, typeof o.title, o.minutes === null || Number.isInteger(o.minutes)], ['string', 'string', true]);
-  assert.ok(end.options.some((o) => o.kind === 'explore' && o.minutes === null));
+  assert.match(end.lead.label, /^Quick recap · \d+ min$/);
+  assert.equal(end.lead.line, FREE_END_LINE);
+  for (const o of [end.lead, ...end.options]) assert.deepEqual([typeof o.kind, typeof o.title, o.minutes === null || Number.isInteger(o.minutes)], ['string', 'string', true]);
+  assert.ok(end.options.some((o) => o.kind === 'pro' && o.minutes === null));
 });
 
 // ---------------------------------------------------------------- Learn v2 fix round F4: the server tells the truth

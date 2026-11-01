@@ -16,6 +16,7 @@ import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { BookOpen, Bookmark, Check, ChevronUp, X } from 'lucide-react';
+import { WORDS } from '@/../data/learn/words.js';
 import MobiReact from '@/components/brand/MobiReact';
 import { cardFace } from '@/components/keycards/kinds';
 import { refreshHome } from '@/components/keycards/api';
@@ -23,13 +24,13 @@ import { feedSlots } from '@/../data/learn/feed.js';
 import { answerItem, getRun, isQuestionSkipped, isRunClosed, isSessionUsed, keepItem, runEnd, saveQuestion, startRun } from '../api';
 import { useLearnLinks } from '../links';
 import {
-  Stage, Ticks, TopBar, Panel, MiniPile, KeptCount, RailKey, ActionBar, PrevKey, StepKey, SkipKey, KeysList, buzz, flyTo, visible, seePro, still, watchMore, watchBelow, BelowChip, goToOptions,
+  Stage, Ticks, TopBar, Panel, MiniPile, KeptCount, CardStack, RailKey, ActionBar, PrevKey, StepKey, SkipKey, KeysList, buzz, flyTo, visible, seePro, still, watchMore, watchBelow, BelowChip, goToOptions,
 } from '../stage/Stage';
 import { CardFace } from '../stage/CardFace';
 import { QuestionView, letterOf } from '../stage/Question';
 import { EndKey, EndScreen, KeptFan } from '../stage/EndForm';
 import FreeUsed from '../stage/FreeUsed';
-import { FREE_END_LINE, endHeadline, endNumbers, endProgress } from '../stage/endModel.mjs';
+import { endHeadline, endNumbers, endProgress, reviseLabel } from '../stage/endModel.mjs';
 import { Sheet, StopSheet } from '../stage/Sheet';
 import { usePager } from '../stage/usePager';
 import { keyAction, scrollerThatCanMove } from '../stage/pagerModel.mjs';
@@ -202,7 +203,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
       const f = cardFace(s.item.card);
       speak(`Card ${pos} of ${of}. ${f.label}. ${speakable(f.front)}`);
     } else {
-      const head = s.item.origin === 'mistake' ? `${s.item.mistake?.label || 'An old mistake'}. ` : '';
+      const head = s.item.origin === 'mistake' ? `${s.item.mistake?.label || 'An open mistake'}. ` : '';
       speak(`Question ${pos} of ${of}. ${head}${String(s.item.question?.body || '').slice(0, 160)}`);
     }
   }, [slots, endAt, base, of, speak]);
@@ -271,9 +272,9 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     patch(item.id, { keeping: true, stamp: null });
     try {
       const res = await keepItem(run.id, item.id);
-      patch(item.id, { kept: true, keeping: false, stamp: { text: 'Added to Revise' } });
+      patch(item.id, { kept: true, keeping: false, stamp: { text: WORDS.inRevise } });
       setDirty((d) => d + 1);
-      speak(`Added to Revise. ${res.line || ''}`.trim());
+      speak(`${WORDS.inRevise}. ${res.line || ''}`.trim());
       requestAnimationFrame(() => requestAnimationFrame(() => flyTo(cardEls.current[item.id], visible([pileEl.current, countEl.current]))));
       refreshHome();
     } catch (e) {
@@ -333,6 +334,14 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     if (mode === 'items' && itemsDone > 0) setSheet('stop');
     else close();
   }, [mode, itemsDone, close]);
+  // R3-SPEC L5: a stopped feed's "Continue · N min" picks the same run up where it stopped (the server's own run, by its id).
+  const resumeFeed = useCallback(async (id) => {
+    held.delete(id);
+    setAgain(true);
+    try { adopt(await getRun(id)); } catch (e) {
+      if (isRunClosed(e)) readEnd(id, dirty); else setLoad({ status: 'error', run: null });
+    } finally { setAgain(false); }
+  }, [adopt, readEnd, dirty]);
   const again10 = useCallback(async () => {
     setAgain(true);
     try {
@@ -401,8 +410,8 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   const panelRows = [];
   // Never a zero (R2 ruling 1): "0 of 1 right" reads "1 tried".
   if (numbers.answered) panelRows.push({ label: 'Questions', value: numbers.right ? `${numbers.right} of ${numbers.answered} right` : `${numbers.answered} tried`, sub: streak >= 3 ? `${streak} in a row` : null });
-  if (numbers.mistakes) panelRows.push({ label: 'Old mistakes', value: numbers.fixed ? `${numbers.fixed} of ${numbers.mistakes} fixed` : `${numbers.mistakes} tried` });
-  if (keptCount) panelRows.push({ label: 'In Revise', value: keptCount, extra: <MiniPile refEl={pileEl} /> });
+  if (numbers.mistakes) panelRows.push({ label: 'Open mistakes', value: numbers.fixed ? `${numbers.fixed} of ${numbers.mistakes} fixed` : `${numbers.mistakes} tried` });
+  if (keptCount) panelRows.push({ label: WORDS.inRevise, value: keptCount, extra: <MiniPile refEl={pileEl} /> });
 
   const top = (
     <TopBar onClose={askClose} closeLabel="Close the feed" title={title} titleNote={note}
@@ -472,7 +481,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   }
   if (load.status === 'free') {
     return (
-      <Stage label="Today's free session is used" rootRef={rootRef} viewRef={viewRef} trackRef={trackRef} mode="end" say={say}
+      <Stage label="That was today's free session" rootRef={rootRef} viewRef={viewRef} trackRef={trackRef} mode="end" say={say}
         end={(
           <div className="st-end">
             <div className="st-endx-wrap">
@@ -510,28 +519,31 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   const keepKey = (it, place) => {
     const s2 = states[it.id] || {};
     const look = Boolean(it.look);
-    return <RailKey key={`keep-${place}`} icon={Bookmark} label={look || s2.kept ? 'In Revise' : s2.keepPro ? 'Pro' : 'Revise later'} on={s2.kept || look} busy={s2.keeping} pop={s2.kept} disabled={closed && !s2.kept} onClick={() => keep(it)} />;
+    // R3-SPEC W, L4: "Revise later" with the card-stack glyph; "In Revise" with a check only once the server confirms.
+    const inRevise = look || s2.kept;
+    return <RailKey key={`keep-${place}`} icon={inRevise ? Check : CardStack} filled={false} label={inRevise ? WORDS.inRevise : s2.keepPro ? 'Pro' : WORDS.reviseLater} on={inRevise} busy={s2.keeping} pop={s2.kept} disabled={closed && !s2.kept} onClick={() => keep(it)} />;
   };
   const saveKey = (it, place) => {
     const s2 = states[it.id] || {};
-    return <RailKey key={`save-${place}`} icon={Bookmark} label={s2.saved ? 'Saved' : s2.savePro ? 'Pro' : 'Save'} on={s2.saved} busy={s2.saving} pop={s2.saved} onClick={() => save(it)} />;
+    return <RailKey key={`save-${place}`} icon={Bookmark} label={s2.saved ? WORDS.saved : s2.savePro ? 'Pro' : WORDS.save} on={s2.saved} busy={s2.saving} pop={s2.saved} onClick={() => save(it)} />;
   };
   const sideKey = (place) => (item?.type === 'card' ? keepKey(item, place) : item?.type === 'question' && !st.skipped ? saveKey(item, place) : null);
   const chapterKeyEl = (place) => (item ? <RailKey key={`ch-${place}`} icon={BookOpen} label="Chapter" href={chapterHref} /> : null);
   const below = optBelow && item?.type === 'question' && !st.answer && !st.skipped;
-  const chip = hints.nudge && mode === 'items' && !below && active < endAt ? (
+  // The chip sits in the peek strip, so it shows only while a next item peeks (R3-SPEC L3).
+  const chip = hints.nudge && mode === 'items' && !below && active + 1 < endAt ? (
     <p className="st-cue" data-leaving={hints.leaving || undefined} role="note">
       <span className="st-cue__in">
         <span className="st-cue__mobi" aria-hidden="true"><MobiReact act="idle" size={34} still /></span>
         <span>{hints.desk ? 'Scroll or press \u2193 for the next one' : 'Swipe up for the next one'}</span>
-        <ChevronUp size={16} strokeWidth={2.4} aria-hidden="true" />
+        {hints.desk ? null : <ChevronUp size={16} strokeWidth={2.4} aria-hidden="true" />}
       </span>
     </p>
   ) : null;
   const bar = mode === 'items' ? (
     <ActionBar left={wide ? null : sideKey('bar')} right={wide ? null : chapterKeyEl('bar')} wide={wide}
       prev={<PrevKey onClick={() => go(active - 1)} disabled={active === 0} />}
-      extra={<>{below ? <BelowChip show onClick={() => goToOptions(trackRef.current?.querySelector('.st-page--q:not([inert]) .st-opt'))} /> : null}{chip}{sheet === 'keys' ? <KeysList onClose={() => setSheet(null)} /> : null}</>}>
+      extra={<>{below ? <BelowChip show onClick={() => goToOptions(trackRef.current?.querySelector('.st-page--q:not([inert]) .st-opt'))} /> : null}{sheet === 'keys' ? <KeysList onClose={() => setSheet(null)} /> : null}</>}>
       {step}
     </ActionBar>
   ) : null;
@@ -552,22 +564,43 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     // Cards this feed showed for the first time count as seen on the chapter's bar (R2 ruling 3: turned feed cards are seen).
     const freshSeen = onlyEnd ? 0 : items.filter((i) => i.type === 'card' && i.stage === 'new' && states[i.id]?.seen && !states[i.id]?.kept).length;
     const prog = d?.progress ? endProgress({ ...d.progress, seen: Math.min(d.progress.of, (d.progress.seen || 0) + freshSeen) }) : null;
-    const opts = d?.options || [];
-    const optHref = (o) => (o.href ? links.resolve(o.href) : o.run ? links.run({ chapterKey: o.run.chapterKey || key, minutes: o.run.minutes, kind: o.run.kind, cardIds: o.run.cardIds || [], leaveOut: o.run.leaveOut || [] }) : links.explore());
-    let main = null;
-    let quiet = null;
-    let freeLine = null;
-    if (f?.free) {
-      const first = opts.find((o) => o.kind === 'recap' || o.kind === 'revise') || null;
-      const explore = opts.find((o) => o.kind === 'explore') || null;
-      freeLine = { line: FREE_END_LINE, onSeePro: (e) => seePro('learn_feed', e.currentTarget, router.push) };
-      if (first) main = <EndKey as={Link} href={optHref(first)}>{first.kind === 'recap' ? `Quick recap${first.minutes ? `, ${first.minutes} min` : ''}` : `${first.title}${first.minutes ? `, ${first.minutes} min` : ''}`}</EndKey>;
-      else main = <EndKey as={Link} href={explore ? optHref(explore) : links.explore()}>Answer single questions</EndKey>;
-      if (first && explore) quiet = <Link className="st-textkey" href={optHref(explore)}>Questions on this chapter</Link>;
-    } else if (f) {
-      if (f.lead) main = <EndKey onClick={again10} disabled={again}>{again ? 'Starting' : f.lead.label}</EndKey>;
-      if (f.next) quiet = <Link className="st-textkey" href={f.next.run ? links.feed(f.next.key, minutes) : links.chapter(f.next.key)}>{`Next: ${String(f.next.label || '').replace(/^Next chapter:\s*/, '')}`}</Link>;
-    }
+    // The keys are the server's, word for word (W): "Keep going · 10 min" (a new feed of this chapter, here), "Next chapter
+    // · 10 min" (its feed), a stopped feed's "Continue · N min" (this run, picked up here), "Fix 3 open mistakes · 3 min" (a
+    // NEW mistakes-only chapter run), Free's "Quick recap · 1 min" and See Pro.
+    const lead = d?.lead || null;
+    const quietOpt = (d?.options || []).find((o) => o && o !== lead) || null;
+    const runHref = (r) => {
+      const href = links.run({ chapterKey: r.chapterKey || key, minutes: r.minutes, kind: r.kind, cardIds: r.cardIds || [], leaveOut: r.leaveOut || [] });
+      return r.fresh ? `${href}${href.includes('?') ? '&' : '?'}fresh=1` : href;
+    };
+    // What a key does, as data: { label, sub, href } for a link, { label, act: 'pro' | 'again' | 'resume', id } for a button.
+    const specOf = (o, isMain) => {
+      if (!o) return null;
+      const label = o.label || o.title;
+      const r = o.run || null;
+      const sub = isMain && o.kind === 'next' ? o.chapterTitle || null : null;
+      if (o.go === 'pro') return { label, act: 'pro' };
+      if (o.href) return { label, sub, href: links.resolve(o.href) };
+      if (r?.kind === 'feed' && r.resume) return { label, act: 'resume', id: r.resume };
+      if (r?.kind === 'feed' && r.chapterKey === key && r.fresh) return { label, act: 'again' };
+      if (r?.kind === 'feed') return { label, sub, href: links.feed(r.chapterKey, r.minutes || minutes) };
+      if (r) return { label, sub, href: runHref(r) };
+      return null;
+    };
+    const mainSpec = specOf(lead, true);
+    const quietSpec = specOf(quietOpt, false);
+    const onAct = (spec, e) => {
+      if (spec.act === 'pro') seePro('learn_feed', e.currentTarget, router.push);
+      else if (spec.act === 'resume') resumeFeed(spec.id);
+      else if (spec.act === 'again') again10();
+    };
+    const main = !mainSpec ? null : mainSpec.href
+      ? <EndKey as={Link} href={mainSpec.href} sub={mainSpec.sub}>{mainSpec.label}</EndKey>
+      : <EndKey onClick={(e) => onAct(mainSpec, e)} disabled={again && mainSpec.act !== 'pro'}>{again && mainSpec.act !== 'pro' ? 'Starting' : mainSpec.label}</EndKey>;
+    const quiet = !quietSpec ? null : quietSpec.href
+      ? <Link className="st-textkey" href={quietSpec.href}>{quietSpec.label}</Link>
+      : <button type="button" className="st-textkey" onClick={(e) => onAct(quietSpec, e)}>{quietSpec.label}</button>;
+    const freeLine = lead?.line ? { line: lead.line } : null;
     endView = (
       <div className="st-end" data-pager-ignore={onlyEnd || undefined}>
         <EndScreen
@@ -578,10 +611,10 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
           onRetry={() => run?.id && readEnd(run.id, dirty, { stop: stoppedHere })}
           retryKeys={<Link className="st-textkey st-textkey--quiet" href={links.explore()}>Back to Explore</Link>}
           chapter={endTitle(d, run)}
-          headline={endHeadline({ reached, of: onlyEnd ? f?.done?.of || 0 : of, minutes: f?.done?.minutes, stopped })}
+          headline={endHeadline({ reached, of: onlyEnd ? f?.done?.of || 0 : of, minutes: f?.done?.minutes, stopped: stopped || Boolean(d?.stopped) })}
           mobi="nod"
           pile={kept ? f.kept.cards || [] : null}
-          numbers={endNumbers({ revise: kept, reviseText: 'in Revise', seen: hasCards && !onlyEnd ? n.seen : 0, answered: n.answered, right: n.right, mistakes: n.mistakes, fixed: n.fixed })}
+          numbers={endNumbers({ revise: kept, reviseText: reviseLabel(f?.kept?.groups), answered: n.answered, right: n.right, mistakes: n.mistakes, fixed: n.fixed })}
           progress={prog}
           free={freeLine}
           main={main}
@@ -605,7 +638,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
               <button type="button" onClick={() => { setSheet(null); go(slotIndex); }} aria-current={now ? 'step' : undefined} data-state={r.state || undefined} data-autofocus={now ? '' : undefined}>
                 <span className="st-list__n">{r.n}</span>
                 <span className="st-list__w"><small>{r.kind}</small>{r.words}</span>
-                {now ? <span className="st-list__now">Now</span> : r.state === 'right' ? <Check size={16} strokeWidth={2.6} aria-label="Right" /> : r.state === 'wrong' ? <X size={16} strokeWidth={2.6} aria-label="Not right" /> : r.state === 'kept' ? <Bookmark size={16} strokeWidth={2} fill="currentColor" aria-label="Kept" /> : r.state === 'seen' ? <span className="st-list__dot" aria-label="Seen" /> : <span />}
+                {now ? <span className="st-list__now">Now</span> : r.state === 'right' ? <Check size={16} strokeWidth={2.6} aria-label="Right" /> : r.state === 'wrong' ? <X size={16} strokeWidth={2.6} aria-label="Not right" /> : r.state === 'kept' ? <span role="img" aria-label={WORDS.inRevise}><CardStack size={16} strokeWidth={2} /></span> : r.state === 'seen' ? <span className="st-list__dot" aria-label="Seen" /> : <span />}
               </button>
             </li>
           );
@@ -618,17 +651,22 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   const trackAt = Math.min(active, Math.max(0, slots.length - 1));
   return (
     <Stage label={`${title || 'Chapter'} feed`} rootRef={rootRef} viewRef={viewRef} trackRef={trackRef} mode={mode} busy={again}
-      panel={panel} top={top} ticks={ticks} rail={rail} bar={bar} end={endView} overlay={overlay} say={say}
+      panel={panel} top={top} ticks={ticks} rail={rail} bar={bar} end={endView} overlay={overlay} say={say} chip={chip}
       feedLabel={`${title || 'Chapter'}, ${of} items`}>
       {slots.map((slot, i) => {
         const far = Math.abs(i - trackAt) > 2;
         const here = i === trackAt && mode === 'items';
-        const common = { style: { '--p': i }, 'data-far': far || undefined, inert: !here || undefined, 'aria-hidden': !here || undefined };
+        // R3-SPEC L3: the page under the one in view peeks as a card edge with its type label (the cap).
+        const next = i === trackAt + 1 && mode === 'items';
+        const common = { style: { '--p': i }, 'data-far': far || undefined, 'data-next': next || undefined, inert: !here || undefined, 'aria-hidden': !here || undefined };
+        const capLabel = slot.type === 'checkpoint' ? 'So far' : slot.item.type === 'card' ? cardFace(slot.item.card).label : slot.item.origin === 'mistake' ? (slot.item.mistake?.label || 'Question') : 'Question';
+        const cap = Math.abs(i - trackAt) <= 2 ? <div className="st-cap" aria-hidden="true"><span className="st-cap__label">{capLabel}</span></div> : null;
         if (slot.type === 'checkpoint') {
           const cp = checkpointText(numbers, { done: base + slot.after, of, seconds: secondsFrom(items, slot.after) });
           const keptCards = items.filter((x) => x.type === 'card' && states[x.id]?.kept).map((x) => x.card).filter(Boolean);
           return (
             <article key={slot.id} className="st-page st-page--cp" {...common} aria-label={`Checkpoint after ${base + slot.after} of ${of}`}>
+              {cap}
               <div className="st-cp">
                 <p className="st-cp__n" key={here ? 'here' : 'away'}>{cp.big}</p>
                 <p className="st-cp__status">{cp.status}</p>
@@ -645,6 +683,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
           const stamp = s2.stamp || (it.look ? { text: 'In Revise' } : null);
           return (
             <article key={it.id} className="st-page st-page--card" {...common} aria-posinset={n} aria-setsize={of} aria-label={`Card ${n} of ${of}`} tabIndex={-1}>
+              {cap}
               <CardFace card={it.card} turned={Boolean(s2.turned)} onTurn={() => turn(it)} refEl={(el) => { cardEls.current[it.id] = el; }} stamp={stamp} extraKind={extra} />
             </article>
           );
@@ -653,6 +692,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
         const head = it.origin === 'mistake' ? (it.mistake?.label || 'You missed this before') : 'Question';
         return (
           <article key={it.id} className="st-page st-page--q" {...common} aria-posinset={n} aria-setsize={of} aria-label={`Question ${n} of ${of}`} tabIndex={-1}>
+            {cap}
             <QuestionView head={head} mistake={it.origin === 'mistake'} stem={it.question?.body || ''} options={it.question?.options || []}
               answer={s2.answer || null} onChoose={(k) => choose(it, k)} streak={streak} skipped={s2.skipped || null}
               locked={closed && !s2.answer ? CLOSED_LINE : null} error={s2.error || null}

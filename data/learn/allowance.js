@@ -15,9 +15,12 @@ export const LEARN_FREE = Object.freeze({ sessionsPerDay: 1, maxMinutes: 10, cou
 // picking up today's own run stay open; Explore's single questions stay free.
 export const FREE_DONE_HEADLINE = "That was today's free session.";
 export const FREE_DONE_LINE = 'Questions come back tomorrow. Your Key cards stay open.';
-export const FREE_SESSION_DONE = 'Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like.';
+// R3-SPEC ruling F: the 402 line is the headline and the line, word for word.
+export const FREE_SESSION_DONE = `${FREE_DONE_HEADLINE} ${FREE_DONE_LINE}`;
+/** The one quiet line of a Free run end or feed end once the day's session is used (ruling F), directly above the keys. */
+export const FREE_END_LINE = `${FREE_DONE_HEADLINE} Questions come back tomorrow.`;
 export const FREE_CAPPED = 'Free sessions are up to 10 minutes. Pro has any length.';
-export const FREE_CARDS_ONLY = 'Your free Learn session today is used, so this one is Key cards only. Questions come back tomorrow.';
+export const FREE_CARDS_ONLY = "That was today's free session, so this one is Key cards only. Questions come back tomorrow.";
 
 /** True for the kinds that count as Free's one session ('mix' and 'feed'). */
 export const isCounted = (kind) => LEARN_FREE.counted.includes(kind);
