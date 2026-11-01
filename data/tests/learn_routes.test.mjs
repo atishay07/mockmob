@@ -974,3 +974,26 @@ test('F4 1: with an unfinished feed in the chapter every length\'s hook is the f
   }
   assert.deepEqual(pl.hook, pl.counts[10].hook);
 });
+
+test('R4 orchestrator: covers send up to 5 hooks in feed order (the cover skips a cloze); a Free end bar carries open, Pro none', async () => {
+  for (const isPro of [true, false]) {
+    const { learn } = setup({ isPro });
+    const body = (await learn.covers('u1', P({ subject: 'business_studies' }))).body;
+    for (const c of body.covers) {
+      for (const len of [5, 10, 20]) {
+        const hooks = c.counts[len].hooks;
+        assert.ok(Array.isArray(hooks) && hooks.length <= 5, `${c.key} ${len}: hooks is a list of at most 5`);
+        if (c.counts[len].hook && !c.counts[len].hook.locked) assert.deepEqual(hooks[0], c.counts[len].hook, `${c.key} ${len}: the first hook is the feed's first card`);
+      }
+    }
+  }
+  for (const isPro of [true, false]) {
+    const { learn } = setup({ isPro });
+    const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: `open-${isPro ? 'p' : 'f'}-00001` })).body;
+    const first = run.items.find((i) => i.type === 'card');
+    if (first) await learn.rate('u1', run.id, { itemId: first.id, rating: 3 });
+    const end = (await learn.end('u1', run.id, {})).body;
+    if (isPro) assert.equal('open' in (end.progress || {}), false, 'Pro: no open count');
+    else assert.ok(Number.isInteger(end.progress?.open) && end.progress.open <= end.progress.of, 'Free: the cards Free opens here');
+  }
+});

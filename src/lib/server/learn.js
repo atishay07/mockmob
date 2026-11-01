@@ -1311,7 +1311,8 @@ export function createLearn(deps) {
     if (finished && !row.ended_at) await store.endRun(userId, row.id);
     // How far the run got and how long it took, for every run kind ("You stopped at 8 of 21." / "All 21 done in 9 min.").
     const done = runDone(row, ev);
-    const progress = info ? chapterProgress(info, items, ev) : null;
+    // On Free the bar also carries `open` (the cards Free opens in this chapter), so a Free end can say the rest open with Pro.
+    const progress = info ? { ...chapterProgress(info, items, ev), ...(S.isPro ? {} : { open: info.counts.open }) } : null;
     const feed = row.kind === 'feed' ? feedEnd(S, row, info, { ev, itemOf, answered: answered.length, right, fixed, mistakes: mistakesIn.length, sessionDone, length, done }) : null;
     return ok({
       feed, title, done, stopped: stoppedHere, progress, chapter: info ? { key: info.key, title: info.title, place: info.place } : null,
@@ -1464,6 +1465,8 @@ export function createLearn(deps) {
           // Why this length is shorter than asked (never "all it has today" for the 40-card cap): pool | cap | mistakes.
           ...(plan.shrunk && plan.shrink ? { shrink: { reason: plan.shrink.reason } } : {}),
           hook: hookOf(firstId),
+          // R4 owner-eye#10: up to 5 fronts in feed order; the cover shows the first readable one (never a cloze).
+          hooks: resumeHook.has(info.key) ? [hookOf(firstId)].filter(Boolean) : plan.items.filter((i) => i.type === 'card').slice(0, 5).map((i) => hookOf(i.cardId)).filter(Boolean),
         };
       }
       const runHere = S.runs.find((r) => r.kind === 'feed' && r.chapter_key === info.key && istDay(Date.parse(r.created_at)) === S.day && Number(r.done_count) > 0 && Number(r.done_count) < Number(r.item_count) && !freeBlocked(S, r));

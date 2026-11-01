@@ -78,7 +78,7 @@ const CS_SUBJECT = { id: 'computer_science', name: 'Computer Science / Informati
 
 // Original illustrative questions (the homepage sample set), never real bank rows.
 const SAMPLE = [
-  ['Partnership Fundamentals', 'Goodwill brought in by an incoming partner is shared by old partners in:', ['New ratio', 'Old ratio', 'Sacrificing ratio', 'Equal ratio']],
+  ['Admission of Partner', 'Goodwill brought in by an incoming partner is shared by old partners in:', ['New ratio', 'Old ratio', 'Sacrificing ratio', 'Equal ratio']],
   ['Partnership Fundamentals', 'Assets are ₹80,000 and liabilities are ₹30,000. What is the owner’s equity?', ['₹30,000', '₹50,000', '₹80,000', '₹1,10,000']],
   ['Money and Banking', 'Which of these is NOT a function of the Reserve Bank of India?', ['Banker to the government', 'Issuing currency', 'Accepting public deposits', 'Controlling credit']],
   ['Controlling', 'Comparing actual performance with a planned standard is part of which management function?', ['Staffing', 'Controlling', 'Organising', 'Directing']],
