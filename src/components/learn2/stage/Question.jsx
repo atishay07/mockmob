@@ -14,7 +14,8 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { Check, LoaderCircle, X } from 'lucide-react';
 import { CardSource, NcertText } from '@/components/keycards/KeyCard';
 import { stemParts } from '../run/runMath';
-import { scrollToStemEnd } from './Stage';
+import { scrollToVerdict, still } from './Stage';
+import { SciNcert } from './Sci';
 import { assertionReason, matchLists, optionTexts, statementList, stemSize, twoColumns } from './stageText.mjs';
 
 export const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -116,7 +117,7 @@ export function Verdict({ res, letter, streak = 0 }) {
 }
 
 /** The line you needed, opened in place under the options (never a sheet over them). */
-export function LineInPlace({ res, open, titleRef, onSeePro }) {
+export function LineInPlace({ res, open, titleRef, onSeePro, sci = false }) {
   const line = res && !res.correct ? res.line : null;
   const show = Boolean(res && !res.correct);
   return (
@@ -132,7 +133,7 @@ export function LineInPlace({ res, open, titleRef, onSeePro }) {
               </>
             ) : line?.card ? (
               <>
-                <ClampLine><NcertText card={line.card} /></ClampLine>
+                <ClampLine>{sci ? <SciNcert card={line.card} /> : <NcertText card={line.card} />}</ClampLine>
                 <CardSource card={line.card} />
               </>
             ) : <p className="st-line__text">{res.explanation || 'The right answer is marked above.'}</p>}
@@ -168,22 +169,18 @@ export function ClampLine({ children, className = '' }) {
   );
 }
 
-export function QuestionView({ head, mistake = false, stem, options, answer, onChoose, streak = 0, skipped = null, locked = null, error = null, lineTitleRef, onSeePro, optionsRef }) {
+export function QuestionView({ head, mistake = false, stem, options, answer, onChoose, streak = 0, skipped = null, locked = null, error = null, lineTitleRef, onSeePro, optionsRef, sci = false }) {
   const id = useId();
   const res = answer?.res || null;
   const line = useRef(null);
   const titleRef = lineTitleRef || line;
-  // After a wrong answer the student's own pick goes to the top of the box (12 px clear), so what they chose, the verdict and the
-  // line they needed read together; the box fades 24 px at its head while it is scrolled (M2).
+  // After a wrong answer (R4 ui-correctness#7) the box scrolls only as far as the verdict and the line you needed, never so far
+  // that the head line or the stem's first line goes under the top: the question, the pick and the line read together.
   const root = useRef(null);
   useEffect(() => {
     if (!res || res.correct) return undefined;
     const t = setTimeout(() => {
-      try {
-        // R2 screens 6: the stem's last line stays in view, so the student reads the question, their pick and the line together.
-        const stem = root.current?.querySelector('.st-stem');
-        scrollToStemEnd(stem, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
-      } catch { /* old browser */ }
+      try { scrollToVerdict(root.current, still() ? 'auto' : 'smooth', root.current?.closest('.st')?.querySelector('.st-bar')); } catch { /* old browser */ }
     }, 300);
     return () => clearTimeout(t);
   }, [res]);
@@ -196,7 +193,7 @@ export function QuestionView({ head, mistake = false, stem, options, answer, onC
           <Options options={options} answer={answer} onChoose={onChoose} labelledBy={`${id}-stem`} locked={Boolean(locked)} refEl={optionsRef} />
           {locked && !res ? <p className="st-leftout">{locked}</p> : null}
           <Verdict res={res} letter={res ? letterOf(options, res.key) : null} streak={streak} />
-          <LineInPlace res={res} open={Boolean(res)} titleRef={titleRef} onSeePro={onSeePro} />
+          <LineInPlace res={res} open={Boolean(res)} titleRef={titleRef} onSeePro={onSeePro} sci={sci} />
         </>
       )}
       {error ? <p className="kc-err" role="alert">{error}</p> : null}

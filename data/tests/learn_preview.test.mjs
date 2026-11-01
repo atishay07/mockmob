@@ -222,7 +222,8 @@ test('honest shrink: "Add the next chapter" fills the rest from the next chapter
   const before = (await call('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: ['questions'] } })).body;
   assert.ok(before.shrink.addNext);
   const after = (await call('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: ['questions'], addNext: true } })).body;
-  assert.deepEqual(after.added, { key: before.shrink.addNext.key, title: before.shrink.addNext.title, ref: before.shrink.addNext.ref });
+  assert.deepEqual(after.added, { key: before.shrink.addNext.key, title: before.shrink.addNext.title, ref: before.shrink.addNext.ref, place: before.shrink.addNext.place });
+  assert.deepEqual(after.added.place, { n: 2, of: 14 }, 'R4 ruling N: the place of the added chapter among the playable chapters');
   assert.ok(after.piles.find((p) => p.id === 'cards').count > before.piles.find((p) => p.id === 'cards').count);
   const run = (await call('/api/learn/runs', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: ['questions'], kind: 'mix', addNext: true } })).body;
   assert.equal(run.added.key, before.shrink.addNext.key);
@@ -300,7 +301,7 @@ test('H4: no slashes in subject or chapter names', async () => {
 test('B7 1 and 9: a run body names its chapter whole (key, title, ref, partTitle, number); a missing chapter is 404 CHAPTER_NOT_FOUND', async () => {
   const call = student('pro');
   const run = (await call('/api/learn/runs', { method: 'POST', body: { chapterKey: PF, minutes: 5, kind: 'feed', requestKey: 'b7-preview-0001' } })).body;
-  assert.deepEqual(run.chapter, { key: PF, title: 'Accounting for Partnership: Basic Concepts', ref: 'Ch 1', partTitle: 'Part 1, Partnership Accounts', number: 1 });
+  assert.deepEqual(run.chapter, { key: PF, title: 'Accounting for Partnership: Basic Concepts', ref: 'Ch 1', partTitle: 'Part 1, Partnership Accounts', number: 1, place: { n: 1, of: 14 } });
   const out = await call('/api/learn/runs', { method: 'POST', body: { chapterKey: 'accountancy.not-a-chapter', minutes: 5, kind: 'feed', requestKey: 'b7-preview-0002' } });
   assert.deepEqual([out.http, out.body.error], [404, 'CHAPTER_NOT_FOUND']);
 });
@@ -354,4 +355,23 @@ test('B7 8: a student with no history gets "Chapter 1 as a feed" as the third su
   const third = body.suggestions[2];
   assert.deepEqual([third.kind, third.title, third.headline, third.evidence, third.action.label], ['feed', 'Chapter 1 as a feed', 'As a feed', 'One card or question at a time, 10 minutes.', 'Open the feed']);
   assert.equal(third.action.href, `/explore/run?chapter=${PF}&min=10`);
+});
+
+// ---------------------------------------------------------------- R4 ruling N on the real decks (owner-eye#2, ui-correctness#13)
+
+test('R4 ruling N: every Accountancy chapter has one place, 1 to 14 in roadmap order; three chapters sharing NCERT "Ch 2" get three places', async () => {
+  const call = student('pro', 'new');
+  const home = (await call('/api/learn/home', { query: { subject: 'accountancy' } })).body;
+  const rows = home.parts.flatMap((p) => p.units.flatMap((u) => u.chapters)).filter((r) => r.place);
+  assert.equal(rows.length, home.subject.chapters, 'of is the playable count the subject line shows');
+  assert.deepEqual(rows.map((r) => r.place), rows.map((_, i) => ({ n: i + 1, of: home.subject.chapters })));
+  const ch2 = rows.filter((r) => r.ref === 'Ch 2');
+  assert.ok(ch2.length >= 2, 'the NCERT number repeats across the two books');
+  assert.equal(new Set(ch2.map((r) => r.place.n)).size, ch2.length, 'never one label for different chapters');
+  assert.deepEqual(home.roadmap.chapter.place, rows.find((r) => r.key === home.roadmap.chapter.key).place, 'the offer and the rows agree');
+  const covers = (await call('/api/learn/covers', { query: { subject: 'accountancy' } })).body.covers;
+  for (const c of covers) assert.deepEqual(c.place, rows.find((r) => r.key === c.key).place, c.key);
+  const preview = (await call('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: AOP, minutes: 10 } })).body;
+  assert.deepEqual(preview.chapter.place, rows.find((r) => r.key === AOP).place);
+  assert.equal(preview.chapter.ref, rows.find((r) => r.key === AOP).ref, 'ref stays, for source lines only');
 });

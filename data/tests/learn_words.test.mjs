@@ -2,7 +2,7 @@
 // (data/learn/allowance.js, ruling F). Pins the exact labels and the " · N min" format.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { WORDS, fixMistakes, pileLabel, reviseDue, reviseQuestions, wholeMinutes, withMinutes } from '../learn/words.js';
+import { WORDS, chapterPlace, chapterShort, fixMistakes, pileLabel, reviseDue, reviseQuestions, wholeMinutes, withMinutes } from '../learn/words.js';
 import { FREE_DONE_HEADLINE, FREE_DONE_LINE } from '../learn/allowance.js';
 
 test('one word for each thing', () => {
@@ -33,4 +33,12 @@ test('Free after the day\'s session: one headline and one true line', () => {
   assert.equal(FREE_DONE_HEADLINE, "That was today's free session.");
   assert.equal(FREE_DONE_LINE, 'Questions come back tomorrow. Your Key cards stay open.');
   assert.doesNotMatch(FREE_DONE_LINE, /Learn opens again/);
+});
+
+test('a chapter is named by its place in the roadmap, never by a bare NCERT number (R4 ruling N)', () => {
+  assert.equal(chapterPlace({ n: 5, of: 14 }), 'Chapter 5 of 14');
+  assert.equal(chapterShort({ n: 5, of: 14 }), 'Chapter 5');
+  assert.equal(chapterPlace(null), '', 'no place, no label');
+  assert.equal(chapterPlace({ n: 0, of: 14 }), '');
+  assert.equal(chapterShort(undefined), '');
 });

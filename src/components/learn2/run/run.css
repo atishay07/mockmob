@@ -23,25 +23,26 @@
    the card-stack glyph with "4 to revise", from 1. The time left joins the chapter's line from 768. */
 .lr-top {
   position: relative; z-index: 5; flex: none; display: grid; align-items: center;
-  grid-template-columns: 44px minmax(0, 1fr) auto; grid-template-rows: 44px 20px;
+  grid-template-columns: auto minmax(0, 1fr) auto; grid-template-rows: 44px 20px;
   grid-template-areas: 'close ticks pos' 'title title title';
   column-gap: 12px; width: 100%; margin-inline: auto; padding: max(4px, env(safe-area-inset-top)) 16px 6px; background: var(--a-bg);
 }
 .lr-top .lr-top__left, .lr-top .lr-top__pile { display: none; }
 .lr-top__tip { position: absolute; top: calc(100% + 2px); right: -6px; z-index: 6; padding: 6px 10px; border-radius: 9px; border: 1px solid var(--a-line-strong); background: var(--a-sheet, var(--a-raised)); box-shadow: var(--a-shadow-2); font: 600 12.5px/1 var(--font-body); color: var(--a-ink); white-space: nowrap; animation: lr-tip 1600ms var(--lr-ease) both; }
 .lr-close {
-  grid-area: close; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 44px; min-height: 44px; margin-left: -10px;
+  grid-area: close; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 44px; min-height: 44px; margin-left: -10px; padding: 0 12px 0 10px;
   border-radius: 12px; color: var(--a-ink-2); font: 650 15px/1 var(--font-body); text-decoration: none;
   transition: background-color 160ms var(--lr-ease), color 160ms var(--lr-ease);
 }
-.lr-close__word { display: none; }
+/* R4 first-timer#17: one close control on runs, feeds, ends and the refusal, the X with the word, at every width. */
+.lr-close__word { display: inline; }
 .lr-close:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 0; }
 @media (hover: hover) { .lr-close:hover { color: var(--a-ink); background: var(--a-hover); } }
 .lr-top__title { grid-area: title; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 500 13px/20px var(--font-body); color: var(--a-ink-3); }
 .lr-top__pile { grid-area: pile; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font: 600 13px/1 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .lr-top__pile b { display: inline-block; font-weight: 600; }
 .lr-top__pile[data-zero] { visibility: hidden; }
-.lr-top__pile b[data-pop], .lr-panel__rn b[data-pop] { animation: lr-pop 180ms var(--lr-ease) both; }
+.lr-top__pile b[data-pop] { animation: lr-pop 180ms var(--lr-ease) both; }
 .lr-top__pos { grid-area: pos; font: 500 14px/1 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .lr-top__pos b { font-weight: 700; color: var(--a-ink); }
 .lr-top__ticks { grid-area: ticks; display: flex; align-items: center; min-width: 0; height: 20px; }
@@ -50,7 +51,6 @@
   .lr-top { width: min(100%, 632px); grid-template-columns: auto minmax(0, 1fr) auto; grid-template-rows: 44px 20px; grid-template-areas: 'close ticks pos' 'title title left'; row-gap: 2px; column-gap: 14px; padding: max(8px, env(safe-area-inset-top)) 16px 10px; }
   .lr-top .lr-top__left { display: block; }
   .lr-close { margin-left: -10px; padding: 0 14px 0 10px; }
-  .lr-close__word { display: inline; }
   .lr-top__title { font-size: 13.5px; }
 }
 @media (min-width: 1024px) {
@@ -94,6 +94,8 @@
 @media (max-width: 767px) {
   .lr-area .lr-q { display: flex; flex-direction: column; }
   .lr-area .lr-q > .lr-opts { margin-top: auto; padding-top: 10px; }
+  .lr-area .lr-q > .lr-q__hint { margin-top: auto; padding-top: 10px; }
+  .lr-area .lr-q > .lr-q__hint + .lr-opts { margin-top: 0; padding-top: 0; }
 }
 .lr-area[data-type='question'] + .lr-bar { margin-top: 8px; }
 .lr-enter { position: relative; display: flex; flex-direction: column; flex: 1 1 auto; animation: lr-rise 240ms var(--lr-ease) 60ms both; touch-action: pan-y; }
@@ -164,11 +166,12 @@
 .lr-mini i[data-top] s { position: absolute; left: 4px; bottom: 3px; width: 3px; height: 3px; border-radius: 50%; border: 1px solid var(--a-ink-3); opacity: 0.7; box-shadow: 5px 0 0 -1px var(--a-ink-3); }
 .lr-mini[data-kind='mistakes'] i[data-top] { border-left: 2px solid color-mix(in oklab, var(--a-bad-text) 70%, transparent); }
 .lr-mini[data-kind='lesson'] i[data-top] { border-left: 3px solid var(--a-line-strong); }
-.lr-panel__revise { display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 12px; align-items: center; transition: opacity 220ms var(--lr-ease); }
+.lr-panel__revise { display: grid; gap: 4px; transition: opacity 220ms var(--lr-ease); }
+.lr-panel__pile { display: inline-flex; align-items: center; gap: 12px; min-width: 0; }
 /* R2 screens 10: In Revise shows from 1 (it stays laid out, so the first card still has a pile to fly to). */
 .lr-panel__revise[data-zero] { visibility: hidden; opacity: 0; }
-.lr-panel__rl { font: 500 13px/1.3 var(--font-body); color: var(--a-ink-2); }
-.lr-panel__rn b { display: inline-block; font: 800 24px/1.1 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.lr-panel__rl { display: inline-block; font: 650 15px/1.3 var(--font-body); color: var(--a-ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.lr-panel__rl[data-pop] { animation: lr-pop 180ms var(--lr-ease) both; }
 .lr-panel__stamp { min-height: 18px; font: 700 13px/1.4 var(--font-body); color: var(--a-ink-2); opacity: 0; transition: opacity 200ms var(--lr-ease); }
 .lr-panel__stamp[data-on] { opacity: 1; transition-duration: 120ms; }
 .lr-panel__right { display: grid; gap: 2px; font: 500 13.5px/1.4 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
@@ -247,7 +250,7 @@
 .lr [id^='lr-q-']:focus { outline: none; }
 .lr-back__rule { height: 1px; margin: 12px 0 14px; background: var(--a-line); }
 .lr-ncert.kc-ncert { font-size: 18px; line-height: 1.6; padding-left: 0; border-left: 0; max-width: 60ch; }
-.lr-src--back { margin-top: 12px; }
+.lr-src--back { margin-top: 0; }
 .lr-back .kc-short { margin-top: 10px; padding-left: 0; }
 .lr-card--lesson .lr-face { cursor: default; }
 .lr-lesson__line { margin-top: 12px; font: 500 15px/1.5 var(--font-body); color: var(--a-ink-2); max-width: 44ch; }
@@ -275,6 +278,8 @@
 .lr-q { display: grid; gap: 14px; min-width: 0; }
 .lr-q__head { display: flex; align-items: center; gap: 6px; margin: 0; font: 600 13px/1.3 var(--font-body); color: var(--a-ink-2); }
 .lr-q__head:focus { outline: none; }
+/* R4 owner-eye#15: the first question's hint, once per student, a quiet line read before the options. */
+.lr-q__hint { margin: 10px 0 8px; font: 500 13.5px/1.4 var(--font-body); color: var(--a-ink-3); animation: lr-fade 200ms var(--lr-ease) both; }
 /* The stem is the stage's own (U1's Stem: lists, Assertion-Reason, match the columns), set at the run's sizes. */
 .lr-stemwrap .st-stem { margin: 0; font: 650 21px/1.42 var(--font-body); letter-spacing: -0.01em; color: var(--a-ink); }
 .lr-stemwrap .st-stem[data-size='l'] { font: 500 17px/1.58 var(--font-body); letter-spacing: 0; }
@@ -511,7 +516,7 @@
 @media (prefers-reduced-motion: reduce) {
   .lr *, .lr *::before, .lr *::after { animation-duration: 120ms !important; animation-delay: 0ms !important; transition-duration: 0ms !important; }
   .lr :is(.lr-enter, .lr-verdict, .lr-endform__name) { animation-name: lr-fade !important; }
-  .lr :is(.lr-opt, .lr-rpile__card, .lr-status > span, .lr-top__pile b, .lr-panel__rn b, .lr-rail svg, .lr-moved__fill, .lr-ticks i::after, .lr-top__tip) { animation: none !important; }
+  .lr :is(.lr-opt, .lr-rpile__card, .lr-status > span, .lr-top__pile b, .lr-panel__rl, .lr-rail svg, .lr-moved__fill, .lr-ticks i::after, .lr-top__tip, .lr-q__hint) { animation: none !important; }
   .lr .lr-fixed__check path { animation: none !important; stroke-dashoffset: 0; }
   .lr .lr-card__in, .lr .lr-card[data-turned] .lr-card__in { transform: none; }
   .lr .lr-face--back { transform: none; opacity: 0; visibility: hidden; }
@@ -519,5 +524,13 @@
   .lr .lr-card[data-turned] .lr-face--front { opacity: 0; visibility: hidden; }
   .lr .lr-face { transition: opacity 120ms linear !important; backface-visibility: visible; }
 }
+/* The app's own reduced-motion setting (html[data-motion='reduced']) gets every rule above (R4 client-code#12). */
+html[data-motion='reduced'] .lr *, html[data-motion='reduced'] .lr *::before, html[data-motion='reduced'] .lr *::after { animation-duration: 120ms !important; animation-delay: 0ms !important; transition-duration: 0ms !important; }
 html[data-motion='reduced'] .lr :is(.lr-enter, .lr-verdict, .lr-endform__name) { animation-name: lr-fade !important; animation-duration: 120ms !important; animation-delay: 0ms !important; }
-html[data-motion='reduced'] .lr :is(.lr-opt, .lr-rpile__card, .lr-moved__fill) { animation: none !important; }
+html[data-motion='reduced'] .lr :is(.lr-opt, .lr-rpile__card, .lr-status > span, .lr-top__pile b, .lr-panel__rl, .lr-rail svg, .lr-moved__fill, .lr-ticks i::after, .lr-top__tip, .lr-q__hint) { animation: none !important; }
+html[data-motion='reduced'] .lr .lr-fixed__check path { animation: none !important; stroke-dashoffset: 0; }
+html[data-motion='reduced'] .lr .lr-card__in, html[data-motion='reduced'] .lr .lr-card[data-turned] .lr-card__in { transform: none; }
+html[data-motion='reduced'] .lr .lr-face--back { transform: none; opacity: 0; visibility: hidden; }
+html[data-motion='reduced'] .lr .lr-card[data-turned] .lr-face--back { opacity: 1; visibility: visible; }
+html[data-motion='reduced'] .lr .lr-card[data-turned] .lr-face--front { opacity: 0; visibility: hidden; }
+html[data-motion='reduced'] .lr .lr-face { transition: opacity 120ms linear !important; backface-visibility: visible; }

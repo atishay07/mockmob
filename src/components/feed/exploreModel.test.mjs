@@ -35,7 +35,7 @@ test('R2 ruling 11: the v2 Explore page has no slogan head, no right column and 
   assert.match(v2, /className="ex-saved"/, 'Saved sits in the head');
   assert.match(page, /fetch\('\/api\/bookmarks\?count=1'/, 'the count alone, not the saved rows');
   assert.match(v2, /Single questions/);
-  assert.match(page, /pickSingles\(page\.questions/, 'R3 X1: the singles are picked, not sliced from the raw page');
+  assert.match(page, /stableSingles\(questions, reset \? \[\] : current\.singles/, 'R3 X1, R4 client-code#3: the singles are picked (and kept in order), not sliced from the raw page');
   assert.match(v2, /singles\.slice\(0, shown\)/);
   assert.match(v2, /chapterTitle=\{titleOf\(question\)\} closed \/>/, 'stems first, options on tap');
   // The covers come right after the head row, before the single questions.
@@ -95,8 +95,9 @@ test('R3 X1/X3: the page and the Saved list use these, and Saved prints canonica
   const page = read('./DiscoveryFeed.jsx');
   assert.match(page, /syllabusTitle\(question\.subject \|\| filters\.subject, question\.chapter\)/);
   assert.doesNotMatch(page, /resolveChapter/, 'one rule for a chapter title');
-  const saved = read('../../app/(app)/saved/SavedPageClient.jsx');
-  assert.match(saved, /chapterTitle=\{syllabusTitle\(question\.subject, question\.chapter\)\}/, 'X3: Saved labels use the canonical titles');
+  const saved = read('../../app/(app)/saved/savedModel.mjs');
+  assert.match(saved, /syllabusTitle\(question\.subject, question\.chapter\)/, 'X3, R4: a Saved chapter group is headed by its canonical title');
+  assert.match(read('../../app/(app)/saved/SavedPageClient.jsx'), /groupByChapter\(visible\)/);
 });
 
 test('R3 X2: the head says "Saved" alone for 0, and the preview gives a brand-new student 0 saved', () => {
@@ -129,12 +130,12 @@ test('R3 X5: Practice for Pro has no "Included", no "Your access ... Unlimited",
   assert.doesNotMatch(src, /amount=\{isPremium \? 'unlimited'/, 'no Unlimited pill');
   assert.match(src, /!\(isPremium && quote\.launchable\) && quote\.reason/, 'the server\'s "Included with your Pro access (valid until ...)" is not drawn for Pro');
   assert.match(src, /\{costLabel \? <div data-wide="" data-emph=""><dt>Cost<\/dt>/, 'a Pro session has no Cost row');
-  assert.match(src, /\{isPremium \? null : \(\s*<section className="pr-panel" aria-labelledby="pr-access">/, 'the Pro panel is for Free and ended Pro only');
+  assert.match(src, /\{isPremium \|\| \(costNudgeShown && !proEnded\) \? null : \(\s*<section className="pr-panel" aria-labelledby="pr-access">/, 'the Pro panel is for Free and ended Pro only, and waits while the card\'s cost line asks (R4: one Pro mention in view)');
   assert.match(src, /<h1 className="display-md">What are we practising\?<\/h1>/);
   assert.match(src, /<p className="sr-only">Pick a subject and a way to practise\./, 'the lede stays for screen readers');
   const css = read('../../app/(app)/dashboard/practice.css');
   assert.match(css, /\.pr-ticket__top, \.app-shell \.pr \.pr-ticket\.pr-summary > dl \{ display: none; \}/, 'the phone card does not repeat the bar');
-  assert.match(css, /\.pr-ticket\.pr-summary \{ padding-bottom: 48px; \}/, 'the card reserves the height the bar overlaps, so no line ends under the bar');
+  assert.match(css, /\.pr-ticket\.pr-summary \{ padding-bottom: 16px; \}/, 'R4: the bar lands against the card (the 30 px gap and the -31 px margin cancel), so the card keeps its ordinary padding: no dead band inside it');
 });
 
 test('R3 C3: the subject tile\'s "2 chapters" (the length of the static subject list, not the syllabus or Learn) is dropped', () => {

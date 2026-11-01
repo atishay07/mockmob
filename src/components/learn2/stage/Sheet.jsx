@@ -6,10 +6,14 @@
 //                                                    The one stop rule of the feed and the run (critic 2 row 9; A4 3.3.10; R2
 //                                                    ruling 6): after at least one item Close and Escape open it. "5 of 20 done.
 //                                                    It's all saved.", then Stop here (volt; shows the end, the run stays open
-//                                                    to pick up today) and a quiet Keep going. Escape and the X keep going.
+//                                                    to pick up today) and a quiet "Back to it" (R4: "Keep going" is only
+//                                                    the end's key). Escape and the X go back to it.
 import { useEffect, useId, useRef } from 'react';
 import { X } from 'lucide-react';
 import { stopSheetLine } from './endModel.mjs';
+
+/** The stop sheet's quiet key (R4 ui-correctness#18): it closes the sheet; "Keep going" names only the end's new 10 minutes. */
+export const BACK_TO_IT = 'Back to it';
 
 const FOCUSABLE = 'button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
@@ -52,13 +56,13 @@ export function Sheet({ title, onClose, bottom = false, children, closeLabel = '
 
 export function StopSheet({ done = 0, of = 0, endLabel = 'Stop here', onEnd, onKeepGoing }) {
   // R2 ruling 6: one line, two keys. Stop here shows the end and the run stays open to pick up today (the server keeps a
-  // stopped run open), so the old third key "Leave for now, pick up later today" is gone. The X closes the sheet: keep going.
+  // stopped run open), so the old third key "Leave for now, pick up later today" is gone. The X closes the sheet: back to it.
   return (
-    <Sheet title="Stop for now?" onClose={onKeepGoing} closeLabel="Keep going">
+    <Sheet title="Stop for now?" onClose={onKeepGoing} closeLabel={BACK_TO_IT}>
       <p className="st-drawer__line">{stopSheetLine(done, of)}</p>
       <div className="st-drawer__keys">
         <button type="button" className="kc-btn kc-btn--volt" onClick={onEnd} data-autofocus="">{endLabel}</button>
-        <button type="button" className="st-textkey st-textkey--line" onClick={onKeepGoing}>Keep going</button>
+        <button type="button" className="st-textkey st-textkey--line" onClick={onKeepGoing}>{BACK_TO_IT}</button>
       </div>
     </Sheet>
   );

@@ -3,23 +3,18 @@
 // server's fields first (refLine, history, resume, the due-free studentLine, name of packet S3) and falls back to the older
 // fields (ref, partTitle, unitTitle, studentLine with due) so a cover reads right before and after S3.
 import { KIND_LABELS } from '../../keycards/kinds.js';
-import { WORDS, withMinutes } from '../../../../data/learn/words.js';
+import { WORDS, chapterShort, withMinutes } from '../../../../data/learn/words.js';
 
 const plural = (n, one, many = `${one}s`) => `${Number(n).toLocaleString('en-IN')} ${n === 1 ? one : many}`;
 // R3 ruling W: question mistakes are "open mistakes" everywhere (the server's feed lines still say "old"), and a time is " · N min".
 const openWords = (t) => String(t || '').replace(/\bold (mistakes?)\b/gi, 'open $1');
 
-/** "Part 1, Ch 2", "Microeconomics, Ch 2", "Indian Economic Development, Ch 5", "Verbal Ability", or null. */
-export function refLineOf(c = {}) {
-  if (c.refLine) return c.refLine;
-  const ref = c.ref || null;
-  const part = String(c.partTitle || '').trim();
-  const m = /\bPart\s+(\d+)\b/i.exec(part);
-  if (ref && m) return `Part ${m[1]}, ${ref}`;
-  if (ref && part) return `${part.replace(/^Introductory\s+/i, '')}, ${ref}`;
-  if (ref) return ref;
-  return c.unitTitle || null;
-}
+/**
+ * The cover's label (R4 ruling N): "Chapter 5", the chapter's place among the student's playable chapters in roadmap order. The
+ * NCERT number ("Part 1, Ch 2") is never a chapter label: three chapters share "Ch 2". Null when the server sent no `place`, so a
+ * cover then draws no label at all (never "Ch N").
+ */
+export const refLineOf = (c = {}) => chapterShort(c.place) || null;
 
 /** Whether the student has any history in this subject: the server's `history`, else any cover that is not "New to you". */
 export function hasHistory(data = {}) {
@@ -94,6 +89,18 @@ export function keyLabelOf(c = {}, minutes = 10, { freeDone = false } = {}) {
   return withMinutes('Play', countsOf(c, minutes).minutes || minutes);
 }
 
+/** A fill-in-the-blank card front: a run of 2 or more underscores or dashes, or "[...]", standing for the missing word. */
+export const isCloze = (text = '') => /_{2,}|\[\s*(?:\.{2,}|…)\s*\]|[-–]{4,}/.test(String(text || ''));
+
+/** The longest front a cover sets in display type (five lines at 15 px is the last tier, hookTier). */
+export const HOOK_MAX = 105;
+
+/** Whether a card front can be a cover's line: not a cloze, and short enough for the display type. */
+export const isReadableHook = (front = '') => {
+  const t = String(front || '').trim();
+  return t.length > 0 && t.length <= HOOK_MAX && !isCloze(t);
+};
+
 /** The hook's size tier by length (A2 4.3): up to 24, 48, 80, 105 characters, then longer (five lines at 15 px). */
 export function hookTier(text = '') {
   const n = String(text || '').length;
@@ -106,8 +113,20 @@ export function hookTier(text = '') {
  * "Your cards here are in Revise." when the chapter's cards are kept or due, else "No Key cards here yet."
  */
 export function mediaOf(c = {}, minutes = 10) {
-  const h = c.hook;
-  if (h && h.front) return { kind: 'card', text: String(h.front) };
+  // R4 owner-eye#10: the line on a cover is a card a student can read cold, never a fill-in-the-blank. The server may send its
+  // candidates (`hooks`, in the order the feed serves them) beside the one `hook`; the first short, non-cloze front wins.
+  const own = countsOf(c, minutes).hook || c.hook;
+  const lengthHooks = countsOf(c, minutes).hooks;
+  const hooks = Array.isArray(lengthHooks) ? lengthHooks : Array.isArray(c.hooks) ? c.hooks : [];
+  const candidates = [...hooks, own].filter(Boolean);
+  const readable = candidates.find((h) => h.front && isReadableHook(h.front));
+  if (readable) return { kind: 'card', text: String(readable.front) };
+  const h = own;
+  // Only a cloze or a long card is left: say what the feed holds instead of an unfinished sentence.
+  if (h && h.front) {
+    const n = countsOf(c, minutes);
+    return { kind: 'cards', text: n.cards ? plural(n.cards, 'Key card') : 'Key cards', note: n.questions ? `and ${plural(n.questions, 'question')}` : 'one at a time' };
+  }
   if (h && h.locked) return { kind: 'locked', label: kindLabel(h.kind) };
   const q = countsOf(c, minutes).questions || countsOf(c, 10).questions || 0;
   // A chapter with a kept or due card still has cards: they wait in Revise, so the line says that (never "No Key cards here yet").

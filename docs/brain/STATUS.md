@@ -1,3 +1,72 @@
+## 1 Nov 2026, about 11:55 pm IST: Learn v2 rounds 2 to 4 (owner LK24-LK35) to production
+
+**Owner, 4:05 pm** (verbatim in mockmob-next docs/brain/OWNER-FEEDBACK-2026-10-31-LEARN.md):
+- the phone web is cluttered and slow
+- Learn should lead with a start offer, never zeros
+- first-time cues
+- less blank space, no walls of text
+- a tighter, branded hero that reacts to taps
+- keep going
+
+**What shipped:** web/1031-learn-v2, fast-forwarded into main, 48 commits.
+- **Round 2:**
+  - start offer and roadmap
+  - one end screen and the stop sheet
+  - feed cues and the chapter page
+  - four phone tabs
+  - speed: combined `/api/today` and `/api/learn/home`, auth chain, CSS split
+  - the painted hero with Mobi taps
+- **Round 3** (`docs/brain/learn-1031/r3/R3-SPEC.md`, the critics' findings):
+  - one word per thing (`data/learn/words.js`)
+  - one true Free rule
+  - no zero leads
+  - flashcard layout and the next card's peek
+  - static H1
+  - one due count
+  - Today without false history
+- **Round 4** (`docs/brain/learn-1031/r4/R4-SPEC.md`, findings verified by 1-3 skeptics each in `R3-REVIEW-FINDINGS.md`):
+  - Free rows show the real chapter size
+  - chapters named by roadmap place ("Chapter 5 of 14")
+  - Free never offered a key the server refuses
+  - due counts respect the part option
+  - the address follows the run
+  - science notation for chemistry cards
+- **Not changed:** no migration, no new env var (NEXT_PUBLIC_LEARN2 and LEARN2_ENABLED stay on).
+
+**Verified before the push** (HEAD 689617ed8):
+- Suites:
+  - test:learn 380
+  - keycards 81
+  - today 146
+  - app 984
+  - auth 141
+  - egress 101
+  - dock 55
+  - keycards-ui 40
+  - subjects 62
+  - syllabus 24
+  - learning 357
+  - recovery 637
+  - billing 453
+  - nta 229
+  - health-egress 56
+  - and 8 more, all 0 fail
+- `eslint .` exit 0; `next build --webpack` exit 0.
+- **Captures:** 180 shots at 390, 360x640, 1440 and 1920, Night and Day (`tmp/learn-1101/r4-merged/INDEX.md`): 0 failures and 0 console errors. Each round's shots were looked at.
+
+**Known failures, also on main 978edc236, not from this work:**
+- test:authored-publish: 13
+- test:factory: 5
+- test:mob: 7 (SV-1, SV-5..9, SV-10/11, SV-17, SV-15, L-55, room ticket)
+- test:study: 1 (the WordNet licence check)
+
+**Not verified:**
+- a real phone or trackpad
+- a screen reader
+- the live Practice chapter count: `/api/chapters` reads the chapters table and may say 15 where Learn says 14, if a Computerised Accounting row exists there
+
+**Rollback:** Vercel instant rollback to dpl_DoGHp6AAWaCKngaFxKAckyhq7vAy (main 978edc236), or revert the fast-forward range 978edc236..689617ed8.
+
 ## 31 October 2026, about 6:50 pm IST: Key cards fixes from the owner's first live look (LK2, LK5, LK6, LK13)
 
 **Owner, 5:20 pm** (verbatim in mockmob-next docs/brain/OWNER-FEEDBACK-2026-10-31-LEARN.md): Your part "glitches sometimes and shuffles it"; Study is "exactly what we wanted" but needs motion; the print sheet needs "our watermark all over the place"; too many cards say "must know". The wider Learn redesign (LK1, LK3, LK4, LK7-LK12) is being built as a preview for his OK first.

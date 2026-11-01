@@ -470,7 +470,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
       : isPremium ? '' // R3 X5: Pro is never told a mode is included; the Cost row is not drawn
         : quote.creditCost === 0 ? (quoteFirstFree ? FIRST_FULL_MOCK_COPY.price : 'Free: today’s included set')
           : `${quote.creditCost} credits`
-    : 'Checking';
+    // R4 client-code#9: Pro is never drawn a Cost row, not even while the quote loads (the layout is the final one from first paint).
+    : isPremium ? '' : 'Checking';
   const costTone = quoteStatus === 'ready' && quoteMatches && !quote.launchable ? 'locked' : 'cost';
   // The session in words, said once, on the Start key (owner G26, 19 Oct): "Start 10 questions in Accountancy". The card
   // above it leads with the mode, so picking a subject never puts a count and a subject at the top of the page.
@@ -490,7 +491,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
       : isPremium ? ''
         : quote.creditCost === 0 ? (quoteFirstFree ? FIRST_FULL_MOCK_COPY.short : 'Free today')
           : `${quote.creditCost} ${quote.creditCost === 1 ? 'credit' : 'credits'}`
-    : modeBadge(effectiveModeId).text || 'Checking';
+    : isPremium ? '' : (modeBadge(effectiveModeId).text || 'Checking'); // R4 client-code#9: no cost slot for Pro while loading either
   const chapterValue = effectiveModeId === 'smart' ? 'Your weakest topics, chosen for you' : !scope.chapters ? 'All, as the exam' : sentChapters.length ? `${sentChapters.length} of ${chapterTotal}` : chapterTotal ? `All ${chapterTotal}` : 'All';
   const difficultyValue = !scope.difficulty ? 'Chosen for you' : difficultyMode === 'auto' ? 'Balanced' : difficultyMode[0].toUpperCase() + difficultyMode.slice(1);
   // Mobi on this page only at a real moment: thinking in the card while a start is slow, or after a failed start; else
@@ -881,7 +882,9 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
         <div className="pr-lower__side">
         {/* R3 X5: Pro is not shown an access panel (no sentence about what is included, no pill). This panel is
             the Free and ended-Pro student's one place that names Pro and the balance. */}
-        {isPremium ? null : (
+        {/* R4 owner-eye#7: on Free, one Pro mention in view. While the session card's cost line is asking (its dismissible Pro nudge),
+            this block waits; an ended Pro keeps it (it says when access ended and what stays). */}
+        {isPremium || (costNudgeShown && !proEnded) ? null : (
         <section className="pr-panel" aria-labelledby="pr-access">
           <div className="pr-panel__head"><h2 id="pr-access">MockMob Pro</h2></div>
           <p className="pr-panel__lead">{proEnded

@@ -1,6 +1,6 @@
 // Pure rules of the Learn v2 chapter page (A4-chapter-run.md 3.2.1, 3.2.4 to 3.2.6, BUILD-1101 B2 and B7). No React here, so
 // node --test can hold them (chapterModel.test.mjs). R3: its words come from data/learn/words.js (ruling W).
-import { WORDS, fixMistakes, withMinutes } from '../../../../data/learn/words.js';
+import { WORDS, chapterPlace, fixMistakes, wholeMinutes, withMinutes } from '../../../../data/learn/words.js';
 
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
@@ -11,14 +11,15 @@ export const dueWords = (text) => String(text || '').replace(/\b(\d[\d,]*) due\b
 export const partShort = (title) => (title ? (String(title).match(/^Part \d+/)?.[0] || String(title)) : null);
 
 /**
- * The eyebrow and the ref line (3.2.1): the unit only when it does not repeat the title's start; the ref "Part 1, Ch 1".
+ * The eyebrow and the ref line (3.2.1): the unit only when it does not repeat the title's start; the ref is the chapter's place in
+ * the roadmap, "Chapter 5 of 14" (R4 ruling N). The NCERT number ("Part 1, Ch 2") is never the label: three chapters share "Ch 2".
+ * It stays in the payload for source lines. With no `place` from the server the page draws no ref (never "Ch N").
  */
 export function headLines(chapter) {
   if (!chapter) return { eyebrow: null, ref: null };
   const unit = chapter.unitTitle && chapter.unitTitle !== chapter.title ? String(chapter.unitTitle) : null;
   const echoes = unit && String(chapter.title || '').toLowerCase().startsWith(unit.toLowerCase());
-  const ref = [partShort(chapter.partTitle), chapter.ref].filter(Boolean).join(', ') || null;
-  return { eyebrow: unit && !echoes ? unit : null, ref };
+  return { eyebrow: unit && !echoes ? unit : null, ref: chapterPlace(chapter.place) || null };
 }
 
 /** A pile's minutes in words: "about 4 min"; a lesson's exact "7 min". */
@@ -32,13 +33,15 @@ export function pileMinutes(pile) {
  * How one pile is drawn (3.2.4): `state` in | left | held, the line under it, the "of 3" on the paper, its spoken label,
  * and the server's note ("Revise first: 46 due"). A held pile (Free, Key cards only today) is not a button.
  */
-export function pileView(pile) {
+export function pileView(pile, { minutes = null } = {}) {
   const label = pile?.label || '';
   const state = pile?.held ? 'held' : pile?.left ? 'left' : 'in';
   if (state === 'held') return { state, line: 'Back tomorrow', of: null, note: null, aria: `${label}, back tomorrow` };
   if (state === 'left') return { state, line: 'Tap to put back', of: null, note: null, aria: `${label}, left out. Tap to put it back` };
-  const line = pileMinutes(pile);
   const of = pile?.id === 'mistakes' && Number(pile?.of) > Number(pile?.count) ? Number(pile.of) : null;
+  // R4 owner-eye#9: a mistakes pile that holds fewer than the chapter has says why ("2 fit in 10 min"), so its "2 of 3" never
+  // reads as a different number from the "Fix 3 open mistakes" row under it.
+  const line = of && minutes ? `${Number(pile.count)} fit in ${wholeMinutes(minutes)} min` : pileMinutes(pile);
   const note = pile?.note ? dueWords(pile.note) : null;
   return { state, line, of, note, aria: `${label}: ${pile?.count}${of ? ` of ${of}` : ''}, ${line}.${note ? ` ${note}.` : ''} Tap to leave it out` };
 }
@@ -96,7 +99,7 @@ export function shelfView(data, { mistakeMinutes = (n) => n } = {}) {
   } else missing.push('Questions are still being checked.');
   if (shelf.lesson) {
     const m = Number(shelf.lesson.minutes) || null;
-    rows.push({ id: 'lesson', title: shelf.lesson.title || 'Lesson', line: `${m ? `${m}-minute lesson` : 'Lesson'}, ${shelf.lesson.read ? 'read' : 'not read yet'}`, link: true });
+    rows.push({ id: 'lesson', title: shelf.lesson.title || 'Lesson', line: `${m ? withMinutes('Lesson', m) : 'Lesson'}, ${shelf.lesson.read ? 'read' : 'not read yet'}`, link: true });
   } else missing.push('No lesson yet.');
   const mistakes = Number(shelf.mistakes?.open) || 0;
   if (mistakes) {

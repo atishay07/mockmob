@@ -10,19 +10,22 @@
 //             next step (Turn over, Next, See how it went, Keep going); Skip waits on an unanswered question
 //   End       its own layer: the chapter title and the done line, the kept pile, the lines, the keys (dueOffer included)
 // Data: POST /api/learn/runs (kind 'feed') or GET /api/learn/runs/:id (?run=), .../answer, .../rate {keep}, GET .../end,
-// POST /api/bookmarks (learn2/api.js). The run id goes into the URL after a start, so a reload resumes it.
+// POST /api/bookmarks (learn2/api.js). The run id goes into the URL after every start or resume (Continue, Keep going too),
+// without end=1, so a reload resumes it (R4 client-code#1); a start that a newer one overtook is ignored (client-code#10).
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { BookOpen, Bookmark, Check, ChevronUp, X } from 'lucide-react';
-import { WORDS } from '@/../data/learn/words.js';
+import { WORDS, chapterPlace } from '@/../data/learn/words.js';
 import MobiReact from '@/components/brand/MobiReact';
 import { cardFace } from '@/components/keycards/kinds';
 import { refreshHome } from '@/components/keycards/api';
 import { feedSlots } from '@/../data/learn/feed.js';
 import { answerItem, getRun, isQuestionSkipped, isRunClosed, isSessionUsed, keepItem, runEnd, saveQuestion, startRun } from '../api';
 import { useLearnLinks } from '../links';
+import { feedAddressParams, sameAddress } from '../run/address.mjs';
+import { isChemistry } from '../stage/sciText.mjs';
 import {
   Stage, Ticks, TopBar, Panel, MiniPile, KeptCount, CardStack, RailKey, ActionBar, PrevKey, StepKey, SkipKey, KeysList, buzz, flyTo, visible, seePro, still, watchMore, watchBelow, BelowChip, goToOptions,
 } from '../stage/Stage';
@@ -34,7 +37,7 @@ import { endHeadline, endNumbers, endProgress, reviseLabel } from '../stage/endM
 import { Sheet, StopSheet } from '../stage/Sheet';
 import { usePager } from '../stage/usePager';
 import { keyAction, scrollerThatCanMove } from '../stage/pagerModel.mjs';
-import { chapterRef, optionTexts, speakable, timeLeft } from '../stage/stageText.mjs';
+import { optionTexts, speakable, timeLeft } from '../stage/stageText.mjs';
 import { checkpointText, feedNumbers, secondsFrom, sheetRows, spliceReinsert, upNextText } from './feedModel.mjs';
 import './feed.css';
 
@@ -95,6 +98,8 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   const endTitleEl = useRef(null);
   const sent = useRef(new Set());
   const started = useRef(false);
+  // client-code#10: every start or resume takes a token; the answer for an older one is dropped.
+  const startToken = useRef(0);
 
   const run = load.run;
   const items = useMemo(() => list.filter((i) => i.type === 'card' || i.type === 'question'), [list]);
@@ -131,11 +136,14 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     } else setNote(null);
     if (!r.id) return;
     held.set(r.id, { run: r, list: all, states: all[0]?.type === 'card' ? { [all[0].id]: { seen: true } } : {}, active: 0, base: done, streak: 0, closed: false, furthest: 0 });
-    // The run's id in the URL, so a reload picks it up (BUILD-1101 1.3). No navigation: the history entry is replaced. The
-    // preview keys its view by ?run= (a new mount), so there the page's kept request key does the same job on a reload.
+    // The run's id in the URL, so a reload picks it up (BUILD-1101 1.3, R4 client-code#1): every start and resume, end=1 and
+    // the old run's id dropped. No navigation: the history entry is replaced. The preview keys its view by ?run= (a new mount),
+    // so there the page's kept request key does the same job on a reload.
     if (links.preview) return;
     try {
-      if (!window.location.search.includes(`run=${encodeURIComponent(r.id)}`) || fresh) window.history.replaceState(null, '', links.feed(r.chapter?.key || chapterKey, minutes, { runId: r.id }));
+      const to = feedAddressParams(r, { chapterKey, minutes });
+      const href = to ? links.feed(...to) : null;
+      if (href && (fresh || !sameAddress(`${window.location.pathname}${window.location.search}`, href))) window.history.replaceState(null, '', href);
     } catch { /* no history API */ }
   }, [links, chapterKey, minutes]);
 
@@ -152,14 +160,17 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   }, []);
 
   const begin = useCallback(async ({ fresh = false } = {}) => {
+    const token = ++startToken.current;
     setLoad((l) => ({ ...l, status: 'loading' }));
     setSlow(false);
     const t = setTimeout(() => setSlow(true), 8000);
     try {
       const r = runId && !fresh ? await getRun(runId) : await startRun({ chapterKey, minutes, kind: 'feed', leaveOut: ['lesson'], fresh });
+      if (token !== startToken.current) return;
       adopt(r, { fresh });
       if ((!r.items || !r.items.length) && Number(r.resumed?.done) > 0) { setActive(0); readEnd(r.id, 0); setLoad({ status: 'ready', run: r, onlyEnd: true }); }
     } catch (e) {
+      if (token !== startToken.current) return;
       if (isSessionUsed(e)) setLoad({ status: 'free', run: null, free: { line: e.data?.line, options: e.data?.options || [], resume: e.data?.resume || null } });
       else if (isRunClosed(e) && runId) { setLoad({ status: 'ready', run: { id: runId, chapter: { key: chapterKey }, items: [] }, onlyEnd: true }); readEnd(runId, 0); }
       else if (e.status === 404) setLoad({ status: 'notfound', run: null });
@@ -243,8 +254,9 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   useEffect(() => {
     const page = mode === 'items' ? trackRef.current?.querySelector('.st-page--q:not([inert])') : null;
     if (!page) { setOptBelow(false); return undefined; }
-    const bar = rootRef.current?.querySelector('.st-bar');
-    return watchBelow({ roots: [page], limits: [{ el: page, edge: 'bottom' }, { el: bar, edge: 'top' }], find: () => page.querySelector('.st-opt'), onChange: setOptBelow });
+    // R4 ui-correctness#5: measured against the page's own foot only (option A and the foot slide together), so a page the
+    // pager is still moving in never reads "below" when its options rest in view.
+    return watchBelow({ roots: [page], limits: [{ el: page, edge: 'bottom' }], find: () => page.querySelector('.st-opt'), onChange: setOptBelow, viewport: false });
   }, [active, mode, list, load.status]);
 
   // The end title takes focus when the end comes into view (the summary is read first).
@@ -336,21 +348,30 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   }, [mode, itemsDone, close]);
   // R3-SPEC L5: a stopped feed's "Continue · N min" picks the same run up where it stopped (the server's own run, by its id).
   const resumeFeed = useCallback(async (id) => {
+    if (again) return;
+    const token = ++startToken.current;
     held.delete(id);
     setAgain(true);
-    try { adopt(await getRun(id)); } catch (e) {
+    try {
+      const r = await getRun(id);
+      if (token === startToken.current) adopt(r);
+    } catch (e) {
+      if (token !== startToken.current) return;
       if (isRunClosed(e)) readEnd(id, dirty); else setLoad({ status: 'error', run: null });
-    } finally { setAgain(false); }
-  }, [adopt, readEnd, dirty]);
+    } finally { if (token === startToken.current) setAgain(false); }
+  }, [adopt, readEnd, dirty, again]);
   const again10 = useCallback(async () => {
+    if (again) return;
+    const token = ++startToken.current;
     setAgain(true);
     try {
       const r = await startRun({ chapterKey: key, minutes, kind: 'feed', leaveOut: ['lesson'], fresh: true });
-      adopt(r, { fresh: true });
+      if (token === startToken.current) adopt(r, { fresh: true });
     } catch (e) {
+      if (token !== startToken.current) return;
       if (isSessionUsed(e)) setLoad({ status: 'free', run: null, free: { line: e.data?.line, options: e.data?.options || [], resume: e.data?.resume || null } });
-    } finally { setAgain(false); }
-  }, [key, minutes, adopt]);
+    } finally { if (token === startToken.current) setAgain(false); }
+  }, [key, minutes, adopt, again]);
 
   // ------------------------------------------------------------ keys (A1 3.7)
   useEffect(() => {
@@ -396,7 +417,8 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
 
   // ------------------------------------------------------------ the frame
   const chapterHref = key ? links.chapter(key) : links.explore();
-  const book = chapterRef(run?.chapter);
+  // R4 ruling N: the rail names the chapter by its roadmap place ("Chapter 5 of 14"); no place, no label (never "Ch 2, Part 1").
+  const book = chapterPlace(run?.chapter?.place) || null;
   const s = load.status === 'ready' ? slotOf(active) : null;
   const pos = s?.type === 'item' ? base + s.n : s?.type === 'checkpoint' ? base + s.after : of;
   const doneCount = s?.type === 'item' ? base + s.n - 1 : s?.type === 'checkpoint' ? base + s.after : of;
@@ -543,7 +565,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   const bar = mode === 'items' ? (
     <ActionBar left={wide ? null : sideKey('bar')} right={wide ? null : chapterKeyEl('bar')} wide={wide}
       prev={<PrevKey onClick={() => go(active - 1)} disabled={active === 0} />}
-      extra={<>{below ? <BelowChip show onClick={() => goToOptions(trackRef.current?.querySelector('.st-page--q:not([inert]) .st-opt'))} /> : null}{sheet === 'keys' ? <KeysList onClose={() => setSheet(null)} /> : null}</>}>
+      extra={sheet === 'keys' ? <KeysList onClose={() => setSheet(null)} /> : null}>
       {step}
     </ActionBar>
   ) : null;
@@ -569,10 +591,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     // NEW mistakes-only chapter run), Free's "Quick recap · 1 min" and See Pro.
     const lead = d?.lead || null;
     const quietOpt = (d?.options || []).find((o) => o && o !== lead) || null;
-    const runHref = (r) => {
-      const href = links.run({ chapterKey: r.chapterKey || key, minutes: r.minutes, kind: r.kind, cardIds: r.cardIds || [], leaveOut: r.leaveOut || [] });
-      return r.fresh ? `${href}${href.includes('?') ? '&' : '?'}fresh=1` : href;
-    };
+    const runHref = (r) => links.run({ chapterKey: r.chapterKey || key, minutes: r.minutes, kind: r.kind, cardIds: r.cardIds || [], leaveOut: r.leaveOut || [], fresh: Boolean(r.fresh) });
     // What a key does, as data: { label, sub, href } for a link, { label, act: 'pro' | 'again' | 'resume', id } for a button.
     const specOf = (o, isMain) => {
       if (!o) return null;
@@ -599,7 +618,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
       : <EndKey onClick={(e) => onAct(mainSpec, e)} disabled={again && mainSpec.act !== 'pro'}>{again && mainSpec.act !== 'pro' ? 'Starting' : mainSpec.label}</EndKey>;
     const quiet = !quietSpec ? null : quietSpec.href
       ? <Link className="st-textkey" href={quietSpec.href}>{quietSpec.label}</Link>
-      : <button type="button" className="st-textkey" onClick={(e) => onAct(quietSpec, e)}>{quietSpec.label}</button>;
+      : <button type="button" className="st-textkey" onClick={(e) => onAct(quietSpec, e)} disabled={again && quietSpec.act !== 'pro'} aria-busy={(again && quietSpec.act !== 'pro') || undefined}>{quietSpec.label}</button>;
     const freeLine = lead?.line ? { line: lead.line } : null;
     endView = (
       <div className="st-end" data-pager-ignore={onlyEnd || undefined}>
@@ -652,6 +671,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   return (
     <Stage label={`${title || 'Chapter'} feed`} rootRef={rootRef} viewRef={viewRef} trackRef={trackRef} mode={mode} busy={again}
       panel={panel} top={top} ticks={ticks} rail={rail} bar={bar} end={endView} overlay={overlay} say={say} chip={chip}
+      below={below ? <BelowChip show place="stage" onClick={() => goToOptions(trackRef.current?.querySelector('.st-page--q:not([inert]) .st-opt'))} /> : null}
       feedLabel={`${title || 'Chapter'}, ${of} items`}>
       {slots.map((slot, i) => {
         const far = Math.abs(i - trackAt) > 2;
@@ -684,7 +704,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
           return (
             <article key={it.id} className="st-page st-page--card" {...common} aria-posinset={n} aria-setsize={of} aria-label={`Card ${n} of ${of}`} tabIndex={-1}>
               {cap}
-              <CardFace card={it.card} turned={Boolean(s2.turned)} onTurn={() => turn(it)} refEl={(el) => { cardEls.current[it.id] = el; }} stamp={stamp} extraKind={extra} />
+              <CardFace card={it.card} turned={Boolean(s2.turned)} onTurn={() => turn(it)} refEl={(el) => { cardEls.current[it.id] = el; }} stamp={stamp} extraKind={extra} sci={isChemistry(it.card, key)} />
             </article>
           );
         }
@@ -696,7 +716,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
             <QuestionView head={head} mistake={it.origin === 'mistake'} stem={it.question?.body || ''} options={it.question?.options || []}
               answer={s2.answer || null} onChoose={(k) => choose(it, k)} streak={streak} skipped={s2.skipped || null}
               locked={closed && !s2.answer ? CLOSED_LINE : null} error={s2.error || null}
-              onSeePro={(e) => seePro('keycards', e?.currentTarget, router.push)} />
+              onSeePro={(e) => seePro('keycards', e?.currentTarget, router.push)} sci={isChemistry(null, key)} />
           </article>
         );
       })}

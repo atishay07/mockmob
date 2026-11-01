@@ -3,16 +3,14 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  refLineOf, hasHistory, isFreePlan, leadLine, studentLineOf, mixLineOf, keyLabelOf, hookTier, mediaOf, opensQuestions, chapterNameOf, slugOf, readLength,
+  refLineOf, isCloze, isReadableHook, hasHistory, isFreePlan, leadLine, studentLineOf, mixLineOf, keyLabelOf, hookTier, mediaOf, opensQuestions, chapterNameOf, slugOf, readLength,
 } from './coverModel.js';
 
-test('ref line: the server line wins, else derived from part and ref, else the unit', () => {
-  assert.equal(refLineOf({ refLine: 'Part 1, Ch 2', ref: 'Ch 9' }), 'Part 1, Ch 2');
-  assert.equal(refLineOf({ ref: 'Ch 2', partTitle: 'Part 1, Partnership Accounts' }), 'Part 1, Ch 2');
-  assert.equal(refLineOf({ ref: 'Ch 4', partTitle: 'Business Studies Part 2' }), 'Part 2, Ch 4');
-  assert.equal(refLineOf({ ref: 'Ch 2', partTitle: 'Introductory Microeconomics' }), 'Microeconomics, Ch 2');
-  assert.equal(refLineOf({ ref: 'Ch 5', partTitle: 'Indian Economic Development' }), 'Indian Economic Development, Ch 5');
-  assert.equal(refLineOf({ ref: null, unitTitle: 'Verbal Ability' }), 'Verbal Ability');
+test('R4 ruling N: a cover is labelled by its roadmap place, "Chapter 5"; never the NCERT number, and no label without a place', () => {
+  assert.equal(refLineOf({ place: { n: 5, of: 14 }, ref: 'Ch 2', refLine: 'Part 1, Ch 2' }), 'Chapter 5');
+  assert.equal(refLineOf({ place: { n: 12, of: 14 }, partTitle: 'Part 2, Financial Statement Analysis' }), 'Chapter 12');
+  assert.equal(refLineOf({ ref: 'Ch 2', refLine: 'Part 1, Ch 2', partTitle: 'Part 1, Partnership Accounts' }), null, 'no place, no label (never "Ch N")');
+  assert.equal(refLineOf({ place: { n: 0, of: 14 } }), null);
   assert.equal(refLineOf({}), null);
 });
 
@@ -77,6 +75,22 @@ test('mix line and key: the picked length, short chapters, Free, resume and the 
 test('media: the opening card, a locked card never prints null, a questions-only chapter', () => {
   assert.deepEqual(mediaOf({ hook: { front: 'What is goodwill?' } }), { kind: 'card', text: 'What is goodwill?' });
   assert.deepEqual(mediaOf({ hook: { front: null, kind: 'definition', locked: true } }), { kind: 'locked', label: 'Definition' });
+  // R4 owner-eye#10: a cover's line is never a cloze (a fill-in-the-blank reads as a broken template), and never a long card.
+  const cloze = "Persons who have entered into partnership with one another are individually called '____' and collectively called '____'.";
+  assert.equal(isCloze(cloze), true);
+  assert.equal(isCloze('Name the 6 essential features of a partnership [...]'), true);
+  assert.equal(isCloze('What is the gaining ratio?'), false);
+  assert.equal(isCloze('Table 2.4 shows a 1_000 ratio'), false, 'one underscore is not a blank');
+  assert.equal(isReadableHook(cloze), false);
+  assert.equal(isReadableHook('x'.repeat(106)), false, 'longer than the display type holds');
+  assert.equal(isReadableHook('What is goodwill?'), true);
+  // the server's candidates (`hooks`, in feed order): the first short non-cloze front wins
+  assert.deepEqual(mediaOf({ hook: { front: cloze }, hooks: [{ front: cloze }, { front: 'What is the gaining ratio?' }, { front: 'What is goodwill?' }] }), { kind: 'card', text: 'What is the gaining ratio?' });
+  // only a cloze is left: the cover says what the feed holds, in plain words, never the unfinished sentence
+  assert.deepEqual(mediaOf({ hook: { front: cloze }, counts: { 10: { cards: 10, questions: 6, minutes: 10 } } }), { kind: 'cards', text: '10 Key cards', note: 'and 6 questions' });
+  assert.deepEqual(mediaOf({ hook: { front: cloze }, counts: { 10: { cards: 1, questions: 0, minutes: 10 } } }), { kind: 'cards', text: '1 Key card', note: 'one at a time' });
+  // each length's own first card is the line for that length
+  assert.deepEqual(mediaOf({ hook: { front: 'Ten?' }, counts: { 10: { cards: 4, questions: 1, minutes: 10, hook: { front: 'Ten?' } }, 5: { cards: 2, questions: 0, minutes: 5, hook: { front: 'Five?' } } } }, 5), { kind: 'card', text: 'Five?' });
   assert.deepEqual(mediaOf({ hook: null, counts: { 10: { cards: 0, questions: 8, minutes: 10 } } }), { kind: 'questions', text: '8 questions', note: 'No Key cards here yet.' });
   // A chapter that still has cards (kept or due, so none is served in a feed) says where they are, not that it has none.
   assert.deepEqual(mediaOf({ hook: null, due: 6, kept: 6, counts: { 10: { cards: 0, questions: 4, minutes: 10 } } }), { kind: 'questions', text: '4 questions', note: 'Your cards here are in Revise.' });

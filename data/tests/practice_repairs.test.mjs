@@ -77,7 +77,8 @@ test('Practice draws the line in the Your papers card under the setup, and its o
   // chapter as its preview; the separate row the Ask Mobi branch drew under the shelf is not drawn, so there are never two.
   assert.match(line, /<AskMobiLink context=\{practiceContext\(insights\)\}/);
   assert.match(line, /\{ENTRY_LABELS\.practice\}/);
-  assert.match(line, /practicePreview\(insights\)/);
+  // R4 ui-correctness#2: the preview names the chapter by its syllabus title, counts first (weakestLine in repairsLine.mjs; practicePreview keeps the stored name for Ask Mobi's own context)
+  assert.match(line, /weakestLine\(insights, chapterTitle\)/);
   assert.doesNotMatch(line, /openAskMobi\(/, 'the entry is the shared AskMobiLink, not a second hand-rolled opener');
   assert.doesNotMatch(page, /PracticeAskRow/, 'no second Ask Mobi row on Practice');
   assert.equal(existsSync(new URL('../../src/components/ai/PracticeAskRow.jsx', import.meta.url)), false);

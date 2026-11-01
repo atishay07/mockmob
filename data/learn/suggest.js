@@ -122,7 +122,8 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
       return {
         kind: 'fix', chapterKey: c.key, title: `${plural(c.mistakes, 'open mistake')} in ${c.title}`, headline: plural(c.mistakes, 'open mistake'), chapterTitle: c.title,
         evidence,
-        action: { label: fixMistakes(c.mistakes, m), run: mixRun(c, m, ['questions', 'cards', 'lesson']) },
+        // `fresh` (server-security#3): a NEW mistakes-only run, never a resume of a stopped run of the chapter.
+        action: { label: fixMistakes(c.mistakes, m), run: { ...mixRun(c, m, ['questions', 'cards', 'lesson']), fresh: true } },
       };
     },
     next() {
@@ -232,7 +233,7 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
  *   kind          the session's kind: 'feed' keeps a feed a feed; anything else plays a chapter run ('mix')
  *   missed        cards whose first rating was Missed      fresh   new cards left in the chapter
  *   here          null | { cards, questions }: the real dry run of the chapter (the key's evidence, R6.2)
- *   next          null | { key, title } next chapter in book order
+ *   next          null | { key, title, place? } next chapter in book order (place: R4 ruling N, carried onto the option)
  *   mistakes      null | { count, seconds? } this chapter's open mistakes ("Fix 3 open mistakes · 3 min", a NEW mistakes-only run)
  *   mustKnow      the chapter's Must-know count (Quick recap)      recapSeconds   its recap's own seconds (optional)
  *   freeSessionUsed  Free with today's session used (ruling F): nothing that serves questions
@@ -241,13 +242,16 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
  *                 "Next chapter · 10 min". Unknown: the next chapter leads unless 3 or more cards were missed.
  *   stopped       null | { runId, kind, minutesLeft }: a run stopped part way (C2-1). The main key is "Continue · N min" and
  *                 resumes that run by its id; the quiet link is the fix key (a new run, `fresh`), never a resume.
+ *   isPro         R4 server-security#1: on Free, a stopped counted run (a mix or a feed) is the day's pending session holder even
+ *                 before its first answer claims it, so its end offers no fix key: the fix run's first answer would claim the day
+ *                 and the Continue key would then be refused.
  * R2 ruling 5: one main key and at most one quiet link, so `options` holds one option at most: this chapter's open mistakes
  * when there are any, else the other of Keep going and Next chapter (other keys of the subject live on Learn home).
  * Every option carries `kind` ('continue' | 'here' | 'next' | 'fix' | 'recap' | 'pro'), `label` (the key's
  * exact words), `title` (the same words, for older readers), `minutes` (null when not a timed run), and `run` or `href`.
  * A Free end after the day's session puts FREE_END_LINE on the lead as `line`.
  */
-export function endOptions({ subject = null, chapter, minutes = 10, kind = 'mix', missed = 0, here: hereCounts = null, next = null, mistakes = null, mustKnow = 0, recapSeconds = null, freeSessionUsed = false, hadCards = true, unseen = null, stopped = null }) {
+export function endOptions({ subject = null, chapter, minutes = 10, kind = 'mix', missed = 0, here: hereCounts = null, next = null, mistakes = null, mustKnow = 0, recapSeconds = null, freeSessionUsed = false, hadCards = true, unseen = null, stopped = null, isPro = true }) {
   const runKind = kind === 'feed' ? 'feed' : 'mix';
   const m10 = wholeMinutes(minutes);
   const recap = mustKnow > 0 ? (() => {
@@ -268,7 +272,8 @@ export function endOptions({ subject = null, chapter, minutes = 10, kind = 'mix'
     const m = wholeMinutes(stopped.minutesLeft);
     const label = withMinutes(WORDS.continue, m);
     const lead = { kind: 'continue', title: label, minutes: m, label, evidence: null, run: { chapterKey: chapter.key, minutes: m, leaveOut: [], kind: stopped.kind || runKind, resume: stopped.runId } };
-    return { lead, options: fix && !freeSessionUsed ? [fix] : [] };
+    const pending = !isPro && isCounted(stopped.kind || runKind);
+    return { lead, options: fix && !freeSessionUsed && !pending ? [fix] : [] };
   }
   // Free after the day's session (ruling F): one line, then Quick recap when the session had cards, else See Pro; See Pro quiet.
   if (freeSessionUsed) {
@@ -290,7 +295,7 @@ export function endOptions({ subject = null, chapter, minutes = 10, kind = 'mix'
   };
   const nextLabel = withMinutes(WORDS.nextChapter, m10);
   const nextOpt = next ? {
-    kind: 'next', title: nextLabel, minutes: m10, label: nextLabel, chapterTitle: next.title, evidence: next.title,
+    kind: 'next', title: nextLabel, minutes: m10, label: nextLabel, chapterTitle: next.title, evidence: next.title, ...(next.place ? { place: next.place } : {}),
     run: { chapterKey: next.key, minutes: m10, leaveOut: [], kind: runKind },
   } : null;
   // R2 ruling 3 with W: a chapter is finished (every card seen once) before the next one leads.

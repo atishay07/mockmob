@@ -21,7 +21,7 @@ function PickerSheet({ subjects, current, onPick, onClose }) {
   useEffect(() => {
     const el = ref.current;
     const opener = document.activeElement;
-    const first = el?.querySelector('[aria-checked="true"]') || el?.querySelector(FOCUSABLE) || el;
+    const first = el?.querySelector('[aria-pressed="true"]') || el?.querySelector(FOCUSABLE) || el;
     try { first?.focus({ preventScroll: true }); } catch { /* an old browser */ }
     const onKey = (e) => {
       if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); onClose(); return; }
@@ -49,10 +49,10 @@ function PickerSheet({ subjects, current, onPick, onClose }) {
           <h2 id={title}>Choose a subject</h2>
           <button type="button" className="lh-psheet__x" aria-label="Close" onClick={onClose}><X size={20} strokeWidth={2.2} aria-hidden="true" /></button>
         </div>
-        <ul className="lh-psheet__list" role="radiogroup" aria-labelledby={title}>
+        <ul className="lh-psheet__list" aria-labelledby={title}>
           {subjects.map((s) => (
             <li key={s.id}>
-              <button type="button" role="radio" aria-checked={s.id === current} className="lh-psheet__row" aria-label={displayTitle(s.name)} onClick={() => { onPick(s.id); onClose(); }}>
+              <button type="button" aria-pressed={s.id === current} className="lh-psheet__row" aria-label={displayTitle(s.name)} onClick={() => { onPick(s.id); onClose(); }}>
                 <SubjectObject id={s.id} size={40} className="lh-psheet__obj" />
                 <span className="lh-psheet__name">{shortName(s.name)}</span>
                 {s.id === current ? <Check className="lh-psheet__check" size={20} strokeWidth={2.4} aria-hidden="true" /> : null}

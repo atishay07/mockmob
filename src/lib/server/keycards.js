@@ -172,9 +172,10 @@ export function createKeycards(deps) {
       const card = pub.byId.get(s.card_id);
       if (!card) return false;
       if (taste && !taste.has(card.id)) return false;
+      const chapter = syllabus.chapterByKey(card.chapterKey);
+      if (chapter?.retired) return false;
       const option = options?.get(card.subject) || null;
       if (!option) return true;
-      const chapter = syllabus.chapterByKey(card.chapterKey);
       return !chapter || syllabus.sectionAllowed(card.subject, chapter.section, option);
     });
   }

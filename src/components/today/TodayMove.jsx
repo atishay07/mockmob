@@ -103,7 +103,7 @@ function SomethingElse({ open, onClose, items, when = 'tonight' }) {
 // The swap coach (release 10, owner D90: a first-time student "won't know what cards actually do"; Tinder's first run shows the gesture
 // on one card). Until the student has swapped once, at most 3 visits, 1.2 s after the card lands ONE cell is coached: the Suggested
 // cell, else the right one. A ring inset 6 px from its edges draws in and its title lifts 8 px and springs back, twice; for that
-// visit the line above says what a tap does ("Tap one to swap it in as your move"). No outline on the cells, so nothing reads as a box
+// visit the line above invites the tap ("Or start with one of these", R4). No outline on the cells, so nothing reads as a box
 // cut off inside the card.
 export const SWAP_HINT_KEY = 'mm:today-swap-hint:v1';
 const hintVisits = () => { try { const v = window.localStorage.getItem(SWAP_HINT_KEY); return v === 'done' ? Infinity : Number(v) || 0; } catch { return Infinity; } };
@@ -273,7 +273,7 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
       </div>
       {choices.length ? (
         <div className="tm__or" role="group" aria-labelledby="tm-or-h" data-hint={hint || undefined}>
-          <p className="tm__or-h" id="tm-or-h" key={coach ? 'coach' : 'plain'}>{coach ? 'Tap one to swap it in as your move' : 'Or make one of these your move'}</p>
+          <p className="tm__or-h" id="tm-or-h" key={coach ? 'coach' : 'plain'}>{coach ? 'Or start with one of these' : 'Or make one of these your move'}</p>
           {choices.map((c, i) => (
             <button
               key={c.id} type="button" className="tm__choice" data-arrived={c.arrived || undefined} data-coach={i === coached || undefined}

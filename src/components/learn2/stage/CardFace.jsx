@@ -14,11 +14,13 @@
 //   - The card's content stays readable to a screen reader (no role=button over it, A8 F1); a transparent button over the
 //     front turns it, and the action bar's "Turn over" does the same. The turn is 340 ms; reduced motion cross-fades.
 //   - stamp: null | { text, bad } for the line under the card ("In Revise" with a check, once the server has it).
+//   - sci: a chemistry card draws its front and back with real subscripts and superscripts (Sci.jsx; display only, R4).
 import { useEffect, useId, useRef, useState } from 'react';
 import { BookOpen, Check } from 'lucide-react';
 import { CardSource, NcertText } from '@/components/keycards/KeyCard';
 import { cardFace, splitBlanks, sourceLine } from '@/components/keycards/kinds';
 import { backSize, frontSize, speakable } from './stageText.mjs';
+import { SciFront, SciNcert } from './Sci';
 
 function Front({ text }) {
   return splitBlanks(text).map((p, i) => (p.blank
@@ -42,7 +44,8 @@ function useMore(ref, on) {
   return on && more;
 }
 
-export function CardFace({ card, turned = false, onTurn, refEl, stamp = null, extraKind = null }) {
+export function CardFace({ card, turned = false, onTurn, refEl, stamp = null, extraKind = null, sci = false }) {
+  const FrontText = sci ? SciFront : Front;
   const { label, front } = cardFace(card);
   const source = sourceLine(card?.source);
   const backRef = useRef(null);
@@ -61,7 +64,7 @@ export function CardFace({ card, turned = false, onTurn, refEl, stamp = null, ex
       <div className="st-card" data-turned={turned || undefined} ref={refEl}>
         <div className="st-face st-face--front" ref={frontRef} aria-hidden={turned || undefined} inert={turned || undefined} data-more={frontMore || undefined}>
           {kind}
-          <h2 className="st-front" data-size={frontSize(front)} id={`${id}-f`}><span><Front text={front} /></span></h2>
+          <h2 className="st-front" data-size={frontSize(front)} id={`${id}-f`}><span><FrontText text={front} /></span></h2>
           {source ? <p className="st-foot"><BookOpen size={14} strokeWidth={2} aria-hidden="true" />{source}</p> : null}
           <span className="st-fade" aria-hidden="true" />
           <button type="button" className="st-card__hit" onClick={onTurn} aria-label={`Turn over: ${speakable(front)}`} aria-describedby={`${id}-f`} />
@@ -71,9 +74,9 @@ export function CardFace({ card, turned = false, onTurn, refEl, stamp = null, ex
           onClick={(e) => { if (e.target.closest('a, button')) return; if (window.getSelection?.()?.toString()) return; onTurn?.(); }}>
           {kind}
           <div className="st-backblock">
-            <p className="st-asked">{speakable(front).length ? <Front text={front} /> : null}</p>
+            <p className="st-asked">{speakable(front).length ? <FrontText text={front} /> : null}</p>
             <div className="st-back" data-size={backSize(card?.back)}>
-              <NcertText card={card} />
+              {sci ? <SciNcert card={card} /> : <NcertText card={card} />}
               <CardSource card={card} />
             </div>
           </div>

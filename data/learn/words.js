@@ -51,3 +51,16 @@ export function reviseQuestions(n) {
 export function pileLabel(n) {
   return `${count(n)} to revise`;
 }
+
+/** "Chapter 5 of 14": a chapter's place among the student's playable chapters in roadmap order (R4 ruling N). */
+export function chapterPlace(place) {
+  const n = count(place?.n);
+  const of = count(place?.of);
+  return n && of ? `Chapter ${n} of ${of}` : '';
+}
+
+/** "Chapter 5": the short form for tight spots (Explore covers). */
+export function chapterShort(place) {
+  const n = count(place?.n);
+  return n ? `Chapter ${n}` : '';
+}

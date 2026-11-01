@@ -67,3 +67,20 @@ export function pickSingles(questions, { subject = '' } = {}) {
   }
   return [...first, ...eligible.filter((q) => !first.includes(q))];
 }
+
+const idOf = (q) => (q?.questions ?? q)?.id;
+
+/**
+ * The singles in a stable order (R4 client-code#3): the question a student is looking at never moves, and a page that arrives
+ * later only appends. `previous` is the list shown so far (or its ids). The questions already in it keep their places, in that order;
+ * every other eligible question follows in `pickSingles` order, so the first fill still takes its 3 from different chapters
+ * where the page allows. Pure; the page keeps the result and passes it back with the next page.
+ */
+export function stableSingles(questions, previous = [], { subject = '' } = {}) {
+  const picked = pickSingles(questions, { subject });
+  const byId = new Map(picked.map((q) => [String(idOf(q)), q]));
+  const prior = (Array.isArray(previous) ? previous : []).map((q) => String(typeof q === 'object' && q ? idOf(q) : q));
+  const kept = prior.filter((id, i) => byId.has(id) && prior.indexOf(id) === i).map((id) => byId.get(id));
+  const keptIds = new Set(kept.map((q) => String(idOf(q))));
+  return [...kept, ...picked.filter((q) => !keptIds.has(String(idOf(q))))];
+}

@@ -12,6 +12,8 @@
 // the line you needed in place, the explanation folds behind "Why C". Every server error kind is drawn (A8 F8): a changed or
 // held question is skipped with one line, an ended or expired run goes to its end, Free's second-tab 402 ends the run calmly.
 // Reload or resume: ?run=<id> (getRun) or ?resume=<id>; the ticks and the counter continue from the resumed point (A8 F11).
+// A run started or resumed in place (an end key, Continue, Try again) writes its own address, ?run=<id> without end=1 or fresh,
+// so a reload or Back lands in that run (R4 client-code#1); a start that a newer one overtook is ignored (client-code#10).
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
@@ -21,16 +23,18 @@ import { ReportForm } from '@/components/keycards/KeyCard';
 import { RATINGS } from '@/components/keycards/kinds';
 import { openUpgrade } from '@/components/pro/proNudgeStore';
 import { isMotionReduced } from '@/lib/motion';
+import { useAuth } from '@/components/AuthProvider';
 import { answerItem, getRun, isQuestionSkipped, isRunClosed, isSessionUsed, rateItem, runEnd, saveQuestion, startRun } from '../api';
-import { isChapterMissing, partShort } from '../chapter/chapterModel.mjs';
+import { isChapterMissing } from '../chapter/chapterModel.mjs';
 import { useLearnLinks } from '../links';
+import { runAddressParams, sameAddress } from './address.mjs';
 import RunEnd from './RunEnd';
-import { BelowChip, EndKey, EndScreen, StopSheet, goToOptions, scrollToStemEnd, watchBelow, watchMore } from '../stage';
+import { BelowChip, EndKey, EndScreen, StopSheet, goToOptions, isChemistry, scrollToVerdict, watchBelow, watchMore } from '../stage';
 import FreeUsed from '../stage/FreeUsed';
 import { CardItem, LessonItem, QuestionItem, SaveKey, SessionPanel, TopBar } from './RunParts';
 import { FLIGHT, minutesLeftLine, upNextLine } from './runMath';
 import { answerTally, itemsFinished, placeReinsert, positionWords, runPiles } from './runView.mjs';
-import { WORDS } from '../../../../data/learn/words.js';
+import { WORDS, chapterPlace } from '../../../../data/learn/words.js';
 import '@/components/keycards/keycards.css';
 import './run.css';
 
@@ -42,14 +46,17 @@ const SKIP_LINES = {
   question_held: 'This question is in a paper that is still open, so it was skipped.',
 };
 
-// A11: each first-run coach line shows once, then never again (this browser; nothing that must persist is kept here).
-const COACH_KEY = 'mm:learn2:coach:v1';
-function readCoach() { try { return JSON.parse(localStorage.getItem(COACH_KEY) || '{}') || {}; } catch { return {}; } }
-function markCoach(name) { try { const seen = readCoach(); if (!seen[name]) localStorage.setItem(COACH_KEY, JSON.stringify({ ...seen, [name]: 1 })); } catch { /* shown again next time */ } }
-function useCoach(name, wanted) {
-  const [seen] = useState(() => (typeof window === 'undefined' ? {} : readCoach()));
+// A11: each first-run coach line shows once per student, then never again (R4 owner-eye#15: per student, not per run; this
+// browser, keyed by the student's id; nothing that must persist is kept here).
+export const coachKeyOf = (userId) => `mm:learn2:coach:v2:${userId || 'anon'}`;
+function readCoach(key) { try { return JSON.parse(localStorage.getItem(key) || '{}') || {}; } catch { return {}; } }
+function markCoach(key, name) { try { const seen = readCoach(key); if (!seen[name]) localStorage.setItem(key, JSON.stringify({ ...seen, [name]: 1 })); } catch { /* shown again next time */ } }
+function useCoach(key, name, wanted) {
+  const [seen, setSeen] = useState(() => (typeof window === 'undefined' ? {} : readCoach(key)));
+  const [readFor, setReadFor] = useState(key);
+  if (readFor !== key) { setReadFor(key); setSeen(typeof window === 'undefined' ? {} : readCoach(key)); }
   const show = Boolean(wanted && !seen[name]);
-  useEffect(() => { if (show) markCoach(name); }, [show, name]);
+  useEffect(() => { if (show) markCoach(key, name); }, [show, key, name]);
   return show;
 }
 
@@ -166,6 +173,8 @@ function Skeleton() {
 function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds = null, runId = null, resume = null, end: openEnd = false }) {
   useBodyLock();
   const links = useLearnLinks();
+  const { user } = useAuth() || {};
+  const coachKey = coachKeyOf(user?.id);
   const router = useRouter();
   const search = useSearchParams();
   const fresh = search?.get('fresh') === '1';
@@ -208,9 +217,25 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const nextKey = useRef(null);
   const pileNow = useRef(0);
   const answering = useRef(false);
+  // client-code#10: each begin() takes a token; a response for an older one is dropped. `starting` holds the end keys while
+  // a start is on its way, so a second tap never starts a second run (on Free that would orphan a counted run).
+  const beginToken = useRef(0);
+  const starting = useRef(false);
+  // client-code#11: the first card into Revise is said through this live region, with the next item's words.
+  const sayFirst = useRef('');
 
   const isRecap = run?.kind === 'recap' || params.kind === 'recap';
   const closeHref = links.chapter(params.chapterKey || run?.chapter?.key, params.minutes);
+
+  // R4 client-code#1: the run the server gave is the address, ?run=<id> (no end=1, no fresh), replaced in place (no navigation,
+  // no remount: the page keys the player by its first address). The preview keys its view by ?run=, so it keeps its own.
+  const writeAddress = useCallback((data, p) => {
+    if (links.preview || typeof window === 'undefined') return;
+    const to = runAddressParams(data, p);
+    if (!to) return;
+    const href = links.run(to);
+    try { if (!sameAddress(`${window.location.pathname}${window.location.search}`, href)) window.history.replaceState(null, '', href); } catch { /* no history API */ }
+  }, [links]);
 
   const loadEnd = useCallback(async (id, { stop = false } = {}) => {
     setPhase('end');
@@ -220,12 +245,15 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   }, []);
 
   const begin = useCallback(async (p) => {
+    const token = ++beginToken.current;
+    const current = () => token === beginToken.current;
     setLoad({ status: 'loading', error: null });
     setRun(null); setItems([]); setAt(0); setOffset(0); setPhase('play'); setAnswers({}); setTurned({}); setLookLine(null); setLookSaid(false);
     setError(null); setNote(null); setBusy(null); setStoppedAt(null); setSheet(false); setActedId(null);
     setTally({ missed: 0, got: 0, easy: 0, right: 0, wrong: 0 }); setEnd({ status: 'idle', data: null }); setRound(0);
     // An end screen asked for by its link (?run=<id>&end=1): read it; the run is the server's.
     if (p.openEnd && p.runId) {
+      starting.current = false;
       setRun({ id: p.runId, kind: p.kind, chapter: { key: p.chapterKey } });
       setLoad({ status: 'ready', error: null });
       loadEnd(p.runId);
@@ -235,6 +263,9 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
       const data = p.runId
         ? await getRun(p.runId)
         : await startRun({ chapterKey: p.chapterKey, cardIds: p.cardIds || undefined, minutes: p.minutes, leaveOut: p.leaveOut, kind: p.kind, resume: p.resume || undefined, fresh: p.fresh || undefined, addNext: p.addNext || undefined });
+      if (!current()) return;
+      starting.current = false;
+      writeAddress(data, p);
       const list = Array.isArray(data?.items) ? data.items : [];
       setRun(data);
       setItems(list);
@@ -246,6 +277,8 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
       // A resumed run with nothing left is already done: its end.
       if (!list.length && data?.resumed && data?.id) loadEnd(data.id);
     } catch (e) {
+      if (!current()) return;
+      starting.current = false;
       if (p.runId && isRunClosed(e)) {
         setRun({ id: p.runId, kind: p.kind, chapter: { key: p.chapterKey } });
         setLoad({ status: 'ready', error: null });
@@ -254,7 +287,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
       }
       setLoad({ status: 'error', error: e });
     }
-  }, [loadEnd]);
+  }, [loadEnd, writeAddress]);
   // eslint-disable-next-line react-hooks/exhaustive-deps -- the run is read once per set of params
   useEffect(() => { begin(params); }, [params]);
 
@@ -268,19 +301,23 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const doneCount = offset + finished;
   const look = Boolean(item?.type === 'card' && !isRecap && (item.look || (lookLine && lookSaid)));
   const chapter = run?.chapter || {};
-  const refLine = [partShort(chapter.partTitle), chapter.ref].filter(Boolean).join(', ') || null;
+  // R4 ruling N: the rail names the chapter by its roadmap place ("Chapter 5 of 14"); no place, no label (never "Part 1, Ch 2").
+  const placeLine = chapterPlace(chapter.place) || null;
+  const sci = isChemistry(null, chapter.key || params.chapterKey);
 
   // A11: the coach lines belong to the run's first card and its first question only.
   const firstCard = items.findIndex((x) => x.type === 'card' && !x.look);
   const firstQuestion = items.findIndex((x) => x.type === 'question');
   const onFirstCard = phase === 'play' && !isRecap && offset === 0 && at === firstCard;
-  const coachFront = useCoach('front2', onFirstCard && !isTurned);
+  const coachFront = useCoach(coachKey, 'front2', onFirstCard && !isTurned);
   // "Got it: it comes back when it's due." on the first two cards of the first run, then never (R2 screens 20).
   const cardPlace = items.slice(0, at + 1).filter((x) => x.type === 'card' && !x.look).length;
   const onEarlyCard = phase === 'play' && !isRecap && offset === 0 && item?.type === 'card' && !item.look && cardPlace <= 2;
-  const coachRate = useCoach(cardPlace === 2 ? 'rate2b' : 'rate2', onEarlyCard && isTurned);
-  const coachPick = useCoach('pick', phase === 'play' && offset === 0 && at === firstQuestion && !answered);
-  const coachRecap = useCoach('recap', phase === 'play' && isRecap);
+  const coachRate = useCoach(coachKey, cardPlace === 2 ? 'rate2b' : 'rate2', onEarlyCard && isTurned);
+  // The question hint: once per student, on the first question they ever see (a run that serves an old mistake is not a first).
+  const hasHistory = items.some((x) => x.origin === 'mistake');
+  const coachPick = useCoach(coachKey, 'pick', phase === 'play' && !hasHistory && at === firstQuestion && !answered);
+  const coachRecap = useCoach(coachKey, 'recap', phase === 'play' && isRecap);
 
   const turn = useCallback(() => {
     if (!item || item.type !== 'card' || flying.current || turned[item.id]) return;
@@ -333,7 +370,9 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
       if (el) { el.tabIndex = -1; el.focus({ preventScroll: true }); }
       document.querySelector('.lr-body')?.scrollTo?.({ top: 0 });
     });
-    setAnnounce(positionWords(item, offset + at + 1, offset + items.length));
+    const first = sayFirst.current;
+    sayFirst.current = '';
+    setAnnounce(`${first}${positionWords(item, offset + at + 1, offset + items.length)}`);
     return () => cancelAnimationFrame(raf);
   }, [at, phase, item?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -345,8 +384,8 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   useEffect(() => {
     if (!answerState?.result || answerState.result.correct) return undefined;
     const t = setTimeout(() => {
-      // R2 screens 6: the stem's last line stays in view (56 px under the top), with the pick, the verdict and the line under it.
-      scrollToStemEnd(document.querySelector('.lr-q .lr-stemwrap'), isMotionReduced() ? 'auto' : 'smooth');
+      // R4 ui-correctness#7: only as far as the verdict and the line you needed; the head line and the stem's first line stay.
+      scrollToVerdict(document.querySelector('.lr-q'), isMotionReduced() ? 'auto' : 'smooth', document.querySelector('.lr-bar'));
     }, 300);
     return () => clearTimeout(t);
   }, [answerState?.result]);
@@ -400,6 +439,8 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
     if (res.look) setLookSaid(true);
     reinsert(res.reinsert, item);
     showStamp(res.stamp);
+    // client-code#11: the first card into Revise is said with the next item's words (the tip is only seen on desktop).
+    if (pileNow.current === 0 && Number(res.revisePile?.count) > 0) sayFirst.current = `${WORDS.inRevise}. `;
     // A rating the server could not count (Free's 11th) finishes the card as a look: it drops away, no flight.
     const flight = launch(cardRef.current, flightTarget(), res.look ? 'missed' : kindOf);
     const nextCount = Number(res.revisePile?.count);
@@ -560,8 +601,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
       : stamp ? { text: stamp.text, stamp: true, key: stamp.n }
         : coachFront && item?.type === 'card' && !isTurned ? { text: WORDS.turnCue, cue: true }
           : coachRate && item?.type === 'card' && isTurned && !look ? { text: 'Got it: it comes back when it\u2019s due.' }
-            : coachPick && item?.type === 'question' && !answered ? { text: WORDS.pickHint }
-              : coachRecap ? { text: 'Answers are showing. Nothing is scheduled.' }
+            : coachRecap ? { text: 'Answers are showing. Nothing is scheduled.' }
                 : look && isTurned && lookLine && item?.look ? { text: lookLine } : null;
 
   const live = <p className="sr-only" aria-live="polite" aria-atomic="true">{announce}</p>;
@@ -614,13 +654,18 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   if (phase === 'end') {
     return frame(
       <div className="lr-body lr-body--end">
-        <RunEnd state={end} tally={tally} kind={run.kind} chapter={chapter} refLine={refLine} closeHref={closeHref} links={links}
+        <RunEnd state={end} tally={tally} kind={run.kind} chapter={chapter} closeHref={closeHref} links={links}
           stoppedAt={stoppedAt} total={total} onRetry={() => loadEnd(run.id, { stop: stoppedAt !== null })}
-          onStart={(r) => setParams({
-            // R3-SPEC L5: Continue resumes the stopped run by its id; every other key starts a new run (`fresh`).
-            chapterKey: r.chapterKey || params.chapterKey, minutes: r.minutes || 10, kind: r.kind || 'mix', leaveOut: r.leaveOut || [],
-            cardIds: r.cardIds?.length ? r.cardIds : null, runId: r.resume || null, resume: null, fresh: Boolean(r.fresh), addNext: false, openEnd: false,
-          })} />
+          onStart={(r) => {
+            // client-code#10: one start at a time; the end gives way to the loading frame at once.
+            if (starting.current) return;
+            starting.current = true;
+            setParams({
+              // R3-SPEC L5: Continue resumes the stopped run by its id; every other key starts a new run (`fresh`).
+              chapterKey: r.chapterKey || params.chapterKey, minutes: r.minutes || 10, kind: r.kind || 'mix', leaveOut: r.leaveOut || [],
+              cardIds: r.cardIds?.length ? r.cardIds : null, runId: r.resume || null, resume: null, fresh: Boolean(r.fresh), addNext: false, openEnd: false,
+            });
+          }} />
       </div>,
     );
   }
@@ -631,7 +676,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
       <div className="lr-body lr-body--end">
         <EndScreen close={<Link href={closeHref} className="lr-close lr-close--end" aria-label="Close"><X size={22} strokeWidth={2.2} aria-hidden="true" /><span className="lr-close__word">Close</span></Link>}
           chapter={chapter.title || null} headline={`That was all ${ids.length} Must-know ${ids.length === 1 ? 'line' : 'lines'}`} mobi="nod"
-          main={<EndKey onClick={() => setParams({ chapterKey: params.chapterKey || chapter.key, cardIds: ids, minutes: Math.max(5, Math.ceil((ids.length * 15 * 1.1) / 60)), leaveOut: [], kind: 'cards' })}>{`Study these ${ids.length}`}</EndKey>}
+          main={<EndKey onClick={() => { if (starting.current) return; starting.current = true; setParams({ chapterKey: params.chapterKey || chapter.key, cardIds: ids, minutes: Math.max(5, Math.ceil((ids.length * 15 * 1.1) / 60)), leaveOut: [], kind: 'cards' }); }}>{`Study these ${ids.length}`}</EndKey>}
           quiet={<button type="button" className="lr-textkey" onClick={() => { setAt(0); setPhase('play'); }}>Quick recap again</button>} />
       </div>,
     );
@@ -720,7 +765,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
         pileRef={topPileRef} posRef={topPosRef} closeHref={closeHref} onClose={askStop} showPile={!isRecap} />
       <div className="lr-body">
         <div className="lr-frame" data-type={item.type}>
-          <SessionPanel chapter={chapter.title} refLine={refLine} position={position} total={total} left={left} upNext={upNext} piles={piles}
+          <SessionPanel chapter={chapter.title} placeLine={placeLine} position={position} total={total} left={left} upNext={upNext} piles={piles}
             pile={pile} pop={pop} pileRef={panelPileRef} stamp={stamp} tally={answerT} recap={isRecap}
             mustKnow={isRecap ? `${items.length} Must-know ${items.length === 1 ? 'line' : 'lines'}` : null}
             onStop={(e) => { if (!askStop(e)) router.push(closeHref); }} />
@@ -728,9 +773,10 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
             <div className="lr-area" data-type={item.type}>
               <div key={item.id} data-id={item.id} className="lr-enter" style={recapCard && swipe.dx ? { transform: `translateX(${swipe.dx}px)`, transition: 'none' } : undefined} {...(recapCard ? swipe.handlers : {})}>
                 {item.type === 'card' ? (
-                  <CardItem item={item} turned={isTurned} recap={isRecap} still={isRecap} cardRef={cardRef} onTurn={turn} onReport={() => setReporting(item.id)} />
+                  <CardItem item={item} turned={isTurned} recap={isRecap} still={isRecap} cardRef={cardRef} onTurn={turn} onReport={() => setReporting(item.id)} sci={sci} />
                 ) : item.type === 'question' ? (
                   <QuestionItem item={item} state={answerState} streak={answerT.streak} cardRef={cardRef} onPick={pick} place={`${position} of ${total}`}
+                    hint={coachPick && !answered ? WORDS.pickHint : null} sci={sci}
                     onSeePro={(e) => openUpgrade({ trigger: 'keycards', opener: e?.currentTarget })} />
                 ) : (
                   <LessonItem item={item} cardRef={cardRef} />
