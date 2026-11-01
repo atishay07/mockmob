@@ -39,6 +39,16 @@
     "sha256": "02bf4d1e612b3da18c3d9b44ee87c0b1bfaf69a78442e75549fac76251fb2ccb",
     "cards": 1418
   },
+  "mathematics": {
+    "version": 1,
+    "sha256": "e283b2c38a638feb32163954896157473eb17e31d1c773f90a97ebe8b1fe6387",
+    "cards": 260
+  },
+  "physics": {
+    "version": 1,
+    "sha256": "baefbf0c9020b4c536e7ba023b9e0daf83a6a488fcf78a98e0122f3f220ae5ac",
+    "cards": 932
+  },
   "political_science": {
     "version": 5,
     "sha256": "389d8a2b5e492f08411ea2693a0a9ec93594350fa8b9e0840b6d78a65ef33ac9",

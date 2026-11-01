@@ -1,0 +1,275 @@
+{
+  "subject": "physics",
+  "chapters": {
+    "physics.alternating-current": {
+      "published": 56,
+      "quarantined": 18,
+      "byKind": {
+        "definition": 9,
+        "fact": 22,
+        "key_line": 18,
+        "example": 3,
+        "term": 2,
+        "list": 1,
+        "difference": 1
+      },
+      "byImportance": {
+        "must": 12,
+        "good": 44
+      },
+      "coverage_note": null,
+      "mustShare": 0.21,
+      "belowMinimum": false
+    },
+    "physics.atoms": {
+      "published": 72,
+      "quarantined": 21,
+      "byKind": {
+        "fact": 56,
+        "definition": 13,
+        "key_line": 1,
+        "list": 1,
+        "difference": 1
+      },
+      "byImportance": {
+        "must": 12,
+        "good": 60
+      },
+      "coverage_note": null,
+      "mustShare": 0.17,
+      "belowMinimum": false
+    },
+    "physics.current-electricity": {
+      "published": 67,
+      "quarantined": 23,
+      "byKind": {
+        "definition": 11,
+        "fact": 19,
+        "key_line": 31,
+        "types": 3,
+        "formula": 1,
+        "term": 1,
+        "list": 1
+      },
+      "byImportance": {
+        "must": 18,
+        "good": 49
+      },
+      "coverage_note": null,
+      "mustShare": 0.27,
+      "belowMinimum": false
+    },
+    "physics.dual-nature-of-radiation-and-matter": {
+      "published": 41,
+      "quarantined": 50,
+      "byKind": {
+        "definition": 7,
+        "term": 1,
+        "fact": 10,
+        "key_line": 19,
+        "list": 4
+      },
+      "byImportance": {
+        "must": 17,
+        "good": 24
+      },
+      "coverage_note": null,
+      "mustShare": 0.41,
+      "belowMinimum": false
+    },
+    "physics.electric-charges-and-fields": {
+      "published": 85,
+      "quarantined": 30,
+      "byKind": {
+        "definition": 20,
+        "term": 3,
+        "key_line": 30,
+        "fact": 25,
+        "difference": 3,
+        "example": 1,
+        "formula": 1,
+        "list": 1,
+        "types": 1
+      },
+      "byImportance": {
+        "must": 22,
+        "good": 63
+      },
+      "coverage_note": null,
+      "mustShare": 0.26,
+      "belowMinimum": false
+    },
+    "physics.electromagnetic-induction": {
+      "published": 44,
+      "quarantined": 38,
+      "byKind": {
+        "definition": 6,
+        "fact": 9,
+        "key_line": 24,
+        "term": 4,
+        "types": 1
+      },
+      "byImportance": {
+        "must": 15,
+        "good": 29
+      },
+      "coverage_note": null,
+      "mustShare": 0.34,
+      "belowMinimum": false
+    },
+    "physics.electromagnetic-waves": {
+      "published": 71,
+      "quarantined": 38,
+      "byKind": {
+        "key_line": 42,
+        "term": 2,
+        "definition": 3,
+        "fact": 22,
+        "list": 2
+      },
+      "byImportance": {
+        "must": 20,
+        "good": 51
+      },
+      "coverage_note": null,
+      "mustShare": 0.28,
+      "belowMinimum": false
+    },
+    "physics.electrostatic-potential-and-capacitance": {
+      "published": 53,
+      "quarantined": 13,
+      "byKind": {
+        "key_line": 5,
+        "fact": 32,
+        "definition": 13,
+        "example": 1,
+        "types": 1,
+        "formula": 1
+      },
+      "byImportance": {
+        "must": 13,
+        "good": 40
+      },
+      "coverage_note": null,
+      "mustShare": 0.25,
+      "belowMinimum": false
+    },
+    "physics.magnetism-and-matter": {
+      "published": 70,
+      "quarantined": 22,
+      "byKind": {
+        "key_line": 18,
+        "fact": 33,
+        "example": 4,
+        "definition": 10,
+        "types": 1,
+        "list": 3,
+        "difference": 1
+      },
+      "byImportance": {
+        "must": 18,
+        "good": 52
+      },
+      "coverage_note": null,
+      "mustShare": 0.26,
+      "belowMinimum": false
+    },
+    "physics.moving-charges-and-magnetism": {
+      "published": 63,
+      "quarantined": 32,
+      "byKind": {
+        "fact": 8,
+        "key_line": 28,
+        "definition": 15,
+        "term": 1,
+        "difference": 6,
+        "example": 3,
+        "list": 2
+      },
+      "byImportance": {
+        "must": 15,
+        "good": 48
+      },
+      "coverage_note": null,
+      "mustShare": 0.24,
+      "belowMinimum": false
+    },
+    "physics.nuclei": {
+      "published": 87,
+      "quarantined": 31,
+      "byKind": {
+        "fact": 66,
+        "definition": 9,
+        "key_line": 4,
+        "term": 2,
+        "difference": 2,
+        "formula": 3,
+        "types": 1
+      },
+      "byImportance": {
+        "must": 23,
+        "good": 64
+      },
+      "coverage_note": null,
+      "mustShare": 0.26,
+      "belowMinimum": false
+    },
+    "physics.ray-optics-and-optical-instruments": {
+      "published": 89,
+      "quarantined": 35,
+      "byKind": {
+        "fact": 45,
+        "key_line": 7,
+        "list": 4,
+        "definition": 23,
+        "formula": 4,
+        "difference": 2,
+        "example": 4
+      },
+      "byImportance": {
+        "must": 26,
+        "good": 63
+      },
+      "coverage_note": null,
+      "mustShare": 0.29,
+      "belowMinimum": false
+    },
+    "physics.semiconductor-electronics": {
+      "published": 100,
+      "quarantined": 20,
+      "byKind": {
+        "fact": 54,
+        "types": 3,
+        "key_line": 14,
+        "definition": 25,
+        "difference": 3,
+        "example": 1
+      },
+      "byImportance": {
+        "must": 25,
+        "good": 75
+      },
+      "coverage_note": null,
+      "mustShare": 0.25,
+      "belowMinimum": false
+    },
+    "physics.wave-optics": {
+      "published": 34,
+      "quarantined": 26,
+      "byKind": {
+        "fact": 16,
+        "definition": 7,
+        "term": 1,
+        "key_line": 7,
+        "example": 3
+      },
+      "byImportance": {
+        "must": 11,
+        "good": 23
+      },
+      "coverage_note": null,
+      "mustShare": 0.32,
+      "belowMinimum": false
+    }
+  }
+}
