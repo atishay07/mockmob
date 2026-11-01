@@ -1,5 +1,14 @@
 # NOW: MockMob current state
 
+## 2 Nov 2026, about 4 am IST: Physics and Mathematics Key cards live (LK34); Maths is thin
+- **Live:** main 7f1b204a7, deployment dpl_8B5HtwbPkxUfDXTKa5UeBzyTdd8F. No runtime errors.
+- **Physics:** 932 cards across 14 chapters.
+- **Mathematics:** 260 cards across 14 chapters, about 2 hours of study. That is below his 3-hour bar.
+  - Some chapters are very thin: Three Dimensional Geometry has 1 card; Inverse Trigonometric Functions and Vector Algebra have 5 each.
+  - Why: the PDF text flattens formulas, so maths cards were limited to definitions and theorems in words.
+  - The fix is a follow-up job: transcribe NCERT's formulas from the page images into LaTeX and draw them on the cards.
+- **Still being written:** Computer Science.
+
 ## 2 Nov 2026, about 3:40 am IST: Geography, Psychology and Sociology Key cards are live too (LK34)
 - **Live:** main 26e5f359a, deployment dpl_6hhcRyXQwLwtknmeVNiL1aDbyuqQ. No runtime errors.
 - **New subjects:**
