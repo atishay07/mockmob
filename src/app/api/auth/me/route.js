@@ -59,12 +59,15 @@ export async function GET(request) {
 
     // One credits balance (18 Oct 2026): creditBalance is the one total every screen shows and prices against
     // (this month's free credits + bought/held credits). users.credit_balance alone is the fallback if the wallet read fails.
-    const credits = await getUnifiedWallet(dbUser).catch(() => null);
     // A Google Play subscription (monthly Pro bought in the app): its renewal is managed in Google Play, not here.
-    const playSubscription = await Database.getPlaySubscription(dbUser.id).catch(() => null);
     // A deletion the student asked for and we have not processed yet (app v16, A2): the account keeps working until then, and
     // the app says so instead of leaving odd credits unexplained.
-    const deletionRequestedAt = await pendingDeletionAt(dbUser.id, supabaseAdmin());
+    // The three reads need only dbUser, so they run together (speed.md item 1): one database trip instead of three.
+    const [credits, playSubscription, deletionRequestedAt] = await Promise.all([
+      getUnifiedWallet(dbUser).catch(() => null),
+      Database.getPlaySubscription(dbUser.id).catch(() => null),
+      pendingDeletionAt(dbUser.id, supabaseAdmin()),
+    ]);
     const user = {
       id: dbUser.id,
       name: dbUser.name || '',

@@ -1,4 +1,5 @@
 "use client";
+import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only where it is drawn
 
 // CUET subject combination planner: "which subjects should I put on the CUET form?"
 // Targets + candidate subjects in, ranked combinations out, each checked against DU's

@@ -58,10 +58,6 @@
   animation: logoDotWake 420ms cubic-bezier(0.16, 1, 0.3, 1) 240ms backwards;
   transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-:root[data-theme='dark'] .mm .logo .dot,
-.mm-foot .logo .dot {
-  color: var(--volt, #d2f000);
-}
 @media (hover: hover) and (pointer: fine) {
   .logo:hover .logo-b__mobi {
     transform: translateY(-3%) rotate(-7deg);
@@ -126,29 +122,6 @@
   .logo {
     --logo-h: 19px;
   }
-}
-@media (min-width: 400px) and (max-width: 1023px) {
-  .mm-nav .logo {
-    --logo-h: 24px;
-  }
-}
-@media (max-width: 399px), (min-width: 1024px) and (max-width: 1279px) {
-  .mm-nav .logo {
-    --logo-h: 22px;
-  }
-}
-@media (min-width: 1280px) {
-  .mm-nav .logo {
-    --logo-h: 26px;
-  }
-}
-@media (max-width: 299px) {
-  .mm-nav .logo {
-    --logo-h: 17px;
-  }
-}
-.mm-foot .logo {
-  --logo-h: 30px;
 }
 .arena-sidebar .logo {
   --logo-h: 25px;

@@ -179,7 +179,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
   // right + wrong + blank = 50). The newest is the Lab's full mock itself, so its bar, its leak and its repairs agree (release 10).
   // ?trend=few has too few to draw; ?data=sparse has one; ?data=returning's newest is 8 days old.
   const fixtureSummaryItems = (fixture) => {
-    const state = fixture.get('data');
+    const state = fixture.get('data') || (fixture.get('student') === 'new' && fixture.get('view') === 'today' ? 'empty' : null);
     if (state === 'empty') return [];
     const marks = state === 'sparse' ? [92] : fixture.get('trend') === 'few' ? [92, 88] : [76, 84, 80, 96, 104, 118];
     const away = state === 'returning' ? 8 * 86400000 : 0;
@@ -205,6 +205,12 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/study/summary') return real(input, init);
     const fixture = new URLSearchParams(window.location.search);
     if (url.pathname === '/api/mob' || url.pathname.startsWith('/api/mob/')) return previewMob(url, method, init, fixture, json);
+    // GET /api/today (speed.md item 4): the eight Today reads in one answer, each part { status, body } from this preview's own answers.
+    if (url.pathname === '/api/today' && method === 'GET') {
+      const parts = { plan: '/api/learning/plan', papers: '/api/attempts/summary?limit=20', rhythm: '/api/me/rhythm', goal: '/api/me/goal', road: '/api/me/road', revise: '/api/me/revise', facts: '/api/me/timed-mock', record: '/api/me/repair-record?limit=100' };
+      return Promise.all(Object.entries(parts).map(([name, path]) => window.fetch(path).then(async (r) => [name, { status: r.status, body: await r.json().catch(() => null) }])))
+        .then((answers) => json({ version: 1, ...Object.fromEntries(answers) }));
+    }
     // ?firstweek=1..7: a student on that day of Today's first-week path (previewFirstWeek.js); &receipt=chapter|question|none for the result's receipt.
     const firstWeek = previewFirstWeek(url, method, fixture, json);
     if (firstWeek) return firstWeek;
@@ -213,7 +219,10 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       if (fixture.get('stats') === 'error') return json({ state: 'unavailable', error: 'Fixture counts unavailable' }, 503);
       return real(input, init);
     }
-    const state = fixture.get('data');
+    // Today for a brand-new student (&student=new) has no history (phone-clarity.md item 19): the account reads answer as for
+    // ?data=empty (no papers, repairs, sessions or chapters), and Revise answers empty, not unavailable.
+    const newOnToday = !fixture.get('data') && fixture.get('student') === 'new' && fixture.get('view') === 'today';
+    const state = fixture.get('data') || (newOnToday ? 'empty' : null);
     const accountRead = method === 'GET' && !['/api/subjects', '/api/chapters'].includes(url.pathname) && !url.pathname.startsWith('/api/auth/');
     if (accountRead && state === 'loading') return new Promise((resolve, reject) => { init.signal?.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')), { once: true }); });
     if (accountRead && state === 'error') return json({ error: 'Illustrative connection failure' }, 503);
@@ -516,7 +525,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/me/revise' && method === 'GET') {
       // student=new (E6): nothing done yet, so nothing is due (an explicit ?revise= still wins).
       const kind = fixture.get('revise') || (fixture.get('student') === 'new' ? 'empty' : 'ready');
-      if (kind === 'down' || state === 'empty') return json({ version: 1, state: 'unavailable', message: 'Revise is not available right now. Try again shortly.', items: [] }, 503);
+      if (kind === 'down' || (state === 'empty' && !newOnToday)) return json({ version: 1, state: 'unavailable', message: 'Revise is not available right now. Try again shortly.', items: [] }, 503);
       if (kind === 'empty') return json(fixtureRevise('empty'));
       if (kind === 'legacy') return json(fixtureReviseLegacy());
       // ?revise=keycards: the design student's queue with three due Key cards as the third source, shaped as the kc-server

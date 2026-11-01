@@ -1,4 +1,5 @@
 "use client";
+import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only where it is drawn
 
 // A friend's invite code typed on the sign-up page (owner D165). Closed behind one text key unless an invite is already kept,
 // so the form stays one decision. Saving only keeps the code (POST /api/referrals/pending): whether it counts is decided

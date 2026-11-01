@@ -9,7 +9,7 @@ const pricing = read('src/app/pricing/page.js');
 const card = read('src/components/billing/PlanCard.jsx');
 const button = read('src/components/billing/RazorpayPaymentButton.jsx');
 const refunds = read('src/app/refunds/page.js');
-const css = read('src/app/globals.css');
+const css = read('src/app/marketing.css'); // the .mm surface system moved out of globals.css (speed.md item 8)
 
 test('/pricing never uses the retired names PrepOS, Radar or XP', () => {
   assert.doesNotMatch(pricing, /\b(PrepOS|Radar|XP)\b/);

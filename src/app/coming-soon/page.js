@@ -1,3 +1,4 @@
+import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only where it is drawn
 import { Logo } from '@/components/Logo';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { MascotSeat } from '@/components/brand/Mascot';

@@ -92,11 +92,11 @@ export async function GET(request) {
 
     const { searchParams } = new URL(request.url);
     const subject = searchParams.get('subject');
-    const user = await Database.getUserById(session.user.id);
-    const isPremium = Boolean(user?.isPremium);
     const weekStart = startOfWeek().getTime();
 
-    const [attempts, bookmarksResult, progressResult, contributorResult] = await Promise.all([
+    // The user row is read beside the others (speed.md item 16): nothing below needs it before the reads start.
+    const [user, attempts, bookmarksResult, progressResult, contributorResult] = await Promise.all([
+      Database.getUserById(session.user.id),
       // Only what this summary reads: no question snapshots (93% of an attempt row) and no selection meta.
       Database.getAttempts(session.user.id, { columns: ['subject', 'score', 'total', 'details', 'completed_at'] }).catch(() => []),
       supabaseAdmin()
@@ -115,6 +115,7 @@ export async function GET(request) {
         return result.error ? undefined : topContributorCounts(result.data || []);
       }).catch(() => undefined),
     ]);
+    const isPremium = Boolean(user?.isPremium);
 
     const scopedAttempts = subject ? attempts.filter((attempt) => attempt.subject === subject) : attempts;
     const progressRows = progressResult.error ? [] : (progressResult.data || []);
