@@ -1,3 +1,22 @@
+## 2 Nov 2026, about 3:30 am IST: Key cards for Geography, Psychology and Sociology to production (owner LK34)
+
+**What shipped:**
+- **Geography:** 1,162 cards from 17 NCERT chapters, 444 held back.
+- **Psychology:** 726 cards from 7 chapters, 150 held back.
+- **Sociology:** 983 cards from 14 chapters, 441 held back.
+- All are exact NCERT Reprint 2026-27 text with book, chapter and page. Each chapter was written by a subscription author and checked by an independent reviewer. The held-back cards and their reasons are in `data/keycards/quarantine/`.
+- **Tiers:** 2,840 of 11,348 cards are Must-know.
+- **Thin chapters:** Sociology's Structural Change (8 cards) and Cultural Change (32) are short in NCERT too.
+
+**Verified:**
+- test:keycards 82, test:learn 381, test:keycards-ui 40.
+- `next build --webpack` exit 0.
+- Looked at: one feed card per subject, at 390 Night (Geography term card, Psychology difference card, Sociology definition card).
+
+**Not changed:** no migration, no env var.
+
+**Rollback:** Vercel instant rollback to the previous production deployment (main 90679d8c0), or revert this fast-forward.
+
 ## 2 Nov 2026, about 3 am IST: Key cards for Chemistry and History to production (owner LK34)
 
 **What shipped:**
