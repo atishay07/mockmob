@@ -58,7 +58,8 @@ class KcBlankText extends StatelessWidget {
   }
 }
 
-/// The card's kind label and, for a Must-know card, its tag: "Definition" then a small "Must-know".
+/// The card's kind label and, for a Must-know card, the word: "Definition" then "Must-know" in the accent text, no
+/// box (Learn v2 DESIGN-SPEC 3.10, LK13: the word marks it, a pill on every card shouted).
 class KcKindLine extends StatelessWidget {
   const KcKindLine({super.key, required this.card, this.trailing, this.position});
 
@@ -87,7 +88,7 @@ class KcKindLine extends StatelessWidget {
                   child: Text(position!, style: type.label.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()])),
                 ),
               Text(cardFace(card).label, style: type.label.copyWith(color: colors.ink2)),
-              if (card.mustKnow) const KcTag(text: KeyCardsCopy.mustKnow),
+              if (card.mustKnow) Text(KeyCardsCopy.mustKnow, style: type.label.copyWith(color: colors.accentText)),
             ],
           ),
         ),
