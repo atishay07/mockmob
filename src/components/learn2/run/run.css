@@ -11,20 +11,23 @@
   --lr-flight: cubic-bezier(0.32, 0.72, 0, 1);
   --lr-top-h: 88px;
   --lr-bar-h: 100px;
+  /* R3-SPEC L1: the most a card face may be; a longer back scrolls inside the card, top-aligned. */
+  --lr-face-max: calc(100dvh - 190px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
   position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column; gap: 0; padding: 0; max-width: none; margin: 0;
   overflow: hidden; background: var(--a-bg); color: var(--a-ink); -webkit-tap-highlight-color: transparent;
 }
 .lr .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
-/* ---------- The top bar: phone and tablet (A4 3.3.2) ---------- */
-/* Phone: one row, 56 px (R2 screens 13): X, the ticks, "5 of 20", the Revise pile. The chapter and the time left from 768. */
+/* ---------- The top bar: phone and tablet (A4 3.3.2, R3-SPEC L4) ---------- */
+/* One row: X, the ticks, "4 of 20"; under it one quiet line with the chapter's name. No pile in a phone's bar; from 1024 px
+   the card-stack glyph with "4 to revise", from 1. The time left joins the chapter's line from 768. */
 .lr-top {
   position: relative; z-index: 5; flex: none; display: grid; align-items: center;
-  grid-template-columns: 44px minmax(0, 1fr) auto auto; grid-template-rows: 48px;
-  grid-template-areas: 'close ticks pos pile';
-  column-gap: 12px; width: 100%; margin-inline: auto; padding: max(4px, env(safe-area-inset-top)) 16px 4px; background: var(--a-bg);
+  grid-template-columns: 44px minmax(0, 1fr) auto; grid-template-rows: 44px 20px;
+  grid-template-areas: 'close ticks pos' 'title title title';
+  column-gap: 12px; width: 100%; margin-inline: auto; padding: max(4px, env(safe-area-inset-top)) 16px 6px; background: var(--a-bg);
 }
-.lr-top .lr-top__title, .lr-top .lr-top__left { display: none; }
+.lr-top .lr-top__left, .lr-top .lr-top__pile { display: none; }
 .lr-top__tip { position: absolute; top: calc(100% + 2px); right: -6px; z-index: 6; padding: 6px 10px; border-radius: 9px; border: 1px solid var(--a-line-strong); background: var(--a-sheet, var(--a-raised)); box-shadow: var(--a-shadow-2); font: 600 12.5px/1 var(--font-body); color: var(--a-ink); white-space: nowrap; animation: lr-tip 1600ms var(--lr-ease) both; }
 .lr-close {
   grid-area: close; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 44px; min-height: 44px; margin-left: -10px;
@@ -34,22 +37,25 @@
 .lr-close__word { display: none; }
 .lr-close:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 0; }
 @media (hover: hover) { .lr-close:hover { color: var(--a-ink); background: var(--a-hover); } }
-.lr-top__title { grid-area: title; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 13px/1.2 var(--font-body); color: var(--a-ink-2); }
-.lr-top__pile { grid-area: pile; display: inline-flex; align-items: center; gap: 4px; min-height: 44px; font: 700 13px/1 var(--font-body); color: var(--a-ink); font-variant-numeric: tabular-nums; }
-.lr-top__pile b { display: inline-block; min-width: 1ch; }
-.lr-top__pile b[data-zero] { visibility: hidden; }
+.lr-top__title { grid-area: title; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 500 13px/20px var(--font-body); color: var(--a-ink-3); }
+.lr-top__pile { grid-area: pile; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font: 600 13px/1 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.lr-top__pile b { display: inline-block; font-weight: 600; }
+.lr-top__pile[data-zero] { visibility: hidden; }
 .lr-top__pile b[data-pop], .lr-panel__rn b[data-pop] { animation: lr-pop 180ms var(--lr-ease) both; }
 .lr-top__pos { grid-area: pos; font: 500 14px/1 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .lr-top__pos b { font-weight: 700; color: var(--a-ink); }
 .lr-top__ticks { grid-area: ticks; display: flex; align-items: center; min-width: 0; height: 20px; }
 .lr-top__left { grid-area: left; min-width: 10ch; text-align: right; font: 500 12.5px/1 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
 @media (min-width: 768px) {
-  .lr-top { width: min(100%, 632px); grid-template-rows: 44px 20px; grid-template-areas: 'close title pile pos' 'ticks ticks ticks left'; row-gap: 4px; column-gap: 10px; padding: max(8px, env(safe-area-inset-top)) 16px 10px; }
-  .lr-top .lr-top__title, .lr-top .lr-top__left { display: block; }
+  .lr-top { width: min(100%, 632px); grid-template-columns: auto minmax(0, 1fr) auto; grid-template-rows: 44px 20px; grid-template-areas: 'close ticks pos' 'title title left'; row-gap: 2px; column-gap: 14px; padding: max(8px, env(safe-area-inset-top)) 16px 10px; }
+  .lr-top .lr-top__left { display: block; }
   .lr-close { margin-left: -10px; padding: 0 14px 0 10px; }
   .lr-close__word { display: inline; }
-  .lr-top { grid-template-columns: auto minmax(0, 1fr) auto auto; }
-  .lr-top__title { font-size: 14px; }
+  .lr-top__title { font-size: 13.5px; }
+}
+@media (min-width: 1024px) {
+  .lr-top { grid-template-columns: auto minmax(0, 1fr) auto auto; grid-template-areas: 'close ticks pile pos' 'title title title left'; }
+  .lr-top .lr-top__pile { display: inline-flex; }
 }
 
 /* The Revise pile glyph: three stacked cards, the flight's target (A4 3.3.7). */
@@ -80,7 +86,15 @@
 /* Phone (R2 ruling 8, LK30): a card fills the height from the progress bar to the action row, its words at the top; a
    question starts at the top and its keys (Skip) sit right under the last option. */
 .lr-area { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: flex-start; padding: 8px 16px 8px; min-width: 0; }
-.lr-area[data-type='question'], .lr-area[data-type='lesson'] { flex: 0 0 auto; padding-bottom: 8px; }
+.lr-area[data-type='lesson'] { flex: 0 0 auto; padding-bottom: 8px; }
+/* R3-SPEC L2, phones: the context line and the stem at the top; the options sit at the foot of the stage (margin-top: auto),
+   right above Skip, in the thumb zone. Taller than the stage: plain top-to-bottom flow, and the page scrolls. */
+.lr-area[data-type='question'] { flex: 1 0 auto; padding-bottom: 8px; }
+.lr-area[data-type='question'] > .lr-enter > .lr-q { flex: 1 0 auto; }
+@media (max-width: 767px) {
+  .lr-q { display: flex; flex-direction: column; }
+  .lr-q > .lr-opts { margin-top: auto; padding-top: 10px; }
+}
 .lr-area[data-type='question'] + .lr-bar { margin-top: 8px; }
 .lr-enter { position: relative; display: flex; flex-direction: column; flex: 1 1 auto; animation: lr-rise 240ms var(--lr-ease) 60ms both; touch-action: pan-y; }
 .lr-enter > .lr-card:not(.lr-card--lesson) { flex: 1 1 auto; }
@@ -94,10 +108,11 @@
      centred, so a card looks centred and a question never jumps up when its line opens (B7 F). */
   .lr-frame { width: min(100% - 32px, 600px); margin-inline: auto; justify-content: flex-start; padding: max(16px, calc((100dvh - var(--lr-top-h) - clamp(300px, 46dvh, 380px) - 120px) / 2)) 0 24px; }
   .lr-stagecol { flex: none; }
+  .lr.kc { --lr-face-max: calc(100dvh - var(--lr-top-h) - var(--lr-bar-h) - 56px); }
   .lr-area { flex: none; padding: 0; max-height: calc(100dvh - var(--lr-top-h) - var(--lr-bar-h) - 56px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
   .lr-enter { flex: none; }
   .lr-area[data-type='question'] + .lr-bar { margin-top: 0; }
-  .lr-area[data-type='question'] { padding: 4px 2px 8px; }
+  .lr-area[data-type='question'] { flex: none; padding: 4px 2px 8px; }
   .lr-bar { position: relative; background: transparent; }
   .lr-bar::before { content: none; }
   .lr-bar__in { padding: 16px 0 0; justify-items: center; }
@@ -105,16 +120,18 @@
 
 /* Desktop (1200 and up): session panel 240 | stage 640 | side column 72, gaps 40, centred as one group (A4 3.3.1). */
 @media (min-width: 1200px) {
-  .lr.kc { --lr-top-h: 64px; }
+  .lr.kc { --lr-top-h: 64px; --lr-face-max: calc(100vh - 64px - var(--lr-bar-h) - 72px); }
   .lr-top {
     width: auto; grid-template-columns: 240px 640px 72px; grid-template-rows: 64px; grid-template-areas: 'close ticks .';
     column-gap: 40px; justify-content: center; padding: 0;
   }
   .lr-top .lr-top__title, .lr-top .lr-top__pile, .lr-top .lr-top__pos, .lr-top .lr-top__left { display: none; }
   .lr-close { justify-self: start; }
+  /* R3-SPEC L2: the play column sits in the middle of the viewport, at least 48 px from the top. Its top is where a card at
+     its least is centred, so a question never jumps when its verdict and line open (B7 F). */
   .lr-frame {
     display: grid; width: auto; grid-template-columns: 240px 640px 72px; column-gap: 40px; justify-content: center; align-content: start; align-items: start;
-    padding: 56px 0 32px; min-height: 100%;
+    padding: max(48px, calc((100vh - 64px - 440px - var(--lr-bar-h)) / 2)) 0 32px; min-height: 100%;
   }
   .lr-panel, .lr-side { display: flex; }
   .lr-area { max-height: calc(100vh - 64px - var(--lr-bar-h) - 72px); }
@@ -188,28 +205,35 @@
 @media (min-width: 1200px) { .lr-rail--bar { display: none; } }
 
 /* ---------- The Key card: fits its content, both faces in one cell (A4 3.3.6, B1, B7) ---------- */
-.lr-card { position: relative; display: grid; min-height: 420px; perspective: 1200px; cursor: default; will-change: transform; }
+.lr-card { position: relative; display: grid; min-height: min(420px, var(--lr-face-max)); max-height: var(--lr-face-max); perspective: 1200px; cursor: default; will-change: transform; }
 .lr-card--lesson { min-height: clamp(300px, 46dvh, 380px); }
 .lr-card:not([data-turned]):not(.lr-card--lesson) { cursor: pointer; }
 .lr-card__in { position: relative; display: grid; transform-style: preserve-3d; transition: transform 340ms var(--lr-flight); }
 .lr-card[data-turned] .lr-card__in { transform: rotateY(180deg); }
 .lr-card[data-still] .lr-card__in { transition: none; }
+/* R3-SPEC L1: the type label and the menu at the top, the source pinned to the foot, the words centred between them; a face
+   that does not fit is top-aligned and scrolls inside the card (auto margins fall to 0 on overflow). */
 .lr-face {
-  grid-area: 1 / 1; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 14px; min-width: 0; padding: 20px 20px 18px; border-radius: 24px;
+  grid-area: 1 / 1; display: flex; flex-direction: column; gap: 14px; min-width: 0; min-height: 0; max-height: var(--lr-face-max); overflow-y: auto; overscroll-behavior: contain;
+  scrollbar-width: thin; scrollbar-color: var(--a-line-strong) transparent; padding: 20px 20px 18px; border-radius: 24px;
   border: 1px solid var(--a-line-strong); background: var(--kc-surface); box-shadow: var(--a-shadow-1); backface-visibility: hidden; -webkit-backface-visibility: hidden;
 }
-.lr-face--back { transform: rotateY(180deg); box-shadow: var(--a-shadow-2); grid-template-rows: auto minmax(0, 1fr); }
+.lr-face > * { flex: none; }
+.lr-face--back { transform: rotateY(180deg); box-shadow: var(--a-shadow-2); }
 .lr-face--back:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
 .lr-face .kc-head { min-height: 28px; align-items: center; }
 .lr-stage-tag { margin-left: auto; font: 600 12.5px/1.2 var(--font-body); color: var(--a-ink-3); }
 .lr .kc-tag { min-height: 0; padding: 0; border: 0; border-radius: 0; background: none; color: var(--a-accent-text); font-weight: 700; }
-.lr-face__body { display: flex; flex-direction: column; justify-content: flex-start; min-width: 0; padding-top: 14px; }
+.lr-face > .lr-face__body { flex: 1 0 auto; display: flex; flex-direction: column; min-width: 0; padding: 0; }
+.lr-face__body > .lr-front { margin-block: auto !important; }
+/* R3-SPEC L1: size by length, phone 34 / 28 / 22 px (60, 140, longer), desktop 40 / 32 / 26; line-height 1.15, balanced,
+   never a hyphen the student did not write. */
 .lr-front {
-  margin: 0; max-width: 22ch; font: 650 34px/1.12 var(--font-display); letter-spacing: -0.025em; color: var(--a-ink); text-wrap: balance; overflow-wrap: anywhere;
+  margin: 0; font: 650 34px/1.15 var(--font-display); letter-spacing: -0.025em; color: var(--a-ink); text-wrap: balance; overflow-wrap: break-word; hyphens: manual;
 }
 .lr-front:focus { outline: none; }
-.lr-card[data-size='m'] .lr-front { font-size: 28px; letter-spacing: -0.02em; max-width: 24ch; }
-.lr-card[data-size='l'] .lr-front { font-size: 22px; line-height: 1.3; letter-spacing: -0.01em; max-width: 34ch; }
+.lr-card[data-size='m'] .lr-front { font-size: 28px; letter-spacing: -0.02em; }
+.lr-card[data-size='l'] .lr-front { font-size: 22px; letter-spacing: -0.01em; }
 @media (max-width: 379px) {
   .lr-front { font-size: 32px; }
   .lr-card[data-size='m'] .lr-front { font-size: 26px; }
@@ -217,7 +241,7 @@
 }
 .lr-src { display: flex; align-items: center; gap: 6px; font: 500 12.5px/1.4 var(--font-body); color: var(--a-ink-3); }
 .lr-src svg { flex: none; }
-.lr-back { display: grid; align-content: start; gap: 0; min-width: 0; }
+.lr-back { display: grid; align-content: start; gap: 0; min-width: 0; margin-block: auto; hyphens: manual; }
 .lr-back__ask { font: 600 13.5px/1.4 var(--font-body); color: var(--a-ink-3); }
 /* Focus moves to each new item's heading for keyboard and screen reader students; it is not a control, so it draws no ring. */
 .lr [id^='lr-q-']:focus { outline: none; }
@@ -230,7 +254,6 @@
 .lr-report { margin-top: 12px; }
 @media (min-width: 768px) {
   .lr-card { min-height: clamp(300px, 46dvh, 380px); perspective: 1600px; }
-  .lr-face__body { justify-content: center; padding: 0 0 8%; }
   .lr-face { padding: 26px 28px 22px; }
   .lr-front { font-size: 40px; }
   .lr-card[data-size='m'] .lr-front { font-size: 32px; }
@@ -240,9 +263,7 @@
 @media (min-width: 1200px) {
   .lr-card { min-height: 440px; }
   .lr-face { padding: 32px 36px 28px; }
-  .lr-front { font-size: 44px; letter-spacing: -0.03em; }
-  .lr-card[data-size='m'] .lr-front { font-size: 36px; letter-spacing: -0.025em; }
-  .lr-card[data-size='l'] .lr-front { font-size: 28px; line-height: 1.26; }
+  .lr-front { letter-spacing: -0.03em; }
   .lr-ncert.kc-ncert { font-size: 20px; line-height: 1.55; }
 }
 
@@ -390,7 +411,7 @@
 .lr-round__keys .kc-btn { min-height: 52px; }
 
 /* ---------- The end (A4 3.4): one form with the feed's end ---------- */
-.lr-body--end { display: block; padding: 0 16px 40px; }
+.lr-body--end { display: block; padding: 0 16px; }
 .lr-endform { display: grid; gap: 28px; width: 100%; padding: 16px 16px 48px; align-content: start; }
 .lr-endform__left, .lr-endform__right { display: grid; gap: 22px; align-content: start; min-width: 0; }
 .lr-close--end { grid-area: auto; justify-self: start; margin-bottom: 0; }
@@ -424,7 +445,7 @@
 }
 .lr-rpile__kind { font: 650 11.5px/1.2 var(--font-body); color: var(--a-ink-3); }
 .lr-rpile__kind b { color: var(--a-accent-text); font-weight: 700; }
-.lr-rpile__front { font: 650 13px/1.28 var(--font-display); color: var(--a-ink); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; overflow: hidden; overflow-wrap: normal; word-break: normal; hyphens: auto; }
+.lr-rpile__front { font: 650 13px/1.28 var(--font-display); color: var(--a-ink); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; overflow-wrap: normal; word-break: normal; hyphens: manual; text-wrap: balance; }
 .lr-rpile__lines { display: grid; gap: 7px; padding-top: 8px; }
 .lr-rpile__lines i { display: block; height: 2px; border-radius: 1px; background: var(--a-line-strong); }
 .lr-rpile__lines i:nth-child(2) { width: 70%; }

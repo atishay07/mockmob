@@ -1,15 +1,18 @@
 'use client';
-// The end of a study session, one form for the feed and the run (R2 ruling 5, LK31; the numbers rules are endModel.mjs):
+// The end of a study session, one form for the feed and the run (R2 ruling 5, LK31, R3-SPEC L5; the numbers rules are
+// endModel.mjs):
 //   <EndScreen chapter headline mobi pile numbers progress free main quiet close titleRef loading error onRetry retryKeys />
 //     close      the X, the only other way out (a node: a Link or a button)
 //     chapter    the chapter's name, a quiet line (15 px, one line)
-//     headline   "20 done in 9 min" / "Stopped at 7 of 20" (34 px display); mobi: an act for the 64 px Mobi beside it, or null
+//     headline   "18 done in 12 min" / "5 of 20 done" (34 px display); mobi: an act for the 64 px Mobi beside it, or null
 //     pile       null | [card] the real card faces sent to Revise, fanned at 72 percent above the numbers
 //     numbers    [{ value, n, label }] one row of up to 3, every zero already dropped; they count up 0 to n (300 ms, 60 ms apart)
 //     progress   null | { from, to, label } the chapter's bar, growing from `from` to `to` (600 ms, ease-out)
-//     free       null | { line, onSeePro } one 13 px line with See Pro as its inline text key
+//     free       null | { line } Free's one quiet line, directly above the keys (ruling F)
 //     main       the one main key (a node); quiet the one quiet text link (a node), or null
-//   Top-aligned: 72 px from the top on a phone, 120 px at 1440, one column of at most 560 px. Reduced motion: final state.
+//   Phones: the content group (chapter, headline with Mobi, fan, numbers, bar) is centred in the space between the X and the
+//   key group; the key group (the Free line, the main key, the quiet link) is pinned to the foot, padding-bottom
+//   max(24px, safe area). From 768 px: one column of at most 560 px, centred both ways. Reduced motion: final state.
 //   <KeptFan cards open /> is exported for a screen that wants the fan alone (the checkpoint).
 import { useEffect, useState } from 'react';
 import MobiReact from '@/components/brand/MobiReact';
@@ -99,34 +102,34 @@ export function EndScreen({ close = null, chapter = null, headline = null, mobi 
     <div className="st-endx-wrap">
       {close ? <div className="st-endx__top">{close}</div> : null}
       <section className="st-endx" aria-labelledby="st-endx-h">
-        {chapter ? <p className="st-endx__ch">{chapter}</p> : null}
-        <div className="st-endx__head">
-          <h1 className="st-endx__h" id="st-endx-h" ref={titleRef} tabIndex={-1}>{headline || chapter}</h1>
-          {mobi ? <span className="st-endx__mobi" aria-hidden="true"><MobiReact act={mobi} size={64} interactive /></span> : null}
-        </div>
-        {pile && pile.length ? <div className="st-endx__pile"><KeptFan cards={pile} open={open} small /></div> : null}
-        {numbers.length ? (
-          <dl className="st-endx__nums" data-n={numbers.length}>
-            {numbers.map((x, i) => (
-              <div key={x.label} style={{ '--i': i }}>
-                <dt><CountUp n={x.n} value={x.value} delay={i * 60} /></dt>
-                <dd>{x.label}</dd>
-              </div>
-            ))}
-          </dl>
-        ) : null}
-        {progress ? (
-          <div className="st-endx__prog">
-            <div className="st-endx__bar" role="img" aria-label={progress.label}>
-              <i style={{ '--from': progress.from, '--to': progress.to }} data-grow={open || undefined} />
-            </div>
-            <p className="st-endx__plabel">{progress.label}</p>
+        <div className="st-endx__body">
+          {chapter ? <p className="st-endx__ch">{chapter}</p> : null}
+          <div className="st-endx__head">
+            <h1 className="st-endx__h" id="st-endx-h" ref={titleRef} tabIndex={-1}>{headline || chapter}</h1>
+            {mobi ? <span className="st-endx__mobi" aria-hidden="true"><MobiReact act={mobi} size={64} interactive /></span> : null}
           </div>
-        ) : null}
-        {free ? (
-          <p className="st-endx__free">{free.line}{free.onSeePro ? <> <button type="button" className="st-textkey st-endx__inline" onClick={free.onSeePro}>See Pro</button></> : null}</p>
-        ) : null}
+          {pile && pile.length ? <div className="st-endx__pile"><KeptFan cards={pile} open={open} small /></div> : null}
+          {numbers.length ? (
+            <dl className="st-endx__nums" data-n={numbers.length}>
+              {numbers.map((x, i) => (
+                <div key={x.label} style={{ '--i': i }}>
+                  <dt><CountUp n={x.n} value={x.value} delay={i * 60} /></dt>
+                  <dd>{x.label}</dd>
+                </div>
+              ))}
+            </dl>
+          ) : null}
+          {progress ? (
+            <div className="st-endx__prog">
+              <div className="st-endx__bar" role="img" aria-label={progress.label}>
+                <i style={{ '--from': progress.from, '--to': progress.to }} data-grow={open || undefined} />
+              </div>
+              <p className="st-endx__plabel">{progress.label}</p>
+            </div>
+          ) : null}
+        </div>
         <div className="st-endx__keys">
+          {free?.line ? <p className="st-endx__free">{free.line}</p> : null}
           {main}
           {quiet}
         </div>

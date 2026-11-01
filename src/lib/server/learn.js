@@ -31,7 +31,8 @@ import { searchSubject } from '../../../data/learn/search.js';
 import { ROADMAP_RULES, roadmap as roadmapOf, verdictOf } from '../../../data/learn/roadmap.js';
 import { IN_RUN, doneLine, istDaysBetween, levelPick, movedLine, retryReady, returnDay, revisePileGroups, shortDate } from '../../../data/learn/stamps.js';
 import { FEED_RULES, coverOrder, feedEndLines, keptLine } from '../../../data/learn/feed.js';
-import { LEARN_FREE, FREE_SESSION_DONE, FREE_CAPPED, FREE_CARDS_ONLY, freeSession, isCounted } from '../../../data/learn/allowance.js';
+import { LEARN_FREE, FREE_SESSION_DONE, FREE_END_LINE, FREE_CAPPED, FREE_CARDS_ONLY, freeSession, isCounted } from '../../../data/learn/allowance.js';
+import { WORDS, reviseDue, withMinutes } from '../../../data/learn/words.js';
 import { cardSeconds, cardWords, itemSeconds, questionSeconds } from '../../../data/learn/seconds.js';
 import { gradeCard, istDate, planSeeds } from '../../../data/revise.js';
 import { createLearnStore } from './learnStore.js';
@@ -45,7 +46,7 @@ const fail = (code, cause) => Object.assign(new Error(code), { code, cause });
 // ---------------------------------------------------------------- the rules and the words (BUILD-1101 Part 1)
 
 /** LK15: Free's one Learn session a day (BUILD-1101 1.6): the rule and its lines live in data/learn/allowance.js. */
-export { LEARN_FREE, FREE_SESSION_DONE, FREE_CAPPED, FREE_CARDS_ONLY };
+export { LEARN_FREE, FREE_SESSION_DONE, FREE_END_LINE, FREE_CAPPED, FREE_CARDS_ONLY };
 export const LOCKED_LINE = 'The line for this is in a card that is part of Pro.';
 export const LOOKS_TEXT = Object.freeze({
   keycard_reviews: "Today's 10 free card ratings are used. The rest of your cards show without ratings.",
@@ -498,14 +499,21 @@ export function createLearn(deps) {
     return { minutes: rule.minutes, capped: rule.capped, used, cardsOnly: rule.cardsOnly, refuse: rule.refuse };
   }
 
-  /** The 402 of a feed start after the day is claimed, with the ways that still work today. */
+  /**
+   * The 402 of a feed start after the day is claimed (R3-SPEC ruling F): the line (FREE_SESSION_DONE is the headline and the
+   * line), today's own run to continue (`resume`, when it is unfinished), and the Or rows that still work today, in order:
+   * "Revise N due cards · M min" (a cards run, never counted) and "Answer single questions" (Explore stays free).
+   */
   function sessionUsed(S, info, holder = null) {
     const options = [];
     const secs = info ? chapterSeconds(S, info) : null;
-    if (info?.counts.due) options.push({ label: `Revise ${plural(info.counts.due, 'due card')}`, run: { kind: 'cards', chapterKey: info.key, cardIds: info.dueIds.slice(0, LEARN_LIMITS.maxCardIds), minutes: cardRunMinutes(info.counts.due, secs.dueSeconds) } });
-    if (info?.counts.openMust || info?.counts.mustKnow) options.push({ label: 'Quick recap of this chapter', run: { kind: 'recap', chapterKey: info.key, minutes: recapMinutes(S.isPro ? info.counts.mustKnow : info.counts.openMust, secs.recapSeconds) } });
-    if (info) options.push({ label: 'Questions on this chapter in Explore', href: `/explore?${new URLSearchParams({ subject: S.subject, chapter: info.name })}`, go: 'explore' });
-    return { http: 402, body: { error: 'FREE_SESSION_USED', reason: 'learn_session', line: FREE_SESSION_DONE, options, resume: holder } };
+    if (info?.counts.due) {
+      const m = cardRunMinutes(info.counts.due, secs.dueSeconds);
+      options.push({ kind: 'revise', label: reviseDue(info.counts.due, m), minutes: m, run: { kind: 'cards', chapterKey: info.key, cardIds: info.dueIds.slice(0, LEARN_LIMITS.maxCardIds), minutes: m } });
+    }
+    options.push({ kind: 'explore', label: WORDS.singles, minutes: null, href: info ? `/explore?${new URLSearchParams({ subject: S.subject, chapter: info.name })}` : '/explore', go: 'explore' });
+    const resume = holder && holder.of > holder.done ? { ...holder, label: withMinutes(WORDS.continue, holder.minutesLeft) } : null;
+    return { http: 402, body: { error: 'FREE_SESSION_USED', reason: 'learn_session', line: FREE_SESSION_DONE, options, resume } };
   }
 
   // ---------------------------------------------------------------- runs on the wire
@@ -805,9 +813,13 @@ export function createLearn(deps) {
     S.overdue = overdue;
     const info = chapterInfo(S, key);
     if (!info) return bad('CHAPTER_NOT_FOUND', 404);
-    // Resume (BUILD-1101 1.3): the same chapter and kind on the same India day, unfinished, unless the body says fresh.
+    // Resume (BUILD-1101 1.3): the same chapter and kind on the same India day, unfinished, unless the body says fresh. R3-SPEC L5
+    // (C2-1): only a run of the same make. A mistakes-only start (cards left out) never resumes a stopped full run, and a full
+    // start never resumes a mistakes-only run.
+    const cardsOut = cleanLeaveOut(body?.leaveOut).includes('cards');
     if (!fresh && isCounted(kind) && !cardIds?.length) {
-      const open = S.runs.find((r) => r.kind === kind && r.chapter_key === key && istDay(Date.parse(r.created_at)) === S.day && Number(r.done_count) < Number(r.item_count));
+      const open = S.runs.find((r) => r.kind === kind && r.chapter_key === key && istDay(Date.parse(r.created_at)) === S.day && Number(r.done_count) < Number(r.item_count)
+        && (r.leave_out || []).includes('cards') === cardsOut);
       if (open) {
         const row = await store.run(userId, open.id);
         if (row && !row.ended_at) return ok(await runBody(S, row, { events: await events(row.id), resumed: true }));
@@ -1188,28 +1200,35 @@ export function createLearn(deps) {
     // The length the student chose, unless the run was shrunk (R4): the title and the next options use it.
     const length = metaOf(row).shrink ? Number(row.minutes) : Number(row.asked_minutes) || Number(row.minutes);
     const title = recap ? `Quick recap of ${info?.title || row.chapter_key}` : `${minutesWord(length)} on ${info?.title || row.chapter_key}`;
-    // The next options (B 3.6); on Free once today's session is used, none that serves questions (BUILD-1101 1.6).
+    // R2 ruling 6: a run stopped part way (the stop sheet's "Stop here": ?stop=1) is not ended, so the student can pick it up
+    // today (Learn home and the chapter page offer it; a start of the same chapter and make resumes it). A run that reached its
+    // end, or a stop with every item done, is ended once.
+    const finished = !stop || recap || Number(row.done_count) >= Number(row.item_count);
+    // The keys (B 3.6, R3-SPEC L5): one main key and one quiet link, the same for a run and a feed. A stopped run's main key
+    // resumes it ("Continue · N min"); on Free once today's session is used, none that serves questions (ruling F).
+    const doneIds = new Set(ev.map((e) => e.item_id));
+    const secondsLeft = items.filter((i) => !doneIds.has(i.id)).reduce((t, i) => t + secondsOf(i), 0);
     const elsewhere = new Map();
     for (const [k, list] of S.mistakes) if (k !== row.chapter_key) elsewhere.set(k, list.length);
     const top = [...elsewhere].sort((a, b) => b[1] - a[1])[0];
     const topInfo = top ? chapterInfo(S, top[0]) : null;
     const dueAll = S.cards.filter((x) => S.isOpen(x.id) && cardStage(S.stateMap.get(x.id), S.now) === 'due').length;
-    const fresh = info ? info.open.filter((x) => cardStage(info.states.get(x.id), S.now) === 'new').length : 0;
     // "Another 5 minutes here" says what the real 5-minute run of the chapter would hold (R6.2).
     const five = info && row.kind !== 'level' ? composeFor(S, info, { kind: 'mix', minutes: 5, leaveOut: [] }) : null;
     const secs = info ? chapterSeconds(S, info) : null;
     const topSecs = topInfo ? chapterSeconds(S, topInfo) : null;
+    const sessionDone = !S.isPro && Boolean(S.session);
     let opts = endOptions({
       subject: row.subject, chapter: { key: row.chapter_key, title: info?.title || row.chapter_key, name: info?.name }, minutes: ['mix', 'feed'].includes(row.kind) ? length : 10,
-      missed: n(1), fresh, here: five ? { cards: five.piles.cards.count, questions: five.piles.questions.count + five.piles.mistakes.count } : null,
-      next: nextChapterOf(S, row.chapter_key), mistakeElsewhere: topInfo ? { key: topInfo.key, title: topInfo.title, count: top[1], seconds: topSecs.mistakeSeconds } : null,
+      kind: row.kind, missed: n(1), here: five ? { cards: five.piles.cards.count, questions: five.piles.questions.count + five.piles.mistakes.count } : null,
+      next: nextChapterOf(S, row.chapter_key), mistakes: info?.mistakes.length ? { count: info.mistakes.length, seconds: secs?.mistakeSeconds ?? null } : null,
+      mistakeElsewhere: topInfo ? { key: topInfo.key, title: topInfo.title, count: top[1], seconds: topSecs.mistakeSeconds } : null,
       due: { count: dueAll }, mustKnow: info ? (S.isPro ? info.counts.mustKnow : info.counts.openMust) : 0, recapSeconds: secs?.recapSeconds ?? null,
       // R2 ruling 3 (P1 request): stay in the chapter until its cards are seen once.
       unseen: Number.isFinite(info?.coverage?.unseen) ? info.coverage.unseen : null,
+      freeSessionUsed: sessionDone, hadCards: items.some((i) => i.type === 'card'),
+      stopped: finished || row.kind === 'level' ? null : { runId: row.id, kind: row.kind, minutesLeft: minutesFor(secondsLeft) },
     });
-    const sessionDone = !S.isPro && Boolean(S.session);
-    if (sessionDone) opts = freeEndOptions(S, info);
-    else if (row.kind !== 'level') opts = { lead: opts.lead, options: endExtra(S, info, row, opts) };
     // The level run's end names the chapter to start (R16): the lowest share right among its questions' chapters.
     let level = null;
     if (row.kind === 'level') {
@@ -1225,10 +1244,6 @@ export function createLearn(deps) {
         }
       }
     }
-    // R2 ruling 6: a run stopped part way (the stop sheet's "Stop here": ?stop=1) is not ended, so the student can pick it up
-    // today (Learn home and the chapter page offer "Pick up"; a start of the same chapter resumes it). A run that reached
-    // its end, or a stop with every item done, is ended once.
-    const finished = !stop || recap || Number(row.done_count) >= Number(row.item_count);
     if (finished) await store.endRun(userId, row.id);
     // How far the run got and how long it took, for every run kind ("You stopped at 8 of 21." / "All 21 done in 9 min.").
     const done = runDone(row, ev);
@@ -1239,20 +1254,6 @@ export function createLearn(deps) {
       numbers: { cards: perCard.size, questions: answered.length, fixed, mistakes: mistakesTried, detail },
       lines, revisePile: groups, reviseCards, moved, free, lead: opts.lead, options: opts.options, ...(level ? { level } : {}),
     });
-  }
-
-  /**
-   * The end's one extra key (R2 ruling 5: one main key and at most one quiet link). An open mistake in this chapter comes
-   * first ("Fix 1 open mistake", its own short run of the mistakes only), else the other of next chapter / another 5 minutes.
-   */
-  function endExtra(S, info, row, opts) {
-    const open = info ? info.mistakes.length : 0;
-    if (open) {
-      const m = fixMinutes(open);
-      return [{ kind: 'fix', title: open === 1 ? 'Fix 1 open mistake' : `Fix ${open} open mistakes`, minutes: m, label: open === 1 ? 'Fix 1 open mistake' : `Fix ${open} open mistakes`, evidence: `${info.title}, ${m} min`, run: { chapterKey: info.key, minutes: m, leaveOut: ['questions', 'cards', 'lesson'], kind: 'mix' } }];
-    }
-    const other = (opts.options || []).find((o) => o && (o.kind === 'here' || o.kind === 'next') && o !== opts.lead);
-    return other && row.kind !== 'cards' ? [other] : (opts.options || []).filter((o) => o && o.kind !== 'mock').slice(0, 1);
   }
 
   /**
@@ -1280,23 +1281,13 @@ export function createLearn(deps) {
     return { reached, of: places.length, minutes };
   }
 
-  /** Free after the day's session (BUILD-1101 1.6): the line leads with a See Pro text key; nothing that serves questions. */
-  function freeEndOptions(S, info) {
-    const options = [];
-    const secs = info ? chapterSeconds(S, info) : null;
-    const dueMin = info?.counts.due ? cardRunMinutes(info.counts.due, secs.dueSeconds) : 0;
-    if (info?.counts.due) options.push({ kind: 'revise', title: `Revise ${plural(info.counts.due, 'due card')}`, minutes: dueMin, label: `Revise ${plural(info.counts.due, 'due card')}`, evidence: `About ${minutesWord(dueMin)}.`, run: { kind: 'cards', chapterKey: info.key, cardIds: info.dueIds.slice(0, LEARN_LIMITS.maxCardIds), minutes: dueMin } });
-    const must = info ? (S.isPro ? info.counts.mustKnow : info.counts.openMust) : 0;
-    if (must) { const m = recapMinutes(must, secs.recapSeconds); options.push({ kind: 'recap', title: 'Quick recap of this chapter', minutes: m, label: 'Quick recap of this chapter', evidence: `Its ${plural(must, 'Must-know line')}, answers showing.`, run: { chapterKey: info.key, minutes: m, leaveOut: [], kind: 'recap' } }); }
-    if (info) options.push({ kind: 'explore', title: 'Questions on this chapter in Explore', minutes: null, label: 'Questions on this chapter in Explore', evidence: 'Explore questions stay free.', href: `/explore?${new URLSearchParams({ subject: S.subject, chapter: info.name })}`, go: 'explore' });
-    return { lead: { line: FREE_SESSION_DONE, label: 'See Pro', href: '/pricing', go: 'pro' }, options };
-  }
-
   /**
    * The Explore feed's end screen (FEED-2 section 5, BUILD-1101 1.2 and 1.9): the kept pile, the lines, the keys.
    *   kept      { count, cards, groups, stamp, line: "6 kept. They are first in Revise." }
-   *   lead      "Another 10 minutes" (fresh: true); on Free with the day's session used, null and `free` says why
-   *   dueOffer  "Revise 3 due cards, about 1 min" when the chapter has due cards
+   *   lead      "Keep going · 10 min" (fresh: true); on Free with the day's session used, null and `free` says why
+   *   next      "Next chapter · 10 min" with the chapter's title
+   *   dueOffer  "Revise 3 due cards · 1 min" when the chapter has due cards
+   * The end's main key and quiet link are the end's own `lead` and `options` (endOptions, the same as a run's, R3-SPEC L5).
    */
   function feedEnd(S, row, info, { ev, answered, right, fixed, mistakes, sessionDone, length, done }) {
     const keeps = ev.filter((e) => e.kind === 'keep' && e.body?.kept);
@@ -1313,10 +1304,10 @@ export function createLearn(deps) {
       done,
       kept: { count: cards.length, cards: cards.slice(0, 5), groups: revisePileGroups(dues, S.now), stamp: stamps.length === 1 && keeps.length ? stamps[0] : null, line: keptLine(cards.length) },
       lines,
-      lead: sessionDone ? null : { label: `Another ${minutes} minutes`, run: { kind: 'feed', chapterKey: row.chapter_key, minutes, fresh: true } },
-      free: sessionDone ? { text: FREE_SESSION_DONE } : null,
-      next: next ? { label: `Next chapter: ${next.title}`, key: next.key, run: sessionDone ? null : { kind: 'feed', chapterKey: next.key, minutes } } : null,
-      dueOffer: due ? { count: due, minutes: dueMin, label: `Revise ${plural(due, 'due card')}, about ${dueMin} min`, run: { kind: 'cards', chapterKey: info.key, cardIds: info.dueIds.slice(0, LEARN_LIMITS.maxCardIds), minutes: dueMin } } : null,
+      lead: sessionDone ? null : { label: withMinutes(WORDS.keepGoing, minutes), run: { kind: 'feed', chapterKey: row.chapter_key, minutes, fresh: true } },
+      free: sessionDone ? { text: FREE_END_LINE } : null,
+      next: next ? { label: withMinutes(WORDS.nextChapter, minutes), title: next.title, key: next.key, run: sessionDone ? null : { kind: 'feed', chapterKey: next.key, minutes } } : null,
+      dueOffer: due ? { count: due, minutes: dueMin, label: reviseDue(due, dueMin), run: { kind: 'cards', chapterKey: info.key, cardIds: info.dueIds.slice(0, LEARN_LIMITS.maxCardIds), minutes: dueMin } } : null,
     };
   }
 

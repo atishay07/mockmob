@@ -96,9 +96,10 @@ test('the budget is minutes x 60 / 1.1, and the one minutes function says it bac
 test('LK15: one Learn session a day for mix and feed; 10 minutes at most; after the claim a mix is cards only and a feed is refused', () => {
   assert.deepEqual(LEARN_FREE, { sessionsPerDay: 1, maxMinutes: 10, counted: ['mix', 'feed'] });
   assert.deepEqual(['mix', 'feed', 'cards', 'recap', 'level'].map(isCounted), [true, true, false, false, false]);
-  assert.equal(FREE_SESSION_DONE, 'Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like.');
+  // R3-SPEC ruling F: the 402 line is the shared headline and line, word for word.
+  assert.equal(FREE_SESSION_DONE, "That was today's free session. Questions come back tomorrow. Your Key cards stay open.");
   assert.equal(FREE_CAPPED, 'Free sessions are up to 10 minutes. Pro has any length.');
-  assert.equal(FREE_CARDS_ONLY, 'Your free Learn session today is used, so this one is Key cards only. Questions come back tomorrow.');
+  assert.equal(FREE_CARDS_ONLY, "That was today's free session, so this one is Key cards only. Questions come back tomorrow.");
   assert.deepEqual(freeSession({ isPro: true, kind: 'feed', minutes: 20, claimedByOther: true }), { minutes: 20, capped: null, cardsOnly: false, refuse: false, line: null });
   assert.deepEqual(freeSession({ kind: 'mix', minutes: 10 }), { minutes: 10, capped: null, cardsOnly: false, refuse: false, line: null }, 'the line shows only past the limit');
   assert.deepEqual(freeSession({ kind: 'mix', minutes: 20 }), { minutes: 10, capped: { asked: 20, text: FREE_CAPPED }, cardsOnly: false, refuse: false, line: null });

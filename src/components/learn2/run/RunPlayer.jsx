@@ -30,6 +30,7 @@ import FreeUsed from '../stage/FreeUsed';
 import { CardItem, LessonItem, QuestionItem, SaveKey, SessionPanel, TopBar } from './RunParts';
 import { FLIGHT, minutesLeftLine, upNextLine } from './runMath';
 import { answerTally, itemsFinished, placeReinsert, positionWords, runPiles } from './runView.mjs';
+import { WORDS } from '../../../../data/learn/words.js';
 import '@/components/keycards/keycards.css';
 import './run.css';
 
@@ -199,6 +200,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const [round, setRound] = useState(0);
   const cardRef = useRef(null);
   const topPileRef = useRef(null);
+  const topPosRef = useRef(null);
   const panelPileRef = useRef(null);
   const flying = useRef(false);
   const stampTimer = useRef(null);
@@ -370,7 +372,9 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
     setItems((list) => placeReinsert(list, { itemId: r.itemId, at: r.at, moved: Boolean(r.moved), item: r.item ? { ...base, ...r.item, again: r.item.reason !== 'line', stage: 'again' } : null }, { current: at, offset }));
   }, [at, offset]);
 
-  const flightTarget = () => visible(panelPileRef.current, topPileRef.current);
+  // The Revise pile is the flight's target where it shows (the panel from 1200, the top bar from 1024); on a phone the card
+  // flies into the counter "4 of 20" (R3-SPEC L4: no pile in a phone's bar).
+  const flightTarget = () => visible(panelPileRef.current, topPileRef.current, topPosRef.current);
 
   const rate = useCallback(async (rating) => {
     if (!item || busy || flying.current || leaving) return;
@@ -554,9 +558,9 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const status = error ? { text: error, tone: 'bad' }
     : note ? { text: note }
       : stamp ? { text: stamp.text, stamp: true, key: stamp.n }
-        : coachFront && item?.type === 'card' && !isTurned ? { text: 'Tap the card to turn it', cue: true }
+        : coachFront && item?.type === 'card' && !isTurned ? { text: WORDS.turnCue, cue: true }
           : coachRate && item?.type === 'card' && isTurned && !look ? { text: 'Got it: it comes back when it\u2019s due.' }
-            : coachPick && item?.type === 'question' && !answered ? { text: 'Tap the answer you think is right.' }
+            : coachPick && item?.type === 'question' && !answered ? { text: WORDS.pickHint }
               : coachRecap ? { text: 'Answers are showing. Nothing is scheduled.' }
                 : look && isTurned && lookLine && item?.look ? { text: lookLine } : null;
 
@@ -611,7 +615,12 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
     return frame(
       <div className="lr-body lr-body--end">
         <RunEnd state={end} tally={tally} kind={run.kind} chapter={chapter} refLine={refLine} closeHref={closeHref} links={links}
-          stoppedAt={stoppedAt} total={total} onRetry={() => loadEnd(run.id, { stop: stoppedAt !== null })} />
+          stoppedAt={stoppedAt} total={total} onRetry={() => loadEnd(run.id, { stop: stoppedAt !== null })}
+          onStart={(r) => setParams({
+            // R3-SPEC L5: Continue resumes the stopped run by its id; every other key starts a new run (`fresh`).
+            chapterKey: r.chapterKey || params.chapterKey, minutes: r.minutes || 10, kind: r.kind || 'mix', leaveOut: r.leaveOut || [],
+            cardIds: r.cardIds?.length ? r.cardIds : null, runId: r.resume || null, resume: null, fresh: Boolean(r.fresh), addNext: false, openEnd: false,
+          })} />
       </div>,
     );
   }
@@ -632,7 +641,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
     const leftCards = items.slice(at).filter((x) => x.type === 'card').length;
     return frame(
       <>
-        <TopBar title={chapter.title} position={null} total={total} done={at} current={at} offset={offset} left={minutesLeftLine(items, at, run.kind)} pile={pile} pop={pop} pileRef={topPileRef} closeHref={closeHref} onClose={askStop} />
+        <TopBar title={chapter.title} position={null} total={total} done={at} current={at} offset={offset} left={minutesLeftLine(items, at, run.kind)} pile={pile} pop={pop} pileRef={topPileRef} posRef={topPosRef} closeHref={closeHref} onClose={askStop} />
         <div className="lr-body">
           <section className="lr-round" aria-labelledby="lr-round-h">
             <p className="lr-round__n" id="lr-round-h">{ROUND}<span>cards rated</span></p>
@@ -663,7 +672,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
       );
     }
     if (item.type === 'card' && !isTurned) {
-      return <div className="lr-keys"><button type="button" className="kc-btn kc-btn--volt" data-page-primary="" disabled={leaving} onClick={turn}>Show answer<kbd className="kc-kbd" aria-hidden="true">Space</kbd></button></div>;
+      return <div className="lr-keys"><button type="button" className="kc-btn kc-btn--volt" data-page-primary="" disabled={leaving} onClick={turn}>{WORDS.turnOver}<kbd className="kc-kbd" aria-hidden="true">Space</kbd></button></div>;
     }
     if (item.type === 'card' && look) {
       return <div className="lr-keys"><button type="button" className="kc-btn kc-btn--volt" data-page-primary="" disabled={leaving} onClick={lookNext}>{nextLabel}<kbd className="kc-kbd" aria-hidden="true">Enter</kbd></button></div>;
@@ -708,7 +717,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   return frame(
     <>
       <TopBar title={chapter.title} position={position} total={total} done={finished} current={at} offset={offset} left={left} pile={pile} pop={pop}
-        pileRef={topPileRef} closeHref={closeHref} onClose={askStop} showPile={!isRecap} />
+        pileRef={topPileRef} posRef={topPosRef} closeHref={closeHref} onClose={askStop} showPile={!isRecap} />
       <div className="lr-body">
         <div className="lr-frame" data-type={item.type}>
           <SessionPanel chapter={chapter.title} refLine={refLine} position={position} total={total} left={left} upNext={upNext} piles={piles}

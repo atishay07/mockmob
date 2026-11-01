@@ -346,7 +346,7 @@ test('B7 5: the chapter dry run says which chapter "add next" adds, which piles 
   const after = (await free('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 10, leaveOut: [] } })).body;
   const held = Object.fromEntries(after.piles.map((p) => [p.id, p.held]));
   assert.deepEqual([held.cards, held.questions, held.mistakes], [null, 'free', 'free']);
-  assert.equal(after.free.text, 'Your free Learn session today is used, so this one is Key cards only. Questions come back tomorrow.');
+  assert.equal(after.free.text, "That was today's free session, so this one is Key cards only. Questions come back tomorrow.");
 });
 
 test('B7 8: a student with no history gets "Chapter 1 as a feed" as the third suggestion', async () => {

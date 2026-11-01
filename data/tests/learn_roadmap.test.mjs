@@ -235,17 +235,18 @@ test('service: cards moved past in an Explore feed count as seen on the roadmap'
   assert.equal(after.roadmap.position.chapterKey, 'accountancy.admission-of-partner', 'the roadmap moves to the chapter played in a feed');
 });
 
-test('the end screen stays in the chapter while 3 or more cards are unseen: "30 new cards left here", "Next 10 minutes here"', async () => {
+test('the end screen stays in the chapter while cards are unseen: "Keep going · 10 min" (R3 W), the next chapter quiet', async () => {
   const { endOptions, STAY_UNSEEN } = await import('../learn/suggest.js');
   assert.equal(STAY_UNSEEN, ROADMAP_RULES.stayUnseen, 'one rule for home and the end');
   const base = { subject: 'accountancy', chapter: { key: 'accountancy.partnership-fundamentals', title: 'Accounting for Partnership: Basic Concepts' }, minutes: 10, next: { key: 'accountancy.profit-and-loss-appropriation-account', title: 'Profit and Loss Appropriation Account' }, mustKnow: 12 };
   const stay = endOptions({ ...base, unseen: 30 });
-  assert.deepEqual([stay.lead.kind, stay.lead.title, stay.lead.label], ['here', '30 new cards left here', 'Next 10 minutes here']);
-  assert.deepEqual(stay.lead.run, { chapterKey: base.chapter.key, minutes: 10, leaveOut: [], kind: 'mix' });
-  assert.equal(stay.options[0].title, 'Next chapter: Profit and Loss Appropriation Account');
-  // Below 3 unseen, or not given: as before (the next chapter leads).
-  assert.equal(endOptions({ ...base, unseen: 2 }).lead.kind, 'next');
+  assert.deepEqual([stay.lead.kind, stay.lead.label, stay.lead.evidence], ['here', 'Keep going · 10 min', '30 new cards left here']);
+  assert.deepEqual(stay.lead.run, { chapterKey: base.chapter.key, minutes: 10, leaveOut: [], kind: 'mix', fresh: true });
+  assert.deepEqual([stay.options[0].label, stay.options[0].chapterTitle], ['Next chapter · 10 min', 'Profit and Loss Appropriation Account']);
+  // R3 W: any card unseen keeps the student; every card seen, or coverage not given: the next chapter leads.
+  assert.equal(endOptions({ ...base, unseen: 2 }).lead.kind, 'here');
+  assert.equal(endOptions({ ...base, unseen: 0 }).lead.kind, 'next');
   assert.equal(endOptions(base).lead.kind, 'next');
   // Free after the day's session: never a key the server will refuse.
-  assert.equal(endOptions({ ...base, unseen: 30, freeSessionUsed: true }).lead.label, 'See Pro');
+  assert.equal(endOptions({ ...base, unseen: 30, freeSessionUsed: true, hadCards: false }).lead.label, 'See Pro');
 });

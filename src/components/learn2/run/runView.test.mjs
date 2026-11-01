@@ -7,10 +7,12 @@ import { answerTally, endLines, endTitle, freeEndLines, frontStep, itemsFinished
 const card = (id, cardId = id, extra = {}) => ({ id, type: 'card', card: { id: cardId }, ...extra });
 const q = (id, origin = 'chapter') => ({ id, type: 'question', origin, question: { id: `q-${id}` } });
 
-test('frontStep follows the length steps of B1', () => {
+test('frontStep follows the length steps of R3 L1: 60, 140, longer', () => {
   assert.equal(frontStep('What is partnership?'), 's');
+  assert.equal(frontStep('x'.repeat(60)), 's');
   assert.equal(frontStep('x'.repeat(61)), 'm');
-  assert.equal(frontStep('x'.repeat(121)), 'l');
+  assert.equal(frontStep('x'.repeat(140)), 'm');
+  assert.equal(frontStep('x'.repeat(141)), 'l');
 });
 
 test('stageTag says why a card is here, and nothing in a recap', () => {
@@ -25,12 +27,12 @@ test('stageTag says why a card is here, and nothing in a recap', () => {
 test('runPiles counts distinct cards, marks the current pile, and says "left" on a resumed run', () => {
   const items = [card('i1', 'c1'), card('i2', 'c2'), q('i3'), card('i4', 'c1', { again: true }), q('i5', 'mistake')];
   const piles = runPiles(items, 3, { at: 3 });
-  assert.deepEqual(piles.map((p) => [p.id, p.label, p.value, p.current]), [['cards', 'Key cards', '2 of 2', true], ['questions', 'Questions', '1 of 1', false], ['mistakes', '1 old mistake', '', false]]);
+  assert.deepEqual(piles.map((p) => [p.id, p.label, p.value, p.current]), [['cards', 'Key cards', '2 of 2', true], ['questions', 'Questions', '1 of 1', false], ['mistakes', '1 open mistake', '', false]]);
   const resumed = runPiles(items, 0, { resumed: true });
   assert.equal(resumed[0].value, '2 left');
   // R2 screens 10: before anything is done, the rail reads totals, never a column of zeros.
   const fresh = runPiles([...items, card('i6', 'c3')], 0, { at: 0 });
-  assert.deepEqual(fresh.map((p) => p.label), ['3 Key cards', '1 question', '1 old mistake']);
+  assert.deepEqual(fresh.map((p) => p.label), ['3 Key cards', '1 question', '1 open mistake']);
   for (const p of fresh) assert.doesNotMatch(`${p.label} ${p.value}`, /(^|\s)0( |$)/);
 });
 
@@ -74,7 +76,7 @@ test('the end reads lines, not repeated numbers (A4 3.4.2)', () => {
   assert.deepEqual(endLines(d), [
     { label: 'Key cards', value: '16 rated, all got it' },
     { label: 'Questions', value: '3 of 3 right' },
-    { label: 'Old mistakes', value: '1 of 2 fixed, 1 still open' },
+    { label: 'Open mistakes', value: '1 of 2 fixed, 1 still open' },
   ]);
   const mixed = endLines({ numbers: { cards: 4, mistakes: 0, detail: { cards: '2 got it, 1 easy, 1 missed' } }, lines: [{ label: 'Cards', text: '2 got it, 1 easy, 1 missed, 2 looked at' }, { label: 'Mistakes', text: '0 of 2 fixed, 2 still open' }] });
   assert.deepEqual(mixed, [{ label: 'Key cards', value: '4 rated: 2 got it, 1 easy, 1 missed, 2 looked at' }]);
@@ -113,23 +115,28 @@ test('itemsFinished counts the item on screen once the server has it, so the sto
 
 // ---------------------------------------------------------------- R2 ruling 5: the end formula, never a zero
 
-test('R2 end formula: the headline says how far, never a zero', () => {
+test('R3 L5 end formula: the headline says how far, never a zero; " in N min" only from 2 min', () => {
   assert.equal(endHeadline({ reached: 20, of: 20, minutes: 9 }), '20 done in 9 min');
+  assert.equal(endHeadline({ reached: 18, of: 18, minutes: 2 }), '18 done in 2 min');
+  assert.equal(endHeadline({ reached: 18, of: 18, minutes: 1 }), '18 done', 'not "in 1 min"');
   assert.equal(endHeadline({ reached: 20, of: 20 }), '20 done');
-  assert.equal(endHeadline({ reached: 7, of: 20, minutes: 3 }), 'Stopped at 7 of 20');
-  assert.equal(endHeadline({ reached: 20, of: 20, stopped: true }), 'Stopped at 20 of 20');
+  assert.equal(endHeadline({ reached: 7, of: 20, minutes: 3 }), '7 of 20 done');
+  assert.equal(endHeadline({ reached: 5, of: 20, stopped: true }), '5 of 20 done');
+  assert.equal(endHeadline({ reached: 20, of: 20, stopped: true }), '20 of 20 done');
   assert.equal(endHeadline({ reached: 0, of: 20 }), null, 'nothing done leads with the chapter, not "0"');
   assert.equal(endHeadline({ reached: 3, of: 0 }), null);
 });
 
-test('R2 end formula: up to 3 numbers, every zero dropped, "0 of N" turned into a count of tries', () => {
-  assert.deepEqual(endNumbers({ revise: 16, reviseText: reviseLabel([{ label: 'back on Wed', count: 14 }, { label: 'back in 20 days', count: 2 }]), answered: 2, right: 2, mistakes: 2, fixed: 1 }), [
-    { value: '16', n: 16, label: 'in Revise, back Wed' },
-    { value: '2 of 2', n: 2, label: 'questions right' },
-    { value: '1 of 2', n: 1, label: 'mistakes fixed' },
+test('R3 L5 end formula: up to 3 numbers with one set of labels, every zero dropped, no "cards seen", no "mistakes tried"', () => {
+  assert.deepEqual(endNumbers({ revise: 14, reviseText: reviseLabel([{ label: 'back on Wed', count: 14 }]), answered: 2, right: 1, mistakes: 2, fixed: 2 }), [
+    { value: '14', n: 14, label: 'in Revise, back Wed' },
+    { value: '1 of 2', n: 1, label: 'questions right' },
+    { value: '2', n: 2, label: 'open mistakes fixed' },
   ]);
-  assert.deepEqual(endNumbers({ revise: 0, seen: 12, answered: 3, right: 3 }).map((x) => [x.value, x.label]), [['12', 'cards seen'], ['3 of 3', 'questions right']]);
-  assert.deepEqual(endNumbers({ answered: 2, right: 0, mistakes: 1, fixed: 0 }).map((x) => [x.value, x.label]), [['2', 'questions tried'], ['1', 'mistake tried']]);
+  assert.deepEqual(endNumbers({ revise: 0, seen: 12, answered: 3, right: 3 }).map((x) => [x.value, x.label]), [['3 of 3', 'questions right']], 'the bar carries cards seen');
+  assert.deepEqual(endNumbers({ answered: 2, right: 0, mistakes: 1, fixed: 0 }).map((x) => [x.value, x.label]), [['2', 'questions tried']], 'no fixed mistake: no number');
+  assert.deepEqual(endNumbers({ fixed: 1, mistakes: 2 }).map((x) => [x.value, x.label]), [['1', 'open mistake fixed']]);
+  for (const x of endNumbers({ revise: 3, answered: 4, right: 1, mistakes: 3, fixed: 2 })) assert.doesNotMatch(x.label, /tried|missed|old|seen/);
   assert.deepEqual(endNumbers({}), []);
   const all = [endNumbers({ revise: 0, seen: 0, answered: 0, mistakes: 0 }), endNumbers({ revise: 3, seen: 5, answered: 4, right: 0, mistakes: 2, fixed: 0 }), endNumbers({ answered: 1, right: 1 })].flat();
   for (const x of all) assert.ok(x.n > 0 && !/^0( |$)/.test(x.value), `no zero: ${x.value}`);
@@ -147,7 +154,34 @@ test('R2 end formula: the progress bar grows from before to now, and is absent w
 test('R2: the stop sheet, the checkpoint and the Free line say it once, with no zero', () => {
   assert.equal(stopSheetLine(5, 20), '5 of 20 done. It\u2019s all saved.');
   assert.equal(checkpointLines({ answered: 1, right: 1 }, { done: 8, of: 17, left: 'About 6 min left' }).line, '8 of 17 done, about 6 min left.');
-  assert.equal(FREE_END_LINE, 'That was today\u2019s free session. Pro has no daily limit.');
+  assert.equal(FREE_END_LINE, "That was today's free session. Questions come back tomorrow.", 'R3 F: FREE_DONE_HEADLINE + " Questions come back tomorrow."');
   assert.equal(pileFrontSize('The Partnership Act does not require'), 13);
   assert.equal(pileFrontSize('Interest on capital is a charge, appropriation'), 12);
+});
+
+// ---------------------------------------------------------------- R3-SPEC ruling F: the feed refusal's Or rows
+
+test('R3 F: the refusal is See Pro, then at most 2 Or rows in order: Continue, Revise due cards, Answer single questions', async () => {
+  const { freeUsedRows } = await import('../stage/endModel.mjs');
+  const revise = { kind: 'revise', label: 'Revise 3 due cards · 1 min', run: { kind: 'cards', chapterKey: 'a.b', cardIds: ['c1', 'c2', 'c3'], minutes: 1 } };
+  const explore = { kind: 'explore', label: 'Answer single questions', href: '/explore?subject=a', go: 'explore' };
+  const resume = { id: 'lr_1', kind: 'feed', chapterKey: 'a.b', done: 4, of: 12, minutesLeft: 5.4 };
+  assert.deepEqual(freeUsedRows({ resume, options: [revise, explore] }).map((r) => r.label), ['Continue · 6 min', 'Revise 3 due cards · 1 min']);
+  assert.deepEqual(freeUsedRows({ resume: null, options: [revise, explore] }).map((r) => r.label), ['Revise 3 due cards · 1 min', 'Answer single questions']);
+  assert.deepEqual(freeUsedRows({ resume: { ...resume, done: 12 }, options: [explore] }).map((r) => r.label), ['Answer single questions'], 'a finished run is not continued');
+  assert.deepEqual(freeUsedRows({}).map((r) => r.id), ['singles']);
+  for (const r of freeUsedRows({ resume, options: [revise, explore] })) assert.doesNotMatch(r.label, /Pick up|opens again tomorrow|, \d+ min/);
+});
+
+test('R3 W and F: the run, the feed, the ends and the refusal never carry a retired word', async () => {
+  const { readFileSync } = await import('node:fs');
+  const root = new URL('../', import.meta.url);
+  const files = ['run/RunPlayer.jsx', 'run/RunParts.jsx', 'run/RunEnd.jsx', 'feed/ChapterFeed.jsx', 'stage/Stage.jsx', 'stage/CardFace.jsx', 'stage/EndForm.jsx', 'stage/FreeUsed.jsx', 'stage/Sheet.jsx', 'stage/endModel.mjs', '../../../data/learn/suggest.js'];
+  const banned = [/Show answer/, /Tap the card to turn it(?! over)/, /Tap the answer/, /Pick up where you stopped/, /Pick up, /, /Another \d+ minutes/, /Another \$\{/, /new cards left here,/, /[Oo]ld mistakes?/, /mistakes? tried/, /Learn opens again tomorrow/, /Find your level/, /free session is used/, /Pro has no daily limit/, /'Keep'/];
+  for (const f of files) {
+    const text = readFileSync(new URL(f, root), 'utf8').split('\n').filter((l) => !/^\s*(\/\/|\*)/.test(l)).join('\n');
+    for (const re of banned) assert.doesNotMatch(text, re, `${f}: ${re}`);
+  }
+  const words = (await import('../../../../data/learn/words.js')).WORDS;
+  assert.deepEqual([words.turnOver, words.turnCue, words.pickHint, words.reviseLater, words.inRevise, words.seePro, words.singles], ['Turn over', 'Tap the card to turn it over', 'Pick the answer you think is right.', 'Revise later', 'In Revise', 'See Pro', 'Answer single questions']);
 });

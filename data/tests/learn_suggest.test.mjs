@@ -37,21 +37,24 @@ function checkThree(list, label, rows) {
     assert.ok(s.action?.label);
     assert.ok(s.action.run || s.action.href, `${label}: ${s.kind} starts at once`);
     if (s.action.run) assert.ok(s.action.run.minutes >= 1 && ['mix', 'cards', 'recap', 'level', 'feed'].includes(s.action.run.kind));
-    for (const text of [s.title, s.evidence, s.action.label]) assert.ok(!/·|!|→/.test(text), `${label}: copy rules in "${text}"`);
+    // R3-SPEC ruling W: a middle dot only as " · N min" (or " · about N min"), never an exclamation mark or an arrow.
+    for (const text of [s.title, s.evidence, s.action.label]) assert.ok(!/!|→/.test(text) && !/·(?! (about )?\d+ min$)/.test(text), `${label}: copy rules in "${text}"`);
     if (s.kind === 'recap') assert.ok(rows.find((r) => r.key === s.chapterKey)?.studied, `${label}: recap of an unseen chapter`);
   }
 }
 
-test('a new student: Start with the first chapter, Find your level, the first chapter as a feed (A7 copy, A3 3.10)', () => {
+test('a new student: Start with the first chapter, Skip what you already know, the first chapter as a feed (A7 copy, A3 3.10, R3 W)', () => {
   const list = suggestions({ subject: ACC, isNew: true, chapters: BOOK, level: { questions: 11 } });
   checkThree(list, 'new', BOOK);
   assert.deepEqual(list.map((s) => s.kind), ['start', 'level', 'feed']);
   assert.equal(list[0].title, 'Start with Accounting for Partnership: Basic Concepts');
   assert.equal(list[0].evidence, 'Chapter 1 of your Accountancy book. 10 minutes of its Key cards and questions.');
-  assert.equal(list[0].action.label, 'Start 10 minutes');
+  assert.equal(list[0].action.label, 'Start · 10 min');
   assert.deepEqual(list[0].action.run, { chapterKey: 'accountancy.partnership-fundamentals', minutes: 10, leaveOut: [], kind: 'mix' });
-  assert.equal(list[1].title, 'Find your level');
-  assert.equal(list[1].evidence, '6 questions from your first chapters, about 6 minutes.');
+  assert.equal(list[1].title, 'Skip what you already know');
+  assert.equal(list[1].headline, 'Skip what you already know');
+  assert.equal(list[1].evidence, '6 questions · about 6 min');
+  assert.equal(list[1].action.label, 'Start · 6 min');
   assert.deepEqual([list[2].title, list[2].headline, list[2].evidence, list[2].action.label, list[2].action.go], ['Chapter 1 as a feed', 'As a feed', 'One card or question at a time, 10 minutes.', 'Open the feed', 'feed']);
   assert.equal(list[2].action.href, '/explore/run?chapter=accountancy.partnership-fundamentals&min=10');
   assert.equal(list[2].chapterKey, 'accountancy.partnership-fundamentals');
@@ -65,7 +68,7 @@ test('a returning Pro student: pick up, due, fix, each naming its reason; due an
   checkThree(list, 'returning', rows);
   assert.deepEqual(list.map((s) => s.kind), ['pickup', 'due', 'fix']);
   assert.equal(list[0].evidence, 'You stopped at 6 of 16. About 4 minutes left.');
-  assert.equal(list[0].action.label, 'Pick up, 4 minutes');
+  assert.equal(list[0].action.label, 'Continue · 4 min', 'W: the resume key is "Continue · N min"');
   assert.equal(list[0].action.run.resume, 'lr-1');
   assert.equal(list[1].chapterKey, 'accountancy.accounting-ratios', 'the chapter with the most due cards');
   assert.equal(list[1].title, '5 cards due in Accounting Ratios');
@@ -74,7 +77,8 @@ test('a returning Pro student: pick up, due, fix, each naming its reason; due an
   assert.equal(list[2].title, '3 open mistakes in Accounting for Partnership: Basic Concepts');
   assert.equal(list[2].evidence, 'From Mock 3 on 16 Oct.');
   assert.deepEqual(list[2].action.run.leaveOut, ['questions', 'cards', 'lesson'], 'only the mistakes');
-  assert.equal(list[2].action.label, `Fix them, about ${fixMinutes(3)} minutes`);
+  assert.equal(list[2].action.label, `Fix 3 open mistakes · ${fixMinutes(3)} min`);
+  assert.equal(list[1].action.label, `Revise 5 due cards · ${cardRunMinutes(5)} min`);
   assert.equal(list[2].action.run.minutes, fixMinutes(3));
 });
 
@@ -196,38 +200,58 @@ test('the minutes helpers are compose.minutesFor over the items\' seconds', () =
   assert.equal(recapMinutes(12), 2);
 });
 
-test('session end: next chapter leads unless 3 or more cards were missed; "Another 5 minutes here" says the real 5-minute run', () => {
-  const base = { subject: 'accountancy', chapter: { key: 'accountancy.partnership-fundamentals', title: 'Accounting for Partnership: Basic Concepts', name: 'Partnership Fundamentals' }, minutes: 10, fresh: 3, next: { key: 'accountancy.profit-and-loss-appropriation-account', title: 'Profit and Loss Appropriation Account' }, mustKnow: 12 };
-  const calm = endOptions({ ...base, missed: 2, here: { cards: 10, questions: 2 }, mistakeElsewhere: { key: 'accountancy.change-in-profit-sharing-ratio', title: 'Change in Profit Sharing Ratio', count: 1 } });
-  assert.equal(calm.lead.label, 'Next: Profit and Loss Appropriation Account, 10 minutes');
-  assert.equal(calm.options.length, 3);
-  assert.equal(calm.options[0].label, 'Another 5 minutes here');
-  assert.equal(calm.options[0].evidence, '10 Key cards and 2 questions');
-  assert.equal(calm.options[1].label, 'Fix your last open mistake');
-  assert.equal(calm.options[1].evidence, `Change in Profit Sharing Ratio, ${fixMinutes(1)} min`);
-  assert.deepEqual(calm.options[1].run.leaveOut, ['questions', 'cards', 'lesson'], 'a fix run holds only mistakes');
-  assert.equal(calm.options[2].label, 'Test it in a full mock');
-  assert.match(calm.options[2].href, /mode=full/);
-  const shaky = endOptions({ ...base, missed: 4, due: { count: 6 } });
-  assert.equal(shaky.lead.label, 'Another 5 minutes here');
-  assert.equal(shaky.lead.evidence, '4 missed cards, 3 new ones', 'without the dry run, the counts it knows');
-  assert.equal(shaky.options[0].label, 'Next: Profit and Loss Appropriation Account, 10 minutes');
-  assert.equal(shaky.options[1].label, `Revise 6 due cards, ${cardRunMinutes(6)} min`);
-  const quiet = endOptions({ ...base, missed: 0, fresh: 0 });
-  assert.equal(quiet.options[1].label, `Quick recap of this chapter, ${recapMinutes(12)} min`);
-  for (const o of [calm.lead, ...calm.options, shaky.lead, ...shaky.options]) assert.ok(o.run || o.href);
-  // Free after the day's session: the line leads with See Pro; nothing serves questions.
-  const free = endOptions({ ...base, missed: 0, due: { count: 2 }, freeSessionUsed: true });
-  assert.deepEqual([free.lead.label, free.lead.href], ['See Pro', '/pricing']);
-  assert.match(free.lead.line, /^Your free Learn session for today is done\./);
-  assert.ok(free.options.every((o) => !(o.run && ['mix', 'feed'].includes(o.run.kind))));
-  assert.ok(free.options.some((o) => o.go === 'explore' && o.href.includes('chapter=Partnership+Fundamentals')));
-  // BUILD-1101 B7 6: every lead and option says its kind, its heading and its minutes (the key reads "Start 10 minutes").
-  assert.deepEqual([calm.lead.kind, calm.lead.title, calm.lead.minutes], ['next', 'Next: Profit and Loss Appropriation Account', 10]);
-  assert.deepEqual(calm.options.map((o) => [o.kind, o.title, o.minutes]), [['here', 'Another 5 minutes here', 5], ['fix', 'Fix your last open mistake', fixMinutes(1)], ['mock', 'Test it in a full mock', null]]);
-  assert.deepEqual([shaky.options[1].kind, shaky.options[1].title, shaky.options[1].minutes], ['revise', 'Revise 6 due cards', cardRunMinutes(6)]);
-  assert.deepEqual([quiet.options[1].kind, quiet.options[1].title, quiet.options[1].minutes], ['recap', 'Quick recap of this chapter', recapMinutes(12)]);
-  assert.deepEqual(free.options.map((o) => o.kind), ['revise', 'recap', 'explore']);
+test('session end (R3 L5, W): Keep going while cards are unseen, Next chapter once all are seen; the fix key is a new run', () => {
+  const base = { subject: 'accountancy', chapter: { key: 'accountancy.partnership-fundamentals', title: 'Accounting for Partnership: Basic Concepts', name: 'Partnership Fundamentals' }, minutes: 10, next: { key: 'accountancy.profit-and-loss-appropriation-account', title: 'Profit and Loss Appropriation Account' }, mustKnow: 12 };
+  // Every card seen: the next chapter leads; no open mistakes here, so the quiet link is Keep going.
+  const calm = endOptions({ ...base, unseen: 0, missed: 2, here: { cards: 10, questions: 2 } });
+  assert.deepEqual([calm.lead.kind, calm.lead.label, calm.lead.chapterTitle], ['next', 'Next chapter · 10 min', 'Profit and Loss Appropriation Account']);
+  assert.deepEqual(calm.lead.run, { chapterKey: 'accountancy.profit-and-loss-appropriation-account', minutes: 10, leaveOut: [], kind: 'mix' });
+  assert.deepEqual([calm.options[0].kind, calm.options[0].label, calm.options[0].evidence], ['here', 'Keep going · 10 min', '10 Key cards and 2 questions']);
+  assert.equal(calm.options[0].run.fresh, true, 'Keep going never resumes a run still open today');
+  assert.equal(calm.options.length, 1, 'R2 ruling 5: one quiet link at most');
+  // Cards still unseen: Keep going leads; this chapter's open mistakes are the quiet link, a NEW mistakes-only run.
+  const stay = endOptions({ ...base, unseen: 25, mistakes: { count: 3 } });
+  assert.deepEqual([stay.lead.kind, stay.lead.label, stay.lead.evidence], ['here', 'Keep going · 10 min', '25 new cards left here']);
+  assert.deepEqual([stay.options[0].kind, stay.options[0].label], ['fix', `Fix 3 open mistakes · ${fixMinutes(3)} min`]);
+  assert.deepEqual(stay.options[0].run, { chapterKey: base.chapter.key, minutes: fixMinutes(3), leaveOut: ['questions', 'cards', 'lesson'], kind: 'mix', fresh: true });
+  assert.equal(stay.options.length, 1);
+  assert.equal(endOptions({ ...base, unseen: 0, mistakes: { count: 1 } }).options[0].label, `Fix 1 open mistake · ${fixMinutes(1)} min`);
+  // Unknown coverage: the next chapter leads unless 3 or more cards were missed.
+  assert.equal(endOptions({ ...base, missed: 4 }).lead.label, 'Keep going · 10 min');
+  assert.equal(endOptions({ ...base, missed: 0 }).lead.label, 'Next chapter · 10 min');
+  assert.equal(endOptions({ ...base, next: null, unseen: 0 }).lead.label, 'Keep going · 10 min', 'the last chapter: more of it');
+  // A feed's end keeps a feed a feed.
+  const feed = endOptions({ ...base, kind: 'feed', unseen: 4 });
+  assert.deepEqual([feed.lead.run.kind, feed.lead.run.fresh, feed.options[0].run.kind], ['feed', true, 'feed']);
+  for (const o of [calm.lead, ...calm.options, stay.lead, ...stay.options]) { assert.ok(o.run || o.href); assert.equal(o.title, o.label); }
+  // None of the old words.
+  for (const o of [calm.lead, ...calm.options, stay.lead, ...stay.options, feed.lead]) assert.ok(!/Another|cards left here|, \d+ min|minutes/.test(o.label), o.label);
+});
+
+test('session end (R3 L5, C2-1): a stopped run continues by its id; its fix key is a new mistakes-only run', () => {
+  const base = { subject: 'accountancy', chapter: { key: 'accountancy.partnership-fundamentals', title: 'Basic Concepts' }, minutes: 10, unseen: 20, mistakes: { count: 2 } };
+  const stopped = endOptions({ ...base, stopped: { runId: 'lr_1', kind: 'mix', minutesLeft: 5.2 } });
+  assert.deepEqual([stopped.lead.kind, stopped.lead.label], ['continue', 'Continue · 6 min']);
+  assert.deepEqual(stopped.lead.run, { chapterKey: base.chapter.key, minutes: 6, leaveOut: [], kind: 'mix', resume: 'lr_1' });
+  assert.equal(stopped.options.length, 1);
+  assert.deepEqual([stopped.options[0].label, stopped.options[0].run.fresh, stopped.options[0].run.resume], [`Fix 2 open mistakes · ${fixMinutes(2)} min`, true, undefined]);
+  assert.deepEqual(endOptions({ ...base, mistakes: null, stopped: { runId: 'lr_1', kind: 'feed', minutesLeft: 3 } }).options, [], 'no mistakes: one key');
+  assert.equal(endOptions({ ...base, stopped: { runId: 'lr_1', kind: 'feed', minutesLeft: 3 } }).lead.run.kind, 'feed');
+  // Free with the day used: Continue stays (it is today's own run), no fix key (it would serve questions).
+  assert.deepEqual(endOptions({ ...base, freeSessionUsed: true, stopped: { runId: 'lr_1', kind: 'mix', minutesLeft: 3 } }).options, []);
+});
+
+test('session end (R3 ruling F): Free after the day\'s session: one line, Quick recap when the session had cards, else See Pro', () => {
+  const base = { subject: 'accountancy', chapter: { key: 'accountancy.partnership-fundamentals', title: 'Basic Concepts', name: 'Partnership Fundamentals' }, minutes: 10, mustKnow: 12, unseen: 30, mistakes: { count: 3 }, due: { count: 2 } };
+  const cards = endOptions({ ...base, freeSessionUsed: true, hadCards: true });
+  assert.equal(cards.lead.line, "That was today's free session. Questions come back tomorrow.");
+  assert.deepEqual([cards.lead.kind, cards.lead.label, cards.lead.run.kind], ['recap', `Quick recap · ${recapMinutes(12)} min`, 'recap']);
+  assert.deepEqual(cards.options.map((o) => [o.kind, o.label, o.href]), [['pro', 'See Pro', '/pricing']]);
+  const none = endOptions({ ...base, freeSessionUsed: true, hadCards: false });
+  assert.deepEqual([none.lead.kind, none.lead.label, none.lead.href, none.options.length], ['pro', 'See Pro', '/pricing', 0]);
+  assert.equal(none.lead.line, "That was today's free session. Questions come back tomorrow.");
+  assert.equal(endOptions({ ...base, mustKnow: 0, freeSessionUsed: true }).lead.kind, 'pro', 'no recap to offer: See Pro');
+  for (const o of [cards.lead, ...cards.options, none.lead]) assert.ok(!(o.run && ['mix', 'feed'].includes(o.run.kind)), 'nothing that serves questions');
 });
 
 // ---------------------------------------------------------------- parity through the routes (the preview runs createLearn)
