@@ -13,11 +13,11 @@
 // slides back with one line. Rows do not animate in: the panel arrives with its own fade; the bars fill once.
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ChevronDown, ChevronRight } from 'lucide-react';
+import { Check, ChevronDown, ChevronRight } from 'lucide-react';
 import { isMotionReduced } from '@/lib/motion';
 import { refreshHome, saveOption } from '@/components/keycards/api';
 import {
-  OPTION_COMING, displayTitle, effectiveChoice, freeEach, metaLine, optionChapterCount, optionLine, playableParts, plural, roadmapRow, shownOptionUnits, sortRows, sortsFor,
+  OPTION_COMING, displayTitle, effectiveChoice, freeEach, impliedOptionLine, metaLine, optionChapterCount, optionLine, playableParts, plural, roadmapRow, shownOptionUnits, sortRows, sortsFor,
   unitHeading, unitsSignature, flatRows,
 } from './homeModel.mjs';
 
@@ -49,9 +49,9 @@ export function StateRing({ shape }) {
 }
 
 function Row({ row, href, here }) {
-  // The row never says "free" (the header says it once): Free's counts are its open cards, said as cards. Only chapters with cards reach
-  // here (playableParts), so there is no "Coming soon" row.
-  const road = roadmapRow(row, { isPro: true });
+  // The row never says "free" (the header says it once) and its card count is the chapter's real size on Free and Pro alike (R4
+  // ui-correctness#1). Only chapters with cards reach here (playableParts), so there is no "Coming soon" row.
+  const road = roadmapRow(row);
   const line = road.line || metaLine(row);
   const spoken = [displayTitle(row.title), here, road.verdict, line].filter(Boolean).join('. ');
   return (
@@ -83,7 +83,7 @@ function Unit({ unit, links, here }) {
 
 /** The option units of a part, swapped as the part choice changes: the current rows fade out (160 ms), the other part's fade in
  *  (220 ms), and the box animates its height (240 ms). While the save is in flight the old rows stay in place, faded, so nothing below moves. */
-function OptionGroup({ units, choice, links, instant, here }) {
+function OptionGroup({ units, choice, links, instant, here, saving = false }) {
   const target = useMemo(() => shownOptionUnits(units, choice), [units, choice]);
   const sig = unitsSignature(target);
   const [shown, setShown] = useState(target);
@@ -107,11 +107,13 @@ function OptionGroup({ units, choice, links, instant, here }) {
       setStage('out');
       return undefined;
     }
-    if (!target.length) return undefined; // the other part's rows have not arrived yet: hold, faded
+    // The other part's rows have not arrived yet (the save is in flight): hold, faded. Once it is settled an empty target is real (an option with
+    // no cards): the faded rows are swapped out, so no blank gap is left above "Cards for this option are coming."
+    if (!target.length && saving) return undefined;
     const wait = Math.max(0, OUT_MS - (performance.now() - outAt.current));
     const timer = window.setTimeout(() => { setShown(target); setStage('in'); }, wait);
     return () => window.clearTimeout(timer);
-  }, [sig, shownSig, stage, target, instant]);
+  }, [sig, shownSig, stage, target, instant, saving]);
 
   useLayoutEffect(() => {
     if (stage !== 'in') return undefined;
@@ -140,6 +142,7 @@ function PartSwitch({ part, at, choice, status, onChoose }) {
   const choices = part.option.choices || [];
   const labelId = useId();
   const index = choices.findIndex((c) => c.id === choice);
+  const implied = impliedOptionLine(part, choice);
   const key = (event, i) => {
     if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
     event.preventDefault();
@@ -156,11 +159,13 @@ function PartSwitch({ part, at, choice, status, onChoose }) {
           return (
             <button key={c.id} type="button" role="radio" aria-checked={choice === c.id} tabIndex={choice === c.id || (index < 0 && i === 0) ? 0 : -1} className="lh-opt__btn"
               aria-label={n > 0 ? `${c.label}, ${plural(n, 'chapter')}` : c.label} onKeyDown={(e) => key(e, i)} onClick={() => onChoose(c.id)}>
+              {choice === c.id ? <Check className="lh-opt__tick" size={15} strokeWidth={2.6} aria-hidden="true" /> : null}
               {c.label}
             </button>
           );
         })}
       </div>
+      {implied && status !== 'saving' && status !== 'failed' ? <p className="lh-opt__hint lh-opt__implied">{implied}</p> : null}
       {status === 'saving' || status === 'failed'
         ? <p className="lh-opt__hint" role={status === 'failed' ? 'alert' : 'status'} data-failed={status === 'failed' || undefined}>{status === 'failed' ? 'Your choice was not saved. Try again.' : 'Saving your choice'}</p>
         : null}
@@ -307,7 +312,7 @@ export default function ChapterMap({ parts: allParts, subjectId, links, refresh,
               if (unit.optionId) {
                 if (i !== firstOption) return;
                 const units = part.units.filter((u) => u.optionId);
-                out.push(<OptionGroup key={`${part.id}-opts`} units={units} choice={choice} links={links} here={here} />);
+                out.push(<OptionGroup key={`${part.id}-opts`} units={units} choice={choice} links={links} here={here} saving={status[part.id] === 'saving'} />);
                 return;
               }
               out.push(<Unit key={`${unit.optionId}:${unit.title}:${i}`} unit={unit} links={links} here={here} />);

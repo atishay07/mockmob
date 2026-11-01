@@ -68,7 +68,7 @@ test('R5: the roadmap has no subline, no "Coming soon", no "free" on a row; the 
   const map = code(src('../ChapterMap.jsx'));
   assert.doesNotMatch(map, /in book order|chapters started|Coming soon|Your school teaches/);
   assert.match(map, /freeEach\(/);
-  assert.match(map, /roadmapRow\(row, \{ isPro: true \}\)/, 'a row never says "free"');
+  assert.match(map, /roadmapRow\(row\)/, 'a row never says "free"');
   assert.match(map, /OPTION_COMING/);
   assert.match(map, /optionLine\(part, at\)/);
   assert.match(map, /playableParts\(allParts\)/);
@@ -94,4 +94,23 @@ test('S3: the theme switch renders neutral on the server and settles after mount
   const css = src('../../../../app/(app)/arena.css');
   assert.match(css, /\.arena-appearance\[data-settled\]::before \{ transition: transform 240ms/);
   assert.doesNotMatch(css, /\.arena-appearance::before \{[^}]*transition: transform/, 'the base rule has no transition');
+});
+
+test('R4 home lows: the picker is plain buttons with aria-pressed, the portalled sheet owns its curve, the pill has no glow, the picked pill is drawn', () => {
+  const picker = code(src('../SubjectPicker.jsx'));
+  assert.doesNotMatch(picker, /role="radio/, 'no radio roles on list items');
+  assert.match(picker, /aria-pressed=\{s\.id === current\}/);
+  const css = src('../learn-home.css');
+  assert.match(css, /\.lh-psheet \{ --lh-ease: /);
+  assert.match(css, /\.lh-row__here \{[^}]*box-shadow: none; filter: none; text-shadow: none;/);
+  assert.match(css, /\.lh-opt__btn\[aria-checked='true'\] \{ background: var\(--a-ink\)/);
+  const map = code(src('../ChapterMap.jsx'));
+  assert.match(map, /impliedOptionLine\(part, choice\)/);
+  assert.match(map, /<Check className="lh-opt__tick"/);
+});
+
+test('R4 home: an option with no cards swaps the faded rows out once its save settles (no blank gap above the coming line)', () => {
+  const map = code(src('../ChapterMap.jsx'));
+  assert.match(map, /if \(!target\.length && saving\) return undefined;/);
+  assert.match(map, /saving=\{status\[part\.id\] === 'saving'\}/);
 });

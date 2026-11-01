@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   OPTION_COMING, allNotStarted, cardsText, freeEach, hasCards, optionLine, playableParts, chapterTotal, distinctKinds, effectiveChoice, filterParts, homeSuggestions, istDay, marksOrder, marksText, metaLine, nothingToPlay, optionChapterCount, pickupProgress, plural,
-  findHintLine, findHints, roadmapRow, searchPlaceholder, setHead, shelfFromParam, shelfKeys, shownOptionUnits, sortRows, sortsFor, splitTitle, stateShape, subjectLine, suggestionTarget, unitHeading, unitsSignature, visibleRefs,
+  findHintLine, findHints, impliedOptionLine, roadmapRow, verdictText, searchPlaceholder, setHead, shelfFromParam, shelfKeys, shownOptionUnits, sortRows, sortsFor, splitTitle, stateShape, subjectLine, suggestionTarget, unitHeading, unitsSignature, visibleRefs,
 } from '../homeModel.mjs';
 
 const row = (key, extra = {}) => ({ key, title: key.toUpperCase(), ref: 'Ch 1', cards: 10, questions: 4, mistakes: 0, due: 0, state: { key: 'none', label: 'Not started' }, meta: '', marksOpen: null, lesson: null, ...extra });
@@ -50,11 +50,12 @@ test('R3 R5: the roadmap draws only chapters with cards; a part keeps its option
   assert.deepEqual(playableParts(null), []);
 });
 
-test('R3 R5: the option line names the part and its options; Free says "5 free in each chapter" once, Pro never', () => {
+test('R3 R5: the option line names the part and its options; Free says "5 Key cards free in each chapter" once, Pro never', () => {
   assert.equal(optionLine({ title: 'Part 2, Company Accounts and Analysis of Financial Statements', option: { choices: [{}, {}] } }), 'Part 2 has two options. Pick the one your school teaches.');
   assert.equal(optionLine({ title: 'Computerised', option: { choices: [{}, {}, {}] } }, 0), 'Part 1 has three options. Pick the one your school teaches.');
   const rows = [{ progress: { of: 5 } }, { progress: { of: 3 } }, { progress: { of: 0 } }];
-  assert.equal(freeEach(rows, false), '5 free in each chapter');
+  assert.equal(freeEach(rows, false), '5 Key cards free in each chapter');
+  assert.equal(freeEach([{ progress: { of: 1 } }], false), '1 Key card free in each chapter');
   assert.equal(freeEach(rows, true), null);
   assert.equal(freeEach([], false), null);
   // A row itself never says "free": the roadmap row's line is counted as cards.
@@ -199,7 +200,7 @@ test('a roadmap row: coverage through the chapter, the bar share, and "Needs wor
   assert.equal(fresh.line, '46 cards · 10 questions');
   assert.equal(fresh.verdict, null);
   for (const key of ['getting_there', 'holding', 'thin', 'none']) assert.equal(roadmapRow({ progress: { of: 5, seen: 2, questions: 0, tried: 0 }, state: { key } }).verdict, null);
-  assert.equal(roadmapRow({ progress: { of: 5, seen: 2, questions: 0, tried: 0 } }, { isPro: false }).line, '2 of 5 free cards seen');
+  assert.equal(roadmapRow({ progress: { of: 5, seen: 2, questions: 0, tried: 0 } }).line, '2 of 5 cards seen');
   assert.doesNotMatch(roadmapRow({ progress: { of: 5, seen: 5, questions: 3, tried: 3 } }).line, /%|master|0 of/i);
 });
 
@@ -227,4 +228,43 @@ test('the field says what it can search; the Free line is kept per India day', (
   assert.equal(searchPlaceholder(undefined), 'Search Key cards');
   assert.equal(istDay(Date.UTC(2026, 10, 1, 20, 0, 0)), '2026-11-02');
   assert.equal(istDay(Date.UTC(2026, 10, 1, 18, 29, 0)), '2026-11-01');
+});
+
+test('R4 ui-correctness#1 and first-timer#1: a Free row shows the real chapter size, not the free count', () => {
+  // A Free chapter row as the server sends it: cards 45 in the chapter, 5 open on Free (progress.of), 10 questions.
+  const free = { cards: 45, progress: { of: 5, seen: 0, questions: 10, tried: 0 }, state: { key: 'none' } };
+  assert.equal(roadmapRow(free).line, '45 cards · 10 questions');
+  assert.equal(roadmapRow(free).total, 45, 'a Free row card count equals the chapter total');
+  assert.doesNotMatch(roadmapRow(free).line, /free/i);
+  // Free-done: the first chapter has its 5 open cards seen and 3 of 10 questions tried; it must not read as finished.
+  const done = { cards: 45, progress: { of: 5, seen: 5, questions: 10, tried: 3 }, state: { key: 'getting_there' } };
+  assert.equal(roadmapRow(done).line, '5 of 45 cards seen · 3 of 10 questions tried');
+  assert.ok(roadmapRow(done).share > 0.11 && roadmapRow(done).share < 0.12, 'the bar reads against the real total');
+  // Pro and Free rows of the same chapter agree on the size.
+  const pro = { cards: 45, progress: { of: 45, seen: 0, questions: 10, tried: 0 }, state: { key: 'none' } };
+  assert.equal(roadmapRow(pro).line, roadmapRow(free).line);
+  // Seen never exceeds the total, and an old body without `cards` falls back to progress.of.
+  assert.equal(roadmapRow({ cards: 3, progress: { of: 5, seen: 5, questions: 0, tried: 0 } }).line, '3 of 3 cards seen');
+  assert.equal(roadmapRow({ progress: { of: 46, seen: 0, questions: 0, tried: 0 } }).line, '46 cards');
+});
+
+test('R4 ruling V: "Needs work" says "from your papers" when that is its only evidence', () => {
+  assert.equal(verdictText({ state: { key: 'needs_work' }, needsWorkFrom: 'papers' }), 'Needs work · from your papers');
+  assert.equal(verdictText({ verdict: 'Needs work', needsWorkFrom: 'papers' }), 'Needs work · from your papers');
+  assert.equal(verdictText({ state: { key: 'needs_work' }, needsWorkFrom: 'learn' }), 'Needs work');
+  assert.equal(verdictText({ state: { key: 'needs_work' } }), 'Needs work', 'a body without the field reads plainly');
+  assert.equal(verdictText({ state: { key: 'holding' }, needsWorkFrom: 'papers' }), null, 'no verdict, no suffix');
+  assert.equal(roadmapRow({ cards: 10, progress: { of: 5, seen: 0, questions: 0, tried: 0 }, state: { key: 'needs_work' }, needsWorkFrom: 'papers' }).verdict, 'Needs work · from your papers');
+});
+
+test('R4 owner-eye#4 and first-timer#8: until an option is saved, one line names the option the list shows (from data)', () => {
+  const choices = [{ id: 'afs', label: 'Analysis of Financial Statements' }, { id: 'ca', label: 'Computerised Accounting' }];
+  const unit = (optionId) => ({ optionId, title: optionId, chapters: [{ key: optionId }] });
+  const part = { option: { choices }, units: [unit('afs')] };
+  assert.equal(impliedOptionLine(part, null), 'Showing Analysis of Financial Statements until you pick.');
+  assert.equal(impliedOptionLine({ option: { choices: [choices[1], choices[0]] }, units: [unit('ca')] }, null), 'Showing Computerised Accounting until you pick.', 'the name follows the data');
+  assert.equal(impliedOptionLine(part, 'afs'), null, 'a saved choice needs no line');
+  assert.equal(impliedOptionLine({ option: { choices }, units: [unit('afs'), unit('ca')] }, null), null, 'both showing needs no line');
+  assert.equal(impliedOptionLine({ units: [unit('afs')] }, null), null, 'a part without options');
+  assert.equal(impliedOptionLine({ option: { choices }, units: [] }, null), null);
 });
