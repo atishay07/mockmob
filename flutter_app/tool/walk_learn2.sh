@@ -39,4 +39,6 @@ l2_font() { adb shell settings put system font_scale "${1:-1.0}"; }
 l2_launch() { adb shell am force-stop "$L2_APP"; adb shell monkey -p "$L2_APP" -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; sleep "${1:-6}"; }
 
 # Opens a website path in the demo as the App Link would (the ActionRouter maps it), e.g. l2_open "/learn/c/accountancy.admission-of-partner".
-l2_open() { adb shell am start -W -a android.intent.action.VIEW -d "https://www.mockmob.in$1" -p "$L2_APP" >/dev/null 2>&1; sleep "${2:-3}"; }
+# The whole command goes to the device's shell as one quoted string: an unquoted "&" in a query would end the command there
+# and drop -p, so another MockMob build on the phone would answer the link.
+l2_open() { adb shell "am start -W -a android.intent.action.VIEW -d 'https://www.mockmob.in$1' -p $L2_APP" >/dev/null 2>&1; sleep "${2:-3}"; }
