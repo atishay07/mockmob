@@ -19,6 +19,11 @@
     "sha256": "301c529e157a1724d8b9347bd1c20558a7c1af0298263700ba90ffd5910a015c",
     "cards": 1257
   },
+  "computer_science": {
+    "version": 1,
+    "sha256": "ab3e22d9a4eb0bb071de7a872b161a153af9a683d60da907111f51aae7cd7420",
+    "cards": 1350
+  },
   "economics": {
     "version": 6,
     "sha256": "56b1f51e3adca689a4c2403f9d1886498abb7d76b6187884ccfdfbf054e9347e",
