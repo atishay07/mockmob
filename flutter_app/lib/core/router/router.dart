@@ -9,6 +9,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/account_access/access_routes.dart';
 import '../../features/billing/widgets/pro_page.dart' show proPageScreen;
+import '../../features/learn2/data/learn_providers.dart' show learnOnProvider;
+import '../../features/learn2/learn2_links.dart' show Learn2Links;
 import '../../features/nudges/data/nudge_store.dart' show nudgeCalmProvider;
 import '../../features/pro_nudge/pro_nudge.dart' show ArmRules, ShellPlace, proNudgeProvider;
 import '../../features/referrals/referral_data.dart' show pendingInviteStoreProvider;
@@ -285,6 +287,12 @@ String? practiceDoorFor(Uri uri) {
 
 String? _toPracticeDoor(BuildContext context, GoRouterState state) => practiceDoorFor(state.uri);
 
+/// While Learn v2 is on (APP-1101 6), the Key cards pages open their Learn v2 places: one Key cards world, not two.
+String? _keyCardsToLearn2(BuildContext context, GoRouterState state) {
+  final on = ProviderScope.containerOf(context, listen: false).read(learnOnProvider);
+  return on ? Learn2Links.fromKeyCards(state.uri) : null;
+}
+
 /// A page over the bar that was opened with nothing under it (`go` from a screen outside the shell):
 /// system Back goes to Today instead of closing the app (L04). With a page under it, Back pops as
 /// usual.
@@ -522,7 +530,7 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey, Set<RouteBase> sheets
     ]),
 
     // Key cards (KEYCARDS-BUILD-SPEC 4): pushed over the shell from Learn, Review and Revise; no tab.
-    page(AppRoutes.keyCards, keyCardsScreen, root: true, routes: [
+    page(AppRoutes.keyCards, keyCardsScreen, root: true, redirect: _keyCardsToLearn2, routes: [
       page(':chapter', keyCardsChapterScreen, root: true),
     ]),
 

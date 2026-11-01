@@ -29,6 +29,15 @@ void main() {
     });
   });
 
+  test('the Key cards pages open their Learn v2 places while it is on', () {
+    expect(Learn2Links.fromKeyCards(Uri.parse('/cards')), '/practice?door=learn');
+    expect(Learn2Links.fromKeyCards(Uri.parse('/cards?subject=economics')), '/practice?subject=economics&door=learn');
+    expect(Learn2Links.fromKeyCards(Uri.parse('/cards/accountancy.goodwill')), '/learn/c/accountancy.goodwill/cards');
+    expect(Learn2Links.fromKeyCards(Uri.parse('/cards/accountancy.goodwill?mode=study')), '/learn/c/accountancy.goodwill');
+    expect(Learn2Links.fromKeyCards(Uri.parse('/cards/accountancy.goodwill?mode=last-look')), '/learn/c/accountancy.goodwill/cards?f=must');
+    expect(Learn2Links.fromKeyCards(Uri.parse('/learn')), isNull);
+  });
+
   test('RunLaunch and FeedLaunch round-trip through their query', () {
     const run = RunLaunch(chapterKey: 'accountancy.goodwill', minutes: 20, kind: 'cards', leaveOut: ['lesson'], cardIds: ['kc.a', 'kc.b'], runId: 'lr_9', end: true, addNext: true, fresh: true);
     final back = RunLaunch.fromQuery(run.toQuery());

@@ -135,6 +135,21 @@ abstract final class Learn2Links {
   /// Revise.
   static String revise() => AppRoutes.reviewRevise;
 
+  /// Where a Key cards page (`/cards`, `/cards/<key>[?mode=study|last-look]`) opens while Learn v2 is on, so one student
+  /// meets one Key cards world, not two (the web's useLearn2On rule): Key cards home is the Learn door, a deck is the
+  /// chapter's Cards view, Study is the chapter page and Last look the Must-know cards. Null for anything else.
+  static String? fromKeyCards(Uri uri) {
+    final s = [for (final p in uri.pathSegments) if (p.isNotEmpty) p];
+    if (s.isEmpty || s.first != 'cards' || s.length > 2) return null;
+    if (s.length == 1) return home(subject: _text(uri.queryParameters['subject']));
+    final key = s[1];
+    return switch (uri.queryParameters['mode']) {
+      'study' => chapter(key),
+      'last-look' => cards(key, filter: 'must'),
+      _ => cards(key),
+    };
+  }
+
   /// A production href the server wrote, drawn as the app's location; null when it is not a Learn place (the
   /// caller then hands it to the ActionRouter).
   static String? resolve(String? href) {
