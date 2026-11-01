@@ -62,8 +62,9 @@ void main() {
       await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro)));
       expect(find.text(ExploreCopy.title), findsOneWidget);
       expect(find.text('Chapter feeds'), findsOneWidget);
-      expect(find.text('14 chapters'), findsOneWidget);
-      expect(find.text(ExploreCopy.feedsNote), findsOneWidget);
+      // The phone band, as the web's covers.css under 768 px: no chapter count (the pager says it) and no general line.
+      expect(find.text('14 chapters'), findsNothing);
+      expect(find.text(ExploreCopy.feedsNote), findsNothing);
       // On a narrow row the first two drop "min" (the web's 5 | 10 | 20 min).
       expect(find.text('5'), findsOneWidget);
       expect(find.text('10'), findsOneWidget);
@@ -239,7 +240,7 @@ void main() {
     testWidgets('Free\'s capped line shows only with 20 picked', (tester) async {
       await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.free)));
       expect(find.text(ExploreCopy.freeCapped), findsNothing);
-      expect(find.text(ExploreCopy.feedsNote), findsOneWidget);
+      expect(find.text(ExploreCopy.feedsNote), findsNothing);
       await tester.tap(find.text('20 min'));
       await settleExplore(tester);
       expect(find.text(ExploreCopy.freeCapped), findsOneWidget);
@@ -254,7 +255,7 @@ void main() {
     testWidgets('Pro at 20 minutes has no capped line', (tester) async {
       await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro), minutes: 20));
       expect(find.text(ExploreCopy.freeCapped), findsNothing);
-      expect(find.text(ExploreCopy.feedsNote), findsOneWidget);
+      expect(find.text(ExploreCopy.feedsNote), findsNothing);
     });
 
     testWidgets('is said aloud when it is picked', (tester) async {
@@ -469,7 +470,7 @@ void main() {
       await settleExplore(tester);
       expect(find.byType(CoverSkeleton), findsNothing);
       expect(tester.getSize(find.byType(CoverCard).first).height, height, reason: 'the page does not move when the covers land');
-      expect(find.text('14 chapters'), findsOneWidget);
+      expect(find.text('14 chapters'), findsNothing);
     });
 
     testWidgets('error: one line with Try again, and Try again reads them again', (tester) async {

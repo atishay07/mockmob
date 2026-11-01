@@ -124,13 +124,15 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
     final choices = subjectChoices(chosen: auth.subjects, selected: practiceId, catalog: catalog);
     final bottom = MediaQuery.paddingOf(context).bottom + MmSpace.s32;
 
-    final String note;
+    // The web's phone band shows a line here only at a real Free limit (covers.css hides the general line and the
+    // chapter count under 768 px; the pager under the row already says "1 of 14").
+    final String? note;
     if (freeDone) {
       note = ExploreCopy.freeDone;
     } else if (free && minutes == 20) {
       note = ExploreCopy.freeCapped;
     } else {
-      note = ExploreCopy.feedsNote;
+      note = null;
     }
 
     final Widget section = switch (phase) {
@@ -174,9 +176,9 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                           ],
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-                            child: _FeedsHead(count: ready ? data!.covers.length : null, minutes: minutes, onMinutes: _pickLength, lengthRead: _lengthRead),
+                            child: _FeedsHead(count: null, minutes: minutes, onMinutes: _pickLength, lengthRead: _lengthRead),
                           ),
-                          if (phase == _Phase.loading || ready)
+                          if (ready && note != null)
                             Padding(
                               padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, 0),
                               child: _Note(text: note, seePro: freeDone && canUpgrade),
