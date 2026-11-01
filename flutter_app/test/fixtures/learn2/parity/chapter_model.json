@@ -1,0 +1,7933 @@
+{
+ "web": "wt-1031-learn-v2 978edc236",
+ "note": "Written by tool/learn2_parity/chapter_model.mjs from the web's own chapterModel.mjs and runMath.js minutesFor. Do not edit by hand.",
+ "counts": {
+  "previews": 13,
+  "chapters": 24,
+  "piles": 127,
+  "quiet": 33,
+  "shelves": 26,
+  "errors": 10
+ },
+ "chapters": [
+  {
+   "name": "preview_aop_10_free",
+   "chapter": {
+    "key": "accountancy.admission-of-partner",
+    "title": "Admission of a Partner",
+    "ref": "Ch 2",
+    "partTitle": "Part 1, Partnership Accounts",
+    "unitTitle": "Reconstitution of a Partnership firm",
+    "state": {
+     "key": "getting_there",
+     "label": "Getting there"
+    }
+   },
+   "out": {
+    "eyebrow": "Reconstitution of a Partnership firm",
+    "ref": "Part 1, Ch 2"
+   }
+  },
+  {
+   "name": "preview_aop_10_new_free",
+   "chapter": {
+    "key": "accountancy.admission-of-partner",
+    "title": "Admission of a Partner",
+    "ref": "Ch 2",
+    "partTitle": "Part 1, Partnership Accounts",
+    "unitTitle": "Reconstitution of a Partnership firm",
+    "state": {
+     "key": "none",
+     "label": "Not started"
+    }
+   },
+   "out": {
+    "eyebrow": "Reconstitution of a Partnership firm",
+    "ref": "Part 1, Ch 2"
+   }
+  },
+  {
+   "name": "preview_aop_10_new_pro",
+   "chapter": {
+    "key": "accountancy.admission-of-partner",
+    "title": "Admission of a Partner",
+    "ref": "Ch 2",
+    "partTitle": "Part 1, Partnership Accounts",
+    "unitTitle": "Reconstitution of a Partnership firm",
+    "state": {
+     "key": "none",
+     "label": "Not started"
+    }
+   },
+   "out": {
+    "eyebrow": "Reconstitution of a Partnership firm",
+    "ref": "Part 1, Ch 2"
+   }
+  },
+  {
+   "name": "preview_aop_10_out_questions_pro",
+   "chapter": {
+    "key": "accountancy.admission-of-partner",
+    "title": "Admission of a Partner",
+    "ref": "Ch 2",
+    "partTitle": "Part 1, Partnership Accounts",
+    "unitTitle": "Reconstitution of a Partnership firm",
+    "state": {
+     "key": "getting_there",
+     "label": "Getting there"
+    }
+   },
+   "out": {
+    "eyebrow": "Reconstitution of a Partnership firm",
+    "ref": "Part 1, Ch 2"
+   }
+  },
+  {
+   "name": "preview_aop_10_pro",
+   "chapter": {
+    "key": "accountancy.admission-of-partner",
+    "title": "Admission of a Partner",
+    "ref": "Ch 2",
+    "partTitle": "Part 1, Partnership Accounts",
+    "unitTitle": "Reconstitution of a Partnership firm",
+    "state": {
+     "key": "getting_there",
+     "label": "Getting there"
+    }
+   },
+   "out": {
+    "eyebrow": "Reconstitution of a Partnership firm",
+    "ref": "Part 1, Ch 2"
+   }
+  },
+  {
+   "name": "preview_aop_20_free",
+   "chapter": {
+    "key": "accountancy.admission-of-partner",
+    "title": "Admission of a Partner",
+    "ref": "Ch 2",
+    "partTitle": "Part 1, Partnership Accounts",
+    "unitTitle": "Reconstitution of a Partnership firm",
+    "state": {
+     "key": "getting_there",
+     "label": "Getting there"
+    }
+   },
+   "out": {
+    "eyebrow": "Reconstitution of a Partnership firm",
+    "ref": "Part 1, Ch 2"
+   }
+  },
+  {
+   "name": "preview_aop_20_pro",
+   "chapter": {
+    "key": "accountancy.admission-of-partner",
+    "title": "Admission of a Partner",
+    "ref": "Ch 2",
+    "partTitle": "Part 1, Partnership Accounts",
+    "unitTitle": "Reconstitution of a Partnership firm",
+    "state": {
+     "key": "getting_there",
+     "label": "Getting there"
+    }
+   },
+   "out": {
+    "eyebrow": "Reconstitution of a Partnership firm",
+    "ref": "Part 1, Ch 2"
+   }
+  },
+  {
+   "name": "preview_aop_5_free",
+   "chapter": {
+    "key": "accountancy.admission-of-partner",
+    "title": "Admission of a Partner",
+    "ref": "Ch 2",
+    "partTitle": "Part 1, Partnership Accounts",
+    "unitTitle": "Reconstitution of a Partnership firm",
+    "state": {
+     "key": "getting_there",
+     "label": "Getting there"
+    }
+   },
+   "out": {
+    "eyebrow": "Reconstitution of a Partnership firm",
+    "ref": "Part 1, Ch 2"
+   }
+  },
+  {
+   "name": "preview_aop_5_pro",
+   "chapter": {
+    "key": "accountancy.admission-of-partner",
+    "title": "Admission of a Partner",
+    "ref": "Ch 2",
+    "partTitle": "Part 1, Partnership Accounts",
+    "unitTitle": "Reconstitution of a Partnership firm",
+    "state": {
+     "key": "getting_there",
+     "label": "Getting there"
+    }
+   },
+   "out": {
+    "eyebrow": "Reconstitution of a Partnership firm",
+    "ref": "Part 1, Ch 2"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_addnext_pro",
+   "chapter": {
+    "key": "accountancy.change-in-profit-sharing-ratio",
+    "title": "Change in Profit Sharing Ratio",
+    "ref": "Ch 2",
+    "partTitle": "Part 1, Partnership Accounts",
+    "unitTitle": "Reconstitution of a Partnership firm",
+    "state": {
+     "key": "needs_work",
+     "label": "Needs work"
+    }
+   },
+   "out": {
+    "eyebrow": "Reconstitution of a Partnership firm",
+    "ref": "Part 1, Ch 2"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_pro",
+   "chapter": {
+    "key": "accountancy.change-in-profit-sharing-ratio",
+    "title": "Change in Profit Sharing Ratio",
+    "ref": "Ch 2",
+    "partTitle": "Part 1, Partnership Accounts",
+    "unitTitle": "Reconstitution of a Partnership firm",
+    "state": {
+     "key": "needs_work",
+     "label": "Needs work"
+    }
+   },
+   "out": {
+    "eyebrow": "Reconstitution of a Partnership firm",
+    "ref": "Part 1, Ch 2"
+   }
+  },
+  {
+   "name": "preview_pf_10_free_used",
+   "chapter": {
+    "key": "accountancy.partnership-fundamentals",
+    "title": "Accounting for Partnership: Basic Concepts",
+    "ref": "Ch 1",
+    "partTitle": "Part 1, Partnership Accounts",
+    "unitTitle": null,
+    "state": {
+     "key": "getting_there",
+     "label": "Getting there"
+    }
+   },
+   "out": {
+    "eyebrow": null,
+    "ref": "Part 1, Ch 1"
+   }
+  },
+  {
+   "name": "preview_pf_10_pro",
+   "chapter": {
+    "key": "accountancy.partnership-fundamentals",
+    "title": "Accounting for Partnership: Basic Concepts",
+    "ref": "Ch 1",
+    "partTitle": "Part 1, Partnership Accounts",
+    "unitTitle": null,
+    "state": {
+     "key": "getting_there",
+     "label": "Getting there"
+    }
+   },
+   "out": {
+    "eyebrow": null,
+    "ref": "Part 1, Ch 1"
+   }
+  },
+  {
+   "name": "web: unit shown",
+   "chapter": {
+    "title": "Admission of a Partner",
+    "unitTitle": "Reconstitution of a Partnership firm",
+    "partTitle": "Part 1, Partnership Accounts",
+    "ref": "Ch 2"
+   },
+   "out": {
+    "eyebrow": "Reconstitution of a Partnership firm",
+    "ref": "Part 1, Ch 2"
+   }
+  },
+  {
+   "name": "web: unit repeats the title",
+   "chapter": {
+    "title": "Goodwill: Nature and Valuation",
+    "unitTitle": "Goodwill",
+    "partTitle": "Part 1, Partnership Accounts",
+    "ref": "Ch 3"
+   },
+   "out": {
+    "eyebrow": null,
+    "ref": "Part 1, Ch 3"
+   }
+  },
+  {
+   "name": "web: part only",
+   "chapter": {
+    "title": "Reading",
+    "unitTitle": null,
+    "partTitle": "CUET English",
+    "ref": null
+   },
+   "out": {
+    "eyebrow": null,
+    "ref": "CUET English"
+   }
+  },
+  {
+   "name": "unit equals the title",
+   "chapter": {
+    "title": "Goodwill",
+    "unitTitle": "Goodwill",
+    "partTitle": "Part 2, Company Accounts",
+    "ref": "Ch 1"
+   },
+   "out": {
+    "eyebrow": null,
+    "ref": "Part 2, Ch 1"
+   }
+  },
+  {
+   "name": "unit echoes the title in another case",
+   "chapter": {
+    "title": "goodwill and more",
+    "unitTitle": "GOODWILL",
+    "partTitle": "Part 3",
+    "ref": "Ch 9"
+   },
+   "out": {
+    "eyebrow": null,
+    "ref": "Part 3, Ch 9"
+   }
+  },
+  {
+   "name": "unit inside the title is not an echo",
+   "chapter": {
+    "title": "Nature of goodwill",
+    "unitTitle": "Goodwill",
+    "partTitle": "Part 3",
+    "ref": "Ch 9"
+   },
+   "out": {
+    "eyebrow": "Goodwill",
+    "ref": "Part 3, Ch 9"
+   }
+  },
+  {
+   "name": "no ref",
+   "chapter": {
+    "title": "T",
+    "unitTitle": "U",
+    "partTitle": "Part 4, Four",
+    "ref": null
+   },
+   "out": {
+    "eyebrow": "U",
+    "ref": "Part 4"
+   }
+  },
+  {
+   "name": "no part",
+   "chapter": {
+    "title": "T",
+    "unitTitle": null,
+    "partTitle": null,
+    "ref": "Ch 5"
+   },
+   "out": {
+    "eyebrow": null,
+    "ref": "Ch 5"
+   }
+  },
+  {
+   "name": "part without a number",
+   "chapter": {
+    "title": "T",
+    "unitTitle": null,
+    "partTitle": "Accountancy Part 1",
+    "ref": "Ch 5"
+   },
+   "out": {
+    "eyebrow": null,
+    "ref": "Accountancy Part 1, Ch 5"
+   }
+  },
+  {
+   "name": "two digit part",
+   "chapter": {
+    "title": "T",
+    "unitTitle": null,
+    "partTitle": "Part 12, Twelve",
+    "ref": "Ch 5"
+   },
+   "out": {
+    "eyebrow": null,
+    "ref": "Part 12, Ch 5"
+   }
+  },
+  {
+   "name": "nothing",
+   "chapter": {
+    "title": "T"
+   },
+   "out": {
+    "eyebrow": null,
+    "ref": null
+   }
+  }
+ ],
+ "partShorts": [
+  {
+   "title": "Part 1, Partnership Accounts",
+   "out": "Part 1"
+  },
+  {
+   "title": "Part 12, Twelve",
+   "out": "Part 12"
+  },
+  {
+   "title": "Accountancy Part 1",
+   "out": "Accountancy Part 1"
+  },
+  {
+   "title": "CUET English",
+   "out": "CUET English"
+  },
+  {
+   "title": "",
+   "out": null
+  },
+  {
+   "title": null,
+   "out": null
+  },
+  {
+   "title": "Part A",
+   "out": "Part A"
+  },
+  {
+   "title": "part 1",
+   "out": "part 1"
+  }
+ ],
+ "piles": [
+  {
+   "name": "preview_aop_10_free cards",
+   "pile": {
+    "id": "cards",
+    "count": 5,
+    "minutes": 2,
+    "label": "Key cards",
+    "minutesLabel": "about 2 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": null,
+    "note": null,
+    "aria": "Key cards: 5, about 2 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_10_free cards left",
+   "pile": {
+    "id": "cards",
+    "count": 5,
+    "minutes": 2,
+    "label": "Key cards",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_10_free cards held",
+   "pile": {
+    "id": "cards",
+    "count": 5,
+    "minutes": 2,
+    "label": "Key cards",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_10_free questions",
+   "pile": {
+    "id": "questions",
+    "count": 5,
+    "minutes": 6,
+    "label": "Questions",
+    "minutesLabel": "about 6 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 6 min",
+   "view": {
+    "state": "in",
+    "line": "about 6 min",
+    "of": null,
+    "note": null,
+    "aria": "Questions: 5, about 6 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_10_free questions left",
+   "pile": {
+    "id": "questions",
+    "count": 5,
+    "minutes": 6,
+    "label": "Questions",
+    "minutesLabel": "about 6 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 6 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Questions, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_10_free questions held",
+   "pile": {
+    "id": "questions",
+    "count": 5,
+    "minutes": 6,
+    "label": "Questions",
+    "minutesLabel": "about 6 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 6 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Questions, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_10_free mistakes",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "about 2 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes: 2, about 2 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_10_free mistakes left",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_10_free mistakes held",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_10_new_free cards",
+   "pile": {
+    "id": "cards",
+    "count": 5,
+    "minutes": 2,
+    "label": "Key cards",
+    "minutesLabel": "about 2 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": null,
+    "note": null,
+    "aria": "Key cards: 5, about 2 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_10_new_free cards left",
+   "pile": {
+    "id": "cards",
+    "count": 5,
+    "minutes": 2,
+    "label": "Key cards",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_10_new_free cards held",
+   "pile": {
+    "id": "cards",
+    "count": 5,
+    "minutes": 2,
+    "label": "Key cards",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_10_new_free questions",
+   "pile": {
+    "id": "questions",
+    "count": 7,
+    "minutes": 8,
+    "label": "Questions",
+    "minutesLabel": "about 8 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 8 min",
+   "view": {
+    "state": "in",
+    "line": "about 8 min",
+    "of": null,
+    "note": null,
+    "aria": "Questions: 7, about 8 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_10_new_free questions left",
+   "pile": {
+    "id": "questions",
+    "count": 7,
+    "minutes": 8,
+    "label": "Questions",
+    "minutesLabel": "about 8 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 8 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Questions, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_10_new_free questions held",
+   "pile": {
+    "id": "questions",
+    "count": 7,
+    "minutes": 8,
+    "label": "Questions",
+    "minutesLabel": "about 8 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 8 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Questions, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_10_new_pro cards",
+   "pile": {
+    "id": "cards",
+    "count": 15,
+    "minutes": 5,
+    "label": "Key cards",
+    "minutesLabel": "about 5 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 5 min",
+   "view": {
+    "state": "in",
+    "line": "about 5 min",
+    "of": null,
+    "note": null,
+    "aria": "Key cards: 15, about 5 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_10_new_pro cards left",
+   "pile": {
+    "id": "cards",
+    "count": 15,
+    "minutes": 5,
+    "label": "Key cards",
+    "minutesLabel": "about 5 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 5 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_10_new_pro cards held",
+   "pile": {
+    "id": "cards",
+    "count": 15,
+    "minutes": 5,
+    "label": "Key cards",
+    "minutesLabel": "about 5 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 5 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_10_new_pro questions",
+   "pile": {
+    "id": "questions",
+    "count": 4,
+    "minutes": 5,
+    "label": "Questions",
+    "minutesLabel": "about 5 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 5 min",
+   "view": {
+    "state": "in",
+    "line": "about 5 min",
+    "of": null,
+    "note": null,
+    "aria": "Questions: 4, about 5 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_10_new_pro questions left",
+   "pile": {
+    "id": "questions",
+    "count": 4,
+    "minutes": 5,
+    "label": "Questions",
+    "minutesLabel": "about 5 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 5 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Questions, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_10_new_pro questions held",
+   "pile": {
+    "id": "questions",
+    "count": 4,
+    "minutes": 5,
+    "label": "Questions",
+    "minutesLabel": "about 5 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 5 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Questions, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_10_out_questions_pro cards",
+   "pile": {
+    "id": "cards",
+    "count": 23,
+    "minutes": 8,
+    "label": "Key cards",
+    "minutesLabel": "about 8 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 8 min",
+   "view": {
+    "state": "in",
+    "line": "about 8 min",
+    "of": null,
+    "note": null,
+    "aria": "Key cards: 23, about 8 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_10_out_questions_pro cards left",
+   "pile": {
+    "id": "cards",
+    "count": 23,
+    "minutes": 8,
+    "label": "Key cards",
+    "minutesLabel": "about 8 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 8 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_10_out_questions_pro cards held",
+   "pile": {
+    "id": "cards",
+    "count": 23,
+    "minutes": 8,
+    "label": "Key cards",
+    "minutesLabel": "about 8 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 8 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_10_out_questions_pro questions",
+   "pile": {
+    "id": "questions",
+    "count": 0,
+    "minutes": 0,
+    "label": "Questions",
+    "minutesLabel": "Left out",
+    "left": true,
+    "held": null
+   },
+   "minutes": "under a minute",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Questions, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_10_out_questions_pro questions left",
+   "pile": {
+    "id": "questions",
+    "count": 0,
+    "minutes": 0,
+    "label": "Questions",
+    "minutesLabel": "Left out",
+    "left": true,
+    "held": null
+   },
+   "minutes": "under a minute",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Questions, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_10_out_questions_pro questions held",
+   "pile": {
+    "id": "questions",
+    "count": 0,
+    "minutes": 0,
+    "label": "Questions",
+    "minutesLabel": "Left out",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "under a minute",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Questions, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_10_out_questions_pro mistakes",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "about 2 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes: 2, about 2 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_10_out_questions_pro mistakes left",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_10_out_questions_pro mistakes held",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_10_pro cards",
+   "pile": {
+    "id": "cards",
+    "count": 16,
+    "minutes": 5,
+    "label": "Key cards",
+    "minutesLabel": "about 5 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 5 min",
+   "view": {
+    "state": "in",
+    "line": "about 5 min",
+    "of": null,
+    "note": null,
+    "aria": "Key cards: 16, about 5 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_10_pro cards left",
+   "pile": {
+    "id": "cards",
+    "count": 16,
+    "minutes": 5,
+    "label": "Key cards",
+    "minutesLabel": "about 5 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 5 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_10_pro cards held",
+   "pile": {
+    "id": "cards",
+    "count": 16,
+    "minutes": 5,
+    "label": "Key cards",
+    "minutesLabel": "about 5 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 5 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_10_pro questions",
+   "pile": {
+    "id": "questions",
+    "count": 2,
+    "minutes": 3,
+    "label": "Questions",
+    "minutesLabel": "about 3 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 3 min",
+   "view": {
+    "state": "in",
+    "line": "about 3 min",
+    "of": null,
+    "note": null,
+    "aria": "Questions: 2, about 3 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_10_pro questions left",
+   "pile": {
+    "id": "questions",
+    "count": 2,
+    "minutes": 3,
+    "label": "Questions",
+    "minutesLabel": "about 3 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 3 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Questions, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_10_pro questions held",
+   "pile": {
+    "id": "questions",
+    "count": 2,
+    "minutes": 3,
+    "label": "Questions",
+    "minutesLabel": "about 3 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 3 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Questions, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_10_pro mistakes",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "about 2 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes: 2, about 2 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_10_pro mistakes left",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_10_pro mistakes held",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_20_free cards",
+   "pile": {
+    "id": "cards",
+    "count": 5,
+    "minutes": 2,
+    "label": "Key cards",
+    "minutesLabel": "about 2 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": null,
+    "note": null,
+    "aria": "Key cards: 5, about 2 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_20_free cards left",
+   "pile": {
+    "id": "cards",
+    "count": 5,
+    "minutes": 2,
+    "label": "Key cards",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_20_free cards held",
+   "pile": {
+    "id": "cards",
+    "count": 5,
+    "minutes": 2,
+    "label": "Key cards",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_20_free questions",
+   "pile": {
+    "id": "questions",
+    "count": 5,
+    "minutes": 6,
+    "label": "Questions",
+    "minutesLabel": "about 6 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 6 min",
+   "view": {
+    "state": "in",
+    "line": "about 6 min",
+    "of": null,
+    "note": null,
+    "aria": "Questions: 5, about 6 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_20_free questions left",
+   "pile": {
+    "id": "questions",
+    "count": 5,
+    "minutes": 6,
+    "label": "Questions",
+    "minutesLabel": "about 6 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 6 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Questions, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_20_free questions held",
+   "pile": {
+    "id": "questions",
+    "count": 5,
+    "minutes": 6,
+    "label": "Questions",
+    "minutesLabel": "about 6 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 6 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Questions, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_20_free mistakes",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "about 2 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes: 2, about 2 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_20_free mistakes left",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_20_free mistakes held",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_20_pro cards",
+   "pile": {
+    "id": "cards",
+    "count": 17,
+    "minutes": 6,
+    "label": "Key cards",
+    "minutesLabel": "about 6 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 6 min",
+   "view": {
+    "state": "in",
+    "line": "about 6 min",
+    "of": null,
+    "note": null,
+    "aria": "Key cards: 17, about 6 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_20_pro cards left",
+   "pile": {
+    "id": "cards",
+    "count": 17,
+    "minutes": 6,
+    "label": "Key cards",
+    "minutesLabel": "about 6 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 6 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_20_pro cards held",
+   "pile": {
+    "id": "cards",
+    "count": 17,
+    "minutes": 6,
+    "label": "Key cards",
+    "minutesLabel": "about 6 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 6 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_20_pro questions",
+   "pile": {
+    "id": "questions",
+    "count": 4,
+    "minutes": 5,
+    "label": "Questions",
+    "minutesLabel": "about 5 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 5 min",
+   "view": {
+    "state": "in",
+    "line": "about 5 min",
+    "of": null,
+    "note": null,
+    "aria": "Questions: 4, about 5 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_20_pro questions left",
+   "pile": {
+    "id": "questions",
+    "count": 4,
+    "minutes": 5,
+    "label": "Questions",
+    "minutesLabel": "about 5 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 5 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Questions, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_20_pro questions held",
+   "pile": {
+    "id": "questions",
+    "count": 4,
+    "minutes": 5,
+    "label": "Questions",
+    "minutesLabel": "about 5 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 5 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Questions, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_20_pro mistakes",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "about 2 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes: 2, about 2 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_20_pro mistakes left",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_20_pro mistakes held",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_20_pro lesson",
+   "pile": {
+    "id": "lesson",
+    "count": 1,
+    "minutes": 7,
+    "label": "Lesson",
+    "minutesLabel": "7 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "7 min",
+   "view": {
+    "state": "in",
+    "line": "7 min",
+    "of": null,
+    "note": null,
+    "aria": "Lesson: 1, 7 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_20_pro lesson left",
+   "pile": {
+    "id": "lesson",
+    "count": 1,
+    "minutes": 7,
+    "label": "Lesson",
+    "minutesLabel": "7 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "7 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Lesson, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_20_pro lesson held",
+   "pile": {
+    "id": "lesson",
+    "count": 1,
+    "minutes": 7,
+    "label": "Lesson",
+    "minutesLabel": "7 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "7 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Lesson, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_5_free cards",
+   "pile": {
+    "id": "cards",
+    "count": 5,
+    "minutes": 2,
+    "label": "Key cards",
+    "minutesLabel": "about 2 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": null,
+    "note": null,
+    "aria": "Key cards: 5, about 2 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_5_free cards left",
+   "pile": {
+    "id": "cards",
+    "count": 5,
+    "minutes": 2,
+    "label": "Key cards",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_5_free cards held",
+   "pile": {
+    "id": "cards",
+    "count": 5,
+    "minutes": 2,
+    "label": "Key cards",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_5_free questions",
+   "pile": {
+    "id": "questions",
+    "count": 2,
+    "minutes": 2,
+    "label": "Questions",
+    "minutesLabel": "about 2 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": null,
+    "note": null,
+    "aria": "Questions: 2, about 2 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_5_free questions left",
+   "pile": {
+    "id": "questions",
+    "count": 2,
+    "minutes": 2,
+    "label": "Questions",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Questions, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_5_free questions held",
+   "pile": {
+    "id": "questions",
+    "count": 2,
+    "minutes": 2,
+    "label": "Questions",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Questions, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_5_free mistakes",
+   "pile": {
+    "id": "mistakes",
+    "count": 1,
+    "minutes": 1,
+    "label": "Your mistakes",
+    "minutesLabel": "1 of 2, about 1 min",
+    "left": false,
+    "of": 2,
+    "held": null
+   },
+   "minutes": "about 1 min",
+   "view": {
+    "state": "in",
+    "line": "about 1 min",
+    "of": 2,
+    "note": null,
+    "aria": "Your mistakes: 1 of 2, about 1 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_5_free mistakes left",
+   "pile": {
+    "id": "mistakes",
+    "count": 1,
+    "minutes": 1,
+    "label": "Your mistakes",
+    "minutesLabel": "1 of 2, about 1 min",
+    "left": true,
+    "of": 2,
+    "held": null
+   },
+   "minutes": "about 1 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_5_free mistakes held",
+   "pile": {
+    "id": "mistakes",
+    "count": 1,
+    "minutes": 1,
+    "label": "Your mistakes",
+    "minutesLabel": "1 of 2, about 1 min",
+    "left": true,
+    "of": 2,
+    "held": "free"
+   },
+   "minutes": "about 1 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_5_pro cards",
+   "pile": {
+    "id": "cards",
+    "count": 6,
+    "minutes": 2,
+    "label": "Key cards",
+    "minutesLabel": "about 2 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": null,
+    "note": null,
+    "aria": "Key cards: 6, about 2 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_5_pro cards left",
+   "pile": {
+    "id": "cards",
+    "count": 6,
+    "minutes": 2,
+    "label": "Key cards",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_5_pro cards held",
+   "pile": {
+    "id": "cards",
+    "count": 6,
+    "minutes": 2,
+    "label": "Key cards",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_5_pro questions",
+   "pile": {
+    "id": "questions",
+    "count": 2,
+    "minutes": 2,
+    "label": "Questions",
+    "minutesLabel": "about 2 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": null,
+    "note": null,
+    "aria": "Questions: 2, about 2 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_5_pro questions left",
+   "pile": {
+    "id": "questions",
+    "count": 2,
+    "minutes": 2,
+    "label": "Questions",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Questions, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_5_pro questions held",
+   "pile": {
+    "id": "questions",
+    "count": 2,
+    "minutes": 2,
+    "label": "Questions",
+    "minutesLabel": "about 2 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Questions, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_aop_5_pro mistakes",
+   "pile": {
+    "id": "mistakes",
+    "count": 1,
+    "minutes": 1,
+    "label": "Your mistakes",
+    "minutesLabel": "1 of 2, about 1 min",
+    "left": false,
+    "of": 2,
+    "held": null
+   },
+   "minutes": "about 1 min",
+   "view": {
+    "state": "in",
+    "line": "about 1 min",
+    "of": 2,
+    "note": null,
+    "aria": "Your mistakes: 1 of 2, about 1 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_aop_5_pro mistakes left",
+   "pile": {
+    "id": "mistakes",
+    "count": 1,
+    "minutes": 1,
+    "label": "Your mistakes",
+    "minutesLabel": "1 of 2, about 1 min",
+    "left": true,
+    "of": 2,
+    "held": null
+   },
+   "minutes": "about 1 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_aop_5_pro mistakes held",
+   "pile": {
+    "id": "mistakes",
+    "count": 1,
+    "minutes": 1,
+    "label": "Your mistakes",
+    "minutesLabel": "1 of 2, about 1 min",
+    "left": true,
+    "of": 2,
+    "held": "free"
+   },
+   "minutes": "about 1 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_addnext_pro cards",
+   "pile": {
+    "id": "cards",
+    "count": 11,
+    "minutes": 4,
+    "label": "Key cards",
+    "minutesLabel": "about 4 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 4 min",
+   "view": {
+    "state": "in",
+    "line": "about 4 min",
+    "of": null,
+    "note": null,
+    "aria": "Key cards: 11, about 4 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_addnext_pro cards left",
+   "pile": {
+    "id": "cards",
+    "count": 11,
+    "minutes": 4,
+    "label": "Key cards",
+    "minutesLabel": "about 4 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 4 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_addnext_pro cards held",
+   "pile": {
+    "id": "cards",
+    "count": 11,
+    "minutes": 4,
+    "label": "Key cards",
+    "minutesLabel": "about 4 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 4 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_addnext_pro questions",
+   "pile": {
+    "id": "questions",
+    "count": 7,
+    "minutes": 9,
+    "label": "Questions",
+    "minutesLabel": "about 9 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 9 min",
+   "view": {
+    "state": "in",
+    "line": "about 9 min",
+    "of": null,
+    "note": null,
+    "aria": "Questions: 7, about 9 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_addnext_pro questions left",
+   "pile": {
+    "id": "questions",
+    "count": 7,
+    "minutes": 9,
+    "label": "Questions",
+    "minutesLabel": "about 9 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 9 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Questions, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_addnext_pro questions held",
+   "pile": {
+    "id": "questions",
+    "count": 7,
+    "minutes": 9,
+    "label": "Questions",
+    "minutesLabel": "about 9 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 9 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Questions, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_addnext_pro lesson",
+   "pile": {
+    "id": "lesson",
+    "count": 1,
+    "minutes": 7,
+    "label": "Lesson",
+    "minutesLabel": "7 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "7 min",
+   "view": {
+    "state": "in",
+    "line": "7 min",
+    "of": null,
+    "note": null,
+    "aria": "Lesson: 1, 7 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_addnext_pro lesson left",
+   "pile": {
+    "id": "lesson",
+    "count": 1,
+    "minutes": 7,
+    "label": "Lesson",
+    "minutesLabel": "7 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "7 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Lesson, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_addnext_pro lesson held",
+   "pile": {
+    "id": "lesson",
+    "count": 1,
+    "minutes": 7,
+    "label": "Lesson",
+    "minutesLabel": "7 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "7 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Lesson, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_pro cards",
+   "pile": {
+    "id": "cards",
+    "count": 8,
+    "minutes": 3,
+    "label": "Key cards",
+    "minutesLabel": "about 3 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 3 min",
+   "view": {
+    "state": "in",
+    "line": "about 3 min",
+    "of": null,
+    "note": null,
+    "aria": "Key cards: 8, about 3 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_pro cards left",
+   "pile": {
+    "id": "cards",
+    "count": 8,
+    "minutes": 3,
+    "label": "Key cards",
+    "minutesLabel": "about 3 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 3 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_pro cards held",
+   "pile": {
+    "id": "cards",
+    "count": 8,
+    "minutes": 3,
+    "label": "Key cards",
+    "minutesLabel": "about 3 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 3 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_pro questions",
+   "pile": {
+    "id": "questions",
+    "count": 7,
+    "minutes": 9,
+    "label": "Questions",
+    "minutesLabel": "about 9 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 9 min",
+   "view": {
+    "state": "in",
+    "line": "about 9 min",
+    "of": null,
+    "note": null,
+    "aria": "Questions: 7, about 9 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_pro questions left",
+   "pile": {
+    "id": "questions",
+    "count": 7,
+    "minutes": 9,
+    "label": "Questions",
+    "minutesLabel": "about 9 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 9 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Questions, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_pro questions held",
+   "pile": {
+    "id": "questions",
+    "count": 7,
+    "minutes": 9,
+    "label": "Questions",
+    "minutesLabel": "about 9 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 9 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Questions, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_pro lesson",
+   "pile": {
+    "id": "lesson",
+    "count": 1,
+    "minutes": 7,
+    "label": "Lesson",
+    "minutesLabel": "7 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "7 min",
+   "view": {
+    "state": "in",
+    "line": "7 min",
+    "of": null,
+    "note": null,
+    "aria": "Lesson: 1, 7 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_pro lesson left",
+   "pile": {
+    "id": "lesson",
+    "count": 1,
+    "minutes": 7,
+    "label": "Lesson",
+    "minutesLabel": "7 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "7 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Lesson, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_cpsr_20_pro lesson held",
+   "pile": {
+    "id": "lesson",
+    "count": 1,
+    "minutes": 7,
+    "label": "Lesson",
+    "minutesLabel": "7 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "7 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Lesson, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_pf_10_free_used cards",
+   "pile": {
+    "id": "cards",
+    "count": 5,
+    "minutes": 1,
+    "label": "Key cards",
+    "minutesLabel": "about 1 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 1 min",
+   "view": {
+    "state": "in",
+    "line": "about 1 min",
+    "of": null,
+    "note": null,
+    "aria": "Key cards: 5, about 1 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_pf_10_free_used cards left",
+   "pile": {
+    "id": "cards",
+    "count": 5,
+    "minutes": 1,
+    "label": "Key cards",
+    "minutesLabel": "about 1 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 1 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_pf_10_free_used cards held",
+   "pile": {
+    "id": "cards",
+    "count": 5,
+    "minutes": 1,
+    "label": "Key cards",
+    "minutesLabel": "about 1 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 1 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_pf_10_free_used questions",
+   "pile": {
+    "id": "questions",
+    "count": 0,
+    "minutes": 0,
+    "label": "Questions",
+    "minutesLabel": "Left out",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "under a minute",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Questions, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_pf_10_free_used questions left",
+   "pile": {
+    "id": "questions",
+    "count": 0,
+    "minutes": 0,
+    "label": "Questions",
+    "minutesLabel": "Left out",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "under a minute",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Questions, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_pf_10_free_used questions held",
+   "pile": {
+    "id": "questions",
+    "count": 0,
+    "minutes": 0,
+    "label": "Questions",
+    "minutesLabel": "Left out",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "under a minute",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Questions, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_pf_10_free_used mistakes",
+   "pile": {
+    "id": "mistakes",
+    "count": 0,
+    "minutes": 0,
+    "label": "Your mistakes",
+    "minutesLabel": "Left out",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "under a minute",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_pf_10_free_used mistakes left",
+   "pile": {
+    "id": "mistakes",
+    "count": 0,
+    "minutes": 0,
+    "label": "Your mistakes",
+    "minutesLabel": "Left out",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "under a minute",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_pf_10_free_used mistakes held",
+   "pile": {
+    "id": "mistakes",
+    "count": 0,
+    "minutes": 0,
+    "label": "Your mistakes",
+    "minutesLabel": "Left out",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "under a minute",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_pf_10_pro cards",
+   "pile": {
+    "id": "cards",
+    "count": 16,
+    "minutes": 5,
+    "label": "Key cards",
+    "minutesLabel": "about 5 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 5 min",
+   "view": {
+    "state": "in",
+    "line": "about 5 min",
+    "of": null,
+    "note": null,
+    "aria": "Key cards: 16, about 5 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_pf_10_pro cards left",
+   "pile": {
+    "id": "cards",
+    "count": 16,
+    "minutes": 5,
+    "label": "Key cards",
+    "minutesLabel": "about 5 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 5 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_pf_10_pro cards held",
+   "pile": {
+    "id": "cards",
+    "count": 16,
+    "minutes": 5,
+    "label": "Key cards",
+    "minutesLabel": "about 5 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 5 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Key cards, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_pf_10_pro questions",
+   "pile": {
+    "id": "questions",
+    "count": 2,
+    "minutes": 3,
+    "label": "Questions",
+    "minutesLabel": "about 3 min",
+    "left": false,
+    "held": null
+   },
+   "minutes": "about 3 min",
+   "view": {
+    "state": "in",
+    "line": "about 3 min",
+    "of": null,
+    "note": null,
+    "aria": "Questions: 2, about 3 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_pf_10_pro questions left",
+   "pile": {
+    "id": "questions",
+    "count": 2,
+    "minutes": 3,
+    "label": "Questions",
+    "minutesLabel": "about 3 min",
+    "left": true,
+    "held": null
+   },
+   "minutes": "about 3 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Questions, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_pf_10_pro questions held",
+   "pile": {
+    "id": "questions",
+    "count": 2,
+    "minutes": 3,
+    "label": "Questions",
+    "minutesLabel": "about 3 min",
+    "left": true,
+    "held": "free"
+   },
+   "minutes": "about 3 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Questions, back tomorrow"
+   }
+  },
+  {
+   "name": "preview_pf_10_pro mistakes",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "2 of 3, about 2 min",
+    "left": false,
+    "of": 3,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": 3,
+    "note": null,
+    "aria": "Your mistakes: 2 of 3, about 2 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "preview_pf_10_pro mistakes left",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "2 of 3, about 2 min",
+    "left": true,
+    "of": 3,
+    "held": null
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "preview_pf_10_pro mistakes held",
+   "pile": {
+    "id": "mistakes",
+    "count": 2,
+    "minutes": 2,
+    "label": "Your mistakes",
+    "minutesLabel": "2 of 3, about 2 min",
+    "left": true,
+    "of": 3,
+    "held": "free"
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes, back tomorrow"
+   }
+  },
+  {
+   "name": "web: cards",
+   "pile": {
+    "id": "cards",
+    "label": "Key cards",
+    "count": 16,
+    "minutes": 4
+   },
+   "minutes": "about 4 min",
+   "view": {
+    "state": "in",
+    "line": "about 4 min",
+    "of": null,
+    "note": null,
+    "aria": "Key cards: 16, about 4 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "web: lesson",
+   "pile": {
+    "id": "lesson",
+    "label": "Lesson",
+    "count": 1,
+    "minutes": 7
+   },
+   "minutes": "7 min",
+   "view": {
+    "state": "in",
+    "line": "7 min",
+    "of": null,
+    "note": null,
+    "aria": "Lesson: 1, 7 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "web: questions left",
+   "pile": {
+    "id": "questions",
+    "label": "Questions",
+    "left": true
+   },
+   "minutes": "under a minute",
+   "view": {
+    "state": "left",
+    "line": "Tap to put back",
+    "of": null,
+    "note": null,
+    "aria": "Questions, left out. Tap to put it back"
+   }
+  },
+  {
+   "name": "web: questions held",
+   "pile": {
+    "id": "questions",
+    "label": "Questions",
+    "left": true,
+    "held": true
+   },
+   "minutes": "under a minute",
+   "view": {
+    "state": "held",
+    "line": "Back tomorrow",
+    "of": null,
+    "note": null,
+    "aria": "Questions, back tomorrow"
+   }
+  },
+  {
+   "name": "web: mistakes 2 of 3",
+   "pile": {
+    "id": "mistakes",
+    "label": "Your mistakes",
+    "count": 2,
+    "of": 3,
+    "minutes": 2
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": 3,
+    "note": null,
+    "aria": "Your mistakes: 2 of 3, about 2 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "mistakes of equals count",
+   "pile": {
+    "id": "mistakes",
+    "label": "Your mistakes",
+    "count": 3,
+    "of": 3,
+    "minutes": 2
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes: 3, about 2 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "mistakes of under count",
+   "pile": {
+    "id": "mistakes",
+    "label": "Your mistakes",
+    "count": 3,
+    "of": 2,
+    "minutes": 2
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": null,
+    "note": null,
+    "aria": "Your mistakes: 3, about 2 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "cards with an of is not shown",
+   "pile": {
+    "id": "cards",
+    "label": "Key cards",
+    "count": 3,
+    "of": 9,
+    "minutes": 2
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": null,
+    "note": null,
+    "aria": "Key cards: 3, about 2 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "a note",
+   "pile": {
+    "id": "cards",
+    "label": "Key cards",
+    "count": 4,
+    "minutes": 1,
+    "note": "Revise first: 46 due"
+   },
+   "minutes": "about 1 min",
+   "view": {
+    "state": "in",
+    "line": "about 1 min",
+    "of": null,
+    "note": "Revise first: 46 due",
+    "aria": "Key cards: 4, about 1 min. Revise first: 46 due. Tap to leave it out"
+   }
+  },
+  {
+   "name": "under a minute",
+   "pile": {
+    "id": "questions",
+    "label": "Questions",
+    "count": 1,
+    "minutes": 0
+   },
+   "minutes": "under a minute",
+   "view": {
+    "state": "in",
+    "line": "under a minute",
+    "of": null,
+    "note": null,
+    "aria": "Questions: 1, under a minute. Tap to leave it out"
+   }
+  },
+  {
+   "name": "a lesson of no minutes",
+   "pile": {
+    "id": "lesson",
+    "label": "Lesson",
+    "count": 1,
+    "minutes": 0
+   },
+   "minutes": "1 min",
+   "view": {
+    "state": "in",
+    "line": "1 min",
+    "of": null,
+    "note": null,
+    "aria": "Lesson: 1, 1 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "one minute",
+   "pile": {
+    "id": "cards",
+    "label": "Key cards",
+    "count": 3,
+    "minutes": 1
+   },
+   "minutes": "about 1 min",
+   "view": {
+    "state": "in",
+    "line": "about 1 min",
+    "of": null,
+    "note": null,
+    "aria": "Key cards: 3, about 1 min. Tap to leave it out"
+   }
+  },
+  {
+   "name": "no label",
+   "pile": {
+    "id": "cards",
+    "count": 3,
+    "minutes": 2
+   },
+   "minutes": "about 2 min",
+   "view": {
+    "state": "in",
+    "line": "about 2 min",
+    "of": null,
+    "note": null,
+    "aria": ": 3, about 2 min. Tap to leave it out"
+   }
+  }
+ ],
+ "quiet": [
+  {
+   "name": "preview_aop_10_free",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 5,
+      "minutes": 2,
+      "label": "Key cards",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 5,
+      "minutes": 6,
+      "label": "Questions",
+      "minutesLabel": "about 6 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 5,
+     "minutes": 1,
+     "label": "Or a quick recap: the 5 Must-know lines, about 1 min"
+    },
+    "shrink": null,
+    "free": {
+     "text": "Free opens 5 of this chapter's 53 cards."
+    },
+    "resume": {
+     "runId": "lr_1d11c94a527acdc962fc5ff6",
+     "done": 6,
+     "of": 11,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": {
+     "used": false,
+     "maxMinutes": 10,
+     "line": null
+    },
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 5,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": true
+     }
+    }
+   },
+   "out": null
+  },
+  {
+   "name": "preview_aop_10_new_free",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "none",
+      "label": "Not started"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 5,
+      "minutes": 2,
+      "label": "Key cards",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 7,
+      "minutes": 8,
+      "label": "Questions",
+      "minutesLabel": "about 8 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise, so cards come back when they are due.",
+    "recap": {
+     "count": 5,
+     "minutes": 1,
+     "label": "Or a quick recap: the 5 Must-know lines, about 1 min"
+    },
+    "shrink": null,
+    "free": {
+     "text": "Free opens 5 of this chapter's 53 cards."
+    },
+    "resume": null,
+    "firstVisit": true,
+    "asked": 10,
+    "capped": null,
+    "freeSession": {
+     "used": false,
+     "maxMinutes": 10,
+     "line": null
+    },
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 5,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 0
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": true
+     }
+    }
+   },
+   "out": "Cards and questions, one at a time. Stop whenever you like; what you do is saved."
+  },
+  {
+   "name": "preview_aop_10_new_pro",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "none",
+      "label": "Not started"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 15,
+      "minutes": 5,
+      "label": "Key cards",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 4,
+      "minutes": 5,
+      "label": "Questions",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise, so cards come back when they are due.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": null,
+    "firstVisit": true,
+    "asked": 10,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 53,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 0
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": false
+     }
+    }
+   },
+   "out": "Cards and questions, one at a time. Stop whenever you like; what you do is saved."
+  },
+  {
+   "name": "preview_aop_10_out_questions_pro",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 23,
+      "minutes": 8,
+      "label": "Key cards",
+      "minutesLabel": "about 8 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 0,
+      "minutes": 0,
+      "label": "Questions",
+      "minutesLabel": "Left out",
+      "left": true,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [
+     "questions"
+    ],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 53,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": false
+     }
+    }
+   },
+   "out": null
+  },
+  {
+   "name": "preview_aop_10_pro",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 16,
+      "minutes": 5,
+      "label": "Key cards",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 3,
+      "label": "Questions",
+      "minutesLabel": "about 3 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 53,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": false
+     }
+    }
+   },
+   "out": null
+  },
+  {
+   "name": "preview_aop_20_free",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 5,
+      "minutes": 2,
+      "label": "Key cards",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 5,
+      "minutes": 6,
+      "label": "Questions",
+      "minutesLabel": "about 6 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 5,
+     "minutes": 1,
+     "label": "Or a quick recap: the 5 Must-know lines, about 1 min"
+    },
+    "shrink": null,
+    "free": {
+     "text": "Free opens 5 of this chapter's 53 cards."
+    },
+    "resume": {
+     "runId": "lr_1d11c94a527acdc962fc5ff6",
+     "done": 6,
+     "of": 11,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 20,
+    "capped": {
+     "asked": 20,
+     "text": "Free sessions are up to 10 minutes. Pro has any length."
+    },
+    "freeSession": {
+     "used": false,
+     "maxMinutes": 10,
+     "line": null
+    },
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 5,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": true
+     }
+    }
+   },
+   "out": "Free sessions are up to 10 minutes. Pro has any length."
+  },
+  {
+   "name": "preview_aop_20_pro",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 20,
+    "realMinutes": 20,
+    "startLabel": "Start 20 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 17,
+      "minutes": 6,
+      "label": "Key cards",
+      "minutesLabel": "about 6 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 4,
+      "minutes": 5,
+      "label": "Questions",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "lesson",
+      "count": 1,
+      "minutes": 7,
+      "label": "Lesson",
+      "minutesLabel": "7 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 20,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 53,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": false
+     }
+    }
+   },
+   "out": null
+  },
+  {
+   "name": "preview_aop_5_free",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 5,
+    "realMinutes": 5,
+    "startLabel": "Start 5 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 5,
+      "minutes": 2,
+      "label": "Key cards",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 2,
+      "label": "Questions",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 1,
+      "minutes": 1,
+      "label": "Your mistakes",
+      "minutesLabel": "1 of 2, about 1 min",
+      "left": false,
+      "of": 2,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 5,
+     "minutes": 1,
+     "label": "Or a quick recap: the 5 Must-know lines, about 1 min"
+    },
+    "shrink": null,
+    "free": {
+     "text": "Free opens 5 of this chapter's 53 cards."
+    },
+    "resume": {
+     "runId": "lr_1d11c94a527acdc962fc5ff6",
+     "done": 6,
+     "of": 11,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 5,
+    "capped": null,
+    "freeSession": {
+     "used": false,
+     "maxMinutes": 10,
+     "line": null
+    },
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 5,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": true
+     }
+    }
+   },
+   "out": null
+  },
+  {
+   "name": "preview_aop_5_pro",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 5,
+    "realMinutes": 5,
+    "startLabel": "Start 5 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 6,
+      "minutes": 2,
+      "label": "Key cards",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 2,
+      "label": "Questions",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 1,
+      "minutes": 1,
+      "label": "Your mistakes",
+      "minutesLabel": "1 of 2, about 1 min",
+      "left": false,
+      "of": 2,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 5,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 53,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": false
+     }
+    }
+   },
+   "out": null
+  },
+  {
+   "name": "preview_cpsr_20_addnext_pro",
+   "data": {
+    "chapter": {
+     "key": "accountancy.change-in-profit-sharing-ratio",
+     "title": "Change in Profit Sharing Ratio",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "needs_work",
+      "label": "Needs work"
+     }
+    },
+    "minutes": 20,
+    "realMinutes": 20,
+    "startLabel": "Start 20 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 11,
+      "minutes": 4,
+      "label": "Key cards",
+      "minutesLabel": "about 4 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 7,
+      "minutes": 9,
+      "label": "Questions",
+      "minutesLabel": "about 9 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "lesson",
+      "count": 1,
+      "minutes": 7,
+      "label": "Lesson",
+      "minutesLabel": "7 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 6,
+     "minutes": 1,
+     "label": "Or a quick recap: the 6 Must-know lines, about 1 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": null,
+    "firstVisit": false,
+    "asked": 20,
+    "capped": null,
+    "freeSession": null,
+    "added": {
+     "key": "accountancy.goodwill-valuation",
+     "title": "Goodwill: Nature and Valuation",
+     "ref": "Ch 2"
+    },
+    "shelf": {
+     "cards": {
+      "count": 8,
+      "open": 8,
+      "mustKnow": 6,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 6,
+      "total": 7
+     },
+     "mistakes": {
+      "open": 0
+     },
+     "lesson": {
+      "id": "accountancy-sacrificing-gaining",
+      "title": "Sacrificing and gaining ratios",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 6,
+      "locked": false
+     }
+    }
+   },
+   "out": null
+  },
+  {
+   "name": "preview_cpsr_20_pro",
+   "data": {
+    "chapter": {
+     "key": "accountancy.change-in-profit-sharing-ratio",
+     "title": "Change in Profit Sharing Ratio",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "needs_work",
+      "label": "Needs work"
+     }
+    },
+    "minutes": 20,
+    "realMinutes": 19,
+    "startLabel": "Start 19 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 8,
+      "minutes": 3,
+      "label": "Key cards",
+      "minutesLabel": "about 3 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 7,
+      "minutes": 9,
+      "label": "Questions",
+      "minutesLabel": "about 9 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "lesson",
+      "count": 1,
+      "minutes": 7,
+      "label": "Lesson",
+      "minutesLabel": "7 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 6,
+     "minutes": 1,
+     "label": "Or a quick recap: the 6 Must-know lines, about 1 min"
+    },
+    "shrink": {
+     "minutes": 19,
+     "reason": "pool",
+     "text": "This chapter has about 19 minutes of new things today.",
+     "addNext": {
+      "key": "accountancy.goodwill-valuation",
+      "title": "Goodwill: Nature and Valuation",
+      "label": "Add the next chapter, Goodwill: Nature and Valuation",
+      "ref": "Ch 2"
+     }
+    },
+    "free": null,
+    "resume": null,
+    "firstVisit": false,
+    "asked": 20,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 8,
+      "open": 8,
+      "mustKnow": 6,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 6,
+      "total": 7
+     },
+     "mistakes": {
+      "open": 0
+     },
+     "lesson": {
+      "id": "accountancy-sacrificing-gaining",
+      "title": "Sacrificing and gaining ratios",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 6,
+      "locked": false
+     }
+    }
+   },
+   "out": "This chapter has about 19 minutes of new things today."
+  },
+  {
+   "name": "preview_pf_10_free_used",
+   "data": {
+    "chapter": {
+     "key": "accountancy.partnership-fundamentals",
+     "title": "Accounting for Partnership: Basic Concepts",
+     "ref": "Ch 1",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": null,
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 1,
+    "startLabel": "Start 1 minute",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 5,
+      "minutes": 1,
+      "label": "Key cards",
+      "minutesLabel": "about 1 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 0,
+      "minutes": 0,
+      "label": "Questions",
+      "minutesLabel": "Left out",
+      "left": true,
+      "held": "free"
+     },
+     {
+      "id": "mistakes",
+      "count": 0,
+      "minutes": 0,
+      "label": "Your mistakes",
+      "minutesLabel": "Left out",
+      "left": true,
+      "held": "free"
+     }
+    ],
+    "leaveOut": [
+     "questions",
+     "mistakes"
+    ],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 5,
+     "minutes": 1,
+     "label": "Or a quick recap: the 5 Must-know lines, about 1 min"
+    },
+    "shrink": {
+     "minutes": 1,
+     "reason": "pool",
+     "text": "This chapter has about 1 minute of new things today.",
+     "addNext": {
+      "key": "accountancy.profit-and-loss-appropriation-account",
+      "title": "Profit and Loss Appropriation Account",
+      "label": "Add the next chapter, Profit and Loss Appropriation Account",
+      "ref": "Ch 1"
+     }
+    },
+    "free": {
+     "text": "Your free Learn session today is used, so this one is Key cards only. Questions come back tomorrow."
+    },
+    "resume": null,
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": {
+     "used": true,
+     "maxMinutes": 10,
+     "line": "Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like."
+    },
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 46,
+      "open": 5,
+      "mustKnow": 12,
+      "inRevise": 5
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 3
+     },
+     "lesson": null,
+     "print": {
+      "mustKnow": 12,
+      "locked": true
+     }
+    }
+   },
+   "out": "Your free Learn session today is used, so this one is Key cards only. Questions come back tomorrow."
+  },
+  {
+   "name": "preview_pf_10_pro",
+   "data": {
+    "chapter": {
+     "key": "accountancy.partnership-fundamentals",
+     "title": "Accounting for Partnership: Basic Concepts",
+     "ref": "Ch 1",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": null,
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 16,
+      "minutes": 5,
+      "label": "Key cards",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 3,
+      "label": "Questions",
+      "minutesLabel": "about 3 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "2 of 3, about 2 min",
+      "left": false,
+      "of": 3,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 12,
+     "minutes": 2,
+     "label": "Or a quick recap: the 12 Must-know lines, about 2 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": null,
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 46,
+      "open": 46,
+      "mustKnow": 12,
+      "inRevise": 12
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 3
+     },
+     "lesson": null,
+     "print": {
+      "mustKnow": 12,
+      "locked": false
+     }
+    }
+   },
+   "out": null
+  },
+  {
+   "name": "web: used day beats the cap",
+   "data": {
+    "freeSession": {
+     "used": true
+    },
+    "free": {
+     "text": "Your free Learn session today is used, so this one is Key cards only. Questions come back tomorrow."
+    },
+    "capped": {
+     "text": "Free sessions are up to 10 minutes. Pro has any length."
+    }
+   },
+   "out": "Your free Learn session today is used, so this one is Key cards only. Questions come back tomorrow."
+  },
+  {
+   "name": "web: the cap beats the short line",
+   "data": {
+    "capped": {
+     "text": "Free sessions are up to 10 minutes. Pro has any length."
+    },
+    "shrink": {
+     "text": "x"
+    }
+   },
+   "out": "Free sessions are up to 10 minutes. Pro has any length."
+  },
+  {
+   "name": "web: short",
+   "data": {
+    "shrink": {
+     "text": "This chapter has about 7 minutes of new things today."
+    }
+   },
+   "out": "This chapter has about 7 minutes of new things today."
+  },
+  {
+   "name": "web: only cards",
+   "data": {
+    "shelf": {
+     "cards": {
+      "count": 30
+     },
+     "questions": {
+      "total": 0
+     }
+    }
+   },
+   "out": "Only Key cards here for now. This chapter's questions are still being checked."
+  },
+  {
+   "name": "web: first visit",
+   "data": {
+    "firstVisit": true,
+    "shelf": {
+     "cards": {
+      "count": 3
+     },
+     "questions": {
+      "total": 2
+     }
+    }
+   },
+   "out": "Cards and questions, one at a time. Stop whenever you like; what you do is saved."
+  },
+  {
+   "name": "web: the old Ratings note is never shown",
+   "data": {
+    "note": "Ratings join Revise. Questions are free.",
+    "shelf": {
+     "cards": {
+      "count": 3
+     },
+     "questions": {
+      "total": 2
+     }
+    }
+   },
+   "out": null
+  },
+  {
+   "name": "web: Free taste is not a limit line",
+   "data": {
+    "free": {
+     "text": "Free opens 5 of this chapter's 46 cards."
+    },
+    "shelf": {
+     "cards": {
+      "count": 46
+     },
+     "questions": {
+      "total": 2
+     }
+    }
+   },
+   "out": null
+  },
+  {
+   "name": "nothing",
+   "data": {},
+   "out": null
+  },
+  {
+   "name": "used but no text",
+   "data": {
+    "freeSession": {
+     "used": true
+    },
+    "shelf": {
+     "cards": {
+      "count": 3
+     },
+     "questions": {
+      "total": 2
+     }
+    }
+   },
+   "out": null
+  },
+  {
+   "name": "text but not used",
+   "data": {
+    "free": {
+     "text": "Your free Learn session today is used, so this one is Key cards only. Questions come back tomorrow."
+    },
+    "shelf": {
+     "cards": {
+      "count": 3
+     },
+     "questions": {
+      "total": 2
+     }
+    }
+   },
+   "out": null
+  },
+  {
+   "name": "short but the next chapter is added",
+   "data": {
+    "shrink": {
+     "text": "This chapter has about 7 minutes of new things today."
+    },
+    "added": {
+     "key": "a.b",
+     "title": "B"
+    },
+    "shelf": {
+     "cards": {
+      "count": 3
+     },
+     "questions": {
+      "total": 2
+     }
+    }
+   },
+   "out": null
+  },
+  {
+   "name": "ratings used",
+   "data": {
+    "free": {
+     "text": "Your free card ratings are used for today."
+    },
+    "shelf": {
+     "cards": {
+      "count": 3
+     },
+     "questions": {
+      "total": 2
+     }
+    }
+   },
+   "out": "You've used today's 10 free card ratings. Cards in this run show their answers but won't be added to Revise."
+  },
+  {
+   "name": "ratings used loses to the cap",
+   "data": {
+    "free": {
+     "text": "Your free card ratings are used for today."
+    },
+    "capped": {
+     "text": "Free sessions are up to 10 minutes. Pro has any length."
+    }
+   },
+   "out": "Free sessions are up to 10 minutes. Pro has any length."
+  },
+  {
+   "name": "only questions",
+   "data": {
+    "shelf": {
+     "cards": {
+      "count": 0
+     },
+     "questions": {
+      "total": 4
+     }
+    }
+   },
+   "out": "Only questions here for now. This chapter's Key cards are not ready yet."
+  },
+  {
+   "name": "only questions and a first visit",
+   "data": {
+    "firstVisit": true,
+    "shelf": {
+     "cards": {
+      "count": 0
+     },
+     "questions": {
+      "total": 4
+     }
+    }
+   },
+   "out": "Only questions here for now. This chapter's Key cards are not ready yet."
+  },
+  {
+   "name": "no cards, no questions, first visit",
+   "data": {
+    "firstVisit": true,
+    "shelf": {
+     "cards": {
+      "count": 0
+     },
+     "questions": {
+      "total": 0
+     }
+    }
+   },
+   "out": "Cards and questions, one at a time. Stop whenever you like; what you do is saved."
+  },
+  {
+   "name": "an older server: its first visit note says it",
+   "data": {
+    "note": "Ratings join Revise, so cards come back when they are due.",
+    "shelf": {
+     "cards": {
+      "count": 3
+     },
+     "questions": {
+      "total": 2
+     }
+    }
+   },
+   "out": "Cards and questions, one at a time. Stop whenever you like; what you do is saved."
+  },
+  {
+   "name": "an older server, not a first visit",
+   "data": {
+    "firstVisit": false,
+    "note": "Ratings join Revise, so cards come back when they are due.",
+    "shelf": {
+     "cards": {
+      "count": 3
+     },
+     "questions": {
+      "total": 2
+     }
+    }
+   },
+   "out": null
+  },
+  {
+   "name": "a first visit that is false",
+   "data": {
+    "firstVisit": false,
+    "shelf": {
+     "cards": {
+      "count": 3
+     },
+     "questions": {
+      "total": 2
+     }
+    }
+   },
+   "out": null
+  },
+  {
+   "name": "every line at once",
+   "data": {
+    "firstVisit": true,
+    "shrink": {
+     "text": "short"
+    },
+    "capped": {
+     "text": "Free sessions are up to 10 minutes. Pro has any length."
+    },
+    "freeSession": {
+     "used": true
+    },
+    "free": {
+     "text": "Your free Learn session today is used, so this one is Key cards only. Questions come back tomorrow."
+    },
+    "shelf": {
+     "cards": {
+      "count": 3
+     },
+     "questions": {
+      "total": 0
+     }
+    }
+   },
+   "out": "Your free Learn session today is used, so this one is Key cards only. Questions come back tomorrow."
+  }
+ ],
+ "shelves": [
+  {
+   "name": "preview_aop_10_free",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 5,
+      "minutes": 2,
+      "label": "Key cards",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 5,
+      "minutes": 6,
+      "label": "Questions",
+      "minutesLabel": "about 6 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 5,
+     "minutes": 1,
+     "label": "Or a quick recap: the 5 Must-know lines, about 1 min"
+    },
+    "shrink": null,
+    "free": {
+     "text": "Free opens 5 of this chapter's 53 cards."
+    },
+    "resume": {
+     "runId": "lr_1d11c94a527acdc962fc5ff6",
+     "done": 6,
+     "of": 11,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": {
+     "used": false,
+     "maxMinutes": 10,
+     "line": null
+    },
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 5,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": true
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "53 cards, Free opens 5",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "2 open. Fix them in about 2 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Revaluation of assets and liabilities",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "Part of Pro",
+      "locked": true,
+      "link": true,
+      "action": null
+     }
+    ],
+    "missing": null
+   }
+  },
+  {
+   "name": "preview_aop_10_new_free",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "none",
+      "label": "Not started"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 5,
+      "minutes": 2,
+      "label": "Key cards",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 7,
+      "minutes": 8,
+      "label": "Questions",
+      "minutesLabel": "about 8 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise, so cards come back when they are due.",
+    "recap": {
+     "count": 5,
+     "minutes": 1,
+     "label": "Or a quick recap: the 5 Must-know lines, about 1 min"
+    },
+    "shrink": null,
+    "free": {
+     "text": "Free opens 5 of this chapter's 53 cards."
+    },
+    "resume": null,
+    "firstVisit": true,
+    "asked": 10,
+    "capped": null,
+    "freeSession": {
+     "used": false,
+     "maxMinutes": 10,
+     "line": null
+    },
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 5,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 0
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": true
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "53 cards, Free opens 5",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Revaluation of assets and liabilities",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "Part of Pro",
+      "locked": true,
+      "link": true,
+      "action": null
+     }
+    ],
+    "missing": "No open mistakes."
+   }
+  },
+  {
+   "name": "preview_aop_10_new_pro",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "none",
+      "label": "Not started"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 15,
+      "minutes": 5,
+      "label": "Key cards",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 4,
+      "minutes": 5,
+      "label": "Questions",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise, so cards come back when they are due.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": null,
+    "firstVisit": true,
+    "asked": 10,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 53,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 0
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": false
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "All 53, by section",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Revaluation of assets and liabilities",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "14 Must-know lines, with your name",
+      "locked": false,
+      "link": false,
+      "action": "print"
+     }
+    ],
+    "missing": "No open mistakes."
+   }
+  },
+  {
+   "name": "preview_aop_10_out_questions_pro",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 23,
+      "minutes": 8,
+      "label": "Key cards",
+      "minutesLabel": "about 8 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 0,
+      "minutes": 0,
+      "label": "Questions",
+      "minutesLabel": "Left out",
+      "left": true,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [
+     "questions"
+    ],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 53,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": false
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "All 53, by section",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "2 open. Fix them in about 2 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Revaluation of assets and liabilities",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "14 Must-know lines, with your name",
+      "locked": false,
+      "link": false,
+      "action": "print"
+     }
+    ],
+    "missing": null
+   }
+  },
+  {
+   "name": "preview_aop_10_pro",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 16,
+      "minutes": 5,
+      "label": "Key cards",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 3,
+      "label": "Questions",
+      "minutesLabel": "about 3 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 53,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": false
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "All 53, by section",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "2 open. Fix them in about 2 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Revaluation of assets and liabilities",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "14 Must-know lines, with your name",
+      "locked": false,
+      "link": false,
+      "action": "print"
+     }
+    ],
+    "missing": null
+   }
+  },
+  {
+   "name": "preview_aop_20_free",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 5,
+      "minutes": 2,
+      "label": "Key cards",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 5,
+      "minutes": 6,
+      "label": "Questions",
+      "minutesLabel": "about 6 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 5,
+     "minutes": 1,
+     "label": "Or a quick recap: the 5 Must-know lines, about 1 min"
+    },
+    "shrink": null,
+    "free": {
+     "text": "Free opens 5 of this chapter's 53 cards."
+    },
+    "resume": {
+     "runId": "lr_1d11c94a527acdc962fc5ff6",
+     "done": 6,
+     "of": 11,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 20,
+    "capped": {
+     "asked": 20,
+     "text": "Free sessions are up to 10 minutes. Pro has any length."
+    },
+    "freeSession": {
+     "used": false,
+     "maxMinutes": 10,
+     "line": null
+    },
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 5,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": true
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "53 cards, Free opens 5",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "2 open. Fix them in about 2 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Revaluation of assets and liabilities",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "Part of Pro",
+      "locked": true,
+      "link": true,
+      "action": null
+     }
+    ],
+    "missing": null
+   }
+  },
+  {
+   "name": "preview_aop_20_pro",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 20,
+    "realMinutes": 20,
+    "startLabel": "Start 20 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 17,
+      "minutes": 6,
+      "label": "Key cards",
+      "minutesLabel": "about 6 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 4,
+      "minutes": 5,
+      "label": "Questions",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "lesson",
+      "count": 1,
+      "minutes": 7,
+      "label": "Lesson",
+      "minutesLabel": "7 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 20,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 53,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": false
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "All 53, by section",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "2 open. Fix them in about 2 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Revaluation of assets and liabilities",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "14 Must-know lines, with your name",
+      "locked": false,
+      "link": false,
+      "action": "print"
+     }
+    ],
+    "missing": null
+   }
+  },
+  {
+   "name": "preview_aop_5_free",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 5,
+    "realMinutes": 5,
+    "startLabel": "Start 5 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 5,
+      "minutes": 2,
+      "label": "Key cards",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 2,
+      "label": "Questions",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 1,
+      "minutes": 1,
+      "label": "Your mistakes",
+      "minutesLabel": "1 of 2, about 1 min",
+      "left": false,
+      "of": 2,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 5,
+     "minutes": 1,
+     "label": "Or a quick recap: the 5 Must-know lines, about 1 min"
+    },
+    "shrink": null,
+    "free": {
+     "text": "Free opens 5 of this chapter's 53 cards."
+    },
+    "resume": {
+     "runId": "lr_1d11c94a527acdc962fc5ff6",
+     "done": 6,
+     "of": 11,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 5,
+    "capped": null,
+    "freeSession": {
+     "used": false,
+     "maxMinutes": 10,
+     "line": null
+    },
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 5,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": true
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "53 cards, Free opens 5",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "2 open. Fix them in about 2 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Revaluation of assets and liabilities",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "Part of Pro",
+      "locked": true,
+      "link": true,
+      "action": null
+     }
+    ],
+    "missing": null
+   }
+  },
+  {
+   "name": "preview_aop_5_pro",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 5,
+    "realMinutes": 5,
+    "startLabel": "Start 5 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 6,
+      "minutes": 2,
+      "label": "Key cards",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 2,
+      "label": "Questions",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 1,
+      "minutes": 1,
+      "label": "Your mistakes",
+      "minutesLabel": "1 of 2, about 1 min",
+      "left": false,
+      "of": 2,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 5,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 53,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": false
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "All 53, by section",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "2 open. Fix them in about 2 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Revaluation of assets and liabilities",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "14 Must-know lines, with your name",
+      "locked": false,
+      "link": false,
+      "action": "print"
+     }
+    ],
+    "missing": null
+   }
+  },
+  {
+   "name": "preview_cpsr_20_addnext_pro",
+   "data": {
+    "chapter": {
+     "key": "accountancy.change-in-profit-sharing-ratio",
+     "title": "Change in Profit Sharing Ratio",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "needs_work",
+      "label": "Needs work"
+     }
+    },
+    "minutes": 20,
+    "realMinutes": 20,
+    "startLabel": "Start 20 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 11,
+      "minutes": 4,
+      "label": "Key cards",
+      "minutesLabel": "about 4 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 7,
+      "minutes": 9,
+      "label": "Questions",
+      "minutesLabel": "about 9 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "lesson",
+      "count": 1,
+      "minutes": 7,
+      "label": "Lesson",
+      "minutesLabel": "7 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 6,
+     "minutes": 1,
+     "label": "Or a quick recap: the 6 Must-know lines, about 1 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": null,
+    "firstVisit": false,
+    "asked": 20,
+    "capped": null,
+    "freeSession": null,
+    "added": {
+     "key": "accountancy.goodwill-valuation",
+     "title": "Goodwill: Nature and Valuation",
+     "ref": "Ch 2"
+    },
+    "shelf": {
+     "cards": {
+      "count": 8,
+      "open": 8,
+      "mustKnow": 6,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 6,
+      "total": 7
+     },
+     "mistakes": {
+      "open": 0
+     },
+     "lesson": {
+      "id": "accountancy-sacrificing-gaining",
+      "title": "Sacrificing and gaining ratios",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 6,
+      "locked": false
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "All 8, by section",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "7 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Sacrificing and gaining ratios",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "6 Must-know lines, with your name",
+      "locked": false,
+      "link": false,
+      "action": "print"
+     }
+    ],
+    "missing": "No open mistakes."
+   }
+  },
+  {
+   "name": "preview_cpsr_20_pro",
+   "data": {
+    "chapter": {
+     "key": "accountancy.change-in-profit-sharing-ratio",
+     "title": "Change in Profit Sharing Ratio",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "needs_work",
+      "label": "Needs work"
+     }
+    },
+    "minutes": 20,
+    "realMinutes": 19,
+    "startLabel": "Start 19 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 8,
+      "minutes": 3,
+      "label": "Key cards",
+      "minutesLabel": "about 3 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 7,
+      "minutes": 9,
+      "label": "Questions",
+      "minutesLabel": "about 9 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "lesson",
+      "count": 1,
+      "minutes": 7,
+      "label": "Lesson",
+      "minutesLabel": "7 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 6,
+     "minutes": 1,
+     "label": "Or a quick recap: the 6 Must-know lines, about 1 min"
+    },
+    "shrink": {
+     "minutes": 19,
+     "reason": "pool",
+     "text": "This chapter has about 19 minutes of new things today.",
+     "addNext": {
+      "key": "accountancy.goodwill-valuation",
+      "title": "Goodwill: Nature and Valuation",
+      "label": "Add the next chapter, Goodwill: Nature and Valuation",
+      "ref": "Ch 2"
+     }
+    },
+    "free": null,
+    "resume": null,
+    "firstVisit": false,
+    "asked": 20,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 8,
+      "open": 8,
+      "mustKnow": 6,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 6,
+      "total": 7
+     },
+     "mistakes": {
+      "open": 0
+     },
+     "lesson": {
+      "id": "accountancy-sacrificing-gaining",
+      "title": "Sacrificing and gaining ratios",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 6,
+      "locked": false
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "All 8, by section",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "7 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Sacrificing and gaining ratios",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "6 Must-know lines, with your name",
+      "locked": false,
+      "link": false,
+      "action": "print"
+     }
+    ],
+    "missing": "No open mistakes."
+   }
+  },
+  {
+   "name": "preview_pf_10_free_used",
+   "data": {
+    "chapter": {
+     "key": "accountancy.partnership-fundamentals",
+     "title": "Accounting for Partnership: Basic Concepts",
+     "ref": "Ch 1",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": null,
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 1,
+    "startLabel": "Start 1 minute",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 5,
+      "minutes": 1,
+      "label": "Key cards",
+      "minutesLabel": "about 1 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 0,
+      "minutes": 0,
+      "label": "Questions",
+      "minutesLabel": "Left out",
+      "left": true,
+      "held": "free"
+     },
+     {
+      "id": "mistakes",
+      "count": 0,
+      "minutes": 0,
+      "label": "Your mistakes",
+      "minutesLabel": "Left out",
+      "left": true,
+      "held": "free"
+     }
+    ],
+    "leaveOut": [
+     "questions",
+     "mistakes"
+    ],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 5,
+     "minutes": 1,
+     "label": "Or a quick recap: the 5 Must-know lines, about 1 min"
+    },
+    "shrink": {
+     "minutes": 1,
+     "reason": "pool",
+     "text": "This chapter has about 1 minute of new things today.",
+     "addNext": {
+      "key": "accountancy.profit-and-loss-appropriation-account",
+      "title": "Profit and Loss Appropriation Account",
+      "label": "Add the next chapter, Profit and Loss Appropriation Account",
+      "ref": "Ch 1"
+     }
+    },
+    "free": {
+     "text": "Your free Learn session today is used, so this one is Key cards only. Questions come back tomorrow."
+    },
+    "resume": null,
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": {
+     "used": true,
+     "maxMinutes": 10,
+     "line": "Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like."
+    },
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 46,
+      "open": 5,
+      "mustKnow": 12,
+      "inRevise": 5
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 3
+     },
+     "lesson": null,
+     "print": {
+      "mustKnow": 12,
+      "locked": true
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "46 cards, Free opens 5",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions, back tomorrow",
+      "locked": false,
+      "link": false,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "3 open, back tomorrow",
+      "locked": false,
+      "link": false,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "Part of Pro",
+      "locked": true,
+      "link": true,
+      "action": null
+     }
+    ],
+    "missing": "No lesson yet."
+   }
+  },
+  {
+   "name": "preview_pf_10_pro",
+   "data": {
+    "chapter": {
+     "key": "accountancy.partnership-fundamentals",
+     "title": "Accounting for Partnership: Basic Concepts",
+     "ref": "Ch 1",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": null,
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 16,
+      "minutes": 5,
+      "label": "Key cards",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 3,
+      "label": "Questions",
+      "minutesLabel": "about 3 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "2 of 3, about 2 min",
+      "left": false,
+      "of": 3,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 12,
+     "minutes": 2,
+     "label": "Or a quick recap: the 12 Must-know lines, about 2 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": null,
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 46,
+      "open": 46,
+      "mustKnow": 12,
+      "inRevise": 12
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 3
+     },
+     "lesson": null,
+     "print": {
+      "mustKnow": 12,
+      "locked": false
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "All 46, 12 in Revise",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "3 open. Fix them in about 3 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "12 Must-know lines, with your name",
+      "locked": false,
+      "link": false,
+      "action": "print"
+     }
+    ],
+    "missing": "No lesson yet."
+   }
+  },
+  {
+   "name": "web: pro",
+   "data": {
+    "shelf": {
+     "cards": {
+      "count": 46,
+      "open": 46,
+      "inRevise": 12
+     },
+     "questions": {
+      "total": 10
+     },
+     "mistakes": {
+      "open": 3
+     },
+     "lesson": null,
+     "print": {
+      "mustKnow": 12,
+      "locked": false
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "All 46, 12 in Revise",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "3 open. Fix them in about 3 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "12 Must-know lines, with your name",
+      "locked": false,
+      "link": false,
+      "action": "print"
+     }
+    ],
+    "missing": "No lesson yet."
+   }
+  },
+  {
+   "name": "web: free, the day used",
+   "data": {
+    "freeSession": {
+     "used": true
+    },
+    "shelf": {
+     "cards": {
+      "count": 46,
+      "open": 5
+     },
+     "questions": {
+      "total": 0
+     },
+     "mistakes": {
+      "open": 0
+     },
+     "lesson": {
+      "id": "l",
+      "title": "Goodwill",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 12,
+      "locked": true
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "46 cards, Free opens 5",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Goodwill",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "Part of Pro",
+      "locked": true,
+      "link": true,
+      "action": null
+     }
+    ],
+    "missing": "Questions are still being checked. No open mistakes."
+   }
+  },
+  {
+   "name": "free, a day not used",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 16,
+      "minutes": 5,
+      "label": "Key cards",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 3,
+      "label": "Questions",
+      "minutesLabel": "about 3 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 5,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": true
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "53 cards, Free opens 5",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "2 open. Fix them in about 2 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Revaluation of assets and liabilities",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "Part of Pro",
+      "locked": true,
+      "link": true,
+      "action": null
+     }
+    ],
+    "missing": null
+   }
+  },
+  {
+   "name": "free, every card open",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 16,
+      "minutes": 5,
+      "label": "Key cards",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 3,
+      "label": "Questions",
+      "minutesLabel": "about 3 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 5,
+      "open": 5,
+      "mustKnow": 2,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 2,
+      "locked": true
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "All 5, by section",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "2 open. Fix them in about 2 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Revaluation of assets and liabilities",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "Part of Pro",
+      "locked": true,
+      "link": true,
+      "action": null
+     }
+    ],
+    "missing": null
+   }
+  },
+  {
+   "name": "one card, one question, one mistake, one line",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 16,
+      "minutes": 5,
+      "label": "Key cards",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 3,
+      "label": "Questions",
+      "minutesLabel": "about 3 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 1,
+      "open": 1,
+      "mustKnow": 1,
+      "inRevise": 1
+     },
+     "questions": {
+      "total": 1
+     },
+     "mistakes": {
+      "open": 1
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 1,
+      "locked": false
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "All 1, 1 in Revise",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "1 question in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "1 open. Fix them in about 1 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Revaluation of assets and liabilities",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "1 Must-know line, with your name",
+      "locked": false,
+      "link": false,
+      "action": "print"
+     }
+    ],
+    "missing": null
+   }
+  },
+  {
+   "name": "a lesson that was read",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 16,
+      "minutes": 5,
+      "label": "Key cards",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 3,
+      "label": "Questions",
+      "minutesLabel": "about 3 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 53,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "l2",
+      "title": "Sacrificing and gaining ratios",
+      "minutes": 7,
+      "read": true
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": false
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "All 53, by section",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "2 open. Fix them in about 2 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Sacrificing and gaining ratios",
+      "line": "7-minute lesson, read",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "14 Must-know lines, with your name",
+      "locked": false,
+      "link": false,
+      "action": "print"
+     }
+    ],
+    "missing": null
+   }
+  },
+  {
+   "name": "a lesson with no title and no minutes",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 16,
+      "minutes": 5,
+      "label": "Key cards",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 3,
+      "label": "Questions",
+      "minutesLabel": "about 3 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 53,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "l3",
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": false
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "All 53, by section",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "2 open. Fix them in about 2 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Lesson",
+      "line": "Lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "14 Must-know lines, with your name",
+      "locked": false,
+      "link": false,
+      "action": "print"
+     }
+    ],
+    "missing": null
+   }
+  },
+  {
+   "name": "a lesson of no minutes",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 16,
+      "minutes": 5,
+      "label": "Key cards",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 3,
+      "label": "Questions",
+      "minutesLabel": "about 3 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 53,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "l3",
+      "title": "Goodwill",
+      "minutes": 0,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": false
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "All 53, by section",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "2 open. Fix them in about 2 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Goodwill",
+      "line": "Lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "14 Must-know lines, with your name",
+      "locked": false,
+      "link": false,
+      "action": "print"
+     }
+    ],
+    "missing": null
+   }
+  },
+  {
+   "name": "many mistakes: their minutes",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 16,
+      "minutes": 5,
+      "label": "Key cards",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 3,
+      "label": "Questions",
+      "minutesLabel": "about 3 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 53,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 11
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": false
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "All 53, by section",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "11 open. Fix them in about 12 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Revaluation of assets and liabilities",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "14 Must-know lines, with your name",
+      "locked": false,
+      "link": false,
+      "action": "print"
+     }
+    ],
+    "missing": null
+   }
+  },
+  {
+   "name": "free, used, mistakes and questions wait",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 16,
+      "minutes": 5,
+      "label": "Key cards",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 3,
+      "label": "Questions",
+      "minutesLabel": "about 3 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": {
+     "used": true,
+     "maxMinutes": 10,
+     "line": "x"
+    },
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 53,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "total": 6
+     },
+     "mistakes": {
+      "open": 4
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": false
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "All 53, by section",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "6 questions, back tomorrow",
+      "locked": false,
+      "link": false,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "4 open, back tomorrow",
+      "locked": false,
+      "link": false,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Revaluation of assets and liabilities",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "14 Must-know lines, with your name",
+      "locked": false,
+      "link": false,
+      "action": "print"
+     }
+    ],
+    "missing": null
+   }
+  },
+  {
+   "name": "nothing at all",
+   "data": {},
+   "out": {
+    "rows": [],
+    "missing": "Key cards are not ready yet. Questions are still being checked. No lesson yet. No open mistakes."
+   }
+  },
+  {
+   "name": "no cards",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 16,
+      "minutes": 5,
+      "label": "Key cards",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 3,
+      "label": "Questions",
+      "minutesLabel": "about 3 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 0,
+      "open": 0,
+      "mustKnow": 0,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 14,
+      "locked": false
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "2 open. Fix them in about 2 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Revaluation of assets and liabilities",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "print",
+      "title": "Print sheet",
+      "line": "14 Must-know lines, with your name",
+      "locked": false,
+      "link": false,
+      "action": "print"
+     }
+    ],
+    "missing": "Key cards are not ready yet."
+   }
+  },
+  {
+   "name": "no print line",
+   "data": {
+    "chapter": {
+     "key": "accountancy.admission-of-partner",
+     "title": "Admission of a Partner",
+     "ref": "Ch 2",
+     "partTitle": "Part 1, Partnership Accounts",
+     "unitTitle": "Reconstitution of a Partnership firm",
+     "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+     }
+    },
+    "minutes": 10,
+    "realMinutes": 10,
+    "startLabel": "Start 10 minutes",
+    "piles": [
+     {
+      "id": "cards",
+      "count": 16,
+      "minutes": 5,
+      "label": "Key cards",
+      "minutesLabel": "about 5 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "questions",
+      "count": 2,
+      "minutes": 3,
+      "label": "Questions",
+      "minutesLabel": "about 3 min",
+      "left": false,
+      "held": null
+     },
+     {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+     }
+    ],
+    "leaveOut": [],
+    "coach": "Tap a pile to leave it out.",
+    "note": "Ratings join Revise. Questions are free.",
+    "recap": {
+     "count": 14,
+     "minutes": 3,
+     "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    },
+    "shrink": null,
+    "free": null,
+    "resume": {
+     "runId": "lr_aa19581b98132d65737b96f0",
+     "done": 6,
+     "of": 16,
+     "minutesLeft": 5,
+     "kind": "mix"
+    },
+    "firstVisit": false,
+    "asked": 10,
+    "capped": null,
+    "freeSession": null,
+    "added": null,
+    "shelf": {
+     "cards": {
+      "count": 53,
+      "open": 53,
+      "mustKnow": 14,
+      "inRevise": 0
+     },
+     "questions": {
+      "linked": 10,
+      "total": 10
+     },
+     "mistakes": {
+      "open": 2
+     },
+     "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+     },
+     "print": {
+      "mustKnow": 0,
+      "locked": false
+     }
+    }
+   },
+   "out": {
+    "rows": [
+     {
+      "id": "cards",
+      "title": "Key cards",
+      "line": "All 53, by section",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "questions",
+      "title": "Questions only",
+      "line": "10 questions in this chapter",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "mistakes",
+      "title": "Your mistakes",
+      "line": "2 open. Fix them in about 2 min",
+      "locked": false,
+      "link": true,
+      "action": null
+     },
+     {
+      "id": "lesson",
+      "title": "Revaluation of assets and liabilities",
+      "line": "7-minute lesson, not read yet",
+      "locked": false,
+      "link": true,
+      "action": null
+     }
+    ],
+    "missing": null
+   }
+  }
+ ],
+ "errors": [
+  {
+   "error": {
+    "kind": "chapter_not_found"
+   },
+   "out": true
+  },
+  {
+   "error": {
+    "code": "CHAPTER_NOT_FOUND"
+   },
+   "out": true
+  },
+  {
+   "error": {
+    "status": 404,
+    "code": "LEARN_OFF"
+   },
+   "out": false
+  },
+  {
+   "error": {
+    "status": 404,
+    "code": "NOT_THERE"
+   },
+   "out": true
+  },
+  {
+   "error": {
+    "status": 404
+   },
+   "out": true
+  },
+  {
+   "error": {
+    "status": 503
+   },
+   "out": false
+  },
+  {
+   "error": {
+    "kind": "error",
+    "status": 500,
+    "code": "BOOM"
+   },
+   "out": false
+  },
+  {
+   "error": {
+    "kind": "off",
+    "status": 404,
+    "code": "LEARN_OFF"
+   },
+   "out": false
+  },
+  {
+   "error": {
+    "kind": "session_used",
+    "status": 402,
+    "code": "FREE_SESSION_USED"
+   },
+   "out": false
+  },
+  {
+   "error": {},
+   "out": false
+  }
+ ],
+ "minutes": [
+  {
+   "seconds": 0,
+   "out": 0
+  },
+  {
+   "seconds": -5,
+   "out": 0
+  },
+  {
+   "seconds": 1,
+   "out": 1
+  },
+  {
+   "seconds": 29,
+   "out": 1
+  },
+  {
+   "seconds": 30,
+   "out": 1
+  },
+  {
+   "seconds": 54,
+   "out": 1
+  },
+  {
+   "seconds": 55,
+   "out": 1
+  },
+  {
+   "seconds": 60,
+   "out": 1
+  },
+  {
+   "seconds": 90,
+   "out": 2
+  },
+  {
+   "seconds": 120,
+   "out": 2
+  },
+  {
+   "seconds": 180,
+   "out": 3
+  },
+  {
+   "seconds": 196,
+   "out": 4
+  },
+  {
+   "seconds": 240,
+   "out": 4
+  },
+  {
+   "seconds": 330,
+   "out": 6
+  },
+  {
+   "seconds": 545,
+   "out": 10
+  },
+  {
+   "seconds": 600,
+   "out": 11
+  },
+  {
+   "seconds": 1200,
+   "out": 22
+  }
+ ]
+}
