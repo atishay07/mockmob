@@ -9,6 +9,8 @@
 //
 // Every date is "expected" until NTA publishes CUET UG 2027. Nothing here predicts marks or chances.
 
+import { reviseQuestions } from '../../../data/learn/words.js';
+
 export const DAY_MS = 86400000;
 export const MOCK_TARGET_MIN = 1;
 export const MOCK_TARGET_MAX = 60;
@@ -356,7 +358,8 @@ export function roadLayers({ today, rhythm = null, weekdays = null, revise = nul
   const when = /today$/.test(move?.label || '') ? 'today' : 'tonight';
   const extraRevise = move?.id === 'done' && leftRevise > 0;
   if (leftRevise != null && asked + leftRevise > 0) {
-    items.push({ id: 'revise', title: 'Revise', detail: `${asked} of ${asked + leftRevise} questions${extraRevise ? `, extra ${when}` : ''}`, done: leftRevise === 0, extra: extraRevise || undefined, href: leftRevise > 0 ? '/review/revise' : null, minutes: leftRevise > 0 ? Math.max(5, Math.ceil(leftRevise / 5) * 5) : null });
+    // R3 W and Z: nothing asked yet reads "Revise · 5 questions" (reviseQuestions), never "Revise 0 of 5 questions".
+    items.push({ id: 'revise', title: asked === 0 ? reviseQuestions(leftRevise) : 'Revise', detail: asked === 0 ? (extraRevise ? `extra ${when}` : '') : `${asked} of ${asked + leftRevise} questions${extraRevise ? `, extra ${when}` : ''}`, done: leftRevise === 0, extra: extraRevise || undefined, href: leftRevise > 0 ? '/review/revise' : null, minutes: leftRevise > 0 ? Math.max(5, Math.ceil(leftRevise / 5) * 5) : null });
   }
   const reviseUnknown = leftRevise == null && (reviseState === 'failed' || reviseState === 'loading');
   const unknown = reviseUnknown ? [{ id: 'revise', title: 'Revise', detail: reviseState === 'failed' ? 'Did not load' : 'Loading' }] : [];
@@ -446,4 +449,41 @@ export function goalLines({ goal: g, taken = null }) {
     out.push(`Next: ${what} ${weekdayDay(g.next.day)}, ${g.next.when}.`);
   }
   return out;
+}
+
+// ---------- R3 ruling Z: no zero leads on the road's three stops ----------
+// A stop that has counted nothing yet leads with its goal ("1 session today", "13 full mocks"), never "0 of 1". Once something
+// is counted, the stop reads as before ("1 of 2", "3 of 4 study days").
+
+/**
+ * What the Due today stop prints: { figure, of, unit, also, aria }. `day` is roadLayers' today layer.
+ * Nothing done yet: the goal leads ("1 session today", "2 to do today"); `also` carries a Revise read that did not load.
+ */
+export function dueStop(day) {
+  if (day.rest) return { figure: 'Rest', of: '', unit: 'nothing due', also: '', aria: `Due today: nothing, a rest day. ${day.left}` };
+  const unknown = day.unknown.length > 0;
+  if (!day.total) {
+    return { figure: unknown ? '?' : day.done, of: '', unit: unknown ? 'Revise unknown' : 'done', also: '', aria: `Due today: not known yet. ${day.left}` };
+  }
+  if (day.done === 0) {
+    const owed = day.items.filter((i) => !i.extra);
+    const onlySession = owed.length === 1 && owed[0].id === 'session';
+    const unit = onlySession ? (day.total === 1 ? 'session today' : 'sessions today') : 'to do today';
+    return { figure: day.total, of: '', unit, also: unknown ? 'Revise unknown' : '', aria: `Due today: ${day.total} ${onlySession ? (day.total === 1 ? 'session' : 'sessions') : 'to do'}, not started. ${day.left}` };
+  }
+  return { figure: day.done, of: `of ${day.total}`, unit: unknown ? 'done so far' : 'done', also: '', aria: `Due today: ${day.done} of ${day.total} done. ${day.left}` };
+}
+
+/** What the Overall goal stop prints for `taken` full mocks of `target`: the goal alone while none is taken ("13 full mocks"). */
+export function goalStop({ taken, target, inWindow = false }) {
+  if (inWindow) return { figure: 'Now', of: '', unit: 'the window is open' };
+  if (taken == null) return { figure: target, of: '', unit: 'full mocks planned' };
+  if (taken === 0) return { figure: target, of: '', unit: target === 1 ? 'full mock' : 'full mocks' };
+  return { figure: taken, of: `of ${target}`, unit: 'full mocks' };
+}
+
+/** A week item's detail under its title: "3 of 4 this week", or just the goal while none is counted ("4 this week"). */
+export function weekItemDetail(item) {
+  const tail = item.id === 'days' ? 'this week' : 'planned this week';
+  return item.done > 0 ? `${item.done} of ${item.total} ${tail}` : `${item.total} ${tail}`;
 }

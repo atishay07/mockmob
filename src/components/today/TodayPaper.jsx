@@ -13,6 +13,7 @@ import { computePrepOSInsights } from '@/../data/prepos_insights';
 import { repairReceipt } from '@/../data/repair_receipt.mjs';
 import { paperDay } from '@/lib/today/move.mjs';
 import { clockIn } from '@/lib/today/week.mjs';
+import { chapterTitle } from '@/lib/today/chapterTitle.mjs';
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -26,7 +27,7 @@ function leakOf(attempt, subjectNames) {
   const first = (top.recent || []).find((m) => m.outcome === 'wrong') || top.recent?.[0] || null;
   // The misses are counted on the same paper the leak comes from, so the sentence always agrees with itself.
   const misses = all.reduce((n, c) => n + c.wrong + c.skip, 0);
-  return { chapter: top.chapter, here: top.wrong + top.skip, wrong: top.wrong, blank: top.skip, misses, position: first?.position || null };
+  return { chapter: chapterTitle(top.subject, top.chapter), here: top.wrong + top.skip, wrong: top.wrong, blank: top.skip, misses, position: first?.position || null };
 }
 
 export default function TodayPaper({ papers, loadAttempt, subjectName = (id) => id, repairRows = null, hold = false }) {

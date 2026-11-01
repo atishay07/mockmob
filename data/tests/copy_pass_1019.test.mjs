@@ -140,7 +140,8 @@ test('Review is called Your papers on its page, in every state, as in the naviga
 test('a fresh account’s Today: Choose colleges opens the Colleges page, and the line promises only what the card shows', () => {
   const card = read('src/components/today/TodayColleges.jsx');
   assert.doesNotMatch(card, /profile#colleges/);
-  assert.match(card, /Choose up to 8 colleges you are aiming for\. Your first choice shows here with its 2026 cutoff\.<\/p><Link className="tm__pill" href="\/admission-compass">/);
+  assert.match(card, /<p>\{COLLEGES_EMPTY\}<\/p><Link className="tm__pill" href="\/admission-compass">/, 'R3 T4: the one line lives in src/lib/today/copy.mjs');
+  assert.match(read('src/lib/today/copy.mjs'), /COLLEGES_EMPTY = 'Choose up to 8 colleges\. Your first shows here with its 2026 cutoff\.'/);
   assert.match(card, />Open in Colleges<\/Link>/, 'the page has one name (W-067)');
 });
 

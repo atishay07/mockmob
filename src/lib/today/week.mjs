@@ -48,7 +48,10 @@ export function weekDays(rhythm) {
   const total = Number(rhythm?.daysGoal);
   if (!rhythm || !(total > 0) || !Number.isInteger(rhythm.studyDays)) return null;
   const done = rhythm.studyDays;
-  return { done, total, text: `${done} of ${total} study ${total === 1 ? 'day' : 'days'}` };
+  const days = total === 1 ? 'day' : 'days';
+  // R3 Z: never a zero lead ("0 of 4"): with nothing counted yet the figure is the goal, "4 study days this week".
+  if (done === 0) return { done, total, figure: total, of: '', unit: `study ${days} this week`, text: `${total} study ${days} this week` };
+  return { done, total, figure: done, of: `of ${total}`, unit: `study ${days}`, text: `${done} of ${total} study ${days}` };
 }
 
 /** One sentence for the marks, for a screen reader: "Monday counted, Tuesday counted, ...". */
@@ -73,7 +76,8 @@ export function weekCaption({ rhythm, marks, today, everSessions = null, pausedU
   const isMonday = marks[0]?.today;
   if (done === 0 && isMonday && rhythm.lastClosedWeek) {
     const w = rhythm.lastClosedWeek;
-    return { text: `Last week: ${w.studyDays} of ${w.goal}.`, strong: 'Tonight starts this week.', lastWeek: true };
+    // Z: a last week with nothing counted is not led with "0 of 4"; the goal is.
+    return { text: w.studyDays > 0 ? `Last week: ${w.studyDays} of ${w.goal}.` : `Last week's goal was ${w.goal} study ${w.goal === 1 ? 'day' : 'days'}.`, strong: 'Tonight starts this week.', lastWeek: true };
   }
   // Returning (TODAY-1018 section 5, as the app): no shaming, no streak loss; the week starts again with one session.
   if (done === 0 && rhythm.returning) return { text: 'A new week starts with one session.', strong: `Today can be day one of ${goal}.` };

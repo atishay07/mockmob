@@ -7,6 +7,7 @@
 // Unknown is never zero: a tile whose read failed says so in words.
 import Link from 'next/link';
 import { openMistakes } from '@/lib/today/move.mjs';
+import { QUEUE_EMPTY } from '@/lib/today/copy.mjs';
 
 export default function TodayQueue({ papers, repaired, repairRows, revise, dayOne = false, hold = false }) {
   const head = <header className="tg__row"><h2 id="tq-h" className="tg__h">Repairs and Revise</h2></header>;
@@ -17,7 +18,7 @@ export default function TodayQueue({ papers, repaired, repairRows, revise, dayOn
     return (
       <section className="tq" aria-labelledby="tq-h">
         {head}
-        <p className="tq__empty">Every wrong answer waits here with its explanation. Repair finds the reason; Revise brings it back after 1, 3, 7 and 21 days.</p>
+        <p className="tq__empty">{QUEUE_EMPTY}</p>
       </section>
     );
   }
@@ -39,20 +40,21 @@ export default function TodayQueue({ papers, repaired, repairRows, revise, dayOn
     <section className="tq" aria-labelledby="tq-h">
       {head}
       <div className="tq__grid">
-        <Link className="tq__tile" href="/review" aria-label={open == null ? 'Repairs: your open mistakes did not load. Open Your papers.' : `Repairs: ${open} open${toCheck ? `, ${toCheck} repaired and ready to check on fresh questions` : ''}. Open Your papers.`}>
+        <Link className="tq__tile" href="/review" aria-label={open == null ? 'Repairs: your open mistakes did not load. Open Your papers.' : open === 0 ? `Repairs: every mistake read is repaired${toCheck ? `, ${toCheck} ready to check on fresh questions` : ''}. Open Your papers.` : `Repairs: ${open} open ${open === 1 ? 'mistake' : 'mistakes'}${toCheck ? `, ${toCheck} repaired and ready to check on fresh questions` : ''}. Open Your papers.`}>
           <span className="tq__h">Repairs</span>
           {open == null ? <span className="tq__s">Your open mistakes did not load.</span> : (
             <>
-              <span className="tq__n"><b>{open}</b><span>open</span></span>
+              {/* R3 Z: nothing open is not led with a zero; the line below says so. */}
+              {open > 0 ? <span className="tq__n"><b>{open}</b><span>open {open === 1 ? 'mistake' : 'mistakes'}</span></span> : null}
               <span className="tq__s">{toCheck ? `${toCheck} repaired, ready to check on fresh questions` : open ? 'Each one waits with its explanation' : 'Every mistake read is repaired'}</span>
             </>
           )}
         </Link>
-        <Link className="tq__tile" href="/review/revise" aria-label={due == null ? 'Revise did not load. Open Revise.' : `Revise: ${due} due today. ${reviseSub} Open Revise.`}>
+        <Link className="tq__tile" href="/review/revise" aria-label={due == null ? 'Revise did not load. Open Revise.' : due === 0 ? `Revise: ${reviseSub} Open Revise.` : `Revise: ${due} to revise today. ${reviseSub} Open Revise.`}>
           <span className="tq__h">Revise</span>
           {due == null ? <span className="tq__s">{reviseSub}</span> : (
             <>
-              <span className="tq__n"><b>{due}</b><span>due today</span></span>
+              {due > 0 ? <span className="tq__n"><b>{due}</b><span>to revise today</span></span> : null}
               <span className="tq__s">{reviseSub}</span>
             </>
           )}

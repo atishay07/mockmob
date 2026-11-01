@@ -26,7 +26,7 @@ test('lead: a repair move carries its title, kind and stake (6 marks a mistake, 
   assert.equal(move.kind, 'repair');
   assert.equal(move.number, 4);
   assert.deepEqual(move.stake, { value: 24, word: 'marks they cost you' });
-  assert.deepEqual(move.choice, { title: 'Repair your last paper', value: '4 open from yesterday' });
+  assert.deepEqual(move.choice, { title: 'Repair your last paper', value: '4 open mistakes from yesterday' });
   // A shorter length keeps the stake honest.
   const short = refit(fitMove(move, 10));
   assert.equal(short.number, 3);
@@ -46,8 +46,8 @@ test('choices: two of a different kind from the lead, in the order Repair, Revis
   const lead = { id: 'repair', open: 4, number: 4 };
   const two = pickChoices(lead, pool);
   assert.deepEqual(two.map((m) => m.id), ['revise', 'weakest']);
-  assert.deepEqual(two[0].choice, { title: 'Revise what came back', value: '6 due, about 10 min' });
-  assert.deepEqual(two[1].choice, { title: 'Practise your weakest chapter', value: 'Admission of a partner' });
+  assert.deepEqual(two[0].choice, { title: 'Revise what came back', value: '6 questions, about 10 min' });
+  assert.deepEqual(two[1].choice, { title: 'Practise your weakest chapter', value: 'Admission of a Partner' });
   assert.equal(two[1].title, 'Practise your weakest chapter');
   assert.match(two[1].key.href, /chapter=Admission\+of\+a\+partner/);
 });
@@ -169,6 +169,6 @@ test('road layers: the week\'s share of the mock target, one a fortnight, never 
 test('road layers: with Revise in the lead, today lists a plain study session and Revise once, never Revise twice', () => {
   const fig = roadFigures({ today: '2026-10-13', plan: {}, goal: 4, taken: 3 });
   const r = roadLayers({ today: '2026-10-13', rhythm: { ...rhythm, studyDayDates: [] }, weekdays: [1], revise: { due: 4, answeredToday: 0 }, move: { id: 'revise', title: 'Revise what came back', key: { minutes: 5, href: '/review/revise' } }, fig, target: 14, taken: 3 });
-  assert.deepEqual(r.today.items.map((i) => [i.id, i.title, i.href]), [['session', 'A study session', '/dashboard'], ['revise', 'Revise', '/review/revise']]);
+  assert.deepEqual(r.today.items.map((i) => [i.id, i.title, i.href]), [['session', 'A study session', '/dashboard'], ['revise', 'Revise · 4 questions', '/review/revise']], 'R3 W: "Revise · 4 questions", never "Revise 0 of 4"');
   assert.equal(r.today.left, 'Left: a study session, and 4 Revise questions.');
 });

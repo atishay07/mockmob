@@ -14,6 +14,8 @@ import { TEST_MODES } from '@/../data/test_modes';
 import { mistakeAction } from '@/lib/today/mistakeAction.mjs';
 import { clockIn } from '@/lib/today/week.mjs';
 import { paperDay } from '@/lib/today/move.mjs';
+import { chapterTitle } from '@/lib/today/chapterTitle.mjs';
+import { WEAK_EMPTY, WEAK_THIN } from '@/lib/today/copy.mjs';
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const when = (at) => {
@@ -113,7 +115,7 @@ export default function TodayWeak({ insights, loadAttempt, repairRows = null, su
     return (
       <section className="twk" aria-labelledby="twk-h">
         {head}
-        <p className="twk__empty">{view.status === 'empty' ? 'After your first paper, the three chapters costing you the most marks show here, each with Practise and its mistakes.' : 'No chapter has enough answers to rank yet. After a few more questions in a chapter, it shows here with its mistakes.'}</p>
+        <p className="twk__empty">{view.status === 'empty' ? WEAK_EMPTY : WEAK_THIN}</p>
       </section>
     );
   }
@@ -132,10 +134,10 @@ export default function TodayWeak({ insights, loadAttempt, repairRows = null, su
               <div className="twk__row">
                 <button type="button" className="twk__open" aria-expanded={isOpen} aria-controls={id} onClick={() => toggle(c)}>
                   {/* Release 10 (#4): the misses themselves say they open, with a chevron that turns, in place of an unlabelled "+". */}
-                  <span className="twk__t"><b>{c.chapter}</b><span>{c.subjectName || subjectName(c.subject)}, <span className="twk__peek">{missed} of {c.n} missed<ChevronDown className="twk__plus" size={15} strokeWidth={2} aria-hidden="true" /></span></span></span>
+                  <span className="twk__t"><b>{chapterTitle(c.subject, c.chapter)}</b><span>{c.subjectName || subjectName(c.subject)}, <span className="twk__peek">{missed} of {c.n} missed<ChevronDown className="twk__plus" size={15} strokeWidth={2} aria-hidden="true" /></span></span></span>
                   <span className="twk__fig"><b>{c.open}</b><span>marks</span></span>
                 </button>
-                <Link className="tm__pill twk__practise" href={practiseHref(c)} aria-label={`Practise ${c.chapter}`}><Play size={15} strokeWidth={1.75} aria-hidden="true" /><span className="twk__practise-t">Practise</span></Link>
+                <Link className="tm__pill twk__practise" href={practiseHref(c)} aria-label={`Practise ${chapterTitle(c.subject, c.chapter)}`}><Play size={15} strokeWidth={1.75} aria-hidden="true" /><span className="twk__practise-t">Practise</span></Link>
               </div>
               <div className="twk__more" id={id} data-open={isOpen || undefined}>
                 <div>

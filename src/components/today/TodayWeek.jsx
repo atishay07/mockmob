@@ -116,7 +116,7 @@ export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree 
       <header className="tg__row">
         <h2 id="tw-h" className="tg__h">This week</h2>
         {/* The one count of the week's study days; Road to CUET's This week prints the same figure and words (weekDays). */}
-        {count ? <p className="tg__fig"><b>{count.done}</b><span className="tg__of">of {count.total}</span><span>study {count.total === 1 ? 'day' : 'days'}</span></p> : null}
+        {count ? <p className="tg__fig"><b>{count.figure}</b>{count.of ? <span className="tg__of">{count.of}</span> : null}<span>{count.unit}</span></p> : null}
       </header>
       <div className="tw__track" style={{ '--sel': sel }}>
         <span className="tw__sel" aria-hidden="true" />

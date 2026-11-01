@@ -200,7 +200,7 @@ test('move: unknown is never zero; a failed plan with nothing known is the faile
 test('move: ordinary practice names the chapter with the most marks open, from the record', () => {
   const m = buildMove(base({ repaired: new Map([['p7', 4]]), top: { subject: 'accountancy', chapter: 'Partnership Fundamentals', open: 30, sessions: 3 } }));
   assert.equal(m.id, 'practice');
-  assert.equal(m.label, 'questions on Partnership Fundamentals');
+  assert.equal(m.label, 'questions on Accounting for Partnership: Basic Concepts', 'R3 T5: the syllabus title, as the roadmap names it');
   assert.match(m.why, /30 marks open in your record, over 3 sessions/);
   assert.match(m.key.href, /chapter=Partnership\+Fundamentals/);
 });

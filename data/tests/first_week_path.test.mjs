@@ -98,7 +98,7 @@ test('day 3: a second set, aimed at the weakest chapter (smart practice on Pro, 
   const free = firstWeekPath(ctx(3));
   assert.equal(free.move.id, 'weakest');
   assert.equal(free.move.overline, 'Day 3 of your first week');
-  assert.equal(free.move.chapter, 'Partnership Fundamentals');
+  assert.equal(free.move.chapter, 'Accounting for Partnership: Basic Concepts');
   assert.match(free.move.key.href, /^\/dashboard\?subject=accountancy&chapter=Partnership\+Fundamentals&mode=quick&count=10$/);
   const pro = firstWeekPath(ctx(3, { premium: true }));
   assert.equal(pro.move.id, 'smart');
@@ -232,7 +232,7 @@ test('what it never replaces: a session waiting, a check, the finished-for-today
 test('the rail says it in words for a screen reader: counts with their denominators', () => {
   const p = firstWeekPath(ctx(3));
   assert.equal(railLine(p), 'Your first week, day 3. 2 of 7 steps done: Find and fix, Revise. Today: Weak chapters.');
-  assert.equal(railLine(firstWeekPath(ctx(1, { sessions: 0, papers: [], repaired: new Map(), repairs: 0, firstAt: null, revise: null }))), 'Your first week, day 1. 0 of 7 steps done. Today: Find and fix.');
+  assert.equal(railLine(firstWeekPath(ctx(1, { sessions: 0, papers: [], repaired: new Map(), repairs: 0, firstAt: null, revise: null }))), 'Your first week, day 1. Today: Find and fix.');
   assert.equal(railLine(null), '');
 });
 

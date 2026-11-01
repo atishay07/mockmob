@@ -5,6 +5,7 @@
 //
 // The stake is the record's own arithmetic: every paper is marked +5 and −1, so a wrong answer is 5 not gained plus 1
 // taken, 6 marks. A chapter's stake is its open marks (wrong and blank, 5 each). Never a promise of marks to gain.
+import { chapterTitle } from './chapterTitle.mjs';
 import { openMistakes, paperDay, paperName, repairMinutes, moveOverline } from './move.mjs';
 import { firstTimedMockHref, shortestTimedPaper } from '../../../data/first_timed_mock.js';
 
@@ -80,8 +81,8 @@ export function choiceOf(move, now = Date.now()) {
   if (move.choice) return move.choice;
   const title = leadTitle(move, now);
   const k = kindOf(move);
-  if (k === 'repair') return { title, value: `${move.open ?? move.number} open${move.paperAt ? ` from ${paperWhen(move.paperAt, now)}` : ''}` };
-  if (move.id === 'revise') return { title, value: `${move.number} due${move.key?.minutes ? `, about ${move.key.minutes} min` : ''}` };
+  if (k === 'repair') return { title, value: `${plural(move.open ?? move.number, 'open mistake')}${move.paperAt ? ` from ${paperWhen(move.paperAt, now)}` : ''}` };
+  if (move.id === 'revise') return { title, value: `${plural(move.number, 'question')}${move.key?.minutes ? `, about ${move.key.minutes} min` : ''}` };
   if (k === 'practice') return { title, value: move.chapter || `${move.number} questions` };
   if (move.id === 'dayOne') return { title, value: `${move.number} questions` };
   if (move.id === 'returning') return { title, value: `${move.number} questions, ${move.key?.minutes || 10} min` };
@@ -125,14 +126,15 @@ export function choiceMoves({ papers = null, revise = null, facts = null, repair
       key: { label: 'Start Revise', href: '/review/revise', minutes: Math.max(5, Math.ceil(due / 5) * 5) },
       pills: pills(), art: 'object', subject: null, due, free: true,
     }, { now });
-    m.choice = { title: m.title, value: total > due ? `${due} of ${total} due today` : `${due} due, about ${m.key.minutes} min` };
+    m.choice = { title: m.title, value: total > due ? `${due} of ${total} questions today` : `${plural(due, 'question')}, about ${m.key.minutes} min` };
     out.push(m);
   }
   if (top?.chapter && top?.subject) {
     const count = length === 10 ? 10 : 20;
+    const chapterName = chapterTitle(top.subject, top.chapter); // R3 T5: the syllabus's own title
     out.push(leadOf({
-      id: 'weakest', overline: 'Up next', number: count, label: `questions on ${top.chapter}`, chapter: top.chapter, chapterOpen: top.open, chapterSessions: top.sessions,
-      why: `${top.chapter} has ${plural(top.open, 'mark')} open in your record: ${(top.wrong || 0) + (top.skip || 0)} of ${top.n} questions missed. Marked +5 and −1, the CUET way.`,
+      id: 'weakest', overline: 'Up next', number: count, label: `questions on ${chapterName}`, chapter: chapterName, chapterOpen: top.open, chapterSessions: top.sessions,
+      why: `${chapterName} has ${plural(top.open, 'mark')} open in your record: ${(top.wrong || 0) + (top.skip || 0)} of ${top.n} questions missed. Marked +5 and −1, the CUET way.`,
       key: { label: 'Start practice', href: `/dashboard?${new URLSearchParams({ subject: top.subject, chapter: top.chapter, mode: 'quick', count: String(count) })}`, minutes: length },
       pills: pills(), art: 'object', subject: top.subject,
     }, { now }));

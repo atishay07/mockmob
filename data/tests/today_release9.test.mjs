@@ -139,17 +139,17 @@ test('D27: "Today already counts toward your week" is This week\'s line only', (
 });
 
 test('D27: one count of the week\'s study days, in one wording, in This week and in Road to CUET', () => {
-  assert.deepEqual(weekDays({ studyDays: 4, daysGoal: 4 }), { done: 4, total: 4, text: '4 of 4 study days' });
-  assert.deepEqual(weekDays({ studyDays: 0, daysGoal: 1 }), { done: 0, total: 1, text: '0 of 1 study day' });
+  assert.deepEqual(weekDays({ studyDays: 4, daysGoal: 4 }), { done: 4, total: 4, figure: 4, of: 'of 4', unit: 'study days', text: '4 of 4 study days' });
+  assert.deepEqual(weekDays({ studyDays: 0, daysGoal: 1 }), { done: 0, total: 1, figure: 1, of: '', unit: 'study day this week', text: '1 study day this week' }, 'R3 Z: the goal leads, never "0 of 1"');
   assert.equal(weekDays({ studyDays: 3, daysGoal: null }), null, 'unknown goal: no count, never "3 of 0"');
   assert.equal(weekDays({ daysGoal: 4 }), null, 'unknown days: never 0');
   assert.equal(weekDays(null), null);
   const week = read('src/components/today/TodayWeek.jsx');
   assert.match(week, /const count = weekDays\(r\)/);
-  assert.match(week, /<b>\{count\.done\}<\/b><span className="tg__of">of \{count\.total\}<\/span>/);
+  assert.match(week, /<b>\{count\.figure\}<\/b>\{count\.of \? <span className="tg__of">\{count\.of\}<\/span> : null\}<span>\{count\.unit\}<\/span>/);
   const road = read('src/components/today/TodayRoad.jsx');
   assert.match(road, /const weekCount = weekDays\(rhythmNow\)/);
-  assert.match(road, /figure: weekCount \? weekCount\.done : '\?', of: weekCount \? `of \$\{weekCount\.total\}` : ''/);
+  assert.match(road, /figure: weekCount \? weekCount\.figure : '\?', of: weekCount \? weekCount\.of : ''/);
   assert.doesNotMatch(road.replace(/^\s*\/\/.*$/gm, ''), /days and a mock|days and mocks/, 'the mock is never folded into the days');
   assert.match(road, /`and \$\{mocksItem\.done\} of \$\{mocksItem\.total\} full \$\{mocksItem\.total === 1 \? 'mock' : 'mocks'\}`/, 'the week\'s mock is its own line');
   assert.match(road, /<Stretch done=\{weekCount \? Math\.min\(weekCount\.done, weekCount\.total\) : 0\} total=\{weekCount \? weekCount\.total : 0\} order=\{1\} \/>/, 'the stretch draws the same days');

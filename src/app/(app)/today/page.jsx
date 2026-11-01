@@ -304,7 +304,8 @@ export default function Today() {
           <p className="today__date">{day ? <time className="today__in">{day}</time> : ' '}</p>
           <h1 className="today__hello">{hello ? <span className="today__in">{hello}</span> : <span className="sr-only">Today</span>}</h1>
           {/* Your colleges, one tap from the first screen every day (D126 B, owner H9); the block at the end stays. */}
-          <TodayCollegesStrip userId={userId} hold={landing} />
+          {/* R3 T3: a brand-new student's phone shows the start card and its key above the dock, so the strip sits just under the card for them (from 1100 px it stays under the greeting). */}
+          {dayOne ? <div className="today__colleges-head"><TodayCollegesStrip userId={userId} hold={landing} /></div> : <TodayCollegesStrip userId={userId} hold={landing} />}
         </header>
         {/* One quiet ask while the account has no name worth showing (the app's name card, I11): never the email's prefix. */}
         <NameAsk />
@@ -321,6 +322,7 @@ export default function Today() {
               />
             )}
             {phase !== 'failed' ? <TodayCue target="week" ready={phase === 'ready'} /> : null}
+            {dayOne ? <div className="today__colleges"><TodayCollegesStrip userId={userId} hold={landing} /></div> : null}
             <TodayWeak insights={insights} loadAttempt={data.loadAttempt} repairRows={data.repairRows} subjectName={subjectName} hold={landing} />
             {dayOne ? null : <TodayPaper papers={data.papers} loadAttempt={data.loadAttempt} subjectName={subjectName} repairRows={data.repairRows} hold={landing} />}
           </div>
