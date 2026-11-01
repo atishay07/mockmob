@@ -11,6 +11,7 @@
 - **Still short:** Mathematics (290 cards, about 2 h). The formula pipeline waits for his yes.
 - **LK25:** the app port session was resumed at about 4:40 am with the web changes since 1 Nov (rounds 2-4, Key cards for every subject) and the plan: finish its walk, align with LK24-LK33, emulator walk, release AAB for him to upload.
 - **Reliability:** 2 of 4 Vercel builds today failed fetching Geist Mono from Google Fonts. A redeploy passes. The lasting fix (self-host the font) is proposed, not done.
+- **Next (scheduled in this session for 8:27 am, after the 8:20 am usage reset):** recovery round 2. 1,003 held cards: 876 held only as ambiguous, plus 127 Computer Science cards held only for front wording. They go through the same fix and independent re-review: handoff-1102/recovery2-1102.js, args in recovery2-args-1102.json, guards check-drafts-r2-1102.mjs and merge-reviews4-1102.mjs. If the session has ended, a new one runs it from those files.
 
 ## 2 Nov 2026, about 4:15 am IST: Computer Science Key cards live (LK34); a recovery round and the English top-up are being checked
 - **Live:** main feb30935e, deployment dpl_9D1LG3MWRpJ6qB6DCWpBic8a4NLQ. No runtime errors; /, /learn, /explore, /today, /pricing and a Computer Science chapter page answer 200.
