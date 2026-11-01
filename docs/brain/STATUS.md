@@ -1,3 +1,19 @@
+## 2 Nov 2026, about 5:30 am IST: Key cards for Computer Science to production (owner LK34); a blank keeps its punctuation on its line
+
+**What shipped:**
+- **Computer Science:** 1,350 cards across 18 chapters, from 19 NCERT PDFs (Computer Science XII Ch 1-12, Informatics Practices XII Ch 1-7). 567 are held back with reasons.
+  - Project Based Learning (Computer Science Ch 13) is outside CUET Section B1, so it has no cards. The Informatics Practices chapter of the same name gave 10.
+  - Only the Computer Science reviews were merged (KEYCARDS_REVIEWS_DIR), so no other subject's verdicts changed while the recovery round runs.
+- **Tiers:** 3,500 of 13,890 cards are Must-know.
+- **Blanks:** a comma, stop or closing bracket after a blank (or an opening one before it) now stays on the blank's line. 1,087 published fronts have one, and before this a line could start with ", and". `blankRuns` and `gapClass` are in kinds.js, used by the stage, the chemistry stage, KeyCard and the card list.
+
+**Verified:**
+- Suites: learn 381, keycards 82, keycards-ui 40, today 146, app 984, auth 141, egress 101, health-egress 56, dock 55, recovery 637, billing 453, subjects 62, syllabus 24, learning 357, du 42, community 11. All pass, with 0 failures.
+- `eslint .` is clean, and `next build --webpack` exits 0.
+- Looked at these cards in the local preview: SQL front and back, Stack, and Pandas, at 390 Night. The SQL blank card also at 390 Day and 1440 Night and Day, and a Chemistry blank card at 390 Day. The preview showed no console errors.
+
+**Rollback:** the previous production deployment (main 7f1b204a7).
+
 ## 2 Nov 2026, about 4 am IST: Key cards for Physics and Mathematics to production (owner LK34)
 
 **What shipped:**
