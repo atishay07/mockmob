@@ -1,5 +1,18 @@
 # NOW: MockMob current state
 
+## 1 Nov 2026, about 12:30 pm IST: Learn v2 code is LIVE with its switches off; the owner applies the migration next
+- **Owner:** "Ship it", then: he wants it live to test everything properly; "mostly loved the direction"; refinement and fixes after
+  deploy. He still has feedback from the local server (it was a bit buggy there).
+- **Live:** main 106e53720 on mockmob.in (Vercel dpl_4KiFy8nhFkomrN5pgA3H1284MF5k, READY). Switches off: /api/learn/* answers 404
+  LEARN_OFF, /learn/run, /explore/run and /learn/c/* serve the not-found page, the v1 Key cards API is unchanged, no runtime errors.
+  The Learn v2 nav (Learn, Key cards first; the Start sheet's Learn a chapter) is gated too (cf552bac8), so the live nav is unchanged.
+- **Blocked for agents:** the production migration (the auto-mode classifier denied even the rolled-back dry run). The owner runs
+  wt-1031-learn-v2/supabase/dryrun/20261101150000_learn_runs.dryrun.sql, then supabase/migrations/20261101150000_learn_runs.sql in the
+  Supabase SQL editor (project isrxrxzjocewrdureyhp). Read-only pre-checks passed; question_interactions is about 3,500 rows.
+- **Then:** set LEARN2_ENABLED=true and NEXT_PUBLIC_LEARN2=on (Vercel, production) and redeploy; NOT before the migration (a redeploy
+  with the switches on and no tables would break every Learn run). Then smoke test, his test, his feedback.
+- **App port:** session local_3c5cb01e (Port Learn v2 and the Explore feed to the app) started by the owner.
+
 ## 1 Nov 2026, about 6:20 am IST: Learn v2 and the Explore feed built completely (LK20-LK23); waiting for his look
 - **Branch web/1031-learn-v2 (wt-1031-learn-v2), not pushed or deployed.** Spec BUILD-1101.md; audits A1-A8, 00-critic, 09-final-critic in
   docs/brain/learn-1031/audit-1101/. Commits: 06d7b40f5 e61e5517e e8e6d3c0c 0cd13b463 978699f89 2e90b5be7 f684d507a eea222a3f ee3f61abe
