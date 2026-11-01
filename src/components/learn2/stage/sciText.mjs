@@ -6,6 +6,9 @@
 //      least one digit) takes a digit after an element symbol or ")" as a subscript: CH3OH, (CH3)2NH, PbO2, H2SO4, C6H5OH.
 //      A leading coefficient stays plain (2H2O -> 2H₂O).
 //   3. "[X]0" gets a subscript 0 ([A]0 -> [A]₀), and "t1/2" becomes t₁/₂.
+//   4. A complex ion's charge after its bracket is a superscript: [Co(NH3)6]3+ -> [Co(NH₃)₆]³⁺, [PtCl4]2– -> [PtCl₄]²⁻.
+//   5. An electron count after an orbital is a superscript: 3d8 -> 3d⁸, 4s2 -> 4s², d4 -> d⁴ (s and p only with their shell).
+//   NCERT often prints a minus as an en dash (NO2–); it reads as a charge sign wherever a minus or a word-final hyphen does.
 // Plain numbers are never touched ("Table 2.4", "Unit 4", "p. 52", "step 1", "373 K"), nor reaction names (SN1, SN2, E1, E2) or vitamins (B12).
 
 const ELEMENTS = new Set(('H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As Se Br Kr Rb Sr Y Zr '
@@ -18,13 +21,13 @@ const IONS = [
   ['Fe', '3+'], ['Zn', '2+'], ['Ca', '2+'], ['Mg', '2+'], ['Ba', '2+'], ['Pb', '2+'], ['Hg', '2+'], ['Ni', '2+'], ['Co', '2+'],
   ['Mn', '2+'], ['Sn', '2+'], ['Sn', '4+'], ['Cr', '3+'], ['Al', '3+'],
   ['OH', '−'], ['NO3', '−'], ['NO2', '−'], ['HCO3', '−'], ['HSO4', '−'], ['MnO4', '−'], ['CN', '−'], ['Cl', '−'], ['Br', '−'],
-  ['I', '−'], ['F', '−'], ['SO4', '2−'], ['SO3', '2−'], ['CO3', '2−'], ['CrO4', '2−'], ['Cr2O7', '2−'], ['PO4', '3−'], ['O', '2−'],
+  ['I', '−'], ['F', '−'], ['SCN', '−'], ['SO4', '2−'], ['SO3', '2−'], ['CO3', '2−'], ['CrO4', '2−'], ['Cr2O7', '2−'], ['PO4', '3−'], ['O', '2−'],
   ['S', '2−'],
 ];
 const ION = new Map(IONS.map(([formula, charge]) => [`${formula}${charge}`, { formula, charge }]));
 
 const STOP = /^(?:SN[12]|E[12]|B(?:1|2|3|6|7|9|12))$/; // reaction names and vitamins, never formulas
-const SIGN = { '+': '+', '−': '−', '-': '−' };
+const SIGN = { '+': '+', '−': '−', '-': '−', '–': '−' };
 
 /** The element/digit/bracket reading of a token, or null when it is not a formula. */
 function formulaParts(body) {
@@ -61,8 +64,9 @@ function formulaParts(body) {
   return depth === 0 && elements > 0 ? out : null;
 }
 
-// t1/2 | [X]0 | a token with an optional leading coefficient and an optional charge sign (a hyphen only at a word's end).
-const MASTER = /(?<![A-Za-z0-9])t1\/2(?![0-9A-Za-z])|\[([^\]\s]{1,16})\]0(?![0-9])|(?<![A-Za-z0-9])(\d*)([A-Z(][A-Za-z0-9()]*)([+−]|-(?![A-Za-z0-9]))?/g;
+// t1/2 | [X]0 | a token with an optional leading coefficient and an optional charge sign (a hyphen or an en dash only at a
+// word's end) | a charge right after "]" | an electron count after an orbital (groups 6-9).
+const MASTER = /(?<![A-Za-z0-9])t1\/2(?![0-9A-Za-z])|\[([^\]\s]{1,16})\]0(?![0-9])|(?<![A-Za-z0-9])(\d*)([A-Z(][A-Za-z0-9()]*)([+−]|[-–](?![A-Za-z0-9]))?|(?<=\])(\d{0,2}(?:[+−]|[-–](?![A-Za-z0-9])))|(?<![A-Za-z0-9])(?:([1-7])([spdf])|([df]))(\d{1,2})(?![A-Za-z0-9])/g;
 
 /** A formula's segments, else the token as plain text. */
 const formulaOrPlain = (body) => formulaParts(body) || [{ kind: 'plain', text: body }];
@@ -86,26 +90,39 @@ export function sciText(text) {
     push('plain', s.slice(at, m.index));
     at = m.index + m[0].length;
     if (m[0].startsWith('t1/2')) { push('plain', 't'); push('sub', '1'); push('plain', '/'); push('sub', '2'); continue; }
+    if (m[5] !== undefined) { push('sup', m[5].replace(/[-–]/g, '−')); continue; }
+    if (m[9] !== undefined) { push('plain', `${m[6] || ''}${m[7] || m[8]}`); push('sup', m[9]); continue; }
     if (m[1] !== undefined) {
       push('plain', '[');
       for (const p of formulaOrPlain(m[1])) push(p.kind, p.text);
       push('plain', ']'); push('sub', '0');
       continue;
     }
-    const [, , coef = '', body, sign] = m;
+    const [, , coef = '', whole, sign] = m;
+    // "(Cr2+, Mn3+)": an opening bracket that belongs to the sentence, not to a formula, stays plain before the token.
+    const lead = whole.length > 1 && whole.startsWith('(') && !formulaParts(whole) ? '(' : '';
+    const body = lead ? whole.slice(1) : whole;
     if (sign) {
       const ion = ION.get(`${body}${SIGN[sign]}`);
-      // A hyphen reads as a charge only for a two-character ion or longer ("Cl-", "SO42-"), never "I-" or "F-".
-      if (ion && (sign !== '-' || body.length >= 2)) {
-        push('plain', coef);
+      const wordSign = sign === '-' || sign === '–';
+      // A hyphen or en dash reads as a charge only for a two-character ion or longer ("Cl-", "SO42–"), never "I-" or "F-".
+      if (ion && (!wordSign || body.length >= 2)) {
+        push('plain', coef + lead);
         for (const p of formulaOrPlain(ion.formula)) push(p.kind, p.text);
-        push('sup', ion.charge.replace('-', '−'));
+        push('sup', ion.charge);
+        continue;
+      }
+      // One element, a number and a sign is a monatomic ion: Mn3+ -> Mn³⁺, Co3+ -> Co³⁺ (never Mn₃+).
+      const one = /^([A-Z][a-z]?)(\d{1,2})$/.exec(body);
+      if (one && ELEMENTS.has(one[1])) {
+        push('plain', coef + lead + one[1]);
+        push('sup', `${one[2]}${SIGN[sign]}`);
         continue;
       }
     }
     const parts = formulaParts(body);
     if (!parts) { push('plain', m[0]); continue; }
-    push('plain', coef);
+    push('plain', coef + lead);
     for (const p of parts) push(p.kind, p.text);
     if (sign) push('plain', sign);
   }

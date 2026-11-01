@@ -22,12 +22,14 @@ export const previewOff = (env = process.env) => env.NODE_ENV === 'production' |
 
 /**
  * The preview students. commerce: Accountancy, Business Studies, Economics, English. science: Biology and Political Science.
- * new: the commerce subjects with nothing added and nothing answered (the sparse first visit).
+ * new: the commerce subjects with nothing added and nothing answered (the sparse first visit). sciences: the new Key cards subjects.
  */
 export const PREVIEW_STUDENTS = Object.freeze({
   commerce: Object.freeze({ subjects: ['accountancy', 'business_studies', 'economics', 'english'], fresh: false }),
   science: Object.freeze({ subjects: ['biology', 'political_science'], fresh: false }),
   new: Object.freeze({ subjects: ['accountancy', 'business_studies', 'economics', 'english'], fresh: true }),
+  // The new Key cards subjects (1-2 Nov 2026), so the preview can show their cards: sciences takes them all.
+  sciences: Object.freeze({ subjects: ['chemistry', 'physics', 'mathematics', 'history', 'geography', 'psychology', 'sociology', 'computer_science'], fresh: false }),
 });
 
 const USER = 'preview-user';

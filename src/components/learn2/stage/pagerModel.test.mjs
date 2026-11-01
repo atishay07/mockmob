@@ -266,3 +266,19 @@ test('R4 ui-correctness#18 and first-timer#17: the stop sheet goes "Back to it";
   const run = readText(new URL('../run/run.css', import.meta.url));
   assert.match(run, /\n\.lr-close__word \{ display: inline; \}/, 'the run shows the word at every width');
 });
+
+test('science notation, round 4 follow-up: complex-ion charges, NCERT en-dash minus, electron configurations; bonds and ranges stay plain', () => {
+  const t = (x) => sciPlain(sciText(x));
+  assert.equal(t('[Co(NH3)6]3+ is octahedral'), '[Co(NH₃)₆]³⁺ is octahedral');
+  assert.equal(t('[PtCl4]2– is square planar'), '[PtCl₄]²⁻ is square planar');
+  assert.equal(t('how NO2– can coordinate'), 'how NO₂⁻ can coordinate');
+  assert.equal(t('configuration 3d8.'), 'configuration 3d⁸.');
+  assert.equal(t('from d4 to d3'), 'from d⁴ to d³');
+  assert.equal(t('1s2 2s2 2p6'), '1s² 2s² 2p⁶');
+  assert.equal(t('a Br–Br bond and the C–Cl bond'), 'a Br–Br bond and the C–Cl bond');
+  assert.equal(t('pp. 89–117, Table 2.4, step 1, Unit 4, 373 K'), 'pp. 89–117, Table 2.4, step 1, Unit 4, 373 K');
+  assert.equal(t('for d4 (Cr2+, Mn3+), d6 (Fe2+, Co3+)'), 'for d⁴ (Cr²⁺, Mn³⁺), d⁶ (Fe²⁺, Co³⁺)');
+  assert.equal(t('the NO2– and SCN– ions'), 'the NO₂⁻ and SCN⁻ ions');
+  assert.equal(t('(CH3)2NH and (C2H5)2NH'), '(CH₃)₂NH and (C₂H₅)₂NH', 'a formula that starts with a bracket keeps it');
+});
+
