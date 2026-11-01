@@ -390,7 +390,6 @@ body:has(.mm.lp) {
 .lp-title__line--run {
   display: inline;
 }
-/* The changing third line (.lp-morph) lives in hero-motion.css. */
 .lp-lead {
   margin: 0;
   max-width: 36rem;

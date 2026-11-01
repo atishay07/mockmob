@@ -48,3 +48,7 @@ Cross-packet requests: write the packet, the file, the change and why. The orche
 +  const l2Off = Boolean(previewRoute) && l2OffAddress;
 ```
 Until that lands, the l2=off page still logs that one shell hydration error. Console texts: tmp/learn-1101/r3-after/explore/explore-l2off-1440-console-before-shell-fix.txt (the error) and explore-l2off-390-console-with-shell-fix.txt (clean: only HMR and a not-found.css preload warning).
+
+## R3-hero (1 Nov 2026)
+- No request for another packet's files.
+- H4 left as is: the Day room's answer-sheet marks are painted into the image (scene-empty-allclear-day); there is no HTML or SVG overlay on Day to thin out. Making Day as sparse as Night needs a repainted Day image (an image-generation job), not code. Say if you want it.

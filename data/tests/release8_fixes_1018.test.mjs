@@ -183,7 +183,7 @@ test('L-019: Lab Cinema has no drifting light behind the screen', () => {
 test('L-013: the hero buttons show on tablet widths (761 to 899 px); nothing hides .lp-cta there', () => {
   const css = stripComments(read('src/app/landing.css'));
   assert.doesNotMatch(css, /@media \(max-width: 899px\) \{\s*\.lp-cta \{\s*display: none;/);
-  const all = ['src/app/landing.css', 'src/app/home-refinements.css', 'src/app/hero-motion.css'].map((f) => stripComments(read(f))).join('\n');
+  const all = ['src/app/landing.css', 'src/app/home-refinements.css', 'src/app/hero-scene.css'].map((f) => stripComments(read(f))).join('\n');
   assert.doesNotMatch(all, /\.lp-cta\s*\{[^}]*display:\s*none/);
 });
 

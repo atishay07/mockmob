@@ -40,7 +40,13 @@ export function heroBankLine(bankSize = null) {
   return hasCount(bankSize) ? `One bank of ${n(bankSize)} questions. No cap on Pro.` : 'One live question bank. No cap on Pro.';
 }
 
-/** The three reassurances as one line with middle dots. `price` is priceLine(OFFER); `monthly` picks the last part. */
-export function heroTrustLine(price, { monthly = true } = {}) {
-  return ['Free to start', price, monthly ? 'Cancel anytime' : 'No auto-renewal'].filter(Boolean).join(' · ');
+/** The reassurances as separate parts, in order, so the page can keep each one whole on a line (R3 H2: never break
+ *  inside "No auto-renewal" or the price). `price` is priceLine(OFFER); `monthly` picks the last part. */
+export function heroTrustSegments(price, { monthly = true } = {}) {
+  return ['Free to start', price, monthly ? 'Cancel anytime' : 'No auto-renewal'].filter(Boolean);
+}
+
+/** The three reassurances as one line with middle dots. */
+export function heroTrustLine(price, options) {
+  return heroTrustSegments(price, options).join(' · ');
 }
