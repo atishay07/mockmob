@@ -20,3 +20,9 @@
   ("8 due") as a dot too. P3 did not touch the dock (not in its list); the tab row's Papers count is now a dot.
 - **Not done (left on purpose):** Fine-tune is drawn twice on Practice (the block and the strip above Start). phone-clarity 14
   says drop the strip, but the owner asked for it right above Start (F8), so it stays until he says otherwise.
+- **Preview fixture (not P3's file):** `ArenaPreviewClient.jsx` answers GET `/api/bookmarks` with 2 saved questions for every
+  student, so a brand-new student's Explore head reads "Saved 2" in the preview (90-explore-first-visit shots). Real accounts
+  read their own count. A fix would return 0 for `student=new`.
+- **Content call seen in "First up":** "What is partnership?" and "Define partnership." open the same run side by side (the
+  near-duplicate pair still open in the owner's 1 Nov notes).
+- **Shots:** `tmp/learn-1101/r2-after/p3/` (index.json lists each with its URL); script `scripts/design-audit/learn-1101-r2-p3-capture.mjs`.
