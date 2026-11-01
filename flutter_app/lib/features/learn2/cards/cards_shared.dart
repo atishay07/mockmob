@@ -152,7 +152,8 @@ abstract final class CardsShared {
     return utf8.decode(bytes, allowMalformed: true);
   }
 
-  /// A link with extra query values (an empty or missing value is not added; a value already there is replaced in place).
+  /// A link with extra query values (an empty or missing value is not added; a value already there is replaced in place). The app
+  /// builds its own locations in Learn2Links, so no screen calls this yet; it is held to the web's output with the rest.
   static String withParams(String href, [Map<String, Object?> extra = const {}]) {
     final pieces = href.split('?');
     final path = pieces.first;
