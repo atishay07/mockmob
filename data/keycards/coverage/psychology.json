@@ -2,60 +2,61 @@
   "subject": "psychology",
   "chapters": {
     "psychology.attitude-and-social-cognition": {
-      "published": 92,
-      "quarantined": 21,
+      "published": 104,
+      "quarantined": 9,
       "byKind": {
         "definition": 21,
         "key_line": 8,
-        "list": 2,
+        "fact": 50,
+        "list": 10,
         "term": 1,
         "example": 13,
-        "fact": 47
+        "steps": 1
       },
       "byImportance": {
-        "must": 20,
-        "good": 72
+        "must": 26,
+        "good": 78
       },
       "coverage_note": null,
-      "mustShare": 0.22,
+      "mustShare": 0.25,
       "belowMinimum": false
     },
     "psychology.meeting-life-challenges": {
-      "published": 114,
-      "quarantined": 17,
+      "published": 116,
+      "quarantined": 15,
       "byKind": {
         "term": 2,
         "key_line": 11,
         "definition": 40,
-        "fact": 32,
+        "fact": 34,
         "list": 10,
         "types": 14,
         "steps": 3,
         "difference": 2
       },
       "byImportance": {
-        "must": 28,
-        "good": 86
+        "must": 29,
+        "good": 87
       },
       "coverage_note": null,
       "mustShare": 0.25,
       "belowMinimum": false
     },
     "psychology.psychological-disorders": {
-      "published": 116,
-      "quarantined": 21,
+      "published": 125,
+      "quarantined": 12,
       "byKind": {
-        "definition": 53,
+        "definition": 54,
         "list": 18,
         "key_line": 9,
+        "fact": 24,
         "term": 1,
         "types": 16,
-        "fact": 16,
         "difference": 3
       },
       "byImportance": {
-        "must": 33,
-        "good": 83
+        "must": 35,
+        "good": 90
       },
       "coverage_note": null,
       "mustShare": 0.28,
@@ -83,63 +84,63 @@
       "belowMinimum": false
     },
     "psychology.social-influence-and-group-processes": {
-      "published": 42,
-      "quarantined": 29,
+      "published": 50,
+      "quarantined": 21,
       "byKind": {
         "definition": 10,
+        "list": 8,
         "term": 2,
         "key_line": 7,
         "difference": 5,
-        "list": 2,
         "steps": 1,
-        "fact": 10,
+        "fact": 12,
         "types": 2,
         "example": 3
       },
       "byImportance": {
-        "must": 9,
-        "good": 33
+        "must": 13,
+        "good": 37
       },
       "coverage_note": null,
-      "mustShare": 0.21,
+      "mustShare": 0.26,
       "belowMinimum": false
     },
     "psychology.therapeutic-approaches": {
-      "published": 95,
-      "quarantined": 34,
+      "published": 104,
+      "quarantined": 25,
       "byKind": {
         "definition": 30,
-        "list": 11,
+        "list": 13,
+        "fact": 17,
         "difference": 7,
-        "key_line": 26,
+        "key_line": 27,
         "types": 4,
-        "fact": 11,
         "example": 3,
         "term": 3
       },
       "byImportance": {
-        "must": 29,
-        "good": 66
+        "must": 31,
+        "good": 73
       },
       "coverage_note": null,
-      "mustShare": 0.31,
+      "mustShare": 0.3,
       "belowMinimum": false
     },
     "psychology.variations-in-psychological-attributes": {
-      "published": 114,
-      "quarantined": 21,
+      "published": 126,
+      "quarantined": 9,
       "byKind": {
         "definition": 47,
         "difference": 7,
         "types": 5,
-        "fact": 26,
+        "fact": 29,
         "key_line": 11,
-        "list": 8,
+        "list": 17,
         "example": 10
       },
       "byImportance": {
-        "must": 29,
-        "good": 85
+        "must": 32,
+        "good": 94
       },
       "coverage_note": null,
       "mustShare": 0.25,

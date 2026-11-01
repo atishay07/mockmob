@@ -1,6 +1,6 @@
 {
   "subject": "english",
-  "version": 3,
+  "version": 4,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -1425,6 +1425,1320 @@
       ],
       "order": 2910,
       "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-censure-censor",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: The Speaker decided to ____ the member for unparliamentary conduct. (censor / censure)",
+      "back": "censure",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7000,
+      "note": "'Censure' is to criticise formally; 'censor' is to suppress or cut parts of a text."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-credible-credulous",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: He is so ____ that he believes every rumour. (credible / credulous)",
+      "back": "credulous",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7010,
+      "note": "'Credulous' means too ready to believe; 'credible' means believable."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-disinterested-uninterested",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: We need a ____ judge, one with no personal stake in the case. (disinterested / uninterested)",
+      "back": "disinterested",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7020,
+      "note": "In its traditional sense 'disinterested' means impartial; 'uninterested' means not interested."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-flaunt-flout",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: Drivers who ____ traffic rules should be fined. (flaunt / flout)",
+      "back": "flout",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7030,
+      "note": "'Flout' is to openly disregard a rule; 'flaunt' is to show off."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-allusion-illusion",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: The poem's last line is an indirect ____ to the Mahabharata. (allusion / illusion)",
+      "back": "allusion",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7040,
+      "note": "An allusion is an indirect reference; an illusion is a false impression."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-adapt-adopt",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: The couple decided to ____ an orphaned child. (adapt / adopt)",
+      "back": "adopt",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7050,
+      "note": "'Adopt' is to take on legally as one's own; 'adapt' is to adjust."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-alternate-alternative",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: The club meets on ____ Sundays, that is, every second Sunday. (alternate / alternative)",
+      "back": "alternate",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7060,
+      "note": "'Alternate' means every other one; 'alternative' means another possible choice."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-confidant-confident",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: She is my ____, and I tell her every secret. (confidant / confident)",
+      "back": "confidant",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7070,
+      "note": "A confidant is a person trusted with secrets; 'confident' means self-assured."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-disburse-disperse",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: The police used tear gas to ____ the crowd. (disburse / disperse)",
+      "back": "disperse",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7090,
+      "note": "'Disperse' is to scatter; 'disburse' is to pay out money."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-envelop-envelope",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: Dense fog began to ____ the whole valley. (envelop / envelope)",
+      "back": "envelop",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7100,
+      "note": "'Envelop' is a verb meaning to wrap or cover completely; 'envelope' is the paper cover for a letter."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-hoard-horde",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: A ____ of fans rushed onto the field. (hoard / horde)",
+      "back": "horde",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7110,
+      "note": "A horde is a large crowd; a hoard is a stored-up supply."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-imply-infer",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: From the empty chairs we ____ that the meeting had ended. (imply / infer)",
+      "back": "infer",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7120,
+      "note": "To infer is to conclude from evidence; to imply is to suggest without stating."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-loath-loathe",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: He was ____ to leave without thanking his host. (loath / loathe)",
+      "back": "loath",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7130,
+      "note": "'Loath' (adjective) means unwilling; 'loathe' (verb) means to hate."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-moral-morale",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: The team's ____ was high after the victory. (moral / morale)",
+      "back": "morale",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7140,
+      "note": "'Morale' is the confidence and spirit of a group; 'moral' relates to right and wrong."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-prosecute-persecute",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: The state will ____ the accused for fraud. (prosecute / persecute)",
+      "back": "prosecute",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7150,
+      "note": "To prosecute is to take legal action against; to persecute is to treat cruelly because of belief or identity."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-sensible-sensitive",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: He is too ____ to criticism and is easily hurt. (sensible / sensitive)",
+      "back": "sensitive",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7160,
+      "note": "'Sensitive' means quick to react or be hurt; 'sensible' means showing good sense."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-statue-statute",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: Parliament passed a ____ to protect wildlife. (statue / statute)",
+      "back": "statute",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7170,
+      "note": "A statute is a written law passed by a legislature; a statue is a carved figure."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-tortuous-torturous",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: We drove along a ____ mountain road full of sharp bends. (tortuous / torturous)",
+      "back": "tortuous",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7180,
+      "note": "'Tortuous' means full of twists; 'torturous' means causing great pain."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-veracity-voracity",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: She doubted the ____ of his claim. (veracity / voracity)",
+      "back": "veracity",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7190,
+      "note": "Veracity is truthfulness; voracity is greed for food or knowledge."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-wave-waive",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: The bank agreed to ____ the late fee. (wave / waive)",
+      "back": "waive",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7200,
+      "note": "To waive is to give up a right or requirement; to wave is to move the hand."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-canvas-canvass",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: Candidates ____ for votes from house to house. (canvas / canvass)",
+      "back": "canvass",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7210,
+      "note": "To canvass is to seek support or votes; canvas is a heavy cloth."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-ascent-assent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: The President gave his ____ to the bill, and it became law. (ascent / assent)",
+      "back": "assent",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7220,
+      "note": "Assent is formal agreement; ascent is the act of climbing up."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-aural-oral",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: The listening test checks ____ comprehension. (aural / oral)",
+      "back": "aural",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7230,
+      "note": "'Aural' relates to hearing; 'oral' relates to the mouth or speech."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-biannual-biennial",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: A ____ conference is held once in two years. (biannual / biennial)",
+      "back": "biennial",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7240,
+      "note": "'Biennial' means once every two years; 'biannual' means twice a year."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-elude-allude",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: The fugitive managed to ____ the police for months. (elude / allude)",
+      "back": "elude",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7250,
+      "note": "To elude is to escape from or avoid; to allude is to refer indirectly."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-immoral-amoral",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: A person with no sense of right and wrong at all is ____. (immoral / amoral)",
+      "back": "amoral",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7260,
+      "note": "'Amoral' means lacking any moral sense; 'immoral' means breaking moral rules."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-tenant-tenet",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: Non-violence is a central ____ of Gandhi's philosophy. (tenant / tenet)",
+      "back": "tenet",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7270,
+      "note": "A tenet is a principle or belief; a tenant rents property."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-wreak-reek",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: The cyclone is expected to ____ havoc on the coast. (wreak / reek)",
+      "back": "wreak",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7280,
+      "note": "'Wreak havoc' is the fixed phrase; to reek is to smell strongly."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-who-whom",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: To ____ should the letter be addressed? (who / whom)",
+      "back": "whom",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7290,
+      "note": "Use 'whom' as the object of a verb or preposition: 'to whom'."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-human-humane",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: The law demands ____ treatment of animals. (human / humane)",
+      "back": "humane",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7310,
+      "note": "'Humane' means showing kindness and compassion; 'human' relates to people."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-ordinance-ordnance",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: The government issued an ____ because Parliament was not in session. (ordinance / ordnance)",
+      "back": "ordinance",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7320,
+      "note": "An ordinance is a law made by executive order; ordnance means military weapons and supplies."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-regretful-regrettable",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: His rude remark at the meeting was most ____. (regretful / regrettable)",
+      "back": "regrettable",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7330,
+      "note": "'Regrettable' describes what causes regret; 'regretful' describes a person who feels it."
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-luxurious-luxuriant",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "usage",
+      "front": "Choose the correct word: The valley was covered with ____ vegetation after the monsoon. (luxurious / luxuriant)",
+      "back": "luxuriant",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7340,
+      "note": "'Luxuriant' means lush and thick in growth; 'luxurious' means expensive and comfortable."
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-cond-type-one",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: what is the pattern of a real future condition (type 1)?",
+      "back": "If + simple present, will + base verb.\nWrong: If it will rain, we will cancel the picnic.\nRight: If it rains, we will cancel the picnic.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7500
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-cond-type-three",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: what is the pattern of an unreal past condition (type 3)?",
+      "back": "If + past perfect, would have + past participle.\nWrong: If she had studied, she would pass.\nRight: If she had studied, she would have passed.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7510
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-future-time-clause",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: which tense follows 'when', 'before' or 'as soon as' for a future event?",
+      "back": "The simple present, not 'will'.\nWrong: I will call you when I will reach home.\nRight: I will call you when I reach home.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7520
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-irregular-past-participle",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: which verb form follows 'has', 'have' or 'had'?",
+      "back": "The past participle (gone, written, taken), not the simple past.\nWrong: He has went to Delhi.\nRight: He has gone to Delhi.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7580
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-unless-negative",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: 'unless' already means 'if not'. What follows it?",
+      "back": "An affirmative verb.\nWrong: Unless you don't work hard, you will fail.\nRight: Unless you work hard, you will fail.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7590
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-lest-should",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: which auxiliary follows 'lest'?",
+      "back": "'Should' (or the bare subjunctive), never 'will' or 'would'.\nWrong: Run fast lest you will miss the train.\nRight: Run fast lest you should miss the train.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7600
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-neither-nor",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: which conjunction pairs with 'neither', and which with 'either'?",
+      "back": "'Neither' pairs with 'nor'; 'either' pairs with 'or'.\nWrong: Neither Ravi or his sister attended.\nRight: Neither Ravi nor his sister attended.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7610
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-not-only-inversion",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: when a sentence begins with 'Not only', what happens to the word order?",
+      "back": "The auxiliary comes before the subject (inversion).\nWrong: Not only she sings, but she also dances.\nRight: Not only does she sing, but she also dances.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7620
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-negative-adverb-inversion",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: when 'seldom', 'rarely' or 'never' begins a sentence, what happens to the word order?",
+      "back": "The auxiliary comes before the subject.\nWrong: Seldom she visits her village.\nRight: Seldom does she visit her village.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7630
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-used-to-base",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: which verb form follows 'used to' for a past habit?",
+      "back": "The base form of the verb.\nWrong: She used to walking to school.\nRight: She used to walk to school.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7640
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-such-so",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: 'such' or 'so' before 'a/an + adjective + noun'?",
+      "back": "'Such'; 'so' goes directly before an adjective.\nWrong: It was so a beautiful day.\nRight: It was such a beautiful day.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7650
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-too-very",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: 'too' suggests an unwanted excess. Can it replace 'very' in a happy statement?",
+      "back": "No. Use 'very'.\nWrong: I am too glad to see you.\nRight: I am very glad to see you.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7660
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-cannot-help-gerund",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: which verb form follows 'cannot help' (meaning 'cannot stop oneself')?",
+      "back": "The gerund (-ing form).\nWrong: I could not help to laugh.\nRight: I could not help laughing.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7670
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-past-time-marker",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: which tense goes with 'yesterday', 'ago' or 'last week'?",
+      "back": "The simple past, not the present perfect.\nWrong: I have seen him yesterday.\nRight: I saw him yesterday.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7690
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-stative-verbs",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: can 'know', 'believe', 'want' and 'understand' be used in the continuous tense?",
+      "back": "No. These stative verbs take the simple tense.\nWrong: I am knowing the answer.\nRight: I know the answer.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7700
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-possessive-no-apostrophe",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: do the possessive pronouns 'hers', 'ours', 'yours' and 'theirs' take an apostrophe?",
+      "back": "No. They never take an apostrophe.\nWrong: The red bag is her's.\nRight: The red bag is hers.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7710
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-prepositions-of-time",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: which preposition goes with a date or a day: 'in', 'on' or 'at'?",
+      "back": "'On' (on 5 May, on Monday); 'in' goes with months and years, 'at' with clock time.\nWrong: She was born in 5 May 2004.\nRight: She was born on 5 May 2004.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7730
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-despite-no-of",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: can 'despite' be followed by 'of'?",
+      "back": "No. Say 'despite' or 'in spite of'.\nWrong: Despite of the rain, the match went on.\nRight: Despite the rain, the match went on.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7740
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-resemble-marry",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: do 'resemble' and 'marry' take a preposition before the object?",
+      "back": "No. Both take a direct object.\nWrong: She resembles to her mother.\nRight: She resembles her mother.\nWrong: He married with a doctor.\nRight: He married a doctor.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7750
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-compare-like-with-like",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: in a comparison, what must be compared with what?",
+      "back": "Like with like; use 'that of' or 'those of' to avoid comparing a thing with a place.\nWrong: The climate of Shimla is cooler than Delhi.\nRight: The climate of Shimla is cooler than that of Delhi.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7760
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-the-poor-plural",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: 'the poor', 'the rich' and 'the young' take which kind of verb?",
+      "back": "A plural verb, because they mean groups of people.\nWrong: The poor is often ignored.\nRight: The poor are often ignored.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7770
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-police-plural",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: 'police', 'cattle' and 'people' take which kind of verb?",
+      "back": "A plural verb, though they do not end in -s.\nWrong: The police has arrested the thief.\nRight: The police have arrested the thief.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7780
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-question-tag",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: how is a question tag formed after a positive statement?",
+      "back": "A negative tag repeating the auxiliary and the pronoun.\nWrong: He is honest, isn't it?\nRight: He is honest, isn't he?",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7790
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-reported-question-order",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: what word order does a reported question use?",
+      "back": "Statement order, with no 'do' support and no question mark.\nWrong: He asked me where was I going.\nRight: He asked me where I was going.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7800
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-there-is-are",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: in 'There is/are ...', the verb agrees with which word?",
+      "back": "The noun that follows the verb.\nWrong: There is many reasons for the delay.\nRight: There are many reasons for the delay.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7810
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-had-better-base",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: which verb form follows 'had better'?",
+      "back": "The base form without 'to'.\nWrong: You had better to leave now.\nRight: You had better leave now.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7820
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-make-bare-infinitive",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: which verb form follows 'make' and 'let' with an object (active voice)?",
+      "back": "The bare infinitive, without 'to'.\nWrong: The film made me to cry.\nRight: The film made me cry.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7830
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-more-than-one",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: 'more than one' is followed by which noun and verb forms?",
+      "back": "A singular noun and a singular verb.\nWrong: More than one student were absent.\nRight: More than one student was absent.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7840
     },
     {
       "id": "kc.english.vocabulary.word-lucid",
@@ -8137,6 +9451,5528 @@
       "order": 2870,
       "note": "Example: I came across an old photo in the drawer.",
       "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-acquiesce",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'acquiesce' mean?",
+      "back": "To accept something reluctantly but without protest",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "acquiesce",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5000,
+      "note": "Synonym: consent. Antonym: resist."
+    },
+    {
+      "id": "kc.english.vocabulary.word-acrimonious",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'acrimonious' mean?",
+      "back": "(of speech or debate) angry and bitter",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "acrimonious",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5010,
+      "note": "Synonym: bitter. Antonym: cordial."
+    },
+    {
+      "id": "kc.english.vocabulary.word-adept",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'adept' mean?",
+      "back": "Very skilled at something that needs training or practice",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "adept",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5020,
+      "note": "Synonym: proficient. Antonym: clumsy."
+    },
+    {
+      "id": "kc.english.vocabulary.word-affluent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'affluent' mean?",
+      "back": "Having a great deal of money; wealthy",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "affluent",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5040,
+      "note": "Synonym: rich. Antonym: impoverished."
+    },
+    {
+      "id": "kc.english.vocabulary.word-altruistic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'altruistic' mean?",
+      "back": "Showing selfless concern for the well-being of others",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "altruistic",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5050,
+      "note": "Synonym: selfless. Antonym: selfish."
+    },
+    {
+      "id": "kc.english.vocabulary.word-amenable",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'amenable' mean?",
+      "back": "Open and responsive to suggestion; willing to be guided or persuaded",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "amenable",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5060,
+      "note": "Synonym: agreeable. Antonym: stubborn."
+    },
+    {
+      "id": "kc.english.vocabulary.word-anomaly",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'anomaly' mean?",
+      "back": "Something that deviates from what is standard, normal or expected",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "anomaly",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5070,
+      "note": "Synonym: irregularity. Antonym: norm."
+    },
+    {
+      "id": "kc.english.vocabulary.word-apathy",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'apathy' mean?",
+      "back": "Lack of interest, enthusiasm or concern",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "apathy",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5080,
+      "note": "Synonym: indifference. Antonym: enthusiasm."
+    },
+    {
+      "id": "kc.english.vocabulary.word-appease",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'appease' mean?",
+      "back": "To calm or placate someone by giving in to their demands",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "appease",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5090,
+      "note": "Synonym: placate. Antonym: provoke."
+    },
+    {
+      "id": "kc.english.vocabulary.word-articulate",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does the adjective 'articulate' mean?",
+      "back": "Able to express ideas clearly and fluently in speech",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "articulate",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5100,
+      "note": "Synonym: fluent. Antonym: inarticulate."
+    },
+    {
+      "id": "kc.english.vocabulary.word-astute",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'astute' mean?",
+      "back": "Clever at judging situations and turning them to one's advantage",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "astute",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5110,
+      "note": "Synonym: perceptive. Antonym: naive."
+    },
+    {
+      "id": "kc.english.vocabulary.word-augment",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'augment' mean?",
+      "back": "To make something greater by adding to it",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "augment",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5120,
+      "note": "Synonym: increase. Antonym: diminish."
+    },
+    {
+      "id": "kc.english.vocabulary.word-auspicious",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'auspicious' mean?",
+      "back": "Suggesting that future success is likely; favourable",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "auspicious",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5130,
+      "note": "Synonym: promising. Antonym: ominous."
+    },
+    {
+      "id": "kc.english.vocabulary.word-banal",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'banal' mean?",
+      "back": "Lacking originality and so boring; commonplace",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "banal",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5140,
+      "note": "Synonym: trite. Antonym: original."
+    },
+    {
+      "id": "kc.english.vocabulary.word-belligerent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'belligerent' mean?",
+      "back": "Hostile and aggressive; eager to fight",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "belligerent",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5150,
+      "note": "Synonym: combative. Antonym: peaceable."
+    },
+    {
+      "id": "kc.english.vocabulary.word-bolster",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'bolster' mean?",
+      "back": "To support or strengthen something",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "bolster",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5160,
+      "note": "Synonym: reinforce. Antonym: undermine."
+    },
+    {
+      "id": "kc.english.vocabulary.word-capricious",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'capricious' mean?",
+      "back": "Given to sudden and unaccountable changes of mood or behaviour",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "capricious",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5170,
+      "note": "Synonym: unpredictable. Antonym: steady."
+    },
+    {
+      "id": "kc.english.vocabulary.word-censure",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'censure' mean?",
+      "back": "To criticise someone formally and severely",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "censure",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5180,
+      "note": "Synonym: condemn. Antonym: praise."
+    },
+    {
+      "id": "kc.english.vocabulary.word-circumspect",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'circumspect' mean?",
+      "back": "Careful to consider all circumstances and possible risks before acting",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "circumspect",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5190,
+      "note": "Synonym: cautious. Antonym: reckless."
+    },
+    {
+      "id": "kc.english.vocabulary.word-coerce",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'coerce' mean?",
+      "back": "To force someone to do something by using threats or pressure",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "coerce",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5200,
+      "note": "Synonym: compel. Antonym: persuade."
+    },
+    {
+      "id": "kc.english.vocabulary.word-concur",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'concur' mean?",
+      "back": "To be of the same opinion; to agree",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "concur",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5210,
+      "note": "Synonym: agree. Antonym: differ."
+    },
+    {
+      "id": "kc.english.vocabulary.word-condone",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'condone' mean?",
+      "back": "To accept or forgive behaviour that is regarded as wrong",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "condone",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5220,
+      "note": "Synonym: overlook. Antonym: condemn."
+    },
+    {
+      "id": "kc.english.vocabulary.word-corroborate",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'corroborate' mean?",
+      "back": "To confirm or give support to a statement or finding with evidence",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "corroborate",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5230,
+      "note": "Synonym: confirm. Antonym: contradict."
+    },
+    {
+      "id": "kc.english.vocabulary.word-cursory",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'cursory' mean?",
+      "back": "Hasty and therefore not thorough or detailed",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "cursory",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5240,
+      "note": "Synonym: superficial. Antonym: thorough."
+    },
+    {
+      "id": "kc.english.vocabulary.word-debilitating",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'debilitating' mean?",
+      "back": "Making someone or something very weak and infirm",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "debilitating",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5250,
+      "note": "Synonym: weakening. Antonym: invigorating."
+    },
+    {
+      "id": "kc.english.vocabulary.word-deference",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'deference' mean?",
+      "back": "Polite submission to another person's wishes or judgement out of respect",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "deference",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5260,
+      "note": "Synonym: respect. Antonym: disrespect."
+    },
+    {
+      "id": "kc.english.vocabulary.word-deliberate",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does the adjective 'deliberate' mean?",
+      "back": "Done consciously and intentionally",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "deliberate",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5270,
+      "note": "Synonym: intentional. Antonym: accidental."
+    },
+    {
+      "id": "kc.english.vocabulary.word-denounce",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'denounce' mean?",
+      "back": "To publicly declare something or someone to be wrong or evil",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "denounce",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5280,
+      "note": "Synonym: condemn. Antonym: praise."
+    },
+    {
+      "id": "kc.english.vocabulary.word-derogatory",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'derogatory' mean?",
+      "back": "Showing a critical or disrespectful attitude",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "derogatory",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5290,
+      "note": "Synonym: disparaging. Antonym: complimentary."
+    },
+    {
+      "id": "kc.english.vocabulary.word-despondent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'despondent' mean?",
+      "back": "In low spirits from a loss of hope or courage",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "despondent",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5300,
+      "note": "Synonym: dejected. Antonym: hopeful."
+    },
+    {
+      "id": "kc.english.vocabulary.word-deter",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'deter' mean?",
+      "back": "To discourage someone from doing something by making them doubt or fear the consequences",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "deter",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5310,
+      "note": "Synonym: discourage. Antonym: encourage."
+    },
+    {
+      "id": "kc.english.vocabulary.word-diffident",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'diffident' mean?",
+      "back": "Modest or shy because of a lack of self-confidence",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "diffident",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5320,
+      "note": "Synonym: shy. Antonym: confident."
+    },
+    {
+      "id": "kc.english.vocabulary.word-discern",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'discern' mean?",
+      "back": "To recognise or perceive something that is not obvious",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "discern",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5330,
+      "note": "Synonym: detect. Antonym: overlook."
+    },
+    {
+      "id": "kc.english.vocabulary.word-dissent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'dissent' mean?",
+      "back": "To hold or express opinions that differ from those officially held",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "dissent",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5340,
+      "note": "Synonym: disagree. Antonym: assent."
+    },
+    {
+      "id": "kc.english.vocabulary.word-docile",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'docile' mean?",
+      "back": "Ready to accept control or instruction; easily managed",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "docile",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5350,
+      "note": "Synonym: obedient. Antonym: unruly."
+    },
+    {
+      "id": "kc.english.vocabulary.word-dubious",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'dubious' mean?",
+      "back": "Hesitating or doubting; not to be relied upon",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "dubious",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5360,
+      "note": "Synonym: doubtful. Antonym: certain."
+    },
+    {
+      "id": "kc.english.vocabulary.word-enhance",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'enhance' mean?",
+      "back": "To increase or further improve the quality, value or extent of something",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "enhance",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5380,
+      "note": "Synonym: improve. Antonym: diminish."
+    },
+    {
+      "id": "kc.english.vocabulary.word-erudite",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'erudite' mean?",
+      "back": "Having or showing great knowledge acquired through study",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "erudite",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5390,
+      "note": "Synonym: learned. Antonym: ignorant."
+    },
+    {
+      "id": "kc.english.vocabulary.word-exacerbate",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'exacerbate' mean?",
+      "back": "To make a bad situation, problem or feeling worse",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "exacerbate",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5400,
+      "note": "Synonym: aggravate. Antonym: alleviate."
+    },
+    {
+      "id": "kc.english.vocabulary.word-exonerate",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'exonerate' mean?",
+      "back": "To officially declare that someone is not to blame for a wrong",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "exonerate",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5410,
+      "note": "Synonym: absolve. Antonym: blame."
+    },
+    {
+      "id": "kc.english.vocabulary.word-expedite",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'expedite' mean?",
+      "back": "To make an action or process happen sooner or be accomplished more quickly",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "expedite",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5420,
+      "note": "Synonym: hasten. Antonym: delay."
+    },
+    {
+      "id": "kc.english.vocabulary.word-extol",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'extol' mean?",
+      "back": "To praise enthusiastically",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "extol",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5430,
+      "note": "Synonym: laud. Antonym: criticise."
+    },
+    {
+      "id": "kc.english.vocabulary.word-facilitate",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'facilitate' mean?",
+      "back": "To make an action or process easy or easier",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "facilitate",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5440,
+      "note": "Synonym: ease. Antonym: hinder."
+    },
+    {
+      "id": "kc.english.vocabulary.word-fervent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'fervent' mean?",
+      "back": "Having or showing passionate intensity",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "fervent",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5450,
+      "note": "Synonym: passionate. Antonym: apathetic."
+    },
+    {
+      "id": "kc.english.vocabulary.word-haughty",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'haughty' mean?",
+      "back": "Arrogantly superior and disdainful",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "haughty",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5470,
+      "note": "Synonym: proud. Antonym: humble."
+    },
+    {
+      "id": "kc.english.vocabulary.word-impede",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'impede' mean?",
+      "back": "To delay or prevent something by obstructing it",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "impede",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5480,
+      "note": "Synonym: obstruct. Antonym: assist."
+    },
+    {
+      "id": "kc.english.vocabulary.word-implicit",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'implicit' mean?",
+      "back": "Implied, though not plainly expressed",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "implicit",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5510,
+      "note": "Synonym: implied. Antonym: explicit."
+    },
+    {
+      "id": "kc.english.vocabulary.word-incessant",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'incessant' mean?",
+      "back": "Continuing without pause or interruption",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "incessant",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5520,
+      "note": "Synonym: ceaseless. Antonym: intermittent."
+    },
+    {
+      "id": "kc.english.vocabulary.word-incisive",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'incisive' mean?",
+      "back": "(of thought or expression) intelligently analytical, clear and sharp",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "incisive",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5530,
+      "note": "Synonym: sharp. Antonym: vague."
+    },
+    {
+      "id": "kc.english.vocabulary.word-incongruous",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'incongruous' mean?",
+      "back": "Out of place or not in harmony with its surroundings",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "incongruous",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5540,
+      "note": "Synonym: inappropriate. Antonym: consistent."
+    },
+    {
+      "id": "kc.english.vocabulary.word-innocuous",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'innocuous' mean?",
+      "back": "Not harmful or offensive",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "innocuous",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5560,
+      "note": "Synonym: harmless. Antonym: harmful."
+    },
+    {
+      "id": "kc.english.vocabulary.word-insipid",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'insipid' mean?",
+      "back": "Lacking flavour, vigour or interest",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "insipid",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5570,
+      "note": "Synonym: bland. Antonym: tasty."
+    },
+    {
+      "id": "kc.english.vocabulary.word-insolent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'insolent' mean?",
+      "back": "Showing a rude and arrogant lack of respect",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "insolent",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5580,
+      "note": "Synonym: impudent. Antonym: respectful."
+    },
+    {
+      "id": "kc.english.vocabulary.word-integrity",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'integrity' mean?",
+      "back": "The quality of being honest and having strong moral principles",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "integrity",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5590,
+      "note": "Synonym: honesty. Antonym: dishonesty."
+    },
+    {
+      "id": "kc.english.vocabulary.word-intrinsic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'intrinsic' mean?",
+      "back": "Belonging naturally to something; essential",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "intrinsic",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5600,
+      "note": "Synonym: inherent. Antonym: extrinsic."
+    },
+    {
+      "id": "kc.english.vocabulary.word-irate",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'irate' mean?",
+      "back": "Very angry",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "irate",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5610,
+      "note": "Synonym: furious. Antonym: calm."
+    },
+    {
+      "id": "kc.english.vocabulary.word-jeopardise",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'jeopardise' mean?",
+      "back": "To put something into a situation where it could be harmed or lost",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "jeopardise",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5620,
+      "note": "Synonym: endanger. Antonym: safeguard."
+    },
+    {
+      "id": "kc.english.vocabulary.word-judicious",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'judicious' mean?",
+      "back": "Having or showing good judgement and sense",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "judicious",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5630,
+      "note": "Synonym: wise. Antonym: unwise."
+    },
+    {
+      "id": "kc.english.vocabulary.word-languish",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'languish' mean?",
+      "back": "To lose or lack vitality; to remain in an unpleasant condition for a long time",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "languish",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5640,
+      "note": "Synonym: decline. Antonym: flourish."
+    },
+    {
+      "id": "kc.english.vocabulary.word-lament",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'lament' mean?",
+      "back": "To express passionate grief or sorrow over something",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "lament",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5650,
+      "note": "Synonym: mourn. Antonym: rejoice."
+    },
+    {
+      "id": "kc.english.vocabulary.word-lavish",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does the adjective 'lavish' mean?",
+      "back": "Given or spent in very generous or extravagant amounts",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "lavish",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5660,
+      "note": "Synonym: extravagant. Antonym: stingy."
+    },
+    {
+      "id": "kc.english.vocabulary.word-listless",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'listless' mean?",
+      "back": "Lacking energy or enthusiasm",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "listless",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5670,
+      "note": "Synonym: languid. Antonym: energetic."
+    },
+    {
+      "id": "kc.english.vocabulary.word-malevolent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'malevolent' mean?",
+      "back": "Wishing to do evil to others",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "malevolent",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5680,
+      "note": "Synonym: spiteful. Antonym: benevolent."
+    },
+    {
+      "id": "kc.english.vocabulary.word-mediocre",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'mediocre' mean?",
+      "back": "Of only moderate quality; not very good",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "mediocre",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5690,
+      "note": "Synonym: ordinary. Antonym: excellent."
+    },
+    {
+      "id": "kc.english.vocabulary.word-mitigate",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'mitigate' mean?",
+      "back": "To make something bad less severe, serious or painful",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "mitigate",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5700,
+      "note": "Synonym: lessen. Antonym: aggravate."
+    },
+    {
+      "id": "kc.english.vocabulary.word-nebulous",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'nebulous' mean?",
+      "back": "Unclear, vague and not well defined",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "nebulous",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5710,
+      "note": "Synonym: hazy. Antonym: distinct."
+    },
+    {
+      "id": "kc.english.vocabulary.word-negligent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'negligent' mean?",
+      "back": "Failing to take proper care in doing something",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "negligent",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5720,
+      "note": "Synonym: careless. Antonym: careful."
+    },
+    {
+      "id": "kc.english.vocabulary.word-obnoxious",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'obnoxious' mean?",
+      "back": "Extremely unpleasant; causing strong dislike",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "obnoxious",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5730,
+      "note": "Synonym: offensive. Antonym: pleasant."
+    },
+    {
+      "id": "kc.english.vocabulary.word-onerous",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'onerous' mean?",
+      "back": "Involving heavy effort or a great burden",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "onerous",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5740,
+      "note": "Synonym: burdensome. Antonym: easy."
+    },
+    {
+      "id": "kc.english.vocabulary.word-paramount",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'paramount' mean?",
+      "back": "More important than anything else; supreme",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "paramount",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5750,
+      "note": "Synonym: foremost. Antonym: minor."
+    },
+    {
+      "id": "kc.english.vocabulary.word-partisan",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does the adjective 'partisan' mean?",
+      "back": "Showing strong, often unreasoning, support for one party or cause",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "partisan",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5760,
+      "note": "Synonym: one-sided. Antonym: neutral."
+    },
+    {
+      "id": "kc.english.vocabulary.word-paucity",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'paucity' mean?",
+      "back": "The presence of something in only small or insufficient quantities",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "paucity",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5770,
+      "note": "Synonym: scarcity. Antonym: abundance."
+    },
+    {
+      "id": "kc.english.vocabulary.word-pedantic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'pedantic' mean?",
+      "back": "Overly concerned with minor details or rules, or with displaying book learning",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "pedantic",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5780,
+      "note": "Synonym: fussy. Antonym: easy-going."
+    },
+    {
+      "id": "kc.english.vocabulary.word-perfunctory",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'perfunctory' mean?",
+      "back": "Carried out with minimal effort or reflection, merely as a duty",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "perfunctory",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5790,
+      "note": "Synonym: casual. Antonym: thorough."
+    },
+    {
+      "id": "kc.english.vocabulary.word-pernicious",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'pernicious' mean?",
+      "back": "Having a harmful effect, especially in a gradual or subtle way",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "pernicious",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5800,
+      "note": "Synonym: destructive. Antonym: beneficial."
+    },
+    {
+      "id": "kc.english.vocabulary.word-perplex",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'perplex' mean?",
+      "back": "To puzzle or baffle someone completely",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "perplex",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5810,
+      "note": "Synonym: baffle. Antonym: enlighten."
+    },
+    {
+      "id": "kc.english.vocabulary.word-pivotal",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'pivotal' mean?",
+      "back": "Of crucial importance in relation to the development or success of something",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "pivotal",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5820,
+      "note": "Synonym: crucial. Antonym: insignificant."
+    },
+    {
+      "id": "kc.english.vocabulary.word-prodigal",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'prodigal' mean?",
+      "back": "Spending money or resources freely and recklessly",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "prodigal",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5830,
+      "note": "Synonym: wasteful. Antonym: thrifty."
+    },
+    {
+      "id": "kc.english.vocabulary.word-profuse",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'profuse' mean?",
+      "back": "Exceedingly abundant; given or occurring in large amounts",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "profuse",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5840,
+      "note": "Synonym: plentiful. Antonym: scanty."
+    },
+    {
+      "id": "kc.english.vocabulary.word-pungent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'pungent' mean?",
+      "back": "Having a sharply strong taste or smell",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "pungent",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5850,
+      "note": "Synonym: sharp. Antonym: bland."
+    },
+    {
+      "id": "kc.english.vocabulary.word-quell",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'quell' mean?",
+      "back": "To put an end to something, typically by force",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "quell",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5860,
+      "note": "Synonym: suppress. Antonym: incite."
+    },
+    {
+      "id": "kc.english.vocabulary.word-prevalent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'prevalent' mean?",
+      "back": "Widespread in a particular area at a particular time",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "prevalent",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5880,
+      "note": "Synonym: widespread. Antonym: rare."
+    },
+    {
+      "id": "kc.english.vocabulary.word-reprehensible",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'reprehensible' mean?",
+      "back": "Deserving censure or condemnation",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reprehensible",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5890,
+      "note": "Synonym: blameworthy. Antonym: praiseworthy."
+    },
+    {
+      "id": "kc.english.vocabulary.word-reverence",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'reverence' mean?",
+      "back": "Deep respect for someone or something",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reverence",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5900,
+      "note": "Synonym: veneration. Antonym: contempt."
+    },
+    {
+      "id": "kc.english.vocabulary.word-rudimentary",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'rudimentary' mean?",
+      "back": "Involving only basic principles; not yet developed",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "rudimentary",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5910,
+      "note": "Synonym: basic. Antonym: advanced."
+    },
+    {
+      "id": "kc.english.vocabulary.word-scrutinise",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'scrutinise' mean?",
+      "back": "To examine or inspect closely and thoroughly",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "scrutinise",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5920,
+      "note": "Synonym: examine. Antonym: overlook."
+    },
+    {
+      "id": "kc.english.vocabulary.word-sluggish",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'sluggish' mean?",
+      "back": "Slow-moving or inactive; lacking energy",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "sluggish",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5930,
+      "note": "Synonym: slow. Antonym: brisk."
+    },
+    {
+      "id": "kc.english.vocabulary.word-squander",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'squander' mean?",
+      "back": "To waste something, especially money or time, in a reckless and foolish manner",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "squander",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5940,
+      "note": "Synonym: waste. Antonym: conserve."
+    },
+    {
+      "id": "kc.english.vocabulary.word-stoic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does the adjective 'stoic' mean?",
+      "back": "Enduring pain or hardship without showing feelings or complaining",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "stoic",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5950,
+      "note": "Synonym: unemotional. Antonym: emotional."
+    },
+    {
+      "id": "kc.english.vocabulary.word-stringent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'stringent' mean?",
+      "back": "(of rules or conditions) strict, precise and demanding",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "stringent",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5960,
+      "note": "Synonym: strict. Antonym: lax."
+    },
+    {
+      "id": "kc.english.vocabulary.word-sycophant",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'sycophant' mean?",
+      "back": "A person who flatters important people to gain advantage",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "sycophant",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5970,
+      "note": "Synonym: flatterer. Antonym: critic."
+    },
+    {
+      "id": "kc.english.vocabulary.word-tangible",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'tangible' mean?",
+      "back": "Able to be touched or clearly perceived; real",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tangible",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5980,
+      "note": "Synonym: concrete. Antonym: intangible."
+    },
+    {
+      "id": "kc.english.vocabulary.word-tentative",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'tentative' mean?",
+      "back": "Not certain or fixed; provisional",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tentative",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5990,
+      "note": "Synonym: provisional. Antonym: definite."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-at-loggerheads",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'at loggerheads' mean?",
+      "back": "In strong disagreement or dispute with someone",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6000,
+      "note": "Example: The two neighbours have been at loggerheads over the boundary wall for years."
+    },
+    {
+      "id": "kc.english.vocabulary.word-tenuous",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'tenuous' mean?",
+      "back": "Very weak or slight",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tenuous",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6000,
+      "note": "Synonym: flimsy. Antonym: strong."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-back-to-square-one",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'back to square one' mean?",
+      "back": "Back at the very beginning, having to start again after a failed attempt",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6010,
+      "note": "Example: The test results were wrong, so we are back to square one."
+    },
+    {
+      "id": "kc.english.vocabulary.word-terse",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'terse' mean?",
+      "back": "Sparing in the use of words; abrupt",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "terse",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6010,
+      "note": "Synonym: curt. Antonym: long-winded."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-blow-one-s-own-trumpet",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'blow one's own trumpet' mean?",
+      "back": "To boast about one's own abilities or achievements",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6020,
+      "note": "Example: He is talented, but he never stops blowing his own trumpet."
+    },
+    {
+      "id": "kc.english.vocabulary.word-thwart",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'thwart' mean?",
+      "back": "To prevent someone from accomplishing something",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "thwart",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6020,
+      "note": "Synonym: foil. Antonym: assist."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-by-hook-or-by-crook",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'by hook or by crook' mean?",
+      "back": "By any means, fair or foul",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6030,
+      "note": "Example: She was determined to win the scholarship by hook or by crook."
+    },
+    {
+      "id": "kc.english.vocabulary.word-turbulent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'turbulent' mean?",
+      "back": "Characterised by conflict, disorder or confusion; not calm",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "turbulent",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6030,
+      "note": "Synonym: stormy. Antonym: calm."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-carry-coals-to-newcastle",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'carry coals to Newcastle' mean?",
+      "back": "To supply something to a place that already has plenty of it; to do something unnecessary",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6040,
+      "note": "Example: Selling tea in Darjeeling is like carrying coals to Newcastle."
+    },
+    {
+      "id": "kc.english.vocabulary.word-unscrupulous",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'unscrupulous' mean?",
+      "back": "Having no moral principles; unfair and dishonest",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "unscrupulous",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6040,
+      "note": "Synonym: dishonest. Antonym: honourable."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-cross-the-rubicon",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'cross the Rubicon' mean?",
+      "back": "To take a decisive step that cannot be reversed",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6050,
+      "note": "Example: Once the contract was signed, the firm had crossed the Rubicon."
+    },
+    {
+      "id": "kc.english.vocabulary.word-uphold",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'uphold' mean?",
+      "back": "To confirm or support something that has been questioned, such as a decision",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "uphold",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6050,
+      "note": "Synonym: maintain. Antonym: overturn."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-crocodile-tears",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'crocodile tears' mean?",
+      "back": "Insincere sorrow; a show of grief that is not genuinely felt",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6060,
+      "note": "Example: The rival shed crocodile tears at the minister's resignation."
+    },
+    {
+      "id": "kc.english.vocabulary.word-usurp",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'usurp' mean?",
+      "back": "To take a position of power or importance illegally or by force",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "usurp",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6060,
+      "note": "Synonym: seize. Antonym: relinquish."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-cut-the-gordian-knot",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'cut the Gordian knot' mean?",
+      "back": "To solve a difficult problem in a quick, bold and decisive way",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6070,
+      "note": "Example: The chairman cut the Gordian knot by merging the two departments."
+    },
+    {
+      "id": "kc.english.vocabulary.word-vacillate",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'vacillate' mean?",
+      "back": "To waver between different opinions or actions; to be indecisive",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "vacillate",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6070,
+      "note": "Synonym: waver. Antonym: decide."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-a-dog-in-the-manger",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'a dog in the manger' mean?",
+      "back": "A person who spitefully prevents others from enjoying something that he or she has no use for",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6080,
+      "note": "Example: Don't be a dog in the manger; let others use the library room."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-draw-a-blank",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'draw a blank' mean?",
+      "back": "To fail to find or remember something",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6090,
+      "note": "Example: I tried to recall his name but drew a blank."
+    },
+    {
+      "id": "kc.english.vocabulary.word-vex",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'vex' mean?",
+      "back": "To make someone feel annoyed, frustrated or worried",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "vex",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6090,
+      "note": "Synonym: irritate. Antonym: soothe."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-eat-one-s-words",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'eat one's words' mean?",
+      "back": "To admit that what one said earlier was wrong",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6100,
+      "note": "Example: He had to eat his words when the team won the final."
+    },
+    {
+      "id": "kc.english.vocabulary.word-vilify",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'vilify' mean?",
+      "back": "To speak or write about someone in an abusively disparaging way",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "vilify",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6100,
+      "note": "Synonym: slander. Antonym: praise."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-a-fair-weather-friend",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'a fair-weather friend' mean?",
+      "back": "A friend who is loyal only when things are going well for you",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6110,
+      "note": "Example: He vanished the moment I lost my job; he was a fair-weather friend."
+    },
+    {
+      "id": "kc.english.vocabulary.word-virulent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'virulent' mean?",
+      "back": "Extremely severe, harmful or bitter in effect",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "virulent",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6110,
+      "note": "Synonym: poisonous. Antonym: harmless."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-flog-a-dead-horse",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'flog a dead horse' mean?",
+      "back": "To waste effort on a cause or a matter that is already lost or settled",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6120,
+      "note": "Example: Arguing about last year's result is flogging a dead horse."
+    },
+    {
+      "id": "kc.english.vocabulary.word-vulnerable",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'vulnerable' mean?",
+      "back": "Exposed to the possibility of being attacked or harmed",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "vulnerable",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6120,
+      "note": "Synonym: susceptible. Antonym: protected."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-a-fool-s-paradise",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'a fool's paradise' mean?",
+      "back": "A state of happiness that rests on false hopes or illusions",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6130,
+      "note": "Example: He lived in a fool's paradise, sure that exams needed no preparation."
+    },
+    {
+      "id": "kc.english.vocabulary.word-whimsical",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'whimsical' mean?",
+      "back": "Playfully quaint or fanciful, especially in an appealing way",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "whimsical",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6130,
+      "note": "Synonym: fanciful. Antonym: serious."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-give-someone-the-cold-shoulder",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'give someone the cold shoulder' mean?",
+      "back": "To treat someone in an unfriendly way by deliberately ignoring them",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6140,
+      "note": "Example: After the quarrel, she gave me the cold shoulder."
+    },
+    {
+      "id": "kc.english.vocabulary.word-wither",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'wither' mean?",
+      "back": "To become dry and shrivelled; to fade or decline",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "wither",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6140,
+      "note": "Synonym: shrivel. Antonym: flourish."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-go-to-the-dogs",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'go to the dogs' mean?",
+      "back": "To deteriorate badly; to be ruined",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6150,
+      "note": "Example: The old school has gone to the dogs since the new management took over."
+    },
+    {
+      "id": "kc.english.vocabulary.word-abysmal",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'abysmal' mean?",
+      "back": "Extremely bad; appalling",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "abysmal",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6150,
+      "note": "Synonym: dreadful. Antonym: excellent."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-have-an-axe-to-grind",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'have an axe to grind' mean?",
+      "back": "To have a selfish or private reason for being involved in something",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6160,
+      "note": "Example: The critic has an axe to grind against the author."
+    },
+    {
+      "id": "kc.english.vocabulary.word-acumen",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'acumen' mean?",
+      "back": "The ability to make good judgements and quick decisions",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "acumen",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6160,
+      "note": "Synonym: insight. Antonym: stupidity."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-have-a-bone-to-pick-with-someone",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'have a bone to pick with someone' mean?",
+      "back": "To have a cause for complaint that one wishes to discuss with someone",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6170,
+      "note": "Example: I have a bone to pick with you about yesterday's remark."
+    },
+    {
+      "id": "kc.english.vocabulary.word-ameliorate",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'ameliorate' mean?",
+      "back": "To make something bad or unsatisfactory better",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "ameliorate",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6170,
+      "note": "Synonym: improve. Antonym: worsen."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-in-the-nick-of-time",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'in the nick of time' mean?",
+      "back": "At the last possible moment; just in time",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6180,
+      "note": "Example: The ambulance arrived in the nick of time."
+    },
+    {
+      "id": "kc.english.vocabulary.word-clandestine",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'clandestine' mean?",
+      "back": "Kept secret or done secretively, especially because illicit",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "clandestine",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6180,
+      "note": "Synonym: covert. Antonym: open."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-keep-the-wolf-from-the-door",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'keep the wolf from the door' mean?",
+      "back": "To have just enough money to avoid hunger and poverty",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6190,
+      "note": "Example: His small salary barely kept the wolf from the door."
+    },
+    {
+      "id": "kc.english.vocabulary.word-cumbersome",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'cumbersome' mean?",
+      "back": "Large or heavy and therefore difficult to carry or use; slow and complicated",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "cumbersome",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6190,
+      "note": "Synonym: unwieldy. Antonym: handy."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-the-lion-s-share",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'the lion's share' mean?",
+      "back": "The largest part of something",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6200,
+      "note": "Example: The lion's share of the budget went to defence."
+    },
+    {
+      "id": "kc.english.vocabulary.word-disdain",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'disdain' mean?",
+      "back": "The feeling that someone or something is unworthy of one's consideration or respect",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "disdain",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6200,
+      "note": "Synonym: scorn. Antonym: admiration."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-make-a-mountain-out-of-a-molehill",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'make a mountain out of a molehill' mean?",
+      "back": "To exaggerate the importance of a minor problem",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6210,
+      "note": "Example: It's only a small scratch; don't make a mountain out of a molehill."
+    },
+    {
+      "id": "kc.english.vocabulary.word-dwindle",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'dwindle' mean?",
+      "back": "To diminish gradually in size, amount or strength",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "dwindle",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6210,
+      "note": "Synonym: decrease. Antonym: increase."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-a-necessary-evil",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'a necessary evil' mean?",
+      "back": "Something unpleasant that has to be accepted because it brings a needed result",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6220,
+      "note": "Example: For many workers, long commutes are a necessary evil."
+    },
+    {
+      "id": "kc.english.vocabulary.word-exorbitant",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'exorbitant' mean?",
+      "back": "(of a price or demand) unreasonably high",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "exorbitant",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6220,
+      "note": "Synonym: excessive. Antonym: reasonable."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-not-to-mince-matters",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'not to mince matters' mean?",
+      "back": "To speak plainly and frankly, without softening the truth",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6230,
+      "note": "Example: The principal did not mince matters about the poor results."
+    },
+    {
+      "id": "kc.english.vocabulary.word-inadvertent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'inadvertent' mean?",
+      "back": "Not resulting from deliberate planning; unintentional",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "inadvertent",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6230,
+      "note": "Synonym: unintentional. Antonym: deliberate."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-off-the-cuff",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'off the cuff' mean?",
+      "back": "Without any preparation; spoken on the spur of the moment",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6240,
+      "note": "Example: The leader's off-the-cuff remark caused a controversy."
+    },
+    {
+      "id": "kc.english.vocabulary.word-morose",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'morose' mean?",
+      "back": "Sullen, gloomy and ill-tempered",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "morose",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6240,
+      "note": "Synonym: gloomy. Antonym: cheerful."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-on-cloud-nine",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'on cloud nine' mean?",
+      "back": "Extremely happy",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6250,
+      "note": "Example: She was on cloud nine after topping the entrance test."
+    },
+    {
+      "id": "kc.english.vocabulary.word-ostracise",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'ostracise' mean?",
+      "back": "To exclude someone from a society or group by general agreement",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "ostracise",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6250,
+      "note": "Synonym: shun. Antonym: welcome."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-out-of-the-woods",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'out of the woods' mean?",
+      "back": "Out of danger or difficulty",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6260,
+      "note": "Example: The patient is stable, but not yet out of the woods."
+    },
+    {
+      "id": "kc.english.vocabulary.word-recalcitrant",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'recalcitrant' mean?",
+      "back": "Having an obstinately uncooperative attitude towards authority",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "recalcitrant",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6260,
+      "note": "Synonym: defiant. Antonym: compliant."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-pass-the-buck",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'pass the buck' mean?",
+      "back": "To shift responsibility or blame onto someone else",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6270,
+      "note": "Example: Officials kept passing the buck instead of solving the problem."
+    },
+    {
+      "id": "kc.english.vocabulary.word-relinquish",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'relinquish' mean?",
+      "back": "To voluntarily give up or let go of something",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "relinquish",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6270,
+      "note": "Synonym: surrender. Antonym: retain."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-pay-lip-service-to",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'pay lip service to' mean?",
+      "back": "To express support for something in words but not to act on it",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6280,
+      "note": "Example: Many companies pay lip service to equality without real change."
+    },
+    {
+      "id": "kc.english.vocabulary.word-renounce",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'renounce' mean?",
+      "back": "To formally give up a claim, belief or way of life",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "renounce",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6280,
+      "note": "Synonym: abandon. Antonym: embrace."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-play-second-fiddle",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'play second fiddle' mean?",
+      "back": "To take a subordinate role to someone else",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6290,
+      "note": "Example: He refused to play second fiddle to his younger colleague."
+    },
+    {
+      "id": "kc.english.vocabulary.word-replenish",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'replenish' mean?",
+      "back": "To fill something up again; to restore to a former level",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "replenish",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6290,
+      "note": "Synonym: refill. Antonym: deplete."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-a-red-herring",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'a red herring' mean?",
+      "back": "Something that misleads or distracts attention from the real issue",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6300,
+      "note": "Example: The clue about the gardener was a red herring."
+    },
+    {
+      "id": "kc.english.vocabulary.word-substantiate",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'substantiate' mean?",
+      "back": "To provide evidence to support or prove the truth of something",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "substantiate",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6300,
+      "note": "Synonym: prove. Antonym: disprove."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-a-red-letter-day",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'a red-letter day' mean?",
+      "back": "A specially memorable and happy day",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6310,
+      "note": "Example: The day of her graduation was a red-letter day for the family."
+    },
+    {
+      "id": "kc.english.vocabulary.word-vindictive",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'vindictive' mean?",
+      "back": "Having or showing a strong or unreasoning desire for revenge",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "vindictive",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6310,
+      "note": "Synonym: vengeful. Antonym: forgiving."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-by-the-skin-of-one-s-teeth",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'by the skin of one's teeth' mean?",
+      "back": "Very narrowly; only just",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6320,
+      "note": "Example: We escaped the flood by the skin of our teeth."
+    },
+    {
+      "id": "kc.english.vocabulary.word-conducive",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'conducive' mean?",
+      "back": "Making a certain situation or outcome likely or possible",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "conducive",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6320,
+      "note": "Synonym: favourable. Antonym: unfavourable."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-a-snake-in-the-grass",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'a snake in the grass' mean?",
+      "back": "A treacherous person who pretends to be a friend",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6330,
+      "note": "Example: Beware of him; he is a snake in the grass."
+    },
+    {
+      "id": "kc.english.vocabulary.word-contentious",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'contentious' mean?",
+      "back": "Causing or likely to cause an argument; controversial",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "contentious",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6330,
+      "note": "Synonym: controversial. Antonym: uncontroversial."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-sour-grapes",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'sour grapes' mean?",
+      "back": "Pretending to despise something because one cannot have it",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6340,
+      "note": "Example: His claim that the prize was worthless was just sour grapes."
+    },
+    {
+      "id": "kc.english.vocabulary.word-discrepancy",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'discrepancy' mean?",
+      "back": "A lack of compatibility or similarity between two facts or accounts",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "discrepancy",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6340,
+      "note": "Synonym: inconsistency. Antonym: agreement."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-a-stumbling-block",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'a stumbling block' mean?",
+      "back": "An obstacle that prevents progress or success",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6350,
+      "note": "Example: Lack of funds proved a stumbling block to the project."
+    },
+    {
+      "id": "kc.english.vocabulary.word-mandatory",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'mandatory' mean?",
+      "back": "Required by law or rules; compulsory",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "mandatory",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6350,
+      "note": "Synonym: compulsory. Antonym: optional."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-take-the-bull-by-the-horns",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'take the bull by the horns' mean?",
+      "back": "To tackle a difficulty directly and boldly",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6360,
+      "note": "Example: She took the bull by the horns and confronted the manager."
+    },
+    {
+      "id": "kc.english.vocabulary.word-truncate",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'truncate' mean?",
+      "back": "To shorten something by cutting off the end",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "truncate",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6360,
+      "note": "Synonym: curtail. Antonym: lengthen."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-take-someone-to-task",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'take someone to task' mean?",
+      "back": "To criticise or rebuke someone strongly for a fault",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6370,
+      "note": "Example: The editor took the reporter to task for the factual errors."
+    },
+    {
+      "id": "kc.english.vocabulary.word-spurious",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'spurious' mean?",
+      "back": "Not being what it purports to be; false or fake",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "spurious",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6370,
+      "note": "Synonym: bogus. Antonym: genuine."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-tongue-in-cheek",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'tongue in cheek' mean?",
+      "back": "Said or done ironically or jokingly, not seriously",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6380,
+      "note": "Example: His praise of the weather was tongue in cheek."
+    },
+    {
+      "id": "kc.english.vocabulary.word-jovial",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'jovial' mean?",
+      "back": "Cheerful and friendly",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "jovial",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6380,
+      "note": "Synonym: genial. Antonym: gloomy."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-turn-over-a-new-leaf",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'turn over a new leaf' mean?",
+      "back": "To change one's behaviour for the better and make a fresh start",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6390,
+      "note": "Example: After the warning, he turned over a new leaf."
+    },
+    {
+      "id": "kc.english.vocabulary.word-resolute",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'resolute' mean?",
+      "back": "Admirably purposeful, determined and unwavering",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "resolute",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6390,
+      "note": "Synonym: determined. Antonym: wavering."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-turn-the-tables",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'turn the tables' mean?",
+      "back": "To reverse a situation so that one gains the advantage over a rival",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6400,
+      "note": "Example: The home side turned the tables in the second half."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-up-in-arms",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'up in arms' mean?",
+      "back": "Angrily protesting about something",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6410,
+      "note": "Example: Residents were up in arms over the plan to cut the old trees."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-wash-one-s-hands-of",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'wash one's hands of' mean?",
+      "back": "To refuse to accept any further responsibility for something",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6420,
+      "note": "Example: I wash my hands of the whole affair."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-wear-one-s-heart-on-one-s-sleeve",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'wear one's heart on one's sleeve' mean?",
+      "back": "To show one's feelings openly",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6430,
+      "note": "Example: She wears her heart on her sleeve, so everyone knows her mood."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-the-writing-on-the-wall",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'the writing on the wall' mean?",
+      "back": "A clear sign that something unpleasant or disastrous will happen",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6440,
+      "note": "Example: The falling sales were the writing on the wall for the firm."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-a-wolf-in-sheep-s-clothing",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'a wolf in sheep's clothing' mean?",
+      "back": "A dangerous person who appears harmless or friendly",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6450,
+      "note": "Example: The friendly dealer turned out to be a wolf in sheep's clothing."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-the-salt-of-the-earth",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'the salt of the earth' mean?",
+      "back": "A person who is admirably honest, good and dependable",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6460,
+      "note": "Example: Our neighbours are the salt of the earth."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-a-sitting-duck",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'a sitting duck' mean?",
+      "back": "A person or thing that is an easy target for attack",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6470,
+      "note": "Example: The unguarded ship was a sitting duck."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-a-skeleton-in-the-cupboard",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'a skeleton in the cupboard' mean?",
+      "back": "A shameful or embarrassing secret that one tries to hide",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6480,
+      "note": "Example: Every old family seems to have a skeleton in the cupboard."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-look-a-gift-horse-in-the-mouth",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'look a gift horse in the mouth' mean?",
+      "back": "To find fault with something that has been given free",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6490,
+      "note": "Example: Don't look a gift horse in the mouth; just say thank you."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-at-sixes-and-sevens",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'at sixes and sevens' mean?",
+      "back": "In a state of confusion or disorder",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6500,
+      "note": "Example: The office was at sixes and sevens after the move."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-hand-in-glove",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'hand in glove' mean?",
+      "back": "In very close association with someone, often for a dishonest purpose",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6510,
+      "note": "Example: The contractor worked hand in glove with the inspector."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-head-over-heels-in-love",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'head over heels in love' mean?",
+      "back": "Completely and uncontrollably in love",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6520,
+      "note": "Example: He fell head over heels in love with her at first sight."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-in-a-nutshell",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'in a nutshell' mean?",
+      "back": "In a few words; briefly",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6530,
+      "note": "Example: In a nutshell, the plan failed because it was underfunded."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-a-fish-out-of-water",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'a fish out of water' mean?",
+      "back": "A person who feels uncomfortable in unfamiliar surroundings",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6540,
+      "note": "Example: In the formal gathering he felt like a fish out of water."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-bear-the-brunt",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'bear the brunt' mean?",
+      "back": "To suffer the main force of something unpleasant",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6560,
+      "note": "Example: The coastal villages bore the brunt of the cyclone."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-pour-oil-on-troubled-waters",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'pour oil on troubled waters' mean?",
+      "back": "To calm a quarrel or a tense situation",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6570,
+      "note": "Example: The teacher poured oil on troubled waters by listening to both sides."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-smell-a-rat",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'smell a rat' mean?",
+      "back": "To suspect that something is wrong or that there is trickery",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6580,
+      "note": "Example: When the offer seemed too generous, I began to smell a rat."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-ride-roughshod-over",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'ride roughshod over' mean?",
+      "back": "To treat someone's wishes or feelings with arrogant disregard",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6600,
+      "note": "Example: The management rode roughshod over the staff's objections."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-blow-hot-and-cold",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'blow hot and cold' mean?",
+      "back": "To keep changing one's attitude or opinion about something",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6610,
+      "note": "Example: He blows hot and cold about moving abroad."
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-throw-down-the-gauntlet",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'throw down the gauntlet' mean?",
+      "back": "To issue a challenge",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6620,
+      "note": "Example: The champion threw down the gauntlet to all newcomers."
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-bigamy",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: the offence of having two spouses at the same time",
+      "back": "Bigamy",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "bigamy"
+      ],
+      "order": 6640
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-monogamy",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: the practice of having only one spouse at a time",
+      "back": "Monogamy",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "monogamy"
+      ],
+      "order": 6650
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-polygamy",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: the practice of having more than one spouse at the same time",
+      "back": "Polygamy",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "polygamy"
+      ],
+      "order": 6660
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-fratricide",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: the killing of one's brother or sister",
+      "back": "Fratricide",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "fratricide"
+      ],
+      "order": 6680
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-matricide",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: the killing of one's mother",
+      "back": "Matricide",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "matricide"
+      ],
+      "order": 6690
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-genocide",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: the deliberate killing of a large group of people, especially of a particular nation or ethnic group",
+      "back": "Genocide",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "genocide"
+      ],
+      "order": 6700
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-somnambulist",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a person who walks about in his or her sleep",
+      "back": "Somnambulist",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "somnambulist"
+      ],
+      "order": 6710
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-kleptomaniac",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a person with an irresistible urge to steal",
+      "back": "Kleptomaniac",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "kleptomaniac"
+      ],
+      "order": 6720
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-hypochondriac",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a person who is abnormally anxious about his or her health",
+      "back": "Hypochondriac",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "hypochondriac"
+      ],
+      "order": 6730
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-connoisseur",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: an expert judge in matters of taste, such as art, food or wine",
+      "back": "Connoisseur",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "connoisseur"
+      ],
+      "order": 6740
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-philatelist",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a person who collects or studies postage stamps",
+      "back": "Philatelist",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "philatelist"
+      ],
+      "order": 6750
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-numismatist",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a person who collects coins",
+      "back": "Numismatist",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "numismatist"
+      ],
+      "order": 6760
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-cartographer",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a person who draws or makes maps",
+      "back": "Cartographer",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "cartographer"
+      ],
+      "order": 6770
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-entomology",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: the scientific study of insects",
+      "back": "Entomology",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "entomology"
+      ],
+      "order": 6780
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-ornithology",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: the scientific study of birds",
+      "back": "Ornithology",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "ornithology"
+      ],
+      "order": 6790
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-etymology",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: the study of the origin and history of words",
+      "back": "Etymology",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "etymology"
+      ],
+      "order": 6800
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-apiary",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a place where bees are kept",
+      "back": "Apiary",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "apiary"
+      ],
+      "order": 6810
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-aviary",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a large cage or building in which birds are kept",
+      "back": "Aviary",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "aviary"
+      ],
+      "order": 6820
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-granary",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a building where grain is stored",
+      "back": "Granary",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "granary"
+      ],
+      "order": 6830
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-inexhaustible",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: that which cannot be used up completely",
+      "back": "Inexhaustible",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "inexhaustible"
+      ],
+      "order": 6850
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-insatiable",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: that which cannot be satisfied",
+      "back": "Insatiable",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "insatiable"
+      ],
+      "order": 6860
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-inimitable",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: that which cannot be imitated",
+      "back": "Inimitable",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "inimitable"
+      ],
+      "order": 6870
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-indispensable",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: that which cannot be done without; absolutely necessary",
+      "back": "Indispensable",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "indispensable"
+      ],
+      "order": 6880
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-unprecedented",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: that which has never been known or done before",
+      "back": "Unprecedented",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "unprecedented"
+      ],
+      "order": 6890
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-irreparable",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: that which cannot be repaired or put right",
+      "back": "Irreparable",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "irreparable"
+      ],
+      "order": 6900
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-autocracy",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: government by a single person with absolute power",
+      "back": "Autocracy",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "autocracy"
+      ],
+      "order": 6910
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-theocracy",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: government by priests or religious leaders in the name of God",
+      "back": "Theocracy",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "theocracy"
+      ],
+      "order": 6920
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-oligarchy",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: government by a small group of people",
+      "back": "Oligarchy",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "oligarchy"
+      ],
+      "order": 6930
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-anarchy",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a state of disorder in a society due to the absence of government or authority",
+      "back": "Anarchy",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "anarchy"
+      ],
+      "order": 6940
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-nepotism",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: the practice of favouring one's relatives, especially by giving them jobs",
+      "back": "Nepotism",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "nepotism"
+      ],
+      "order": 6950
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-eavesdropper",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a person who secretly listens to the private conversation of others",
+      "back": "Eavesdropper",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "eavesdropper"
+      ],
+      "order": 6960
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-iconoclast",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a person who attacks cherished beliefs and established institutions",
+      "back": "Iconoclast",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "iconoclast"
+      ],
+      "order": 6970
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-sycophant",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a person who flatters powerful people to gain an advantage for himself or herself",
+      "back": "Sycophant",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "sycophant"
+      ],
+      "order": 6980
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-euphemism",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a mild or indirect word used in place of one that is harsh or unpleasant",
+      "back": "Euphemism",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "euphemism"
+      ],
+      "order": 6990
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-epidemic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a disease that spreads rapidly among many people in a community at the same time",
+      "back": "Epidemic",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "epidemic"
+      ],
+      "order": 7000
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-endemic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a disease that is regularly found among the people of a particular area",
+      "back": "Endemic",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "endemic"
+      ],
+      "order": 7010
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-anachronism",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: something that belongs to a period other than the one in which it exists",
+      "back": "Anachronism",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "anachronism"
+      ],
+      "order": 7020
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-palindrome",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a word or phrase that reads the same backwards as forwards",
+      "back": "Palindrome",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "palindrome"
+      ],
+      "order": 7030
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-soliloquy",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a speech in which a character in a play speaks his or her thoughts aloud when alone",
+      "back": "Soliloquy",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "soliloquy"
+      ],
+      "order": 7040
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-elegy",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a poem of lament for the dead",
+      "back": "Elegy",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "elegy"
+      ],
+      "order": 7050
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-abdicate",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: (verb) to give up the throne formally",
+      "back": "Abdicate",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "abdicate"
+      ],
+      "order": 7060
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-emigrant",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a person who leaves his or her own country to settle permanently in another",
+      "back": "Emigrant",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "emigrant"
+      ],
+      "order": 7070
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-amnesty",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: an official pardon granted by a government to a group of offenders, especially political ones",
+      "back": "Amnesty",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "amnesty"
+      ],
+      "order": 7080
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-posterity",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: all the future generations of people",
+      "back": "Posterity",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "posterity"
+      ],
+      "order": 7090
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-verbatim",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: in exactly the same words as were used originally",
+      "back": "Verbatim",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "verbatim"
+      ],
+      "order": 7100
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-incognito",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: having one's identity concealed, especially by using a disguise or a false name",
+      "back": "Incognito",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "incognito"
+      ],
+      "order": 7110
     }
   ]
 }

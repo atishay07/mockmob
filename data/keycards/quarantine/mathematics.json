@@ -2,19 +2,17 @@
   "subject": "mathematics",
   "cards": [
     {
-      "id": "kc.mathematics.relations-and-functions.kl-relation-meaning",
+      "id": "kc.mathematics.relations-and-functions.def-related-english",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.relations-and-functions",
       "chapter": "Relations & Functions",
       "unit": "Relations and Functions",
-      "kind": "key_line",
-      "front": "two objects or quantities are related if there is a recognisable ____ between the two objects or quantities",
-      "back": "two objects or quantities are related if there is a recognisable connection or link between the two objects or quantities",
-      "quote": "two objects or quantities are related if there is a recognisable connection or link between the two objects or quantities",
-      "blanks": [
-        "connection or link"
-      ],
+      "kind": "definition",
+      "front": "What does 'related' mean in English, the sense from which maths takes the term 'relation'?",
+      "back": "The concept of the term ‘relation’ in mathematics has been drawn from the meaning of relation in English language, according to which two objects or quantities are related if there is a recognisable connection or link between the two objects or quantities.",
+      "quote": "The concept of the term ‘relation’ in mathematics has been drawn from the meaning of relation in English language, according to which two objects or quantities are related if there is a recognisable connection or link between the two objects or quantities.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part 1",
@@ -30,7 +28,9 @@
       ],
       "order": 10,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Trivia: the everyday English sense of 'relation' is not a CUET-tested definition; front asks about 'related' while the quote defines 'relation', and the open-ended gloss has no single crisp answer."
       ]
     },
     {
@@ -258,69 +258,6 @@
       ]
     },
     {
-      "id": "kc.mathematics.relations-and-functions.kl-onto-iff-range",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.relations-and-functions",
-      "chapter": "Relations & Functions",
-      "unit": "Relations and Functions",
-      "kind": "key_line",
-      "front": "f : X → Y is onto if and only if ____ of f = Y.",
-      "back": "f : X → Y is onto if and only if Range of f = Y.",
-      "quote": "f : X → Y is onto if and only if Range of f = Y.",
-      "blanks": [
-        "Range"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part 1",
-        "code": "lemh101",
-        "chapterNo": 1,
-        "page": 8,
-        "section": "Remark"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "onto"
-      ],
-      "order": 290,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.mathematics.relations-and-functions.ex-roll-number-function",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.relations-and-functions",
-      "chapter": "Relations & Functions",
-      "unit": "Relations and Functions",
-      "kind": "example",
-      "front": "f gives each of the 50 students of Class X their roll number, with codomain N. One-one, onto or both?",
-      "back": "One-one but not onto\nNo two different students of the class can have same roll number. Therefore, f must be one-one. We can assume without any loss of generality that roll numbers of students are from 1 to 50. This implies that 51 in N is not roll number of any student of the class, so that 51 can not be image of any element of X under f. Hence, f is not onto.",
-      "quote": "No two different students of the class can have same roll number. Therefore, f must be one-one. We can assume without any loss of generality that roll numbers of students are from 1 to 50. This implies that 51 in N is not roll number of any student of the class, so that 51 can not be image of any element of X under f. Hence, f is not onto.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part 1",
-        "code": "lemh101",
-        "chapterNo": 1,
-        "page": 8,
-        "section": "Example 7"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "one-one",
-        "onto"
-      ],
-      "order": 300,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.mathematics.relations-and-functions.ex-one-one-implies-onto-three",
       "v": 1,
       "subject": "mathematics",
@@ -454,15 +391,15 @@
     },
     {
       "id": "kc.mathematics.inverse-trigonometric-functions.kl-chapter-aim",
-      "v": 1,
+      "v": 2,
       "subject": "mathematics",
       "chapterKey": "mathematics.inverse-trigonometric-functions",
       "chapter": "Inverse Trigonometric Functions",
       "unit": "Inverse Trigonometric Functions",
       "kind": "key_line",
-      "front": "the ____ on domains and ranges of trigonometric functions which ensure the ____ of their inverses",
-      "back": "the restrictions on domains and ranges of trigonometric functions which ensure the existence of their inverses",
-      "quote": "the restrictions on domains and ranges of trigonometric functions which ensure the existence of their inverses",
+      "front": "In this chapter, we shall study about the ____ on domains and ranges of trigonometric functions which ensure the ____ of their inverses",
+      "back": "In this chapter, we shall study about the restrictions on domains and ranges of trigonometric functions which ensure the existence of their inverses",
+      "quote": "In this chapter, we shall study about the restrictions on domains and ranges of trigonometric functions which ensure the existence of their inverses",
       "blanks": [
         "restrictions",
         "existence"
@@ -484,7 +421,9 @@
       ],
       "order": 20,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Chapter-introduction aim sentence ('In this chapter, we shall...') is low yield and its front points at an unseen chapter; blank 'restrictions' has synonyms (conditions, limitations)."
       ]
     },
     {
@@ -587,19 +526,17 @@
       ]
     },
     {
-      "id": "kc.mathematics.inverse-trigonometric-functions.kl-sin-inv-branches",
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-sin-inv-other-intervals",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.inverse-trigonometric-functions",
       "chapter": "Inverse Trigonometric Functions",
       "unit": "Inverse Trigonometric Functions",
-      "kind": "key_line",
-      "front": "whereas other intervals as range give different ____ of sin-1.",
-      "back": "whereas other intervals as range give different branches of sin-1.",
+      "kind": "fact",
+      "front": "Besides the principal value branch, what do the other intervals as range give for sin-1?",
+      "back": "Different branches of sin-1\nwhereas other intervals as range give different branches of sin-1.",
       "quote": "whereas other intervals as range give different branches of sin-1.",
-      "blanks": [
-        "branches"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part 1",
@@ -616,23 +553,24 @@
       ],
       "order": 80,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_exact",
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:NOTATION: Back/front carry 'sin-1'/'cot-1', a flattened superscript that plain text reads as sin minus 1; say 'inverse sine'/'inverse cotangent' in words. Also trivial and vague: 'other intervals' is undefined on the front and 'different branches' is a guessable non-fact; the testable fact is the pr"
       ]
     },
     {
-      "id": "kc.mathematics.inverse-trigonometric-functions.kl-graph-by-interchange",
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-sin-inv-graph-interchange",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.inverse-trigonometric-functions",
       "chapter": "Inverse Trigonometric Functions",
       "unit": "Inverse Trigonometric Functions",
-      "kind": "key_line",
-      "front": "the graph of sin-1 function can be obtained from the graph of original function by ____ x and y axes",
-      "back": "the graph of sin-1 function can be obtained from the graph of original function by interchanging x and y axes",
+      "kind": "fact",
+      "front": "How can the graph of the sin-1 function be obtained from the graph of the sine function?",
+      "back": "By interchanging x and y axes\nthe graph of sin-1 function can be obtained from the graph of original function by interchanging x and y axes",
       "quote": "the graph of sin-1 function can be obtained from the graph of original function by interchanging x and y axes",
-      "blanks": [
-        "interchanging"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part 1",
@@ -649,23 +587,23 @@
       ],
       "order": 90,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_exact",
+        "review:not_unambiguous",
+        "review:NOTATION: Back/front carry 'sin-1'/'cot-1', a flattened superscript that plain text reads as sin minus 1; say 'inverse sine'/'inverse cotangent' in words. Also two right answers: the sibling card's 'mirror image/reflection along y = x' also correctly answers how to get the graph of the inverse."
       ]
     },
     {
-      "id": "kc.mathematics.inverse-trigonometric-functions.kl-mirror-image",
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-inverse-graph-mirror-image",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.inverse-trigonometric-functions",
       "chapter": "Inverse Trigonometric Functions",
       "unit": "Inverse Trigonometric Functions",
-      "kind": "key_line",
-      "front": "the graph of an inverse function can be obtained from the corresponding graph of original function as a ____ image (i.e., reflection) along the line y = x",
-      "back": "the graph of an inverse function can be obtained from the corresponding graph of original function as a mirror image (i.e., reflection) along the line y = x",
+      "kind": "fact",
+      "front": "How can the graph of an inverse function be obtained from the graph of the original function?",
+      "back": "As a mirror image (reflection) along the line y = x\nthe graph of an inverse function can be obtained from the corresponding graph of original function as a mirror image (i.e., reflection) along the line y = x",
       "quote": "the graph of an inverse function can be obtained from the corresponding graph of original function as a mirror image (i.e., reflection) along the line y = x",
-      "blanks": [
-        "mirror"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part 1",
@@ -683,8 +621,8 @@
       "order": 110,
       "note": "The graph of an inverse function is the reflection of the original graph in the line y = x.",
       "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Two right answers: 'by interchanging x and y axes' (sibling card) is equally correct for how an inverse's graph is obtained; front should ask for the geometric relation to y = x."
       ]
     },
     {
@@ -919,19 +857,17 @@
       ]
     },
     {
-      "id": "kc.mathematics.inverse-trigonometric-functions.kl-cot-inv-branches",
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-cot-inv-intervals-branches",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.inverse-trigonometric-functions",
       "chapter": "Inverse Trigonometric Functions",
       "unit": "Inverse Trigonometric Functions",
-      "kind": "key_line",
-      "front": "These intervals give ____ branches of the function cot -1.",
-      "back": "These intervals give different branches of the function cot -1.",
+      "kind": "fact",
+      "front": "For cot-1, what do the different intervals allowed as its range give?",
+      "back": "Different branches of the function cot-1\nThese intervals give different branches of the function cot -1.",
       "quote": "These intervals give different branches of the function cot -1.",
-      "blanks": [
-        "different"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part 1",
@@ -948,7 +884,10 @@
       ],
       "order": 200,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_exact",
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:NOTATION: Back/front carry 'sin-1'/'cot-1', a flattened superscript that plain text reads as sin minus 1; say 'inverse sine'/'inverse cotangent' in words. Front says 'the different intervals allowed' pointing at unseen text, and the answer 'different branches' is circular; the exam fact is the princ"
       ]
     },
     {
@@ -1020,40 +959,6 @@
       ]
     },
     {
-      "id": "kc.mathematics.matrices.kl-rows-columns",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.matrices",
-      "chapter": "Matrices",
-      "unit": "Matrices",
-      "kind": "key_line",
-      "front": "the horizontal lines of elements are said to constitute, ____ of the matrix and the vertical lines of elements are said to constitute, ____ of the matrix.",
-      "back": "the horizontal lines of elements are said to constitute, rows of the matrix and the vertical lines of elements are said to constitute, columns of the matrix.",
-      "quote": "the horizontal lines of elements are said to constitute, rows of the matrix and the vertical lines of elements are said to constitute, columns of the matrix.",
-      "blanks": [
-        "rows",
-        "columns"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part 1",
-        "code": "lemh103",
-        "chapterNo": 3,
-        "page": 36,
-        "section": "Matrix"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "matrices"
-      ],
-      "order": 30,
-      "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.mathematics.matrices.kl-real-entries",
       "v": 1,
       "subject": "mathematics",
@@ -1088,19 +993,17 @@
       ]
     },
     {
-      "id": "kc.mathematics.matrices.kl-vertices",
+      "id": "kc.mathematics.matrices.fact-matrix-vertices-use",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.matrices",
       "chapter": "Matrices",
       "unit": "Matrices",
-      "kind": "key_line",
-      "front": "Thus, matrices can be used as representation of ____ of geometrical figures in a plane.",
-      "back": "Thus, matrices can be used as representation of vertices of geometrical figures in a plane.",
+      "kind": "fact",
+      "front": "In a plane, matrices can be used as a representation of which part of geometrical figures?",
+      "back": "The vertices\nThus, matrices can be used as representation of vertices of geometrical figures in a plane.",
       "quote": "Thus, matrices can be used as representation of vertices of geometrical figures in a plane.",
-      "blanks": [
-        "vertices"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part 1",
@@ -1116,38 +1019,8 @@
       ],
       "order": 70,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.mathematics.matrices.types-types-of-matrices",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.matrices",
-      "chapter": "Matrices",
-      "unit": "Matrices",
-      "kind": "types",
-      "front": "Types of matrices (NCERT 3.3)",
-      "back": "(i) Column matrix\n(ii) Row matrix\n(iii) Square matrix\n(iv) Diagonal matrix\n(v) Scalar matrix\n(vi) Identity matrix\n(vii) Zero matrix",
-      "quote": "In this section, we shall discuss different types of matrices.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part 1",
-        "code": "lemh103",
-        "chapterNo": 3,
-        "page": 39,
-        "section": "Types of Matrices"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "matrices",
-        "types"
-      ],
-      "order": 80,
-      "reasons": [
-        "shape:back_not_quote"
+        "review:not_important",
+        "review:Passing remark about representing vertices of plane figures; not an exam point."
       ]
     },
     {
@@ -1217,7 +1090,7 @@
     },
     {
       "id": "kc.mathematics.matrices.list-add-properties",
-      "v": 1,
+      "v": 2,
       "subject": "mathematics",
       "chapterKey": "mathematics.matrices",
       "chapter": "Matrices",
@@ -1225,7 +1098,7 @@
       "kind": "list",
       "front": "Name the properties of matrix addition.",
       "back": "Commutative Law\nAssociative Law\nExistence of additive identity\nThe existence of additive inverse",
-      "quote": "The addition of matrices satisfy the following properties:",
+      "quote": "The addition of matrices satisfy the following properties:\n(i) Commutative Law If A = [aij], B = [bij] are matrices of the same order, say\nm × n, then A + B = B + A.\nNow A + B = [aij] + [bij] = [aij + bij]\n= [bij + aij] (addition of numbers is commutative)\n= ([bij] + [aij]) = B + A\n(ii) Associative Law For any three matrices A = [aij], B = [bij], C = [cij] of the\nsame order, say m × n, (A + B) + C = A + (B + C).\nNow (A + B) + C = ([aij] + [bij]) + [c\nij]\n= [aij + bij] + [cij] = [(aij + bij) + cij]\n= [aij + (bij + c\nij)] (Why?)\n= [aij] + [(bij + cij)] = [aij] + ([bij] + [cij]) = A + (B + C)\n(iii) Existence of additive identity Let A = [aij] be an m × n matrix and\nO be an m × n zero matrix, then A + O = O \n+ A = A. In other words, O is the\nadditive identity for matrix addition.\n(iv) The existence of additive inverse Let A = [aij]\nm × n\n be any matrix, then we\nhave another matrix as – A = [– aij]\nm × n\n such that A + (– A) = (– A) + A= O. So\n– A is the additive inverse of A or negative of A.",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -1243,23 +1116,22 @@
       ],
       "order": 250,
       "reasons": [
-        "shape:back_not_quote"
+        "review:not_unambiguous",
+        "review:Front gives no count (spec: 'Name the N ...'); should say four properties. Headed NCERT list so importance should be must."
       ]
     },
     {
-      "id": "kc.mathematics.matrices.kl-additive-identity",
+      "id": "kc.mathematics.matrices.fact-additive-identity",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.matrices",
       "chapter": "Matrices",
       "unit": "Matrices",
-      "kind": "key_line",
-      "front": "In other words, O is the ____ for matrix addition.",
-      "back": "In other words, O is the additive identity for matrix addition.",
+      "kind": "fact",
+      "front": "Which matrix is the additive identity for matrix addition?",
+      "back": "The zero matrix O (of the same order as A)\nIn other words, O is the additive identity for matrix addition.",
       "quote": "In other words, O is the additive identity for matrix addition.",
-      "blanks": [
-        "additive identity"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part 1",
@@ -1275,72 +1147,8 @@
       ],
       "order": 260,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.mathematics.matrices.kl-additive-inverse",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.matrices",
-      "chapter": "Matrices",
-      "unit": "Matrices",
-      "kind": "key_line",
-      "front": "So – A is the ____ of A or negative of A.",
-      "back": "So – A is the additive inverse of A or negative of A.",
-      "quote": "So – A is the additive inverse of A or negative of A.",
-      "blanks": [
-        "additive inverse"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part 1",
-        "code": "lemh103",
-        "chapterNo": 3,
-        "page": 47,
-        "section": "Properties of matrix addition"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "matrices"
-      ],
-      "order": 270,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.mathematics.matrices.kl-mult-condition",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.matrices",
-      "chapter": "Matrices",
-      "unit": "Matrices",
-      "kind": "key_line",
-      "front": "for multiplication of two matrices A and B, the number of ____ in A should be equal to the number of ____ in B.",
-      "back": "for multiplication of two matrices A and B, the number of columns in A should be equal to the number of rows in B.",
-      "quote": "for multiplication of two matrices A and B, the number of columns in A should be equal to the number of rows in B.",
-      "blanks": [
-        "columns",
-        "rows"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part 1",
-        "code": "lemh103",
-        "chapterNo": 3,
-        "page": 51,
-        "section": "Multiplication of matrices"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "matrices"
-      ],
-      "order": 280,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_exact",
+        "review:Quote 'In other words, O is the additive identity...' never says zero matrix; the headline answer 'The zero matrix O (of the same order as A)' is not from the quote and 'O' is undefined in it. Quote should include the preceding sentence defining O. Core fact, should be must."
       ]
     },
     {
@@ -1373,38 +1181,6 @@
       "reasons": [
         "review:not_exact",
         "review:Subscript flattened: 'cik' stands for c with subscript ik, so the notation is garbled in plain text."
-      ]
-    },
-    {
-      "id": "kc.mathematics.matrices.kl-not-commutative",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.matrices",
-      "chapter": "Matrices",
-      "unit": "Matrices",
-      "kind": "key_line",
-      "front": "Thus matrix multiplication is ____.",
-      "back": "Thus matrix multiplication is not commutative.",
-      "quote": "Thus matrix multiplication is not commutative.",
-      "blanks": [
-        "not commutative"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part 1",
-        "code": "lemh103",
-        "chapterNo": 3,
-        "page": 53,
-        "section": "Non-commutativity of multiplication of matrices"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "matrices"
-      ],
-      "order": 360,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -1442,7 +1218,7 @@
     },
     {
       "id": "kc.mathematics.matrices.list-mult-properties",
-      "v": 1,
+      "v": 2,
       "subject": "mathematics",
       "chapterKey": "mathematics.matrices",
       "chapter": "Matrices",
@@ -1450,7 +1226,7 @@
       "kind": "list",
       "front": "Name the properties of multiplication of matrices.",
       "back": "The associative law\nThe distributive law\nThe existence of multiplicative identity",
-      "quote": "The multiplication of matrices possesses the following properties, which we state without proof.",
+      "quote": "The multiplication of matrices possesses the following properties, which we state without\nproof.\n1. The associative law For any three matrices A, B and C. We have\n(AB) C = A (BC), whenever both sides of the equality are defined.\n2. The distributive law For three matrices A, B and C.\n(i) A (B+C) = AB + AC\n(ii) (A+B) C = AC + BC, whenever both sides of equality are defined.\n3. The existence of multiplicative identity For every square matrix A, there\nexist an identity matrix of same order such that IA = AI = A.",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -1468,7 +1244,8 @@
       ],
       "order": 390,
       "reasons": [
-        "shape:back_not_quote"
+        "review:not_unambiguous",
+        "review:Front gives no count (spec: 'Name the N ...'); should say three properties. Headed NCERT list so importance should be must."
       ]
     },
     {
@@ -1501,39 +1278,6 @@
       "reasons": [
         "review:not_exact",
         "review:Superscript flattened: transpose written as 'AT' in the back (the T is a superscript), so the notation is garbled in plain text."
-      ]
-    },
-    {
-      "id": "kc.mathematics.matrices.kl-skew-diagonal",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.matrices",
-      "chapter": "Matrices",
-      "unit": "Matrices",
-      "kind": "key_line",
-      "front": "This means that all the ____ elements of a skew symmetric matrix are ____.",
-      "back": "This means that all the diagonal elements of a skew symmetric matrix are zero.",
-      "quote": "This means that all the diagonal elements of a skew symmetric matrix are zero.",
-      "blanks": [
-        "diagonal",
-        "zero"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part 1",
-        "code": "lemh103",
-        "chapterNo": 3,
-        "page": 63,
-        "section": "Symmetric and Skew Symmetric Matrices"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "matrices"
-      ],
-      "order": 440,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -2217,19 +1961,17 @@
       ]
     },
     {
-      "id": "kc.mathematics.continuity-and-differentiability.kl-final-result-in-x",
+      "id": "kc.mathematics.continuity-and-differentiability.fact-final-result-in-x",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.continuity-and-differentiability",
       "chapter": "Continuity & Differentiability",
       "unit": "Continuity and Differentiability",
-      "kind": "key_line",
-      "front": "It is normal practice to express the ____ only in terms of x.",
-      "back": "It is normal practice to express the final result only in terms of x.",
+      "kind": "fact",
+      "front": "After a chain rule step with an intermediate variable t, the final result is normally written only in terms of which variable?",
+      "back": "Only in terms of x\nIt is normal practice to express the final result only in terms of x.",
       "quote": "It is normal practice to express the final result only in terms of x.",
-      "blanks": [
-        "final result"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part I",
@@ -2245,7 +1987,8 @@
       ],
       "order": 240,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Presentation convention (write the answer in x) is not a mark-carrying fact; answer is obvious from the front, not worth a CUET student's memory."
       ]
     },
     {
@@ -2510,19 +2253,17 @@
       ]
     },
     {
-      "id": "kc.mathematics.application-of-derivatives.kl-graph-increasing",
+      "id": "kc.mathematics.application-of-derivatives.def-graph-increasing",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.application-of-derivatives",
       "chapter": "Application of Derivatives",
       "unit": "Application of Derivatives",
-      "kind": "key_line",
-      "front": "the height of the graph continuously increases. For this reason, the function is said to be ____",
-      "back": "the height of the graph continuously increases. For this reason, the function is said to be increasing",
-      "quote": "the height of the graph continuously increases. For this reason, the function is said to be increasing",
-      "blanks": [
-        "increasing"
-      ],
+      "kind": "definition",
+      "front": "Graphically, what does it mean for a function to be increasing?",
+      "back": "Observe that as we move from left to right along the graph, the height of the graph continuously increases. For this reason, the function is said to be increasing",
+      "quote": "Observe that as we move from left to right along the graph, the height of the graph continuously increases. For this reason, the function is said to be increasing",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part I",
@@ -2538,23 +2279,22 @@
       ],
       "order": 40,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Sentence only narrates Fig 6.1 (parabola, 'the height of the graph'); the testable content is the formal/derivative definition, not this figure intro."
       ]
     },
     {
-      "id": "kc.mathematics.application-of-derivatives.kl-graph-decreasing",
+      "id": "kc.mathematics.application-of-derivatives.def-graph-decreasing",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.application-of-derivatives",
       "chapter": "Application of Derivatives",
       "unit": "Application of Derivatives",
-      "kind": "key_line",
-      "front": "the height of the graph continuously decreases. Consequently, the function is said to be ____",
-      "back": "the height of the graph continuously decreases. Consequently, the function is said to be decreasing",
-      "quote": "the height of the graph continuously decreases. Consequently, the function is said to be decreasing",
-      "blanks": [
-        "decreasing"
-      ],
+      "kind": "definition",
+      "front": "Graphically, what does it mean for a function to be decreasing?",
+      "back": "Now consider the graph to the left of the origin and observe here that as we move from left to right along the graph, the height of the graph continuously decreases. Consequently, the function is said to be decreasing",
+      "quote": "Now consider the graph to the left of the origin and observe here that as we move from left to right along the graph, the height of the graph continuously decreases. Consequently, the function is said to be decreasing",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part I",
@@ -2570,7 +2310,9 @@
       ],
       "order": 50,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Figure narration of Fig 6.1; back says 'the graph to the left of the origin' which the student cannot see (dangling), and is not the testable definition."
       ]
     },
     {
@@ -2733,19 +2475,17 @@
       ]
     },
     {
-      "id": "kc.mathematics.application-of-derivatives.kl-intro-absolute-extrema",
+      "id": "kc.mathematics.application-of-derivatives.fact-absolute-extrema",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.application-of-derivatives",
       "chapter": "Application of Derivatives",
       "unit": "Application of Derivatives",
-      "kind": "key_line",
-      "front": "we will also find the ____ of a function that are necessary for the solution of many applied problems.",
-      "back": "we will also find the absolute maximum and absolute minimum of a function that are necessary for the solution of many applied problems.",
-      "quote": "we will also find the absolute maximum and absolute minimum of a function that are necessary for the solution of many applied problems.",
-      "blanks": [
-        "absolute maximum and absolute minimum"
-      ],
+      "kind": "fact",
+      "front": "Besides its turning points, which two values of a function are necessary for the solution of many applied problems?",
+      "back": "Absolute maximum and absolute minimum\nFurther, we will also find the absolute maximum and absolute minimum of a function that are necessary for the solution of many applied problems.",
+      "quote": "Further, we will also find the absolute maximum and absolute minimum of a function that are necessary for the solution of many applied problems.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part I",
@@ -2761,25 +2501,23 @@
       ],
       "order": 140,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Intro filler sentence; front 'Besides its turning points' presumes unseen context and 'values' vs points is loose; no testable fact beyond the term names."
       ]
     },
     {
-      "id": "kc.mathematics.application-of-derivatives.kl-turning-points",
+      "id": "kc.mathematics.application-of-derivatives.fact-turning-points",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.application-of-derivatives",
       "chapter": "Application of Derivatives",
       "unit": "Application of Derivatives",
-      "kind": "key_line",
-      "front": "at ____ points, the graph has either a little ____ or a little ____.",
-      "back": "at turning points, the graph has either a little hill or a little valley.",
-      "quote": "at turning points, the graph has either a little hill or a little valley.",
-      "blanks": [
-        "turning",
-        "hill",
-        "valley"
-      ],
+      "kind": "fact",
+      "front": "What does the graph of a function have at its turning points?",
+      "back": "A little hill or a little valley\nFurther, observe that at turning points, the graph has either a little hill or a little valley.",
+      "quote": "Further, observe that at turning points, the graph has either a little hill or a little valley.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part I",
@@ -2795,7 +2533,9 @@
       ],
       "order": 180,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Informal 'roughly speaking' intuition tied to Fig 6.11; front does not define turning points, and 'local maximum or minimum' is an equally right answer to the front."
       ]
     },
     {
@@ -3245,38 +2985,6 @@
       ]
     },
     {
-      "id": "kc.mathematics.integrals.kl-infinitely-many",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.integrals",
-      "chapter": "Integrals",
-      "unit": "Integrals",
-      "kind": "key_line",
-      "front": "Actually, there exist ____ many anti derivatives of each of these functions which can be obtained by choosing C arbitrarily from the set of real numbers.",
-      "back": "Actually, there exist infinitely many anti derivatives of each of these functions which can be obtained by choosing C arbitrarily from the set of real numbers.",
-      "quote": "Actually, there exist infinitely many anti derivatives of each of these functions which can be obtained by choosing C arbitrarily from the set of real numbers.",
-      "blanks": [
-        "infinitely"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh201",
-        "chapterNo": 7,
-        "page": 226,
-        "section": "7.2 Integration as an Inverse Process of Differentiation"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "anti derivative"
-      ],
-      "order": 100,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
       "id": "kc.mathematics.integrals.kl-parameter",
       "v": 1,
       "subject": "mathematics",
@@ -3340,19 +3048,17 @@
       ]
     },
     {
-      "id": "kc.mathematics.integrals.kl-standard-formulae",
+      "id": "kc.mathematics.integrals.fact-standard-formulae",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.integrals",
       "chapter": "Integrals",
       "unit": "Integrals",
-      "kind": "key_line",
-      "front": "we can write down immediately the corresponding formulae (referred to as ____) for the integrals of these functions",
-      "back": "we can write down immediately the corresponding formulae (referred to as standard formulae) for the integrals of these functions",
-      "quote": "we can write down immediately the corresponding formulae (referred to as standard formulae) for the integrals of these functions",
-      "blanks": [
-        "standard formulae"
-      ],
+      "kind": "fact",
+      "front": "What are the integral formulae written down from the known derivative formulae referred to as?",
+      "back": "Standard formulae\nFrom these formulae, we can write down immediately the corresponding formulae (referred to as standard formulae) for the integrals of these functions",
+      "quote": "From these formulae, we can write down immediately the corresponding formulae (referred to as standard formulae) for the integrals of these functions",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part II",
@@ -3366,7 +3072,8 @@
       "tags": [],
       "order": 150,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Nomenclature only; exams test the formulae themselves, not the label 'standard formulae'."
       ]
     },
     {
@@ -3465,19 +3172,17 @@
       ]
     },
     {
-      "id": "kc.mathematics.integrals.kl-unique-antiderivative",
+      "id": "kc.mathematics.integrals.fact-unique-antiderivative",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.integrals",
       "chapter": "Integrals",
       "unit": "Integrals",
-      "kind": "key_line",
-      "front": "In applications, it is often necessary to satisfy an ____ which then determines a specific value of C giving unique anti derivative of the given function.",
-      "back": "In applications, it is often necessary to satisfy an additional condition which then determines a specific value of C giving unique anti derivative of the given function.",
+      "kind": "fact",
+      "front": "What is often needed in applications to fix a specific value of C and get a unique anti derivative?",
+      "back": "An additional condition\nIn applications, it is often necessary to satisfy an additional condition which then determines a specific value of C giving unique anti derivative of the given function.",
       "quote": "In applications, it is often necessary to satisfy an additional condition which then determines a specific value of C giving unique anti derivative of the given function.",
-      "blanks": [
-        "additional condition"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part II",
@@ -3491,7 +3196,8 @@
       "tags": [],
       "order": 210,
       "reasons": [
-        "shape:front_too_long"
+        "review:not_unambiguous",
+        "review:'Initial condition' or 'boundary condition' are equally right answers to the front; only NCERT's 'additional condition' scores, so a blank-word synonym problem."
       ]
     },
     {
@@ -3527,19 +3233,17 @@
       ]
     },
     {
-      "id": "kc.mathematics.integrals.kl-reduce-standard-forms",
+      "id": "kc.mathematics.integrals.fact-reduce-standard-forms",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.integrals",
       "chapter": "Integrals",
       "unit": "Integrals",
-      "kind": "key_line",
-      "front": "Hence, we need to develop additional techniques or methods for finding the integrals by reducing them into ____.",
-      "back": "Hence, we need to develop additional techniques or methods for finding the integrals by reducing them into standard forms.",
+      "kind": "fact",
+      "front": "The additional methods of integration find integrals by reducing them into what?",
+      "back": "Standard forms\nHence, we need to develop additional techniques or methods for finding the integrals by reducing them into standard forms.",
       "quote": "Hence, we need to develop additional techniques or methods for finding the integrals by reducing them into standard forms.",
-      "blanks": [
-        "standard forms"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part II",
@@ -3553,7 +3257,8 @@
       "tags": [],
       "order": 250,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Front opens with 'The additional methods of integration', a pointer to unseen text (substitution, partial fractions, parts); 'basic/known forms' are plausible alternatives."
       ]
     },
     {
@@ -3686,38 +3391,6 @@
       ]
     },
     {
-      "id": "kc.mathematics.integrals.term-partial-fraction-decomposition",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.integrals",
-      "chapter": "Integrals",
-      "unit": "Integrals",
-      "kind": "term",
-      "front": "It is always possible to write the integrand as a sum of simpler rational functions by a method called ____.",
-      "back": "It is always possible to write the integrand as a sum of simpler rational functions by a method called partial fraction decomposition.",
-      "quote": "It is always possible to write the integrand as a sum of simpler rational functions by a method called partial fraction decomposition.",
-      "blanks": [
-        "partial fraction decomposition"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh201",
-        "chapterNo": 7,
-        "page": 253,
-        "section": "7.5 Integration by Partial Fractions"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "partial fractions"
-      ],
-      "order": 340,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.mathematics.integrals.kl-table-constants",
       "v": 1,
       "subject": "mathematics",
@@ -3781,19 +3454,17 @@
       ]
     },
     {
-      "id": "kc.mathematics.integrals.kl-proper-choice",
+      "id": "kc.mathematics.integrals.fact-proper-choice",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.integrals",
       "chapter": "Integrals",
       "unit": "Integrals",
-      "kind": "key_line",
-      "front": "Therefore, the ____ of the first function and the second function is significant.",
+      "kind": "fact",
+      "front": "In integration by parts, what is concluded about choosing the first function and the second function?",
       "back": "Therefore, the proper choice of the first function and the second function is significant.",
       "quote": "Therefore, the proper choice of the first function and the second function is significant.",
-      "blanks": [
-        "proper choice"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part II",
@@ -3807,23 +3478,23 @@
       "tags": [],
       "order": 390,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Conclusion of an Example 17 comparison; the answer 'is significant' is vague with no mark-carrying word, and 'Therefore' points to unseen working."
       ]
     },
     {
-      "id": "kc.mathematics.integrals.kl-parts-not-applicable",
+      "id": "kc.mathematics.integrals.fact-parts-not-applicable",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.integrals",
       "chapter": "Integrals",
       "unit": "Integrals",
-      "kind": "key_line",
-      "front": "It is worth mentioning that integration by parts is ____ to product of functions in all cases.",
-      "back": "It is worth mentioning that integration by parts is not applicable to product of functions in all cases.",
+      "kind": "fact",
+      "front": "Is integration by parts applicable to a product of functions in all cases?",
+      "back": "No, not in all cases\nIt is worth mentioning that integration by parts is not applicable to product of functions in all cases.",
       "quote": "It is worth mentioning that integration by parts is not applicable to product of functions in all cases.",
-      "blanks": [
-        "not applicable"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part II",
@@ -3837,37 +3508,8 @@
       "tags": [],
       "order": 400,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.mathematics.integrals.kl-constant-superfluous",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.integrals",
-      "chapter": "Integrals",
-      "unit": "Integrals",
-      "kind": "key_line",
-      "front": "adding a constant to the integral of the second function is ____ so far as the final result is concerned",
-      "back": "adding a constant to the integral of the second function is superfluous so far as the final result is concerned",
-      "quote": "adding a constant to the integral of the second function is superfluous so far as the final result is concerned",
-      "blanks": [
-        "superfluous"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh201",
-        "chapterNo": 7,
-        "page": 261,
-        "section": "7.6 Integration by Parts"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [],
-      "order": 410,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Yes/no remark with no content (does not say when it fails); not worth memory."
       ]
     },
     {
@@ -3899,157 +3541,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Well known vs known or familiar; not unique."
-      ]
-    },
-    {
-      "id": "kc.mathematics.integrals.kl-area-function-leads",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.integrals",
-      "chapter": "Integrals",
-      "unit": "Integrals",
-      "kind": "key_line",
-      "front": "This concept of ____ leads to the Fundamental Theorems of Integral Calculus.",
-      "back": "This concept of area function leads to the Fundamental Theorems of Integral Calculus.",
-      "quote": "This concept of area function leads to the Fundamental Theorems of Integral Calculus.",
-      "blanks": [
-        "area function"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh201",
-        "chapterNo": 7,
-        "page": 291,
-        "section": "7.8 Fundamental Theorem of Calculus"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [],
-      "order": 470,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.mathematics.integrals.kl-proofs-beyond",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.integrals",
-      "chapter": "Integrals",
-      "unit": "Integrals",
-      "kind": "key_line",
-      "front": "However, we only state them as their ____ are beyond the scope of this text book.",
-      "back": "However, we only state them as their proofs are beyond the scope of this text book.",
-      "quote": "However, we only state them as their proofs are beyond the scope of this text book.",
-      "blanks": [
-        "proofs"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh201",
-        "chapterNo": 7,
-        "page": 267,
-        "section": "7.8 Fundamental Theorem of Calculus"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [],
-      "order": 480,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.mathematics.integrals.kl-ftc2-useful",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.integrals",
-      "chapter": "Integrals",
-      "unit": "Integrals",
-      "kind": "key_line",
-      "front": "This theorem is very useful, because it gives us a method of calculating the definite integral more easily, without calculating the ____.",
-      "back": "This theorem is very useful, because it gives us a method of calculating the definite integral more easily, without calculating the limit of a sum.",
-      "quote": "This theorem is very useful, because it gives us a method of calculating the definite integral more easily, without calculating the limit of a sum.",
-      "blanks": [
-        "limit of a sum"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh201",
-        "chapterNo": 7,
-        "page": 268,
-        "section": "7.8 Fundamental Theorem of Calculus"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [],
-      "order": 520,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.mathematics.integrals.kl-constant-disappears",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.integrals",
-      "chapter": "Integrals",
-      "unit": "Integrals",
-      "kind": "key_line",
-      "front": "Thus, the ____ disappears in evaluating the value of the definite integral.",
-      "back": "Thus, the arbitrary constant disappears in evaluating the value of the definite integral.",
-      "quote": "Thus, the arbitrary constant disappears in evaluating the value of the definite integral.",
-      "blanks": [
-        "arbitrary constant"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh201",
-        "chapterNo": 7,
-        "page": 268,
-        "section": "7.8 Fundamental Theorem of Calculus"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [],
-      "order": 550,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.mathematics.integrals.kl-new-variable-limits",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.integrals",
-      "chapter": "Integrals",
-      "unit": "Integrals",
-      "kind": "key_line",
-      "front": "Here, the integral will be kept in the ____ itself, and the ____ of the integral will accordingly be changed, so that we can perform the last step.",
-      "back": "Here, the integral will be kept in the new variable itself, and the limits of the integral will accordingly be changed, so that we can perform the last step.",
-      "quote": "Here, the integral will be kept in the new variable itself, and the limits of the integral will accordingly be changed, so that we can perform the last step.",
-      "blanks": [
-        "new variable",
-        "limits"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh201",
-        "chapterNo": 7,
-        "page": 272,
-        "section": "7.9 Evaluation of Definite Integrals by Substitution"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [],
-      "order": 570,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -4119,36 +3610,6 @@
       ]
     },
     {
-      "id": "kc.mathematics.integrals.kl-summary-integral-calculus",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.integrals",
-      "chapter": "Integrals",
-      "unit": "Integrals",
-      "kind": "key_line",
-      "front": "in the integral calculus, we are to find a function whose ____ is given.",
-      "back": "in the integral calculus, we are to find a function whose differential is given.",
-      "quote": "in the integral calculus, we are to find a function whose differential is given.",
-      "blanks": [
-        "differential"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh201",
-        "chapterNo": 7,
-        "page": 287,
-        "section": "Summary"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [],
-      "order": 600,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.mathematics.integrals.def-indefinite-integrals-general",
       "v": 1,
       "subject": "mathematics",
@@ -4213,19 +3674,17 @@
       ]
     },
     {
-      "id": "kc.mathematics.application-of-integrals.line-formulae-fundamental",
+      "id": "kc.mathematics.application-of-integrals.fact-area-formulae-fundamental",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.application-of-integrals",
       "chapter": "Application of Integrals",
       "unit": "Application of Integrals",
-      "kind": "key_line",
-      "front": "Such formulae are ____ in the applications of mathematics to many real life problems.",
-      "back": "Such formulae are fundamental in the applications of mathematics to many real life problems.",
-      "quote": "Such formulae are fundamental in the applications of mathematics to many real life problems.",
-      "blanks": [
-        "fundamental"
-      ],
+      "kind": "fact",
+      "front": "What are the area formulae for triangles, rectangles, trapezias and circles said to be in applications of mathematics?",
+      "back": "In geometry, we have learnt formulae to calculate areas of various geometrical figures including triangles, rectangles, trapezias and circles. Such formulae are fundamental in the applications of mathematics to many real life problems.",
+      "quote": "In geometry, we have learnt formulae to calculate areas of various geometrical figures including triangles, rectangles, trapezias and circles. Such formulae are fundamental in the applications of mathematics to many real life problems.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part II",
@@ -4241,7 +3700,9 @@
       ],
       "order": 10,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Trivia: introductory sentence, not exam-tested; front asks what formulae are 'said to be' with no single crisp answer (fundamental? useful?)."
       ]
     },
     {
@@ -4276,19 +3737,17 @@
       ]
     },
     {
-      "id": "kc.mathematics.application-of-integrals.term-elementary-area",
+      "id": "kc.mathematics.application-of-integrals.def-elementary-area",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.application-of-integrals",
       "chapter": "Application of Integrals",
       "unit": "Application of Integrals",
-      "kind": "term",
-      "front": "This area is called the ____ which is located at an arbitrary position within the region which is specified by some value of x between a and b.",
-      "back": "elementary area. This area is called the elementary area which is located at an arbitrary position within the region which is specified by some value of x between a and b.",
+      "kind": "definition",
+      "front": "What is the elementary area when finding the area under a curve by thin strips?",
+      "back": "This area is called the elementary area which is located at an arbitrary position within the region which is specified by some value of x between a and b.",
       "quote": "This area is called the elementary area which is located at an arbitrary position within the region which is specified by some value of x between a and b.",
-      "blanks": [
-        "elementary area"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part II",
@@ -4305,7 +3764,8 @@
       ],
       "order": 60,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Back opens 'This area ...' and never says it is the area of a thin strip (dA = y dx, formula lost in extraction), so the answer points at text the student cannot see and does not define the term."
       ]
     },
     {
@@ -4339,39 +3799,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Front gives no cue to choose numerical over absolute; the next card blanks absolute from the same remark, so the blank has more than one plausible fill."
-      ]
-    },
-    {
-      "id": "kc.mathematics.application-of-integrals.line-negative-area-absolute",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.application-of-integrals",
-      "chapter": "Application of Integrals",
-      "unit": "Application of Integrals",
-      "kind": "key_line",
-      "front": "Area below the x-axis comes out negative. Thus, if the area is negative, we take its ____ value",
-      "back": "Thus, if the area is negative, we take its absolute value",
-      "quote": "Thus, if the area is negative, we take its absolute value",
-      "blanks": [
-        "absolute"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh202",
-        "chapterNo": 8,
-        "page": 293,
-        "section": "8.2 Area under Simple Curves"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "negative-area",
-        "absolute-value"
-      ],
-      "order": 90,
-      "reasons": [
-        "shape:front_not_quote"
       ]
     },
     {
@@ -4571,47 +3998,15 @@
       ]
     },
     {
-      "id": "kc.mathematics.differential-equations.kl-particular-free-from-constants",
+      "id": "kc.mathematics.differential-equations.fact-methods-first-order-first-degree-count",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.differential-equations",
       "chapter": "Differential Equations",
       "unit": "Differential Equations",
-      "kind": "key_line",
-      "front": "the solution free from arbitrary constants is called ____.",
-      "back": "the solution free from arbitrary constants is called particular solution.",
-      "quote": "the solution free from arbitrary constants is called particular solution.",
-      "blanks": [
-        "particular solution"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics",
-        "code": "lemh203",
-        "chapterNo": 9,
-        "page": 336,
-        "section": "Summary"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "solution"
-      ],
-      "order": 190,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.mathematics.differential-equations.types-methods-first-order-first-degree",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.differential-equations",
-      "chapter": "Differential Equations",
-      "unit": "Differential Equations",
-      "kind": "types",
-      "front": "Methods of solving first order first degree differential equations discussed in NCERT.",
-      "back": "Differential equations with variables separable\nHomogeneous differential equations\nLinear differential equations",
+      "kind": "fact",
+      "front": "How many methods of solving first order first degree differential equations does NCERT discuss in this section?",
+      "back": "In this section we shall discuss three methods of solving first order first degree differential equations.",
       "quote": "In this section we shall discuss three methods of solving first order first degree differential equations.",
       "blanks": [],
       "source": {
@@ -4629,40 +4024,9 @@
       ],
       "order": 200,
       "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.mathematics.differential-equations.kl-separable-dy-dx",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.differential-equations",
-      "chapter": "Differential Equations",
-      "unit": "Differential Equations",
-      "kind": "key_line",
-      "front": "terms containing y should remain with ____ and terms containing x should remain with ____",
-      "back": "terms containing y should remain with dy and terms containing x should remain with dx",
-      "quote": "terms containing y should remain with dy and terms containing x should remain with dx",
-      "blanks": [
-        "dy",
-        "dx"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics",
-        "code": "lemh203",
-        "chapterNo": 9,
-        "page": 336,
-        "section": "Summary"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "separable"
-      ],
-      "order": 220,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Trivia count ('three'); front says 'in this section' (dangling) and the names of the methods, which carry marks, are not asked. Better as a Types card."
       ]
     },
     {
@@ -5111,38 +4475,6 @@
       ]
     },
     {
-      "id": "kc.mathematics.vector-algebra.kl-directed-line-segment",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.vector-algebra",
-      "chapter": "Vector Algebra",
-      "unit": "Vector Algebra",
-      "kind": "key_line",
-      "front": "Thus, a ____ has magnitude as well as direction.",
-      "back": "Thus, a directed line segment has magnitude as well as direction.",
-      "quote": "Thus, a directed line segment has magnitude as well as direction.",
-      "blanks": [
-        "directed line segment"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh204",
-        "chapterNo": 10,
-        "page": 339,
-        "section": "10.2 Some Basic Concepts"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "directed-line-segment"
-      ],
-      "order": 60,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.mathematics.vector-algebra.term-direction-angles",
       "v": 1,
       "subject": "mathematics",
@@ -5239,19 +4571,17 @@
       ]
     },
     {
-      "id": "kc.mathematics.vector-algebra.kl-triangle-sides-zero",
+      "id": "kc.mathematics.vector-algebra.fact-triangle-sides-zero-resultant",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.vector-algebra",
       "chapter": "Vector Algebra",
       "unit": "Vector Algebra",
-      "kind": "key_line",
-      "front": "This means that when the sides of a triangle are taken in order, it leads to ____ as the initial and terminal points get coincided",
+      "kind": "fact",
+      "front": "When the sides of a triangle are taken in order, what do they lead to as the initial and terminal points coincide?",
       "back": "This means that when the sides of a triangle are taken in order, it leads to zero resultant as the initial and terminal points get coincided",
       "quote": "This means that when the sides of a triangle are taken in order, it leads to zero resultant as the initial and terminal points get coincided",
-      "blanks": [
-        "zero resultant"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part II",
@@ -5267,40 +4597,8 @@
       ],
       "order": 230,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.mathematics.vector-algebra.kl-laws-equivalent",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.vector-algebra",
-      "chapter": "Vector Algebra",
-      "unit": "Vector Algebra",
-      "kind": "key_line",
-      "front": "Thus, we may say that the two laws of vector addition are ____ to each other.",
-      "back": "Thus, we may say that the two laws of vector addition are equivalent to each other.",
-      "quote": "Thus, we may say that the two laws of vector addition are equivalent to each other.",
-      "blanks": [
-        "equivalent"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh204",
-        "chapterNo": 10,
-        "page": 344,
-        "section": "10.4 Addition of Vectors"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "triangle-law",
-        "parallelogram-law"
-      ],
-      "order": 250,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:'Zero resultant' vs 'zero vector' are synonyms; back starts 'This means that' (dangling) and rests on the lost equation AB + BC + CA = 0 and Fig 10.8."
       ]
     },
     {
@@ -5331,70 +4629,6 @@
       "order": 260,
       "reasons": [
         "quote:not_in_pdf"
-      ]
-    },
-    {
-      "id": "kc.mathematics.vector-algebra.kl-additive-identity",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.vector-algebra",
-      "chapter": "Vector Algebra",
-      "unit": "Vector Algebra",
-      "kind": "key_line",
-      "front": "Here, the zero vector is called the ____ for the vector addition.",
-      "back": "Here, the zero vector is called the additive identity for the vector addition.",
-      "quote": "Here, the zero vector is called the additive identity for the vector addition.",
-      "blanks": [
-        "additive identity"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh204",
-        "chapterNo": 10,
-        "page": 346,
-        "section": "10.4 Addition of Vectors"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "zero-vector"
-      ],
-      "order": 280,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.mathematics.vector-algebra.kl-component-form",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.vector-algebra",
-      "chapter": "Vector Algebra",
-      "unit": "Vector Algebra",
-      "kind": "key_line",
-      "front": "This form of any vector is called its ____.",
-      "back": "This form of any vector is called its component form.",
-      "quote": "This form of any vector is called its component form.",
-      "blanks": [
-        "component form"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh204",
-        "chapterNo": 10,
-        "page": 348,
-        "section": "10.5.1 Components of a vector"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "components"
-      ],
-      "order": 300,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -5431,19 +4665,17 @@
       ]
     },
     {
-      "id": "kc.mathematics.vector-algebra.kl-section-positive-scalars",
+      "id": "kc.mathematics.vector-algebra.fact-section-internal-positive-scalars",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.vector-algebra",
       "chapter": "Vector Algebra",
       "unit": "Vector Algebra",
-      "kind": "key_line",
-      "front": "where m and n are ____, we say that the point R divides internally in the ratio of m : n.",
+      "kind": "fact",
+      "front": "In the section formula, what must m and n be for R to divide the segment PQ internally in the ratio m : n?",
       "back": "where m and n are positive scalars, we say that the point R divides internally in the ratio of m : n.",
       "quote": "where m and n are positive scalars, we say that the point R divides internally in the ratio of m : n.",
-      "blanks": [
-        "positive scalars"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part II",
@@ -5459,7 +4691,8 @@
       ],
       "order": 350,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_exact",
+        "review:Back starts mid-sentence with 'where'; the vector relation it refers to (PR = m/n times RQ) was dropped by extraction, so the back reads as a garbled fragment and the section formula itself is absent."
       ]
     },
     {
@@ -5650,38 +4883,6 @@
       ]
     },
     {
-      "id": "kc.mathematics.vector-algebra.kl-cross-not-commutative",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.vector-algebra",
-      "chapter": "Vector Algebra",
-      "unit": "Vector Algebra",
-      "kind": "key_line",
-      "front": "It is always true that the vector product is ____",
-      "back": "It is always true that the vector product is not commutative",
-      "quote": "It is always true that the vector product is not commutative",
-      "blanks": [
-        "not commutative"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh204",
-        "chapterNo": 10,
-        "page": 364,
-        "section": "10.6.3 Vector (or cross) product of two vectors"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "cross-product"
-      ],
-      "order": 460,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.mathematics.vector-algebra.kl-two-perpendicular-directions",
       "v": 1,
       "subject": "mathematics",
@@ -5748,39 +4949,6 @@
       ]
     },
     {
-      "id": "kc.mathematics.three-dimensional-geometry.key-dr-proportional-infinite",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.three-dimensional-geometry",
-      "chapter": "Three Dimensional Geometry",
-      "unit": "Three Dimensional Geometry",
-      "kind": "key_line",
-      "front": "So, any two sets of direction ratios of a line are also ____. Also, for any line there are ____ many sets of direction ratios.",
-      "back": "So, any two sets of direction ratios of a line are also proportional. Also, for any line there are infinitely many sets of direction ratios.",
-      "quote": "So, any two sets of direction ratios of a line are also proportional. Also, for any line there are infinitely many sets of direction ratios.",
-      "blanks": [
-        "proportional",
-        "infinitely"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh205",
-        "chapterNo": 11,
-        "page": 379,
-        "section": "11.2 Direction Cosines and Direction Ratios of a Line"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "direction ratios"
-      ],
-      "order": 110,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.mathematics.three-dimensional-geometry.fact-one-line-two-points",
       "v": 1,
       "subject": "mathematics",
@@ -5842,71 +5010,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Front refers to 'Example 5' and 'points A, B and C' whose coordinates and direction ratios are not shown, so the question cannot be answered from the card; better as a key_line on the collinearity test."
-      ]
-    },
-    {
-      "id": "kc.mathematics.three-dimensional-geometry.term-skew-lines-noncoplanar",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.three-dimensional-geometry",
-      "chapter": "Three Dimensional Geometry",
-      "unit": "Three Dimensional Geometry",
-      "kind": "term",
-      "front": "Further, in a space, there are lines which are neither intersecting nor parallel. In fact, such pair of lines are ____ and are called skew lines.",
-      "back": "In fact, such pair of lines are non coplanar and are called skew lines.",
-      "quote": "In fact, such pair of lines are non coplanar and are called skew lines.",
-      "blanks": [
-        "non coplanar"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh205",
-        "chapterNo": 11,
-        "page": 385,
-        "section": "11.5 Shortest Distance between Two Lines"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "skew lines"
-      ],
-      "order": 200,
-      "reasons": [
-        "shape:front_not_quote"
-      ]
-    },
-    {
-      "id": "kc.mathematics.three-dimensional-geometry.key-sd-parallel-perpendicular",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.three-dimensional-geometry",
-      "chapter": "Three Dimensional Geometry",
-      "unit": "Three Dimensional Geometry",
-      "kind": "key_line",
-      "front": "if two lines in space are parallel, then the shortest distance between them will be the ____ distance",
-      "back": "if two lines in space are parallel, then the shortest distance between them will be the perpendicular distance",
-      "quote": "if two lines in space are parallel, then the shortest distance between them will be the perpendicular distance",
-      "blanks": [
-        "perpendicular"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh205",
-        "chapterNo": 11,
-        "page": 385,
-        "section": "11.5 Shortest Distance between Two Lines"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "shortest distance",
-        "parallel lines"
-      ],
-      "order": 230,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -6036,19 +5139,17 @@
       ]
     },
     {
-      "id": "kc.mathematics.linear-programming.kl-optimisation-may-involve",
+      "id": "kc.mathematics.linear-programming.list-optimisation-may-involve",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.linear-programming",
       "chapter": "Linear Programming",
       "unit": "Linear Programming",
-      "kind": "key_line",
-      "front": "Thus, an optimisation problem may involve finding maximum profit, minimum cost, or ____ etc.",
-      "back": "Thus, an optimisation problem may involve finding maximum profit, minimum cost, or minimum use of resources etc.",
+      "kind": "list",
+      "front": "Name three things an optimisation problem may involve finding.",
+      "back": "maximum profit\nminimum cost\nminimum use of resources",
       "quote": "Thus, an optimisation problem may involve finding maximum profit, minimum cost, or minimum use of resources etc.",
-      "blanks": [
-        "minimum use of resources"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part II",
@@ -6064,7 +5165,9 @@
       ],
       "order": 20,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Intro remark, not a headed list; NCERT ends it with 'etc.' so three items are not the only right answer (a student could say minimum time); the concept is already covered by the optimisation-problem definition cards."
       ]
     },
     {
@@ -6165,38 +5268,6 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:Case-story filler: front refers to an example the card does not show; back says 'The above stated'; 'optimisation problem' is an equally right answer to the front."
-      ]
-    },
-    {
-      "id": "kc.mathematics.linear-programming.kl-maximise-linear-function",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.linear-programming",
-      "chapter": "Linear Programming",
-      "unit": "Linear Programming",
-      "kind": "key_line",
-      "front": "So, we have to maximise the linear function Z subject to certain conditions determined by a set of linear inequalities with variables as ____.",
-      "back": "So, we have to maximise the linear function Z subject to certain conditions determined by a set of linear inequalities with variables as non-negative.",
-      "quote": "So, we have to maximise the linear function Z subject to certain conditions determined by a set of linear inequalities with variables as non-negative.",
-      "blanks": [
-        "non-negative"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh206",
-        "chapterNo": 12,
-        "page": 396,
-        "section": "Mathematical formulation of the problem"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "linear programming"
-      ],
-      "order": 70,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -6330,40 +5401,8 @@
       ]
     },
     {
-      "id": "kc.mathematics.linear-programming.kl-corner-point-method-name",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.linear-programming",
-      "chapter": "Linear Programming",
-      "unit": "Linear Programming",
-      "kind": "key_line",
-      "front": "This method of solving linear programming problem is referred as ____.",
-      "back": "This method of solving linear programming problem is referred as Corner Point Method.",
-      "quote": "This method of solving linear programming problem is referred as Corner Point Method.",
-      "blanks": [
-        "Corner Point Method"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh206",
-        "chapterNo": 12,
-        "page": 399,
-        "section": "Graphical method of solving linear programming problems"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "corner point method"
-      ],
-      "order": 250,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.mathematics.linear-programming.steps-corner-point-method",
-      "v": 1,
+      "v": 2,
       "subject": "mathematics",
       "chapterKey": "mathematics.linear-programming",
       "chapter": "Linear Programming",
@@ -6371,7 +5410,7 @@
       "kind": "steps",
       "front": "Steps of the Corner Point Method (first steps), in order",
       "back": "Find the feasible region of the linear programming problem and determine its corner points (vertices) either by inspection or by solving the two equations of the lines intersecting at that point.\nLet M and m, respectively denote the largest and smallest values of these points.\nWhen the feasible region is bounded, M and m are the maximum and minimum values of Z.",
-      "quote": "Find the feasible region of the linear programming problem and determine its corner points (vertices) either by inspection or by solving the two equations of the lines intersecting at that point.",
+      "quote": "Find the feasible region of the linear programming problem and determine its corner points (vertices) either by inspection or by solving the two equations of the lines intersecting at that point. 2. Evaluate the objective function Z = ax + by at each corner point. Let M and m, respectively denote the largest and smallest values of these points. 3. (i) When the feasible region is bounded, M and m are the maximum and minimum values of Z.",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -6389,7 +5428,9 @@
       "order": 260,
       "note": "Find the region, evaluate the objective function at each corner, then compare the largest and smallest values.",
       "reasons": [
-        "shape:back_not_quote"
+        "review:not_exact",
+        "review:not_unambiguous",
+        "review:Back skips NCERT step 2 'Evaluate the objective function ... at each corner point' (formula dropped) and keeps only its trailing sentence, so 'these points' dangles and the list is not the ordered steps; front 'first steps' does not say how many. Numbered steps of the chapter's method are a headed l"
       ]
     },
     {
@@ -6650,15 +5691,15 @@
     },
     {
       "id": "kc.mathematics.probability.kl-conditional-probability-intro",
-      "v": 1,
+      "v": 2,
       "subject": "mathematics",
       "chapterKey": "mathematics.probability",
       "chapter": "Probability",
       "unit": "Probability",
       "kind": "key_line",
-      "front": "we shall discuss the important concept of ____ of an event given that another event has occurred",
-      "back": "we shall discuss the important concept of conditional probability of an event given that another event has occurred",
-      "quote": "we shall discuss the important concept of conditional probability of an event given that another event has occurred",
+      "front": "In this chapter, we shall discuss the important concept of ____ of an event given that another event has occurred",
+      "back": "In this chapter, we shall discuss the important concept of conditional probability of an event given that another event has occurred",
+      "quote": "In this chapter, we shall discuss the important concept of conditional probability of an event given that another event has occurred",
       "blanks": [
         "conditional probability"
       ],
@@ -6677,7 +5718,8 @@
       ],
       "order": 10,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Chapter-intro sentence whose blank is just the chapter topic; tests nothing beyond def-conditional-probability, which already exists. Trivia, not worth a card."
       ]
     },
     {
@@ -6713,40 +5755,6 @@
       ]
     },
     {
-      "id": "kc.mathematics.probability.kl-sample-space-reduced",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.probability",
-      "chapter": "Probability",
-      "unit": "Probability",
-      "kind": "key_line",
-      "front": "This information reduces our sample space from the set S to its ____ F for the event E.",
-      "back": "This information reduces our sample space from the set S to its subset F for the event E.",
-      "quote": "This information reduces our sample space from the set S to its subset F for the event E.",
-      "blanks": [
-        "subset"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh207",
-        "chapterNo": 13,
-        "page": 407,
-        "section": "Conditional Probability"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "conditional probability",
-        "sample space"
-      ],
-      "order": 30,
-      "note": "Knowing F happened shrinks the sample space to F.",
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.mathematics.probability.kl-common-elements-favour",
       "v": 1,
       "subject": "mathematics",
@@ -6777,38 +5785,6 @@
       "reasons": [
         "review:not_important",
         "review:derivation step inside the three-coin worked example, not a statement to memorise"
-      ]
-    },
-    {
-      "id": "kc.mathematics.probability.kl-equally-likely-general",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.probability",
-      "chapter": "Probability",
-      "unit": "Probability",
-      "kind": "key_line",
-      "front": "However, the same definition can also be used in the ____ case where the elementary events of the sample space are not equally likely",
-      "back": "However, the same definition can also be used in the general case where the elementary events of the sample space are not equally likely",
-      "quote": "However, the same definition can also be used in the general case where the elementary events of the sample space are not equally likely",
-      "blanks": [
-        "general"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh207",
-        "chapterNo": 13,
-        "page": 412,
-        "section": "Conditional Probability"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "conditional probability"
-      ],
-      "order": 50,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -6879,39 +5855,6 @@
       ]
     },
     {
-      "id": "kc.mathematics.probability.kl-second-draw-conditional",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.probability",
-      "chapter": "Probability",
-      "unit": "Probability",
-      "kind": "key_line",
-      "front": "given that the ball in the first draw is black, is nothing but the ____ of F given that E has occurred",
-      "back": "given that the ball in the first draw is black, is nothing but the conditional probability of F given that E has occurred",
-      "quote": "given that the ball in the first draw is black, is nothing but the conditional probability of F given that E has occurred",
-      "blanks": [
-        "conditional probability"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh207",
-        "chapterNo": 13,
-        "page": 416,
-        "section": "Multiplication Theorem on Probability"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "multiplication rule",
-        "conditional probability"
-      ],
-      "order": 80,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.mathematics.probability.diff-independent-vs-mutually-exclusive-defined",
       "v": 1,
       "subject": "mathematics",
@@ -6976,39 +5919,6 @@
         "review:not_exact",
         "review:not_unambiguous",
         "review:quote marks printed as backtick-apostrophe extraction artefact (`x') left in front/back; blank is a whole phrase, many acceptable fills"
-      ]
-    },
-    {
-      "id": "kc.mathematics.probability.kl-independent-cannot-be-mutually-exclusive",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.probability",
-      "chapter": "Probability",
-      "unit": "Probability",
-      "kind": "key_line",
-      "front": "two independent events having nonzero probabilities of occurrence ____",
-      "back": "two independent events having nonzero probabilities of occurrence can not be mutually exclusive",
-      "quote": "two independent events having nonzero probabilities of occurrence can not be mutually exclusive",
-      "blanks": [
-        "can not be mutually exclusive"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh207",
-        "chapterNo": 13,
-        "page": 418,
-        "section": "Independent Events"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "independent events",
-        "mutually exclusive"
-      ],
-      "order": 140,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -7239,39 +6149,6 @@
       ]
     },
     {
-      "id": "kc.mathematics.probability.kl-partition-not-unique",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.probability",
-      "chapter": "Probability",
-      "unit": "Probability",
-      "kind": "key_line",
-      "front": "It may be mentioned that the partition of a sample space is ____. There can be several partitions of the same sample space.",
-      "back": "It may be mentioned that the partition of a sample space is not unique. There can be several partitions of the same sample space.",
-      "quote": "It may be mentioned that the partition of a sample space is not unique. There can be several partitions of the same sample space.",
-      "blanks": [
-        "not unique"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh207",
-        "chapterNo": 13,
-        "page": 424,
-        "section": "Partition of a Sample Space"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "partition",
-        "sample space"
-      ],
-      "order": 230,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.mathematics.probability.ex-construction-job-on-time",
       "v": 1,
       "subject": "mathematics",
@@ -7430,38 +6307,6 @@
       "order": 290,
       "reasons": [
         "blanks:0:stopword"
-      ]
-    },
-    {
-      "id": "kc.mathematics.probability.kl-probability-of-a-cause",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.probability",
-      "chapter": "Probability",
-      "unit": "Probability",
-      "kind": "key_line",
-      "front": "Hence, the above formula gives us the probability of a particular Ei (i.e. a \"____\"), given that the event A has occurred.",
-      "back": "Hence, the above formula gives us the probability of a particular Ei (i.e. a \"Cause\"), given that the event A has occurred.",
-      "quote": "Hence, the above formula gives us the probability of a particular Ei (i.e. a \"Cause\"), given that the event A has occurred.",
-      "blanks": [
-        "Cause"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh207",
-        "chapterNo": 13,
-        "page": 426,
-        "section": "Bayes' Theorem"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "bayes theorem"
-      ],
-      "order": 300,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {

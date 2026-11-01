@@ -2,6 +2,588 @@
   "subject": "english",
   "cards": [
     {
+      "id": "kc.english.vocabulary.word-admonish",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Word Meanings",
+      "kind": "word",
+      "front": "What does 'admonish' mean?",
+      "back": "To warn or reprimand someone firmly but gently",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "admonish",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5030,
+      "note": "Synonym: reprimand. Antonym: praise.",
+      "reasons": [
+        "review:not_exact",
+        "review:back says 'firmly but gently'; Oxford/Cambridge give 'firmly' only, 'gently' is Merriam-Webster alone, and warn/reprimand are conflated"
+      ]
+    },
+    {
+      "id": "kc.english.vocabulary.word-elicit",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Word Meanings",
+      "kind": "word",
+      "front": "What does 'elicit' mean?",
+      "back": "To draw out a reaction, answer or fact from someone",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "elicit",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5370,
+      "note": "Synonym: evoke. Antonym: suppress.",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: already covered by usage-elicit-illicit in english.json"
+      ]
+    },
+    {
+      "id": "kc.english.vocabulary.word-gratuitous",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Word Meanings",
+      "kind": "word",
+      "front": "What does 'gratuitous' mean?",
+      "back": "Done without good reason; unnecessary and unjustified (not 'free of charge')",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "gratuitous",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5460,
+      "note": "Synonym: unwarranted. Antonym: justified.",
+      "reasons": [
+        "review:not_exact",
+        "review:not_unambiguous",
+        "review:back says 'not free of charge' but dictionaries list 'free of charge' as a (formal) sense; sense is not named from the front and the parenthetical is a disclaimer"
+      ]
+    },
+    {
+      "id": "kc.english.vocabulary.word-imminent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Word Meanings",
+      "kind": "word",
+      "front": "What does 'imminent' mean?",
+      "back": "About to happen",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "imminent",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5490,
+      "note": "Synonym: impending. Antonym: distant.",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: already covered by usage-eminent-imminent in english.json"
+      ]
+    },
+    {
+      "id": "kc.english.vocabulary.word-impervious",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Word Meanings",
+      "kind": "word",
+      "front": "What does 'impervious' mean?",
+      "back": "Not affected or influenced by something, such as criticism or danger",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "impervious",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5500,
+      "note": "Synonym: unaffected. Antonym: vulnerable.",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:primary dictionary sense is 'not allowing fluid to pass through'; card gives only the figurative sense without naming it"
+      ]
+    },
+    {
+      "id": "kc.english.vocabulary.word-ingenious",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Word Meanings",
+      "kind": "word",
+      "front": "What does 'ingenious' mean?",
+      "back": "Clever, original and inventive",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "ingenious",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5550,
+      "note": "Synonym: inventive. Antonym: unimaginative.",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: already covered by usage-ingenious-ingenuous in english.json"
+      ]
+    },
+    {
+      "id": "kc.english.vocabulary.word-querulous",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Word Meanings",
+      "kind": "word",
+      "front": "What does 'querulous' mean?",
+      "back": "Complaining in a petulant or whining manner",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "querulous",
+        "synonym",
+        "antonym"
+      ],
+      "order": 5870,
+      "note": "Synonym: grumbling. Antonym: contented.",
+      "reasons": [
+        "review:not_important",
+        "review:obscure, GRE-level word; not CUET UG priority"
+      ]
+    },
+    {
+      "id": "kc.english.vocabulary.word-verdant",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Word Meanings",
+      "kind": "word",
+      "front": "What does 'verdant' mean?",
+      "back": "Green with grass or other lush vegetation",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "verdant",
+        "synonym",
+        "antonym"
+      ],
+      "order": 6080,
+      "note": "Synonym: lush. Antonym: barren.",
+      "reasons": [
+        "review:not_important",
+        "review:literary and rare; low value for CUET UG"
+      ]
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-the-midas-touch",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Idioms and Phrases",
+      "kind": "idiom",
+      "front": "What does the idiom 'the Midas touch' mean?",
+      "back": "The ability to make money out of anything one undertakes",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6550,
+      "note": "Example: Every venture he starts seems to have the Midas touch.",
+      "reasons": [
+        "review:not_exact",
+        "review:Example sentence is wrong: the Midas touch is a person's ability, but the example says a venture seems to have it"
+      ]
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-show-the-white-feather",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Idioms and Phrases",
+      "kind": "idiom",
+      "front": "What does the idiom 'show the white feather' mean?",
+      "back": "To show cowardice",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 6590,
+      "note": "Example: The captain would not show the white feather even when outnumbered.",
+      "reasons": [
+        "review:not_important",
+        "review:dated and obscure; labelled old-fashioned in Collins and Oxford"
+      ]
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-pessimist",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "One-Word Substitution",
+      "kind": "one_word",
+      "front": "One word for: a person who always expects the worst to happen",
+      "back": "Pessimist",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "pessimist"
+      ],
+      "order": 6630,
+      "reasons": [
+        "review:not_important",
+        "review:trivially basic for CUET UG level"
+      ]
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-celibacy",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "One-Word Substitution",
+      "kind": "one_word",
+      "front": "One word for: the state of abstaining from marriage",
+      "back": "Celibacy",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "celibacy"
+      ],
+      "order": 6670,
+      "reasons": [
+        "review:not_exact",
+        "review:Dictionaries define celibacy as abstaining from marriage and sexual relations (Oxford); marriage-only wording is incomplete and also fits bachelorhood"
+      ]
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-impregnable",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "One-Word Substitution",
+      "kind": "one_word",
+      "front": "One word for: that which is so strong that it cannot be captured or broken into",
+      "back": "Impregnable",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "impregnable"
+      ],
+      "order": 6840,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Near-synonyms invincible, unassailable and invulnerable fit the front equally; existing card already covers invincible"
+      ]
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-decent-descent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Commonly Confused Words",
+      "kind": "usage",
+      "front": "Choose the correct word: The climbers began their ____ from the summit at dawn. (decent / descent)",
+      "back": "descent",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7080,
+      "note": "'Descent' is the act of going down; 'decent' means respectable.",
+      "reasons": [
+        "review:not_important",
+        "review:Trivially basic homophone pair, below CUET UG level; not worth a student's memory slot."
+      ]
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-historic-historical",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Commonly Confused Words",
+      "kind": "usage",
+      "front": "Choose the correct word: The Dandi March was a ____ event that changed the course of the freedom struggle. (historic / historical)",
+      "back": "historic",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 7300,
+      "note": "'Historic' means important in history; 'historical' means relating to history.",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:\"A historical event\" is also normal English (event of the past); only the clause \"changed the course\" signals the sense, so the front does not force one answer."
+      ]
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-much-many",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Grammar Rules",
+      "kind": "rule",
+      "front": "Rule: which of 'much' and 'many' goes with a countable plural noun?",
+      "back": "'Many'; 'much' goes with uncountable nouns.\nWrong: She does not have much friends here.\nRight: She does not have many friends here.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7530,
+      "reasons": [
+        "review:not_important",
+        "review:Trivially basic (primary-school grammar), below CUET UG level."
+      ]
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-little-few",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Grammar Rules",
+      "kind": "rule",
+      "front": "Rule: which of 'few' and 'little' goes with an uncountable noun?",
+      "back": "'Little'; 'few' goes with countable plural nouns.\nWrong: I have few time to spare.\nRight: I have little time to spare.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7540,
+      "reasons": [
+        "review:not_important",
+        "review:Trivially basic (primary-school grammar); also overlaps the existing usage-fewer-less card."
+      ]
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-between-among",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Grammar Rules",
+      "kind": "rule",
+      "front": "Rule: when is 'between' used and when 'among'?",
+      "back": "'Between' for two persons or things; 'among' for more than two.\nWrong: Divide the sweets between the five children.\nRight: Divide the sweets among the five children.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7550,
+      "reasons": [
+        "review:not_exact",
+        "review:Oversimplified: Merriam-Webster and Oxford note between is also correct for more than two when items are considered individually (between the three cities); the example Wrong sentence is arguable."
+      ]
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-return-back",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Grammar Rules",
+      "kind": "rule",
+      "front": "Rule: is 'back' needed after 'return', 'revert' or 'repeat'?",
+      "back": "No. These verbs already contain the idea of 'back' or 'again'.\nWrong: She returned back to her village.\nRight: She returned to her village.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7560,
+      "reasons": [
+        "review:not_exact",
+        "review:Front lists \"repeat\" with \"back\", but \"repeat back\" is valid (repeat back what I said); the redundancy is \"repeat again\". Answer is partly wrong as stated."
+      ]
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-double-negative",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Grammar Rules",
+      "kind": "rule",
+      "front": "Rule: can two negatives be used together in one clause?",
+      "back": "No. Two negatives cancel each other; use one.\nWrong: I haven't seen nobody.\nRight: I haven't seen anybody.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7570,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front asks if two negatives can be used together; litotes (not unkind, not uncommon) is standard English, so a flat \"No\" is not strictly right. Front must say negative words like not...nobody."
+      ]
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-look-forward-to",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Grammar Rules",
+      "kind": "rule",
+      "front": "Rule: which verb form follows 'look forward to'?",
+      "back": "The gerund, because 'to' is a preposition here.\nWrong: I look forward to meet you.\nRight: I look forward to meeting you.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7680,
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: same rule as existing rule-gerund-after-preposition (gerund after a preposition, \"to\" being a preposition)."
+      ]
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-reflexive-himself",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Grammar Rules",
+      "kind": "rule",
+      "front": "Rule: what are the standard reflexive forms of 'he' and 'they'?",
+      "back": "'Himself' and 'themselves'; 'hisself' and 'theirselves' are non-standard.\nWrong: He did it hisself.\nRight: He did it himself.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 7720,
+      "reasons": [
+        "review:not_important",
+        "review:Hisself/theirselves are rarely tested or produced; trivially basic for CUET UG."
+      ]
+    },
+    {
       "id": "kc.english.vocabulary.oneword-insolvent",
       "v": 2,
       "subject": "english",

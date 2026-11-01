@@ -1,6 +1,6 @@
 {
   "subject": "psychology",
-  "version": 1,
+  "version": 2,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -85,6 +85,33 @@
         "attitude"
       ],
       "order": 30
+    },
+    {
+      "id": "kc.psychology.attitude-and-social-cognition.fact-attitude-accompanied-by",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.attitude-and-social-cognition",
+      "chapter": "Attitude & Social Cognition",
+      "unit": "Attitude and Social Cognition",
+      "kind": "fact",
+      "front": "An attitude is a set of views about an 'attitude object'. What two things accompany those views, per NCERT?",
+      "back": "An emotional component and a tendency to act.\nIt is accompanied by an emotional component, and a tendency to act in a particular way with regard to the attitude object.",
+      "quote": "It is accompanied by an emotional component, and a tendency to act in a particular way with regard to the attitude object.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy106",
+        "chapterNo": 6,
+        "page": 105,
+        "section": "Nature and Components of Attitudes"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "attitude"
+      ],
+      "order": 40
     },
     {
       "id": "kc.psychology.attitude-and-social-cognition.list-attitude-three-aspects",
@@ -639,6 +666,33 @@
       "order": 260
     },
     {
+      "id": "kc.psychology.attitude-and-social-cognition.list-formation-processes",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.attitude-and-social-cognition",
+      "chapter": "Attitude & Social Cognition",
+      "unit": "Attitude and Social Cognition",
+      "kind": "list",
+      "front": "Name the processes of attitude formation (learning of attitudes).",
+      "back": "Learning attitudes by association\nLearning attitudes by being rewarded or punished\nLearning attitudes through modelling (observing others)\nLearning attitudes through group or cultural norms\nLearning through exposure to information",
+      "quote": "The processes and conditions of learning may be different, resulting in varying attitudes among people. • Learning attitudes by association : You might have seen that students often develop a liking for a particular subject because of the teacher. This is because they see many positive qualities in that teacher; these positive qualities get linked to the subject that s/he teaches, and ultimately get expressed in the form of liking for the subject. In other words, a positive attitude towards the subject is learned through the positive association between a teacher and a student. • Learning attitudes by being rewarded or punished : If an individual is praised for showing a particular attitude, chances are high that s/he will develop that attitude further. For example, if a teenager does yogasanas regularly, and gets the honour of being ‘Miss Good Health’ in her school, she may develop a positive attitude towards yoga and health in general. Similarly, if a child constantly falls ill because s/he eats junk food instead of proper meals, then the child is likely to develop a negative attitude towards junk food, and also a positive attitude towards eating healthy food. • Learning attitudes through modelling (observing others) : Often it is not through association, or through reward and punishment, that we learn attitudes. Instead, we learn them by observing others being rewarded or punished for expressing thoughts, or showing behaviour of a particular kind towards the attitude object. For example, children may form a respectful attitude towards elders, by observing that their parents show respect for elders, and are appreciated for it. • Learning attitudes through group or cultural norms : Very often, we learn attitudes through the norms of our group or culture. Norms are unwritten rules about behaviour that everyone is supposed to show under specific circumstances. Over time, these norms may become part of our social cognition, in the form of attitudes. Learning attitudes through group or cultural norms may actually be an example of all three forms of learning described above — learning through association, reward or punishment, and modelling. For example, offering money, sweets, fruit and flowers in a place of worship is a normative behaviour in some religions. When individuals see that such behaviour is shown by others, is expected and socially approved, they may ultimately develop a positive attitude towards such behaviour and the associated feelings of devotion. • Learning through exposure to information",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy106",
+        "chapterNo": 6,
+        "page": 107,
+        "section": "Process of Attitude Formation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "attitude formation"
+      ],
+      "order": 270
+    },
+    {
       "id": "kc.psychology.attitude-and-social-cognition.ex-association-example",
       "v": 1,
       "subject": "psychology",
@@ -774,6 +828,33 @@
       "order": 320
     },
     {
+      "id": "kc.psychology.attitude-and-social-cognition.list-formation-factors",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.attitude-and-social-cognition",
+      "chapter": "Attitude & Social Cognition",
+      "unit": "Attitude and Social Cognition",
+      "kind": "list",
+      "front": "Name the factors that influence attitude formation.",
+      "back": "Family and School Environment\nReference Groups\nPersonal Experiences\nMedia-related Influences",
+      "quote": "The following factors provide the context for the learning of attitudes through the processes described above. 1. Family and School Environment : Particularly in the early years of life, parents and other family members play a significant role in shaping attitude formation. Later, the school environment becomes an important background for attitude formation. Learning of attitudes within the family and school usually takes place by association, through rewards and punishments, and through modelling. 2. Reference Groups : Reference groups indicate to an individual the norms regarding acceptable behaviour and ways of thinking. Thus, they reflect learning of attitudes through group or cultural norms. Attitudes towards various topics, such as political, religious and social groups, occupations, national and other issues are often developed through reference groups. Their influence is noticeable especially during the beginning of adolescence, at which time it is important for the individual to feel that s/he belongs to a group. Therefore, the role of reference groups in attitude formation may also be a case of learning through reward and punishment. 3. Personal Experiences : Many attitudes are formed, not in the family environment or through reference groups, but through direct personal experiences which bring about a drastic change in our attitude towards people and our own life. Here is a real-life example. A driver in the army went through a personal experience that transformed his life. On one mission, he narrowly escaped death although all his companions got killed. Wondering about the purpose of his own life, he gave up his job in the army, returned to his native village in Maharashtra, and worked actively as a community leader. Through a purely personal experience this individual evolved a strong positive attitude towards community upliftment. His efforts completely changed the face of his village. 4. Media-related Influences",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy106",
+        "chapterNo": 6,
+        "page": 108,
+        "section": "Factors that Influence Attitude Formation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "attitude formation"
+      ],
+      "order": 330
+    },
+    {
       "id": "kc.psychology.attitude-and-social-cognition.fact-family-school-role",
       "v": 1,
       "subject": "psychology",
@@ -853,6 +934,33 @@
         "reference groups"
       ],
       "order": 360
+    },
+    {
+      "id": "kc.psychology.attitude-and-social-cognition.fact-media-components",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.attitude-and-social-cognition",
+      "chapter": "Attitude & Social Cognition",
+      "unit": "Attitude and Social Cognition",
+      "kind": "fact",
+      "front": "Media, the Internet and textbooks first strengthen which components of attitudes, and later may affect which one?",
+      "back": "Cognitive and affective first; behavioural later.\nThese sources first strengthen the cognitive and affective components of attitudes, and subsequently may also affect the behavioural component.",
+      "quote": "These sources first strengthen the cognitive and affective components of attitudes, and subsequently may also affect the behavioural component.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy106",
+        "chapterNo": 6,
+        "page": 109,
+        "section": "Factors that Influence Attitude Formation"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "media"
+      ],
+      "order": 380
     },
     {
       "id": "kc.psychology.attitude-and-social-cognition.fact-media-both-ways",
@@ -988,6 +1096,33 @@
         "attitude change"
       ],
       "order": 440
+    },
+    {
+      "id": "kc.psychology.attitude-and-social-cognition.list-change-three-concepts",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.attitude-and-social-cognition",
+      "chapter": "Attitude & Social Cognition",
+      "unit": "Attitude and Social Cognition",
+      "kind": "list",
+      "front": "Name the three major concepts of the process of attitude change.",
+      "back": "The concept of balance\nThe concept of cognitive dissonance\nThe two-step concept",
+      "quote": "Three major concepts that draw attention to some important processes in attitude change are described below : (a) The concept of balance, proposed by Fritz Heider is sometimes described in the form of the ‘P-O-X’ triangle, which represents the relationships between three aspects or components of the attitude. P is the person whose attitude is being studied, O is another person, and X is the topic towards which the attitude is being studied (attitude object). It is also possible that all three are persons. The basic idea is that an attitude changes if there is a state of imbalance between the P-O attitude, O-X attitude, and P-X attitude. This is because imbalance is logically uncomfortable. Therefore, the attitude changes in the direction of balance. Imbalance is found when (i) all three sides of the P-O-X triangle are negative, or (ii) two sides are positive, and one side is negative. Balance is found when (i) all three sides are positive, or (ii) two sides are negative, and one side is positive. Consider the example of dowry as an attitude topic (X). Suppose a person (P) has a positive attitude towards dowry (P-X positive). P is planning to get his son married to the daughter of some person (O) who has a negative attitude towards dowry (O-X negative). What would be the nature of the P-O attitude, and how would it determine balance or imbalance in the situation? If O initially has a positive attitude towards P, the situation would be unbalanced. P-X is positive, O-P is positive, but O-X is negative. That is, there are two positives and one negative in the triangle. This is a situation of imbalance. One of the three attitudes will therefore have to change. This change could take place in the P-X relationship (P starts disliking dowry as a custom), or in the O-X relationship (O starts liking dowry as a custom), or in the O-P relationship (O starts disliking P). In short, an attitude change will have to take place so that there will be three positive relationships, or two negative and one positive relationship, in the triangle. (b) The concept of cognitive dissonance was proposed by Leon Festinger. It emphasises the cognitive component. Here the basic idea is that the cognitive components of an attitude must be ‘consonant’ (opposite of ‘dissonant’), i.e., they should be logically in line with each other. If an individual finds that two cognitions in an attitude are dissonant, then one of them will be changed in the direction of consonance. For example, think about the following ideas (‘cognitions’) : Cognition I : Pan masala causes mouth cancer which is fatal. Cognition II : I eat pan masala. Holding these two ideas or cognitions will make any individual feel that something is ‘out of tune’, or dissonant, in the attitude towards pan masala. Therefore, one of these ideas will have to be changed, so that consonance can be attained. In the example given above, in order to remove or reduce the dissonance, I will stop eating pan masala (change Cognition II). This would be the healthy, logical and sensible way of reducing dissonance. Festinger and Carlsmith, two social psychologists, conducted an experiment that showed how cognitive dissonance works (see Box 6.2). Both balance and cognitive dissonance are examples of cognitive consistency. Cognitive consistency means that two components, aspects or elements of the attitude, or attitude system, must be in the same direction. Each element should logically fall in line with other elements. If this does not happen, then the person experiences a kind of mental discomfort, i.e. the sense that ‘something is not quite right’ in the attitude system. In such a state, some aspect in the attitude system changes in the direction of consistency, because our cognitive system requires logical consistency. (c) The two-step concept",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy106",
+        "chapterNo": 6,
+        "page": 109,
+        "section": "Process of Attitude Change"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "attitude change"
+      ],
+      "order": 450
     },
     {
       "id": "kc.psychology.attitude-and-social-cognition.fact-balance-heider",
@@ -1378,6 +1513,34 @@
       "order": 610
     },
     {
+      "id": "kc.psychology.attitude-and-social-cognition.steps-two-step-steps",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.attitude-and-social-cognition",
+      "chapter": "Attitude & Social Cognition",
+      "unit": "Attitude and Social Cognition",
+      "kind": "steps",
+      "front": "Steps in Mohsin’s two-step concept of attitude change, in order.",
+      "back": "In the first step, the target of change identifies with the source.\nIn the second step, the source herself/himself shows an attitude change, by actually changing her/him behaviour towards the attitude object.",
+      "quote": "In the first step, the target of change identifies with the source. The ‘target’ is the person whose attitude is to be changed. The ‘source’ is the person through whose influence the change is to take place. Identification means that the target has liking and regard for the source. S/he puts herself/ himself in the place of the target, and tries to feel like her/him. The source must also have a positive attitude towards the target, and the regard and attraction becomes mutual. In the second step, the source herself/himself shows an attitude change, by actually changing her/him behaviour towards the attitude object.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy106",
+        "chapterNo": 6,
+        "page": 110,
+        "section": "Process of Attitude Change"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "two-step",
+        "Mohsin"
+      ],
+      "order": 620
+    },
+    {
       "id": "kc.psychology.attitude-and-social-cognition.def-target-source-def",
       "v": 1,
       "subject": "psychology",
@@ -1430,6 +1593,33 @@
         "two-step"
       ],
       "order": 640
+    },
+    {
+      "id": "kc.psychology.attitude-and-social-cognition.fact-change-three-characteristics",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.attitude-and-social-cognition",
+      "chapter": "Attitude & Social Cognition",
+      "unit": "Attitude and Social Cognition",
+      "kind": "fact",
+      "front": "In NCERT's chapter summary, attitude change is affected by the characteristics of which three things?",
+      "back": "The source, the target, and the message.\nAttitude change is affected by characteristics of the source, the target, and the message.",
+      "quote": "Attitude change is affected by characteristics of the source, the target, and the message.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy106",
+        "chapterNo": 6,
+        "page": 117,
+        "section": "Factors that Influence Attitude Change"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "attitude change"
+      ],
+      "order": 650
     },
     {
       "id": "kc.psychology.attitude-and-social-cognition.fact-positive-easier",
@@ -1945,6 +2135,33 @@
       "order": 840
     },
     {
+      "id": "kc.psychology.attitude-and-social-cognition.list-consistency-conditions",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.attitude-and-social-cognition",
+      "chapter": "Attitude & Social Cognition",
+      "unit": "Attitude and Social Cognition",
+      "kind": "list",
+      "front": "When is there consistency between attitudes and behaviour?",
+      "back": "the attitude is strong, and occupies a central place in the attitude system\nthe person is aware of her/his attitude\nthere is very little or no external pressure for the person to behave in a particular way\nthe person’s behaviour is not being watched or evaluated by others\nthe person thinks that the behaviour would have a positive consequence, and therefore, intends to engage in that behaviour",
+      "quote": "Psychologists have found that there would be consistency between attitudes and behaviour when : • the attitude is strong, and occupies a central place in the attitude system, • the person is aware of her/his attitude, • there is very little or no external pressure for the person to behave in a particular way. For example, when there is no group pressure to follow a particular norm, • the person’s behaviour is not being watched or evaluated by others, and • the person thinks that the behaviour would have a positive consequence, and therefore, intends to engage in that behaviour.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy106",
+        "chapterNo": 6,
+        "page": 115,
+        "section": "Attitude-Behaviour Relationship"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "attitude-behaviour"
+      ],
+      "order": 850
+    },
+    {
       "id": "kc.psychology.attitude-and-social-cognition.fact-lapiere-study",
       "v": 1,
       "subject": "psychology",
@@ -2164,6 +2381,34 @@
       "order": 950
     },
     {
+      "id": "kc.psychology.attitude-and-social-cognition.list-prejudice-sources",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.attitude-and-social-cognition",
+      "chapter": "Attitude & Social Cognition",
+      "unit": "Attitude and Social Cognition",
+      "kind": "list",
+      "front": "Name the sources of prejudice.",
+      "back": "Learning\nA strong social identity and ingroup bias\nScapegoating\nKernel of truth concept\nSelf-fulfilling prophecy",
+      "quote": "Social psychologists have shown that prejudice has one or more of the following sources : • Learning : Like other attitudes, prejudices can also be learned through association, reward and punishment, observing others, group or cultural norms and exposure to information that encourages prejudice. The family, reference groups, personal experiences and the media may play a role in the learning of prejudices (see section on ‘Attitude Formation and Change’). People who learn prejudiced attitudes may develop a ‘prejudiced personality’, and show low adjusting capacity, anxiety, and feelings of hostility against the outgroup. • A strong social identity and ingroup bias : Individuals who have a strong sense of social identity and have a very positive attitude towards their own group boost this attitude by holding negative attitudes towards other groups. These are shown as prejudices. • Scapegoating : This is a phenomenon by which the majority group places the blame on a minority outgroup for its own social, economic or political problems. The minority is too weak or too small in number to defend itself against such accusations. Scapegoating is a group-based way of expressing frustration, and it often results in negative attitudes or prejudice against the weaker group. • Kernel of truth concept : Sometimes people may continue to hold stereotypes because they think that, after all, there must be some truth, or ‘kernel of truth’ in what everyone says about the other group. Even a few examples are sufficient to support the ‘kernel of truth’ idea. • Self-fulfilling prophecy",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy106",
+        "chapterNo": 6,
+        "page": 116,
+        "section": "Prejudice and Discrimination"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "prejudice",
+        "sources"
+      ],
+      "order": 960
+    },
+    {
       "id": "kc.psychology.attitude-and-social-cognition.fact-prejudice-learning",
       "v": 1,
       "subject": "psychology",
@@ -2356,6 +2601,60 @@
       "order": 1040
     },
     {
+      "id": "kc.psychology.attitude-and-social-cognition.list-handling-aims",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.attitude-and-social-cognition",
+      "chapter": "Attitude & Social Cognition",
+      "unit": "Attitude and Social Cognition",
+      "kind": "list",
+      "front": "Strategies for handling prejudice are effective if they aim at which four things?",
+      "back": "minimising opportunities for learning prejudices\nchanging such attitudes\nde-emphasising a narrow social identity based on the ingroup\ndiscouraging the tendency towards self-fulfilling prophecy among the victims of prejudice",
+      "quote": "Thus, the strategies for handling prejudice would be effective if they aim at : (a) minimising opportunities for learning prejudices, (b) changing such attitudes, (c) de-emphasising a narrow social identity based on the ingroup, and (d) discouraging the tendency towards self-fulfilling prophecy among the victims of prejudice.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy106",
+        "chapterNo": 6,
+        "page": 117,
+        "section": "Strategies for Handling Prejudice"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "strategies"
+      ],
+      "order": 1050
+    },
+    {
+      "id": "kc.psychology.attitude-and-social-cognition.list-handling-methods",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.attitude-and-social-cognition",
+      "chapter": "Attitude & Social Cognition",
+      "unit": "Attitude and Social Cognition",
+      "kind": "list",
+      "front": "Name the ways of accomplishing the goals of handling prejudice.",
+      "back": "Education and information dissemination\nIncreasing intergroup contact\nHighlighting individual identity rather than group identity",
+      "quote": "These goals can be accomplished through : • Education and information dissemination, for correcting stereotypes related to specific target groups, and tackling the problem of a strong ingroup bias. • Increasing intergroup contact allows for direct communication, removal of mistrust between the groups, and even discovery of positive qualities in the outgroup. However, these strategies are successful only if : - the two groups meet in a cooperative rather than competitive context, - close interactions between the groups helps them to know each other better, and - the two groups are not different in power or status. • Highlighting individual identity rather than group identity",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy106",
+        "chapterNo": 6,
+        "page": 117,
+        "section": "Strategies for Handling Prejudice"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "strategies"
+      ],
+      "order": 1060
+    },
+    {
       "id": "kc.psychology.attitude-and-social-cognition.fact-education-dissemination",
       "v": 1,
       "subject": "psychology",
@@ -2408,6 +2707,33 @@
         "strategies"
       ],
       "order": 1080
+    },
+    {
+      "id": "kc.psychology.attitude-and-social-cognition.list-contact-conditions",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.attitude-and-social-cognition",
+      "chapter": "Attitude & Social Cognition",
+      "unit": "Attitude and Social Cognition",
+      "kind": "list",
+      "front": "Intergroup contact strategies succeed only if which three conditions hold?",
+      "back": "the two groups meet in a cooperative rather than competitive context\nclose interactions between the groups helps them to know each other better\nthe two groups are not different in power or status",
+      "quote": "However, these strategies are successful only if : - the two groups meet in a cooperative rather than competitive context, - close interactions between the groups helps them to know each other better, and - the two groups are not different in power or status.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy106",
+        "chapterNo": 6,
+        "page": 117,
+        "section": "Strategies for Handling Prejudice"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "strategies"
+      ],
+      "order": 1090
     },
     {
       "id": "kc.psychology.attitude-and-social-cognition.fact-individual-identity",
@@ -3842,6 +4168,34 @@
       "order": 500
     },
     {
+      "id": "kc.psychology.meeting-life-challenges.fact-burnout-state",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.meeting-life-challenges",
+      "chapter": "Meeting Life Challenges",
+      "unit": "Meeting Life Challenges",
+      "kind": "fact",
+      "front": "What is the state of physical, emotional and psychological exhaustion known as?",
+      "back": "Burnout\nThis state of physical, emotional and psychological exhaustion is known as burnout.",
+      "quote": "This state of physical, emotional and psychological exhaustion is known as burnout.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy103",
+        "chapterNo": 3,
+        "page": 59,
+        "section": "Stress and Health"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "burnout"
+      ],
+      "order": 510,
+      "note": "Burnout follows physical exhaustion (chronic fatigue, weakness) and mental exhaustion (irritability, helplessness)."
+    },
+    {
       "id": "kc.psychology.meeting-life-challenges.fact-stress-implicated-disorders",
       "v": 1,
       "subject": "psychology",
@@ -4237,6 +4591,33 @@
         "coping"
       ],
       "order": 690
+    },
+    {
+      "id": "kc.psychology.meeting-life-challenges.fact-coping-matters-more-than-stress",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.meeting-life-challenges",
+      "chapter": "Meeting Life Challenges",
+      "unit": "Meeting Life Challenges",
+      "kind": "fact",
+      "front": "What, rather than the stress one experiences, influences psychological well-being, social functioning and health?",
+      "back": "How we cope with stress\nIn recent years the conviction has grown that it is how we cope with stress and not the stress one experiences that influences our psychological well-being, social functioning and health.",
+      "quote": "In recent years the conviction has grown that it is how we cope with stress and not the stress one experiences that influences our psychological well-being, social functioning and health.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy103",
+        "chapterNo": 3,
+        "page": 61,
+        "section": "Coping with Stress"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "coping"
+      ],
+      "order": 700
     },
     {
       "id": "kc.psychology.meeting-life-challenges.def-coping-task-oriented",
@@ -5894,6 +6275,33 @@
       "order": 70
     },
     {
+      "id": "kc.psychology.psychological-disorders.fact-normality-criterion-wellbeing",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.psychological-disorders",
+      "chapter": "Psychological Disorders",
+      "unit": "Psychological Disorders",
+      "kind": "fact",
+      "front": "In the maladaptive approach to abnormality, what do many psychologists take as the best criterion of normal behaviour?",
+      "back": "Whether it fosters the well-being of the individual and the group\nMany psychologists believe that the best criterion for determining the normality of behaviour is not whether society accepts it but whether it fosters the well-being of the individual and eventually of the group to which s/he belongs.",
+      "quote": "The second approach views abnormal behaviour as maladaptive. Many psychologists believe that the best criterion for determining the normality of behaviour is not whether society accepts it but whether it fosters the well-being of the individual and eventually of the group to which s/he belongs.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy104",
+        "chapterNo": 4,
+        "page": 71,
+        "section": "Concepts of Abnormality and Psychological Disorders"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "well-being"
+      ],
+      "order": 100
+    },
+    {
       "id": "kc.psychology.psychological-disorders.kl-conforming-maladaptive",
       "v": 1,
       "subject": "psychology",
@@ -6363,6 +6771,33 @@
       "order": 280
     },
     {
+      "id": "kc.psychology.psychological-disorders.fact-neurotransmitters-anxiety-schizophrenia-depression",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.psychological-disorders",
+      "chapter": "Psychological Disorders",
+      "unit": "Psychological Disorders",
+      "kind": "fact",
+      "front": "Which neurotransmitters are linked to anxiety disorders, schizophrenia and depression, in that order?",
+      "back": "GABA, dopamine and serotonin\nAnxiety disorders have been linked to low activity of the neurotransmitter gamma aminobutyric acid (GABA), schizophrenia to excess activity of dopamine, and depression to low activity of serotonin.",
+      "quote": "Anxiety disorders have been linked to low activity of the neurotransmitter gamma aminobutyric acid (GABA), schizophrenia to excess activity of dopamine, and depression to low activity of serotonin.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy104",
+        "chapterNo": 4,
+        "page": 74,
+        "section": "Factors Underlying Abnormal Behaviour"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "neurotransmitter"
+      ],
+      "order": 290
+    },
+    {
       "id": "kc.psychology.psychological-disorders.list-psychological-factors",
       "v": 1,
       "subject": "psychology",
@@ -6499,6 +6934,33 @@
         "Freud"
       ],
       "order": 360
+    },
+    {
+      "id": "kc.psychology.psychological-disorders.def-behavioural-model",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.psychological-disorders",
+      "chapter": "Psychological Disorders",
+      "unit": "Psychological Disorders",
+      "kind": "definition",
+      "front": "What does the behavioural model state about normal and abnormal behaviour and psychological disorders?",
+      "back": "This model states that both normal and abnormal behaviours are learned and psychological disorders are the result of learning maladaptive ways of behaving.",
+      "quote": "Another model that emphasises the role of psychological factors is the behavioural model. This model states that both normal and abnormal behaviours are learned and psychological disorders are the result of learning maladaptive ways of behaving.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy104",
+        "chapterNo": 4,
+        "page": 74,
+        "section": "Factors Underlying Abnormal Behaviour"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "behavioural model"
+      ],
+      "order": 370
     },
     {
       "id": "kc.psychology.psychological-disorders.types-behavioural-learning-types",
@@ -6688,6 +7150,33 @@
         "socio-cultural model"
       ],
       "order": 450
+    },
+    {
+      "id": "kc.psychology.psychological-disorders.fact-social-support-depression",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.psychological-disorders",
+      "chapter": "Psychological Disorders",
+      "unit": "Psychological Disorders",
+      "kind": "fact",
+      "front": "What do studies show about depression in people who are isolated and lack social support?",
+      "back": "They are more likely to become depressed and remain depressed longer\nStudies have shown that people who are isolated and lack social support, i.e. strong and fulfilling interpersonal relationships in their lives are likely to become more depressed and remain depressed longer than those who have good friendships.",
+      "quote": "Studies have shown that people who are isolated and lack social support, i.e. strong and fulfilling interpersonal relationships in their lives are likely to become more depressed and remain depressed longer than those who have good friendships.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy104",
+        "chapterNo": 4,
+        "page": 75,
+        "section": "Factors Underlying Abnormal Behaviour"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "socio-cultural model"
+      ],
+      "order": 460
     },
     {
       "id": "kc.psychology.psychological-disorders.def-diathesis-stress",
@@ -7147,6 +7636,33 @@
         "OCD"
       ],
       "order": 630
+    },
+    {
+      "id": "kc.psychology.psychological-disorders.fact-ptsd-after-trauma",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.psychological-disorders",
+      "chapter": "Psychological Disorders",
+      "unit": "Psychological Disorders",
+      "kind": "fact",
+      "front": "Which disorder do people often experience after a natural disaster, terror attack, serious accident or war situation?",
+      "back": "Post-traumatic stress disorder (PTSD)\nVery often people who have been caught in a natural disaster (such as tsunami) or have been victims of bomb blasts by terrorists, or been in a serious accident or in a war-related situation, experience post-traumatic stress disorder (PTSD).",
+      "quote": "Very often people who have been caught in a natural disaster (such as tsunami) or have been victims of bomb blasts by terrorists, or been in a serious accident or in a war-related situation, experience post-traumatic stress disorder (PTSD).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy104",
+        "chapterNo": 4,
+        "page": 78,
+        "section": "Trauma- and Stressor-Related Disorders"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "PTSD"
+      ],
+      "order": 640
     },
     {
       "id": "kc.psychology.psychological-disorders.list-ptsd-symptoms",
@@ -8751,6 +9267,60 @@
       "order": 1280
     },
     {
+      "id": "kc.psychology.psychological-disorders.fact-alcohol-tolerance-withdrawal",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.psychological-disorders",
+      "chapter": "Psychological Disorders",
+      "unit": "Psychological Disorders",
+      "kind": "fact",
+      "front": "With alcohol abuse, what do bodies build up and what do abusers experience when they stop drinking?",
+      "back": "Tolerance; withdrawal responses\nTheir bodies then build up a tolerance for alcohol and they need to drink even greater amounts to feel its effects. They also experience withdrawal responses when they stop drinking.",
+      "quote": "Their bodies then build up a tolerance for alcohol and they need to drink even greater amounts to feel its effects. They also experience withdrawal responses when they stop drinking.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy104",
+        "chapterNo": 4,
+        "page": 85,
+        "section": "Substance-Related and Addictive Disorders"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "alcohol"
+      ],
+      "order": 1290
+    },
+    {
+      "id": "kc.psychology.psychological-disorders.fact-ethyl-alcohol-nervous-system",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.psychological-disorders",
+      "chapter": "Psychological Disorders",
+      "unit": "Psychological Disorders",
+      "kind": "fact",
+      "front": "What does ethyl alcohol do to the central nervous system once it is absorbed into the blood?",
+      "back": "It depresses or slows down functioning\nThis chemical is absorbed into the blood and carried into the central nervous system (brain and spinal cord) where it depresses or slows down functioning.",
+      "quote": "All alcohol beverages contain ethyl alcohol. This chemical is absorbed into the blood and carried into the central nervous system (brain and spinal cord) where it depresses or slows down functioning.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy104",
+        "chapterNo": 4,
+        "page": 86,
+        "section": "Box 4.2 Effects of Alcohol : Some Facts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "alcohol"
+      ],
+      "order": 1300
+    },
+    {
       "id": "kc.psychology.psychological-disorders.fact-box42-motor",
       "v": 1,
       "subject": "psychology",
@@ -8776,6 +9346,60 @@
         "alcohol"
       ],
       "order": 1310
+    },
+    {
+      "id": "kc.psychology.psychological-disorders.fact-heroin-direct-danger",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.psychological-disorders",
+      "chapter": "Psychological Disorders",
+      "unit": "Psychological Disorders",
+      "kind": "fact",
+      "front": "What is the most direct danger of heroin abuse?",
+      "back": "An overdose\nThe most direct danger of heroin abuse is an overdose, which slows down the respiratory centres in the brain, almost paralysing breathing, and in many cases causing death.",
+      "quote": "The most direct danger of heroin abuse is an overdose, which slows down the respiratory centres in the brain, almost paralysing breathing, and in many cases causing death.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy104",
+        "chapterNo": 4,
+        "page": 86,
+        "section": "Heroin"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "heroin"
+      ],
+      "order": 1320
+    },
+    {
+      "id": "kc.psychology.psychological-disorders.fact-cocaine-stopping-effects",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.psychological-disorders",
+      "chapter": "Psychological Disorders",
+      "unit": "Psychological Disorders",
+      "kind": "fact",
+      "front": "What does stopping cocaine result in once dependence has developed?",
+      "back": "Feelings of depression, fatigue, sleep problems, irritability and anxiety\nDependence may develop, so that cocaine dominates the person's life, more of the drug is needed to get the desired effects, and stopping it results in feelings of depression, fatigue, sleep problems, irritability and anxiety.",
+      "quote": "Dependence may develop, so that cocaine dominates the person’s life, more of the drug is needed to get the desired effects, and stopping it results in feelings of depression, fatigue, sleep problems, irritability and anxiety.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy104",
+        "chapterNo": 4,
+        "page": 86,
+        "section": "Cocaine"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "cocaine"
+      ],
+      "order": 1330
     },
     {
       "id": "kc.psychology.psychological-disorders.list-box43-substances",
@@ -13070,6 +13694,33 @@
       "order": 10
     },
     {
+      "id": "kc.psychology.social-influence-and-group-processes.list-group-characteristics",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.social-influence-and-group-processes",
+      "chapter": "Social Influence & Group Processes",
+      "unit": "Social Influence and Group Processes",
+      "kind": "list",
+      "front": "Name the salient characteristics of groups.",
+      "back": "A social unit consisting of two or more individuals who perceive themselves as belonging to the group.\nA collection of individuals who have common motives and goals.\nA collection of individuals who are interdependent, i.e. what one is doing may have consequences for others.\nIndividuals who are trying to satisfy a need through their joint association also influence each other.\nA gathering of individuals who interact with one another either directly or indirectly.\nA collection of individuals whose interactions are structured by a set of roles and norms.",
+      "quote": "Groups have the following salient characteristics : A social unit consisting of two or more individuals who perceive themselves as belonging to the group. This characteristic of the group helps in distinguishing one group from the other and gives the group its unique identity. A collection of individuals who have common motives and goals. Groups function either working towards a given goal, or away from certain threats facing the group. A collection of individuals who are interdependent, i.e. what one is doing may have consequences for others. Suppose one of the fielders in a cricket team drops an important catch during a match -- this will have consequence for the entire team. Individuals who are trying to satisfy a need through their joint association also influence each other. A gathering of individuals who interact with one another either directly or indirectly. A collection of individuals whose interactions are structured by a set of roles and norms.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy107",
+        "chapterNo": 7,
+        "page": 121,
+        "section": "What is a Group?"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "group"
+      ],
+      "order": 20
+    },
+    {
       "id": "kc.psychology.social-influence-and-group-processes.term-norms-tell",
       "v": 1,
       "subject": "psychology",
@@ -13238,6 +13889,33 @@
         "team"
       ],
       "order": 110
+    },
+    {
+      "id": "kc.psychology.social-influence-and-group-processes.list-why-join-groups",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.social-influence-and-group-processes",
+      "chapter": "Social Influence & Group Processes",
+      "unit": "Social Influence and Group Processes",
+      "kind": "list",
+      "front": "Name the reasons why people join groups.",
+      "back": "Security: When we are alone, we feel insecure.\nStatus: When we are members of a group that is perceived to be important by others, we feel recognised and experience a sense of power.\nSelf-esteem: Groups provide feelings of self-worth and establish a positive social identity.\nSatisfaction of one’s psychological and social needs: Groups satisfy one’s social and psychological needs such as sense of belongingness, giving and receiving attention, love, and power through a group.\nGoal achievement: Groups help in achieving such goals which cannot be attained individually.\nProvide knowledge and information: Group membership provides knowledge and information and thus broadens our view.",
+      "quote": "People join groups because these groups satisfy a range of needs. In general, people join groups for the following reasons : Security : When we are alone, we feel insecure. Groups reduce this insecurity. Being with people gives a sense of comfort, and protection. As a result, people feel stronger, and are less vulnerable to threats. Status : When we are members of a group that is perceived to be important by others, we feel recognised and experience a sense of power. Suppose your school wins in an inter - institutional debate competition, you feel proud and think that you are better than others. Self-esteem : Groups provide feelings of self-worth and establish a positive social identity. Being a member of prestigious groups enhances one's self-concept. Satisfaction of one's psychological and social needs : Groups satisfy one's social and psychological needs such as sense of belongingness, giving and receiving attention, love, and power through a group. Goal achievement : Groups help in achieving such goals which cannot be attained individually. There is power in the majority. Provide knowledge and information : Group membership provides knowledge and information and thus broadens our view.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy107",
+        "chapterNo": 7,
+        "page": 123,
+        "section": "Why Do People Join Groups?"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "group-membership"
+      ],
+      "order": 140
     },
     {
       "id": "kc.psychology.social-influence-and-group-processes.list-conditions-group-formation",
@@ -13485,6 +14163,33 @@
         "tuckman"
       ],
       "order": 260
+    },
+    {
+      "id": "kc.psychology.social-influence-and-group-processes.list-group-structure-status-cohesiveness",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.social-influence-and-group-processes",
+      "chapter": "Social Influence & Group Processes",
+      "unit": "Social Influence and Group Processes",
+      "kind": "list",
+      "front": "Roles and norms are two of the four elements of group structure. Name the other two.",
+      "back": "Status refers to the relative social position given to group members by others.\nCohesiveness refers to togetherness, binding, or mutual attraction among group members.",
+      "quote": "Status refers to the relative social position given to group members by others. This relative position or status may be either ascribed (given may be because of one's seniority) or achieved (the person has achieved status because of expertise or hard work). By being members of the group, we enjoy the status associated with that group. All of us, therefore, strive to be members of such groups which are high in status or are viewed favourably by others. Even within a group, different members have different prestige and status. For example, the captain of a cricket team has a higher status compared to the other members, although all are equally important for the team's success. Cohesiveness refers to togetherness, binding, or mutual attraction among group members.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy107",
+        "chapterNo": 7,
+        "page": 126,
+        "section": "Group Structure"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "group-structure"
+      ],
+      "order": 270
     },
     {
       "id": "kc.psychology.social-influence-and-group-processes.def-roles",
@@ -14065,6 +14770,33 @@
       "order": 570
     },
     {
+      "id": "kc.psychology.social-influence-and-group-processes.fact-loafing-less-hard",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.social-influence-and-group-processes",
+      "chapter": "Social Influence & Group Processes",
+      "unit": "Social Influence and Group Processes",
+      "kind": "fact",
+      "front": "Compared with performing alone, how hard do individuals work when they are part of a group?",
+      "back": "Less hard\nIt has been found that individuals work less hard in a group than they do when performing alone.",
+      "quote": "What would happen if efforts of an individual in a group are pooled so that you look at the performance of the group as a whole? Do you know what often happens? It has been found that individuals work less hard in a group than they do when performing alone.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy107",
+        "chapterNo": 7,
+        "page": 128,
+        "section": "Social Loafing"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "social-loafing"
+      ],
+      "order": 580
+    },
+    {
       "id": "kc.psychology.social-influence-and-group-processes.ex-loafing-tug-of-war",
       "v": 1,
       "subject": "psychology",
@@ -14146,6 +14878,60 @@
       "order": 630
     },
     {
+      "id": "kc.psychology.social-influence-and-group-processes.list-loafing-causes",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.social-influence-and-group-processes",
+      "chapter": "Social Influence & Group Processes",
+      "unit": "Social Influence and Group Processes",
+      "kind": "list",
+      "front": "Name the explanations offered for why social loafing occurs.",
+      "back": "Group members feel less responsible for the overall task being performed and therefore exert less effort.\nMotivation of members decreases because they realise that their contributions will not be evaluated on individual basis.\nThe performance of the group is not to be compared with other groups.\nThere is an improper coordination (or no coordination) among members.\nBelonging to the same group is not important for members.",
+      "quote": "Why does social loafing occur? The explanations offered are: Group members feel less responsible for the overall task being performed and therefore exert less effort. Motivation of members decreases because they realise that their contributions will not be evaluated on individual basis. The performance of the group is not to be compared with other groups. There is an improper coordination (or no coordination) among members. Belonging to the same group is not important for members. It is only an aggregate of individuals.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy107",
+        "chapterNo": 7,
+        "page": 128,
+        "section": "Social Loafing"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "social-loafing"
+      ],
+      "order": 640
+    },
+    {
+      "id": "kc.psychology.social-influence-and-group-processes.list-loafing-reduce",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.social-influence-and-group-processes",
+      "chapter": "Social Influence & Group Processes",
+      "unit": "Social Influence and Group Processes",
+      "kind": "list",
+      "front": "Name the ways in which social loafing may be reduced.",
+      "back": "Making the efforts of each person identifiable.\nIncreasing the pressure to work hard (making group members committed to successful task performance).\nIncreasing the apparent importance or value of a task.\nMaking people feel that their individual contribution is important.\nStrengthening group cohesiveness which increases the motivation for successful group outcome.",
+      "quote": "Social loafing may be reduced by: Making the efforts of each person identifiable. Increasing the pressure to work hard (making group members committed to successful task performance). Increasing the apparent importance or value of a task. Making people feel that their individual contribution is important. Strengthening group cohesiveness which increases the motivation for successful group outcome.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy107",
+        "chapterNo": 7,
+        "page": 128,
+        "section": "Social Loafing"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "social-loafing"
+      ],
+      "order": 650
+    },
+    {
       "id": "kc.psychology.social-influence-and-group-processes.def-group-polarisation",
       "v": 1,
       "subject": "psychology",
@@ -14171,6 +14957,60 @@
         "group-polarisation"
       ],
       "order": 660
+    },
+    {
+      "id": "kc.psychology.social-influence-and-group-processes.fact-polarisation-extreme",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.social-influence-and-group-processes",
+      "chapter": "Social Influence & Group Processes",
+      "unit": "Social Influence and Group Processes",
+      "kind": "fact",
+      "front": "Group polarisation: groups are more likely than individuals alone to take what kind of decisions?",
+      "back": "Extreme decisions\nIt has been found that groups are more likely to take extreme decisions than individuals alone.",
+      "quote": "Groups show another tendency referred to as 'group polarisation'. It has been found that groups are more likely to take extreme decisions than individuals alone.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy107",
+        "chapterNo": 7,
+        "page": 129,
+        "section": "Group Polarisation"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "group-polarisation"
+      ],
+      "order": 670
+    },
+    {
+      "id": "kc.psychology.social-influence-and-group-processes.list-polarisation-causes",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.social-influence-and-group-processes",
+      "chapter": "Social Influence & Group Processes",
+      "unit": "Social Influence and Group Processes",
+      "kind": "list",
+      "front": "Name the three reasons why group polarisation occurs.",
+      "back": "In the company of like-minded people, you are likely to hear newer arguments favouring your viewpoints.\nWhen you find others also favouring capital punishment, you feel that this view is validated by the public. This is a sort of bandwagon effect.\nWhen you find people having similar views, you are likely to perceive them as ingroup.",
+      "quote": "Why does group polarisation occur? Let us take an example whether capital punishment should be there. Suppose you favour capital punishment for heinous crimes, what would happen if you were interacting with and discussing this issue with like-minded people? After this interaction, your views may become stronger. This firm conviction is because of the following three reasons: In the company of like-minded people, you are likely to hear newer arguments favouring your viewpoints. This will make you more favourable towards capital punishment. When you find others also favouring capital punishment, you feel that this view is validated by the public. This is a sort of bandwagon effect. When you find people having similar views, you are likely to perceive them as ingroup. You start identifying with the group, begin showing conformity, and as a consequence your views become strengthened.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy107",
+        "chapterNo": 7,
+        "page": 129,
+        "section": "Group Polarisation"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "group-polarisation"
+      ],
+      "order": 700
     },
     {
       "id": "kc.psychology.social-influence-and-group-processes.kl-polarisation-bandwagon",
@@ -14254,6 +15094,34 @@
         "psychotherapy"
       ],
       "order": 40
+    },
+    {
+      "id": "kc.psychology.therapeutic-approaches.fact-therapeutic-relationship-nature",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.therapeutic-approaches",
+      "chapter": "Therapeutic Approaches",
+      "unit": "Therapeutic Approaches",
+      "kind": "fact",
+      "front": "Which three adjectives does NCERT use for the relationship formed between the therapist and the client?",
+      "back": "Confidential, interpersonal and dynamic.\nThis is a confidential, interpersonal, and dynamic relationship.",
+      "quote": "the interaction of these two persons — the therapist and the client — results in the consolidation/formation of the therapeutic relationship. This is a confidential, interpersonal, and dynamic relationship.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy105",
+        "chapterNo": 5,
+        "page": 90,
+        "section": "Nature and Process of Psychotherapy"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "therapeutic-alliance"
+      ],
+      "order": 50,
+      "note": "The therapist-client bond is described as confidential, interpersonal and dynamic."
     },
     {
       "id": "kc.psychology.therapeutic-approaches.list-psychotherapy-goals",
@@ -14447,6 +15315,35 @@
       "order": 120
     },
     {
+      "id": "kc.psychology.therapeutic-approaches.kl-alliance-confidentiality",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.therapeutic-approaches",
+      "chapter": "Therapeutic Approaches",
+      "unit": "Therapeutic Approaches",
+      "kind": "key_line",
+      "front": "The therapeutic alliance also requires that the therapist must keep strict ____ of the experiences, events, feelings or thoughts",
+      "back": "The therapeutic alliance also requires that the therapist must keep strict confidentiality of the experiences, events, feelings or thoughts",
+      "quote": "The therapeutic alliance also requires that the therapist must keep strict confidentiality of the experiences, events, feelings or thoughts",
+      "blanks": [
+        "confidentiality"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy105",
+        "chapterNo": 5,
+        "page": 91,
+        "section": "Therapeutic Relationship"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "therapeutic-alliance"
+      ],
+      "order": 130
+    },
+    {
       "id": "kc.psychology.therapeutic-approaches.types-three-groups",
       "v": 1,
       "subject": "psychology",
@@ -14499,6 +15396,33 @@
         "classification"
       ],
       "order": 150
+    },
+    {
+      "id": "kc.psychology.therapeutic-approaches.list-six-parameters",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.therapeutic-approaches",
+      "chapter": "Therapeutic Approaches",
+      "unit": "Therapeutic Approaches",
+      "kind": "list",
+      "front": "Name the 6 parameters on which psychotherapies are classified.",
+      "back": "What is the cause, which has led to the problem?\nHow did the cause come into existence?\nWhat is the chief method of treatment?\nWhat is the nature of the therapeutic relationship between the client and the therapist?\nWhat is the chief benefit to the client?\nWhat is the duration of treatment?",
+      "quote": "The classification of psychotherapies is based on the following parameters: 1. What is the cause, which has led to the problem? Psychodynamic therapy is of the view that intrapsychic conflicts, i.e. the conflicts that are present within the psyche of the person, are the source of psychological problems. According to behaviour therapies, psychological problems arise due to faulty learning of behaviours and cognitions. The existential therapies postulate that the questions about the meaning of one’s life and existence are the cause of psychological problems. 2. How did the cause come into existence? In the psychodynamic therapy, unfulfilled desires of childhood and unresolved childhood fears lead to intrapsychic conflicts. The behaviour therapy postulates that faulty conditioning patterns, faulty learning, and faulty thinking and beliefs lead to maladaptive behaviours that, in turn, lead to psychological problems. The existential therapy places importance on the present. It is the current feelings of loneliness, alienation, sense of futility of one’s existence, etc., which cause psychological problems. 3. What is the chief method of treatment? Psychodynamic therapy uses the methods of free association and reporting of dreams to elicit the thoughts and feelings of the client. This material is interpreted to the client to help her/him to confront and resolve the conflicts and thus overcome problems. Behaviour therapy identifies the faulty conditioning patterns and sets up alternate behavioural contingencies to improve behaviour. The cognitive methods employed in this type of therapy challenge the faulty thinking patterns of the client to help her/him overcome psychological distress. The existential therapy provides a therapeutic environment which is positive, accepting, and non-judgmental. The client is able to talk about the problems and the therapist acts as a facilitator. The client arrives at the solutions through a process of personal growth. 4. What is the nature of the therapeutic relationship between the client and the therapist? Psychodynamic therapy assumes that the therapist understands the client’s intrapsychic conflicts better than the client and hence it is the therapist who interprets the thoughts and feelings of the client to her/him so that s/he gains an understanding of the same. The behaviour therapy assumes that the therapist is able to discern the faulty behaviour and thought patterns of the client. It further assumes that the therapist is capable of finding out the correct behaviour and thought patterns, which would be adaptive for the client. Both the psychodynamic and the behaviour therapies assume that the therapist is capable of arriving at solutions to the client’s problems. In contrast to these therapies, the existential therapies emphasise that the therapist merely provides a warm, empathic relationship in which the client feels secure to explore the nature and causes of her/ his problems by herself/himself. 5. What is the chief benefit to the client? Psychodynamic therapy values emotional insight as the important benefit that the client derives from the treatment. Emotional insight is present when the client understands her/his conflicts intellectually; is able to accept the same emotionally; and is able to change her/his emotions towards the conflicts. The client’s symptoms and distresses reduce as a consequence of this emotional insight. The behaviour therapy considers changing faulty behaviour and thought patterns to adaptive ones as the chief benefit of the treatment. Instituting adaptive or healthy behaviour and thought patterns ensures reduction of distress and removal of symptoms. The humanistic therapy values personal growth as the chief benefit. Personal growth is the process of gaining increasing understanding of oneself, and one’s aspirations, emotions and motives. 6. What is the duration of treatment?",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy105",
+        "chapterNo": 5,
+        "page": 92,
+        "section": "Type of Therapies"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "classification"
+      ],
+      "order": 160
     },
     {
       "id": "kc.psychology.therapeutic-approaches.diff-param-cause",
@@ -14860,6 +15784,33 @@
         "clinical-formulation"
       ],
       "order": 290
+    },
+    {
+      "id": "kc.psychology.therapeutic-approaches.list-clinical-formulation-advantages",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.therapeutic-approaches",
+      "chapter": "Therapeutic Approaches",
+      "unit": "Therapeutic Approaches",
+      "kind": "list",
+      "front": "Name the 3 advantages of clinical formulation.",
+      "back": "Understanding of the problem\nIdentification of the areas to be targetted for treatment in psychotherapy\nChoice of techniques for treatment",
+      "quote": "The clinical formulation has the following advantages: 1. Understanding of the problem : The therapist is able to understand the full implications of the distress being experienced by the client. 2. Identification of the areas to be targetted for treatment in psychotherapy : The theoretical formulation clearly identifies the problem areas to be targetted for therapy. Thus, if a client seeks help for inability to hold a job and reports inability to face superiors, the clinical formulation in behaviour therapy would state it as lack of assertiveness skills and anxiety. The target areas have thus been identified as inability to assert oneself and heightened anxiety. 3. Choice of techniques for treatment",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy105",
+        "chapterNo": 5,
+        "page": 93,
+        "section": "Steps in the Formulation of a Client's Problem"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "clinical-formulation"
+      ],
+      "order": 300
     },
     {
       "id": "kc.psychology.therapeutic-approaches.kl-behaviour-cause",
@@ -15610,6 +16561,34 @@
       "order": 660
     },
     {
+      "id": "kc.psychology.therapeutic-approaches.fact-beck-core-schemas",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.therapeutic-approaches",
+      "chapter": "Therapeutic Approaches",
+      "unit": "Therapeutic Approaches",
+      "kind": "fact",
+      "front": "In Aaron Beck's theory, childhood experiences provided by the family and society develop what?",
+      "back": "Core schemas or systems.\nchildhood experiences provided by the family and society develop core schemas or systems, which include beliefs and action patterns in the individual.",
+      "quote": "His theory of psychological distress characterised by anxiety or depression, states that childhood experiences provided by the family and society develop core schemas or systems, which include beliefs and action patterns in the individual.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy105",
+        "chapterNo": 5,
+        "page": 97,
+        "section": "Cognitive Therapy"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "cognitive-therapy",
+        "beck"
+      ],
+      "order": 670
+    },
+    {
       "id": "kc.psychology.therapeutic-approaches.ex-beck-core-schema-example",
       "v": 1,
       "subject": "psychology",
@@ -15692,6 +16671,34 @@
         "beck"
       ],
       "order": 700
+    },
+    {
+      "id": "kc.psychology.therapeutic-approaches.fact-dysfunctional-cognitive-structures",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.therapeutic-approaches",
+      "chapter": "Therapeutic Approaches",
+      "unit": "Therapeutic Approaches",
+      "kind": "fact",
+      "front": "Cognitive distortions are general, reality-distorting ways of thinking. What does NCERT call these patterns of thought?",
+      "back": "Dysfunctional cognitive structures.\nThese patterns of thought are called dysfunctional cognitive structures.",
+      "quote": "Cognitive distortions are ways of thinking which are general in nature but which distort the reality in a negative manner. These patterns of thought are called dysfunctional cognitive structures.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy105",
+        "chapterNo": 5,
+        "page": 97,
+        "section": "Cognitive Therapy"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "cognitive-therapy",
+        "beck"
+      ],
+      "order": 710
     },
     {
       "id": "kc.psychology.therapeutic-approaches.kl-beck-disputation",
@@ -15805,6 +16812,33 @@
         "cbt"
       ],
       "order": 770
+    },
+    {
+      "id": "kc.psychology.therapeutic-approaches.fact-humanistic-distress-cause",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.therapeutic-approaches",
+      "chapter": "Therapeutic Approaches",
+      "unit": "Therapeutic Approaches",
+      "kind": "fact",
+      "front": "According to the humanistic-existential therapies, psychological distress arises from which feelings?",
+      "back": "Loneliness, alienation, inability to find meaning and genuine fulfilment.\npsychological distress arises from feelings of loneliness, alienation, and an inability to find meaning and genuine fulfilment in life.",
+      "quote": "The humanistic-existential therapies postulate that psychological distress arises from feelings of loneliness, alienation, and an inability to find meaning and genuine fulfilment in life.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy105",
+        "chapterNo": 5,
+        "page": 98,
+        "section": "Humanistic-existential Therapy"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "humanistic-existential"
+      ],
+      "order": 780
     },
     {
       "id": "kc.psychology.therapeutic-approaches.def-self-actualisation",
@@ -15973,6 +17007,33 @@
       "order": 850
     },
     {
+      "id": "kc.psychology.therapeutic-approaches.fact-spiritual-unconscious",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.therapeutic-approaches",
+      "chapter": "Therapeutic Approaches",
+      "unit": "Therapeutic Approaches",
+      "kind": "fact",
+      "front": "In Frankl's logotherapy, what is the storehouse of love, aesthetic awareness and the values of life?",
+      "back": "The spiritual unconscious.\nthere is a spiritual unconscious, which is the storehouse of love, aesthetic awareness, and values of life.",
+      "quote": "Just as there is an unconscious, which is the repository of instincts (see Chapter 2), there is a spiritual unconscious, which is the storehouse of love, aesthetic awareness, and values of life.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy105",
+        "chapterNo": 5,
+        "page": 99,
+        "section": "Existential Therapy"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "logotherapy"
+      ],
+      "order": 860
+    },
+    {
       "id": "kc.psychology.therapeutic-approaches.fact-logotherapy-transference",
       "v": 1,
       "subject": "psychology",
@@ -16109,6 +17170,33 @@
         "gestalt"
       ],
       "order": 970
+    },
+    {
+      "id": "kc.psychology.therapeutic-approaches.fact-catharsis",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.therapeutic-approaches",
+      "chapter": "Therapeutic Approaches",
+      "unit": "Therapeutic Approaches",
+      "kind": "fact",
+      "front": "In psychotherapy, what is the name for the client unburdening emotional problems in the initial sessions?",
+      "back": "Catharsis.\nThis process of emotional unburdening is known as catharsis, and it has healing properties.",
+      "quote": "s/he unburdens the emotional problems being faced. This process of emotional unburdening is known as catharsis, and it has healing properties.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy105",
+        "chapterNo": 5,
+        "page": 100,
+        "section": "Factors Contributing to Healing in Psychotherapy"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "healing"
+      ],
+      "order": 1000
     },
     {
       "id": "kc.psychology.therapeutic-approaches.def-non-specific-factors",
@@ -17695,6 +18783,34 @@
       "order": 320
     },
     {
+      "id": "kc.psychology.variations-in-psychological-attributes.list-gardner-eight-types",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "list",
+      "front": "Name Gardner's eight types of intelligence.",
+      "back": "Linguistic (an ability to produce and use language)\nLogical-Mathematical (an ability to think logically and critically, and solve problems)\nSpatial (an ability to form visual images and patterns)\nMusical (an ability to produce and manipulate musical rhythms and patterns)\nBodily-Kinaesthetic (an ability to use whole or portions of the body flexibly and creatively)\nInterpersonal (an ability to understand to subtle aspects of others' behaviours)\nIntrapersonal (an ability to understand of one's own feelings, motives, and desires)\nNaturalistic (an ability to identify the features of the natural world)",
+      "quote": "Gardner studied extremely talented persons, who had shown exceptional abilities in their respective areas, and described eight types of intelligence. These are as follows: Linguistic (an ability to produce and use language) : It is the capacity to use language fluently and flexibly to express one’s thinking and understand others. Persons high on this intelligence are ‘word-smart’, i.e. they are sensitive to different shades of word meanings, are articulate, and can create linguistic images in their mind. Poets and writers are very strong in this component of intelligence. Logical-Mathematical (an ability to think logically and critically, and solve problems) : Persons high on this type of intelligence can think logically and critically. They engage in abstract reasoning, and can manipulate symbols to solve mathematical problems. Scientists and Nobel Prize winners are likely to be strong in this component. Spatial (an ability to form visual images and patterns) : It refers to the abilities involved in forming, using, and transforming mental images. The person high on this intelligence can easily represent the spatial world in the mind. Pilots, sailors, sculptors, painters, architects, interior decorators, and surgeons are likely to have highly developed spatial intelligence. Musical (an ability to produce and manipulate musical rhythms and patterns) : It is the capacity to produce, create and manipulate musical patterns. Persons high on this intelligence are very sensitive to sounds and vibrations, and in creating new patterns of sounds. Bodily-Kinaesthetic (an ability to use whole or portions of the body flexibly and creatively) : This consists of the use of the whole body or portions of it for display or construction of products and problem solving. Athletes, dancers, actors, sportspersons, gymnasts, and surgeons are likely to have such kind of intelligence. Interpersonal (an ability to understand to subtle aspects of others’ behaviours) : This is the ability to understand the motives, feelings and behaviours of other people so as to bond into a comfortable relationship with others. Psychologists, counsellors, politicians, social workers, and religious leaders are likely to possess high interpersonal intelligence. Intrapersonal (an ability to understand of one’s own feelings, motives, and desires): This refers to the knowledge of one’s internal strengths and limitations and using that knowledge to effectively relate to others. Persons high on this ability have finer sensibilities regarding their identity, human existence, and meaning of life. Philosophers and spiritual leaders present examples of this type of intelligence. Naturalistic (an ability to identify the features of the natural world) : This involves complete awareness of our relationship with the natural world.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 7,
+        "section": "Theory of Multiple Intelligences"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "theories",
+        "gardner"
+      ],
+      "order": 330
+    },
+    {
       "id": "kc.psychology.variations-in-psychological-attributes.def-gardner-linguistic",
       "v": 1,
       "subject": "psychology",
@@ -18156,6 +19272,33 @@
       "order": 500
     },
     {
+      "id": "kc.psychology.variations-in-psychological-attributes.list-componential-three-components",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "list",
+      "front": "Name the three components of componential intelligence.",
+      "back": "knowledge acquisition component, which is responsible for learning and acquisition of the ways of doing things\nmeta or a higher order component, which involves planning concerning what to do and how to do\nperformance component, which involves actually doing things",
+      "quote": "Componential or analytical intelligence is the analysis of information to solve problems. Persons high on this ability think analytically and critically and succeed in schools. This intelligence has three components, each serving a different function. First is the knowledge acquisition component, which is responsible for learning and acquisition of the ways of doing things. The second is the meta or a higher order component, which involves planning concerning what to do and how to do. The third is the performance component, which involves actually doing things.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 8,
+        "section": "Triarchic Theory of Intelligence"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "sternberg"
+      ],
+      "order": 510
+    },
+    {
       "id": "kc.psychology.variations-in-psychological-attributes.def-experiential",
       "v": 1,
       "subject": "psychology",
@@ -18235,6 +19378,33 @@
         "pass"
       ],
       "order": 540
+    },
+    {
+      "id": "kc.psychology.variations-in-psychological-attributes.fact-pass-functional-units",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "fact",
+      "front": "In the PASS model, what are the three functional units of the brain responsible for, in order?",
+      "back": "Arousal/attention, coding or processing, and planning\nThese units are responsible for arousal/attention, coding or processing, and planning respectively.",
+      "quote": "According to this model, intellectual activity involves the interdependent functioning of three neurological systems, called the functional units of brain. These units are responsible for arousal/attention, coding or processing, and planning respectively.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 9,
+        "section": "PASS Model of Intelligence"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "pass"
+      ],
+      "order": 550
     },
     {
       "id": "kc.psychology.variations-in-psychological-attributes.def-simultaneous-processing",
@@ -18734,6 +19904,61 @@
       "order": 750
     },
     {
+      "id": "kc.psychology.variations-in-psychological-attributes.fact-iq-cutoffs-disability-gifted",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "fact",
+      "front": "Below which IQ is intellectual disability suspected, and above which IQ are persons considered exceptionally talented?",
+      "back": "Below 70; above 130\nThose with IQ below 70 are suspected to have \"intellectual disability\", while persons with IQ above 130 are considered to have exceptional talents.",
+      "quote": "Those with IQ below 70 are suspected to have \"intellectual disability\", while persons with IQ above 130 are considered to have exceptional talents.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 11,
+        "section": "Assessment of Intelligence"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "iq"
+      ],
+      "order": 760
+    },
+    {
+      "id": "kc.psychology.variations-in-psychological-attributes.list-iq-classification-table",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "list",
+      "front": "Classify people on the basis of IQ range (Table 1.1), highest to lowest.",
+      "back": "Above 130 Very superior\n120 – 130 Superior\n110 – 119 High average\n90 – 109 Average\n80 – 89 Low average\n70 – 79 Borderline\nBelow 70 Intellectually disabled",
+      "quote": "Table 1.1 : Classification of People on the Basis of IQ IQ Range Descriptive Label Per cent in the Population Above 130 Very superior 2.2 120 – 130 Superior 6.7 110 – 119 High average 16.1 90 – 109 Average 50.0 80 – 89 Low average 16.1 70 – 79 Borderline 6.7 Below 70 Intellectually disabled 2.2",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 11,
+        "section": "Assessment of Intelligence"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "iq",
+        "table"
+      ],
+      "order": 770
+    },
+    {
       "id": "kc.psychology.variations-in-psychological-attributes.fact-gifted-and-disabled-groups",
       "v": 1,
       "subject": "psychology",
@@ -18786,6 +20011,33 @@
         "intellectual disability"
       ],
       "order": 790
+    },
+    {
+      "id": "kc.psychology.variations-in-psychological-attributes.list-aamd-three-features",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "list",
+      "front": "Name the three basic features of intellectual disability (AAMD definition).",
+      "back": "significantly sub-average intellectual functioning\ndeficits in adaptive behaviour\nthe deficits must be observed during the developmental period, that is between 0 and 18 years of age",
+      "quote": "The American Association on Mental Deficiency (AAMD) views intellectual disability as “significantly sub-average general intellectual functioning existing concurrently with deficits in adaptive behaviour and manifested during the developmental period”. This definition points to three basic features. First, in order to be judged as intellectually disabled, a person must show significantly sub-average intellectual functioning. Persons having IQs below 70 are judged to have sub-average intelligence. The second relates to deficits in adaptive behaviour. Adaptive behaviour refers to a person’s capacity to be independent and deal effectively with one’s environment. The third feature is that the deficits must be observed during the developmental period, that is between 0 and 18 years of age.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 12,
+        "section": "Intellectual Deficiency"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "intellectual disability"
+      ],
+      "order": 800
     },
     {
       "id": "kc.psychology.variations-in-psychological-attributes.def-adaptive-behaviour",
@@ -18950,6 +20202,60 @@
         "giftedness"
       ],
       "order": 870
+    },
+    {
+      "id": "kc.psychology.variations-in-psychological-attributes.list-gifted-early-signs",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "list",
+      "front": "Name the early signs of intellectual superiority shown by gifted children.",
+      "back": "larger attention span\ngood recognition memory\npreference for novelty\nsensitivity to environmental changes\nearly appearance of language skills",
+      "quote": "Gifted children show early signs of intellectual superiority. Even during infancy and early childhood, they show larger attention span, good recognition memory, preference for novelty, sensitivity to environmental changes, and early appearance of language skills.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 13,
+        "section": "Intellectual Giftedness"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "giftedness"
+      ],
+      "order": 880
+    },
+    {
+      "id": "kc.psychology.variations-in-psychological-attributes.list-gifted-characteristics",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "list",
+      "front": "Name the important characteristics of gifted children.",
+      "back": "Advanced logical thinking, questioning and problem solving behaviour.\nHigh speed in processing information.\nSuperior generalisation and discrimination ability.\nAdvanced level of original and creative thinking.\nHigh level of intrinsic motivation and self-esteem.\nIndependent and non-conformist thinking.\nPreference for solitary academic activities for long periods.",
+      "quote": "Some important characteristics of gifted children are : Advanced logical thinking, questioning and problem solving behaviour. High speed in processing information. Superior generalisation and discrimination ability. Advanced level of original and creative thinking. High level of intrinsic motivation and self-esteem. Independent and non-conformist thinking. Preference for solitary academic activities for long periods.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 13,
+        "section": "Intellectual Giftedness"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "giftedness"
+      ],
+      "order": 890
     },
     {
       "id": "kc.psychology.variations-in-psychological-attributes.types-intelligence-test-types",
@@ -19226,6 +20532,34 @@
       "order": 990
     },
     {
+      "id": "kc.psychology.variations-in-psychological-attributes.list-misuses-intelligence-tests",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "list",
+      "front": "Name the ill-effects of intelligence testing by naive testers.",
+      "back": "Poor performance on a test may attach a stigma to children and thereby adversely affect their performance and self-respect.\nThe tests may invite discriminating practices from parents, teachers and elders in the society.\nAdministering a test biased in favour of the middle class and higher class populations may underestimate the IQ of children coming from disadvantaged sections of the society.\nIntelligence tests do not capture creative potentialities and practical side of intelligence, and they also do not relate much to success in life.",
+      "quote": "Some of the ill- effects of intelligence testing by naive testers are: Poor performance on a test may attach a stigma to children and thereby adversely affect their performance and self-respect. The tests may invite discriminating practices from parents, teachers and elders in the society. Administering a test biased in favour of the middle class and higher class populations may underestimate the IQ of children coming from disadvantaged sections of the society. Intelligence tests do not capture creative potentialities and practical side of intelligence, and they also do not relate much to success in life.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 14,
+        "section": "Some Misuses of Intelligence Tests (Box 1.1)"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tests",
+        "misuse"
+      ],
+      "order": 1000
+    },
+    {
       "id": "kc.psychology.variations-in-psychological-attributes.fact-vygotsky-culture",
       "v": 1,
       "subject": "psychology",
@@ -19482,6 +20816,34 @@
       "order": 1100
     },
     {
+      "id": "kc.psychology.variations-in-psychological-attributes.list-indian-facets-of-intelligence",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "list",
+      "front": "Name the facets of intelligence in the Indian tradition.",
+      "back": "Cognitive capacity (sensitivity to context, understanding, discrimination, problem solving, and effective communication).\nSocial competence (respect for social order, commitment to elders, the young and the needy, concern about others, recognising others' perspectives).\nEmotional competence (self-regulation and self-monitoring of emotions, honesty, politeness, good conduct, and self-evaluation).\nEntrepreneurial competence (commitment, persistence, patience, hard work, vigilance, and goal-directed behaviours).",
+      "quote": "Unlike the western views, which primarily focus on cognitive parameters, the following competencies are identified as facets of intelligence in the Indian tradition : Cognitive capacity (sensitivity to context, understanding, discrimination, problem solving, and effective communication). Social competence (respect for social order, commitment to elders, the young and the needy, concern about others, recognising others’ perspectives). Emotional competence (selfregulation and self-monitoring of emotions, honesty, politeness, good conduct, and self-evaluation). Entrepreneurial competence (commitment, persistence, patience, hard work, vigilance, and goal-directed behaviours).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 16,
+        "section": "Intelligence in the Indian Tradition"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "culture",
+        "indian tradition"
+      ],
+      "order": 1110
+    },
+    {
       "id": "kc.psychology.variations-in-psychological-attributes.def-emotional-intelligence",
       "v": 1,
       "subject": "psychology",
@@ -19561,6 +20923,33 @@
         "emotional intelligence"
       ],
       "order": 1140
+    },
+    {
+      "id": "kc.psychology.variations-in-psychological-attributes.list-ei-characteristics",
+      "v": 2,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "list",
+      "front": "Name the characteristics of emotionally intelligent persons (Box 1.2).",
+      "back": "Perceive and be sensitive to your feelings and emotions.\nPerceive and be sensitive to various types of emotions in others by noting their body language, voice and tone, and facial expressions.\nRelate your emotions to your thoughts so that you take them into account while solving problems and taking decisions.\nUnderstand the powerful influence of the nature and intensity of your emotions.\nControl and regulate your emotions and their expressions while dealing with self and others to achieve harmony and peace.",
+      "quote": "Perceive and be sensitive to your feelings and emotions. Perceive and be sensitive to various types of emotions in others by noting their body language, voice and tone, and facial expressions. Relate your emotions to your thoughts so that you take them into account while solving problems and taking decisions. Understand the powerful influence of the nature and intensity of your emotions. Control and regulate your emotions and their expressions while dealing with self and others to achieve harmony and peace.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 17,
+        "section": "Characteristics of Emotionally Intelligent Persons (Box 1.2)"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "emotional intelligence"
+      ],
+      "order": 1150
     },
     {
       "id": "kc.psychology.variations-in-psychological-attributes.diff-interest-vs-aptitude",
@@ -19948,6 +21337,33 @@
         "creativity"
       ],
       "order": 1300
+    },
+    {
+      "id": "kc.psychology.variations-in-psychological-attributes.fact-creativity-intelligence-relation",
+      "v": 1,
+      "subject": "psychology",
+      "chapterKey": "psychology.variations-in-psychological-attributes",
+      "chapter": "Variations in Psychological Attributes",
+      "unit": "Variations in Psychological Attributes",
+      "kind": "fact",
+      "front": "Beyond a certain minimum level of intelligence, how does intelligence relate to creativity?",
+      "back": "It does not correlate well with creativity\nHence, a certain level of intelligence is required for creativity but beyond that intelligence does not correlate well with creativity.",
+      "quote": "Hence, a certain level of intelligence is required for creativity but beyond that intelligence does not correlate well with creativity.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Psychology",
+        "code": "lepy101",
+        "chapterNo": 1,
+        "page": 20,
+        "section": "Creativity and Intelligence"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "creativity"
+      ],
+      "order": 1310
     },
     {
       "id": "kc.psychology.variations-in-psychological-attributes.diff-divergent-vs-convergent",

@@ -2,12 +2,12 @@
   "subject": "sociology",
   "chapters": {
     "sociology.challenges-of-cultural-diversity": {
-      "published": 92,
-      "quarantined": 35,
+      "published": 104,
+      "quarantined": 23,
       "byKind": {
         "key_line": 19,
         "definition": 24,
-        "fact": 37,
+        "fact": 49,
         "types": 1,
         "list": 7,
         "example": 2,
@@ -15,18 +15,18 @@
         "difference": 1
       },
       "byImportance": {
-        "must": 29,
-        "good": 63
+        "must": 32,
+        "good": 72
       },
       "coverage_note": null,
-      "mustShare": 0.32,
+      "mustShare": 0.31,
       "belowMinimum": false
     },
     "sociology.change-and-development-in-industrial-society": {
-      "published": 79,
-      "quarantined": 19,
+      "published": 84,
+      "quarantined": 14,
       "byKind": {
-        "fact": 43,
+        "fact": 48,
         "key_line": 19,
         "types": 2,
         "definition": 4,
@@ -37,18 +37,18 @@
         "difference": 1
       },
       "byImportance": {
-        "must": 20,
-        "good": 59
+        "must": 21,
+        "good": 63
       },
       "coverage_note": null,
       "mustShare": 0.25,
       "belowMinimum": false
     },
     "sociology.change-and-development-in-rural-society": {
-      "published": 86,
-      "quarantined": 18,
+      "published": 91,
+      "quarantined": 13,
       "byKind": {
-        "fact": 55,
+        "fact": 60,
         "key_line": 6,
         "definition": 13,
         "term": 3,
@@ -56,19 +56,19 @@
         "difference": 1
       },
       "byImportance": {
-        "must": 19,
-        "good": 67
+        "must": 20,
+        "good": 71
       },
       "coverage_note": null,
       "mustShare": 0.22,
       "belowMinimum": false
     },
     "sociology.cultural-change": {
-      "published": 69,
-      "quarantined": 37,
+      "published": 81,
+      "quarantined": 25,
       "byKind": {
         "definition": 7,
-        "fact": 24,
+        "fact": 36,
         "types": 2,
         "list": 5,
         "key_line": 23,
@@ -78,18 +78,18 @@
       },
       "byImportance": {
         "must": 16,
-        "good": 53
+        "good": 65
       },
       "coverage_note": null,
-      "mustShare": 0.23,
+      "mustShare": 0.2,
       "belowMinimum": false
     },
     "sociology.demographic-structure": {
-      "published": 116,
-      "quarantined": 9,
+      "published": 117,
+      "quarantined": 8,
       "byKind": {
         "definition": 22,
-        "fact": 82,
+        "fact": 83,
         "list": 5,
         "difference": 2,
         "key_line": 3,
@@ -98,18 +98,18 @@
       },
       "byImportance": {
         "must": 31,
-        "good": 85
+        "good": 86
       },
       "coverage_note": null,
-      "mustShare": 0.27,
+      "mustShare": 0.26,
       "belowMinimum": false
     },
     "sociology.globalisation-and-social-change": {
-      "published": 61,
-      "quarantined": 67,
+      "published": 78,
+      "quarantined": 50,
       "byKind": {
-        "fact": 17,
-        "key_line": 20,
+        "fact": 33,
+        "key_line": 21,
         "types": 1,
         "definition": 11,
         "term": 1,
@@ -119,137 +119,137 @@
         "difference": 1
       },
       "byImportance": {
-        "must": 20,
-        "good": 41
+        "must": 26,
+        "good": 52
       },
       "coverage_note": null,
       "mustShare": 0.33,
       "belowMinimum": false
     },
     "sociology.introducing-indian-society": {
-      "published": 8,
-      "quarantined": 31,
+      "published": 12,
+      "quarantined": 27,
       "byKind": {
+        "fact": 5,
         "key_line": 3,
         "types": 1,
-        "definition": 3,
-        "fact": 1
+        "definition": 3
       },
       "byImportance": {
-        "must": 6,
-        "good": 2
+        "must": 7,
+        "good": 5
       },
       "coverage_note": null,
-      "mustShare": 0.75,
+      "mustShare": 0.58,
       "belowMinimum": true
     },
     "sociology.market-as-a-social-institution": {
-      "published": 32,
-      "quarantined": 26,
+      "published": 45,
+      "quarantined": 13,
       "byKind": {
         "key_line": 5,
         "types": 3,
-        "fact": 12,
+        "fact": 25,
         "term": 1,
         "definition": 5,
         "example": 5,
         "steps": 1
       },
       "byImportance": {
-        "must": 10,
-        "good": 22
+        "must": 12,
+        "good": 33
       },
       "coverage_note": null,
-      "mustShare": 0.31,
+      "mustShare": 0.27,
       "belowMinimum": false
     },
     "sociology.mass-media-and-communications": {
-      "published": 77,
-      "quarantined": 48,
+      "published": 84,
+      "quarantined": 41,
       "byKind": {
         "list": 6,
-        "fact": 55,
+        "definition": 4,
+        "fact": 61,
         "types": 5,
         "key_line": 7,
-        "definition": 3,
         "term": 1
       },
       "byImportance": {
-        "must": 23,
-        "good": 54
+        "must": 27,
+        "good": 57
       },
       "coverage_note": null,
-      "mustShare": 0.3,
+      "mustShare": 0.32,
       "belowMinimum": false
     },
     "sociology.patterns-of-social-inequality": {
-      "published": 121,
-      "quarantined": 46,
+      "published": 137,
+      "quarantined": 30,
       "byKind": {
-        "list": 13,
+        "fact": 69,
+        "list": 15,
         "types": 1,
         "example": 2,
         "definition": 10,
         "key_line": 37,
-        "fact": 55,
         "term": 1,
         "difference": 2
       },
       "byImportance": {
-        "must": 31,
-        "good": 90
+        "must": 35,
+        "good": 102
       },
       "coverage_note": null,
       "mustShare": 0.26,
       "belowMinimum": false
     },
     "sociology.social-institutions": {
-      "published": 70,
-      "quarantined": 21,
+      "published": 74,
+      "quarantined": 17,
       "byKind": {
-        "fact": 30,
+        "fact": 33,
         "definition": 7,
         "difference": 6,
+        "list": 5,
         "key_line": 13,
         "term": 2,
         "types": 6,
-        "list": 4,
         "example": 1,
         "quote": 1
       },
       "byImportance": {
-        "must": 18,
-        "good": 52
+        "must": 19,
+        "good": 55
       },
       "coverage_note": null,
       "mustShare": 0.26,
       "belowMinimum": false
     },
     "sociology.social-movements": {
-      "published": 75,
-      "quarantined": 47,
+      "published": 92,
+      "quarantined": 30,
       "byKind": {
         "definition": 8,
         "list": 10,
+        "fact": 44,
         "key_line": 23,
         "example": 6,
-        "types": 1,
-        "fact": 27
+        "types": 1
       },
       "byImportance": {
-        "must": 26,
-        "good": 49
+        "must": 27,
+        "good": 65
       },
       "coverage_note": null,
-      "mustShare": 0.35,
+      "mustShare": 0.29,
       "belowMinimum": false
     },
     "sociology.story-of-indian-democracy": {
-      "published": 51,
-      "quarantined": 17,
+      "published": 55,
+      "quarantined": 13,
       "byKind": {
         "key_line": 7,
-        "fact": 31,
+        "fact": 35,
         "definition": 5,
         "list": 6,
         "term": 1,
@@ -257,28 +257,29 @@
       },
       "byImportance": {
         "must": 12,
-        "good": 39
+        "good": 43
       },
       "coverage_note": null,
-      "mustShare": 0.24,
+      "mustShare": 0.22,
       "belowMinimum": false
     },
     "sociology.structural-change": {
-      "published": 46,
-      "quarantined": 20,
+      "published": 48,
+      "quarantined": 18,
       "byKind": {
         "definition": 5,
         "key_line": 10,
         "list": 2,
-        "fact": 28,
+        "fact": 29,
+        "types": 1,
         "difference": 1
       },
       "byImportance": {
-        "must": 10,
-        "good": 36
+        "must": 11,
+        "good": 37
       },
       "coverage_note": null,
-      "mustShare": 0.22,
+      "mustShare": 0.23,
       "belowMinimum": false
     }
   }

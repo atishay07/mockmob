@@ -1,6 +1,6 @@
 {
   "subject": "physics",
-  "version": 1,
+  "version": 2,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -143,6 +143,33 @@
       "order": 70
     },
     {
+      "id": "kc.physics.alternating-current.fact-joule-heating-ac",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.alternating-current",
+      "chapter": "Alternating Current",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "fact",
+      "front": "What is produced, along with dissipation of electrical energy, when an ac current passes through a resistor?",
+      "back": "Joule heating\nThus, there is Joule heating and dissipation of electrical energy when an ac current passes through a resistor.",
+      "quote": "Thus, there is Joule heating and dissipation of electrical energy when an ac current passes through a resistor.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph107",
+        "chapterNo": 7,
+        "page": 179,
+        "section": "AC voltage applied to a resistor"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "joule heating"
+      ],
+      "order": 80
+    },
+    {
       "id": "kc.physics.alternating-current.def-rms-current",
       "v": 1,
       "subject": "physics",
@@ -168,6 +195,33 @@
         "rms"
       ],
       "order": 90
+    },
+    {
+      "id": "kc.physics.alternating-current.fact-customary-rms",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.alternating-current",
+      "chapter": "Alternating Current",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "fact",
+      "front": "Which values are customarily measured and specified for ac quantities?",
+      "back": "rms values\nIt is customary to measure and specify rms values for ac quantities.",
+      "quote": "It is customary to measure and specify rms values for ac quantities.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph107",
+        "chapterNo": 7,
+        "page": 180,
+        "section": "AC voltage applied to a resistor"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "rms"
+      ],
+      "order": 100
     },
     {
       "id": "kc.physics.alternating-current.def-ac-ampere",
@@ -448,6 +502,36 @@
         "inductive reactance"
       ],
       "order": 200
+    },
+    {
+      "id": "kc.physics.alternating-current.key-inductor-average-power-zero",
+      "v": 2,
+      "subject": "physics",
+      "chapterKey": "physics.alternating-current",
+      "chapter": "Alternating Current",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "key_line",
+      "front": "The average power supplied to an inductor over one complete cycle is ____.",
+      "back": "The average power supplied to an inductor over one complete cycle is zero.",
+      "quote": "The average power supplied to an inductor over one complete cycle is zero.",
+      "blanks": [
+        "zero"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph107",
+        "chapterNo": 7,
+        "page": 196,
+        "section": "AC voltage applied to an inductor"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "inductor",
+        "power"
+      ],
+      "order": 220
     },
     {
       "id": "kc.physics.alternating-current.fact-capacitor-dc-current-zero",
@@ -754,6 +838,60 @@
         "resonance"
       ],
       "order": 390
+    },
+    {
+      "id": "kc.physics.alternating-current.fact-resonance-needs-l-and-c",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.alternating-current",
+      "chapter": "Alternating Current",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "fact",
+      "front": "Which circuit elements must both be present for a circuit to exhibit resonance?",
+      "back": "Both L and C (the inductor and the capacitor)\nIt is important to note that resonance phenomenon is exhibited by a circuit only if both L and C are present in the circuit.",
+      "quote": "It is important to note that resonance phenomenon is exhibited by a circuit only if both L and C are present in the circuit.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph107",
+        "chapterNo": 7,
+        "page": 189,
+        "section": "Resonance"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "resonance"
+      ],
+      "order": 400
+    },
+    {
+      "id": "kc.physics.alternating-current.fact-no-resonance-rl-rc",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.alternating-current",
+      "chapter": "Alternating Current",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "fact",
+      "front": "Can we have resonance in an RL circuit or in an RC circuit?",
+      "back": "No\nThis means that we cannot have resonance in a RL or RC circuit.",
+      "quote": "This means that we cannot have resonance in a RL or RC circuit.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph107",
+        "chapterNo": 7,
+        "page": 189,
+        "section": "Resonance"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "resonance"
+      ],
+      "order": 410
     },
     {
       "id": "kc.physics.alternating-current.fact-radio-tuning",
@@ -2531,6 +2669,34 @@
       "order": 480
     },
     {
+      "id": "kc.physics.atoms.def-stationary-states",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.atoms",
+      "chapter": "Atoms",
+      "unit": "Atoms and Nuclei",
+      "kind": "definition",
+      "front": "Define the stationary states of an atom (Bohr's first postulate).",
+      "back": "Each atom has certain definite stable states in which it can exist, and each possible state has definite total energy. These are called the stationary states of the atom.",
+      "quote": "each atom has certain definite stable states in which it can exist, and each possible state has definite total energy. These are called the stationary states of the atom.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph204",
+        "chapterNo": 12,
+        "page": 298,
+        "section": "Bohr Model of the Hydrogen Atom"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "bohr",
+        "postulates"
+      ],
+      "order": 490
+    },
+    {
       "id": "kc.physics.atoms.def-postulate-2",
       "v": 1,
       "subject": "physics",
@@ -3802,6 +3968,61 @@
       "order": 100
     },
     {
+      "id": "kc.physics.current-electricity.fact-collision-direction-random",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.current-electricity",
+      "chapter": "Current Electricity",
+      "unit": "Current Electricity",
+      "kind": "fact",
+      "front": "After an electron collides with a fixed ion, what is the direction of its velocity?",
+      "back": "the direction of its velocity after the collision is completely random.",
+      "quote": "However, the direction of its velocity after the collision is completely random.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph103",
+        "chapterNo": 3,
+        "page": 82,
+        "section": "Electric currents in conductors"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "electrons",
+        "collision"
+      ],
+      "order": 110
+    },
+    {
+      "id": "kc.physics.current-electricity.fact-no-net-current-no-field",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.current-electricity",
+      "chapter": "Current Electricity",
+      "unit": "Current Electricity",
+      "kind": "fact",
+      "front": "With no electric field applied, why is there no net electric current in a conductor?",
+      "back": "the number of electrons travelling in any direction will be equal to the number of electrons travelling in the opposite direction. So, there will be no net electric current.",
+      "quote": "the number of electrons travelling in any direction will be equal to the number of electrons travelling in the opposite direction. So, there will be no net electric current.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph103",
+        "chapterNo": 3,
+        "page": 82,
+        "section": "Electric currents in conductors"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "electrons"
+      ],
+      "order": 120
+    },
+    {
       "id": "kc.physics.current-electricity.key-steady-field-sources",
       "v": 1,
       "subject": "physics",
@@ -3945,6 +4166,60 @@
       "order": 170
     },
     {
+      "id": "kc.physics.current-electricity.fact-double-length-resistance",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.current-electricity",
+      "chapter": "Current Electricity",
+      "unit": "Current Electricity",
+      "kind": "fact",
+      "front": "What happens to the resistance of a conductor when its length is doubled?",
+      "back": "doubling the length of a conductor doubles the resistance.",
+      "quote": "Thus, doubling the length of a conductor doubles the resistance.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph103",
+        "chapterNo": 3,
+        "page": 84,
+        "section": "Ohm's law"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "resistance"
+      ],
+      "order": 180
+    },
+    {
+      "id": "kc.physics.current-electricity.fact-halve-area-resistance",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.current-electricity",
+      "chapter": "Current Electricity",
+      "unit": "Current Electricity",
+      "kind": "fact",
+      "front": "What happens to the resistance of a conductor when the area of its cross-section is halved?",
+      "back": "halving the area of the cross-section of a conductor doubles the resistance.",
+      "quote": "Thus, halving the area of the cross-section of a conductor doubles the resistance.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph103",
+        "chapterNo": 3,
+        "page": 84,
+        "section": "Ohm's law"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "resistance"
+      ],
+      "order": 190
+    },
+    {
       "id": "kc.physics.current-electricity.fact-resistance-prop-length",
       "v": 1,
       "subject": "physics",
@@ -4080,6 +4355,33 @@
         "drift"
       ],
       "order": 250
+    },
+    {
+      "id": "kc.physics.current-electricity.fact-drift-average-velocity",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.current-electricity",
+      "chapter": "Current Electricity",
+      "unit": "Current Electricity",
+      "kind": "fact",
+      "front": "Although electrons in a conductor are accelerated by the field, what is surprising about the average velocity they move with?",
+      "back": "the electrons move with an average velocity which is independent of time, although electrons are accelerated.",
+      "quote": "It tells us that the electrons move with an average velocity which is independent of time, although electrons are accelerated.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph103",
+        "chapterNo": 3,
+        "page": 86,
+        "section": "Drift of electrons and the origin of resistivity"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "drift"
+      ],
+      "order": 260
     },
     {
       "id": "kc.physics.current-electricity.fact-drift-direction",
@@ -4248,6 +4550,33 @@
         "charge carriers"
       ],
       "order": 340
+    },
+    {
+      "id": "kc.physics.current-electricity.fact-ohm-law-limit",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.current-electricity",
+      "chapter": "Current Electricity",
+      "unit": "Current Electricity",
+      "kind": "fact",
+      "front": "Ohm's law is valid for a large class of materials; what does not hold for some materials and devices in circuits?",
+      "back": "Although Ohm's law has been found valid over a large class of materials, there do exist materials and devices used in electric circuits where the proportionality of V and I does not hold",
+      "quote": "Although Ohm's law has been found valid over a large class of materials, there do exist materials and devices used in electric circuits where the proportionality of V and I does not hold",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph103",
+        "chapterNo": 3,
+        "page": 89,
+        "section": "Limitations of Ohm's law"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "ohms law"
+      ],
+      "order": 350
     },
     {
       "id": "kc.physics.current-electricity.types-ohm-fails-types",
@@ -4900,6 +5229,34 @@
       "order": 600
     },
     {
+      "id": "kc.physics.current-electricity.fact-cell-chemical-energy",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.current-electricity",
+      "chapter": "Current Electricity",
+      "unit": "Current Electricity",
+      "kind": "fact",
+      "front": "In a simple circuit with a cell, what supplies the power dissipated in the conductor?",
+      "back": "In the simple circuit shown with a cell (Fig.3.11), it is the chemical energy of the cell which supplies this power for as long as it can.",
+      "quote": "In the simple circuit shown with a cell (Fig.3.11), it is the chemical energy of the cell which supplies this power for as long as it can.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph103",
+        "chapterNo": 3,
+        "page": 93,
+        "section": "Electrical energy, power"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "power",
+        "cell"
+      ],
+      "order": 620
+    },
+    {
       "id": "kc.physics.current-electricity.key-transformer-lowers",
       "v": 1,
       "subject": "physics",
@@ -5329,6 +5686,33 @@
       "order": 810
     },
     {
+      "id": "kc.physics.current-electricity.fact-loop-total-change-zero",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.current-electricity",
+      "chapter": "Current Electricity",
+      "unit": "Current Electricity",
+      "kind": "fact",
+      "front": "Starting with any point of a closed loop and coming back to the same point, what must the total change in potential be?",
+      "back": "Thus starting with any point if we come back to the same point, the total change must be zero.",
+      "quote": "Thus starting with any point if we come back to the same point, the total change must be zero.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph103",
+        "chapterNo": 3,
+        "page": 98,
+        "section": "Kirchhoff's rules"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "kirchhoff"
+      ],
+      "order": 820
+    },
+    {
       "id": "kc.physics.current-electricity.key-junction-conservation-charge",
       "v": 1,
       "subject": "physics",
@@ -5495,6 +5879,33 @@
       "order": 30
     },
     {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.types-electron-emission-processes",
+      "v": 2,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "types",
+      "front": "Name the three physical processes that supply the energy for electron emission from a metal.",
+      "back": "Thermionic emission\nField emission\nPhotoelectric emission",
+      "quote": "(i) Thermionic emission: By suitably heating, sufficient thermal energy can be imparted to the free electrons to enable them to come out of the metal. (ii) Field emission: By applying a very strong electric field (of the order of 108 V m–1) to a metal, electrons can be pulled out of the metal, as in a spark plug. (iii) Photoelectric emission: When light of suitable frequency illuminates a metal surface, electrons are emitted from the metal surface. These photo(light)-generated electrons are called photoelectrons.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 275,
+        "section": "Electron emission"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "electron emission"
+      ],
+      "order": 40
+    },
+    {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.term-thermionic",
       "v": 1,
       "subject": "physics",
@@ -5522,6 +5933,33 @@
         "electron emission"
       ],
       "order": 50
+    },
+    {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.def-photoelectrons",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "definition",
+      "front": "What are photoelectrons?",
+      "back": "When light of suitable frequency illuminates a metal surface, electrons are emitted from the metal surface. These photo(light)-generated electrons are called photoelectrons.",
+      "quote": "When light of suitable frequency illuminates a metal surface, electrons are emitted from the metal surface. These photo(light)-generated electrons are called photoelectrons.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 276,
+        "section": "Electron emission"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "photoelectric effect"
+      ],
+      "order": 70
     },
     {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-hertz-1887",
@@ -5604,6 +6042,33 @@
         "threshold frequency"
       ],
       "order": 150
+    },
+    {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-threshold-depends-material",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "fact",
+      "front": "On what does the threshold frequency depend?",
+      "back": "Hallwachs and Lenard also observed that when ultraviolet light fell on the emitter plate, no electrons were emitted at all when the frequency of the incident light was smaller than a certain minimum value, called the threshold frequency. This minimum frequency depends on the nature of the material of the emitter plate.",
+      "quote": "Hallwachs and Lenard also observed that when ultraviolet light fell on the emitter plate, no electrons were emitted at all when the frequency of the incident light was smaller than a certain minimum value, called the threshold frequency. This minimum frequency depends on the nature of the material of the emitter plate.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 277,
+        "section": "Hallwachs' and Lenard's observations"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "threshold frequency"
+      ],
+      "order": 160
     },
     {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-uv-only-metals",
@@ -5773,6 +6238,60 @@
       "order": 270
     },
     {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-photocurrent-linear-intensity",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "fact",
+      "front": "With frequency and potential fixed, how does photocurrent vary with the intensity of incident light?",
+      "back": "Keeping the frequency of the incident radiation and the potential fixed, the intensity of light is varied and the resulting photoelectric current is measured each time. It is found that the photocurrent increases linearly with intensity of incident light",
+      "quote": "Keeping the frequency of the incident radiation and the potential fixed, the intensity of light is varied and the resulting photoelectric current is measured each time. It is found that the photocurrent increases linearly with intensity of incident light",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 278,
+        "section": "Experimental study of photoelectric effect"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "intensity"
+      ],
+      "order": 280
+    },
+    {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-number-proportional-intensity",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "fact",
+      "front": "How is the number of photoelectrons emitted per second related to the intensity of incident radiation?",
+      "back": "The photocurrent is directly proportional to the number of photoelectrons emitted per second. This implies that the number of photoelectrons emitted per second is directly proportional to the intensity of incident radiation.",
+      "quote": "The photocurrent is directly proportional to the number of photoelectrons emitted per second. This implies that the number of photoelectrons emitted per second is directly proportional to the intensity of incident radiation.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 278,
+        "section": "Experimental study of photoelectric effect"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "intensity"
+      ],
+      "order": 290
+    },
+    {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.def-saturation-current",
       "v": 1,
       "subject": "physics",
@@ -5827,6 +6346,33 @@
         "photoelectrons"
       ],
       "order": 340
+    },
+    {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-stopping-potential-independent-intensity",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "fact",
+      "front": "For a given frequency of incident radiation, how does the stopping potential depend on its intensity?",
+      "back": "For a given frequency of the incident radiation, the stopping potential is independent of its intensity.",
+      "quote": "for a given frequency of the incident radiation, the stopping potential is independent of its intensity.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 279,
+        "section": "Experimental study of photoelectric effect"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "stopping potential"
+      ],
+      "order": 350
     },
     {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.kl-same-saturation-current",
@@ -5885,6 +6431,33 @@
         "frequency"
       ],
       "order": 390
+    },
+    {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-greater-frequency-greater-kmax",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "fact",
+      "front": "How does the maximum kinetic energy of photoelectrons change with the frequency of incident light?",
+      "back": "Greater the frequency of incident light, greater is the maximum kinetic energy of the photoelectrons.",
+      "quote": "greater the frequency of incident light, greater is the maximum kinetic energy of the photoelectrons.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 279,
+        "section": "Experimental study of photoelectric effect"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "frequency"
+      ],
+      "order": 400
     },
     {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.kl-v0-frequency-straight-line",
@@ -5973,6 +6546,33 @@
       "order": 430
     },
     {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-instantaneous",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "fact",
+      "front": "If the frequency exceeds the threshold frequency, how soon does photoelectric emission start?",
+      "back": "If frequency of the incident radiation exceeds the threshold frequency, the photoelectric emission starts instantaneously without any apparent time lag, even if the incident radiation is very dim.",
+      "quote": "if frequency of the incident radiation exceeds the threshold frequency, the photoelectric emission starts instantaneously without any apparent time lag, even if the incident radiation is very dim.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 280,
+        "section": "Experimental study of photoelectric effect"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "time lag"
+      ],
+      "order": 460
+    },
+    {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.list-photocurrent-depends-on",
       "v": 1,
       "subject": "physics",
@@ -6027,6 +6627,33 @@
       "order": 490
     },
     {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-wave-continuous-absorption",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "fact",
+      "front": "According to the wave picture of light, how do free electrons at a metal surface absorb radiant energy?",
+      "back": "According to the wave picture of light, the free electrons at the surface of the metal (over which the beam of radiation falls) absorb the radiant energy continuously.",
+      "quote": "According to the wave picture of light, the free electrons at the surface of the metal (over which the beam of radiation falls) absorb the radiant energy continuously.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 281,
+        "section": "Photoelectric effect and wave theory of light"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "wave theory"
+      ],
+      "order": 500
+    },
+    {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.kl-wave-kmax-intensity",
       "v": 1,
       "subject": "physics",
@@ -6054,6 +6681,60 @@
         "wave theory"
       ],
       "order": 510
+    },
+    {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-wave-no-threshold",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "fact",
+      "front": "According to the wave picture of light, should a threshold frequency exist for photoelectric emission?",
+      "back": "No matter what the frequency of radiation is, a sufficiently intense beam of radiation (over sufficient time) should be able to impart enough energy to the electrons, so that they exceed the minimum energy needed to escape from the metal surface. A threshold frequency, therefore, should not exist.",
+      "quote": "no matter what the frequency of radiation is, a sufficiently intense beam of radiation (over sufficient time) should be able to impart enough energy to the electrons, so that they exceed the minimum energy needed to escape from the metal surface . A threshold frequency, therefore, should not exist.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 281,
+        "section": "Photoelectric effect and wave theory of light"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "wave theory"
+      ],
+      "order": 520
+    },
+    {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-wave-hours",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "fact",
+      "front": "In the wave picture, how long can it take for a single electron to gain enough energy to leave the metal?",
+      "back": "Explicit calculations estimate that it can take hours or more for a single electron to pick up sufficient energy to overcome the work function and come out of the metal.",
+      "quote": "Explicit calculations estimate that it can take hours or more for a single electron to pick up sufficient energy to overcome the work function and come out of the metal.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 281,
+        "section": "Photoelectric effect and wave theory of light"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "wave theory"
+      ],
+      "order": 530
     },
     {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.kl-wave-unable",
@@ -6168,6 +6849,33 @@
         "intensity"
       ],
       "order": 580
+    },
+    {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-single-quantum-single-electron",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "fact",
+      "front": "In Einstein's picture, photoelectric effect arises from the absorption of what by what?",
+      "back": "In Einstein's picture, photoelectric effect arises from the absorption of a single quantum of radiation by a single electron.",
+      "quote": "in Einstein's picture, photoelectric effect arises from the absorption of a single quantum of radiation by a single electron.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 282,
+        "section": "Einstein's photoelectric equation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "Einstein"
+      ],
+      "order": 600
     },
     {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.kl-low-intensity-no-delay",
@@ -6340,6 +7048,33 @@
       "order": 680
     },
     {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-photon-named",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "fact",
+      "front": "What name was later given to the particle associated with the light quantum?",
+      "back": "A definite value of energy as well as momentum is a strong sign that the light quantum can be associated with a particle. This particle was later named photon.",
+      "quote": "A definite value of energy as well as momentum is a strong sign that the light quantum can be associated with a particle. This particle was later named photon.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 283,
+        "section": "Particle nature of light: the photon"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "photon"
+      ],
+      "order": 700
+    },
+    {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-compton-1924",
       "v": 1,
       "subject": "physics",
@@ -6396,6 +7131,33 @@
       "order": 720
     },
     {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-photon-energy-independent-intensity",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "fact",
+      "front": "How does the energy of a photon depend on the intensity of radiation?",
+      "back": "By increasing the intensity of light of given wavelength, there is only an increase in the number of photons per second crossing a given area, with each photon having the same energy. Thus, photon energy is independent of intensity of radiation.",
+      "quote": "By increasing the intensity of light of given wavelength, there is only an increase in the number of photons per second crossing a given area, with each photon having the same energy. Thus, photon energy is independent of intensity of radiation.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 283,
+        "section": "Particle nature of light: the photon"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "photon"
+      ],
+      "order": 730
+    },
+    {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.kl-photon-neutral",
       "v": 1,
       "subject": "physics",
@@ -6425,6 +7187,33 @@
       "order": 740
     },
     {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-photon-collision",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "fact",
+      "front": "In a photon-particle collision, total energy and momentum are conserved; which quantity may not be?",
+      "back": "In a photon-particle collision (such as photon-electron collision), the total energy and total momentum are conserved. However, the number of photons may not be conserved in a collision.",
+      "quote": "In a photon-particle collision (such as photon-electron collision), the total energy and total momentum are conserved. However, the number of photons may not be conserved in a collision.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 283,
+        "section": "Particle nature of light: the photon"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "photon"
+      ],
+      "order": 750
+    },
+    {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.list-wave-nature-light-phenomena",
       "v": 1,
       "subject": "physics",
@@ -6450,6 +7239,33 @@
         "wave nature"
       ],
       "order": 760
+    },
+    {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-particle-nature-light",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "fact",
+      "front": "In which two effects, involving energy and momentum transfer, does radiation behave as a bunch of photons?",
+      "back": "The wave nature of light shows up in the phenomena of interference, diffraction and polarisation. On the other hand, in photoelectric effect and Compton effect which involve energy and momentum transfer, radiation behaves as if it is made up of a bunch of particles – the photons.",
+      "quote": "The wave nature of light shows up in the phenomena of interference, diffraction and polarisation. On the other hand, in photoelectric effect and Compton effect which involve energy and momentum transfer, radiation behaves as if it is made up of a bunch of particles – the photons.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 284,
+        "section": "Wave nature of matter"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "dual nature"
+      ],
+      "order": 770
     },
     {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.kl-wave-or-particle-depends-experiment",
@@ -6593,6 +7409,87 @@
       ],
       "order": 840,
       "note": "The wavelength depends only on the particle's momentum (mass and speed), not on its charge."
+    },
+    {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-macroscopic-no-wave",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "fact",
+      "front": "Why do macroscopic objects in daily life not show wave-like properties (de Broglie wavelength of a ball)?",
+      "back": "This wavelength is so small that it is beyond any measurement. This is the reason why macroscopic objects in our daily life do not show wavelike properties.",
+      "quote": "This wavelength is so small that it is beyond any measurement. This is the reason why macroscopic objects in our daily life do not show wavelike properties.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 286,
+        "section": "Wave nature of matter"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "de Broglie"
+      ],
+      "order": 850
+    },
+    {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-subatomic-wave-measurable",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "fact",
+      "front": "In which domain is the wave character of particles significant and measurable?",
+      "back": "In the sub-atomic domain, the wave character of particles is significant and measurable.",
+      "quote": "in the sub-atomic domain, the wave character of particles is significant and measurable.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 286,
+        "section": "Wave nature of matter"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "de Broglie"
+      ],
+      "order": 860
+    },
+    {
+      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-stopping-potential-discriminator",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
+      "chapter": "Dual Nature of Radiation & Matter",
+      "unit": "Dual Nature of Matter and Radiation",
+      "kind": "fact",
+      "front": "What is the crucial discriminator between the wave-picture and photon-picture of photoelectric effect?",
+      "back": "Observations on the stopping potential (its independence of intensity and dependence on frequency) are the crucial discriminator between the wave-picture and photon-picture of photoelectric effect.",
+      "quote": "Observations on the stopping potential (its independence of intensity and dependence on frequency) are the crucial discriminator between the wave-picture and photon-picture of photoelectric effect.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph203",
+        "chapterNo": 11,
+        "page": 288,
+        "section": "Points to ponder"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "stopping potential"
+      ],
+      "order": 900
     },
     {
       "id": "kc.physics.electric-charges-and-fields.def-electrostatics",
@@ -7348,6 +8245,33 @@
       "order": 330
     },
     {
+      "id": "kc.physics.electric-charges-and-fields.fact-basic-unit-of-charge",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electric-charges-and-fields",
+      "chapter": "Electric Charges & Fields",
+      "unit": "Electrostatics",
+      "kind": "fact",
+      "front": "The basic unit of charge e is the charge carried by which particles?",
+      "back": "This basic unit of charge is the charge that an electron or proton carries.",
+      "quote": "This basic unit of charge is the charge that an electron or proton carries.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 1",
+        "code": "leph101",
+        "chapterNo": 1,
+        "page": 5,
+        "section": "Quantisation of charge"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "quantisation"
+      ],
+      "order": 340
+    },
+    {
       "id": "kc.physics.electric-charges-and-fields.fact-quantisation-faraday",
       "v": 1,
       "subject": "physics",
@@ -7456,6 +8380,33 @@
         "unit"
       ],
       "order": 380
+    },
+    {
+      "id": "kc.physics.electric-charges-and-fields.fact-quantisation-macroscopic",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electric-charges-and-fields",
+      "chapter": "Electric Charges & Fields",
+      "unit": "Electrostatics",
+      "kind": "fact",
+      "front": "What does NCERT say about the quantisation of charge at the macroscopic level?",
+      "back": "Thus, at the macroscopic level, the quantisation of charge has no practical consequence and can be ignored.",
+      "quote": "Thus, at the macroscopic level, the quantisation of charge has no practical consequence and can be ignored.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 1",
+        "code": "leph101",
+        "chapterNo": 1,
+        "page": 6,
+        "section": "Quantisation of charge"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "quantisation"
+      ],
+      "order": 390
     },
     {
       "id": "kc.physics.electric-charges-and-fields.fact-microscopic-quantisation",
@@ -7592,6 +8543,60 @@
         "coulombs-law"
       ],
       "order": 440
+    },
+    {
+      "id": "kc.physics.electric-charges-and-fields.fact-coulomb-newton-third",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electric-charges-and-fields",
+      "chapter": "Electric Charges & Fields",
+      "unit": "Electrostatics",
+      "kind": "fact",
+      "front": "Which of Newton's laws of motion does Coulomb's law agree with?",
+      "back": "Coulomb's law agrees with the Newton's third law.",
+      "quote": "Thus, Coulomb's law agrees with the Newton's third law.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 1",
+        "code": "leph101",
+        "chapterNo": 1,
+        "page": 9,
+        "section": "Coulomb's Law"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "coulombs-law"
+      ],
+      "order": 490
+    },
+    {
+      "id": "kc.physics.electric-charges-and-fields.fact-coulomb-in-matter",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electric-charges-and-fields",
+      "chapter": "Electric Charges & Fields",
+      "unit": "Electrostatics",
+      "kind": "fact",
+      "front": "Why does the situation get complicated when charges are placed in matter instead of vacuum?",
+      "back": "If the charges are placed in matter or the intervening space has matter, the situation gets complicated due to the presence of charged constituents of matter.",
+      "quote": "If the charges are placed in matter or the intervening space has matter, the situation gets complicated due to the presence of charged constituents of matter.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 1",
+        "code": "leph101",
+        "chapterNo": 1,
+        "page": 9,
+        "section": "Coulomb's Law"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "coulombs-law"
+      ],
+      "order": 500
     },
     {
       "id": "kc.physics.electric-charges-and-fields.def-superposition",
@@ -7759,6 +8764,33 @@
         "electric-field"
       ],
       "order": 570
+    },
+    {
+      "id": "kc.physics.electric-charges-and-fields.fact-point-charge-field-symmetry",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electric-charges-and-fields",
+      "chapter": "Electric Charges & Fields",
+      "unit": "Electrostatics",
+      "kind": "fact",
+      "front": "What kind of symmetry does the electric field E due to a point charge have?",
+      "back": "The magnitude of electric field E due to a point charge is thus same on a sphere with the point charge at its centre; in other words, it has a spherical symmetry.",
+      "quote": "The magnitude of electric field E due to a point charge is thus same on a sphere with the point charge at its centre; in other words, it has a spherical symmetry.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 1",
+        "code": "leph101",
+        "chapterNo": 1,
+        "page": 15,
+        "section": "Electric Field"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "electric-field"
+      ],
+      "order": 580
     },
     {
       "id": "kc.physics.electric-charges-and-fields.def-field-def-general",
@@ -8099,6 +9131,33 @@
       "order": 700
     },
     {
+      "id": "kc.physics.electric-charges-and-fields.fact-area-vector-direction",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electric-charges-and-fields",
+      "chapter": "Electric Charges & Fields",
+      "unit": "Electrostatics",
+      "kind": "fact",
+      "front": "What is the direction of a planar area vector?",
+      "back": "Thus the direction of a planar area vector is along its normal.",
+      "quote": "Clearly, the normal to the plane specifies the orientation of the plane. Thus the direction of a planar area vector is along its normal.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 1",
+        "code": "leph101",
+        "chapterNo": 1,
+        "page": 22,
+        "section": "Electric Flux"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "flux"
+      ],
+      "order": 710
+    },
+    {
       "id": "kc.physics.electric-charges-and-fields.key-closed-surface-outward-normal",
       "v": 1,
       "subject": "physics",
@@ -8269,6 +9328,33 @@
         "dipole"
       ],
       "order": 770
+    },
+    {
+      "id": "kc.physics.electric-charges-and-fields.fact-dipole-torque-aligned",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electric-charges-and-fields",
+      "chapter": "Electric Charges & Fields",
+      "unit": "Electrostatics",
+      "kind": "fact",
+      "front": "What is the torque on an electric dipole in a uniform field when its dipole moment p is aligned with the field E?",
+      "back": "This torque will tend to align the dipole with the field E. When p is aligned with E, the torque is zero.",
+      "quote": "This torque will tend to align the dipole with the field E. When p is aligned with E, the torque is zero.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 1",
+        "code": "leph101",
+        "chapterNo": 1,
+        "page": 27,
+        "section": "Dipole in a Uniform External Field"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "dipole"
+      ],
+      "order": 780
     },
     {
       "id": "kc.physics.electric-charges-and-fields.fact-dipole-nonuniform-force",
@@ -8696,6 +9782,33 @@
       "order": 1000
     },
     {
+      "id": "kc.physics.electric-charges-and-fields.def-electric-field-summary",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electric-charges-and-fields",
+      "chapter": "Electric Charges & Fields",
+      "unit": "Electrostatics",
+      "kind": "definition",
+      "front": "What is the electric field E at a point due to a charge configuration?",
+      "back": "The electric field E at a point due to a charge configuration is the force on a small positive test charge q placed at the point divided by the magnitude of the charge.",
+      "quote": "The electric field E at a point due to a charge configuration is the force on a small positive test charge q placed at the point divided by the magnitude of the charge.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 1",
+        "code": "leph101",
+        "chapterNo": 1,
+        "page": 38,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "electric-field"
+      ],
+      "order": 1010
+    },
+    {
       "id": "kc.physics.electric-charges-and-fields.key-field-superposition",
       "v": 1,
       "subject": "physics",
@@ -8946,6 +10059,33 @@
       "order": 1130
     },
     {
+      "id": "kc.physics.electric-charges-and-fields.fact-charge-scalar-additive",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electric-charges-and-fields",
+      "chapter": "Electric Charges & Fields",
+      "unit": "Electrostatics",
+      "kind": "fact",
+      "front": "The additive property of charge is related to what fact about electric charge?",
+      "back": "electric charge has no direction associated with it; charge is a scalar.",
+      "quote": "It is related to the fact that electric charge has no direction associated with it; charge is a scalar.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 1",
+        "code": "leph101",
+        "chapterNo": 1,
+        "page": 41,
+        "section": "Points to Ponder"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "additivity"
+      ],
+      "order": 1140
+    },
+    {
       "id": "kc.physics.electric-charges-and-fields.key-charge-invariant",
       "v": 1,
       "subject": "physics",
@@ -9059,6 +10199,60 @@
       "order": 60
     },
     {
+      "id": "kc.physics.electromagnetic-induction.fact-exp1-relative-motion",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-induction",
+      "chapter": "Electromagnetic Induction",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "fact",
+      "front": "Experiment 6.1 (bar magnet and coil): what is responsible for inducing electric current in the coil?",
+      "back": "It shows that it is the relative motion between the magnet and the coil that is responsible for generation (induction) of electric current in the coil.",
+      "quote": "It shows that it is the relative motion between the magnet and the coil that is responsible for generation (induction) of electric current in the coil.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph106",
+        "chapterNo": 6,
+        "page": 155,
+        "section": "The experiments of Faraday and Henry"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "experiment"
+      ],
+      "order": 80
+    },
+    {
+      "id": "kc.physics.electromagnetic-induction.fact-exp3-momentary-deflection-key-pressed",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-induction",
+      "chapter": "Electromagnetic Induction",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "fact",
+      "front": "Experiment 6.3 (two stationary coils, battery, tapping key K): what does the galvanometer show when K is pressed?",
+      "back": "It is observed that the galvanometer shows a momentary deflection when the tapping key K is pressed.",
+      "quote": "It is observed that the galvanometer shows a momentary deflection when the tapping key K is pressed.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph106",
+        "chapterNo": 6,
+        "page": 156,
+        "section": "The experiments of Faraday and Henry"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "experiment"
+      ],
+      "order": 110
+    },
+    {
       "id": "kc.physics.electromagnetic-induction.key-exp3-no-deflection-key-held",
       "v": 1,
       "subject": "physics",
@@ -9086,6 +10280,33 @@
         "experiment"
       ],
       "order": 120
+    },
+    {
+      "id": "kc.physics.electromagnetic-induction.fact-exp3-iron-rod",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-induction",
+      "chapter": "Electromagnetic Induction",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "fact",
+      "front": "Experiment 6.3: what happens to the galvanometer deflection when an iron rod is inserted into the coils along their axis?",
+      "back": "It is also observed that the deflection increases dramatically when an iron rod is inserted into the coils along their axis.",
+      "quote": "It is also observed that the deflection increases dramatically when an iron rod is inserted into the coils along their axis.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph106",
+        "chapterNo": 6,
+        "page": 156,
+        "section": "The experiments of Faraday and Henry"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "experiment"
+      ],
+      "order": 130
     },
     {
       "id": "kc.physics.electromagnetic-induction.fact-flux-si-unit",
@@ -9288,6 +10509,33 @@
       "order": 240
     },
     {
+      "id": "kc.physics.electromagnetic-induction.fact-strong-magnet-no-current",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-induction",
+      "chapter": "Electromagnetic Induction",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "fact",
+      "front": "What alone can induce a current in a loop, however strong the magnet may be?",
+      "back": "However strong the magnet may be, current can be induced only by changing the magnetic flux through the loop.",
+      "quote": "However strong the magnet may be, current can be induced only by changing the magnetic flux through the loop.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph106",
+        "chapterNo": 6,
+        "page": 162,
+        "section": "Faraday's law of induction"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "flux"
+      ],
+      "order": 280
+    },
+    {
       "id": "kc.physics.electromagnetic-induction.fact-lenz-1834",
       "v": 1,
       "subject": "physics",
@@ -9340,6 +10588,60 @@
         "lenz"
       ],
       "order": 310
+    },
+    {
+      "id": "kc.physics.electromagnetic-induction.fact-lenz-current-opposes-increase",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-induction",
+      "chapter": "Electromagnetic Induction",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "fact",
+      "front": "As a bar magnet's North-pole moves towards a closed coil, what does the induced current do to the increase in flux?",
+      "back": "As the North-pole of the bar magnet moves towards the coil, the magnetic flux through the coil increases. Hence current is induced in the coil in such a direction that it opposes the increase in flux.",
+      "quote": "As the North-pole of the bar magnet moves towards the coil, the magnetic flux through the coil increases. Hence current is induced in the coil in such a direction that it opposes the increase in flux.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph106",
+        "chapterNo": 6,
+        "page": 160,
+        "section": "Lenz's law and conservation of energy"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "lenz"
+      ],
+      "order": 320
+    },
+    {
+      "id": "kc.physics.electromagnetic-induction.fact-lenz-withdrawn-clockwise",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-induction",
+      "chapter": "Electromagnetic Induction",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "fact",
+      "front": "A bar magnet's North-pole is withdrawn from a closed coil. Which way does the induced current flow, seen from the magnet's side?",
+      "back": "Similarly, if the North-pole of the magnet is being withdrawn from the coil, the magnetic flux through the coil will decrease. To counter this decrease in magnetic flux, the induced current in the coil flows in clockwise direction and its South-pole faces the receding North-pole of the bar magnet.",
+      "quote": "Similarly, if the North-pole of the magnet is being withdrawn from the coil, the magnetic flux through the coil will decrease. To counter this decrease in magnetic flux, the induced current in the coil flows in clockwise direction and its South-pole faces the receding North-pole of the bar magnet.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph106",
+        "chapterNo": 6,
+        "page": 160,
+        "section": "Lenz's law and conservation of energy"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "lenz"
+      ],
+      "order": 330
     },
     {
       "id": "kc.physics.electromagnetic-induction.key-perpetual-motion-conservation-of-energy",
@@ -9431,6 +10733,33 @@
       "order": 390
     },
     {
+      "id": "kc.physics.electromagnetic-induction.fact-emf-by-moving-conductor",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-induction",
+      "chapter": "Electromagnetic Induction",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "fact",
+      "front": "How can induced emf be produced without varying the magnetic field?",
+      "back": "The induced emf Blv is called motional emf. Thus, we are able to produce induced emf by moving a conductor instead of varying the magnetic field, that is, by changing the magnetic flux enclosed by the circuit.",
+      "quote": "The induced emf Blv is called motional emf. Thus, we are able to produce induced emf by moving a conductor instead of varying the magnetic field, that is, by changing the magnetic flux enclosed by the circuit.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph106",
+        "chapterNo": 6,
+        "page": 163,
+        "section": "Motional electromotive force"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "motional emf"
+      ],
+      "order": 410
+    },
+    {
       "id": "kc.physics.electromagnetic-induction.def-emf-work-per-unit-charge",
       "v": 1,
       "subject": "physics",
@@ -9456,6 +10785,33 @@
         "emf"
       ],
       "order": 420
+    },
+    {
+      "id": "kc.physics.electromagnetic-induction.fact-time-varying-field-generates-electric-field",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-induction",
+      "chapter": "Electromagnetic Induction",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "fact",
+      "front": "To explain induced emf in a stationary conductor, what must we assume about a changing magnetic field?",
+      "back": "Therefore, to explain the existence of induced emf or induced current, we must assume that a time-varying magnetic field generates an electric field.",
+      "quote": "Therefore, to explain the existence of induced emf or induced current, we must assume that a time-varying magnetic field generates an electric field.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph106",
+        "chapterNo": 6,
+        "page": 163,
+        "section": "Motional electromotive force"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "induced emf"
+      ],
+      "order": 430
     },
     {
       "id": "kc.physics.electromagnetic-induction.key-changing-field-force-on-stationary-charge",
@@ -9514,6 +10870,33 @@
         "motional emf"
       ],
       "order": 460
+    },
+    {
+      "id": "kc.physics.electromagnetic-induction.fact-flux-proportional-to-current",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-induction",
+      "chapter": "Electromagnetic Induction",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "fact",
+      "front": "Whether the flux change comes from another coil or from the same coil, how is the flux through a coil related to the current?",
+      "back": "However, in both the cases, the flux through a coil is proportional to the current.",
+      "quote": "However, in both the cases, the flux through a coil is proportional to the current.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph106",
+        "chapterNo": 6,
+        "page": 165,
+        "section": "Inductance"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "inductance"
+      ],
+      "order": 470
     },
     {
       "id": "kc.physics.electromagnetic-induction.key-closely-wound-same-flux-all-turns",
@@ -9684,6 +11067,60 @@
       "order": 540
     },
     {
+      "id": "kc.physics.electromagnetic-induction.fact-mutual-inductance-separation-orientation",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-induction",
+      "chapter": "Electromagnetic Induction",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "fact",
+      "front": "On what two things does the mutual inductance of a pair of coils or solenoids depend?",
+      "back": "It is also important to know that the mutual inductance of a pair of coils, solenoids, etc., depends on their separation as well as their relative orientation.",
+      "quote": "It is also important to know that the mutual inductance of a pair of coils, solenoids, etc., depends on their separation as well as their relative orientation.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph106",
+        "chapterNo": 6,
+        "page": 167,
+        "section": "Mutual inductance"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "mutual inductance"
+      ],
+      "order": 570
+    },
+    {
+      "id": "kc.physics.electromagnetic-induction.fact-varying-current-induces-emf-neighbouring-coil",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-induction",
+      "chapter": "Electromagnetic Induction",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "fact",
+      "front": "Mutual induction: what can varying current in a coil do, and what does the induced emf depend on?",
+      "back": "It shows that varying current in a coil can induce emf in a neighbouring coil. The magnitude of the induced emf depends upon the rate of change of current and mutual inductance of the two coils.",
+      "quote": "It shows that varying current in a coil can induce emf in a neighbouring coil. The magnitude of the induced emf depends upon the rate of change of current and mutual inductance of the two coils.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph106",
+        "chapterNo": 6,
+        "page": 168,
+        "section": "Mutual inductance"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "mutual inductance"
+      ],
+      "order": 580
+    },
+    {
       "id": "kc.physics.electromagnetic-induction.key-induced-emf-depends-rate-and-mutual-inductance",
       "v": 1,
       "subject": "physics",
@@ -9738,6 +11175,60 @@
         "self-induction"
       ],
       "order": 600
+    },
+    {
+      "id": "kc.physics.electromagnetic-induction.def-self-inductance-constant",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-induction",
+      "chapter": "Electromagnetic Induction",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "definition",
+      "front": "What is L, the constant of proportionality between a coil's flux linkage and its current?",
+      "back": "L is called self-inductance of the coil. It is also called the coefficient of self-induction of the coil.",
+      "quote": "L is called self-inductance of the coil. It is also called the coefficient of self-induction of the coil.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph106",
+        "chapterNo": 6,
+        "page": 168,
+        "section": "Self-inductance"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "self-induction"
+      ],
+      "order": 610
+    },
+    {
+      "id": "kc.physics.electromagnetic-induction.fact-self-induced-emf-opposes-change",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-induction",
+      "chapter": "Electromagnetic Induction",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "fact",
+      "front": "How does the self-induced emf act on any change (increase or decrease) of current in the coil?",
+      "back": "Thus, the self-induced emf always opposes any change (increase or decrease) of current in the coil.",
+      "quote": "Thus, the self-induced emf always opposes any change (increase or decrease) of current in the coil.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph106",
+        "chapterNo": 6,
+        "page": 168,
+        "section": "Self-inductance"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "self-induction"
+      ],
+      "order": 620
     },
     {
       "id": "kc.physics.electromagnetic-induction.key-self-inductance-depends-geometry-medium",
@@ -9940,6 +11431,33 @@
         "ac generator"
       ],
       "order": 700
+    },
+    {
+      "id": "kc.physics.electromagnetic-induction.fact-coil-on-rotor-shaft",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-induction",
+      "chapter": "Electromagnetic Induction",
+      "unit": "Electromagnetic Induction and Alternating Currents",
+      "kind": "fact",
+      "front": "In an ac generator, what is the coil mounted on, and how is its axis of rotation oriented to the magnetic field?",
+      "back": "It consists of a coil mounted on a rotor shaft. The axis of rotation of the coil is perpendicular to the direction of the magnetic field.",
+      "quote": "It consists of a coil mounted on a rotor shaft. The axis of rotation of the coil is perpendicular to the direction of the magnetic field.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph106",
+        "chapterNo": 6,
+        "page": 171,
+        "section": "AC generator"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "ac generator"
+      ],
+      "order": 710
     },
     {
       "id": "kc.physics.electromagnetic-induction.key-axis-perpendicular-to-field",
@@ -10286,6 +11804,33 @@
       "order": 20
     },
     {
+      "id": "kc.physics.electromagnetic-waves.fact-time-varying-e-gives-b",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "fact",
+      "front": "What, besides an electric current, did Maxwell argue also generates a magnetic field?",
+      "back": "A time-varying electric field\nnot only an electric current but also a time-varying electric field generates magnetic field.",
+      "quote": "not only an electric current but also a time-varying electric field generates magnetic field.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 201,
+        "section": "Introduction"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "maxwell"
+      ],
+      "order": 30
+    },
+    {
       "id": "kc.physics.electromagnetic-waves.def-em-waves-definition",
       "v": 1,
       "subject": "physics",
@@ -10369,6 +11914,33 @@
         "displacement current"
       ],
       "order": 70
+    },
+    {
+      "id": "kc.physics.electromagnetic-waves.fact-explains-em-waves-existence",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "fact",
+      "front": "Which effect explains the existence of radio waves, gamma rays, visible light and all other electromagnetic waves?",
+      "back": "A changing electric field produces a magnetic field\nMaxwell showed that for logical consistency, a changing electric field must also produce a magnetic field. This effect is of great importance because it explains the existence of radio waves, gamma rays and visible light, as well as all other forms of electromagnetic waves.",
+      "quote": "Maxwell showed that for logical consistency, a changing electric field must also produce a magnetic field. This effect is of great importance because it explains the existence of radio waves, gamma rays and visible light, as well as all other forms of electromagnetic waves.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 202,
+        "section": "Displacement current"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "displacement current"
+      ],
+      "order": 80
     },
     {
       "id": "kc.physics.electromagnetic-waves.key-total-current-sum",
@@ -10573,6 +12145,60 @@
       "order": 150
     },
     {
+      "id": "kc.physics.electromagnetic-waves.fact-faraday-rephrased",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "fact",
+      "front": "How can Faraday's law of electromagnetic induction be rephrased in terms of fields?",
+      "back": "A changing magnetic field gives rise to an electric field\nSo, we can rephrase Faraday's law of electromagnetic induction by saying that a magnetic field, changing with time, gives rise to an electric field.",
+      "quote": "So, we can rephrase Faraday's law of electromagnetic induction by saying that a magnetic field, changing with time, gives rise to an electric field.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 204,
+        "section": "Displacement current"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "faraday"
+      ],
+      "order": 160
+    },
+    {
+      "id": "kc.physics.electromagnetic-waves.fact-fields-give-rise-to-each-other",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "fact",
+      "front": "What is the mutual relation between time-dependent electric and magnetic fields?",
+      "back": "They give rise to each other\nThus, time-dependent electric and magnetic fields give rise to each other!",
+      "quote": "Thus, time-dependent electric and magnetic fields give rise to each other!",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 205,
+        "section": "Displacement current"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "symmetry"
+      ],
+      "order": 170
+    },
+    {
       "id": "kc.physics.electromagnetic-waves.key-symmetry-consequence-em-waves",
       "v": 1,
       "subject": "physics",
@@ -10630,6 +12256,33 @@
         "sources"
       ],
       "order": 200
+    },
+    {
+      "id": "kc.physics.electromagnetic-waves.fact-accelerated-radiate",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "fact",
+      "front": "According to Maxwell's theory, which charges radiate electromagnetic waves?",
+      "back": "Accelerated charges\nIt is an important result of Maxwell's theory that accelerated charges radiate electromagnetic waves.",
+      "quote": "It is an important result of Maxwell's theory that accelerated charges radiate electromagnetic waves.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 205,
+        "section": "Sources of electromagnetic waves"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "sources"
+      ],
+      "order": 220
     },
     {
       "id": "kc.physics.electromagnetic-waves.key-fields-regenerate",
@@ -10690,6 +12343,33 @@
       "order": 240
     },
     {
+      "id": "kc.physics.electromagnetic-waves.fact-perpendicular-fields",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "fact",
+      "front": "How are the electric and magnetic fields in an electromagnetic wave oriented?",
+      "back": "Perpendicular to each other, and to the direction of propagation\nIt can be shown from Maxwell's equations that electric and magnetic fields in an electromagnetic wave are perpendicular to each other, and to the direction of propagation.",
+      "quote": "It can be shown from Maxwell's equations that electric and magnetic fields in an electromagnetic wave are perpendicular to each other, and to the direction of propagation.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 206,
+        "section": "Nature of electromagnetic waves"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "transverse"
+      ],
+      "order": 270
+    },
+    {
       "id": "kc.physics.electromagnetic-waves.key-sinusoidal-oscillation",
       "v": 1,
       "subject": "physics",
@@ -10744,6 +12424,60 @@
         "em waves"
       ],
       "order": 290
+    },
+    {
+      "id": "kc.physics.electromagnetic-waves.fact-no-medium",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "fact",
+      "front": "Electromagnetic waves differ from all other waves studied so far in what respect about a medium?",
+      "back": "No material medium is involved in the vibrations\nThey differ from all the other waves we have studied so far, in respect that no material medium is involved in the vibrations of the electric and magnetic fields.",
+      "quote": "They differ from all the other waves we have studied so far, in respect that no material medium is involved in the vibrations of the electric and magnetic fields.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 207,
+        "section": "Nature of electromagnetic waves"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "no medium"
+      ],
+      "order": 300
+    },
+    {
+      "id": "kc.physics.electromagnetic-waves.fact-speed-depends-medium",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "fact",
+      "front": "On what does the velocity of light in a material medium depend?",
+      "back": "The electric and magnetic properties of the medium\nThus, the velocity of light depends on electric and magnetic properties of the medium.",
+      "quote": "Thus, the velocity of light depends on electric and magnetic properties of the medium.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 207,
+        "section": "Nature of electromagnetic waves"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "speed"
+      ],
+      "order": 310
     },
     {
       "id": "kc.physics.electromagnetic-waves.key-speed-fundamental-constant",
@@ -10858,6 +12592,33 @@
         "speed"
       ],
       "order": 360
+    },
+    {
+      "id": "kc.physics.electromagnetic-waves.types-spectrum-types",
+      "v": 2,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "types",
+      "front": "Name the kinds of electromagnetic waves.",
+      "back": "visible light waves\nX-rays\ngamma rays\nradio waves\nmicrowaves\nultraviolet and infrared waves",
+      "quote": "We now know that, electromagnetic waves include visible light waves, X-rays, gamma rays, radio waves, microwaves, ultraviolet and infrared waves.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 208,
+        "section": "Electromagnetic spectrum"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "spectrum"
+      ],
+      "order": 390
     },
     {
       "id": "kc.physics.electromagnetic-waves.term-spectrum-term",
@@ -11001,6 +12762,33 @@
         "radio waves"
       ],
       "order": 450
+    },
+    {
+      "id": "kc.physics.electromagnetic-waves.fact-radio-range",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "fact",
+      "front": "What is the general frequency range of radio waves?",
+      "back": "500 kHz to about 1000 MHz\nThey are generally in the frequency range from 500 kHz to about 1000 MHz.",
+      "quote": "They are generally in the frequency range from 500 kHz to about 1000 MHz.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 209,
+        "section": "Radio waves"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "radio waves"
+      ],
+      "order": 460
     },
     {
       "id": "kc.physics.electromagnetic-waves.key-am-band",
@@ -11206,6 +12994,60 @@
       "order": 550
     },
     {
+      "id": "kc.physics.electromagnetic-waves.fact-ir-absorbed-water",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "fact",
+      "front": "Why are infrared waves sometimes referred to as heat waves?",
+      "back": "Water molecules present in most materials readily absorb them\nInfrared waves are sometimes referred to as heat waves. This is because water molecules present in most materials readily absorb infrared waves",
+      "quote": "Infrared waves are sometimes referred to as heat waves. This is because water molecules present in most materials readily absorb infrared waves",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 210,
+        "section": "Infrared waves"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "infrared"
+      ],
+      "order": 560
+    },
+    {
+      "id": "kc.physics.electromagnetic-waves.fact-ir-band-position",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "fact",
+      "front": "Where does the band of infrared waves lie with respect to the visible spectrum?",
+      "back": "Adjacent to the low-frequency or long-wave length end\nInfrared waves are produced by hot bodies and molecules. This band lies adjacent to the low-frequency or long-wave length end of the visible spectrum.",
+      "quote": "Infrared waves are produced by hot bodies and molecules. This band lies adjacent to the low-frequency or long-wave length end of the visible spectrum.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 210,
+        "section": "Infrared waves"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "infrared"
+      ],
+      "order": 570
+    },
+    {
       "id": "kc.physics.electromagnetic-waves.key-ir-therapy",
       "v": 1,
       "subject": "physics",
@@ -11262,6 +13104,33 @@
         "infrared"
       ],
       "order": 590
+    },
+    {
+      "id": "kc.physics.electromagnetic-waves.fact-ir-trapped",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "fact",
+      "front": "By what is the infrared radiation re-radiated from the earth's surface trapped?",
+      "back": "Greenhouse gases such as carbon dioxide and water vapour\nIncoming visible light (which passes relatively easily through the atmosphere) is absorbed by the earth's surface and re-radiated as infrared (longer wavelength) radiations. This radiation is trapped by greenhouse gases such as carbon dioxide and water vapour.",
+      "quote": "Incoming visible light (which passes relatively easily through the atmosphere) is absorbed by the earth's surface and re-radiated as infrared (longer wavelength) radiations. This radiation is trapped by greenhouse gases such as carbon dioxide and water vapour.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 210,
+        "section": "Infrared waves"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "infrared"
+      ],
+      "order": 600
     },
     {
       "id": "kc.physics.electromagnetic-waves.key-ir-satellites",
@@ -11521,6 +13390,60 @@
         "x-rays"
       ],
       "order": 740
+    },
+    {
+      "id": "kc.physics.electromagnetic-waves.fact-gamma-produced",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "fact",
+      "front": "How is gamma radiation produced, and what also emits it?",
+      "back": "Produced in nuclear reactions; also emitted by radioactive nuclei\nThis high frequency radiation is produced in nuclear reactions and also emitted by radioactive nuclei.",
+      "quote": "This high frequency radiation is produced in nuclear reactions and also emitted by radioactive nuclei.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 211,
+        "section": "Gamma rays"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "gamma rays"
+      ],
+      "order": 760
+    },
+    {
+      "id": "kc.physics.electromagnetic-waves.fact-gamma-medicine",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "fact",
+      "front": "What are gamma rays used for in medicine?",
+      "back": "To destroy cancer cells\nThey are used in medicine to destroy cancer cells.",
+      "quote": "They are used in medicine to destroy cancer cells.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 211,
+        "section": "Gamma rays"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "gamma rays"
+      ],
+      "order": 770
     },
     {
       "id": "kc.physics.electromagnetic-waves.fact-t-radio-prod",
@@ -12181,6 +14104,87 @@
       "order": 1040
     },
     {
+      "id": "kc.physics.electromagnetic-waves.fact-monopoles",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "fact",
+      "front": "Which sources of magnetic field, analogous to electric charges, are not known to exist?",
+      "back": "Magnetic monopoles\nthere are no known sources of magnetic field (magnetic monopoles) analogous to electric charges which are sources of electric field.",
+      "quote": "there are no known sources of magnetic field (magnetic monopoles) analogous to electric charges which are sources of electric field.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 204,
+        "section": "Displacement current"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "monopoles"
+      ],
+      "order": 1050
+    },
+    {
+      "id": "kc.physics.electromagnetic-waves.fact-speed-defines-length",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "fact",
+      "front": "The constancy and well-known value of the speed of em waves in vacuum are used to define what?",
+      "back": "A standard of length\nThe constancy of the velocity of em waves in vacuum is so strongly supported by experiments and the actual value is so well known now that this is used to define a standard of length.",
+      "quote": "The constancy of the velocity of em waves in vacuum is so strongly supported by experiments and the actual value is so well known now that this is used to define a standard of length.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 207,
+        "section": "Nature of electromagnetic waves"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "speed"
+      ],
+      "order": 1060
+    },
+    {
+      "id": "kc.physics.electromagnetic-waves.fact-microwave-oven-resonance",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electromagnetic-waves",
+      "chapter": "Electromagnetic Waves",
+      "unit": "Electromagnetic Waves",
+      "kind": "fact",
+      "front": "In a microwave oven, the microwave frequency is selected to match what?",
+      "back": "The resonant frequency of water molecules\nthe frequency of the microwaves is selected to match the resonant frequency of water molecules",
+      "quote": "the frequency of the microwaves is selected to match the resonant frequency of water molecules",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph108",
+        "chapterNo": 8,
+        "page": 209,
+        "section": "Microwaves"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "microwaves"
+      ],
+      "order": 1070
+    },
+    {
       "id": "kc.physics.electromagnetic-waves.key-uv-lasik",
       "v": 1,
       "subject": "physics",
@@ -12319,6 +14323,33 @@
         "potential energy"
       ],
       "order": 30
+    },
+    {
+      "id": "kc.physics.electrostatic-potential-and-capacitance.fact-pe-difference-significant",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electrostatic-potential-and-capacitance",
+      "chapter": "Electrostatic Potential & Capacitance",
+      "unit": "Electrostatics",
+      "kind": "fact",
+      "front": "Which quantity of potential energy is physically significant, given that its actual value is not?",
+      "back": "the actual value of potential energy is not physically significant; it is only the difference of potential energy that is significant.",
+      "quote": "the actual value of potential energy is not physically significant; it is only the difference of potential energy that is significant.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph102",
+        "chapterNo": 2,
+        "page": 47,
+        "section": "Introduction"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "potential energy"
+      ],
+      "order": 40
     },
     {
       "id": "kc.physics.electrostatic-potential-and-capacitance.kl-pe-zero-at-infinity",
@@ -12681,6 +14712,33 @@
         "equipotential"
       ],
       "order": 180
+    },
+    {
+      "id": "kc.physics.electrostatic-potential-and-capacitance.fact-equipotential-no-work",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.electrostatic-potential-and-capacitance",
+      "chapter": "Electrostatic Potential & Capacitance",
+      "unit": "Electrostatics",
+      "kind": "fact",
+      "front": "What do we know about the potential difference between any two points on an equipotential surface?",
+      "back": "there is no potential difference between any two points on the surface and no work is required to move a test charge on the surface.",
+      "quote": "there is no potential difference between any two points on the surface and no work is required to move a test charge on the surface.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph102",
+        "chapterNo": 2,
+        "page": 54,
+        "section": "Equipotential Surfaces"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "equipotential"
+      ],
+      "order": 190
     },
     {
       "id": "kc.physics.electrostatic-potential-and-capacitance.fact-equipotential-uniform-field",
@@ -14688,6 +16746,33 @@
       "order": 460
     },
     {
+      "id": "kc.physics.magnetism-and-matter.fact-dia-repel",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.magnetism-and-matter",
+      "chapter": "Magnetism & Matter",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "kind": "fact",
+      "front": "A magnet attracts metals like iron: what does it do to a diamagnetic substance?",
+      "back": "Diamagnetic substances are those which have tendency to move from stronger to the weaker part of the external magnetic field. In other words, unlike the way a magnet attracts metals like iron, it would repel a diamagnetic substance.",
+      "quote": "Diamagnetic substances are those which have tendency to move from stronger to the weaker part of the external magnetic field. In other words, unlike the way a magnet attracts metals like iron, it would repel a diamagnetic substance.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph105",
+        "chapterNo": 5,
+        "page": 147,
+        "section": "Diamagnetism"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "diamagnetic"
+      ],
+      "order": 470
+    },
+    {
       "id": "kc.physics.magnetism-and-matter.kl-dia-field-reduced",
       "v": 1,
       "subject": "physics",
@@ -14773,6 +16858,60 @@
         "diamagnetic"
       ],
       "order": 500
+    },
+    {
+      "id": "kc.physics.magnetism-and-matter.fact-dia-opposite",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.magnetism-and-matter",
+      "chapter": "Magnetism & Matter",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "kind": "fact",
+      "front": "In which direction does a diamagnetic substance develop a net magnetic moment relative to the applied field?",
+      "back": "Thus, the substance develops a net magnetic moment in direction opposite to that of the applied field and hence repulsion.",
+      "quote": "Thus, the substance develops a net magnetic moment in direction opposite to that of the applied field and hence repulsion.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph105",
+        "chapterNo": 5,
+        "page": 148,
+        "section": "Diamagnetism"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "diamagnetic"
+      ],
+      "order": 510
+    },
+    {
+      "id": "kc.physics.magnetism-and-matter.fact-dia-lenz",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.magnetism-and-matter",
+      "chapter": "Magnetism & Matter",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "kind": "fact",
+      "front": "In diamagnetism, an applied field slows or speeds up orbiting electrons by induced current in accordance with which law?",
+      "back": "When magnetic field is applied, those electrons having orbital magnetic moment in the same direction slow down and those in the opposite direction speed up. This happens due to induced current in accordance with Lenz's law which you will study in Chapter 6.",
+      "quote": "When magnetic field is applied, those electrons having orbital magnetic moment in the same direction slow down and those in the opposite direction speed up. This happens due to induced current in accordance with Lenz's law which you will study in Chapter 6.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph105",
+        "chapterNo": 5,
+        "page": 148,
+        "section": "Diamagnetism"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "diamagnetic"
+      ],
+      "order": 520
     },
     {
       "id": "kc.physics.magnetism-and-matter.list-dia-examples",
@@ -15246,6 +17385,33 @@
       "order": 690
     },
     {
+      "id": "kc.physics.magnetism-and-matter.fact-ferro-concentrated",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.magnetism-and-matter",
+      "chapter": "Magnetism & Matter",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "kind": "fact",
+      "front": "In a ferromagnetic material whose domains have aligned and amalgamated into a single giant domain, how are the field lines?",
+      "back": "Fig. 5.8(b) shows the situation when the domains have aligned and amalgamated to form a single 'giant' domain. Thus, in a ferromagnetic material the field lines are highly concentrated.",
+      "quote": "Fig. 5.8(b) shows the situation when the domains have aligned and amalgamated to form a single 'giant' domain. Thus, in a ferromagnetic material the field lines are highly concentrated.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph105",
+        "chapterNo": 5,
+        "page": 149,
+        "section": "Ferromagnetism"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "ferromagnetic"
+      ],
+      "order": 710
+    },
+    {
       "id": "kc.physics.magnetism-and-matter.fact-ferro-nonuniform",
       "v": 1,
       "subject": "physics",
@@ -15325,6 +17491,33 @@
         "hard magnet"
       ],
       "order": 740
+    },
+    {
+      "id": "kc.physics.magnetism-and-matter.fact-hard-permanent",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.magnetism-and-matter",
+      "chapter": "Magnetism & Matter",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "kind": "fact",
+      "front": "What do hard magnetic materials (hard ferromagnets) form, to be used among other things as a compass needle?",
+      "back": "In some ferromagnetic materials the magnetisation persists. Such materials are called hard magnetic materials or hard ferromagnets. Alnico, an alloy of iron, aluminium, nickel, cobalt and copper, is one such material. The naturally occurring lodestone is another. Such materials form permanent magnets to be used among other things as a compass needle.",
+      "quote": "In some ferromagnetic materials the magnetisation persists. Such materials are called hard magnetic materials or hard ferromagnets. Alnico, an alloy of iron, aluminium, nickel, cobalt and copper, is one such material. The naturally occurring lodestone is another. Such materials form permanent magnets to be used among other things as a compass needle.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph105",
+        "chapterNo": 5,
+        "page": 149,
+        "section": "Ferromagnetism"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "hard magnet"
+      ],
+      "order": 750
     },
     {
       "id": "kc.physics.magnetism-and-matter.def-soft-magnetic",
@@ -15434,6 +17627,34 @@
         "temperature"
       ],
       "order": 790
+    },
+    {
+      "id": "kc.physics.magnetism-and-matter.fact-ferro-gradual",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.magnetism-and-matter",
+      "chapter": "Magnetism & Matter",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "kind": "fact",
+      "front": "On heating a ferromagnet, does its magnetisation disappear suddenly or gradually with temperature?",
+      "back": "The domain structure disintegrates with temperature. This disappearance of magnetisation with temperature is gradual.",
+      "quote": "The domain structure disintegrates with temperature. This disappearance of magnetisation with temperature is gradual.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph105",
+        "chapterNo": 5,
+        "page": 149,
+        "section": "Ferromagnetism"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "ferromagnetic",
+        "temperature"
+      ],
+      "order": 800
     },
     {
       "id": "kc.physics.magnetism-and-matter.def-permanent-magnets",
@@ -15685,6 +17906,33 @@
       "order": 20
     },
     {
+      "id": "kc.physics.moving-charges-and-magnetism.fact-oersted-needle-alignment",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.moving-charges-and-magnetism",
+      "chapter": "Moving Charges & Magnetism",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "kind": "fact",
+      "front": "In Oersted's experiment, how does the compass needle align relative to a straight current-carrying wire?",
+      "back": "He found that the alignment of the needle is tangential to an imaginary circle which has the straight wire as its centre and has its plane perpendicular to the wire.",
+      "quote": "He found that the alignment of the needle is tangential to an imaginary circle which has the straight wire as its centre and has its plane perpendicular to the wire.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph104",
+        "chapterNo": 4,
+        "page": 107,
+        "section": "Introduction"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "oersted"
+      ],
+      "order": 30
+    },
+    {
       "id": "kc.physics.moving-charges-and-magnetism.kl-oersted-iron-filings",
       "v": 1,
       "subject": "physics",
@@ -15741,6 +17989,33 @@
         "magnetic field"
       ],
       "order": 60
+    },
+    {
+      "id": "kc.physics.moving-charges-and-magnetism.def-b-superposition",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.moving-charges-and-magnetism",
+      "chapter": "Moving Charges & Magnetism",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "kind": "definition",
+      "front": "State the principle of superposition for the magnetic field of several sources.",
+      "back": "Experimentally, it is found to obey the principle of superposition: the magnetic field of several sources is the vector addition of magnetic field of each individual source.",
+      "quote": "Experimentally, it is found to obey the principle of superposition: the magnetic field of several sources is the vector addition of magnetic field of each individual source.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph104",
+        "chapterNo": 4,
+        "page": 109,
+        "section": "Sources and fields"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "magnetic field"
+      ],
+      "order": 70
     },
     {
       "id": "kc.physics.moving-charges-and-magnetism.def-lorentz-force",
@@ -16052,6 +18327,61 @@
       "order": 190
     },
     {
+      "id": "kc.physics.moving-charges-and-magnetism.fact-motion-no-work",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.moving-charges-and-magnetism",
+      "chapter": "Moving Charges & Magnetism",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "kind": "fact",
+      "front": "A charge moves in a magnetic field: what happens to the work done and to the magnitude of its velocity?",
+      "back": "In the case of motion of a charge in a magnetic field, the magnetic force is perpendicular to the velocity of the particle. So no work is done and no change in the magnitude of the velocity is produced (though the direction of momentum may be changed).",
+      "quote": "In the case of motion of a charge in a magnetic field, the magnetic force is perpendicular to the velocity of the particle. So no work is done and no change in the magnitude of the velocity is produced (though the direction of momentum may be changed).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph104",
+        "chapterNo": 4,
+        "page": 112,
+        "section": "Motion in a Magnetic Field"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "motion in magnetic field"
+      ],
+      "order": 200
+    },
+    {
+      "id": "kc.physics.moving-charges-and-magnetism.fact-motion-electric-energy",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.moving-charges-and-magnetism",
+      "chapter": "Moving Charges & Magnetism",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "kind": "fact",
+      "front": "Which force on a moving charge can transfer energy in addition to momentum: the magnetic force or the electric force qE?",
+      "back": "Notice that this is unlike the force due to an electric field, q E, which can have a component parallel (or antiparallel) to motion and thus can transfer energy in addition to momentum.",
+      "quote": "Notice that this is unlike the force due to an electric field, q E, which can have a component parallel (or antiparallel) to motion and thus can transfer energy in addition to momentum.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph104",
+        "chapterNo": 4,
+        "page": 112,
+        "section": "Motion in a Magnetic Field"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "motion in magnetic field"
+      ],
+      "order": 210,
+      "note": "Here 'this' is the magnetic force, which is perpendicular to the velocity and so does no work."
+    },
+    {
       "id": "kc.physics.moving-charges-and-magnetism.kl-motion-circle",
       "v": 1,
       "subject": "physics",
@@ -16135,6 +18465,33 @@
         "motion in magnetic field"
       ],
       "order": 270
+    },
+    {
+      "id": "kc.physics.moving-charges-and-magnetism.fact-cyclotron-freq-independent",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.moving-charges-and-magnetism",
+      "chapter": "Moving Charges & Magnetism",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "kind": "fact",
+      "front": "The cyclotron frequency of a charge in a uniform magnetic field is independent of which two quantities?",
+      "back": "This frequency is independent of the particle's speed and radius.",
+      "quote": "This frequency is independent of the particle's speed and radius.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph104",
+        "chapterNo": 4,
+        "page": 132,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "motion in magnetic field"
+      ],
+      "order": 280
     },
     {
       "id": "kc.physics.moving-charges-and-magnetism.def-helix-pitch",
@@ -16248,6 +18605,34 @@
         "permeability"
       ],
       "order": 340
+    },
+    {
+      "id": "kc.physics.moving-charges-and-magnetism.fact-bs-coulomb-long-range",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.moving-charges-and-magnetism",
+      "chapter": "Moving Charges & Magnetism",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "kind": "fact",
+      "front": "Biot-Savart law and Coulomb's law: is the range of their fields short or long, and why?",
+      "back": "Both are long range, since both depend inversely on the square of distance from the source to the point of interest.",
+      "quote": "Both are long range, since both depend inversely on the square of distance from the source to the point of interest.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph104",
+        "chapterNo": 4,
+        "page": 114,
+        "section": "Biot-Savart Law"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "biot-savart law",
+        "coulomb's law"
+      ],
+      "order": 350
     },
     {
       "id": "kc.physics.moving-charges-and-magnetism.diff-bs-coulomb-source",
@@ -16672,6 +19057,33 @@
       "order": 560
     },
     {
+      "id": "kc.physics.moving-charges-and-magnetism.fact-solenoid-construction",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.moving-charges-and-magnetism",
+      "chapter": "Moving Charges & Magnetism",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "kind": "fact",
+      "front": "What does a long solenoid consist of?",
+      "back": "By long solenoid we mean that the solenoid's length is large compared to its radius. It consists of a long wire wound in the form of a helix where the neighbouring turns are closely spaced.",
+      "quote": "By long solenoid we mean that the solenoid's length is large compared to its radius. It consists of a long wire wound in the form of a helix where the neighbouring turns are closely spaced.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph104",
+        "chapterNo": 4,
+        "page": 121,
+        "section": "The Solenoid"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "solenoid"
+      ],
+      "order": 570
+    },
+    {
       "id": "kc.physics.moving-charges-and-magnetism.diff-solenoid-inside-vs-outside",
       "v": 1,
       "subject": "physics",
@@ -16954,6 +19366,33 @@
         "coulomb"
       ],
       "order": 700
+    },
+    {
+      "id": "kc.physics.moving-charges-and-magnetism.fact-loop-torque-no-net-force",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.moving-charges-and-magnetism",
+      "chapter": "Moving Charges & Magnetism",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "kind": "fact",
+      "front": "A rectangular current loop in a uniform magnetic field: does it experience a net force, a torque, or both?",
+      "back": "We now show that a rectangular loop carrying a steady current I and placed in a uniform magnetic field experiences a torque. It does not experience a net force.",
+      "quote": "We now show that a rectangular loop carrying a steady current I and placed in a uniform magnetic field experiences a torque. It does not experience a net force.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph104",
+        "chapterNo": 4,
+        "page": 124,
+        "section": "Torque on Current Loop, Magnetic Dipole"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "torque on loop"
+      ],
+      "order": 710
     },
     {
       "id": "kc.physics.moving-charges-and-magnetism.def-magnetic-moment-direction",
@@ -17284,6 +19723,33 @@
         "ammeter"
       ],
       "order": 920
+    },
+    {
+      "id": "kc.physics.moving-charges-and-magnetism.fact-voltmeter-parallel",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.moving-charges-and-magnetism",
+      "chapter": "Moving Charges & Magnetism",
+      "unit": "Magnetic Effects of Current and Magnetism",
+      "kind": "fact",
+      "front": "How must a galvanometer be connected to measure the voltage across a section of a circuit?",
+      "back": "The galvanometer can also be used as a voltmeter to measure the voltage across a given section of the circuit. For this it must be connected in parallel with that section of the circuit.",
+      "quote": "The galvanometer can also be used as a voltmeter to measure the voltage across a given section of the circuit. For this it must be connected in parallel with that section of the circuit.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part I",
+        "code": "leph104",
+        "chapterNo": 4,
+        "page": 131,
+        "section": "The Moving Coil Galvanometer"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "voltmeter"
+      ],
+      "order": 940
     },
     {
       "id": "kc.physics.moving-charges-and-magnetism.def-voltage-sensitivity",
@@ -18337,6 +20803,33 @@
         "scattering"
       ],
       "order": 430
+    },
+    {
+      "id": "kc.physics.nuclei.fact-nuclear-density-constant",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.nuclei",
+      "chapter": "Nuclei",
+      "unit": "Atoms and Nuclei",
+      "kind": "fact",
+      "front": "How does the density of a nucleus depend on its mass number A?",
+      "back": "The density of nucleus is a constant, independent of A, for all nuclei.",
+      "quote": "the density of nucleus is a constant, independent of A, for all nuclei.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph205",
+        "chapterNo": 13,
+        "page": 309,
+        "section": "Size of the Nucleus"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "nuclear density"
+      ],
+      "order": 460
     },
     {
       "id": "kc.physics.nuclei.fact-nuclei-liquid-drop",
@@ -21383,6 +23876,35 @@
       "note": "For thin lenses in contact the net power is the sum of the individual powers, and the net 1/f is the sum of the individual 1/f values."
     },
     {
+      "id": "kc.physics.ray-optics-and-optical-instruments.fact-lens-combination-magnification-product",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.ray-optics-and-optical-instruments",
+      "chapter": "Ray Optics & Optical Instruments",
+      "unit": "Optics",
+      "kind": "fact",
+      "front": "For a combination of thin lenses in contact, how is the total magnification m related to m1, m2, m3 of the individual lenses?",
+      "back": "A product.\nthe total magnification m of the combination is a product of magnification (m1, m2, m3,...) of individual lenses",
+      "quote": "the total magnification m of the combination is a product of magnification (m1, m2, m3,...) of individual lenses",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph201",
+        "chapterNo": 9,
+        "page": 238,
+        "section": "Combination of thin lenses in contact"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "lens",
+        "combination"
+      ],
+      "order": 740,
+      "note": "In symbols: m = m1 x m2 x m3 x ... (the product of the individual magnifications, not the sum)."
+    },
+    {
       "id": "kc.physics.ray-optics-and-optical-instruments.fact-lens-combination-uses",
       "v": 1,
       "subject": "physics",
@@ -21629,6 +24151,33 @@
         "microscope"
       ],
       "order": 880
+    },
+    {
+      "id": "kc.physics.ray-optics-and-optical-instruments.fact-image-at-infinity-relaxed-eye",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.ray-optics-and-optical-instruments",
+      "chapter": "Ray Optics & Optical Instruments",
+      "unit": "Optics",
+      "kind": "fact",
+      "front": "Where is the image formed by a simple microscope often considered most suitable for viewing by the relaxed eye?",
+      "back": "At infinity.\nTherefore, the image formed at infinity is often considered most suitable for viewing by the relaxed eye.",
+      "quote": "Therefore, the image formed at infinity is often considered most suitable for viewing by the relaxed eye.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph201",
+        "chapterNo": 9,
+        "page": 241,
+        "section": "The microscope"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "microscope"
+      ],
+      "order": 890
     },
     {
       "id": "kc.physics.ray-optics-and-optical-instruments.formula-simple-microscope-magnification",
@@ -22895,6 +25444,33 @@
       "order": 270
     },
     {
+      "id": "kc.physics.semiconductor-electronics.fact-diamond-like",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.semiconductor-electronics",
+      "chapter": "Semiconductor Electronics",
+      "unit": "Electronic Devices",
+      "kind": "fact",
+      "front": "What are the lattice structures of Ge and Si called?",
+      "back": "We shall take the most common case of Ge and Si whose lattice structure is shown in Fig. 14.3. These structures are called the diamond-like structures.",
+      "quote": "We shall take the most common case of Ge and Si whose lattice structure is shown in Fig. 14.3. These structures are called the diamond-like structures.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph206",
+        "chapterNo": 14,
+        "page": 327,
+        "section": "Intrinsic Semiconductor"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "covalent-bond"
+      ],
+      "order": 280
+    },
+    {
       "id": "kc.physics.semiconductor-electronics.def-hole",
       "v": 1,
       "subject": "physics",
@@ -23004,6 +25580,33 @@
         "intrinsic"
       ],
       "order": 340
+    },
+    {
+      "id": "kc.physics.semiconductor-electronics.fact-intrinsic-thermal-excite",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.semiconductor-electronics",
+      "chapter": "Semiconductor Electronics",
+      "unit": "Electronic Devices",
+      "kind": "fact",
+      "front": "In an intrinsic semiconductor, what excites some electrons from the valence band to the conduction band at T > 0 K?",
+      "back": "It is the thermal energy at higher temperatures (T > 0K), which excites some electrons from the valence band to the conduction band.",
+      "quote": "It is the thermal energy at higher temperatures (T > 0K), which excites some electrons from the valence band to the conduction band.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph206",
+        "chapterNo": 14,
+        "page": 329,
+        "section": "Intrinsic Semiconductor"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "intrinsic"
+      ],
+      "order": 350
     },
     {
       "id": "kc.physics.semiconductor-electronics.key-lattice-decides",
@@ -23473,6 +26076,34 @@
         "p-type"
       ],
       "order": 550
+    },
+    {
+      "id": "kc.physics.semiconductor-electronics.fact-acceptor-one-hole",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.semiconductor-electronics",
+      "chapter": "Semiconductor Electronics",
+      "unit": "Electronic Devices",
+      "kind": "fact",
+      "front": "How many holes does one acceptor atom give in a p-type semiconductor?",
+      "back": "It is obvious that one acceptor atom gives one hole.",
+      "quote": "It is obvious that one acceptor atom gives one hole.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph206",
+        "chapterNo": 14,
+        "page": 331,
+        "section": "Extrinsic Semiconductor"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "acceptor",
+        "p-type"
+      ],
+      "order": 560
     },
     {
       "id": "kc.physics.semiconductor-electronics.def-p-type-semiconductor",
@@ -25039,6 +27670,34 @@
       "order": 10
     },
     {
+      "id": "kc.physics.wave-optics.fact-corpuscular-prediction",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.wave-optics",
+      "chapter": "Wave Optics",
+      "unit": "Optics",
+      "kind": "fact",
+      "front": "What did the corpuscular model of light predict about the speed of light in the second medium if the ray bends towards the normal?",
+      "back": "Greater.\nThe corpuscular model predicted that if the ray of light (on refraction) bends towards the normal then the speed of light would be greater in the second medium.",
+      "quote": "The corpuscular model predicted that if the ray of light (on refraction) bends towards the normal then the speed of light would be greater in the second medium.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph202",
+        "chapterNo": 10,
+        "page": 255,
+        "section": "Introduction"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "corpuscular model",
+        "refraction"
+      ],
+      "order": 20
+    },
+    {
       "id": "kc.physics.wave-optics.fact-huygens-wave-theory",
       "v": 1,
       "subject": "physics",
@@ -25065,6 +27724,34 @@
         "Huygens"
       ],
       "order": 30
+    },
+    {
+      "id": "kc.physics.wave-optics.fact-wave-prediction",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.wave-optics",
+      "chapter": "Wave Optics",
+      "unit": "Optics",
+      "kind": "fact",
+      "front": "What did the wave theory of light predict about the speed of light in the second medium if the wave bends towards the normal?",
+      "back": "Less.\nthe wave model could satisfactorily explain the phenomena of reflection and refraction; however, it predicted that on refraction if the wave bends towards the normal then the speed of light would be less in the second medium.",
+      "quote": "the wave model could satisfactorily explain the phenomena of reflection and refraction; however, it predicted that on refraction if the wave bends towards the normal then the speed of light would be less in the second medium.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph202",
+        "chapterNo": 10,
+        "page": 255,
+        "section": "Introduction"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "wave theory",
+        "refraction"
+      ],
+      "order": 40
     },
     {
       "id": "kc.physics.wave-optics.fact-foucault-1850",
@@ -25149,6 +27836,34 @@
         "ray"
       ],
       "order": 70
+    },
+    {
+      "id": "kc.physics.wave-optics.fact-straight-lines-wavelength",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.wave-optics",
+      "chapter": "Wave Optics",
+      "unit": "Optics",
+      "kind": "fact",
+      "front": "Why can light be assumed to travel approximately in straight lines when it meets typical mirrors and lenses?",
+      "back": "Because of the smallness of the wavelength of visible light (in comparison to the dimensions of typical mirrors and lenses), light can be assumed to approximately travel in straight lines.",
+      "quote": "Because of the smallness of the wavelength of visible light (in comparison to the dimensions of typical mirrors and lenses), light can be assumed to approximately travel in straight lines.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph202",
+        "chapterNo": 10,
+        "page": 256,
+        "section": "Introduction"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "geometrical optics",
+        "wavelength"
+      ],
+      "order": 80
     },
     {
       "id": "kc.physics.wave-optics.def-wavefront",
@@ -25264,6 +27979,62 @@
         "history"
       ],
       "order": 120
+    },
+    {
+      "id": "kc.physics.wave-optics.fact-wave-theory-prediction-correct",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.wave-optics",
+      "chapter": "Wave Optics",
+      "unit": "Optics",
+      "kind": "fact",
+      "front": "Corpuscular model or wave theory: whose prediction about the speed of light in the second medium did later experiments confirm?",
+      "back": "The wave theory.\nThis prediction is opposite to the prediction from the corpuscular model of light and as later experiments showed, the prediction of the wave theory is correct.",
+      "quote": "This prediction is opposite to the prediction from the corpuscular model of light and as later experiments showed, the prediction of the wave theory is correct.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph202",
+        "chapterNo": 10,
+        "page": 259,
+        "section": "Refraction of a Plane Wave"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "refraction",
+        "wave theory"
+      ],
+      "order": 130
+    },
+    {
+      "id": "kc.physics.wave-optics.fact-critical-angle-tir",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.wave-optics",
+      "chapter": "Wave Optics",
+      "unit": "Optics",
+      "kind": "fact",
+      "front": "What happens to a wave at a rarer medium for all angles of incidence greater than the critical angle?",
+      "back": "Total internal reflection.\nfor all angles of incidence greater than the critical angle, we will not have any refracted wave and the wave will undergo what is known as total internal reflection.",
+      "quote": "for all angles of incidence greater than the critical angle, we will not have any refracted wave and the wave will undergo what is known as total internal reflection.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph202",
+        "chapterNo": 10,
+        "page": 260,
+        "section": "Refraction at a Rarer Medium"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "critical angle",
+        "total internal reflection"
+      ],
+      "order": 150
     },
     {
       "id": "kc.physics.wave-optics.fact-prism-wavefront",
@@ -25462,6 +28233,34 @@
       "order": 240
     },
     {
+      "id": "kc.physics.wave-optics.fact-stable-interference-pattern",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.wave-optics",
+      "chapter": "Wave Optics",
+      "unit": "Optics",
+      "kind": "fact",
+      "front": "For coherent sources, what is meant by a stable interference pattern?",
+      "back": "The positions of maxima and minima do not change with time.\nwe will have a stable interference pattern; i.e., the positions of maxima and minima will not change with time.",
+      "quote": "we will have a stable interference pattern; i.e., the positions of maxima and minima will not change with time.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph202",
+        "chapterNo": 10,
+        "page": 264,
+        "section": "Coherent and Incoherent Addition of Waves"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "coherent sources",
+        "interference"
+      ],
+      "order": 250
+    },
+    {
       "id": "kc.physics.wave-optics.def-incoherent-sources",
       "v": 1,
       "subject": "physics",
@@ -25515,6 +28314,34 @@
         "incoherent sources"
       ],
       "order": 270
+    },
+    {
+      "id": "kc.physics.wave-optics.fact-independent-sources-incoherent",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.wave-optics",
+      "chapter": "Wave Optics",
+      "unit": "Optics",
+      "kind": "fact",
+      "front": "Are the light waves from two independent sources of light coherent or incoherent?",
+      "back": "Incoherent.\nThus the light waves coming out from two independent sources of light will not have any fixed phase relationship and would be incoherent",
+      "quote": "Thus the light waves coming out from two independent sources of light will not have any fixed phase relationship and would be incoherent",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph202",
+        "chapterNo": 10,
+        "page": 265,
+        "section": "Interference of Light Waves and Young's Experiment"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "incoherent sources",
+        "Young"
+      ],
+      "order": 280
     },
     {
       "id": "kc.physics.wave-optics.fact-young-bio",
@@ -25601,6 +28428,34 @@
       "order": 330
     },
     {
+      "id": "kc.physics.wave-optics.fact-fringes-equally-spaced",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.wave-optics",
+      "chapter": "Wave Optics",
+      "unit": "Optics",
+      "kind": "fact",
+      "front": "In Young’s double-slit experiment, how are the dark and bright fringes spaced?",
+      "back": "Equally spaced.\nEquations (10.13) and (10.14) show that dark and bright fringes are equally spaced.",
+      "quote": "Equations (10.13) and (10.14) show that dark and bright fringes are equally spaced.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph202",
+        "chapterNo": 10,
+        "page": 266,
+        "section": "Interference of Light Waves and Young's Experiment"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "Young",
+        "fringes"
+      ],
+      "order": 350
+    },
+    {
       "id": "kc.physics.wave-optics.kl-summary-young-equal",
       "v": 1,
       "subject": "physics",
@@ -25631,6 +28486,34 @@
       "order": 360
     },
     {
+      "id": "kc.physics.wave-optics.fact-interference-term-important",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.wave-optics",
+      "chapter": "Wave Optics",
+      "unit": "Optics",
+      "kind": "fact",
+      "front": "Superposition of light waves: when is the interference term in the intensity important?",
+      "back": "Only if the sources have the same frequency and a stable phase difference.\nthere is an interference term in addition to the sum of the individual intensities. But this term is important only if it has a non-zero average, which occurs only if the sources have the same frequency and a stable phase difference.",
+      "quote": "there is an interference term in addition to the sum of the individual intensities. But this term is important only if it has a non-zero average, which occurs only if the sources have the same frequency and a stable phase difference.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph202",
+        "chapterNo": 10,
+        "page": 272,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "interference",
+        "coherent sources"
+      ],
+      "order": 370
+    },
+    {
       "id": "kc.physics.wave-optics.def-diffraction-shadow",
       "v": 1,
       "subject": "physics",
@@ -25659,6 +28542,62 @@
       "order": 390
     },
     {
+      "id": "kc.physics.wave-optics.fact-no-everyday-diffraction",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.wave-optics",
+      "chapter": "Wave Optics",
+      "unit": "Optics",
+      "kind": "fact",
+      "front": "Why do we not encounter diffraction effects of light in everyday observations?",
+      "back": "Since the wavelength of light is much smaller than the dimensions of most obstacles; we do not encounter diffraction effects of light in everyday observations.",
+      "quote": "Since the wavelength of light is much smaller than the dimensions of most obstacles; we do not encounter diffraction effects of light in everyday observations.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph202",
+        "chapterNo": 10,
+        "page": 266,
+        "section": "Diffraction"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "diffraction",
+        "wavelength"
+      ],
+      "order": 400
+    },
+    {
+      "id": "kc.physics.wave-optics.fact-resolution-limited-by-diffraction",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.wave-optics",
+      "chapter": "Wave Optics",
+      "unit": "Optics",
+      "kind": "fact",
+      "front": "Which phenomenon limits the resolution of our eye and of optical instruments such as telescopes or microscopes?",
+      "back": "Diffraction.\nthe finite resolution of our eye or of optical instruments such as telescopes or microscopes is limited due to the phenomenon of diffraction.",
+      "quote": "the finite resolution of our eye or of optical instruments such as telescopes or microscopes is limited due to the phenomenon of diffraction.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph202",
+        "chapterNo": 10,
+        "page": 267,
+        "section": "Diffraction"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "diffraction",
+        "resolution"
+      ],
+      "order": 410
+    },
+    {
       "id": "kc.physics.wave-optics.fact-cd-colours",
       "v": 1,
       "subject": "physics",
@@ -25685,6 +28624,34 @@
         "CD"
       ],
       "order": 420
+    },
+    {
+      "id": "kc.physics.wave-optics.fact-diffraction-wave-ideas",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.wave-optics",
+      "chapter": "Wave Optics",
+      "unit": "Optics",
+      "kind": "fact",
+      "front": "What kind of ideas are needed to properly understand the spreading of light from narrow holes and slits (diffraction)?",
+      "back": "Wave ideas.\nEven before Young, early experimenters – including Newton – had noticed that light spreads out from narrow holes and slits. It seems to turn around corners and enter regions where we would expect a shadow. These effects, known as diffraction, can only be properly understood using wave ideas.",
+      "quote": "Even before Young, early experimenters – including Newton – had noticed that light spreads out from narrow holes and slits. It seems to turn around corners and enter regions where we would expect a shadow. These effects, known as diffraction, can only be properly understood using wave ideas.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph202",
+        "chapterNo": 10,
+        "page": 267,
+        "section": "The Single Slit"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "diffraction",
+        "single slit"
+      ],
+      "order": 430
     },
     {
       "id": "kc.physics.wave-optics.fact-single-slit-pattern",
@@ -25801,6 +28768,34 @@
       "order": 480
     },
     {
+      "id": "kc.physics.wave-optics.fact-double-slit-superposition",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.wave-optics",
+      "chapter": "Wave Optics",
+      "unit": "Optics",
+      "kind": "fact",
+      "front": "In the double-slit experiment, what is the pattern on the screen actually a superposition of?",
+      "back": "In the double-slit experiment, we must note that the pattern on the screen is actually a superposition of single-slit diffraction from each slit or hole, and the double-slit interference pattern.",
+      "quote": "In the double-slit experiment, we must note that the pattern on the screen is actually a superposition of single-slit diffraction from each slit or hole, and the double-slit interference pattern.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph202",
+        "chapterNo": 10,
+        "page": 268,
+        "section": "The Single Slit"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "double slit",
+        "single slit"
+      ],
+      "order": 490
+    },
+    {
       "id": "kc.physics.wave-optics.kl-energy-conserved",
       "v": 1,
       "subject": "physics",
@@ -25888,6 +28883,33 @@
       "order": 530
     },
     {
+      "id": "kc.physics.wave-optics.fact-laws-from-huygens-construction",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.wave-optics",
+      "chapter": "Wave Optics",
+      "unit": "Optics",
+      "kind": "fact",
+      "front": "Which well known laws follow from Huygens’ construction of the new wavefront?",
+      "back": "The laws of reflection and refraction.\nHuygens’ construction tells us that the new wavefront is the forward envelope of the secondary waves. When the speed of light is independent of direction, the secondary waves are spherical. The rays are then perpendicular to both the wavefronts and the time of travel is the same measured along any ray. This principle leads to the well known laws of reflection and refraction.",
+      "quote": "Huygens’ construction tells us that the new wavefront is the forward envelope of the secondary waves. When the speed of light is independent of direction, the secondary waves are spherical. The rays are then perpendicular to both the wavefronts and the time of travel is the same measured along any ray. This principle leads to the well known laws of reflection and refraction.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph202",
+        "chapterNo": 10,
+        "page": 272,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "Huygens principle"
+      ],
+      "order": 550
+    },
+    {
       "id": "kc.physics.wave-optics.kl-ponder-resolution",
       "v": 1,
       "subject": "physics",
@@ -25916,6 +28938,34 @@
         "resolution"
       ],
       "order": 570
+    },
+    {
+      "id": "kc.physics.wave-optics.fact-crucial-new-feature-of-waves",
+      "v": 1,
+      "subject": "physics",
+      "chapterKey": "physics.wave-optics",
+      "chapter": "Wave Optics",
+      "unit": "Optics",
+      "kind": "fact",
+      "front": "What is the crucial new feature of waves, as shown in Young’s experiment?",
+      "back": "Interference of amplitudes.\nThe crucial new feature of waves is interference of amplitudes from different sources which can be both constructive and destructive, as shown in Young’s experiment.",
+      "quote": "The crucial new feature of waves is interference of amplitudes from different sources which can be both constructive and destructive, as shown in Young’s experiment.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Physics Part 2",
+        "code": "leph202",
+        "chapterNo": 10,
+        "page": 272,
+        "section": "Points to Ponder"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "interference",
+        "Young"
+      ],
+      "order": 580
     },
     {
       "id": "kc.physics.wave-optics.fact-energy-perpendicular",

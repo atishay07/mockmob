@@ -1,6 +1,6 @@
 {
   "subject": "accountancy",
-  "version": 9,
+  "version": 10,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -499,6 +499,34 @@
         "types"
       ],
       "order": 290
+    },
+    {
+      "id": "kc.accountancy.accounting-ratios.fact-ratios-comparative-significance",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.accounting-ratios",
+      "chapter": "Accounting Ratios",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "As a technique of financial analysis, what do accounting ratios measure?",
+      "back": "As a technique of financial analysis, accounting ratios measure the comparative significance of the individual items of the income and position statements.",
+      "quote": "As a technique of financial analysis, accounting ratios measure the comparative significance of the individual items of the income and position statements.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 175,
+        "section": "4.4 Tools of Analysis of Financial Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "ratio analysis"
+      ],
+      "order": 295,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.accounting-ratios.def-a-statement-of-profit-and-loss-ratio",
@@ -4509,6 +4537,35 @@
       "order": 20
     },
     {
+      "id": "kc.accountancy.admission-of-partner.types-modes-of-reconstitution",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "types",
+      "front": "Name the ways in which partners often resort to reconstitution of a firm.",
+      "back": "admission of a new partner\nchange in profit sharing ratio\nretirement of a partner\ndeath or insolvence of a partner",
+      "quote": "The partners often resort to reconstitution of the firm in various ways such as admission of a new partner, change in profit sharing ratio, retirement of a partner, death or insolvence of a partner.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 48,
+        "section": "Introduction"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reconstitution"
+      ],
+      "order": 25,
+      "note": "Four modes: admission, change in profit sharing ratio, retirement, and death (or insolvency) of a partner.",
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.admission-of-partner.kl-admission-needs",
       "v": 1,
       "subject": "accountancy",
@@ -4593,6 +4650,35 @@
         "admission"
       ],
       "order": 90
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.fact-capital-cash-or-kind",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "For the right to share in the assets and profits of the firm, what does a new partner bring?",
+      "back": "For the right to acquire share in the assets and profits of the partnership firm, the partner brings an agreed amount of capital either in cash or in kind.",
+      "quote": "For the right to acquire share in the assets and profits of the partnership firm, the partner brings an agreed amount of capital either in cash or in kind.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 49,
+        "section": "2.2 Admission of a New Partner"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "admission",
+        "capital"
+      ],
+      "order": 95,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.admission-of-partner.fact-premium-new-partner",
@@ -4731,6 +4817,34 @@
         "new ratio"
       ],
       "order": 140
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.fact-old-partners-ratio-changes",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "On admission of a new partner, what happens to the profit sharing ratio among the old partners?",
+      "back": "In any case, on admission of a new partner, the profit sharing ratio among the old partners will change keeping in view their respective contribution to the profit sharing ratio of the incoming partner.",
+      "quote": "In any case, on admission of a new partner, the profit sharing ratio among the old partners will change keeping in view their respective contribution to the profit sharing ratio of the incoming partner.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 50,
+        "section": "2.3 New Profit Sharing Ratio"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "new profit sharing ratio"
+      ],
+      "order": 145,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.admission-of-partner.formula-new-share-old-partner",
@@ -5453,6 +5567,34 @@
       "order": 880
     },
     {
+      "id": "kc.accountancy.admission-of-partner.fact-why-revalue-assets",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "At admission of a new partner, why are assets revalued and liabilities reassessed?",
+      "back": "In case the assets are overstated or understated, these are revalued. Similarly, a reassessment of the liabilities is also done so that these are brought in the books at their correct values.",
+      "quote": "In case the assets are overstated or understated, these are revalued. Similarly, a reassessment of the liabilities is also done so that these are brought in the books at their correct values.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 77,
+        "section": "2.7 Revaluation of Assets and Reassessment of Liabilities"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "revaluation"
+      ],
+      "order": 895,
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.admission-of-partner.fact-reval-balance-old-ratio",
       "v": 1,
       "subject": "accountancy",
@@ -5478,6 +5620,34 @@
         "revaluation"
       ],
       "order": 900
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.fact-reval-account-credit-debit",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "On revaluation, which changes are credited to the Revaluation Account and which are debited?",
+      "back": "the revaluation account is credited with increase in the value of each asset and decrease in its liabilities because it is a gain and is debited with decrease in the value of assets and increase in its liabilities is debited to revaluation account because it is a loss.",
+      "quote": "In other words, the revaluation account is credited with increase in the value of each asset and decrease in its liabilities because it is a gain and is debited with decrease in the value of assets and increase in its liabilities is debited to revaluation account because it is a loss.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 77,
+        "section": "2.7 Revaluation of Assets and Reassessment of Liabilities"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "revaluation"
+      ],
+      "order": 905,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.admission-of-partner.kl-unrecorded-credit-debit",
@@ -5785,6 +5955,34 @@
       "order": 1020
     },
     {
+      "id": "kc.accountancy.admission-of-partner.fact-new-partner-capital-as-base",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "If the new partner's capital is given, how can the new capitals of the old partners be calculated?",
+      "back": "if the capital of the new partner is given, the same can be used as a base for calculating the new capitals of the old partners.",
+      "quote": "In such a situation, if the capital of the new partner is given, the same can be used as a base for calculating the new capitals of the old partners.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 83,
+        "section": "2.8 Adjustment of Capitals"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "capital adjustment"
+      ],
+      "order": 1030,
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.admission-of-partner.fact-short-bring-surplus-withdraw",
       "v": 1,
       "subject": "accountancy",
@@ -5922,6 +6120,34 @@
       "order": 1130
     },
     {
+      "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statements-summarised",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "definition",
+      "front": "What are financial statements, basically?",
+      "back": "Basically, these are summarised financial reports which provide the operating results and financial position of companies",
+      "quote": "Basically, these are summarised financial reports which provide the operating results and financial position of companies",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 171,
+        "section": "Introduction"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "financial statements"
+      ],
+      "order": 5,
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statement-analysis",
       "v": 1,
       "subject": "accountancy",
@@ -5948,6 +6174,63 @@
       ],
       "order": 10,
       "note": "Critically evaluating the data in financial statements to understand the firm and decide about its operations."
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-fsa-study-of-relationship",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "What is financial statement analysis basically a study of?",
+      "back": "It is basically a study of relationship among various financial facts and figures as given in a set of financial statements, and the interpretation thereof to gain an insight into the profitability and operational efficiency of the firm to assess its financial health and future prospects.",
+      "quote": "It is basically a study of relationship among various financial facts and figures as given in a set of financial statements, and the interpretation thereof to gain an insight into the profitability and operational efficiency of the firm to assess its financial health and future prospects.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 171,
+        "section": "4.1 Meaning of Analysis of Financial Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "financial statement analysis"
+      ],
+      "order": 20,
+      "addedIn": "top-1102"
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-financial-analysis-includes",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "What two things does the term ‘financial analysis’ include?",
+      "back": "The term ‘financial analysis’ includes both ‘analysis and interpretation’.",
+      "quote": "The term ‘financial analysis’ includes both ‘analysis and interpretation’.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 171,
+        "section": "4.1 Meaning of Analysis of Financial Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "analysis",
+        "interpretation"
+      ],
+      "order": 25,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.analysis-of-financial-statements.def-analysis-meaning",
@@ -6002,6 +6285,63 @@
         "interpretation"
       ],
       "order": 40
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-analysis-interpretation-complementary",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "How are analysis and interpretation related in financial analysis?",
+      "back": "These two are complimentary to each other. Analysis is useless without interpretation, and interpretation without analysis is difficult or even impossible.",
+      "quote": "These two are complimentary to each other. Analysis is useless without interpretation, and interpretation without analysis is difficult or even impossible.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 171,
+        "section": "4.1 Meaning of Analysis of Financial Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "analysis",
+        "interpretation"
+      ],
+      "order": 45,
+      "addedIn": "top-1102"
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.def-fsa-judgemental-process",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "definition",
+      "front": "Financial statement analysis is what kind of process, and what is its primary objective?",
+      "back": "Financial statement analysis is a judgemental process which aims to estimate current and past financial positions and the results of the operation of an enterprise, with primary objective of determining the best possible estimates and predictions about the future conditions.",
+      "quote": "Financial statement analysis is a judgemental process which aims to estimate current and past financial positions and the results of the operation of an enterprise, with primary objective of determining the best possible estimates and predictions about the future conditions.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 172,
+        "section": "4.1 Meaning of Analysis of Financial Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "financial statement analysis"
+      ],
+      "order": 50,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.analysis-of-financial-statements.types-two-comparisons",
@@ -6087,6 +6427,119 @@
       "order": 90
     },
     {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-nature-differs-with-purpose",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "What decides how the nature of financial analysis differs from analyst to analyst?",
+      "back": "The nature of analysis will differ depending on the purpose of the analyst. A technique frequently used by an analyst need not necessarily serve the purpose of other analysts because of the difference in the interests of the analysts.",
+      "quote": "The nature of analysis will differ depending on the purpose of the analyst. A technique frequently used by an analyst need not necessarily serve the purpose of other analysts because of the difference in the interests of the analysts.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 172,
+        "section": "4.2 Significance of Analysis of Financial Statements"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "users"
+      ],
+      "order": 91,
+      "addedIn": "top-1102"
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.list-finance-manager-focus",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "list",
+      "front": "Financial analysis focusses on which facts and relationships for the finance manager?",
+      "back": "managerial performance\ncorporate efficiency\nfinancial strengths and weaknesses\ncreditworthiness of the company",
+      "quote": "Financial analysis focusses on the facts and relationships related to managerial performance, corporate efficiency, financial strengths and weaknesses and creditworthiness of the company.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 172,
+        "section": "4.2 Significance of Analysis of Financial Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "finance manager"
+      ],
+      "order": 92,
+      "addedIn": "top-1102"
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.list-finance-manager-tools-determine",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "list",
+      "front": "The tools of analysis help a finance manager study accounting data to determine what?",
+      "back": "continuity of the operating policies\ninvestment value of the business\ncredit ratings\ntesting the efficiency of operations",
+      "quote": "The tools for analysis help in studying accounting data so as to determine the continuity of the operating policies, investment value of the business, credit ratings and testing the efficiency of operations.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 172,
+        "section": "4.2 Significance of Analysis of Financial Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "finance manager"
+      ],
+      "order": 93,
+      "addedIn": "top-1102"
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-finance-manager-financial-control",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "How do analysis techniques help a finance manager in financial control?",
+      "back": "The techniques are equally important in the area of financial control, enabling the finance manager to make constant reviews of the actual financial operations of the firm to analyse the causes of major deviations, which may help in corrective action wherever indicated.",
+      "quote": "The techniques are equally important in the area of financial control, enabling the finance manager to make constant reviews of the actual financial operations of the firm to analyse the causes of major deviations, which may help in corrective action wherever indicated.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 172,
+        "section": "4.2 Significance of Analysis of Financial Statements"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "finance manager",
+        "financial control"
+      ],
+      "order": 94,
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.analysis-of-financial-statements.list-top-management-helps",
       "v": 1,
       "subject": "accountancy",
@@ -6112,6 +6565,34 @@
         "top management"
       ],
       "order": 110
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-trade-payables-obligations",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "What do trade payables appraise through an analysis of financial statements?",
+      "back": "Trade payables, through an analysis of financial statements, appraises not only the ability of the company to meet its short-term obligations, but also judges the probability of its continued ability to meet all its financial obligations in future.",
+      "quote": "Trade payables, through an analysis of financial statements, appraises not only the ability of the company to meet its short-term obligations, but also judges the probability of its continued ability to meet all its financial obligations in future.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 173,
+        "section": "4.2 Significance of Analysis of Financial Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "trade payables"
+      ],
+      "order": 120,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.analysis-of-financial-statements.fact-trade-payables-liquidity",
@@ -6171,6 +6652,90 @@
       "order": 140
     },
     {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-lenders-historical-statements",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "Why do long-term lenders analyse the historical financial statements?",
+      "back": "Long-term lenders analyse the historical financial statements to assess its future solvency and profitability.",
+      "quote": "Long-term lenders analyse the historical financial statements to assess its future solvency and profitability.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 173,
+        "section": "4.2 Significance of Analysis of Financial Statements"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "lenders"
+      ],
+      "order": 142,
+      "addedIn": "top-1102"
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-investors-profitability",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "What do investors concentrate on in the analysis of financial statements?",
+      "back": "Investors, who have invested their money in the firm’s shares, are interested about the firm’s earnings. As such, they concentrate on the analysis of the firm’s present and future profitability.",
+      "quote": "Investors, who have invested their money in the firm’s shares, are interested about the firm’s earnings. As such, they concentrate on the analysis of the firm’s present and future profitability.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 173,
+        "section": "4.2 Significance of Analysis of Financial Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "investors"
+      ],
+      "order": 145,
+      "addedIn": "top-1102"
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-large-company-shareholders",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "In some large companies, the shareholders’ interest is limited to deciding what?",
+      "back": "However, in some large companies, the shareholders’ interest is limited to decide whether to buy, sell or hold the shares.",
+      "quote": "However, in some large companies, the shareholders’ interest is limited to decide whether to buy, sell or hold the shares.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 173,
+        "section": "4.2 Significance of Analysis of Financial Statements"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "investors"
+      ],
+      "order": 147,
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.analysis-of-financial-statements.fact-labour-unions",
       "v": 1,
       "subject": "accountancy",
@@ -6196,6 +6761,34 @@
         "labour unions"
       ],
       "order": 160
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-economists-researchers",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "Why do economists and researchers analyse financial statements?",
+      "back": "The economists, researchers, etc., analyse the financial statements to study the present business and economic conditions.",
+      "quote": "The economists, researchers, etc., analyse the financial statements to study the present business and economic conditions.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 173,
+        "section": "4.2 Significance of Analysis of Financial Statements"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "economists"
+      ],
+      "order": 165,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.analysis-of-financial-statements.fact-government-agencies",
@@ -6250,6 +6843,34 @@
         "objectives"
       ],
       "order": 190
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-limitations-based-on-statements",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "On what is financial analysis based, and why does it suffer from limitations?",
+      "back": "Though financial analysis is quite helpful in determining financial strengths and weaknesses of a firm, it is based on the information available in financial statements. As such, the financial analysis also suffers from various limitations of financial statements.",
+      "quote": "Though financial analysis is quite helpful in determining financial strengths and weaknesses of a firm, it is based on the information available in financial statements. As such, the financial analysis also suffers from various limitations of financial statements.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 187,
+        "section": "4.7 Limitations of Financial Analysis"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "limitations"
+      ],
+      "order": 455,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.analysis-of-financial-statements.list-analyst-must-be-conscious",
@@ -6331,6 +6952,34 @@
         "annual report"
       ],
       "order": 490
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-annual-report-management-discussion",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "What else does an annual report carry besides the basic financial statements?",
+      "back": "It also carries management’s discussion of corporate performance of the year under review for futuristic prospects.",
+      "quote": "It also carries management’s discussion of corporate performance of the year under review for futuristic prospects.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 188,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "annual report"
+      ],
+      "order": 495,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.analysis-of-financial-statements.list-tools-of-financial-analysis",
@@ -7269,6 +7918,62 @@
         "cash flow"
       ],
       "order": 340
+    },
+    {
+      "id": "kc.accountancy.cash-flow-statement.fact-cash-flow-statement-purpose",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.cash-flow-statement",
+      "chapter": "Cash Flow Statement",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "Why is a cash flow statement prepared?",
+      "back": "Cash flow statement is prepared to project the manner in which the cash has been received and has been utilised during an accounting year as it shows the sources of cash receipts and also the purposes for which payments are made.",
+      "quote": "Cash flow statement is prepared to project the manner in which the cash has been received and has been utilised during an accounting year as it shows the sources of cash receipts and also the purposes for which payments are made.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 175,
+        "section": "4.4 Tools of Analysis of Financial Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "cash flow statement"
+      ],
+      "order": 345,
+      "addedIn": "top-1102"
+    },
+    {
+      "id": "kc.accountancy.cash-flow-statement.fact-cash-flow-statement-summarises",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.cash-flow-statement",
+      "chapter": "Cash Flow Statement",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "What does a cash flow statement summarise about the cash position between two balance sheets?",
+      "back": "Thus, it summarises the causes for the changes in cash position of a business enterprise between dates of two balance sheets.",
+      "quote": "Thus, it summarises the causes for the changes in cash position of a business enterprise between dates of two balance sheets.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 175,
+        "section": "4.4 Tools of Analysis of Financial Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "cash flow statement"
+      ],
+      "order": 346,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.cash-flow-statement.def-investing-activities",
@@ -8669,6 +9374,35 @@
       "order": 180
     },
     {
+      "id": "kc.accountancy.change-in-profit-sharing-ratio.fact-gaining-specified-proportion",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.change-in-profit-sharing-ratio",
+      "chapter": "Change in Profit Sharing Ratio",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "Continuing partners acquire the outgoing partner's share in a specified proportion: is the gaining ratio calculated?",
+      "back": "In that case, again, there is no need to calculate the gaining ratio as it will be the ratio in which they have acquired the share of profit from the retiring deceased partner.",
+      "quote": "In that case, again, there is no need to calculate the gaining ratio as it will be the ratio in which they have acquired the share of profit from the retiring deceased partner.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 109,
+        "section": "3.3 Gaining Ratio"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "gaining ratio",
+        "specified proportion"
+      ],
+      "order": 190,
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.change-in-profit-sharing-ratio.fm-gaining-share",
       "v": 1,
       "subject": "accountancy",
@@ -8808,6 +9542,64 @@
       "order": 1120
     },
     {
+      "id": "kc.accountancy.change-in-profit-sharing-ratio.entry-e-ill29-stock-decrease-provision",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.change-in-profit-sharing-ratio",
+      "chapter": "Change in Profit Sharing Ratio",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "entry",
+      "front": "Entry (Illustration 29): decrease in the value of stock and a provision for doubtful debts on a change in ratio.",
+      "back": "Revaluation A/c Dr.\nTo Stock A/c\nTo Provisions for Doubtful debts A/c\n(Decrease in value of stock and creation of provision for doubtful debts)",
+      "quote": "Revaluation A/c Dr. To Stock A/c To Provisions for Doubtful debts A/c (Decrease in value of stock and creation of provision for doubtful debts)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 95,
+        "section": "Illustration 29"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "revaluation",
+        "profit sharing ratio"
+      ],
+      "order": 1122,
+      "addedIn": "top-1102"
+    },
+    {
+      "id": "kc.accountancy.change-in-profit-sharing-ratio.fact-gainer-buys-share-of-profit",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.change-in-profit-sharing-ratio",
+      "chapter": "Change in Profit Sharing Ratio",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "Change in profit sharing ratio: for the partner who gains, what does it amount to?",
+      "back": "the partner who gain by change in profit effecting amounts to one partner buying the share of profit from another partner.",
+      "quote": "In such a situation, the partner who gain by change in profit effecting amounts to one partner buying the share of profit from another partner.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 98,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "profit sharing ratio",
+        "gaining ratio"
+      ],
+      "order": 1160,
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.comparative-and-common-size-statements.def-comparative-statements",
       "v": 1,
       "subject": "accountancy",
@@ -8943,6 +9735,62 @@
       "order": 250
     },
     {
+      "id": "kc.accountancy.comparative-and-common-size-statements.fact-common-size-percentages-comparable",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.comparative-and-common-size-statements",
+      "chapter": "Comparative & Common Size Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "In a common size statement, why can percentages be compared with the previous year or other firms?",
+      "back": "The percentage thus calculated can be easily compared with the results of corresponding percentages of the previous year or of some other firms, as the numbers are brought to common base.",
+      "quote": "The percentage thus calculated can be easily compared with the results of corresponding percentages of the previous year or of some other firms, as the numbers are brought to common base.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 174,
+        "section": "4.4 Tools of Analysis of Financial Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "common size statements"
+      ],
+      "order": 255,
+      "addedIn": "top-1102"
+    },
+    {
+      "id": "kc.accountancy.comparative-and-common-size-statements.fact-common-size-different-sized-companies",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.comparative-and-common-size-statements",
+      "chapter": "Comparative & Common Size Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "What do common size statements allow an analyst to compare in companies of different sizes?",
+      "back": "Such statements also allow an analyst to compare the operating and financing characteristics of two companies of different sizes in the same industry.",
+      "quote": "Such statements also allow an analyst to compare the operating and financing characteristics of two companies of different sizes in the same industry.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 174,
+        "section": "4.4 Tools of Analysis of Financial Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "common size statements"
+      ],
+      "order": 260,
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.comparative-and-common-size-statements.types-intra-inter-firm",
       "v": 1,
       "subject": "accountancy",
@@ -9023,6 +9871,34 @@
         "comparative statements"
       ],
       "order": 350
+    },
+    {
+      "id": "kc.accountancy.comparative-and-common-size-statements.fact-comparative-what-can-be-found",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.comparative-and-common-size-statements",
+      "chapter": "Comparative & Common Size Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "What does a comparative statement make it possible to find out?",
+      "back": "As a result, it is possible to find out not only the balances of accounts as on different dates and summaries of different operational activities of different periods, but also the extent of their increase or decrease between these dates.",
+      "quote": "As a result, it is possible to find out not only the balances of accounts as on different dates and summaries of different operational activities of different periods, but also the extent of their increase or decrease between these dates.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 176,
+        "section": "4.5 Comparative Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "comparative statements"
+      ],
+      "order": 352,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.comparative-and-common-size-statements.steps-prepare-comparative-statements",
@@ -9166,6 +10042,34 @@
         "profit and loss"
       ],
       "order": 410
+    },
+    {
+      "id": "kc.accountancy.comparative-and-common-size-statements.fact-common-size-successive-periods",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.comparative-and-common-size-statements",
+      "chapter": "Comparative & Common Size Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "What does a common size statement show when it is prepared for successive periods?",
+      "back": "If such a statement is prepared for successive periods, it shows the changes of the respective percentages over a period of time.",
+      "quote": "If such a statement is prepared for successive periods, it shows the changes of the respective percentages over a period of time.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 182,
+        "section": "4.6 Common Size Statement"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "common size statement"
+      ],
+      "order": 415,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.comparative-and-common-size-statements.fact-inter-firm-comparison",
@@ -16002,6 +16906,62 @@
       "note": "Goodwill = Average Profits × No. of years purchased."
     },
     {
+      "id": "kc.accountancy.goodwill-valuation.fact-average-no-change-assumption",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "Simple average profits method: what is assumed about the overall situation of future profits?",
+      "back": "no change in the overall situation of profits is expected in the future.",
+      "quote": "The above calculation of goodwill is based on the assumption that no change in the overall situation of profits is expected in the future.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 58,
+        "section": "2.5.4.1 Average Profits Method"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "average profits"
+      ],
+      "order": 372,
+      "addedIn": "top-1102"
+    },
+    {
+      "id": "kc.accountancy.goodwill-valuation.fact-weightage-to-recent-years",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "Average profits method: when a trend exists, which years' profits are better given a higher weightage?",
+      "back": "it is considered to be better to give a higher weightage to the profits to the recent years than those of the earlier years.",
+      "quote": "Sometimes, if there exists an increasing on decreasing trend, it is considered to be better to give a higher weightage to the profits to the recent years than those of the earlier years.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 58,
+        "section": "2.5.4.1 Average Profits Method"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "weighted average"
+      ],
+      "order": 375,
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.goodwill-valuation.fact-weighted-only-if-specified",
       "v": 1,
       "subject": "accountancy",
@@ -16027,6 +16987,34 @@
         "weighted average"
       ],
       "order": 380
+    },
+    {
+      "id": "kc.accountancy.goodwill-valuation.fact-why-value-on-excess-profits",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "Super profits method: on what basis is it desirable to value goodwill?",
+      "back": "Therefore, it is desirable to value, goodwill on the basis of the excess profits and not the actual profits.",
+      "quote": "But it is contended that the buyer's real benefit does not lie in total profits; it is limited to such amounts of profits which are in excess of the normal return on capital employed in similar business. Therefore, it is desirable to value, goodwill on the basis of the excess profits and not the actual profits.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 60,
+        "section": "2.5.4.2 Super Profits Method"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "super profits"
+      ],
+      "order": 385,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.goodwill-valuation.term-super-profits-term",
@@ -16334,6 +17322,35 @@
       "order": 490
     },
     {
+      "id": "kc.accountancy.goodwill-valuation.steps-capitalisation-average-profits-steps",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "steps",
+      "front": "Steps in valuing goodwill by capitalisation of average profits, in order.",
+      "back": "1. Ascertain the average profits based on the past few years' performance.\n2. Capitalize the average profits on the basis of the normal rate of return to ascertain the capitalised value of average profits\n3. Ascertain the actual firm's capital (net assets) by deducting outside liabilities from the total assets\n4. Compute the value of goodwill by deducting net assets from the capitalised value of average profits",
+      "quote": "(i) Ascertain the average profits based on the past few years' performance. (ii) Capitalize the average profits on the basis of the normal rate of return to ascertain the capitalised value of average profits as follows: Average Profits × 100/Normal Rate of Return (iii) Ascertain the actual firm's capital (net assets) by deducting outside liabilities from the total assets (excluding goodwill and ficticious assets). Firms' Capital = Total Assets (excluding goodwill) – Outside Liabilities Where outside Liabilities include both long term and short term Liabilities. (iv) Compute the value of goodwill by deducting net assets from the capitalised value of average profits, i.e. (ii) – (iii).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 62,
+        "section": "2.5.4.3 Capitalisation Method"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "capitalisation",
+        "average profits"
+      ],
+      "order": 495,
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.goodwill-valuation.formula-capitalised-value-formula",
       "v": 1,
       "subject": "accountancy",
@@ -16444,6 +17461,36 @@
       "order": 530
     },
     {
+      "id": "kc.accountancy.goodwill-valuation.steps-capitalisation-super-profits-steps",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "steps",
+      "front": "Steps in valuing goodwill by capitalisation of super profits, in order.",
+      "back": "1. Calculate capital of the firm\n2. Calculate normal profits on capital employed\n3. Calculate average profit for past years, as specified\n4. Calculate super profits by deducting normal profits from average profits\n5. Multiply the super profits by the required rate of return multiplier",
+      "quote": "(i) Calculate capital of the firm, which is equal to total assets (excluding goodwill and ficticious assets) minus outside liabilities. (ii) Calculate normal profits on capital employed. (iii) Calculate average profit for past years, as specified. (ii) Calculate super profits by deducting normal profits from average profits. (iii) Multiply the super profits by the required rate of return multiplier, that is,",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 63,
+        "section": "2.5.4.3 Capitalisation Method"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "capitalisation",
+        "super profits"
+      ],
+      "order": 535,
+      "note": "Capital of the firm = total assets (excluding goodwill and fictitious assets) minus outside liabilities.",
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.goodwill-valuation.formula-cap-super-goodwill-formula",
       "v": 1,
       "subject": "accountancy",
@@ -16525,6 +17572,35 @@
         "capitalisation"
       ],
       "order": 560
+    },
+    {
+      "id": "kc.accountancy.goodwill-valuation.fact-internal-goodwill-not-recognised",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "Under AS 26, how is internally generated goodwill treated?",
+      "back": "Internally generated goodwill should not be recognised as an asset.",
+      "quote": "Internally generated goodwill should not be recognised as an asset.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 72,
+        "section": "Applicability of Accounting Standard 26: Intangible Assets"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "AS 26",
+        "goodwill"
+      ],
+      "order": 746,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.goodwill-valuation.def-hidden-goodwill",
@@ -16633,6 +17709,34 @@
         "goodwill"
       ],
       "order": 1150
+    },
+    {
+      "id": "kc.accountancy.goodwill-valuation.fact-summary-adjust-for-pre-admission-goodwill",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "Why must goodwill adjustments be made in the old partners' capital accounts on admission?",
+      "back": "some adjustments must be made into the capital accounts of the old partners for goodwill so that the new partner will not acquire a share in that profit which the firm earns because of its goodwill earned before admission without making any payment for the same.",
+      "quote": "It means that on the admission of a new partner some adjustments must be made into the capital accounts of the old partners for goodwill so that the new partner will not acquire a share in that profit which the firm earns because of its goodwill earned before admission without making any payment for the same.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 97,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "goodwill"
+      ],
+      "order": 1151,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.partnership-fundamentals.def-partnership-section-4",
@@ -19494,6 +20598,35 @@
       "order": 130
     },
     {
+      "id": "kc.accountancy.retirement-and-death-of-partner.fact-goodwill-treatment-depends",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapter": "Retirement & Death of Partner",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "On retirement or death of a partner, what does the accounting treatment for goodwill depend upon?",
+      "back": "The accounting treatment for goodwill in such a situation depends upon whether or, not goodwill already appears in the books of the firm.",
+      "quote": "The accounting treatment for goodwill in such a situation depends upon whether or, not goodwill already appears in the books of the firm.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 113,
+        "section": "3.4 Treatment of Goodwill"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "goodwill",
+        "retirement"
+      ],
+      "order": 260,
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.retirement-and-death-of-partner.fact-goodwill-entitled",
       "v": 1,
       "subject": "accountancy",
@@ -19519,6 +20652,35 @@
         "goodwill"
       ],
       "order": 270
+    },
+    {
+      "id": "kc.accountancy.retirement-and-death-of-partner.fact-goodwill-why-entitled",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapter": "Retirement & Death of Partner",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "Why is the retiring or deceased partner entitled to his share of goodwill?",
+      "back": "because the goodwill has been earned by the firm with the efforts of all the existing partners",
+      "quote": "because the goodwill has been earned by the firm with the efforts of all the existing partners",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 113,
+        "section": "3.4 Treatment of Goodwill"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "goodwill",
+        "retirement"
+      ],
+      "order": 275,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.retirement-and-death-of-partner.fact-goodwill-who-compensates",
@@ -19661,6 +20823,36 @@
       "order": 340
     },
     {
+      "id": "kc.accountancy.retirement-and-death-of-partner.entry-goodwill-written-off",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapter": "Retirement & Death of Partner",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "entry",
+      "front": "Journal entry: goodwill already in the books is written off on retirement (Hanny, Pammy and Sunny, old ratio).",
+      "back": "Hanny's Capital A/c\nDr.\nPammy's Capital A/c\nDr.\nSunny's Capital A/c\nDr.\nTo Goodwill A/c\n(Existing goodwill written-off in old ratio)",
+      "quote": "Hanny's Capital A/c\nDr.\nPammy's Capital A/c\nDr.\nSunny's Capital A/c\nDr.\nTo Goodwill A/c\n(Existing goodwill written-off in old ratio)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 118,
+        "section": "3.4.1 When goodwill does not appear in the books"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "goodwill",
+        "journal entry",
+        "example"
+      ],
+      "order": 355,
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.retirement-and-death-of-partner.entry-pammy-goodwill-adjusted",
       "v": 2,
       "subject": "accountancy",
@@ -19772,6 +20964,35 @@
         "journal entry"
       ],
       "order": 390
+    },
+    {
+      "id": "kc.accountancy.retirement-and-death-of-partner.fact-reval-values-differ",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapter": "Retirement & Death of Partner",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "On retirement or death, why may assets and liabilities need to be revalued?",
+      "back": "At the time of retirement or death of a partner there may be some assets which may not have been shown at their current values. Similarly, there may be certain liabilities which have been shown at a value different from the obligation to be met by the firm.",
+      "quote": "At the time of retirement or death of a partner there may be some assets which may not have been shown at their current values. Similarly, there may be certain liabilities which have been shown at a value different from the obligation to be met by the firm.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 120,
+        "section": "3.5 Adjustment for Revaluation of Assets and Liabilities"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "revaluation",
+        "retirement"
+      ],
+      "order": 395,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.retirement-and-death-of-partner.fact-revaluation-purpose",
@@ -20025,6 +21246,35 @@
       "order": 480
     },
     {
+      "id": "kc.accountancy.retirement-and-death-of-partner.fact-accumulated-losses-form",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapter": "Retirement & Death of Partner",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "In what form may a firm's Balance Sheet show accumulated losses?",
+      "back": "accumulated losses in the form of profit and loss account debit balance",
+      "quote": "accumulated losses in the form of profit and loss account debit balance",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 122,
+        "section": "3.6 Adjustment of Accumulated Profits and Losses"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "accumulated losses",
+        "profit and loss account"
+      ],
+      "order": 487,
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.retirement-and-death-of-partner.fact-accumulated-entitled",
       "v": 1,
       "subject": "accountancy",
@@ -20160,6 +21410,35 @@
         "intervening period"
       ],
       "order": 530
+    },
+    {
+      "id": "kc.accountancy.retirement-and-death-of-partner.def-intervening-period-retirement",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapter": "Retirement & Death of Partner",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "definition",
+      "front": "What is the 'intervening period' when a partner retires in the middle of the year?",
+      "back": "the period from the date of last balance sheet and the date of retirement",
+      "quote": "Here, the main problem relates to the calculation of profit for the intervening period, i.e., the period from the date of last balance sheet and the date of retirement.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 123,
+        "section": "When Partner Retires in the Middle of the Year"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "retirement",
+        "intervening period"
+      ],
+      "order": 535,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.retirement-and-death-of-partner.entry-retiring-pl-suspense",
@@ -20777,6 +22056,36 @@
       ],
       "order": 790,
       "note": "NCERT prints 'Proceeding'; it means the preceding year's profit, times the months elapsed over 12, times his profit share."
+    },
+    {
+      "id": "kc.accountancy.retirement-and-death-of-partner.fm-average-profit",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapter": "Retirement & Death of Partner",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "formula",
+      "front": "Formula: average profit (when the intervening period uses the average of past years).",
+      "back": "Average Profit = Total Profit\nNo. of years",
+      "quote": "Average Profit = Total Profit No. of years",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 141,
+        "section": "3.9 Death of a Partner"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "average profit",
+        "intervening period"
+      ],
+      "order": 795,
+      "addedIn": "top-1102",
+      "note": "Average profit = total profit of the years taken, divided by the number of years."
     },
     {
       "id": "kc.accountancy.retirement-and-death-of-partner.types-death-profit-bases",

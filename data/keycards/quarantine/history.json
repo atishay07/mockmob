@@ -2,19 +2,17 @@
   "subject": "history",
   "cards": [
     {
-      "id": "kc.history.bricks-beads-and-bones.kl-sites-2000",
+      "id": "kc.history.bricks-beads-and-bones.fact-sites-2000",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.bricks-beads-and-bones",
       "chapter": "Bricks, Beads & Bones",
       "unit": "Bricks, Beads and Bones",
-      "kind": "key_line",
-      "front": "So far, more than ____ Harappan archaeological sites have been discovered in the Indian sub-continent.",
-      "back": "So far, more than 2000 Harappan archaeological sites have been discovered in the Indian sub-continent.",
+      "kind": "fact",
+      "front": "How many Harappan archaeological sites have been discovered so far in the Indian sub-continent?",
+      "back": "More than 2000\nSo far, more than 2000 Harappan archaeological sites have been discovered in the Indian sub-continent.",
       "quote": "So far, more than 2000 Harappan archaeological sites have been discovered in the Indian sub-continent.",
-      "blanks": [
-        "2000"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part I",
@@ -30,7 +28,8 @@
       ],
       "order": 70,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Time-bound discovery count ('so far, more than 2000'); it changes with new surveys and is trivia, not a CUET memory fact."
       ]
     },
     {
@@ -157,39 +156,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:'One of the most distinctive features' has several valid answers (grid planning, standard bricks, Great Bath, urban centres); front does not force 'drainage system'."
-      ]
-    },
-    {
-      "id": "kc.history.bricks-beads-and-bones.kl-drains-first",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.bricks-beads-and-bones",
-      "chapter": "Bricks, Beads & Bones",
-      "unit": "Bricks, Beads and Bones",
-      "kind": "key_line",
-      "front": "It seems that ____ were laid out first and then houses built along them.",
-      "back": "It seems that streets with drains were laid out first and then houses built along them.",
-      "quote": "It seems that streets with drains were laid out first and then houses built along them.",
-      "blanks": [
-        "streets with drains"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs101",
-        "chapterNo": 1,
-        "page": 6,
-        "section": "Laying out drains"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "planning",
-        "drainage"
-      ],
-      "order": 330,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -551,38 +517,6 @@
       ]
     },
     {
-      "id": "kc.history.bricks-beads-and-bones.kl-unifying-element",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.bricks-beads-and-bones",
-      "chapter": "Bricks, Beads & Bones",
-      "unit": "Bricks, Beads and Bones",
-      "kind": "key_line",
-      "front": "It appears that a strong unifying element, perhaps ____, came to an end.",
-      "back": "It appears that a strong unifying element, perhaps the Harappan state, came to an end.",
-      "quote": "It appears that a strong unifying element, perhaps the Harappan state, came to an end.",
-      "blanks": [
-        "the Harappan state"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs101",
-        "chapterNo": 1,
-        "page": 17,
-        "section": "The End of the Civilisation"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "decline"
-      ],
-      "order": 970,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.history.bricks-beads-and-bones.fact-rakhigarhi-biggest",
       "v": 1,
       "subject": "history",
@@ -643,102 +577,6 @@
       "reasons": [
         "review:not_important",
         "review:List of institutions behind the Rakhigarhi DNA study (Deccan College, CCMB, Harvard) is low-yield trivia."
-      ]
-    },
-    {
-      "id": "kc.history.bricks-beads-and-bones.kl-unbroken-5000",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.bricks-beads-and-bones",
-      "chapter": "Bricks, Beads & Bones",
-      "unit": "Bricks, Beads and Bones",
-      "kind": "key_line",
-      "front": "Thus, this study has indicated unbroken continuity for ____ in this region.",
-      "back": "Thus, this study has indicated unbroken continuity for 5000 years in this region.",
-      "quote": "Thus, this study has indicated unbroken continuity for 5000 years in this region.",
-      "blanks": [
-        "5000 years"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs101",
-        "chapterNo": 1,
-        "page": 18,
-        "section": "Source 3: Evidence of an \"invasion\""
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "rakhigarhi"
-      ],
-      "order": 1070,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.bricks-beads-and-bones.kl-wheeler-1944",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.bricks-beads-and-bones",
-      "chapter": "Bricks, Beads & Bones",
-      "unit": "Bricks, Beads and Bones",
-      "kind": "key_line",
-      "front": "It was R.E.M. Wheeler, after he took over as Director-General of the ASI in ____, who rectified this problem.",
-      "back": "It was R.E.M. Wheeler, after he took over as Director-General of the ASI in 1944, who rectified this problem.",
-      "quote": "It was R.E.M. Wheeler, after he took over as Director-General of the ASI in 1944, who rectified this problem.",
-      "blanks": [
-        "1944"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs101",
-        "chapterNo": 1,
-        "page": 21,
-        "section": "New techniques and questions"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "archaeologists"
-      ],
-      "order": 1220,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.bricks-beads-and-bones.kl-finds-accidental",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.bricks-beads-and-bones",
-      "chapter": "Bricks, Beads & Bones",
-      "unit": "Bricks, Beads and Bones",
-      "kind": "key_line",
-      "front": "In other words, such finds are ____ rather than typical.",
-      "back": "In other words, such finds are accidental rather than typical.",
-      "quote": "In other words, such finds are accidental rather than typical.",
-      "blanks": [
-        "accidental"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs101",
-        "chapterNo": 1,
-        "page": 22,
-        "section": "Problems of Piecing Together the Past"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "archaeology-method"
-      ],
-      "order": 1280,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -1005,71 +843,6 @@
       ]
     },
     {
-      "id": "kc.history.kings-farmers-and-towns.kl-admin-control-strongest",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.kings-farmers-and-towns",
-      "chapter": "Kings, Farmers & Towns",
-      "unit": "Political and Economic Systems in Early States: Inscriptional Evidences",
-      "kind": "key_line",
-      "front": "It is likely that administrative control was ____ in areas around the capital and the provincial centres.",
-      "back": "It is likely that administrative control was strongest in areas around the capital and the provincial centres.",
-      "quote": "It is likely that administrative control was strongest in areas around the capital and the provincial centres.",
-      "blanks": [
-        "strongest"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs102",
-        "chapterNo": 2,
-        "page": 33,
-        "section": "Administering the empire"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "mauryan empire",
-        "administration"
-      ],
-      "order": 410,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.kings-farmers-and-towns.kl-mauryan-150-years",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.kings-farmers-and-towns",
-      "chapter": "Kings, Farmers & Towns",
-      "unit": "Political and Economic Systems in Early States: Inscriptional Evidences",
-      "kind": "key_line",
-      "front": "It lasted for about ____, which is not a very long time in the vast span of the history of the subcontinent.",
-      "back": "It lasted for about 150 years, which is not a very long time in the vast span of the history of the subcontinent.",
-      "quote": "It lasted for about 150 years, which is not a very long time in the vast span of the history of the subcontinent.",
-      "blanks": [
-        "150 years"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs102",
-        "chapterNo": 2,
-        "page": 35,
-        "section": "How important was the empire?"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "mauryan empire"
-      ],
-      "order": 470,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.history.kings-farmers-and-towns.kl-chiefdoms-no-regular-armies",
       "v": 1,
       "subject": "history",
@@ -1101,38 +874,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Blank pair 'armies and officials' has synonyms (bureaucracy, soldiers); front lacks the king contrast cue."
-      ]
-    },
-    {
-      "id": "kc.history.kings-farmers-and-towns.kl-sangam-chiefs-poems",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.kings-farmers-and-towns",
-      "chapter": "Kings, Farmers & Towns",
-      "unit": "Political and Economic Systems in Early States: Inscriptional Evidences",
-      "kind": "key_line",
-      "front": "the early Tamil ____ texts (see also Chapter 3) contain poems describing chiefs and the ways in which they acquired and distributed resources.",
-      "back": "the early Tamil Sangam texts (see also Chapter 3) contain poems describing chiefs and the ways in which they acquired and distributed resources.",
-      "quote": "the early Tamil Sangam texts (see also Chapter 3) contain poems describing chiefs and the ways in which they acquired and distributed resources.",
-      "blanks": [
-        "Sangam"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs102",
-        "chapterNo": 2,
-        "page": 35,
-        "section": "Chiefs and chiefdoms"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "sangam"
-      ],
-      "order": 540,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -1235,38 +976,6 @@
       ]
     },
     {
-      "id": "kc.history.kings-farmers-and-towns.kl-hoe-agriculture-hilly",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.kings-farmers-and-towns",
-      "chapter": "Kings, Farmers & Towns",
-      "unit": "Political and Economic Systems in Early States: Inscriptional Evidences",
-      "kind": "key_line",
-      "front": "those living in hilly tracts in the northeastern and central parts of the subcontinent practised ____, which was much better suited to the terrain.",
-      "back": "those living in hilly tracts in the northeastern and central parts of the subcontinent practised hoe agriculture, which was much better suited to the terrain.",
-      "quote": "those living in hilly tracts in the northeastern and central parts of the subcontinent practised hoe agriculture, which was much better suited to the terrain.",
-      "blanks": [
-        "hoe agriculture"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs102",
-        "chapterNo": 2,
-        "page": 39,
-        "section": "Strategies for increasing production"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "hoe agriculture"
-      ],
-      "order": 810,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.history.kings-farmers-and-towns.term-gahapati-term",
       "v": 1,
       "subject": "history",
@@ -1297,38 +1006,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Front refers to 'the second and third categories' without listing them, so gahapati cannot be derived."
-      ]
-    },
-    {
-      "id": "kc.history.kings-farmers-and-towns.kl-differential-access",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.kings-farmers-and-towns",
-      "chapter": "Kings, Farmers & Towns",
-      "unit": "Political and Economic Systems in Early States: Inscriptional Evidences",
-      "kind": "key_line",
-      "front": "It is likely that these differences were based on ____ to land, labour and some of the new technologies.",
-      "back": "It is likely that these differences were based on differential access to land, labour and some of the new technologies.",
-      "quote": "It is likely that these differences were based on differential access to land, labour and some of the new technologies.",
-      "blanks": [
-        "differential access"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs102",
-        "chapterNo": 2,
-        "page": 39,
-        "section": "Differences in rural society"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "rural society"
-      ],
-      "order": 900,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -1364,19 +1041,17 @@
       ]
     },
     {
-      "id": "kc.history.kings-farmers-and-towns.term-gramakutumbinas",
+      "id": "kc.history.kings-farmers-and-towns.def-gramakutumbinas",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.kings-farmers-and-towns",
       "chapter": "Kings, Farmers & Towns",
       "unit": "Political and Economic Systems in Early States: Inscriptional Evidences",
-      "kind": "term",
-      "front": "the ____ (householders/peasants living in the village)",
+      "kind": "definition",
+      "front": "In Prabhavati Gupta's inscription, who were the gramakutumbinas?",
       "back": "the gramakutumbinas (householders/peasants living in the village)",
       "quote": "the gramakutumbinas (householders/peasants living in the village)",
-      "blanks": [
-        "gramakutumbinas"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part I",
@@ -1392,7 +1067,8 @@
       ],
       "order": 1020,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Vocabulary gloss inside a source excerpt (Prabhavati Gupta inscription), not a defined concept; low CUET value."
       ]
     },
     {
@@ -1464,38 +1140,6 @@
       ]
     },
     {
-      "id": "kc.history.kings-farmers-and-towns.term-nbpw",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.kings-farmers-and-towns",
-      "chapter": "Kings, Farmers & Towns",
-      "unit": "Political and Economic Systems in Early States: Inscriptional Evidences",
-      "kind": "term",
-      "front": "fine pottery bowls and dishes, with a glossy finish, known as ____, probably used by rich people",
-      "back": "fine pottery bowls and dishes, with a glossy finish, known as Northern Black Polished Ware, probably used by rich people",
-      "quote": "fine pottery bowls and dishes, with a glossy finish, known as Northern Black Polished Ware, probably used by rich people",
-      "blanks": [
-        "Northern Black Polished Ware"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs102",
-        "chapterNo": 2,
-        "page": 42,
-        "section": "Urban populations: Elites and craftspersons"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "northern black polished ware"
-      ],
-      "order": 1100,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.history.kings-farmers-and-towns.list-urban-artefact-materials",
       "v": 1,
       "subject": "history",
@@ -1560,19 +1204,17 @@
       ]
     },
     {
-      "id": "kc.history.kings-farmers-and-towns.kl-craftspersons-iron-tools",
+      "id": "kc.history.kings-farmers-and-towns.fact-craftspersons-iron-tools",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.kings-farmers-and-towns",
       "chapter": "Kings, Farmers & Towns",
       "unit": "Political and Economic Systems in Early States: Inscriptional Evidences",
-      "kind": "key_line",
-      "front": "It is likely that craftspersons used a range of ____ tools to meet the growing demands of urban elites.",
-      "back": "It is likely that craftspersons used a range of iron tools to meet the growing demands of urban elites.",
+      "kind": "fact",
+      "front": "Craftspersons in early cities likely used a range of which tools to meet the growing demands of urban elites?",
+      "back": "Iron tools\nIt is likely that craftspersons used a range of iron tools to meet the growing demands of urban elites.",
       "quote": "It is likely that craftspersons used a range of iron tools to meet the growing demands of urban elites.",
-      "blanks": [
-        "iron"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part I",
@@ -1588,7 +1230,8 @@
       ],
       "order": 1180,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Hedged inference ('likely used a range of iron tools'); not a marked fact."
       ]
     },
     {
@@ -1790,19 +1433,17 @@
       ]
     },
     {
-      "id": "kc.history.kings-farmers-and-towns.kl-inscriptions-only-fraction",
+      "id": "kc.history.kings-farmers-and-towns.fact-inscriptions-only-fraction",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.kings-farmers-and-towns",
       "chapter": "Kings, Farmers & Towns",
       "unit": "Political and Economic Systems in Early States: Inscriptional Evidences",
-      "kind": "key_line",
-      "front": "So what is available at present is probably only a ____ of what was inscribed.",
-      "back": "So what is available at present is probably only a fraction of what was inscribed.",
-      "quote": "So what is available at present is probably only a fraction of what was inscribed.",
-      "blanks": [
-        "fraction"
-      ],
+      "kind": "fact",
+      "front": "How much of what was once inscribed is probably available at present?",
+      "back": "Only a fraction\nBesides, many more inscriptions must have existed, which have not survived the ravages of time. So what is available at present is probably only a fraction of what was inscribed.",
+      "quote": "Besides, many more inscriptions must have existed, which have not survived the ravages of time. So what is available at present is probably only a fraction of what was inscribed.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part I",
@@ -1819,23 +1460,22 @@
       ],
       "order": 1510,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Answer 'only a fraction' has obvious synonyms (small part/portion); no mark-carrying word."
       ]
     },
     {
-      "id": "kc.history.kings-farmers-and-towns.kl-epigraphy-alone",
+      "id": "kc.history.kings-farmers-and-towns.fact-epigraphy-alone",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.kings-farmers-and-towns",
       "chapter": "Kings, Farmers & Towns",
       "unit": "Political and Economic Systems in Early States: Inscriptional Evidences",
-      "kind": "key_line",
-      "front": "Thus epigraphy alone does not provide a ____ of political and economic history.",
-      "back": "Thus epigraphy alone does not provide a full understanding of political and economic history.",
+      "kind": "fact",
+      "front": "What does epigraphy alone fail to provide when studying political and economic history?",
+      "back": "A full understanding\nThus epigraphy alone does not provide a full understanding of political and economic history.",
       "quote": "Thus epigraphy alone does not provide a full understanding of political and economic history.",
-      "blanks": [
-        "full understanding"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part I",
@@ -1852,7 +1492,8 @@
       ],
       "order": 1540,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Answer 'a full understanding' has synonyms (complete/entire understanding); vague front."
       ]
     },
     {
@@ -2116,15 +1757,15 @@
     },
     {
       "id": "kc.history.kinship-caste-and-class.key-patriliny-rigveda-mantras",
-      "v": 1,
+      "v": 2,
       "subject": "history",
       "chapterKey": "history.kinship-caste-and-class",
       "chapter": "Kinship, Caste & Class",
       "unit": "Kinship, Caste and Class",
       "kind": "key_line",
-      "front": "It is evident in mantras in ritual texts such as the ____.",
-      "back": "It is evident in mantras in ritual texts such as the Rigveda.",
-      "quote": "It is evident in mantras in ritual texts such as the Rigveda.",
+      "front": "The concern with patriliny was not unique to ruling families. It is evident in mantras in ritual texts such as the ____.",
+      "back": "The concern with patriliny was not unique to ruling families. It is evident in mantras in ritual texts such as the Rigveda.",
+      "quote": "The concern with patriliny was not unique to ruling families. It is evident in mantras in ritual texts such as the Rigveda.",
       "blanks": [
         "Rigveda"
       ],
@@ -2143,23 +1784,22 @@
       ],
       "order": 160,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:'such as the ____' admits other ritual texts (Vedas, Yajurveda, Atharvaveda); blank not uniquely fillable from the front."
       ]
     },
     {
-      "id": "kc.history.kinship-caste-and-class.key-patriliny-prabhavati-gupta",
+      "id": "kc.history.kinship-caste-and-class.fact-prabhavati-gupta-power",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.kinship-caste-and-class",
       "chapter": "Kinship, Caste & Class",
       "unit": "Kinship, Caste and Class",
-      "kind": "key_line",
-      "front": "in very exceptional circumstances, women such as ____ (Chapter 2) exercised power.",
-      "back": "in very exceptional circumstances, women such as Prabhavati Gupta (Chapter 2) exercised power.",
+      "kind": "fact",
+      "front": "In ruling dynasties following patriliny, which woman (Chapter 2) exercised power in very exceptional circumstances?",
+      "back": "Prabhavati Gupta\nin very exceptional circumstances, women such as Prabhavati Gupta (Chapter 2) exercised power.",
       "quote": "in very exceptional circumstances, women such as Prabhavati Gupta (Chapter 2) exercised power.",
-      "blanks": [
-        "Prabhavati Gupta"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part I",
@@ -2176,7 +1816,8 @@
       ],
       "order": 170,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Front says 'woman (Chapter 2)', pointing to text the student cannot see; no clue (dynasty) pins one name."
       ]
     },
     {
@@ -2271,70 +1912,6 @@
       "reasons": [
         "review:not_important",
         "review:Duryodhana jealousy is case-story filler"
-      ]
-    },
-    {
-      "id": "kc.history.kinship-caste-and-class.key-pandu-death-dhritarashtra-king",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.kinship-caste-and-class",
-      "chapter": "Kinship, Caste & Class",
-      "unit": "Kinship, Caste and Class",
-      "kind": "key_line",
-      "front": "However, after the premature death of Pandu, ____ became king, as the royal princes were still very young.",
-      "back": "However, after the premature death of Pandu, Dhritarashtra became king, as the royal princes were still very young.",
-      "quote": "However, after the premature death of Pandu, Dhritarashtra became king, as the royal princes were still very young.",
-      "blanks": [
-        "Dhritarashtra"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs103",
-        "chapterNo": 3,
-        "page": 57,
-        "section": "Source 2: Why kinfolk quarrelled"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "mahabharata"
-      ],
-      "order": 230,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.kinship-caste-and-class.key-kanyadana",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.kinship-caste-and-class",
-      "chapter": "Kinship, Caste & Class",
-      "unit": "Kinship, Caste and Class",
-      "kind": "key_line",
-      "front": "This gave rise to the belief that ____ or the gift of a daughter in marriage was an important religious duty of the father.",
-      "back": "This gave rise to the belief that kanyadana or the gift of a daughter in marriage was an important religious duty of the father.",
-      "quote": "This gave rise to the belief that kanyadana or the gift of a daughter in marriage was an important religious duty of the father.",
-      "blanks": [
-        "kanyadana"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs103",
-        "chapterNo": 3,
-        "page": 57,
-        "section": "2.3 Rules of marriage"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "marriage"
-      ],
-      "order": 240,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -2498,51 +2075,17 @@
       ]
     },
     {
-      "id": "kc.history.kinship-caste-and-class.key-puta-meaning",
+      "id": "kc.history.kinship-caste-and-class.fact-endogamy-close-knit",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.kinship-caste-and-class",
       "chapter": "Kinship, Caste & Class",
       "unit": "Kinship, Caste and Class",
-      "kind": "key_line",
-      "front": "Also note the following word, which ends with the term puta, a Prakrit word meaning \"____\".",
-      "back": "Also note the following word, which ends with the term puta, a Prakrit word meaning \"son\".",
-      "quote": "Also note the following word, which ends with the term puta, a Prakrit word meaning \"son\".",
-      "blanks": [
-        "son"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs103",
-        "chapterNo": 3,
-        "page": 59,
-        "section": "Source 4: Names of Satavahana kings"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "satavahanas"
-      ],
-      "order": 410,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.kinship-caste-and-class.key-endogamy-close-knit",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.kinship-caste-and-class",
-      "chapter": "Kinship, Caste & Class",
-      "unit": "Kinship, Caste and Class",
-      "kind": "key_line",
-      "front": "Such marriages amongst kinfolk (such as cousins) ensured a ____.",
-      "back": "Such marriages amongst kinfolk (such as cousins) ensured a close-knit community.",
+      "kind": "fact",
+      "front": "Endogamy: what did marriages amongst kinfolk, such as cousins, ensure?",
+      "back": "A close-knit community\nSuch marriages amongst kinfolk (such as cousins) ensured a close-knit community.",
       "quote": "Such marriages amongst kinfolk (such as cousins) ensured a close-knit community.",
-      "blanks": [
-        "close-knit community"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part I",
@@ -2558,7 +2101,8 @@
       ],
       "order": 470,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Answer 'a close-knit community' has synonyms (tight-knit, united); effect line is minor next to the endogamy definition."
       ]
     },
     {
@@ -2626,40 +2170,6 @@
       ]
     },
     {
-      "id": "kc.history.kinship-caste-and-class.key-gita-guna-karma",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.kinship-caste-and-class",
-      "chapter": "Kinship, Caste & Class",
-      "unit": "Kinship, Caste and Class",
-      "kind": "key_line",
-      "front": "the four-fold order was based on ____ (qualities) and ____ (actions), and it was not a kind of rigid social order determined by birth.",
-      "back": "the four-fold order was based on guna (qualities) and karma (actions), and it was not a kind of rigid social order determined by birth.",
-      "quote": "the four-fold order was based on guna (qualities) and karma (actions), and it was not a kind of rigid social order determined by birth.",
-      "blanks": [
-        "guna",
-        "karma"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs103",
-        "chapterNo": 3,
-        "page": 61,
-        "section": "3.1 The \"right\" occupation"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "varna",
-        "bhagavad gita"
-      ],
-      "order": 570,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.history.kinship-caste-and-class.key-jatis-increasing",
       "v": 1,
       "subject": "history",
@@ -2721,38 +2231,6 @@
       "reasons": [
         "review:not_important",
         "review:Ghatotkacha as the son of Hidimba and Bhima is story trivia; the tested point is the rakshasa/non-Brahmanical reading (card 79)"
-      ]
-    },
-    {
-      "id": "kc.history.kinship-caste-and-class.key-chandalas-bottom",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.kinship-caste-and-class",
-      "chapter": "Kinship, Caste & Class",
-      "unit": "Kinship, Caste and Class",
-      "kind": "key_line",
-      "front": "Those who performed such tasks, designated as ____, were placed at the very bottom of the hierarchy.",
-      "back": "Those who performed such tasks, designated as chandalas, were placed at the very bottom of the hierarchy.",
-      "quote": "Those who performed such tasks, designated as chandalas, were placed at the very bottom of the hierarchy.",
-      "blanks": [
-        "chandalas"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs103",
-        "chapterNo": 3,
-        "page": 66,
-        "section": "3.5 Beyond the four varnas: Subordination and conflict"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "chandalas"
-      ],
-      "order": 840,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -2819,19 +2297,17 @@
       ]
     },
     {
-      "id": "kc.history.kinship-caste-and-class.key-sangam-share-resources",
+      "id": "kc.history.kinship-caste-and-class.fact-sangam-share-resources",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.kinship-caste-and-class",
       "chapter": "Kinship, Caste & Class",
       "unit": "Kinship, Caste and Class",
-      "kind": "key_line",
-      "front": "while there were differences between rich and poor, those who controlled resources were also expected to ____ them.",
-      "back": "while there were differences between rich and poor, those who controlled resources were also expected to share them.",
+      "kind": "fact",
+      "front": "Per Tamil Sangam poems, those who controlled resources were also expected to do what with them?",
+      "back": "Share them\nwhile there were differences between rich and poor, those who controlled resources were also expected to share them.",
       "quote": "while there were differences between rich and poor, those who controlled resources were also expected to share them.",
-      "blanks": [
-        "share"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part I",
@@ -2848,7 +2324,8 @@
       ],
       "order": 1050,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:'do what with them' invites distribute/give/gift; 'share' is one synonym. A general moral line, 'good' not 'must'."
       ]
     },
     {
@@ -2886,19 +2363,17 @@
       ]
     },
     {
-      "id": "kc.history.kinship-caste-and-class.key-deterioration-greedy",
+      "id": "kc.history.kinship-caste-and-class.fact-deterioration-greedy",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.kinship-caste-and-class",
       "chapter": "Kinship, Caste & Class",
       "unit": "Kinship, Caste and Class",
-      "kind": "key_line",
-      "front": "However, there was a gradual deterioration of this state as human beings became increasingly ____.",
-      "back": "However, there was a gradual deterioration of this state as human beings became increasingly greedy, vindictive and deceitful.",
+      "kind": "fact",
+      "front": "In the Buddhist myth in the Sutta Pitaka, human beings became increasingly what as the idyllic state deteriorated?",
+      "back": "Greedy, vindictive and deceitful\nHowever, there was a gradual deterioration of this state as human beings became increasingly greedy, vindictive and deceitful.",
       "quote": "However, there was a gradual deterioration of this state as human beings became increasingly greedy, vindictive and deceitful.",
-      "blanks": [
-        "greedy, vindictive and deceitful"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part I",
@@ -2915,40 +2390,8 @@
       ],
       "order": 1080,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.kinship-caste-and-class.term-mahasammata",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.kinship-caste-and-class",
-      "chapter": "Kinship, Caste & Class",
-      "unit": "Kinship, Caste and Class",
-      "kind": "term",
-      "front": "chosen by the whole people, he will be known as ____, the great elect.",
-      "back": "chosen by the whole people, he will be known as mahasammata, the great elect.",
-      "quote": "chosen by the whole people, he will be known as mahasammata, the great elect.",
-      "blanks": [
-        "mahasammata"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs103",
-        "chapterNo": 3,
-        "page": 72,
-        "section": "5. Explaining Social Differences: A Social Contract"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "buddhism",
-        "social contract"
-      ],
-      "order": 1090,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Three adjectives (greedy, vindictive, deceitful) with obvious synonyms; cannot be answered uniquely."
       ]
     },
     {
@@ -3143,70 +2586,6 @@
       ]
     },
     {
-      "id": "kc.history.thinkers-beliefs-and-buildings.key-individual-agency-liberation",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "key_line",
-      "front": "They also emphasised ____ — suggesting that men and women could strive to attain liberation from the trials and tribulations of worldly existence.",
-      "back": "They also emphasised individual agency — suggesting that men and women could strive to attain liberation from the trials and tribulations of worldly existence.",
-      "quote": "They also emphasised individual agency — suggesting that men and women could strive to attain liberation from the trials and tribulations of worldly existence.",
-      "blanks": [
-        "individual agency"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 85,
-        "section": "Debates and discussions"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "debates"
-      ],
-      "order": 160,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.thinkers-beliefs-and-buildings.term-tipitaka",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "term",
-      "front": "These compilations were known as ____ — literally, three baskets to hold different types of texts.",
-      "back": "These compilations were known as Tipitaka — literally, three baskets to hold different types of texts.",
-      "quote": "These compilations were known as Tipitaka — literally, three baskets to hold different types of texts.",
-      "blanks": [
-        "Tipitaka"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 86,
-        "section": "How Buddhist texts were prepared and preserved"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "texts"
-      ],
-      "order": 190,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.history.thinkers-beliefs-and-buildings.def-fatalists-ajivikas",
       "v": 1,
       "subject": "history",
@@ -3305,71 +2684,6 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:Front says \"these traditions\" with no referent and the blank is a vague phrase with many wordings; low value."
-      ]
-    },
-    {
-      "id": "kc.history.thinkers-beliefs-and-buildings.key-mahavira-vardhamana",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "key_line",
-      "front": "The basic philosophy of the Jainas was already in existence in north India before the birth of Vardhamana, who came to be known as ____, in the sixth century BCE.",
-      "back": "The basic philosophy of the Jainas was already in existence in north India before the birth of Vardhamana, who came to be known as Mahavira, in the sixth century BCE.",
-      "quote": "The basic philosophy of the Jainas was already in existence in north India before the birth of Vardhamana, who came to be known as Mahavira, in the sixth century BCE.",
-      "blanks": [
-        "Mahavira"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 88,
-        "section": "3. Beyond Worldly Pleasures: The Message of Mahavira"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "jainism",
-        "mahavira"
-      ],
-      "order": 270,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.history.thinkers-beliefs-and-buildings.term-tirthankaras",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "term",
-      "front": "According to Jaina tradition, Mahavira was preceded by 23 other teachers or ____ — literally, those who guide men and women across the river of existence.",
-      "back": "According to Jaina tradition, Mahavira was preceded by 23 other teachers or tirthankaras — literally, those who guide men and women across the river of existence.",
-      "quote": "According to Jaina tradition, Mahavira was preceded by 23 other teachers or tirthankaras — literally, those who guide men and women across the river of existence.",
-      "blanks": [
-        "tirthankaras"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 88,
-        "section": "3. Beyond Worldly Pleasures: The Message of Mahavira"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "jainism"
-      ],
-      "order": 280,
-      "reasons": [
-        "shape:front_too_long"
       ]
     },
     {
@@ -3472,207 +2786,6 @@
       ]
     },
     {
-      "id": "kc.history.thinkers-beliefs-and-buildings.key-anicca-anatta",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "key_line",
-      "front": "According to Buddhist philosophy, the world is transient (____) and constantly changing; it is also soulless (____) as there is nothing permanent or eternal in it.",
-      "back": "According to Buddhist philosophy, the world is transient (anicca) and constantly changing; it is also soulless (anatta) as there is nothing permanent or eternal in it.",
-      "quote": "According to Buddhist philosophy, the world is transient (anicca) and constantly changing; it is also soulless (anatta) as there is nothing permanent or eternal in it.",
-      "blanks": [
-        "anicca",
-        "anatta"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 91,
-        "section": "5. The Teachings of the Buddha"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "buddhism",
-        "teachings"
-      ],
-      "order": 450,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.history.thinkers-beliefs-and-buildings.key-path-of-moderation",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "key_line",
-      "front": "It is by following the path of ____ between severe penance and self-indulgence that human beings can rise above these worldly troubles.",
-      "back": "It is by following the path of moderation between severe penance and self-indulgence that human beings can rise above these worldly troubles.",
-      "quote": "It is by following the path of moderation between severe penance and self-indulgence that human beings can rise above these worldly troubles.",
-      "blanks": [
-        "moderation"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 91,
-        "section": "5. The Teachings of the Buddha"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "buddhism",
-        "teachings"
-      ],
-      "order": 470,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.thinkers-beliefs-and-buildings.term-nibbana",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "term",
-      "front": "The Buddha emphasised individual agency and righteous action as the means to escape from the cycle of rebirth and attain self-realisation and ____, literally the extinguishing of the ego and desire — and thus end the cycle of suffering for those who renounced the world.",
-      "back": "The Buddha emphasised individual agency and righteous action as the means to escape from the cycle of rebirth and attain self-realisation and nibbana, literally the extinguishing of the ego and desire — and thus end the cycle of suffering for those who renounced the world.",
-      "quote": "The Buddha emphasised individual agency and righteous action as the means to escape from the cycle of rebirth and attain self-realisation and nibbana, literally the extinguishing of the ego and desire — and thus end the cycle of suffering for those who renounced the world.",
-      "blanks": [
-        "nibbana"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 92,
-        "section": "5. The Teachings of the Buddha"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "buddhism",
-        "nibbana"
-      ],
-      "order": 500,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.history.thinkers-beliefs-and-buildings.term-bhikkhus",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "term",
-      "front": "These monks lived simply, possessing only the essential requisites for survival, such as a bowl to receive food once a day from the laity. As they lived on alms, they were known as ____.",
-      "back": "These monks lived simply, possessing only the essential requisites for survival, such as a bowl to receive food once a day from the laity. As they lived on alms, they were known as bhikkhus.",
-      "quote": "These monks lived simply, possessing only the essential requisites for survival, such as a bowl to receive food once a day from the laity. As they lived on alms, they were known as bhikkhus.",
-      "blanks": [
-        "bhikkhus"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 92,
-        "section": "6. Followers of the Buddha"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "sangha"
-      ],
-      "order": 530,
-      "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.thinkers-beliefs-and-buildings.key-metta-karuna",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "key_line",
-      "front": "The importance attached to conduct and values rather than claims of superiority based on birth, the emphasis placed on ____ (fellow feeling) and ____ (compassion), especially for those who were younger and weaker than oneself, were ideas that drew men and women to Buddhist teachings.",
-      "back": "The importance attached to conduct and values rather than claims of superiority based on birth, the emphasis placed on metta (fellow feeling) and karuna (compassion), especially for those who were younger and weaker than oneself, were ideas that drew men and women to Buddhist teachings.",
-      "quote": "The importance attached to conduct and values rather than claims of superiority based on birth, the emphasis placed on metta (fellow feeling) and karuna (compassion), especially for those who were younger and weaker than oneself, were ideas that drew men and women to Buddhist teachings.",
-      "blanks": [
-        "metta",
-        "karuna"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 94,
-        "section": "6. Followers of the Buddha"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "buddhism",
-        "teachings"
-      ],
-      "order": 610,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.history.thinkers-beliefs-and-buildings.term-chaityas",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "term",
-      "front": "These included sites with special trees or unique rocks, or sites of awe-inspiring natural beauty. These sites, with small shrines attached to them, were sometimes described as ____.",
-      "back": "These included sites with special trees or unique rocks, or sites of awe-inspiring natural beauty. These sites, with small shrines attached to them, were sometimes described as chaityas.",
-      "quote": "These included sites with special trees or unique rocks, or sites of awe-inspiring natural beauty. These sites, with small shrines attached to them, were sometimes described as chaityas.",
-      "blanks": [
-        "chaityas"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 95,
-        "section": "7. Stupas"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "stupas",
-        "chaitya"
-      ],
-      "order": 630,
-      "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.history.thinkers-beliefs-and-buildings.def-stupa-relics",
       "v": 1,
       "subject": "history",
@@ -3736,50 +2849,16 @@
       ]
     },
     {
-      "id": "kc.history.thinkers-beliefs-and-buildings.key-yashti-chhatri",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "key_line",
-      "front": "Arising from the harmika was a mast called the ____, often surmounted by a ____ or umbrella. Around the mound was a railing, separating the sacred space from the secular world.",
-      "back": "Arising from the harmika was a mast called the yashti, often surmounted by a chhatri or umbrella. Around the mound was a railing, separating the sacred space from the secular world.",
-      "quote": "Arising from the harmika was a mast called the yashti, often surmounted by a chhatri or umbrella. Around the mound was a railing, separating the sacred space from the secular world.",
-      "blanks": [
-        "yashti",
-        "chhatri"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 97,
-        "section": "7.3 The structure of the stupa"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "stupas",
-        "structure"
-      ],
-      "order": 740,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
       "id": "kc.history.thinkers-beliefs-and-buildings.key-worshippers-clockwise",
-      "v": 1,
+      "v": 2,
       "subject": "history",
       "chapterKey": "history.thinkers-beliefs-and-buildings",
       "chapter": "Thinkers, Beliefs & Buildings",
       "unit": "Thinkers, Beliefs and Buildings",
       "kind": "key_line",
-      "front": "Worshippers entered through the ____ and walked around the mound in a ____ direction keeping the mound on the right, imitating the sun's course through the sky.",
-      "back": "Worshippers entered through the eastern gateway and walked around the mound in a clockwise direction keeping the mound on the right, imitating the sun's course through the sky.",
-      "quote": "Worshippers entered through the eastern gateway and walked around the mound in a clockwise direction keeping the mound on the right, imitating the sun's course through the sky.",
+      "front": "Worshippers entered through the ____ and walked around the mound in a ____ direction keeping the mound on the right",
+      "back": "Worshippers entered through the eastern gateway and walked around the mound in a clockwise direction keeping the mound on the right",
+      "quote": "Worshippers entered through the eastern gateway and walked around the mound in a clockwise direction keeping the mound on the right",
       "blanks": [
         "eastern gateway",
         "clockwise"
@@ -3800,39 +2879,8 @@
       ],
       "order": 760,
       "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.history.thinkers-beliefs-and-buildings.key-sanchi-discovered-1818",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "key_line",
-      "front": "When Sanchi was \"discovered\" in ____, three of its four gateways were still standing, the fourth was lying on the spot where it had fallen and the mound was in good condition.",
-      "back": "When Sanchi was \"discovered\" in 1818, three of its four gateways were still standing, the fourth was lying on the spot where it had fallen and the mound was in good condition.",
-      "quote": "When Sanchi was \"discovered\" in 1818, three of its four gateways were still standing, the fourth was lying on the spot where it had fallen and the mound was in good condition.",
-      "blanks": [
-        "1818"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 99,
-        "section": "8. \"Discovering\" Stupas: The Fate of Amaravati and Sanchi"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "sanchi"
-      ],
-      "order": 840,
-      "reasons": [
-        "shape:front_too_long"
+        "review:not_unambiguous",
+        "review:Front never names the stupa: 'the mound' points at text the student cannot see, so 'entered through the ____' has no context; 'eastern gateway' is a two-word blank with easy variants (east entrance/eastern). Name the stupa (Sanchi/Bharhut) or blank only 'eastern' and 'clockwise'."
       ]
     },
     {
@@ -3865,40 +2913,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:NCERT says \"Perhaps\"; speculative explanation, not a single right answer."
-      ]
-    },
-    {
-      "id": "kc.history.thinkers-beliefs-and-buildings.key-elephants-strength-wisdom",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "key_line",
-      "front": "Also, animals were often used as symbols of human attributes. Elephants, for example, were depicted to signify ____ and ____.",
-      "back": "Also, animals were often used as symbols of human attributes. Elephants, for example, were depicted to signify strength and wisdom.",
-      "quote": "Also, animals were often used as symbols of human attributes. Elephants, for example, were depicted to signify strength and wisdom.",
-      "blanks": [
-        "strength",
-        "wisdom"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 101,
-        "section": "9.3 Popular traditions"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "sculpture",
-        "symbols"
-      ],
-      "order": 930,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -3936,173 +2950,6 @@
       ]
     },
     {
-      "id": "kc.history.thinkers-beliefs-and-buildings.key-bodhisattas",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "key_line",
-      "front": "____ were perceived as deeply compassionate beings who accumulated merit through their efforts but used this not to attain nibbana and thereby abandon the world, but to help others.",
-      "back": "Bodhisattas were perceived as deeply compassionate beings who accumulated merit through their efforts but used this not to attain nibbana and thereby abandon the world, but to help others.",
-      "quote": "Bodhisattas were perceived as deeply compassionate beings who accumulated merit through their efforts but used this not to attain nibbana and thereby abandon the world, but to help others.",
-      "blanks": [
-        "Bodhisattas"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 103,
-        "section": "10.1 The development of Mahayana Buddhism"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "mahayana",
-        "bodhisatta"
-      ],
-      "order": 1010,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.history.thinkers-beliefs-and-buildings.term-mahayana-hinayana",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "term",
-      "front": "This new way of thinking was called ____ — literally, the \"great vehicle\". Those who adopted these beliefs described the older tradition as ____ or the \"lesser vehicle\".",
-      "back": "This new way of thinking was called Mahayana — literally, the \"great vehicle\". Those who adopted these beliefs described the older tradition as Hinayana or the \"lesser vehicle\".",
-      "quote": "This new way of thinking was called Mahayana — literally, the \"great vehicle\". Those who adopted these beliefs described the older tradition as Hinayana or the \"lesser vehicle\".",
-      "blanks": [
-        "Mahayana",
-        "Hinayana"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 103,
-        "section": "10.1 The development of Mahayana Buddhism"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "mahayana",
-        "hinayana"
-      ],
-      "order": 1030,
-      "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.thinkers-beliefs-and-buildings.term-theravadins",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "term",
-      "front": "Supporters of Mahayana regarded other Buddhists as followers of Hinayana. However, followers of the older tradition described themselves as ____, that is, those who followed the path of old, respected teachers, the theras.",
-      "back": "Supporters of Mahayana regarded other Buddhists as followers of Hinayana. However, followers of the older tradition described themselves as theravadins, that is, those who followed the path of old, respected teachers, the theras.",
-      "quote": "Supporters of Mahayana regarded other Buddhists as followers of Hinayana. However, followers of the older tradition described themselves as theravadins, that is, those who followed the path of old, respected teachers, the theras.",
-      "blanks": [
-        "theravadins"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 103,
-        "section": "10.1 The development of Mahayana Buddhism"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "mahayana",
-        "theravada"
-      ],
-      "order": 1040,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.history.thinkers-beliefs-and-buildings.key-ten-avatars",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "key_line",
-      "front": "In the case of Vaishnavism, cults developed around the various avatars or incarnations of the deity. ____ avatars were recognised within the tradition.",
-      "back": "In the case of Vaishnavism, cults developed around the various avatars or incarnations of the deity. Ten avatars were recognised within the tradition.",
-      "quote": "In the case of Vaishnavism, cults developed around the various avatars or incarnations of the deity. Ten avatars were recognised within the tradition.",
-      "blanks": [
-        "Ten"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 104,
-        "section": "10.2 The growth of Puranic Hinduism"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "hinduism",
-        "avatars"
-      ],
-      "order": 1070,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.history.thinkers-beliefs-and-buildings.term-ayudhas",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "term",
-      "front": "All such representations depicted a complex set of ideas about the deities and their attributes through symbols such as headdresses, ornaments and ____ — weapons or auspicious objects the deities hold in their hands — how they are seated, etc.",
-      "back": "All such representations depicted a complex set of ideas about the deities and their attributes through symbols such as headdresses, ornaments and ayudhas — weapons or auspicious objects the deities hold in their hands — how they are seated, etc.",
-      "quote": "All such representations depicted a complex set of ideas about the deities and their attributes through symbols such as headdresses, ornaments and ayudhas — weapons or auspicious objects the deities hold in their hands — how they are seated, etc.",
-      "blanks": [
-        "ayudhas"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 104,
-        "section": "10.2 The growth of Puranic Hinduism"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "hinduism",
-        "sculpture"
-      ],
-      "order": 1110,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
       "id": "kc.history.thinkers-beliefs-and-buildings.fact-barabar-asoka-ajivika",
       "v": 1,
       "subject": "history",
@@ -4132,40 +2979,6 @@
       "order": 1170,
       "reasons": [
         "quote:not_in_pdf"
-      ]
-    },
-    {
-      "id": "kc.history.thinkers-beliefs-and-buildings.key-kailashnatha-eighth-century",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.thinkers-beliefs-and-buildings",
-      "chapter": "Thinkers, Beliefs & Buildings",
-      "unit": "Thinkers, Beliefs and Buildings",
-      "kind": "key_line",
-      "front": "This tradition evolved through various stages and culminated much later — in the eighth century — in the carving out of an entire temple, that of ____ (a name of Shiva).",
-      "back": "This tradition evolved through various stages and culminated much later — in the eighth century — in the carving out of an entire temple, that of Kailashnatha (a name of Shiva).",
-      "quote": "This tradition evolved through various stages and culminated much later — in the eighth century — in the carving out of an entire temple, that of Kailashnatha (a name of Shiva).",
-      "blanks": [
-        "Kailashnatha"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part I",
-        "code": "lehs104",
-        "chapterNo": 4,
-        "page": 107,
-        "section": "10.3 Building temples"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "temples",
-        "ellora"
-      ],
-      "order": 1180,
-      "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
       ]
     },
     {
@@ -4580,72 +3393,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:\"Later writers of travelogues\" is vague (Bernier, Tavernier etc. also wrote later); front should say Persian travelogues 1400-1800."
-      ]
-    },
-    {
-      "id": "kc.history.through-the-eyes-of-travellers.term-antyaja",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.through-the-eyes-of-travellers",
-      "chapter": "Through the Eyes of Travellers",
-      "unit": "Through the Eyes of Travellers",
-      "kind": "term",
-      "front": "the categories defined as ____ (literally, born outside the system) were often expected to provide inexpensive labour to both peasants and zamindars",
-      "back": "the categories defined as antyaja (literally, born outside the system) were often expected to provide inexpensive labour to both peasants and zamindars",
-      "quote": "the categories defined as antyaja (literally, born outside the system) were often expected to provide inexpensive labour to both peasants and zamindars",
-      "blanks": [
-        "antyaja"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs201",
-        "chapterNo": 5,
-        "page": 125,
-        "section": "Making Sense of an Alien World: Al-Biruni and the Sanskritic Tradition"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "caste",
-        "antyaja"
-      ],
-      "order": 630,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.through-the-eyes-of-travellers.kl-antyaja-economic-networks",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.through-the-eyes-of-travellers",
-      "chapter": "Through the Eyes of Travellers",
-      "unit": "Through the Eyes of Travellers",
-      "kind": "key_line",
-      "front": "In other words, while they were often subjected to social oppression, they were included within ____.",
-      "back": "In other words, while they were often subjected to social oppression, they were included within economic networks.",
-      "quote": "In other words, while they were often subjected to social oppression, they were included within economic networks.",
-      "blanks": [
-        "economic networks"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs201",
-        "chapterNo": 5,
-        "page": 125,
-        "section": "Making Sense of an Alien World: Al-Biruni and the Sanskritic Tradition"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "caste",
-        "antyaja"
-      ],
-      "order": 640,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -5064,167 +3811,6 @@
       ]
     },
     {
-      "id": "kc.history.bhakti-sufi-traditions.kl-fluid-traditions",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.bhakti-sufi-traditions",
-      "chapter": "Bhakti-Sufi Traditions",
-      "unit": "Bhakti-Sufi Traditions",
-      "kind": "key_line",
-      "front": "these traditions were ____ – generations of devotees tended to elaborate on the original message",
-      "back": "these traditions were fluid – generations of devotees tended to elaborate on the original message",
-      "quote": "these traditions were fluid – generations of devotees tended to elaborate on the original message",
-      "blanks": [
-        "fluid"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs202",
-        "chapterNo": 6,
-        "page": 140,
-        "section": "Introduction"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "sources"
-      ],
-      "order": 10,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.bhakti-sufi-traditions.kl-poet-saints-languages",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.bhakti-sufi-traditions",
-      "chapter": "Bhakti-Sufi Traditions",
-      "unit": "Bhakti-Sufi Traditions",
-      "kind": "key_line",
-      "front": "compositions attributed to poet-saints, most of whom expressed themselves orally in ____ used by ordinary people.",
-      "back": "compositions attributed to poet-saints, most of whom expressed themselves orally in regional languages used by ordinary people.",
-      "quote": "compositions attributed to poet-saints, most of whom expressed themselves orally in regional languages used by ordinary people.",
-      "blanks": [
-        "regional languages"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs202",
-        "chapterNo": 6,
-        "page": 140,
-        "section": "Introduction"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "sources"
-      ],
-      "order": 30,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.bhakti-sufi-traditions.kl-great-tradition",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.bhakti-sufi-traditions",
-      "chapter": "Bhakti-Sufi Traditions",
-      "unit": "Bhakti-Sufi Traditions",
-      "kind": "key_line",
-      "front": "rituals and customs that emanated from dominant social categories, including priests and rulers. These he classified as part of a ____.",
-      "back": "rituals and customs that emanated from dominant social categories, including priests and rulers. These he classified as part of a great tradition.",
-      "quote": "rituals and customs that emanated from dominant social categories, including priests and rulers. These he classified as part of a great tradition.",
-      "blanks": [
-        "great tradition"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs202",
-        "chapterNo": 6,
-        "page": 141,
-        "section": "“Great” and “little” traditions"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "integration of cults"
-      ],
-      "order": 60,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.bhakti-sufi-traditions.kl-little-tradition",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.bhakti-sufi-traditions",
-      "chapter": "Bhakti-Sufi Traditions",
-      "unit": "Bhakti-Sufi Traditions",
-      "kind": "key_line",
-      "front": "local practices that did not necessarily correspond with those of the great tradition. These he included within the category of ____.",
-      "back": "local practices that did not necessarily correspond with those of the great tradition. These he included within the category of little tradition.",
-      "quote": "local practices that did not necessarily correspond with those of the great tradition. These he included within the category of little tradition.",
-      "blanks": [
-        "little tradition"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs202",
-        "chapterNo": 6,
-        "page": 141,
-        "section": "“Great” and “little” traditions"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "integration of cults"
-      ],
-      "order": 70,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.bhakti-sufi-traditions.kl-goddess-cults-wives",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.bhakti-sufi-traditions",
-      "chapter": "Bhakti-Sufi Traditions",
-      "unit": "Bhakti-Sufi Traditions",
-      "kind": "key_line",
-      "front": "sometimes they were equated with ____, the wife of Vishnu, in other instances, with ____, the wife of Shiva.",
-      "back": "sometimes they were equated with Lakshmi, the wife of Vishnu, in other instances, with Parvati, the wife of Shiva.",
-      "quote": "sometimes they were equated with Lakshmi, the wife of Vishnu, in other instances, with Parvati, the wife of Shiva.",
-      "blanks": [
-        "Lakshmi",
-        "Parvati"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs202",
-        "chapterNo": 6,
-        "page": 142,
-        "section": "The integration of cults"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "integration of cults"
-      ],
-      "order": 90,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.history.bhakti-sufi-traditions.kl-vedic-deities-marginal",
       "v": 1,
       "subject": "history",
@@ -5261,103 +3847,6 @@
       ]
     },
     {
-      "id": "kc.history.bhakti-sufi-traditions.kl-vedas-authoritative",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.bhakti-sufi-traditions",
-      "chapter": "Bhakti-Sufi Traditions",
-      "unit": "Bhakti-Sufi Traditions",
-      "kind": "key_line",
-      "front": "However, in spite of these obvious discrepancies, the Vedas continued to be revered as ____.",
-      "back": "However, in spite of these obvious discrepancies, the Vedas continued to be revered as authoritative.",
-      "quote": "However, in spite of these obvious discrepancies, the Vedas continued to be revered as authoritative.",
-      "blanks": [
-        "authoritative"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs202",
-        "chapterNo": 6,
-        "page": 142,
-        "section": "Difference and conflict"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "vedic"
-      ],
-      "order": 120,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.bhakti-sufi-traditions.kl-alvars-nayanars-hymns-tamil",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.bhakti-sufi-traditions",
-      "chapter": "Bhakti-Sufi Traditions",
-      "unit": "Bhakti-Sufi Traditions",
-      "kind": "key_line",
-      "front": "They travelled from place to place singing hymns in ____ in praise of their gods.",
-      "back": "They travelled from place to place singing hymns in Tamil in praise of their gods.",
-      "quote": "They travelled from place to place singing hymns in Tamil in praise of their gods.",
-      "blanks": [
-        "Tamil"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs202",
-        "chapterNo": 6,
-        "page": 143,
-        "section": "The Alvars and Nayanars of Tamil Nadu"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "alvars",
-        "nayanars"
-      ],
-      "order": 190,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.bhakti-sufi-traditions.kl-hostility-royal-patronage",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.bhakti-sufi-traditions",
-      "chapter": "Bhakti-Sufi Traditions",
-      "unit": "Bhakti-Sufi Traditions",
-      "kind": "key_line",
-      "front": "Historians have attempted to explain this hostility by suggesting that it was due to competition between members of other religious traditions for ____.",
-      "back": "Historians have attempted to explain this hostility by suggesting that it was due to competition between members of other religious traditions for royal patronage.",
-      "quote": "Historians have attempted to explain this hostility by suggesting that it was due to competition between members of other religious traditions for royal patronage.",
-      "blanks": [
-        "royal patronage"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs202",
-        "chapterNo": 6,
-        "page": 146,
-        "section": "Relations with the state"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "tamil bhakti"
-      ],
-      "order": 330,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
       "id": "kc.history.bhakti-sufi-traditions.list-two-developments",
       "v": 1,
       "subject": "history",
@@ -5386,38 +3875,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Front leaks the answer ('Tamil bhakti ideas and Maharashtra') and 'this period' is undefined."
-      ]
-    },
-    {
-      "id": "kc.history.bhakti-sufi-traditions.kl-north-india-fourteenth-century",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.bhakti-sufi-traditions",
-      "chapter": "Bhakti-Sufi Traditions",
-      "unit": "Bhakti-Sufi Traditions",
-      "kind": "key_line",
-      "front": "However, historians have not found evidence of anything resembling the compositions of the Alvars and Nayanars till the ____.",
-      "back": "However, historians have not found evidence of anything resembling the compositions of the Alvars and Nayanars till the fourteenth century.",
-      "quote": "However, historians have not found evidence of anything resembling the compositions of the Alvars and Nayanars till the fourteenth century.",
-      "blanks": [
-        "fourteenth century"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs202",
-        "chapterNo": 6,
-        "page": 148,
-        "section": "Religious Ferment in North India"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "north india"
-      ],
-      "order": 480,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -5517,102 +3974,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Blank 'flexible' has synonyms (liberal, tolerant, accommodating); not a single right fill."
-      ]
-    },
-    {
-      "id": "kc.history.bhakti-sufi-traditions.kl-sufi-perfect-human-being",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.bhakti-sufi-traditions",
-      "chapter": "Bhakti-Sufi Traditions",
-      "unit": "Bhakti-Sufi Traditions",
-      "kind": "key_line",
-      "front": "by following the example of the Prophet Muhammad whom they regarded as a ____.",
-      "back": "by following the example of the Prophet Muhammad whom they regarded as a perfect human being.",
-      "quote": "by following the example of the Prophet Muhammad whom they regarded as a perfect human being.",
-      "blanks": [
-        "perfect human being"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs202",
-        "chapterNo": 6,
-        "page": 153,
-        "section": "The Growth of Sufism"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "sufism"
-      ],
-      "order": 800,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.bhakti-sufi-traditions.kl-cult-of-wali",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.bhakti-sufi-traditions",
-      "chapter": "Bhakti-Sufi Traditions",
-      "unit": "Bhakti-Sufi Traditions",
-      "kind": "key_line",
-      "front": "Thus evolved the cult of the shaikh revered as ____.",
-      "back": "Thus evolved the cult of the shaikh revered as wali.",
-      "quote": "Thus evolved the cult of the shaikh revered as wali.",
-      "blanks": [
-        "wali"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs202",
-        "chapterNo": 6,
-        "page": 153,
-        "section": "Khanqahs and silsilas"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "sufism"
-      ],
-      "order": 880,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.bhakti-sufi-traditions.kl-jamaat-khana",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.bhakti-sufi-traditions",
-      "chapter": "Bhakti-Sufi Traditions",
-      "unit": "Bhakti-Sufi Traditions",
-      "kind": "key_line",
-      "front": "It comprised several small rooms and a big hall ( ____) where the inmates and visitors lived and prayed.",
-      "back": "It comprised several small rooms and a big hall ( jama’at khana) where the inmates and visitors lived and prayed.",
-      "quote": "It comprised several small rooms and a big hall ( jama’at khana) where the inmates and visitors lived and prayed.",
-      "blanks": [
-        "jama’at khana"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs202",
-        "chapterNo": 6,
-        "page": 154,
-        "section": "Life in the Chishti khanqah"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "chishti"
-      ],
-      "order": 970,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -5838,19 +4199,17 @@
       ]
     },
     {
-      "id": "kc.history.bhakti-sufi-traditions.kl-traditions-dynamic",
+      "id": "kc.history.bhakti-sufi-traditions.fact-traditions-dynamic",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.bhakti-sufi-traditions",
       "chapter": "Bhakti-Sufi Traditions",
       "unit": "Bhakti-Sufi Traditions",
-      "kind": "key_line",
-      "front": "recognising that religious traditions, like other traditions, are ____ and change over time.",
-      "back": "recognising that religious traditions, like other traditions, are dynamic and change over time.",
-      "quote": "recognising that religious traditions, like other traditions, are dynamic and change over time.",
-      "blanks": [
-        "dynamic"
-      ],
+      "kind": "fact",
+      "front": "What should historians recognise about religious traditions, like other traditions, over time?",
+      "back": "The challenge for historians is to undertake such investigations with sensitivity, while at the same time recognising that religious traditions, like other traditions, are dynamic and change over time.",
+      "quote": "The challenge for historians is to undertake such investigations with sensitivity, while at the same time recognising that religious traditions, like other traditions, are dynamic and change over time.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part II",
@@ -5866,39 +4225,8 @@
       ],
       "order": 1700,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.an-imperial-capital-vijayanagara.kl-hampi-name",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.an-imperial-capital-vijayanagara",
-      "chapter": "An Imperial Capital — Vijayanagara",
-      "unit": "An Imperial Capital: Vijayanagara",
-      "kind": "key_line",
-      "front": "They remembered it as Hampi, a name derived from that of the local mother goddess, ____.",
-      "back": "They remembered it as Hampi, a name derived from that of the local mother goddess, Pampadevi.",
-      "quote": "They remembered it as Hampi, a name derived from that of the local mother goddess, Pampadevi.",
-      "blanks": [
-        "Pampadevi"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs203",
-        "chapterNo": 7,
-        "page": 170,
-        "section": "Introduction"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "hampi"
-      ],
-      "order": 40,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Closing editorial remark on historians' challenge, low CUET value; front also leaks 'over time', half the answer."
       ]
     },
     {
@@ -5961,38 +4289,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Front asks for the dates of all three dynasties but the quote gives no date for the Tuluvas (only 'replaced by the Tuluvas' in 1503); back does not answer 'with the dates' fully."
-      ]
-    },
-    {
-      "id": "kc.history.an-imperial-capital-vijayanagara.kl-iqta",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.an-imperial-capital-vijayanagara",
-      "chapter": "An Imperial Capital — Vijayanagara",
-      "unit": "An Imperial Capital: Vijayanagara",
-      "kind": "key_line",
-      "front": "It is likely that many features of this system were derived from the ____ system of the Delhi Sultanate.",
-      "back": "It is likely that many features of this system were derived from the iqta system of the Delhi Sultanate.",
-      "quote": "It is likely that many features of this system were derived from the iqta system of the Delhi Sultanate.",
-      "blanks": [
-        "iqta"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs203",
-        "chapterNo": 7,
-        "page": 175,
-        "section": "The rayas and the nayakas"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "amara-nayaka"
-      ],
-      "order": 380,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -6061,19 +4357,17 @@
       ]
     },
     {
-      "id": "kc.history.an-imperial-capital-vijayanagara.kl-hazara-rama-ramayana",
+      "id": "kc.history.an-imperial-capital-vijayanagara.fact-hazara-rama-ramayana",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.an-imperial-capital-vijayanagara",
       "chapter": "An Imperial Capital — Vijayanagara",
       "unit": "An Imperial Capital: Vijayanagara",
-      "kind": "key_line",
-      "front": "These include scenes from the ____ sculpted on the inner walls of the shrine.",
-      "back": "These include scenes from the Ramayana sculpted on the inner walls of the shrine.",
-      "quote": "These include scenes from the Ramayana sculpted on the inner walls of the shrine.",
-      "blanks": [
-        "Ramayana"
-      ],
+      "kind": "fact",
+      "front": "Scenes from which epic are sculpted on the inner walls of the shrine of the Hazara Rama temple?",
+      "back": "The images in the central shrine are missing; however, sculpted panels on the walls survive. These include scenes from the Ramayana sculpted on the inner walls of the shrine.",
+      "quote": "The images in the central shrine are missing; however, sculpted panels on the walls survive. These include scenes from the Ramayana sculpted on the inner walls of the shrine.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part II",
@@ -6089,7 +4383,8 @@
       ],
       "order": 740,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Answer is guessable from the temple name 'Hazara Rama' (Ramayana); minor detail, low exam value."
       ]
     },
     {
@@ -6413,38 +4708,6 @@
       ]
     },
     {
-      "id": "kc.history.peasants-zamindars-and-the-state.kl-ain-view-from-top",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.peasants-zamindars-and-the-state",
-      "chapter": "Peasants, Zamindars & the State",
-      "unit": "Peasants, Zamindars and the State",
-      "kind": "key_line",
-      "front": "In other words, whatever we learn from the Ain about peasants remains a ____.",
-      "back": "In other words, whatever we learn from the Ain about peasants remains a view from the top.",
-      "quote": "In other words, whatever we learn from the Ain about peasants remains a view from the top.",
-      "blanks": [
-        "view from the top"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs204",
-        "chapterNo": 8,
-        "page": 197,
-        "section": "1.1 Looking for sources"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "ain"
-      ],
-      "order": 100,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.history.peasants-zamindars-and-the-state.types-ain-supplements",
       "v": 1,
       "subject": "history",
@@ -6540,38 +4803,6 @@
       ]
     },
     {
-      "id": "kc.history.peasants-zamindars-and-the-state.term-do-fasla",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.peasants-zamindars-and-the-state",
-      "chapter": "Peasants, Zamindars & the State",
-      "unit": "Peasants, Zamindars and the State",
-      "kind": "term",
-      "front": "most regions, except those terrains that were the most arid or inhospitable, produced a minimum of two crops a year (____)",
-      "back": "most regions, except those terrains that were the most arid or inhospitable, produced a minimum of two crops a year (do-fasla)",
-      "quote": "most regions, except those terrains that were the most arid or inhospitable, produced a minimum of two crops a year (do-fasla)",
-      "blanks": [
-        "do-fasla"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs204",
-        "chapterNo": 8,
-        "page": 200,
-        "section": "1.4 An abundance of crops"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "agriculture"
-      ],
-      "order": 300,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.history.peasants-zamindars-and-the-state.fact-crop-varieties",
       "v": 1,
       "subject": "history",
@@ -6604,19 +4835,17 @@
       ]
     },
     {
-      "id": "kc.history.peasants-zamindars-and-the-state.kl-subsistence-commercial",
+      "id": "kc.history.peasants-zamindars-and-the-state.fact-subsistence-commercial",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.peasants-zamindars-and-the-state",
       "chapter": "Peasants, Zamindars & the State",
       "unit": "Peasants, Zamindars and the State",
-      "kind": "key_line",
-      "front": "This shows how subsistence and commercial production were ____ in an average peasant’s holding.",
-      "back": "This shows how subsistence and commercial production were closely intertwined in an average peasant’s holding.",
-      "quote": "This shows how subsistence and commercial production were closely intertwined in an average peasant’s holding.",
-      "blanks": [
-        "closely intertwined"
-      ],
+      "kind": "fact",
+      "front": "In an average peasant’s holding, how were subsistence and commercial production related, per NCERT?",
+      "back": "Closely intertwined\nSuch cash crops would also include various sorts of oilseeds (for example, mustard) and lentils. This shows how subsistence and commercial production were closely intertwined in an average peasant’s holding.",
+      "quote": "Such cash crops would also include various sorts of oilseeds (for example, mustard) and lentils. This shows how subsistence and commercial production were closely intertwined in an average peasant’s holding.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part II",
@@ -6632,7 +4861,8 @@
       ],
       "order": 360,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Open-ended \"how were they related\": interdependent/linked/mixed all fit; answer is a loose phrase, not a single fill."
       ]
     },
     {
@@ -6667,49 +4897,16 @@
       ]
     },
     {
-      "id": "kc.history.peasants-zamindars-and-the-state.term-begar",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.peasants-zamindars-and-the-state",
-      "chapter": "Peasants, Zamindars & the State",
-      "unit": "Peasants, Zamindars and the State",
-      "kind": "term",
-      "front": "the demand for unpaid labour (____) imposed by the “superior” castes or officials of the state",
-      "back": "the demand for unpaid labour (begar) imposed by the “superior” castes or officials of the state",
-      "quote": "the demand for unpaid labour (begar) imposed by the “superior” castes or officials of the state",
-      "blanks": [
-        "begar"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs204",
-        "chapterNo": 8,
-        "page": 203,
-        "section": "2.2 Panchayats and headmen"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "panchayat",
-        "petitions"
-      ],
-      "order": 570,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.history.peasants-zamindars-and-the-state.kl-artisan-peasant-fluid",
-      "v": 1,
+      "v": 2,
       "subject": "history",
       "chapterKey": "history.peasants-zamindars-and-the-state",
       "chapter": "Peasants, Zamindars & the State",
       "unit": "Peasants, Zamindars and the State",
       "kind": "key_line",
-      "front": "the distinction between artisans and peasants in village society was a ____ one, as many groups performed the tasks of both",
-      "back": "the distinction between artisans and peasants in village society was a fluid one, as many groups performed the tasks of both",
-      "quote": "the distinction between artisans and peasants in village society was a fluid one, as many groups performed the tasks of both",
+      "front": "At times, however, the distinction between artisans and peasants in village society was a ____ one",
+      "back": "At times, however, the distinction between artisans and peasants in village society was a fluid one",
+      "quote": "At times, however, the distinction between artisans and peasants in village society was a fluid one",
       "blanks": [
         "fluid"
       ],
@@ -6728,104 +4925,8 @@
       ],
       "order": 620,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.peasants-zamindars-and-the-state.term-jajmani",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.peasants-zamindars-and-the-state",
-      "chapter": "Peasants, Zamindars & the State",
-      "unit": "Peasants, Zamindars and the State",
-      "kind": "term",
-      "front": "This later came to be described as the ____ system, though the term was not in vogue in the sixteenth and seventeenth centuries.",
-      "back": "This later came to be described as the jajmani system, though the term was not in vogue in the sixteenth and seventeenth centuries.",
-      "quote": "This later came to be described as the jajmani system, though the term was not in vogue in the sixteenth and seventeenth centuries.",
-      "blanks": [
-        "jajmani"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs204",
-        "chapterNo": 8,
-        "page": 205,
-        "section": "2.3 Village artisans"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "artisans"
-      ],
-      "order": 650,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.peasants-zamindars-and-the-state.term-jangal-kharbandi",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.peasants-zamindars-and-the-state",
-      "chapter": "Peasants, Zamindars & the State",
-      "unit": "Peasants, Zamindars and the State",
-      "kind": "term",
-      "front": "huge swathes of forests – dense forest (____) or scrubland (____)",
-      "back": "huge swathes of forests – dense forest (jangal) or scrubland (kharbandi)",
-      "quote": "huge swathes of forests – dense forest (jangal) or scrubland (kharbandi)",
-      "blanks": [
-        "jangal",
-        "kharbandi"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs204",
-        "chapterNo": 8,
-        "page": 208,
-        "section": "4.1 Beyond settled villages"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "forests"
-      ],
-      "order": 800,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.peasants-zamindars-and-the-state.kl-forest-cover-40",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.peasants-zamindars-and-the-state",
-      "chapter": "Peasants, Zamindars & the State",
-      "unit": "Peasants, Zamindars and the State",
-      "kind": "key_line",
-      "front": "an all-India average of the forest cover for this period, informed conjectures based on contemporary sources suggest an average of ____",
-      "back": "an all-India average of the forest cover for this period, informed conjectures based on contemporary sources suggest an average of 40 per cent",
-      "quote": "an all-India average of the forest cover for this period, informed conjectures based on contemporary sources suggest an average of 40 per cent",
-      "blanks": [
-        "40 per cent"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs204",
-        "chapterNo": 8,
-        "page": 208,
-        "section": "4.1 Beyond settled villages"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "forests"
-      ],
-      "order": 810,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Blank has obvious synonyms (blurred, flexible, thin); the sentence gives nothing to force \"fluid\"."
       ]
     },
     {
@@ -6924,38 +5025,6 @@
       ]
     },
     {
-      "id": "kc.history.peasants-zamindars-and-the-state.kl-tribal-to-monarchical",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.peasants-zamindars-and-the-state",
-      "chapter": "Peasants, Zamindars & the State",
-      "unit": "Peasants, Zamindars and the State",
-      "kind": "key_line",
-      "front": "transition from a tribal to a monarchical system had started much earlier, the process seems to have become fully developed only by the ____",
-      "back": "transition from a tribal to a monarchical system had started much earlier, the process seems to have become fully developed only by the sixteenth century",
-      "quote": "transition from a tribal to a monarchical system had started much earlier, the process seems to have become fully developed only by the sixteenth century",
-      "blanks": [
-        "sixteenth century"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs204",
-        "chapterNo": 8,
-        "page": 211,
-        "section": "4.2 Inroads into forests"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "tribes"
-      ],
-      "order": 960,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.history.peasants-zamindars-and-the-state.list-zamindar-power-sources",
       "v": 1,
       "subject": "history",
@@ -6984,38 +5053,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Front gives no count; list mixes a verb-phrase fragment with a capitalised noun phrase."
-      ]
-    },
-    {
-      "id": "kc.history.peasants-zamindars-and-the-state.kl-zamindar-apex",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.peasants-zamindars-and-the-state",
-      "chapter": "Peasants, Zamindars & the State",
-      "unit": "Peasants, Zamindars and the State",
-      "kind": "key_line",
-      "front": "Thus if we visualise social relations in the Mughal countryside as a pyramid, zamindars clearly constituted its very narrow ____.",
-      "back": "Thus if we visualise social relations in the Mughal countryside as a pyramid, zamindars clearly constituted its very narrow apex.",
-      "quote": "Thus if we visualise social relations in the Mughal countryside as a pyramid, zamindars clearly constituted its very narrow apex.",
-      "blanks": [
-        "apex"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs204",
-        "chapterNo": 8,
-        "page": 211,
-        "section": "5. The Zamindars"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "zamindars"
-      ],
-      "order": 1060,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -7051,38 +5088,6 @@
       ]
     },
     {
-      "id": "kc.history.peasants-zamindars-and-the-state.term-sanad",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.peasants-zamindars-and-the-state",
-      "chapter": "Peasants, Zamindars & the State",
-      "unit": "Peasants, Zamindars and the State",
-      "kind": "term",
-      "front": "such a show of aggression by a zamindar unless he had been confirmed by an imperial order (____)",
-      "back": "such a show of aggression by a zamindar unless he had been confirmed by an imperial order (sanad)",
-      "quote": "such a show of aggression by a zamindar unless he had been confirmed by an imperial order (sanad)",
-      "blanks": [
-        "sanad"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs204",
-        "chapterNo": 8,
-        "page": 212,
-        "section": "5. The Zamindars"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "zamindars"
-      ],
-      "order": 1080,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.history.peasants-zamindars-and-the-state.list-zamindari-consolidation",
       "v": 1,
       "subject": "history",
@@ -7114,19 +5119,17 @@
       ]
     },
     {
-      "id": "kc.history.peasants-zamindars-and-the-state.kl-zamindaris-bought-sold",
+      "id": "kc.history.peasants-zamindars-and-the-state.fact-zamindaris-bought-sold",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.peasants-zamindars-and-the-state",
       "chapter": "Peasants, Zamindars & the State",
       "unit": "Peasants, Zamindars and the State",
-      "kind": "key_line",
-      "front": "relatively “lower” castes to enter the rank of zamindars as zamindaris were ____ quite briskly in this period",
-      "back": "relatively “lower” castes to enter the rank of zamindars as zamindaris were bought and sold quite briskly in this period",
-      "quote": "relatively “lower” castes to enter the rank of zamindars as zamindaris were bought and sold quite briskly in this period",
-      "blanks": [
-        "bought and sold"
-      ],
+      "kind": "fact",
+      "front": "What was happening to zamindaris that perhaps let relatively “lower” castes enter the rank of zamindars?",
+      "back": "They were bought and sold quite briskly\nThese were the processes which perhaps permitted people belonging to the relatively “lower” castes to enter the rank of zamindars as zamindaris were bought and sold quite briskly in this period.",
+      "quote": "These were the processes which perhaps permitted people belonging to the relatively “lower” castes to enter the rank of zamindars as zamindaris were bought and sold quite briskly in this period.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part II",
@@ -7142,41 +5145,8 @@
       ],
       "order": 1100,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.peasants-zamindars-and-the-state.kl-zamindar-reciprocity",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.peasants-zamindars-and-the-state",
-      "chapter": "Peasants, Zamindars & the State",
-      "unit": "Peasants, Zamindars and the State",
-      "kind": "key_line",
-      "front": "their relationship with the peasantry had an element of ____, ____ and ____",
-      "back": "their relationship with the peasantry had an element of reciprocity, paternalism and patronage",
-      "quote": "their relationship with the peasantry had an element of reciprocity, paternalism and patronage",
-      "blanks": [
-        "reciprocity",
-        "paternalism",
-        "patronage"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs204",
-        "chapterNo": 8,
-        "page": 212,
-        "section": "5. The Zamindars"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "zamindars"
-      ],
-      "order": 1150,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:\"What was happening to zamindaris\" accepts traded, auctioned, transferred; \"bought and sold briskly\" is not the only right answer."
       ]
     },
     {
@@ -7307,39 +5277,6 @@
       ]
     },
     {
-      "id": "kc.history.peasants-zamindars-and-the-state.kl-ain-1598",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.peasants-zamindars-and-the-state",
-      "chapter": "Peasants, Zamindars & the State",
-      "unit": "Peasants, Zamindars and the State",
-      "kind": "key_line",
-      "front": "It was completed in ____, the forty-second regnal year of the emperor, after having gone through ____.",
-      "back": "It was completed in 1598, the forty-second regnal year of the emperor, after having gone through five revisions.",
-      "quote": "It was completed in 1598, the forty-second regnal year of the emperor, after having gone through five revisions.",
-      "blanks": [
-        "1598",
-        "five revisions"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part II",
-        "code": "lehs204",
-        "chapterNo": 8,
-        "page": 217,
-        "section": "8. The Ain-i Akbari of Abu’l Fazl Allami"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "ain"
-      ],
-      "order": 1420,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.history.peasants-zamindars-and-the-state.list-ain-table-columns",
       "v": 1,
       "subject": "history",
@@ -7371,19 +5308,17 @@
       ]
     },
     {
-      "id": "kc.history.peasants-zamindars-and-the-state.kl-ain-view-apex",
+      "id": "kc.history.peasants-zamindars-and-the-state.fact-ain-view-apex",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.peasants-zamindars-and-the-state",
       "chapter": "Peasants, Zamindars & the State",
       "unit": "Peasants, Zamindars and the State",
-      "kind": "key_line",
-      "front": "It is important, however, to keep in mind that this is a view of the regions from the centre, a view of society from its ____.",
-      "back": "It is important, however, to keep in mind that this is a view of the regions from the centre, a view of society from its apex.",
-      "quote": "It is important, however, to keep in mind that this is a view of the regions from the centre, a view of society from its apex.",
-      "blanks": [
-        "apex"
-      ],
+      "kind": "fact",
+      "front": "NCERT cautions that the Ain gives a view of the regions from the centre and of society from where?",
+      "back": "From its apex\nThe Ain is therefore a mine of information for us about the Mughal Empire during Akbar’s reign. It is important, however, to keep in mind that this is a view of the regions from the centre, a view of society from its apex.",
+      "quote": "The Ain is therefore a mine of information for us about the Mughal Empire during Akbar’s reign. It is important, however, to keep in mind that this is a view of the regions from the centre, a view of society from its apex.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part II",
@@ -7399,7 +5334,8 @@
       ],
       "order": 1500,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Answer \"apex\" has the obvious synonym \"top\"; also near-duplicate of fact-ain-view-from-top."
       ]
     },
     {
@@ -7568,15 +5504,15 @@
     },
     {
       "id": "kc.history.colonialism-and-the-countryside.key-jotedars-in-villages",
-      "v": 1,
+      "v": 2,
       "subject": "history",
       "chapterKey": "history.colonialism-and-the-countryside",
       "chapter": "Colonialism & the Countryside",
       "unit": "Colonialism and the Countryside",
       "kind": "key_line",
-      "front": "Unlike zamindars who often lived in ____, jotedars were located in the villages and exercised direct control over a considerable section of poor villagers.",
-      "back": "Unlike zamindars who often lived in urban areas, jotedars were located in the villages and exercised direct control over a considerable section of poor villagers.",
-      "quote": "Unlike zamindars who often lived in urban areas, jotedars were located in the villages and exercised direct control over a considerable section of poor villagers.",
+      "front": "Unlike zamindars who often lived in ____, jotedars were located in the villages",
+      "back": "Unlike zamindars who often lived in urban areas, jotedars were located in the villages",
+      "quote": "Unlike zamindars who often lived in urban areas, jotedars were located in the villages",
       "blanks": [
         "urban areas"
       ],
@@ -7595,7 +5531,8 @@
       ],
       "order": 210,
       "reasons": [
-        "shape:front_too_long"
+        "review:not_unambiguous",
+        "review:Blank \"urban areas\" has synonyms (towns, cities); no way to know the exact fill."
       ]
     },
     {
@@ -7627,71 +5564,6 @@
       "reasons": [
         "review:not_important",
         "review:Trivia: alternative names haoladars/gantidars; second sentence of back is extra"
-      ]
-    },
-    {
-      "id": "kc.history.colonialism-and-the-countryside.key-ryots-proja",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.colonialism-and-the-countryside",
-      "chapter": "Colonialism & the Countryside",
-      "unit": "Colonialism and the Countryside",
-      "kind": "key_line",
-      "front": "They felt bound to their own zamindar through a sense of loyalty and perceived him as a figure of authority and themselves as his ____ (subjects).",
-      "back": "They felt bound to their own zamindar through a sense of loyalty and perceived him as a figure of authority and themselves as his proja (subjects).",
-      "quote": "They felt bound to their own zamindar through a sense of loyalty and perceived him as a figure of authority and themselves as his proja (subjects).",
-      "blanks": [
-        "proja"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part III",
-        "code": "lehs301",
-        "chapterNo": 9,
-        "page": 233,
-        "section": "The zamindars resist"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "zamindar"
-      ],
-      "order": 300,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.colonialism-and-the-countryside.key-great-depression-1930s",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.colonialism-and-the-countryside",
-      "chapter": "Colonialism & the Countryside",
-      "unit": "Colonialism and the Countryside",
-      "kind": "key_line",
-      "front": "It was only during the ____ that they finally collapsed and the jotedars consolidated their power in the countryside.",
-      "back": "It was only during the Great Depression of the 1930s that they finally collapsed and the jotedars consolidated their power in the countryside.",
-      "quote": "It was only during the Great Depression of the 1930s that they finally collapsed and the jotedars consolidated their power in the countryside.",
-      "blanks": [
-        "Great Depression of the 1930s"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part III",
-        "code": "lehs301",
-        "chapterNo": 9,
-        "page": 233,
-        "section": "The zamindars resist"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "zamindar",
-        "jotedar"
-      ],
-      "order": 310,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -7888,20 +5760,17 @@
       ]
     },
     {
-      "id": "kc.history.colonialism-and-the-countryside.key-forests-wildness",
+      "id": "kc.history.colonialism-and-the-countryside.fact-forests-wildness",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.colonialism-and-the-countryside",
       "chapter": "Colonialism & the Countryside",
       "unit": "Colonialism and the Countryside",
-      "kind": "key_line",
-      "front": "They also associated forests with ____, and saw forest people as ____, unruly, primitive, and difficult to govern.",
-      "back": "They also associated forests with wildness, and saw forest people as savage, unruly, primitive, and difficult to govern.",
+      "kind": "fact",
+      "front": "What did the British associate forests with, and how did they see forest people?",
+      "back": "Forests with wildness; forest people as savage, unruly, primitive\nThey also associated forests with wildness, and saw forest people as savage, unruly, primitive, and difficult to govern.",
       "quote": "They also associated forests with wildness, and saw forest people as savage, unruly, primitive, and difficult to govern.",
-      "blanks": [
-        "wildness",
-        "savage"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part III",
@@ -7918,23 +5787,22 @@
       ],
       "order": 570,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Back needs three exact adjectives (savage, unruly, primitive) that a student cannot pin down; two-part question."
       ]
     },
     {
-      "id": "kc.history.colonialism-and-the-countryside.key-buchanan-suspicion",
+      "id": "kc.history.colonialism-and-the-countryside.fact-buchanan-suspicion",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.colonialism-and-the-countryside",
       "chapter": "Colonialism & the Countryside",
       "unit": "Colonialism and the Countryside",
-      "kind": "key_line",
-      "front": "So when Buchanan travelled through the region in the winter of 1810-11 the Paharias naturally viewed him with ____.",
-      "back": "So when Buchanan travelled through the region in the winter of 1810-11 the Paharias naturally viewed him with suspicion and distrust.",
+      "kind": "fact",
+      "front": "How did the Paharias, withdrawn into the mountains after pacification, view Buchanan in 1810-11?",
+      "back": "With suspicion and distrust\nSo when Buchanan travelled through the region in the winter of 1810-11 the Paharias naturally viewed him with suspicion and distrust.",
       "quote": "So when Buchanan travelled through the region in the winter of 1810-11 the Paharias naturally viewed him with suspicion and distrust.",
-      "blanks": [
-        "suspicion and distrust"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part III",
@@ -7951,7 +5819,9 @@
       ],
       "order": 610,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Case-story detail (Buchanan 1810-11 reception) is filler, not exam-worthy. \"Suspicion and distrust\" has many synonyms (hostility, wariness)."
       ]
     },
     {
@@ -8147,38 +6017,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Blank \"rarely\" can be filled with never/not; a hedge adverb is not a mark-carrying word"
-      ]
-    },
-    {
-      "id": "kc.history.colonialism-and-the-countryside.key-temporary-settlements",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.colonialism-and-the-countryside",
-      "chapter": "Colonialism & the Countryside",
-      "unit": "Colonialism and the Countryside",
-      "kind": "key_line",
-      "front": "So in territories annexed in the nineteenth century, ____ were made.",
-      "back": "So in territories annexed in the nineteenth century, temporary revenue settlements were made.",
-      "quote": "So in territories annexed in the nineteenth century, temporary revenue settlements were made.",
-      "blanks": [
-        "temporary revenue settlements"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part III",
-        "code": "lehs301",
-        "chapterNo": 9,
-        "page": 247,
-        "section": "A new revenue system"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "revenue-settlement"
-      ],
-      "order": 890,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -8481,19 +6319,17 @@
       ]
     },
     {
-      "id": "kc.history.colonialism-and-the-countryside.key-persistent-reluctance",
+      "id": "kc.history.colonialism-and-the-countryside.fact-persistent-reluctance",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.colonialism-and-the-countryside",
       "chapter": "Colonialism & the Countryside",
       "unit": "Colonialism and the Countryside",
-      "kind": "key_line",
-      "front": "This shows that there was a ____ on the part of the colonial government to admit that popular discontent was ever on account of government action.",
-      "back": "This shows that there was a persistent reluctance on the part of the colonial government to admit that popular discontent was ever on account of government action.",
-      "quote": "This shows that there was a persistent reluctance on the part of the colonial government to admit that popular discontent was ever on account of government action.",
-      "blanks": [
-        "persistent reluctance"
-      ],
+      "kind": "fact",
+      "front": "What did the Deccan Riots Commission’s blaming of moneylenders show about the colonial government?",
+      "back": "A persistent reluctance to admit its own part\nIt was the moneylenders who were to blame. This argument is found very frequently in colonial records. This shows that there was a persistent reluctance on the part of the colonial government to admit that popular discontent was ever on account of government action.",
+      "quote": "It was the moneylenders who were to blame. This argument is found very frequently in colonial records. This shows that there was a persistent reluctance on the part of the colonial government to admit that popular discontent was ever on account of government action.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part III",
@@ -8510,7 +6346,8 @@
       ],
       "order": 1230,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Interpretive \"what did it show\" question; answer is a free phrase with many correct paraphrases."
       ]
     },
     {
@@ -8700,39 +6537,6 @@
       "reasons": [
         "review:not_important",
         "review:Newspaper case detail from a source box (water-carriers); filler, not exam-tested"
-      ]
-    },
-    {
-      "id": "kc.history.rebels-and-the-raj.kl-communication-between-lines",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.rebels-and-the-raj",
-      "chapter": "Rebels & the Raj",
-      "unit": "Rebels and the Raj",
-      "kind": "key_line",
-      "front": "It is clear that there was ____ between the sepoy lines of various cantonments.",
-      "back": "It is clear that there was communication between the sepoy lines of various cantonments.",
-      "quote": "It is clear that there was communication between the sepoy lines of various cantonments.",
-      "blanks": [
-        "communication"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part III",
-        "code": "lehs302",
-        "chapterNo": 10,
-        "page": 260,
-        "section": "1.2 Lines of communication"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "planning",
-        "communication"
-      ],
-      "order": 140,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -9063,38 +6867,6 @@
       ]
     },
     {
-      "id": "kc.history.rebels-and-the-raj.kl-egalitarian-society",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.rebels-and-the-raj",
-      "chapter": "Rebels & the Raj",
-      "unit": "Rebels and the Raj",
-      "kind": "key_line",
-      "front": "It presents a glimpse of an alternative vision, perhaps of a more ____ society.",
-      "back": "It presents a glimpse of an alternative vision, perhaps of a more egalitarian society.",
-      "quote": "It presents a glimpse of an alternative vision, perhaps of a more egalitarian society.",
-      "blanks": [
-        "egalitarian"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part III",
-        "code": "lehs302",
-        "chapterNo": 10,
-        "page": 274,
-        "section": "3.2 Against the symbols of oppression"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "hierarchy"
-      ],
-      "order": 1030,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.history.rebels-and-the-raj.fact-appointments-revenue-troops",
       "v": 1,
       "subject": "history",
@@ -9415,69 +7187,6 @@
       ]
     },
     {
-      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.term-satyagraha-south-africa",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
-      "chapter": "Mahatma Gandhi & the Nationalist Movement",
-      "unit": "Mahatma Gandhi and National Movements",
-      "kind": "term",
-      "front": "It was in South Africa that Mahatma Gandhi first forged the distinctive techniques of non-violent protest known as ____",
-      "back": "It was in South Africa that Mahatma Gandhi first forged the distinctive techniques of non-violent protest known as satyagraha",
-      "quote": "It was in South Africa that Mahatma Gandhi first forged the distinctive techniques of non-violent protest known as satyagraha",
-      "blanks": [
-        "satyagraha"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part III",
-        "code": "lehs303",
-        "chapterNo": 11,
-        "page": 287,
-        "section": "1. A Leader Announces Himself"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "satyagraha"
-      ],
-      "order": 30,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.quote-bhu-jewellery-quote",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
-      "chapter": "Mahatma Gandhi & the Nationalist Movement",
-      "unit": "Mahatma Gandhi and National Movements",
-      "kind": "quote",
-      "front": "Who said it, and where: “there is no salvation for India unless you strip yourself of this jewellery and hold it in trust for your countrymen in India”?",
-      "back": "Gandhiji told the privileged invitees that “there is no salvation for India unless you strip yourself of this jewellery and hold it in trust for your countrymen in India”.",
-      "quote": "Gandhiji told the privileged invitees that “there is no salvation for India unless you strip yourself of this jewellery and hold it in trust for your countrymen in India”.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part III",
-        "code": "lehs303",
-        "chapterNo": 11,
-        "page": 288,
-        "section": "1. A Leader Announces Himself"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "bhu",
-        "1916"
-      ],
-      "order": 100,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
       "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.kl-bhu-farmer",
       "v": 1,
       "subject": "history",
@@ -9512,52 +7221,17 @@
       ]
     },
     {
-      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.kl-bhu-elite",
+      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-localised-struggles",
       "v": 1,
       "subject": "history",
       "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
       "chapter": "Mahatma Gandhi & the Nationalist Movement",
       "unit": "Mahatma Gandhi and National Movements",
-      "kind": "key_line",
-      "front": "namely, that Indian nationalism was an ____ phenomenon, a creation of lawyers and doctors and landlords.",
-      "back": "namely, that Indian nationalism was an elite phenomenon, a creation of lawyers and doctors and landlords.",
-      "quote": "namely, that Indian nationalism was an elite phenomenon, a creation of lawyers and doctors and landlords.",
-      "blanks": [
-        "elite"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part III",
-        "code": "lehs303",
-        "chapterNo": 11,
-        "page": 288,
-        "section": "1. A Leader Announces Himself"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "bhu",
-        "elite"
-      ],
-      "order": 120,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.kl-localised-struggles",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
-      "chapter": "Mahatma Gandhi & the Nationalist Movement",
-      "unit": "Mahatma Gandhi and National Movements",
-      "kind": "key_line",
-      "front": "These initiatives in Champaran, Ahmedabad and Kheda marked Gandhiji out as a nationalist with a deep sympathy for the poor. At the same time, these were all ____ struggles.",
-      "back": "These initiatives in Champaran, Ahmedabad and Kheda marked Gandhiji out as a nationalist with a deep sympathy for the poor. At the same time, these were all localised struggles.",
+      "kind": "fact",
+      "front": "What kind of struggles were Gandhiji's initiatives in Champaran, Ahmedabad and Kheda?",
+      "back": "Localised struggles\nThese initiatives in Champaran, Ahmedabad and Kheda marked Gandhiji out as a nationalist with a deep sympathy for the poor. At the same time, these were all localised struggles.",
       "quote": "These initiatives in Champaran, Ahmedabad and Kheda marked Gandhiji out as a nationalist with a deep sympathy for the poor. At the same time, these were all localised struggles.",
-      "blanks": [
-        "localised"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Themes in Indian History Part III",
@@ -9575,41 +7249,8 @@
       ],
       "order": 160,
       "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.kl-rowlatt-national-leader",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
-      "chapter": "Mahatma Gandhi & the Nationalist Movement",
-      "unit": "Mahatma Gandhi and National Movements",
-      "kind": "key_line",
-      "front": "It was the ____ satyagraha that made Gandhiji a truly national leader.",
-      "back": "It was the Rowlatt satyagraha that made Gandhiji a truly national leader.",
-      "quote": "It was the Rowlatt satyagraha that made Gandhiji a truly national leader.",
-      "blanks": [
-        "Rowlatt"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part III",
-        "code": "lehs303",
-        "chapterNo": 11,
-        "page": 290,
-        "section": "2. The Making and Unmaking of Non-cooperation"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "rowlatt",
-        "gandhi"
-      ],
-      "order": 200,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Front 'what kind of struggles' has several valid answers from the same passage (peasant and labour struggles, struggles for the poor); only 'localised' is the keyed one. Reword e.g. 'Champaran, Ahmedabad and Kheda were all ____ struggles' or ask 'unlike the wider Rowlatt movement'."
       ]
     },
     {
@@ -9814,40 +7455,6 @@
       ]
     },
     {
-      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.kl-appeal-symbols",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
-      "chapter": "Mahatma Gandhi & the Nationalist Movement",
-      "unit": "Mahatma Gandhi and National Movements",
-      "kind": "key_line",
-      "front": "Gandhiji’s appeal among the poor, and peasants in particular, was enhanced by his ____ lifestyle, and by his shrewd use of symbols such as the ____ and the charkha.",
-      "back": "Gandhiji’s appeal among the poor, and peasants in particular, was enhanced by his ascetic lifestyle, and by his shrewd use of symbols such as the dhoti and the charkha.",
-      "quote": "Gandhiji’s appeal among the poor, and peasants in particular, was enhanced by his ascetic lifestyle, and by his shrewd use of symbols such as the dhoti and the charkha.",
-      "blanks": [
-        "ascetic",
-        "dhoti"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part III",
-        "code": "lehs303",
-        "chapterNo": 11,
-        "page": 293,
-        "section": "2.2 A people's leader"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "peasants",
-        "symbols"
-      ],
-      "order": 460,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
       "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-released-1924",
       "v": 1,
       "subject": "history",
@@ -9914,73 +7521,6 @@
       ]
     },
     {
-      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.kl-pledge-inalienable",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
-      "chapter": "Mahatma Gandhi & the Nationalist Movement",
-      "unit": "Mahatma Gandhi and National Movements",
-      "kind": "key_line",
-      "front": "Participants would take a pledge affirming that it was “the ____ right of the Indian people, as of any other people, to have freedom and to enjoy the fruits of their toil”",
-      "back": "Participants would take a pledge affirming that it was “the inalienable right of the Indian people, as of any other people, to have freedom and to enjoy the fruits of their toil”",
-      "quote": "Participants would take a pledge affirming that it was “the inalienable right of the Indian people, as of any other people, to have freedom and to enjoy the fruits of their toil”",
-      "blanks": [
-        "inalienable"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part III",
-        "code": "lehs303",
-        "chapterNo": 11,
-        "page": 296,
-        "section": "3. The Salt Satyagraha: A Case Study"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "pledge",
-        "1930"
-      ],
-      "order": 570,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.kl-no-leader-necessary",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
-      "chapter": "Mahatma Gandhi & the Nationalist Movement",
-      "unit": "Mahatma Gandhi and National Movements",
-      "kind": "key_line",
-      "front": "This movement is based on the faith that when a whole nation is roused and on the march no ____ is necessary.",
-      "back": "This movement is based on the faith that when a whole nation is roused and on the march no leader is necessary.",
-      "quote": "This movement is based on the faith that when a whole nation is roused and on the march no leader is necessary.",
-      "blanks": [
-        "leader"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part III",
-        "code": "lehs303",
-        "chapterNo": 11,
-        "page": 298,
-        "section": "3.1 Dandi"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "dandi",
-        "speech"
-      ],
-      "order": 630,
-      "note": "From Gandhiji’s speech at Dandi, 5 April 1930.",
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-break-salt-law",
       "v": 1,
       "subject": "history",
@@ -10011,37 +7551,6 @@
       "reasons": [
         "review:not_important",
         "review:Seven-word line that duplicates the Dandi card (fact-dandi-12-march) and omits the date 6 April; thin."
-      ]
-    },
-    {
-      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.list-salt-three-reasons",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
-      "chapter": "Mahatma Gandhi & the Nationalist Movement",
-      "unit": "Mahatma Gandhi and National Movements",
-      "kind": "list",
-      "front": "Name the three reasons the Salt March was notable.",
-      "back": "First, it was this event that first brought Mahatma Gandhi to world attention.\nSecond, it was the first nationalist activity in which women participated in large numbers.\nThird, and perhaps most significant, it was the Salt March which forced upon the British the realisation that their Raj would not last forever, and that they would have to devolve some power to the Indians.",
-      "quote": "First, it was this event that first brought Mahatma Gandhi to world attention. The march was widely covered by the European and American press. Second, it was the first nationalist activity in which women participated in large numbers.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part III",
-        "code": "lehs303",
-        "chapterNo": 11,
-        "page": 300,
-        "section": "3.2 Dialogues"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "salt",
-        "women"
-      ],
-      "order": 680,
-      "reasons": [
-        "shape:back_not_quote"
       ]
     },
     {
@@ -10076,39 +7585,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Blank \"bondage\" competes with slavery, servitude; quoted-word fill with no cue in the front."
-      ]
-    },
-    {
-      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.kl-three-way-struggle",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
-      "chapter": "Mahatma Gandhi & the Nationalist Movement",
-      "unit": "Mahatma Gandhi and National Movements",
-      "kind": "key_line",
-      "front": "it was no longer Indians versus the British; rather, it had become a ____ struggle between the Congress, the Muslim League, and the British.",
-      "back": "it was no longer Indians versus the British; rather, it had become a three-way struggle between the Congress, the Muslim League, and the British.",
-      "quote": "it was no longer Indians versus the British; rather, it had become a three-way struggle between the Congress, the Muslim League, and the British.",
-      "blanks": [
-        "three-way"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part III",
-        "code": "lehs303",
-        "chapterNo": 11,
-        "page": 302,
-        "section": "3.2 Dialogues"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "muslim-league",
-        "congress"
-      ],
-      "order": 820,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -10469,36 +7945,6 @@
       ]
     },
     {
-      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.types-source-types",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
-      "chapter": "Mahatma Gandhi & the Nationalist Movement",
-      "unit": "Mahatma Gandhi and National Movements",
-      "kind": "types",
-      "front": "Types of sources for reconstructing Gandhiji’s career and the nationalist movement.",
-      "back": "Public voice and private scripts\nFraming a picture\nThrough police eyes\nFrom newspapers",
-      "quote": "There are many different kinds of sources from which we can reconstruct the political career of Gandhiji and the history of the nationalist movement.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part III",
-        "code": "lehs303",
-        "chapterNo": 11,
-        "page": 307,
-        "section": "6. Knowing Gandhi"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "sources"
-      ],
-      "order": 1120,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
       "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-harijan-bunch",
       "v": 1,
       "subject": "history",
@@ -10692,15 +8138,15 @@
     },
     {
       "id": "kc.history.framing-the-constitution.kl-moral-safeguard",
-      "v": 1,
+      "v": 2,
       "subject": "history",
       "chapterKey": "history.framing-the-constitution",
       "chapter": "Framing the Constitution",
       "unit": "Framing the Constitution",
       "kind": "key_line",
-      "front": "It is the ____ safeguard which gives protection to the underdogs of this country",
-      "back": "It is the moral safeguard which gives protection to the underdogs of this country",
-      "quote": "It is the moral safeguard which gives protection to the underdogs of this country",
+      "front": "What we want is not all kinds of safeguards. It is the ____ safeguard which gives protection to the underdogs of this country",
+      "back": "What we want is not all kinds of safeguards. It is the moral safeguard which gives protection to the underdogs of this country",
+      "quote": "What we want is not all kinds of safeguards. It is the moral safeguard which gives protection to the underdogs of this country",
       "blanks": [
         "moral"
       ],
@@ -10718,77 +8164,10 @@
         "dakshayani-velayudhan"
       ],
       "order": 870,
-      "note": "Dakshayani Velayudhan, Source 7.",
+      "note": "Dakshayani Velayudhan of Madras, in the Constituent Assembly.",
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.framing-the-constitution.kl-weak-central-authority",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.framing-the-constitution",
-      "chapter": "Framing the Constitution",
-      "unit": "Framing the Constitution",
-      "kind": "key_line",
-      "front": "it would be injurious to the interests of the country to provide for a ____ which would be incapable of ensuring peace",
-      "back": "it would be injurious to the interests of the country to provide for a weak central authority which would be incapable of ensuring peace",
-      "quote": "it would be injurious to the interests of the country to provide for a weak central authority which would be incapable of ensuring peace",
-      "blanks": [
-        "weak central authority"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part III",
-        "code": "lehs304",
-        "chapterNo": 12,
-        "page": 334,
-        "section": "4. The Powers of the State"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "nehru",
-        "centre"
-      ],
-      "order": 920,
-      "note": "Nehru’s letter to the President of the Constituent Assembly, arguing for a strong Centre after Partition.",
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.history.framing-the-constitution.kl-gandhi-happy-combination",
-      "v": 1,
-      "subject": "history",
-      "chapterKey": "history.framing-the-constitution",
-      "chapter": "Framing the Constitution",
-      "unit": "Framing the Constitution",
-      "kind": "key_line",
-      "front": "This Hindustani should be neither Sanskritised Hindi nor Persianised Urdu but a ____ of both.",
-      "back": "This Hindustani should be neither Sanskritised Hindi nor Persianised Urdu but a happy combination of both.",
-      "quote": "This Hindustani should be neither Sanskritised Hindi nor Persianised Urdu but a happy combination of both.",
-      "blanks": [
-        "happy combination"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Themes in Indian History Part III",
-        "code": "lehs304",
-        "chapterNo": 12,
-        "page": 336,
-        "section": "5. The Language of the Nation"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "gandhi",
-        "hindustani"
-      ],
-      "order": 1130,
-      "note": "Mahatma Gandhi, Harijan Sevak, 12 October 1947 (Source 10).",
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Blank 'moral' is not the only plausible fill from the front alone (real, true, social, constitutional); speaker and topic (depressed castes' safeguards) are not on the front, so no single right fill."
       ]
     },
     {

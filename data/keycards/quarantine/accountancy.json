@@ -287,6 +287,565 @@
       ]
     },
     {
+      "id": "kc.accountancy.admission-of-partner.fact-reconstituted-new-agreement",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Admission of Partner",
+      "kind": "fact",
+      "front": "What happens to the partnership firm when a new partner is admitted?",
+      "back": "With the admission of a new partner, the partnership firm is reconstituted and a new agreement is entered into to carry on the business of the firm.",
+      "quote": "With the admission of a new partner, the partnership firm is reconstituted and a new agreement is entered into to carry on the business of the firm.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 49,
+        "section": "2.2 Admission of a New Partner"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "admission",
+        "reconstitution"
+      ],
+      "order": 85,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: old card def-reconstitution already states that any change ends the existing agreement and a new agreement comes into being."
+      ]
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.fact-new-share-decided-mutually",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Admission of Partner",
+      "kind": "fact",
+      "front": "Who decides the share of a new partner and how he acquires it from the existing partners?",
+      "back": "what will be the share of new partner and how he will acquire it from the existing partners is decided mutually among the old partners and the new partner.",
+      "quote": "But, what will be the share of new partner and how he will acquire it from the existing partners is decided mutually among the old partners and the new partner.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 50,
+        "section": "2.3 New Profit Sharing Ratio"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "new profit sharing ratio"
+      ],
+      "order": 135,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front asks two things (who decides, and how he acquires it); the back only says 'mutually among the old partners and the new partner', so the 'how' part has no answer. Split or narrow to one question."
+      ]
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.entry-premium-to-sacrificing-partners",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Admission of Partner",
+      "kind": "entry",
+      "front": "Journal entry: premium for goodwill distributed among the existing partners in their sacrificing ratio (second entry).",
+      "back": "Goodwill A/c Dr.\nTo Sacrificing Partners Capital A/c\n(Individually)(Goodwill distributed among the existing partners' in their sacrificing ratio)",
+      "quote": "Goodwill A/c Dr. To Sacrificing Partners Capital A/c (Individually)(Goodwill distributed among the existing partners' in their sacrificing ratio).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 64,
+        "section": "2.5.5.1 When the new Partner brings goodwill in cash"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "goodwill",
+        "sacrificing ratio"
+      ],
+      "order": 605,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front depends on an unseen 'first entry'; NCERT prints 'Goodwill A/c Dr.' here although the first entry credits 'Premium for Goodwill A/c', so a student giving the logical account name would be marked wrong. State the pair in the front or note the account title."
+      ]
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.fact-unrecorded-brought-into-books",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Admission of Partner",
+      "kind": "fact",
+      "front": "What is done with unrecorded assets and liabilities of the firm at the time of admission?",
+      "back": "At times there may also be some unrecorded assets and liabilities of the firm. These also have to be brought into the books of the firm.",
+      "quote": "At times there may also be some unrecorded assets and liabilities of the firm. These also have to be brought into the books of the firm.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 77,
+        "section": "2.7 Revaluation of Assets and Reassessment of Liabilities"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "revaluation"
+      ],
+      "order": 897,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_important",
+        "review:Low value: answer is near-tautological ('brought into the books'); the exam-tested treatment (unrecorded assets credited, liabilities debited to Revaluation A/c) is already in old card kl-unrecorded-credit-debit."
+      ]
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.fact-reval-entries-amount-note",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Admission of Partner",
+      "kind": "fact",
+      "front": "Revaluation entries for a change in the value of an asset or liability: what amount is recorded?",
+      "back": "Entries (i), (ii), (iii) and (iv) are recorded only with the amount increase and decrease in the value of assets and liabilities.",
+      "quote": "Note: Entries (i), (ii), (iii) and (iv) are recorded only with the amount increase and decrease in the value of assets and liabilities.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 78,
+        "section": "2.7 Revaluation of Assets and Reassessment of Liabilities"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "revaluation"
+      ],
+      "order": 1001,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Back refers to 'Entries (i), (ii), (iii) and (iv)' which the student cannot see, and the front does not say which entries or which change; does not stand alone."
+      ]
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.entry-capital-excess-withdrawn",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Admission of Partner",
+      "kind": "entry",
+      "front": "Journal entry (Illustration 25): excess capital of an old partner withdrawn on adjustment of capitals.",
+      "back": "A's Capital A/c\nTo Cash A/c\n(Excess capital withdrawn by A)",
+      "quote": "A's Capital A/c To Cash A/c (Excess capital withdrawn by A)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 84,
+        "section": "2.8 Adjustment of Capitals"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "capital adjustment"
+      ],
+      "order": 1045,
+      "note": "A's Capital A/c is debited and Cash A/c is credited.",
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_exact",
+        "review:Printed entry is 'A's Capital A/c Dr. 5,000 / To Cash A/c'; quote and back omit 'Dr.', a mark-carrying part of a journal entry."
+      ]
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.entry-capital-deficiency-to-current",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Admission of Partner",
+      "kind": "entry",
+      "front": "Journal entry (Illustration 26): deficiency in a partner's capital transferred to his current account.",
+      "back": "A's Current A/c\nTo A's Capital A/c\n(Deficiency in A's capital transferred to A's Current Account)",
+      "quote": "A's Current A/c To A's Capital A/c (Deficiency in A's capital transferred to A's Current Account)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 86,
+        "section": "2.8 Adjustment of Capitals"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "capital adjustment",
+        "current account"
+      ],
+      "order": 1075,
+      "note": "A's Current A/c is debited and A's Capital A/c is credited.",
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_exact",
+        "review:Printed entry is 'A's Current A/c Dr. 5,000 / To A's Capital A/c'; quote and back omit 'Dr.'."
+      ]
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.entry-capital-excess-to-current",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Admission of Partner",
+      "kind": "entry",
+      "front": "Journal entry (Illustration 26): excess capital of old partners transferred to their current accounts.",
+      "back": "B's Capital A/c\nC's Capital A/c\nTo B's Current A/c\nTo C's Current A/c\n(Excess Capital of B transferred to their current account)",
+      "quote": "B's Capital A/c C's Capital A/c To B's Current A/c To C's Current A/c (Excess Capital of B transferred to their current account)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 86,
+        "section": "2.8 Adjustment of Capitals"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "capital adjustment",
+        "current account"
+      ],
+      "order": 1076,
+      "note": "The capital accounts of B and C are debited and their current accounts are credited.",
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_exact",
+        "review:Printed entry has 'B's Capital A/c Dr.' and 'C's Capital A/c Dr.'; quote and back omit both 'Dr.'. Narration prints 'Excess Capital of B' although C is also debited (NCERT slip), which will confuse."
+      ]
+    },
+    {
+      "id": "kc.accountancy.goodwill-valuation.fact-goodwill-needs-adjustment-at-reconstitution",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Goodwill Valuation",
+      "kind": "fact",
+      "front": "Which special aspect of partnership accounts needs adjustment, and valuation if not specified, at reconstitution?",
+      "back": "Goodwill is also one of the special aspects of partnership accounts which requires adjustment (also valuation if not specified) at the time of reconstitution of a firm viz., a change in the profit sharing ratio, the admission of a partner or the retirement or death of a partner.",
+      "quote": "Goodwill is also one of the special aspects of partnership accounts which requires adjustment (also valuation if not specified) at the time of reconstitution of a firm viz., a change in the profit sharing ratio, the admission of a partner or the retirement or death of a partner.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 55,
+        "section": "2.5 Goodwill"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "goodwill",
+        "reconstitution"
+      ],
+      "order": 225,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Quote says goodwill is 'also one of the special aspects', so 'which special aspect' has other right answers (revaluation, reserves); front is also clumsy and gives away the answer in the back's first word."
+      ]
+    },
+    {
+      "id": "kc.accountancy.goodwill-valuation.fact-pays-for-goodwill",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Goodwill Valuation",
+      "kind": "fact",
+      "front": "When a person pays for goodwill, what does he or she pay for?",
+      "back": "he/she pays for something, which places him in the position of being able to earn super profits as compared to the profit earned by other firms in the same industry.",
+      "quote": "It is generally observed that when a person pays for goodwill, he/she pays for something, which places him in the position of being able to earn super profits as compared to the profit earned by other firms in the same industry.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 55,
+        "section": "2.5.1 Meaning of Goodwill"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "goodwill",
+        "super profits"
+      ],
+      "order": 245,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Open-ended: a student could say 'reputation' or 'an intangible', while the back wants a long phrase ('something which places him in the position of earning super profits'). No single fill."
+      ]
+    },
+    {
+      "id": "kc.accountancy.goodwill-valuation.list-special-advantages-factor",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Goodwill Valuation",
+      "kind": "list",
+      "front": "Name the special advantages that raise the value of goodwill.",
+      "back": "import licences\nlow rate and assured supply of electricity\nlong-term contracts for supply of materials\nwell-known collaborators\npatents\ntrademarks",
+      "quote": "Special advantages: The firm that enjoys special advantages like import licences, low rate and assured supply of electricity, long-term contracts for supply of materials, well-known collaborators, patents, trademarks, etc. enjoy higher value of goodwill.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 56,
+        "section": "2.5.2 Factors Affecting the Value of Goodwill"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "goodwill",
+        "factors"
+      ],
+      "order": 295,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:NCERT's list is non-exhaustive ('like ... etc.'); the back drops 'etc.', so a student naming another advantage cannot be judged. Better as a key_line with blanks or a 'which of these' framing."
+      ]
+    },
+    {
+      "id": "kc.accountancy.goodwill-valuation.def-intangible-asset-as26",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Goodwill Valuation",
+      "kind": "definition",
+      "front": "Define an intangible asset under AS 26.",
+      "back": "Intangible Asset under AS 26 is defined as an identifiable, non monetary, without physical existence and held for use in the production or supply of goods or services for rental to others or for administrative purposes.",
+      "quote": "As per the Standard, Intangible Asset under AS 26 is defined as an identifiable, non monetary, without physical existence and held for use in the production or supply of goods or services for rental to others or for administrative purposes.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 72,
+        "section": "Applicability of Accounting Standard 26: Intangible Assets"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "AS 26",
+        "intangible asset"
+      ],
+      "order": 745,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_important",
+        "review:AS 26 definition is outside the CUET Unit II goodwill list (nature, factors, methods); quote wording is also garbled ('identifiable, non monetary, without physical existence and held for use ...')."
+      ]
+    },
+    {
+      "id": "kc.accountancy.goodwill-valuation.fact-intangible-written-off-ten-years",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Goodwill Valuation",
+      "kind": "fact",
+      "front": "Under AS 26, over what period should intangible assets be written off?",
+      "back": "Intangible assets should be written off as early as possible but not exceeding its estimated life, which normally should not be beyond 10 years.",
+      "quote": "Intangible assets should be written off as early as possible but not exceeding its estimated life, which normally should not be beyond 10 years.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 72,
+        "section": "Applicability of Accounting Standard 26: Intangible Assets"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "AS 26",
+        "intangible asset"
+      ],
+      "order": 747,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_important",
+        "review:AS 26 detail outside the CUET goodwill sub-topics; trivia for a CUET student."
+      ]
+    },
+    {
+      "id": "kc.accountancy.change-in-profit-sharing-ratio.fact-cause-change-in-role",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.change-in-profit-sharing-ratio",
+      "chapter": "Change in Profit Sharing Ratio",
+      "unit": "Change in Profit Sharing Ratio",
+      "kind": "fact",
+      "front": "A change in the profit sharing ratio among existing partners may happen on account of what?",
+      "back": "a change in the existing partners' role in the firm.",
+      "quote": "Sometimes the partners of a firm may decide to change their existing profit sharing ratio. This may happen an account of a change in the existing partners' role in the firm.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 49,
+        "section": "2.1 Modes of Reconstitution of a Partnership Firm"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "profit sharing ratio"
+      ],
+      "order": 1075,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Open 'on account of what?': several plausible answers (agreement, capital change, efficiency); the one NCERT answer 'a change in the existing partners' role' cannot be derived from the front."
+      ]
+    },
+    {
+      "id": "kc.accountancy.change-in-profit-sharing-ratio.entry-e-ill29-fixed-assets-increase",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.change-in-profit-sharing-ratio",
+      "chapter": "Change in Profit Sharing Ratio",
+      "unit": "Change in Profit Sharing Ratio",
+      "kind": "entry",
+      "front": "Entry (Illustration 29): increase in the value of fixed assets when partners change their profit sharing ratio.",
+      "back": "Fixed Assets A/c Dr.\nTo Revaluation A/c\n(Increase in value of fixed assets)",
+      "quote": "Fixed Assets A/c Dr. To Revaluation A/c (Increase in value of fixed assets)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 95,
+        "section": "Illustration 29"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "revaluation",
+        "profit sharing ratio"
+      ],
+      "order": 1121,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: repeats old card entry-e-reval-asset-increase (Asset A/c Dr. To Revaluation A/c) with illustration labels only."
+      ]
+    },
+    {
+      "id": "kc.accountancy.change-in-profit-sharing-ratio.entry-e-ill29-revaluation-profit-transfer",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.change-in-profit-sharing-ratio",
+      "chapter": "Change in Profit Sharing Ratio",
+      "unit": "Change in Profit Sharing Ratio",
+      "kind": "entry",
+      "front": "Entry (Illustration 29): profit on revaluation transferred to the partners when they change their profit sharing ratio.",
+      "back": "Revaluation A/c Dr.\nTo Dinesh's Capital A/c\nTo Ramesh's Capital A/c\nTo Suresh's Capital A/c\n(Profit on revaluation transferred to partners' capital accounts in old profit sharing ratio)",
+      "quote": "Revaluation A/c Dr. To Dinesh's Capital A/c To Ramesh's Capital A/c To Suresh's Capital A/c (Profit on revaluation transferred to partners' capital accounts in old profit sharing ratio)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 95,
+        "section": "Illustration 29"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "revaluation",
+        "profit sharing ratio"
+      ],
+      "order": 1123,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: repeats old card entry-e-reval-transfer-gain (Revaluation A/c Dr. To Old Partners Capital A/cs in old ratio); 'must' is not justified for a repeat."
+      ]
+    },
+    {
+      "id": "kc.accountancy.change-in-profit-sharing-ratio.entry-e-ill29-general-reserve-transfer",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.change-in-profit-sharing-ratio",
+      "chapter": "Change in Profit Sharing Ratio",
+      "unit": "Change in Profit Sharing Ratio",
+      "kind": "entry",
+      "front": "Entry (Illustration 29): general reserve transferred to the partners when they change their profit sharing ratio.",
+      "back": "General Reserve A/c Dr.\nTo Dinesh's Capital A/c\nTo Ramesh's Capital A/c\nTo Suresh's Capital A/c\n(General reserve, transferred to partners' capital accounts in old ratio)",
+      "quote": "General Reserve A/c Dr. To Dinesh's Capital A/c To Ramesh's Capital A/c To Suresh's Capital A/c (General reserve, transferred to partners' capital accounts in old ratio)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 95,
+        "section": "Illustration 29"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reserves",
+        "profit sharing ratio"
+      ],
+      "order": 1124,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: repeats old card entry-e-general-reserve-ill27 (General Reserve A/c Dr. To partners' capital in old ratio); 'must' is not justified for a repeat."
+      ]
+    },
+    {
       "id": "kc.accountancy.change-in-profit-sharing-ratio.term-gaining-ratio-term",
       "v": 1,
       "subject": "accountancy",
@@ -317,6 +876,304 @@
       "reasons": [
         "review:not_important",
         "review:DUPLICATE: same fact as kc.accountancy.change-in-profit-sharing-ratio.def-gaining-ratio. Identical sentence; kept is linked (L3) (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.accountancy.retirement-and-death-of-partner.fact-both-cases-sum-due",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapter": "Retirement & Death of Partner",
+      "unit": "Retirement & Death of Partner",
+      "kind": "fact",
+      "front": "Retirement or death of a partner: what must be determined in both cases, and for whom?",
+      "back": "In both the cases, we are required to determine the sum due to the retiring partner (in case of retirement) and to the legal representatives (in case of deceased partner)",
+      "quote": "In both the cases, we are required to determine the sum due to the retiring partner (in case of retirement) and to the legal representatives (in case of deceased partner)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 107,
+        "section": "Introduction"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "retirement",
+        "death",
+        "sum due"
+      ],
+      "order": 20,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: same point as list-dues-credits-1 (sum due to retiring partner / legal representatives); front also asks two things (what and for whom)."
+      ]
+    },
+    {
+      "id": "kc.accountancy.retirement-and-death-of-partner.fact-reval-unrecorded-items",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapter": "Retirement & Death of Partner",
+      "unit": "Retirement & Death of Partner",
+      "kind": "fact",
+      "front": "On retirement or death, what is done about unrecorded assets and liabilities?",
+      "back": "Not only that, there may be some unrecorded assets and liabilities which need to be brought into books.",
+      "quote": "Not only that, there may be some unrecorded assets and liabilities which need to be brought into books.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 120,
+        "section": "3.5 Adjustment for Revaluation of Assets and Liabilities"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "revaluation",
+        "unrecorded"
+      ],
+      "order": 398,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: unrecorded items brought into books is already in fact-revaluation-purpose and the two unrecorded-item entry cards; back opens with dangling \"Not only that\"."
+      ]
+    },
+    {
+      "id": "kc.accountancy.retirement-and-death-of-partner.fact-accumulated-profits-form",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapter": "Retirement & Death of Partner",
+      "unit": "Retirement & Death of Partner",
+      "kind": "fact",
+      "front": "In what form may a firm's Balance Sheet show accumulated profits?",
+      "back": "Sometimes, the Balance Sheet of a firm may show accumulated profits in the form of general reserve",
+      "quote": "Sometimes, the Balance Sheet of a firm may show accumulated profits in the form of general reserve",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 122,
+        "section": "3.6 Adjustment of Accumulated Profits and Losses"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "accumulated profits",
+        "general reserve"
+      ],
+      "order": 485,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Ambiguous: \"reserves\", \"reserve fund\" or P&L credit balance are also valid answers, only \"general reserve\" is marked right; a passing remark, so good not must."
+      ]
+    },
+    {
+      "id": "kc.accountancy.retirement-and-death-of-partner.fact-total-due-paid-immediately",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapter": "Retirement & Death of Partner",
+      "unit": "Retirement & Death of Partner",
+      "kind": "fact",
+      "front": "After all adjustments, when is the total amount due to the retiring partner to be paid?",
+      "back": "Hence, the total amount due to the retiring partner which is ascertained after all adjustments have been made is to be paid immediately to the retiring partner.",
+      "quote": "Hence, the total amount due to the retiring partner which is ascertained after all adjustments have been made is to be paid immediately to the retiring partner.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 125,
+        "section": "3.7 Disposal of Amount Due to Retiring Partner"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "settlement",
+        "retiring partner"
+      ],
+      "order": 585,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Ambiguous: NCERT also allows settlement per the deed (instalments, part cash, loan account), so \"immediately\" is not the one right answer; overlaps types-settlement-modes and fact-due-to-loan-account; back opens with dangling \"Hence\". Should be good."
+      ]
+    },
+    {
+      "id": "kc.accountancy.retirement-and-death-of-partner.fact-loan-entries-repeated",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapter": "Retirement & Death of Partner",
+      "unit": "Retirement & Death of Partner",
+      "kind": "fact",
+      "front": "Retiring partner's loan settled by instalments with interest: until when are the interest and instalment entries repeated?",
+      "back": "Entry number (a) and (b), above will be repeated till the loan is paid off.",
+      "quote": "Entry number (a) and (b), above will be repeated till the loan is paid off.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 126,
+        "section": "3.7 Disposal of Amount Due to Retiring Partner"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "loan account",
+        "instalment"
+      ],
+      "order": 655,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Trivia and not standalone: refers to unseen \"entry (a) and (b)\"; answer is just \"till the loan is paid off\"."
+      ]
+    },
+    {
+      "id": "kc.accountancy.retirement-and-death-of-partner.fact-capital-excess-shortage",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapter": "Retirement & Death of Partner",
+      "unit": "Retirement & Death of Partner",
+      "kind": "fact",
+      "front": "Adjusting continuing partners' capitals: how is the excess or shortage in a capital account adjusted?",
+      "back": "Such excess or shortage shall be adjusted by withdrawal of contribution in cash, as the case may be",
+      "quote": "Such excess or shortage shall be adjusted by withdrawal of contribution in cash, as the case may be",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 134,
+        "section": "3.8 Adjustment of Partners' Capitals"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "capital adjustment"
+      ],
+      "order": 695,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:NCERT prints \"withdrawal of contribution in cash\" (typo for \"or\"); the back as printed teaches a meaningless phrase, so the answer is not clear; the two capital entry cards cover the point."
+      ]
+    },
+    {
+      "id": "kc.accountancy.retirement-and-death-of-partner.fact-capital-way-1",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapter": "Retirement & Death of Partner",
+      "unit": "Retirement & Death of Partner",
+      "kind": "fact",
+      "front": "Adjusting continuing partners' capitals: in how many ways may it be done, and what is way 1?",
+      "back": "The adjustment of the continuing partner's capitals may involve any one of the three ways as illustrated as follows : 1. When the capital of the new firm as decided by the partners is specified.",
+      "quote": "The adjustment of the continuing partner's capitals may involve any one of the three ways as illustrated as follows : 1. When the capital of the new firm as decided by the partners is specified.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 134,
+        "section": "3.8 Adjustment of Partners' Capitals"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "capital adjustment",
+        "ways"
+      ],
+      "order": 715,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front asks two things (how many ways, and what is way 1); one idea per card; better as one list card of the three ways."
+      ]
+    },
+    {
+      "id": "kc.accountancy.retirement-and-death-of-partner.fact-capital-way-2",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapter": "Retirement & Death of Partner",
+      "unit": "Retirement & Death of Partner",
+      "kind": "fact",
+      "front": "Way 2 of the three ways to adjust continuing partners' capitals: when does it apply?",
+      "back": "When the total capital of new firm is not specified.",
+      "quote": "When the total capital of new firm is not specified.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 135,
+        "section": "3.8 Adjustment of Partners' Capitals"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "capital adjustment",
+        "ways"
+      ],
+      "order": 720,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front identifies the way only by its position number, so it cannot stand alone; make the three ways one list card."
+      ]
+    },
+    {
+      "id": "kc.accountancy.retirement-and-death-of-partner.fact-capital-way-3",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapter": "Retirement & Death of Partner",
+      "unit": "Retirement & Death of Partner",
+      "kind": "fact",
+      "front": "Way 3 of the three ways to adjust continuing partners' capitals: when does it apply?",
+      "back": "When the amount payable to retiring partner will be contributed by continuing partners in such a way that their capitals are adjusted proportionate to their new profit sharing ratio",
+      "quote": "When the amount payable to retiring partner will be contributed by continuing partners in such a way that their capitals are adjusted proportionate to their new profit sharing ratio",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 136,
+        "section": "3.8 Adjustment of Partners' Capitals"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "capital adjustment",
+        "ways"
+      ],
+      "order": 725,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front identifies the way only by its position number, so it cannot stand alone; make the three ways one list card."
       ]
     },
     {
@@ -577,6 +1434,265 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:Not important: a long list of government actions is low-yield trivia, not a headed list or definition. Front is two-part with a multi-item answer, so no single right answer."
+      ]
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-fsa-regrouping",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "What does financial statement analysis essentially involve?",
+      "back": "It essentially involves regrouping and analysis of information provided by financial statements to establish relationships and throw light on the points of strengths and weaknesses of a business enterprise",
+      "quote": "It essentially involves regrouping and analysis of information provided by financial statements to establish relationships and throw light on the points of strengths and weaknesses of a business enterprise",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 172,
+        "section": "4.1 Meaning of Analysis of Financial Statements"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "financial statement analysis"
+      ],
+      "order": 60,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: same point as def-financial-analysis (strengths and weaknesses by establishing relationships) and as def-fsa-judgemental-process"
+      ]
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-top-management-responsibility",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "What is the overall responsibility of the top management of a firm in financial matters?",
+      "back": "It is their overall responsibility to see that the resources of the firm are used most efficiently and that the firm’s financial condition is sound.",
+      "quote": "It is their overall responsibility to see that the resources of the firm are used most efficiently and that the firm’s financial condition is sound.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 172,
+        "section": "4.2 Significance of Analysis of Financial Statements"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "top management"
+      ],
+      "order": 100,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_important",
+        "review:generic filler sentence about top management's overall responsibility; not a testable point and adds nothing beyond list-top-management-helps"
+      ]
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.list-lenders-analyse",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "list",
+      "front": "What do suppliers of long-term debt analyse about the firm?",
+      "back": "the firm’s profitability over a period of time\nits ability to generate cash, to be able to pay interest and repay the principal\nthe relationship between various sources of funds (capital structure relationships)",
+      "quote": "They analyse the firm’s profitability over a period of time, its ability to generate cash, to be able to pay interest and repay the principal and the relationship between various sources of funds (capital structure relationships).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 173,
+        "section": "4.2 Significance of Analysis of Financial Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "lenders"
+      ],
+      "order": 141,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:front does not signal the three items, and 'solvency and survival' from the preceding sentence (see kl-lenders-solvency) is a plausible wrong answer; ask 'which three things do suppliers of long-term debt analyse'"
+      ]
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-investors-capital-structure",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "Besides profitability, what else do investors examine in a firm’s financial statements?",
+      "back": "They are also interested in the firm’s capital structure to ascertain its influences on firm’s earning and risk. They also evaluate the efficiency of the management and determine whether a change is needed or not.",
+      "quote": "They are also interested in the firm’s capital structure to ascertain its influences on firm’s earning and risk. They also evaluate the efficiency of the management and determine whether a change is needed or not.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 173,
+        "section": "4.2 Significance of Analysis of Financial Statements"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "investors",
+        "capital structure"
+      ],
+      "order": 146,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:two right answers (capital structure; efficiency of management) for 'what else'; the front picks neither"
+      ]
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-broad-objectives",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "Broadly speaking, what are the objectives of the analysis of financial statements?",
+      "back": "Broadly speaking, the objectives of the analysis are to apprehend the information contained in financial statements with a view to know the weaknesses and strengths of the firm and to make a forecast about the future prospects of the firm thereby, enabling the analysts to take decisions regarding the operation of, and further investment in the firm.",
+      "quote": "Broadly speaking, the objectives of the analysis are to apprehend the information contained in financial statements with a view to know the weaknesses and strengths of the firm and to make a forecast about the future prospects of the firm thereby, enabling the analysts to take decisions regarding the operation of, and further investment in the firm.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 173,
+        "section": "4.3 Objectives of Analysis of Financial Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "objectives"
+      ],
+      "order": 180,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:front collides with old list-objectives-of-analysis ('Name the objectives of analysis of financial statements'); both answers are NCERT-valid so a student cannot tell which is wanted"
+      ]
+    },
+    {
+      "id": "kc.accountancy.comparative-and-common-size-statements.fact-comparative-direction-trends",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.comparative-and-common-size-statements",
+      "chapter": "Comparative & Common Size Statements",
+      "unit": "Comparative & Common Size Statements",
+      "kind": "fact",
+      "front": "For what can the figures in comparative statements be used?",
+      "back": "The figures in the comparative statements can be used for identifying the direction of changes and also the trends in different indicators of performance of an organisation.",
+      "quote": "The figures in the comparative statements can be used for identifying the direction of changes and also the trends in different indicators of performance of an organisation.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 176,
+        "section": "4.5 Comparative Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "comparative statements"
+      ],
+      "order": 355,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:duplicate: repeats the trend and direction point already on fact-horizontal-analysis; front 'for what can the figures be used' also has many plausible answers"
+      ]
+    },
+    {
+      "id": "kc.accountancy.comparative-and-common-size-statements.fact-common-size-each-item-percentage",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.comparative-and-common-size-statements",
+      "chapter": "Comparative & Common Size Statements",
+      "unit": "Comparative & Common Size Statements",
+      "kind": "fact",
+      "front": "In a common size statement, each item is stated as a percentage of what?",
+      "back": "Here, each item in the statement is stated as a percentage of the aggregate, or revenue from operations of which that item is a part.",
+      "quote": "Here, each item in the statement is stated as a percentage of the aggregate, or revenue from operations of which that item is a part.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 182,
+        "section": "4.6 Common Size Statement"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "common size statement"
+      ],
+      "order": 390,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:duplicate: same point as def-common-size-statements, kl-common-size-balance-sheet, kl-common-size-profit-and-loss and fact-common-base-100; front also has several right answers (aggregate, total assets, revenue from operations)"
+      ]
+    },
+    {
+      "id": "kc.accountancy.comparative-and-common-size-statements.fact-common-size-different-sized-enterprises",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.comparative-and-common-size-statements",
+      "chapter": "Comparative & Common Size Statements",
+      "unit": "Comparative & Common Size Statements",
+      "kind": "fact",
+      "front": "Common size analysis is of immense use for comparing which enterprises, and why?",
+      "back": "Common size analysis is of immense use for comparing enterprises which differ substantially in size as it provides an insight into the structure of financial statements.",
+      "quote": "Common size analysis is of immense use for comparing enterprises which differ substantially in size as it provides an insight into the structure of financial statements.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 182,
+        "section": "4.6 Common Size Statement"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "common size statement"
+      ],
+      "order": 420,
+      "addedIn": "top-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: same point as new card fact-common-size-different-sized-companies (comparing firms of different sizes through common size statements)"
       ]
     },
     {

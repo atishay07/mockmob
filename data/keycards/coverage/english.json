@@ -2,34 +2,34 @@
   "subject": "english",
   "chapters": {
     "english.correct-word-usage": {
-      "published": 66,
-      "quarantined": 3,
+      "published": 127,
+      "quarantined": 12,
       "byKind": {
-        "usage": 33,
-        "rule": 33
+        "usage": 66,
+        "rule": 61
       },
       "byImportance": {
-        "must": 39,
-        "good": 27
+        "must": 55,
+        "good": 72
       },
       "coverage_note": null,
-      "mustShare": 0.59,
+      "mustShare": 0.43,
       "belowMinimum": false
     },
     "english.vocabulary": {
-      "published": 284,
-      "quarantined": 2,
+      "published": 523,
+      "quarantined": 15,
       "byKind": {
-        "word": 178,
-        "idiom": 56,
-        "one_word": 50
+        "word": 310,
+        "idiom": 117,
+        "one_word": 96
       },
       "byImportance": {
-        "must": 155,
-        "good": 129
+        "must": 209,
+        "good": 314
       },
       "coverage_note": null,
-      "mustShare": 0.55,
+      "mustShare": 0.4,
       "belowMinimum": false
     }
   }

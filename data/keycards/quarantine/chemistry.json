@@ -2,102 +2,6 @@
   "subject": "chemistry",
   "cards": [
     {
-      "id": "kc.chemistry.solutions.kl-mole-fraction-sum",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.solutions",
-      "chapter": "Solutions",
-      "unit": "Solutions",
-      "kind": "key_line",
-      "front": "It can be shown that in a given solution sum of all the mole fractions is ____",
-      "back": "It can be shown that in a given solution sum of all the mole fractions is unity",
-      "quote": "It can be shown that in a given solution sum of all the mole fractions is unity",
-      "blanks": [
-        "unity"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech101",
-        "chapterNo": 1,
-        "page": 3,
-        "section": "1.2 Expressing Concentration of Solutions"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "mole fraction"
-      ],
-      "order": 160,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.solutions.kl-dynamic-eq",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.solutions",
-      "chapter": "Solutions",
-      "unit": "Solutions",
-      "kind": "key_line",
-      "front": "Under such conditions, number of solute particles going into solution will be equal to the solute particles separating out and a state of ____ is reached.",
-      "back": "Under such conditions, number of solute particles going into solution will be equal to the solute particles separating out and a state of dynamic equilibrium is reached.",
-      "quote": "Under such conditions, number of solute particles going into solution will be equal to the solute particles separating out and a state of dynamic equilibrium is reached.",
-      "blanks": [
-        "dynamic equilibrium"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech101",
-        "chapterNo": 1,
-        "page": 6,
-        "section": "1.3 Solubility"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "dynamic equilibrium"
-      ],
-      "order": 280,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.solutions.kl-saturated-eq",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.solutions",
-      "chapter": "Solutions",
-      "unit": "Solutions",
-      "kind": "key_line",
-      "front": "The solution which is in ____ with undissolved solute is the saturated solution and contains the maximum amount of solute dissolved in a given amount of solvent.",
-      "back": "The solution which is in dynamic equilibrium with undissolved solute is the saturated solution and contains the maximum amount of solute dissolved in a given amount of solvent.",
-      "quote": "The solution which is in dynamic equilibrium with undissolved solute is the saturated solution and contains the maximum amount of solute dissolved in a given amount of solvent.",
-      "blanks": [
-        "dynamic equilibrium"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech101",
-        "chapterNo": 1,
-        "page": 6,
-        "section": "1.3 Solubility"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "saturated solution"
-      ],
-      "order": 310,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
       "id": "kc.chemistry.solutions.fact-henry-credit",
       "v": 1,
       "subject": "chemistry",
@@ -126,103 +30,6 @@
       "reasons": [
         "review:not_important",
         "review:Trivia: the law is named after Henry, so the question gives the answer away"
-      ]
-    },
-    {
-      "id": "kc.chemistry.solutions.kl-henry-mole-fraction",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.solutions",
-      "chapter": "Solutions",
-      "unit": "Solutions",
-      "kind": "key_line",
-      "front": "the mole fraction of gas in the solution is ____ to the partial pressure of the gas over the solution.",
-      "back": "the mole fraction of gas in the solution is proportional to the partial pressure of the gas over the solution.",
-      "quote": "the mole fraction of gas in the solution is proportional to the partial pressure of the gas over the solution.",
-      "blanks": [
-        "proportional"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech101",
-        "chapterNo": 1,
-        "page": 7,
-        "section": "1.3 Solubility"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "Henry's law"
-      ],
-      "order": 360,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.solutions.kl-kh-higher",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.solutions",
-      "chapter": "Solutions",
-      "unit": "Solutions",
-      "kind": "key_line",
-      "front": "It is obvious from equation (1.11) that higher the value of KH at a given pressure, the ____ is the solubility of the gas in the liquid.",
-      "back": "It is obvious from equation (1.11) that higher the value of KH at a given pressure, the lower is the solubility of the gas in the liquid.",
-      "quote": "It is obvious from equation (1.11) that higher the value of KH at a given pressure, the lower is the solubility of the gas in the liquid.",
-      "blanks": [
-        "lower"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech101",
-        "chapterNo": 1,
-        "page": 7,
-        "section": "1.3 Solubility"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "Henry's law"
-      ],
-      "order": 390,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.solutions.term-bends",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.solutions",
-      "chapter": "Solutions",
-      "unit": "Solutions",
-      "kind": "term",
-      "front": "This blocks capillaries and creates a medical condition known as ____, which are painful and dangerous to life.",
-      "back": "This blocks capillaries and creates a medical condition known as bends, which are painful and dangerous to life.",
-      "quote": "This blocks capillaries and creates a medical condition known as bends, which are painful and dangerous to life.",
-      "blanks": [
-        "bends"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech101",
-        "chapterNo": 1,
-        "page": 8,
-        "section": "1.3 Solubility"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "Henry's law",
-        "application"
-      ],
-      "order": 410,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -260,83 +67,17 @@
       ]
     },
     {
-      "id": "kc.chemistry.solutions.kl-volatile-rich",
+      "id": "kc.chemistry.solutions.fact-negative-cause",
       "v": 1,
       "subject": "chemistry",
       "chapterKey": "chemistry.solutions",
       "chapter": "Solutions",
       "unit": "Solutions",
-      "kind": "key_line",
-      "front": "at equilibrium, vapour phase will be always rich in the component which is ____.",
-      "back": "at equilibrium, vapour phase will be always rich in the component which is more volatile.",
-      "quote": "at equilibrium, vapour phase will be always rich in the component which is more volatile.",
-      "blanks": [
-        "more volatile"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech101",
-        "chapterNo": 1,
-        "page": 11,
-        "section": "1.4 Vapour Pressure of Liquid Solutions"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "Raoult's law"
-      ],
-      "order": 450,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.solutions.kl-solution-lower",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.solutions",
-      "chapter": "Solutions",
-      "unit": "Solutions",
-      "kind": "key_line",
-      "front": "This vapour pressure of the solution at a given temperature is found to be ____ than the vapour pressure of the pure solvent at the same temperature.",
-      "back": "This vapour pressure of the solution at a given temperature is found to be lower than the vapour pressure of the pure solvent at the same temperature.",
-      "quote": "This vapour pressure of the solution at a given temperature is found to be lower than the vapour pressure of the pure solvent at the same temperature.",
-      "blanks": [
-        "lower"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech101",
-        "chapterNo": 1,
-        "page": 12,
-        "section": "1.4 Vapour Pressure of Liquid Solutions"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "vapour pressure"
-      ],
-      "order": 480,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.solutions.kl-negative-cause",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.solutions",
-      "chapter": "Solutions",
-      "unit": "Solutions",
-      "kind": "key_line",
-      "front": "the intermolecular attractive forces between A-A and B-B are weaker than those between A-B and leads to ____ in vapour pressure resulting in negative deviations.",
-      "back": "the intermolecular attractive forces between A-A and B-B are weaker than those between A-B and leads to decrease in vapour pressure resulting in negative deviations.",
-      "quote": "the intermolecular attractive forces between A-A and B-B are weaker than those between A-B and leads to decrease in vapour pressure resulting in negative deviations.",
-      "blanks": [
-        "decrease"
-      ],
+      "kind": "fact",
+      "front": "What happens to the vapour pressure in a solution that shows negative deviation from Raoult's law?",
+      "back": "It decreases\nIn case of negative deviations from Raoult’s law, the intermolecular attractive forces between A-A and B-B are weaker than those between A-B and leads to decrease in vapour pressure resulting in negative deviations.",
+      "quote": "In case of negative deviations from Raoult’s law, the intermolecular attractive forces between A-A and B-B are weaker than those between A-B and leads to decrease in vapour pressure resulting in negative deviations.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Chemistry Part 1",
@@ -352,8 +93,8 @@
       ],
       "order": 610,
       "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Near-tautological: 'negative deviation' already means vapour pressure falls below the Raoult value, so 'It decreases' is guessable and circular. The mark-carrying point in the quote is the cause (A-B attraction stronger than A-A and B-B); front asks the effect instead. Also overlaps kl-deviation."
       ]
     },
     {
@@ -452,70 +193,6 @@
       ]
     },
     {
-      "id": "kc.chemistry.solutions.kl-several-solutes",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.solutions",
-      "chapter": "Solutions",
-      "unit": "Solutions",
-      "kind": "key_line",
-      "front": "In a solution containing several non-volatile solutes, the lowering of the vapour pressure depends on the ____ of the mole fraction of different solutes.",
-      "back": "In a solution containing several non-volatile solutes, the lowering of the vapour pressure depends on the sum of the mole fraction of different solutes.",
-      "quote": "In a solution containing several non-volatile solutes, the lowering of the vapour pressure depends on the sum of the mole fraction of different solutes.",
-      "blanks": [
-        "sum"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech101",
-        "chapterNo": 1,
-        "page": 15,
-        "section": "1.6 Colligative Properties and Determination of Molar Mass"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "relative lowering of vapour pressure"
-      ],
-      "order": 750,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.solutions.kl-boils-at",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.solutions",
-      "chapter": "Solutions",
-      "unit": "Solutions",
-      "kind": "key_line",
-      "front": "It boils at the temperature at which its vapour pressure is equal to the ____.",
-      "back": "It boils at the temperature at which its vapour pressure is equal to the atmospheric pressure.",
-      "quote": "It boils at the temperature at which its vapour pressure is equal to the atmospheric pressure.",
-      "blanks": [
-        "atmospheric pressure"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech101",
-        "chapterNo": 1,
-        "page": 16,
-        "section": "1.6 Colligative Properties and Determination of Molar Mass"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "elevation of boiling point"
-      ],
-      "order": 770,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.chemistry.solutions.formula-osmotic-formula",
       "v": 1,
       "subject": "chemistry",
@@ -578,38 +255,6 @@
       ]
     },
     {
-      "id": "kc.chemistry.solutions.kl-osmotic-macromolecules",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.solutions",
-      "chapter": "Solutions",
-      "unit": "Solutions",
-      "kind": "key_line",
-      "front": "This method is widely used to determine molar masses of ____.",
-      "back": "This method is widely used to determine molar masses of proteins, polymers and other macromolecules.",
-      "quote": "This method is widely used to determine molar masses of proteins, polymers and other macromolecules.",
-      "blanks": [
-        "proteins, polymers and other macromolecules"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech101",
-        "chapterNo": 1,
-        "page": 21,
-        "section": "1.6 Colligative Properties and Determination of Molar Mass"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "osmotic pressure"
-      ],
-      "order": 880,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.chemistry.solutions.def-edema",
       "v": 1,
       "subject": "chemistry",
@@ -638,70 +283,6 @@
       "reasons": [
         "review:not_important",
         "review:Edema is an application aside, rarely examined"
-      ]
-    },
-    {
-      "id": "kc.chemistry.solutions.kl-dissociation-lower",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.solutions",
-      "chapter": "Solutions",
-      "unit": "Solutions",
-      "kind": "key_line",
-      "front": "when there is dissociation of solute into ions, the experimentally determined molar mass is always ____ than the true value.",
-      "back": "when there is dissociation of solute into ions, the experimentally determined molar mass is always lower than the true value.",
-      "quote": "when there is dissociation of solute into ions, the experimentally determined molar mass is always lower than the true value.",
-      "blanks": [
-        "lower"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech101",
-        "chapterNo": 1,
-        "page": 24,
-        "section": "1.7 Abnormal Molar Masses"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "abnormal molar mass"
-      ],
-      "order": 990,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.solutions.kl-abnormal",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.solutions",
-      "chapter": "Solutions",
-      "unit": "Solutions",
-      "kind": "key_line",
-      "front": "that is either lower or higher than the expected or normal value is called as ____",
-      "back": "that is either lower or higher than the expected or normal value is called as abnormal molar mass",
-      "quote": "that is either lower or higher than the expected or normal value is called as abnormal molar mass",
-      "blanks": [
-        "abnormal molar mass"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech101",
-        "chapterNo": 1,
-        "page": 24,
-        "section": "1.7 Abnormal Molar Masses"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "abnormal molar mass"
-      ],
-      "order": 1010,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -765,39 +346,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Summary lists 4 terms but chapter lists 7 units incl. ppm; a full-list answer would be marked wrong; Summary points are must per spec 3"
-      ]
-    },
-    {
-      "id": "kc.chemistry.solutions.kl-sum-abnormal",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.solutions",
-      "chapter": "Solutions",
-      "unit": "Solutions",
-      "kind": "key_line",
-      "front": "Solutes which dissociate in solution exhibit molar mass ____ than the actual molar mass and those which associate show ____ molar mass than their actual values.",
-      "back": "Solutes which dissociate in solution exhibit molar mass lower than the actual molar mass and those which associate show higher molar mass than their actual values.",
-      "quote": "Solutes which dissociate in solution exhibit molar mass lower than the actual molar mass and those which associate show higher molar mass than their actual values.",
-      "blanks": [
-        "lower",
-        "higher"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech101",
-        "chapterNo": 1,
-        "page": 27,
-        "section": "Summary"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "abnormal molar mass"
-      ],
-      "order": 1120,
-      "reasons": [
-        "shape:front_too_long"
       ]
     },
     {
@@ -1174,38 +722,6 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:Worked arithmetic; front gives none of the three values and back omits the method (HCl + NaAc - NaCl). Teach the method, not the number. | Front omits the three given values it relies on, so the expected number cannot be derived from the card."
-      ]
-    },
-    {
-      "id": "kc.chemistry.electrochemistry.term-faraday-unit",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.electrochemistry",
-      "chapter": "Electrochemistry",
-      "unit": "Electrochemistry",
-      "kind": "term",
-      "front": "This quantity of electricity is called ____ and is represented by the symbol F.",
-      "back": "This quantity of electricity is called Faraday and is represented by the symbol F.",
-      "quote": "This quantity of electricity is called Faraday and is represented by the symbol F.",
-      "blanks": [
-        "Faraday"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech102",
-        "chapterNo": 2,
-        "page": 52,
-        "section": "Quantitative Aspects of Electrolysis"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "Faraday"
-      ],
-      "order": 860,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -1767,71 +1283,6 @@
       ]
     },
     {
-      "id": "kc.chemistry.chemical-kinetics.key-half-life-first-order-constant",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.chemical-kinetics",
-      "chapter": "Chemical Kinetics",
-      "unit": "Chemical Kinetics",
-      "kind": "key_line",
-      "front": "It can be seen that for a first order reaction, half-life period is constant, i.e., it is ____ of initial concentration of the reacting species.",
-      "back": "It can be seen that for a first order reaction, half-life period is constant, i.e., it is independent of initial concentration of the reacting species.",
-      "quote": "It can be seen that for a first order reaction, half-life period is constant, i.e., it is independent of initial concentration of the reacting species.",
-      "blanks": [
-        "independent"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech103",
-        "chapterNo": 3,
-        "page": 77,
-        "section": "3.3.3 Half-Life of a Reaction"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "half-life",
-        "first-order"
-      ],
-      "order": 580,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.chemical-kinetics.term-pseudo-first-order",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.chemical-kinetics",
-      "chapter": "Chemical Kinetics",
-      "unit": "Chemical Kinetics",
-      "kind": "term",
-      "front": "So, the reaction behaves as first order reaction. Such reactions are called ____ first order reactions.",
-      "back": "pseudo\nSo, the reaction behaves as first order reaction. Such reactions are called pseudo first order reactions.",
-      "quote": "So, the reaction behaves as first order reaction. Such reactions are called pseudo first order reactions.",
-      "blanks": [
-        "pseudo"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech103",
-        "chapterNo": 3,
-        "page": 78,
-        "section": "3.3.4 Pseudo First Order Reaction"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "pseudo-first-order"
-      ],
-      "order": 610,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.chemistry.chemical-kinetics.key-temperature-accelerates",
       "v": 1,
       "subject": "chemistry",
@@ -2054,38 +1505,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Front 'What is Ea given by?' is vague and overlaps card 68's definition of Ea (energy to form activated complex)."
-      ]
-    },
-    {
-      "id": "kc.chemistry.chemical-kinetics.key-catalyst-lowers-ea",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.chemical-kinetics",
-      "chapter": "Chemical Kinetics",
-      "unit": "Chemical Kinetics",
-      "kind": "key_line",
-      "front": "presence of a catalyst ____ by providing an alternate path for the reaction.",
-      "back": "presence of a catalyst lowers the activation energy by providing an alternate path for the reaction.",
-      "quote": "presence of a catalyst lowers the activation energy by providing an alternate path for the reaction.",
-      "blanks": [
-        "lowers the activation energy"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech103",
-        "chapterNo": 3,
-        "page": 84,
-        "section": "Summary"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "catalyst"
-      ],
-      "order": 940,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -2755,19 +2174,17 @@
       ]
     },
     {
-      "id": "kc.chemistry.coordination-compounds.kl-single-entity-bracket",
+      "id": "kc.chemistry.coordination-compounds.fact-single-entity-bracket",
       "v": 1,
       "subject": "chemistry",
       "chapterKey": "chemistry.coordination-compounds",
       "chapter": "Coordination Compounds",
       "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "the compounds are formulated as shown in Table 5.1, where the atoms within the square brackets form a ____ which does not dissociate under the reaction conditions.",
+      "kind": "fact",
+      "front": "In Werner's cobalt(III) ammonia complexes (Table 5.1), what do the atoms within the square brackets form?",
       "back": "the compounds are formulated as shown in Table 5.1, where the atoms within the square brackets form a single entity which does not dissociate under the reaction conditions.",
       "quote": "the compounds are formulated as shown in Table 5.1, where the atoms within the square brackets form a single entity which does not dissociate under the reaction conditions.",
-      "blanks": [
-        "single entity"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Chemistry Part 1",
@@ -2783,40 +2200,8 @@
       ],
       "order": 90,
       "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.coordination-compounds.kl-isomers-termed",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.coordination-compounds",
-      "chapter": "Coordination Compounds",
-      "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "Note that the last two compounds in Table 5.1 have identical empirical formula, CoCl3.4NH3, but distinct properties. Such compounds are termed as ____.",
-      "back": "Note that the last two compounds in Table 5.1 have identical empirical formula, CoCl3.4NH3, but distinct properties. Such compounds are termed as isomers.",
-      "quote": "Note that the last two compounds in Table 5.1 have identical empirical formula, CoCl3.4NH3, but distinct properties. Such compounds are termed as isomers.",
-      "blanks": [
-        "isomers"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech105",
-        "chapterNo": 5,
-        "page": 119,
-        "section": "Werner’s Theory of Coordination Compounds"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "isomers"
-      ],
-      "order": 100,
-      "reasons": [
-        "shape:front_too_long"
+        "review:not_unambiguous",
+        "review:Front points to Table 5.1, which the student cannot see; back starts mid-sentence (\"the compounds are formulated as shown in Table 5.1...\"). Back should be trimmed to the single-entity clause."
       ]
     },
     {
@@ -2848,39 +2233,6 @@
       "reasons": [
         "review:not_important",
         "review:Date trivia (1898); not a point CUET tests."
-      ]
-    },
-    {
-      "id": "kc.chemistry.coordination-compounds.kl-secondary-valence-coordination-number",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.coordination-compounds",
-      "chapter": "Coordination Compounds",
-      "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "The secondary valences are ____. These are satisfied by neutral molecules or negative ions. The secondary valence is equal to the ____ and is fixed for a metal.",
-      "back": "The secondary valences are non ionisable. These are satisfied by neutral molecules or negative ions. The secondary valence is equal to the coordination number and is fixed for a metal.",
-      "quote": "The secondary valences are non ionisable. These are satisfied by neutral molecules or negative ions. The secondary valence is equal to the coordination number and is fixed for a metal.",
-      "blanks": [
-        "non ionisable",
-        "coordination number"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech105",
-        "chapterNo": 5,
-        "page": 119,
-        "section": "Werner’s Theory of Coordination Compounds"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "werner"
-      ],
-      "order": 140,
-      "reasons": [
-        "shape:front_too_long"
       ]
     },
     {
@@ -3042,104 +2394,6 @@
       ]
     },
     {
-      "id": "kc.chemistry.coordination-compounds.kl-central-atom-lewis-acids",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.coordination-compounds",
-      "chapter": "Coordination Compounds",
-      "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "These central atoms/ions are also referred to as ____.",
-      "back": "These central atoms/ions are also referred to as Lewis acids.",
-      "quote": "These central atoms/ions are also referred to as Lewis acids.",
-      "blanks": [
-        "Lewis acids"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech105",
-        "chapterNo": 5,
-        "page": 121,
-        "section": "Definitions of Some Important Terms Pertaining to Coordination Compounds"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "terms"
-      ],
-      "order": 270,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.coordination-compounds.kl-chelate-complexes-stable",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.coordination-compounds",
-      "chapter": "Coordination Compounds",
-      "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "Such complexes, called chelate complexes tend to be ____ than similar complexes containing unidentate ligands.",
-      "back": "Such complexes, called chelate complexes tend to be more stable than similar complexes containing unidentate ligands.",
-      "quote": "Such complexes, called chelate complexes tend to be more stable than similar complexes containing unidentate ligands.",
-      "blanks": [
-        "more stable"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech105",
-        "chapterNo": 5,
-        "page": 121,
-        "section": "Definitions of Some Important Terms Pertaining to Coordination Compounds"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "ligands"
-      ],
-      "order": 360,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.coordination-compounds.kl-cn-sigma-bonds",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.coordination-compounds",
-      "chapter": "Coordination Compounds",
-      "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "It is important to note here that coordination number of the central atom/ion is determined only by the number of ____ formed by the ligand with the central atom/ion. ____, if formed between the ligand and the central atom/ion, are not counted for this purpose.",
-      "back": "It is important to note here that coordination number of the central atom/ion is determined only by the number of sigma bonds formed by the ligand with the central atom/ion. Pi bonds, if formed between the ligand and the central atom/ion, are not counted for this purpose.",
-      "quote": "It is important to note here that coordination number of the central atom/ion is determined only by the number of sigma bonds formed by the ligand with the central atom/ion. Pi bonds, if formed between the ligand and the central atom/ion, are not counted for this purpose.",
-      "blanks": [
-        "sigma bonds",
-        "Pi bonds"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech105",
-        "chapterNo": 5,
-        "page": 122,
-        "section": "Definitions of Some Important Terms Pertaining to Coordination Compounds"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "terms"
-      ],
-      "order": 420,
-      "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.chemistry.coordination-compounds.kl-iupac-basis",
       "v": 1,
       "subject": "chemistry",
@@ -3170,134 +2424,6 @@
       "reasons": [
         "review:not_important",
         "review:Blank is the expansion of IUPAC, and the acronym is printed in the front; pure acronym trivia."
-      ]
-    },
-    {
-      "id": "kc.chemistry.coordination-compounds.kl-formula-abbreviated-ligand",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.coordination-compounds",
-      "chapter": "Coordination Compounds",
-      "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "(iii) Polydentate ligands are also listed alphabetically. In case of abbreviated ligand, the ____ of the abbreviation is used to determine the position of the ligand in the alphabetical order.",
-      "back": "(iii) Polydentate ligands are also listed alphabetically. In case of abbreviated ligand, the first letter of the abbreviation is used to determine the position of the ligand in the alphabetical order.",
-      "quote": "(iii) Polydentate ligands are also listed alphabetically. In case of abbreviated ligand, the first letter of the abbreviation is used to determine the position of the ligand in the alphabetical order.",
-      "blanks": [
-        "first letter"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech105",
-        "chapterNo": 5,
-        "page": 123,
-        "section": "Formulas of Mononuclear Coordination Entities"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "nomenclature"
-      ],
-      "order": 550,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.coordination-compounds.kl-formula-square-brackets",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.coordination-compounds",
-      "chapter": "Coordination Compounds",
-      "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "(iv) The formula for the entire coordination entity, whether charged or not, is enclosed in ____. When ligands are polyatomic, their formulas are enclosed in parentheses. Ligand abbreviations are also enclosed in parentheses.",
-      "back": "(iv) The formula for the entire coordination entity, whether charged or not, is enclosed in square brackets. When ligands are polyatomic, their formulas are enclosed in parentheses. Ligand abbreviations are also enclosed in parentheses.",
-      "quote": "(iv) The formula for the entire coordination entity, whether charged or not, is enclosed in square brackets. When ligands are polyatomic, their formulas are enclosed in parentheses. Ligand abbreviations are also enclosed in parentheses.",
-      "blanks": [
-        "square brackets"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech105",
-        "chapterNo": 5,
-        "page": 123,
-        "section": "Formulas of Mononuclear Coordination Entities"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "nomenclature"
-      ],
-      "order": 560,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.coordination-compounds.kl-formula-charge-superscript",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.coordination-compounds",
-      "chapter": "Coordination Compounds",
-      "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "(vi) When the formula of a charged coordination entity is to be written without that of the counter ion, the charge is indicated outside the square brackets as a ____ with the number before the sign.",
-      "back": "(vi) When the formula of a charged coordination entity is to be written without that of the counter ion, the charge is indicated outside the square brackets as a right superscript with the number before the sign.",
-      "quote": "(vi) When the formula of a charged coordination entity is to be written without that of the counter ion, the charge is indicated outside the square brackets as a right superscript with the number before the sign.",
-      "blanks": [
-        "right superscript"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech105",
-        "chapterNo": 5,
-        "page": 123,
-        "section": "Formulas of Mononuclear Coordination Entities"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "nomenclature"
-      ],
-      "order": 580,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.coordination-compounds.kl-anionic-ligands-end-o",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.coordination-compounds",
-      "chapter": "Coordination Compounds",
-      "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "(iii) Names of the anionic ligands end in ____, those of neutral and cationic ligands are the same except aqua for H2O, ammine for NH3, carbonyl for CO and nitrosyl for NO.",
-      "back": "(iii) Names of the anionic ligands end in –o, those of neutral and cationic ligands are the same except aqua for H2O, ammine for NH3, carbonyl for CO and nitrosyl for NO.",
-      "quote": "(iii) Names of the anionic ligands end in –o, those of neutral and cationic ligands are the same except aqua for H2O, ammine for NH3, carbonyl for CO and nitrosyl for NO.",
-      "blanks": [
-        "–o"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech105",
-        "chapterNo": 5,
-        "page": 123,
-        "section": "Naming of Mononuclear Coordination Compounds"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "nomenclature"
-      ],
-      "order": 640,
-      "reasons": [
-        "shape:front_too_long"
       ]
     },
     {
@@ -3364,38 +2490,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Blank is a long phrase (\"number of cations and anions\") with synonyms (\"number of ions\"); not one right fill."
-      ]
-    },
-    {
-      "id": "kc.chemistry.coordination-compounds.kl-geometric-heteroleptic",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.coordination-compounds",
-      "chapter": "Coordination Compounds",
-      "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "This type of isomerism arises in ____ complexes due to different possible geometric arrangements of the ligands.",
-      "back": "This type of isomerism arises in heteroleptic complexes due to different possible geometric arrangements of the ligands.",
-      "quote": "This type of isomerism arises in heteroleptic complexes due to different possible geometric arrangements of the ligands.",
-      "blanks": [
-        "heteroleptic"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech105",
-        "chapterNo": 5,
-        "page": 125,
-        "section": "Geometric Isomerism"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "isomerism"
-      ],
-      "order": 840,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -3525,51 +2619,17 @@
       ]
     },
     {
-      "id": "kc.chemistry.coordination-compounds.kl-hydrate-isomerism",
+      "id": "kc.chemistry.coordination-compounds.fact-vbt-overlap-ligand-orbitals",
       "v": 1,
       "subject": "chemistry",
       "chapterKey": "chemistry.coordination-compounds",
       "chapter": "Coordination Compounds",
       "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "This form of isomerism is known as ‘____’ in case where water is involved as a solvent.",
-      "back": "This form of isomerism is known as ‘hydrate isomerism’ in case where water is involved as a solvent.",
-      "quote": "This form of isomerism is known as ‘hydrate isomerism’ in case where water is involved as a solvent.",
-      "blanks": [
-        "hydrate isomerism"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech105",
-        "chapterNo": 5,
-        "page": 128,
-        "section": "Solvate Isomerism"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "isomerism"
-      ],
-      "order": 1060,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.coordination-compounds.kl-vbt-overlap-ligand-orbitals",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.coordination-compounds",
-      "chapter": "Coordination Compounds",
-      "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "These hybridised orbitals are allowed to overlap with ____ that can donate electron pairs for bonding.",
+      "kind": "fact",
+      "front": "In valence bond theory, the hybridised orbitals of the metal overlap with what, which donate electron pairs for bonding?",
       "back": "These hybridised orbitals are allowed to overlap with ligand orbitals that can donate electron pairs for bonding.",
       "quote": "These hybridised orbitals are allowed to overlap with ligand orbitals that can donate electron pairs for bonding.",
-      "blanks": [
-        "ligand orbitals"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Chemistry Part 1",
@@ -3585,7 +2645,8 @@
       ],
       "order": 1120,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Low-information statement; the answer (\"ligand orbitals\") is nearly given away by the front. Hybridisation types (Table 5.2) are what carry marks."
       ]
     },
     {
@@ -3652,19 +2713,17 @@
       ]
     },
     {
-      "id": "kc.chemistry.coordination-compounds.kl-vbt-predict-geometry",
+      "id": "kc.chemistry.coordination-compounds.fact-vbt-predict-geometry",
       "v": 1,
       "subject": "chemistry",
       "chapterKey": "chemistry.coordination-compounds",
       "chapter": "Coordination Compounds",
       "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "It is usually possible to predict the geometry of a complex from the knowledge of its ____ on the basis of the valence bond theory.",
+      "kind": "fact",
+      "front": "On the basis of valence bond theory, the geometry of a complex can usually be predicted from knowledge of what?",
       "back": "It is usually possible to predict the geometry of a complex from the knowledge of its magnetic behaviour on the basis of the valence bond theory.",
       "quote": "It is usually possible to predict the geometry of a complex from the knowledge of its magnetic behaviour on the basis of the valence bond theory.",
-      "blanks": [
-        "magnetic behaviour"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Chemistry Part 1",
@@ -3680,73 +2739,8 @@
       ],
       "order": 1150,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.coordination-compounds.kl-hybrid-orbitals-math",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.coordination-compounds",
-      "chapter": "Coordination Compounds",
-      "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "It is important to note that the hybrid orbitals do not actually exist. In fact, hybridisation is a ____ of wave equation for the atomic orbitals involved.",
-      "back": "It is important to note that the hybrid orbitals do not actually exist. In fact, hybridisation is a mathematical manipulation of wave equation for the atomic orbitals involved.",
-      "quote": "It is important to note that the hybrid orbitals do not actually exist. In fact, hybridisation is a mathematical manipulation of wave equation for the atomic orbitals involved.",
-      "blanks": [
-        "mathematical manipulation"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech105",
-        "chapterNo": 5,
-        "page": 130,
-        "section": "Valence Bond Theory"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "vbt"
-      ],
-      "order": 1250,
-      "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.coordination-compounds.kl-degeneracy-lifted-asymmetrical",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.coordination-compounds",
-      "chapter": "Coordination Compounds",
-      "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "when this negative field is due to ligands (either anions or the negative ends of dipolar molecules like NH3 and H2O) in a complex, it becomes ____ and the degeneracy of the d orbitals is lifted.",
-      "back": "when this negative field is due to ligands (either anions or the negative ends of dipolar molecules like NH3 and H2O) in a complex, it becomes asymmetrical and the degeneracy of the d orbitals is lifted.",
-      "quote": "when this negative field is due to ligands (either anions or the negative ends of dipolar molecules like NH3 and H2O) in a complex, it becomes asymmetrical and the degeneracy of the d orbitals is lifted.",
-      "blanks": [
-        "asymmetrical"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech105",
-        "chapterNo": 5,
-        "page": 131,
-        "section": "Crystal Field Theory"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "cft"
-      ],
-      "order": 1390,
-      "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:\"Knowledge of what?\" has several plausible fills (coordination number, hybridisation, unpaired electrons, ligand type); only \"magnetic behaviour\" is accepted. Needs a blank on the key words."
       ]
     },
     {
@@ -3812,19 +2806,17 @@
       ]
     },
     {
-      "id": "kc.chemistry.coordination-compounds.kl-no-ligand-colourless",
+      "id": "kc.chemistry.coordination-compounds.fact-no-ligand-colourless",
       "v": 1,
       "subject": "chemistry",
       "chapterKey": "chemistry.coordination-compounds",
       "chapter": "Coordination Compounds",
       "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "It is important to note that in the ____, crystal field splitting does not occur and hence the substance is colourless.",
+      "kind": "fact",
+      "front": "Why is a substance colourless in the absence of ligand?",
       "back": "It is important to note that in the absence of ligand, crystal field splitting does not occur and hence the substance is colourless.",
       "quote": "It is important to note that in the absence of ligand, crystal field splitting does not occur and hence the substance is colourless.",
-      "blanks": [
-        "absence of ligand"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Chemistry Part 1",
@@ -3840,7 +2832,8 @@
       ],
       "order": 1620,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Front says \"a substance\" with no context; any substance (e.g. water) is colourless without ligands. Needs \"a transition metal ion/complex in CFT\"."
       ]
     },
     {
@@ -3875,38 +2868,6 @@
       ]
     },
     {
-      "id": "kc.chemistry.coordination-compounds.kl-synergic-bonding",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.coordination-compounds",
-      "chapter": "Coordination Compounds",
-      "unit": "Coordination Compounds",
-      "kind": "key_line",
-      "front": "This unique ____ bonding provides stability to metal carbonyls.",
-      "back": "This unique synergic bonding provides stability to metal carbonyls.",
-      "quote": "This unique synergic bonding provides stability to metal carbonyls.",
-      "blanks": [
-        "synergic"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 1",
-        "code": "lech105",
-        "chapterNo": 5,
-        "page": 138,
-        "section": "Summary"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "carbonyls"
-      ],
-      "order": 1720,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.chemistry.coordination-compounds.fact-analysis-reagents",
       "v": 1,
       "subject": "chemistry",
@@ -3935,38 +2896,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:\"Name some reagents\" is open-ended (NCERT also lists cupron and nitroso-naphthol); more than one right answer."
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-alkyl-halides-formula",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "They form a homologous series represented by ____.",
-      "back": "They form a homologous series represented by CnH2n+1X.",
-      "quote": "They form a homologous series represented by CnH2n+1X.",
-      "blanks": [
-        "CnH2n+1X"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 160,
-        "section": "6.1 Classification"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "alkyl halide"
-      ],
-      "order": 80,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -3999,72 +2928,6 @@
       "order": 160,
       "reasons": [
         "blanks:0:stopword"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-benzene-di-prefixes",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "For dihalogen derivatives, the prefixes ____ are used in common system but in IUPAC system, as you have learnt in Class XI, the numerals ____ are used.",
-      "back": "For dihalogen derivatives, the prefixes o-, m-, p- are used in common system but in IUPAC system, as you have learnt in Class XI, the numerals 1,2; 1,3 and 1,4 are used.",
-      "quote": "For dihalogen derivatives, the prefixes o-, m-, p- are used in common system but in IUPAC system, as you have learnt in Class XI, the numerals 1,2; 1,3 and 1,4 are used.",
-      "blanks": [
-        "o-, m-, p-",
-        "1,2; 1,3 and 1,4"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 161,
-        "section": "6.2 Nomenclature"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "nomenclature"
-      ],
-      "order": 170,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-cx-polarised",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "Halogen atoms are more electronegative than carbon, therefore, carbon-halogen bond of alkyl halide is ____; the carbon atom bears a ____ whereas the halogen atom bears a partial negative charge.",
-      "back": "Halogen atoms are more electronegative than carbon, therefore, carbon-halogen bond of alkyl halide is polarised; the carbon atom bears a partial positive charge whereas the halogen atom bears a partial negative charge.",
-      "quote": "Halogen atoms are more electronegative than carbon, therefore, carbon-halogen bond of alkyl halide is polarised; the carbon atom bears a partial positive charge whereas the halogen atom bears a partial negative charge.",
-      "blanks": [
-        "polarised",
-        "partial positive charge"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 163,
-        "section": "6.3 Nature of C-X Bond"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "C-X bond"
-      ],
-      "order": 240,
-      "reasons": [
-        "shape:front_too_long"
       ]
     },
     {
@@ -4130,137 +2993,6 @@
       ]
     },
     {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-in-situ-pbr3",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "Phosphorus tribromide and triiodide are usually generated ____ (produced in the reaction mixture) by the reaction of ____ with bromine and iodine respectively.",
-      "back": "Phosphorus tribromide and triiodide are usually generated in situ (produced in the reaction mixture) by the reaction of red phosphorus with bromine and iodine respectively.",
-      "quote": "Phosphorus tribromide and triiodide are usually generated in situ (produced in the reaction mixture) by the reaction of red phosphorus with bromine and iodine respectively.",
-      "blanks": [
-        "in situ",
-        "red phosphorus"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 164,
-        "section": "6.4 Methods of Preparation of Haloalkanes: 6.4.1 From Alcohols"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "preparation"
-      ],
-      "order": 340,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-not-for-aryl-halides",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "The above methods are not applicable for the preparation of aryl halides because the carbon-oxygen bond in ____ has a ____ and is difficult to break being stronger than a single bond.",
-      "back": "The above methods are not applicable for the preparation of aryl halides because the carbon-oxygen bond in phenols has a partial double bond character and is difficult to break being stronger than a single bond.",
-      "quote": "The above methods are not applicable for the preparation of aryl halides because the carbon-oxygen bond in phenols has a partial double bond character and is difficult to break being stronger than a single bond.",
-      "blanks": [
-        "phenols",
-        "partial double bond character"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 164,
-        "section": "6.4 Methods of Preparation of Haloalkanes: 6.4.1 From Alcohols"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "preparation"
-      ],
-      "order": 350,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-free-radical-mixture",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "Free radical chlorination or bromination of alkanes gives a ____ of isomeric mono- and polyhaloalkanes, which is difficult to separate as pure compounds.",
-      "back": "Free radical chlorination or bromination of alkanes gives a complex mixture of isomeric mono- and polyhaloalkanes, which is difficult to separate as pure compounds.",
-      "quote": "Free radical chlorination or bromination of alkanes gives a complex mixture of isomeric mono- and polyhaloalkanes, which is difficult to separate as pure compounds.",
-      "blanks": [
-        "complex mixture"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 164,
-        "section": "6.4 Methods of Preparation of Haloalkanes: 6.4.2 From Hydrocarbons"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "preparation"
-      ],
-      "order": 360,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-bromine-ccl4-test",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "In the laboratory, addition of bromine in CCl4 to an alkene resulting in discharge of ____ of bromine constitutes an important method for the detection of ____ in a molecule.",
-      "back": "In the laboratory, addition of bromine in CCl4 to an alkene resulting in discharge of reddish brown colour of bromine constitutes an important method for the detection of double bond in a molecule.",
-      "quote": "In the laboratory, addition of bromine in CCl4 to an alkene resulting in discharge of reddish brown colour of bromine constitutes an important method for the detection of double bond in a molecule.",
-      "blanks": [
-        "reddish brown colour",
-        "double bond"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 165,
-        "section": "6.4 Methods of Preparation of Haloalkanes: 6.4.2 From Hydrocarbons"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "preparation"
-      ],
-      "order": 380,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
       "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-finkelstein-le-chatelier",
       "v": 1,
       "subject": "chemistry",
@@ -4295,167 +3027,6 @@
       ]
     },
     {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.term-swarts",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "term",
-      "front": "The synthesis of alkyl fluorides is best accomplished by heating an alkyl chloride/bromide in the presence of a metallic fluoride such as AgF, Hg2F2, CoF2 or SbF3. The reaction is termed as ____.",
-      "back": "The synthesis of alkyl fluorides is best accomplished by heating an alkyl chloride/bromide in the presence of a metallic fluoride such as AgF, Hg2F2, CoF2 or SbF3. The reaction is termed as Swarts reaction.",
-      "quote": "The synthesis of alkyl fluorides is best accomplished by heating an alkyl chloride/bromide in the presence of a metallic fluoride such as AgF, Hg2F2, CoF2 or SbF3. The reaction is termed as Swarts reaction.",
-      "blanks": [
-        "Swarts reaction"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 165,
-        "section": "6.4 Methods of Preparation of Haloalkanes: 6.4.3 Halogen Exchange"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "Swarts reaction"
-      ],
-      "order": 410,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-arene-electrophilic-halogenation",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "Aryl chlorides and bromides can be easily prepared by ____ of arenes with chlorine and bromine respectively in the presence of ____ like iron or iron(III) chloride.",
-      "back": "Aryl chlorides and bromides can be easily prepared by electrophilic substitution of arenes with chlorine and bromine respectively in the presence of Lewis acid catalysts like iron or iron(III) chloride.",
-      "quote": "Aryl chlorides and bromides can be easily prepared by electrophilic substitution of arenes with chlorine and bromine respectively in the presence of Lewis acid catalysts like iron or iron(III) chloride.",
-      "blanks": [
-        "electrophilic substitution",
-        "Lewis acid catalysts"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 166,
-        "section": "6.5 Preparation of Haloarenes"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "preparation"
-      ],
-      "order": 430,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-bp-intermolecular-forces",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "Due to greater polarity as well as higher molecular mass as compared to the parent hydrocarbon, the intermolecular forces of attraction (____) are stronger in the halogen derivatives.",
-      "back": "Due to greater polarity as well as higher molecular mass as compared to the parent hydrocarbon, the intermolecular forces of attraction (dipole-dipole and van der Waals) are stronger in the halogen derivatives.",
-      "quote": "Due to greater polarity as well as higher molecular mass as compared to the parent hydrocarbon, the intermolecular forces of attraction (dipole-dipole and van der Waals) are stronger in the halogen derivatives.",
-      "blanks": [
-        "dipole-dipole and van der Waals"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 168,
-        "section": "6.6 Physical Properties: Melting and boiling points"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "boiling point"
-      ],
-      "order": 520,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-para-high-melting",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "However, the ____ are high melting as compared to their ortho- and meta-isomers.",
-      "back": "However, the para-isomers are high melting as compared to their ortho- and meta-isomers.",
-      "quote": "However, the para-isomers are high melting as compared to their ortho- and meta-isomers.",
-      "blanks": [
-        "para-isomers"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 168,
-        "section": "6.6 Physical Properties: Melting and boiling points"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "melting point"
-      ],
-      "order": 560,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-para-symmetry",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "It is due to ____ of para-isomers that fits in crystal lattice better as compared to ortho- and meta-isomers.",
-      "back": "It is due to symmetry of para-isomers that fits in crystal lattice better as compared to ortho- and meta-isomers.",
-      "quote": "It is due to symmetry of para-isomers that fits in crystal lattice better as compared to ortho- and meta-isomers.",
-      "blanks": [
-        "symmetry"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 168,
-        "section": "6.6 Physical Properties: Melting and boiling points"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "melting point"
-      ],
-      "order": 570,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-solubility-very-slight",
       "v": 1,
       "subject": "chemistry",
@@ -4486,70 +3057,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Blank phrase 'very slightly soluble' is fuzzy: insoluble, sparingly soluble and slightly soluble are all plausible fills"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-sn2-second-order",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "The reaction between CH3Cl and hydroxide ion to yield methanol and chloride ion follows a ____, i.e., the rate depends upon the concentration of both the reactants.",
-      "back": "The reaction between CH3Cl and hydroxide ion to yield methanol and chloride ion follows a second order kinetics, i.e., the rate depends upon the concentration of both the reactants.",
-      "quote": "The reaction between CH3Cl and hydroxide ion to yield methanol and chloride ion follows a second order kinetics, i.e., the rate depends upon the concentration of both the reactants.",
-      "blanks": [
-        "second order kinetics"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 171,
-        "section": "6.7 Chemical Reactions: (a) Substitution nucleophilic bimolecular (SN2)"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "SN2"
-      ],
-      "order": 690,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-sn2-five-atoms",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "Thus, in the transition state, carbon is simultaneously bonded to ____.",
-      "back": "Thus, in the transition state, carbon is simultaneously bonded to five atoms.",
-      "quote": "Thus, in the transition state, carbon is simultaneously bonded to five atoms.",
-      "blanks": [
-        "five atoms"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 172,
-        "section": "6.7 Chemical Reactions: (a) Substitution nucleophilic bimolecular (SN2)"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "SN2"
-      ],
-      "order": 720,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -4648,20 +3155,17 @@
       ]
     },
     {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-vanthoff-lebel-1874",
+      "id": "kc.chemistry.haloalkanes-and-haloarenes.fact-vanthoff-lebel-1874",
       "v": 1,
       "subject": "chemistry",
       "chapterKey": "chemistry.haloalkanes-and-haloarenes",
       "chapter": "Haloalkanes & Haloarenes",
       "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "Dutch scientist, J. Van't Hoff and French scientist, C. Le Bel in the same year (____), independently argued that the spatial arrangement of four groups (valencies) around a central carbon is ____",
+      "kind": "fact",
+      "front": "In which year did J. Van't Hoff and C. Le Bel independently argue that carbon's four groups are tetrahedral?",
       "back": "Dutch scientist, J. Van't Hoff and French scientist, C. Le Bel in the same year (1874), independently argued that the spatial arrangement of four groups (valencies) around a central carbon is tetrahedral",
       "quote": "Dutch scientist, J. Van't Hoff and French scientist, C. Le Bel in the same year (1874), independently argued that the spatial arrangement of four groups (valencies) around a central carbon is tetrahedral",
-      "blanks": [
-        "1874",
-        "tetrahedral"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Chemistry Part 2",
@@ -4677,7 +3181,8 @@
       ],
       "order": 870,
       "reasons": [
-        "shape:front_too_long"
+        "review:not_important",
+        "review:Discovery-year trivia with low CUET yield; the useful point is tetrahedral carbon / who proposed it, not the year. Drop or re-aim the front."
       ]
     },
     {
@@ -4713,20 +3218,17 @@
       ]
     },
     {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-racemisation-50-50",
+      "id": "kc.chemistry.haloalkanes-and-haloarenes.fact-racemisation-50-50",
       "v": 1,
       "subject": "chemistry",
       "chapterKey": "chemistry.haloalkanes-and-haloarenes",
       "chapter": "Haloalkanes & Haloarenes",
       "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "If a 50:50 mixture of A and B is obtained then the process is called ____ and the product is ____, as one isomer will rotate the plane polarised light in the direction opposite to another.",
+      "kind": "fact",
+      "front": "When a 50:50 mixture of the two isomers A and B is obtained, what is the process called?",
       "back": "If a 50:50 mixture of A and B is obtained then the process is called racemisation and the product is optically inactive, as one isomer will rotate the plane polarised light in the direction opposite to another.",
       "quote": "If a 50:50 mixture of A and B is obtained then the process is called racemisation and the product is optically inactive, as one isomer will rotate the plane polarised light in the direction opposite to another.",
-      "blanks": [
-        "racemisation",
-        "optically inactive"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Chemistry Part 2",
@@ -4742,40 +3244,8 @@
       ],
       "order": 1010,
       "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-bromooctane-example",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "When (-)-2-bromooctane is allowed to react with sodium hydroxide, (+)-____ is formed with the -OH group occupying the position opposite to what bromide had occupied.",
-      "back": "When (-)-2-bromooctane is allowed to react with sodium hydroxide, (+)-octan-2-ol is formed with the -OH group occupying the position opposite to what bromide had occupied.",
-      "quote": "When (-)-2-bromooctane is allowed to react with sodium hydroxide, (+)-octan-2-ol is formed with the -OH group occupying the position opposite to what bromide had occupied.",
-      "blanks": [
-        "octan-2-ol"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 179,
-        "section": "6.7 Chemical Reactions: (c) Stereochemical aspects of nucleophilic substitution reactions: (iv) Inversion, retention and racemisation"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "SN2",
-        "inversion"
-      ],
-      "order": 1030,
-      "reasons": [
-        "shape:front_too_long"
+        "review:not_unambiguous",
+        "review:Front says 'the two isomers A and B' which point to text/figure the student cannot see; say 'an equal (50:50) mixture of the two enantiomers'. Racemisation is a named core term, so importance should be must."
       ]
     },
     {
@@ -4842,51 +3312,17 @@
       ]
     },
     {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-zaitsev-example",
+      "id": "kc.chemistry.haloalkanes-and-haloarenes.fact-bulky-nucleophile-acts-as-base",
       "v": 1,
       "subject": "chemistry",
       "chapterKey": "chemistry.haloalkanes-and-haloarenes",
       "chapter": "Haloalkanes & Haloarenes",
       "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "Thus, 2-bromopentane gives ____ as the major product.",
-      "back": "Thus, 2-bromopentane gives pent-2-ene as the major product.",
-      "quote": "Thus, 2-bromopentane gives pent-2-ene as the major product.",
-      "blanks": [
-        "pent-2-ene"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 180,
-        "section": "6.7 Chemical Reactions: 2. Elimination reactions"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "Zaitsev rule"
-      ],
-      "order": 1100,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-bulky-nucleophile-base",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "Thus, a ____ will prefer to act as a base and abstracts a proton rather than approach a tetravalent carbon atom (steric reasons) and vice versa.",
-      "back": "Thus, a bulkier nucleophile will prefer to act as a base and abstracts a proton rather than approach a tetravalent carbon atom (steric reasons) and vice versa.",
+      "kind": "fact",
+      "front": "Which kind of nucleophile prefers to act as a base and abstract a proton rather than attack a tetravalent carbon atom?",
+      "back": "a bulkier nucleophile will prefer to act as a base and abstracts a proton rather than approach a tetravalent carbon atom (steric reasons) and vice versa.",
       "quote": "Thus, a bulkier nucleophile will prefer to act as a base and abstracts a proton rather than approach a tetravalent carbon atom (steric reasons) and vice versa.",
-      "blanks": [
-        "bulkier nucleophile"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Chemistry Part 2",
@@ -4902,40 +3338,8 @@
       ],
       "order": 1110,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-grignard-preparation",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "These reagents are obtained by the reaction of haloalkanes with ____ metal in ____.",
-      "back": "These reagents are obtained by the reaction of haloalkanes with magnesium metal in dry ether.",
-      "quote": "These reagents are obtained by the reaction of haloalkanes with magnesium metal in dry ether.",
-      "blanks": [
-        "magnesium",
-        "dry ether"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 180,
-        "section": "6.7 Chemical Reactions: 3. Reaction with metals"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "Grignard reagent"
-      ],
-      "order": 1150,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:'Which kind of nucleophile' also fits 'strong/strongly basic' for a student; front must say 'by size/steric reasons' so that only 'bulkier' is right."
       ]
     },
     {
@@ -4967,136 +3371,6 @@
       "reasons": [
         "review:not_important",
         "review:Trivia: who shared Grignard's Nobel Prize (Sabatier); boxed biography filler"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-grignard-dry-ether",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "It is therefore necessary to avoid even traces of ____ from a Grignard reagent. That is why reaction is carried out in ____.",
-      "back": "It is therefore necessary to avoid even traces of moisture from a Grignard reagent. That is why reaction is carried out in dry ether.",
-      "quote": "It is therefore necessary to avoid even traces of moisture from a Grignard reagent. That is why reaction is carried out in dry ether.",
-      "blanks": [
-        "moisture",
-        "dry ether"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 181,
-        "section": "6.7 Chemical Reactions: 3. Reaction with metals"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "Grignard reagent"
-      ],
-      "order": 1180,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.term-wurtz",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "term",
-      "front": "Alkyl halides react with sodium in dry ether to give hydrocarbons containing double the number of carbon atoms present in the halide. This reaction is known as ____.",
-      "back": "Alkyl halides react with sodium in dry ether to give hydrocarbons containing double the number of carbon atoms present in the halide. This reaction is known as Wurtz reaction.",
-      "quote": "Alkyl halides react with sodium in dry ether to give hydrocarbons containing double the number of carbon atoms present in the halide. This reaction is known as Wurtz reaction.",
-      "blanks": [
-        "Wurtz reaction"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 181,
-        "section": "6.7 Chemical Reactions: 3. Reaction with metals"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "Wurtz reaction"
-      ],
-      "order": 1190,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-haloarene-hybridisation-bond-length",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "Thus, C-Cl bond length in haloalkane is ____ while in haloarene is ____.",
-      "back": "Thus, C-Cl bond length in haloalkane is 177pm while in haloarene is 169 pm.",
-      "quote": "Thus, C-Cl bond length in haloalkane is 177pm while in haloarene is 169 pm.",
-      "blanks": [
-        "177pm",
-        "169 pm"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 182,
-        "section": "6.7 Chemical Reactions: 6.7.2 Reactions of Haloarenes: 1. Nucleophilic substitution"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "haloarene reactivity"
-      ],
-      "order": 1210,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-nitro-meta-no-effect",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "However, no effect on reactivity of haloarenes is observed by the presence of electron withdrawing group at ____.",
-      "back": "However, no effect on reactivity of haloarenes is observed by the presence of electron withdrawing group at meta-position.",
-      "quote": "However, no effect on reactivity of haloarenes is observed by the presence of electron withdrawing group at meta-position.",
-      "blanks": [
-        "meta-position"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 183,
-        "section": "6.7 Chemical Reactions: 6.7.2 Reactions of Haloarenes: 1. Nucleophilic substitution"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "haloarene reactions"
-      ],
-      "order": 1250,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -5159,71 +3433,6 @@
       "reasons": [
         "review:not_important",
         "review:Trivia: Nobel Prize year and winner for DDT's insecticidal action; history, not the listed uses/environmental effects"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-ddt-malaria-typhus",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "The use of DDT increased enormously on a worldwide basis after World War II, primarily because of its effectiveness against the mosquito that spreads ____ and lice that carry ____.",
-      "back": "The use of DDT increased enormously on a worldwide basis after World War II, primarily because of its effectiveness against the mosquito that spreads malaria and lice that carry typhus.",
-      "quote": "The use of DDT increased enormously on a worldwide basis after World War II, primarily because of its effectiveness against the mosquito that spreads malaria and lice that carry typhus.",
-      "blanks": [
-        "malaria",
-        "typhus"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 188,
-        "section": "6.8 Polyhalogen Compounds: 6.8.6 p,p'-Dichlorodiphenyltrichloroethane (DDT)"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "DDT"
-      ],
-      "order": 1470,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.haloalkanes-and-haloarenes.kl-summary-polarity-reactions",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.haloalkanes-and-haloarenes",
-      "chapter": "Haloalkanes & Haloarenes",
-      "unit": "Haloalkanes and Haloarenes",
-      "kind": "key_line",
-      "front": "The ____ of carbon-halogen bond of alkyl halides is responsible for their nucleophilic substitution, elimination and their reaction with metal atoms to form organometallic compounds.",
-      "back": "The polarity of carbon-halogen bond of alkyl halides is responsible for their nucleophilic substitution, elimination and their reaction with metal atoms to form organometallic compounds.",
-      "quote": "The polarity of carbon-halogen bond of alkyl halides is responsible for their nucleophilic substitution, elimination and their reaction with metal atoms to form organometallic compounds.",
-      "blanks": [
-        "polarity"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech201",
-        "chapterNo": 6,
-        "page": 189,
-        "section": "Summary"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "haloalkane reactions"
-      ],
-      "order": 1510,
-      "reasons": [
-        "shape:front_too_long"
       ]
     },
     {
@@ -5486,38 +3695,6 @@
       ]
     },
     {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-acid-reduction-lialh4-costly",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "However, LiAlH4 is an ____, and therefore, used for preparing special chemicals only.",
-      "back": "However, LiAlH4 is an expensive reagent, and therefore, used for preparing special chemicals only.",
-      "quote": "However, LiAlH4 is an expensive reagent, and therefore, used for preparing special chemicals only.",
-      "blanks": [
-        "expensive reagent"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 200,
-        "section": "Preparation of Alcohols"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "preparation"
-      ],
-      "order": 590,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-cumene-acetone",
       "v": 1,
       "subject": "chemistry",
@@ -5548,71 +3725,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:\"this reaction\" has no referent in the front; student cannot know it is the cumene process."
-      ]
-    },
-    {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-bp-higher-than-others",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "It is interesting to note that boiling points of alcohols and phenols are higher in comparison to other classes of compounds, namely ____ of comparable molecular masses.",
-      "back": "It is interesting to note that boiling points of alcohols and phenols are higher in comparison to other classes of compounds, namely hydrocarbons, ethers, haloalkanes and haloarenes of comparable molecular masses.",
-      "quote": "It is interesting to note that boiling points of alcohols and phenols are higher in comparison to other classes of compounds, namely hydrocarbons, ethers, haloalkanes and haloarenes of comparable molecular masses.",
-      "blanks": [
-        "hydrocarbons, ethers, haloalkanes and haloarenes"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 203,
-        "section": "Physical Properties of Alcohols and Phenols"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "boiling point"
-      ],
-      "order": 760,
-      "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-ethanol-propane-methoxymethane",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "For example, ethanol and propane have comparable molecular masses but their boiling points differ widely. The boiling point of methoxymethane is ____ of the two boiling points.",
-      "back": "For example, ethanol and propane have comparable molecular masses but their boiling points differ widely. The boiling point of methoxymethane is intermediate of the two boiling points.",
-      "quote": "For example, ethanol and propane have comparable molecular masses but their boiling points differ widely. The boiling point of methoxymethane is intermediate of the two boiling points.",
-      "blanks": [
-        "intermediate"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 203,
-        "section": "Physical Properties of Alcohols and Phenols"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "boiling point"
-      ],
-      "order": 770,
-      "reasons": [
-        "shape:front_too_long"
       ]
     },
     {
@@ -5714,70 +3826,6 @@
       ]
     },
     {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-water-better-donor",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "This reaction shows that water is a ____ (i.e., stronger acid) than alcohol.",
-      "back": "This reaction shows that water is a better proton donor (i.e., stronger acid) than alcohol.",
-      "quote": "This reaction shows that water is a better proton donor (i.e., stronger acid) than alcohol.",
-      "blanks": [
-        "better proton donor"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 206,
-        "section": "Chemical Reactions of Alcohols and Phenols"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "acidity"
-      ],
-      "order": 930,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-alkoxide-stronger-base",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "an alkoxide ion is a better proton acceptor than hydroxide ion, which suggests that alkoxides are ____",
-      "back": "an alkoxide ion is a better proton acceptor than hydroxide ion, which suggests that alkoxides are stronger bases",
-      "quote": "an alkoxide ion is a better proton acceptor than hydroxide ion, which suggests that alkoxides are stronger bases",
-      "blanks": [
-        "stronger bases"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 206,
-        "section": "Chemical Reactions of Alcohols and Phenols"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "acidity"
-      ],
-      "order": 940,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-phenoxide-more-stable",
       "v": 1,
       "subject": "chemistry",
@@ -5808,70 +3856,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Front refers to \"structures I-V\", a figure not shown, and never names phenol/phenoxide; blank cannot be derived."
-      ]
-    },
-    {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-phenol-charge-separation",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "Although there is also charge delocalisation in phenol, its resonance structures have ____ due to which the phenol molecule is less stable than phenoxide ion.",
-      "back": "Although there is also charge delocalisation in phenol, its resonance structures have charge separation due to which the phenol molecule is less stable than phenoxide ion.",
-      "quote": "Although there is also charge delocalisation in phenol, its resonance structures have charge separation due to which the phenol molecule is less stable than phenoxide ion.",
-      "blanks": [
-        "charge separation"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 207,
-        "section": "Chemical Reactions of Alcohols and Phenols"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "acidity"
-      ],
-      "order": 1000,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-alkyl-decreases-acidity",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "On the other hand, ____, such as alkyl groups, in general, do not favour the formation of phenoxide ion resulting in decrease in acid strength.",
-      "back": "On the other hand, electron releasing groups, such as alkyl groups, in general, do not favour the formation of phenoxide ion resulting in decrease in acid strength.",
-      "quote": "On the other hand, electron releasing groups, such as alkyl groups, in general, do not favour the formation of phenoxide ion resulting in decrease in acid strength.",
-      "blanks": [
-        "electron releasing groups"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 207,
-        "section": "Chemical Reactions of Alcohols and Phenols"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "acidity"
-      ],
-      "order": 1050,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -5972,38 +3956,6 @@
       ]
     },
     {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.term-dehydrogenation",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "term",
-      "front": "These are also known as ____ reactions as these involve loss of dihydrogen from an alcohol molecule.",
-      "back": "These are also known as dehydrogenation reactions as these involve loss of dihydrogen from an alcohol molecule.",
-      "quote": "These are also known as dehydrogenation reactions as these involve loss of dihydrogen from an alcohol molecule.",
-      "blanks": [
-        "dehydrogenation"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 209,
-        "section": "Chemical Reactions of Alcohols and Phenols"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "oxidation"
-      ],
-      "order": 1320,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-tertiary-no-oxidation",
       "v": 1,
       "subject": "chemistry",
@@ -6034,38 +3986,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Blank \"Tertiary alcohols\" is not unique: many compound classes do not undergo oxidation; front gives no context."
-      ]
-    },
-    {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-phenol-ortho-para",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "Also, it directs the incoming group to ____ in the ring as these positions become electron rich due to the resonance effect caused by –OH group.",
-      "back": "Also, it directs the incoming group to ortho and para positions in the ring as these positions become electron rich due to the resonance effect caused by –OH group.",
-      "quote": "Also, it directs the incoming group to ortho and para positions in the ring as these positions become electron rich due to the resonance effect caused by –OH group.",
-      "blanks": [
-        "ortho and para positions"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 211,
-        "section": "Chemical Reactions of Alcohols and Phenols"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "phenol reactions"
-      ],
-      "order": 1440,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -6102,39 +4022,6 @@
       ]
     },
     {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-o-nitrophenol-steam-volatile",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "o-Nitrophenol is steam volatile due to ____ hydrogen bonding while p-nitrophenol is less volatile due to ____ hydrogen bonding which causes the association of molecules.",
-      "back": "o-Nitrophenol is steam volatile due to intramolecular hydrogen bonding while p-nitrophenol is less volatile due to intermolecular hydrogen bonding which causes the association of molecules.",
-      "quote": "o-Nitrophenol is steam volatile due to intramolecular hydrogen bonding while p-nitrophenol is less volatile due to intermolecular hydrogen bonding which causes the association of molecules.",
-      "blanks": [
-        "intramolecular",
-        "intermolecular"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 211,
-        "section": "Chemical Reactions of Alcohols and Phenols"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "phenol reactions"
-      ],
-      "order": 1470,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
       "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-bromination-low-polarity",
       "v": 1,
       "subject": "chemistry",
@@ -6165,38 +4052,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:\"the reaction\" is undefined (bromination of phenol not stated in the front)."
-      ]
-    },
-    {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-ethanol-invertase",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "The sugar in molasses, sugarcane or fruits such as grapes is converted to glucose and fructose, (both of which have the formula C6H12O6), in the presence of an enzyme, ____.",
-      "back": "The sugar in molasses, sugarcane or fruits such as grapes is converted to glucose and fructose, (both of which have the formula C6H12O6), in the presence of an enzyme, invertase.",
-      "quote": "The sugar in molasses, sugarcane or fruits such as grapes is converted to glucose and fructose, (both of which have the formula C6H12O6), in the presence of an enzyme, invertase.",
-      "blanks": [
-        "invertase"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 214,
-        "section": "Some Commercially Important Alcohols"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "ethanol"
-      ],
-      "order": 1670,
-      "reasons": [
-        "shape:front_too_long"
       ]
     },
     {
@@ -6299,39 +4154,6 @@
       ]
     },
     {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-sec-tert-dehydration-unsuccessful",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "However, the dehydration of secondary and tertiary alcohols to give corresponding ethers is unsuccessful as ____ and as a consequence, alkenes are easily formed.",
-      "back": "However, the dehydration of secondary and tertiary alcohols to give corresponding ethers is unsuccessful as elimination competes over substitution and as a consequence, alkenes are easily formed.",
-      "quote": "However, the dehydration of secondary and tertiary alcohols to give corresponding ethers is unsuccessful as elimination competes over substitution and as a consequence, alkenes are easily formed.",
-      "blanks": [
-        "elimination competes over substitution"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 215,
-        "section": "Preparation of Ethers"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "preparation"
-      ],
-      "order": 1810,
-      "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.chemistry.alcohols-phenols-and-ethers.fact-williamson-person",
       "v": 1,
       "subject": "chemistry",
@@ -6393,38 +4215,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:\"this method\" is undefined (Williamson synthesis not named in the front)."
-      ]
-    },
-    {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-alkoxides-strong-bases",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "It is because alkoxides are not only nucleophiles but ____ as well. They react with alkyl halides leading to elimination reactions.",
-      "back": "It is because alkoxides are not only nucleophiles but strong bases as well. They react with alkyl halides leading to elimination reactions.",
-      "quote": "It is because alkoxides are not only nucleophiles but strong bases as well. They react with alkyl halides leading to elimination reactions.",
-      "blanks": [
-        "strong bases"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 216,
-        "section": "Preparation of Ethers"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "williamson"
-      ],
-      "order": 1890,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -6525,38 +4315,6 @@
       ]
     },
     {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-ether-oxygen-h-bond",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "This is due to the fact that just like alcohols, ____ can also form hydrogen bonds with water molecule",
-      "back": "This is due to the fact that just like alcohols, oxygen of ether can also form hydrogen bonds with water molecule",
-      "quote": "This is due to the fact that just like alcohols, oxygen of ether can also form hydrogen bonds with water molecule",
-      "blanks": [
-        "oxygen of ether"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 217,
-        "section": "Physical Properties of Ethers"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "ethers physical"
-      ],
-      "order": 1960,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-dialkyl-ether-two-halides",
       "v": 1,
       "subject": "chemistry",
@@ -6590,19 +4348,17 @@
       ]
     },
     {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-tertiary-halide-formed",
+      "id": "kc.chemistry.alcohols-phenols-and-ethers.fact-hi-mixed-ether-tertiary-halide",
       "v": 1,
       "subject": "chemistry",
       "chapterKey": "chemistry.alcohols-phenols-and-ethers",
       "chapter": "Alcohols, Phenols & Ethers",
       "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "However, when one of the alkyl group is a tertiary group, the halide formed is a ____.",
+      "kind": "fact",
+      "front": "When HI cleaves a mixed ether having a tertiary alkyl group, what kind of halide is formed?",
       "back": "However, when one of the alkyl group is a tertiary group, the halide formed is a tertiary halide.",
       "quote": "However, when one of the alkyl group is a tertiary group, the halide formed is a tertiary halide.",
-      "blanks": [
-        "tertiary halide"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Chemistry Part 2",
@@ -6618,152 +4374,22 @@
       ],
       "order": 2060,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Front is near-tautological (tertiary alkyl group gives tertiary halide); it does not test the real marks (t-butyl iodide + methanol, SN1). The SN1 card covers the point."
       ]
     },
     {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-tertiary-sn1",
+      "id": "kc.chemistry.alcohols-phenols-and-ethers.fact-anisole-bromination-para-yield",
       "v": 1,
       "subject": "chemistry",
       "chapterKey": "chemistry.alcohols-phenols-and-ethers",
       "chapter": "Alcohols, Phenols & Ethers",
       "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "It is because in step 2 of the reaction, the departure of leaving group (HO–CH3) creates a more stable carbocation [(CH3)3C+], and the reaction follows ____.",
-      "back": "It is because in step 2 of the reaction, the departure of leaving group (HO–CH3) creates a more stable carbocation [(CH3)3C+], and the reaction follows SN1 mechanism.",
-      "quote": "It is because in step 2 of the reaction, the departure of leaving group (HO–CH3) creates a more stable carbocation [(CH3)3C+], and the reaction follows SN1 mechanism.",
-      "blanks": [
-        "SN1 mechanism"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 218,
-        "section": "Chemical Reactions of Ethers"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "ether reactions"
-      ],
-      "order": 2070,
-      "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-anisole-ch3i",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "Therefore the attack by I– ion breaks O–CH3 bond to form ____.",
-      "back": "Therefore the attack by I– ion breaks O–CH3 bond to form CH3I.",
-      "quote": "Therefore the attack by I– ion breaks O–CH3 bond to form CH3I.",
-      "blanks": [
-        "CH3I"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 219,
-        "section": "Chemical Reactions of Ethers"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "ether reactions"
-      ],
-      "order": 2080,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-phenol-no-further-halide",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "Phenols do not react further to give halides because the ____ of phenol cannot undergo nucleophilic substitution reaction needed for conversion to the halide.",
-      "back": "Phenols do not react further to give halides because the sp2 hybridised carbon of phenol cannot undergo nucleophilic substitution reaction needed for conversion to the halide.",
-      "quote": "Phenols do not react further to give halides because the sp2 hybridised carbon of phenol cannot undergo nucleophilic substitution reaction needed for conversion to the halide.",
-      "blanks": [
-        "sp2 hybridised carbon"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 219,
-        "section": "Chemical Reactions of Ethers"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "ether reactions"
-      ],
-      "order": 2090,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-anisole-bromination",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "Phenylalkyl ethers undergo usual halogenation in the benzene ring, e.g., anisole undergoes bromination with bromine in ____ even in the absence of iron (III) bromide catalyst.",
-      "back": "Phenylalkyl ethers undergo usual halogenation in the benzene ring, e.g., anisole undergoes bromination with bromine in ethanoic acid even in the absence of iron (III) bromide catalyst.",
-      "quote": "Phenylalkyl ethers undergo usual halogenation in the benzene ring, e.g., anisole undergoes bromination with bromine in ethanoic acid even in the absence of iron (III) bromide catalyst.",
-      "blanks": [
-        "ethanoic acid"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 219,
-        "section": "Chemical Reactions of Ethers"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "ether reactions"
-      ],
-      "order": 2110,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-anisole-para-90",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "It is due to the activation of benzene ring by the methoxy group. Para isomer is obtained in ____ yield.",
-      "back": "It is due to the activation of benzene ring by the methoxy group. Para isomer is obtained in 90% yield.",
-      "quote": "It is due to the activation of benzene ring by the methoxy group. Para isomer is obtained in 90% yield.",
-      "blanks": [
-        "90%"
-      ],
+      "kind": "fact",
+      "front": "In the bromination of anisole, in what yield is the para isomer obtained?",
+      "back": "Para isomer is obtained in 90% yield.",
+      "quote": "Para isomer is obtained in 90% yield.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Chemistry Part 2",
@@ -6779,39 +4405,8 @@
       ],
       "order": 2120,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.alcohols-phenols-and-ethers.kl-friedel-crafts-catalyst",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.alcohols-phenols-and-ethers",
-      "chapter": "Alcohols, Phenols & Ethers",
-      "unit": "Alcohols, Phenols and Ethers",
-      "kind": "key_line",
-      "front": "by reaction with alkyl halide and acyl halide in the presence of ____ (a Lewis acid) as catalyst.",
-      "back": "by reaction with alkyl halide and acyl halide in the presence of anhydrous aluminium chloride (a Lewis acid) as catalyst.",
-      "quote": "by reaction with alkyl halide and acyl halide in the presence of anhydrous aluminium chloride (a Lewis acid) as catalyst.",
-      "blanks": [
-        "anhydrous aluminium chloride"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech202",
-        "chapterNo": 7,
-        "page": 220,
-        "section": "Chemical Reactions of Ethers"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "ether reactions"
-      ],
-      "order": 2140,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Numeric yield (90%) is trivia, not a mark-carrying fact; the ortho/para directing point is covered elsewhere."
       ]
     },
     {
@@ -6935,39 +4530,6 @@
       "order": 220,
       "reasons": [
         "quote:not_in_pdf"
-      ]
-    },
-    {
-      "id": "kc.chemistry.aldehydes-ketones-and-carboxylic-acids.kl-carbonyl-electrophilic-nucleophilic",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.aldehydes-ketones-and-carboxylic-acids",
-      "chapter": "Aldehydes, Ketones & Carboxylic Acids",
-      "unit": "Aldehydes, Ketones and Carboxylic Acids",
-      "kind": "key_line",
-      "front": "Hence, the carbonyl carbon is an ____ (Lewis acid), and carbonyl oxygen, a ____ (Lewis base) centre.",
-      "back": "Hence, the carbonyl carbon is an electrophilic (Lewis acid), and carbonyl oxygen, a nucleophilic (Lewis base) centre.",
-      "quote": "Hence, the carbonyl carbon is an electrophilic (Lewis acid), and carbonyl oxygen, a nucleophilic (Lewis base) centre.",
-      "blanks": [
-        "electrophilic",
-        "nucleophilic"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech203",
-        "chapterNo": 8,
-        "page": 231,
-        "section": "8.1.2 Structure of the Carbonyl Group"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "carbonyl structure"
-      ],
-      "order": 250,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -7579,70 +5141,6 @@
       ]
     },
     {
-      "id": "kc.chemistry.amines.kl-prep-small-hcl",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "Thus, only a ____ of hydrochloric acid is required to initiate the reaction.",
-      "back": "Thus, only a small amount of hydrochloric acid is required to initiate the reaction.",
-      "quote": "Thus, only a small amount of hydrochloric acid is required to initiate the reaction.",
-      "blanks": [
-        "small amount"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 262,
-        "section": "Preparation of Amines"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "preparation"
-      ],
-      "order": 240,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-ammonolysis-reagent",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "Hence, an alkyl or benzyl halide on reaction with an ____ undergoes nucleophilic substitution reaction",
-      "back": "Hence, an alkyl or benzyl halide on reaction with an ethanolic solution of ammonia undergoes nucleophilic substitution reaction",
-      "quote": "Hence, an alkyl or benzyl halide on reaction with an ethanolic solution of ammonia undergoes nucleophilic substitution reaction",
-      "blanks": [
-        "ethanolic solution of ammonia"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 262,
-        "section": "Preparation of Amines"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "preparation"
-      ],
-      "order": 250,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.chemistry.amines.kl-ammonolysis-conditions",
       "v": 1,
       "subject": "chemistry",
@@ -7673,134 +5171,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:'The reaction' has no referent (ammonolysis) in the front; 373 K cannot be derived."
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-ammonolysis-quaternary",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "The primary amine thus obtained behaves as a nucleophile and can further react with alkyl halide to form secondary and tertiary amines, and finally ____.",
-      "back": "The primary amine thus obtained behaves as a nucleophile and can further react with alkyl halide to form secondary and tertiary amines, and finally quaternary ammonium salt.",
-      "quote": "The primary amine thus obtained behaves as a nucleophile and can further react with alkyl halide to form secondary and tertiary amines, and finally quaternary ammonium salt.",
-      "blanks": [
-        "quaternary ammonium salt"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 262,
-        "section": "Preparation of Amines"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "preparation"
-      ],
-      "order": 270,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-ammonolysis-excess",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "However, primary amine is obtained as a major product by taking ____.",
-      "back": "However, primary amine is obtained as a major product by taking large excess of ammonia.",
-      "quote": "However, primary amine is obtained as a major product by taking large excess of ammonia.",
-      "blanks": [
-        "large excess of ammonia"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 263,
-        "section": "Preparation of Amines"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "preparation"
-      ],
-      "order": 290,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-ascent-series",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "This reaction is used for ____, i.e., for preparation of amines containing one carbon atom more than the starting amine.",
-      "back": "This reaction is used for ascent of amine series, i.e., for preparation of amines containing one carbon atom more than the starting amine.",
-      "quote": "This reaction is used for ascent of amine series, i.e., for preparation of amines containing one carbon atom more than the starting amine.",
-      "blanks": [
-        "ascent of amine series"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 263,
-        "section": "Preparation of Amines"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "preparation"
-      ],
-      "order": 330,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-solubility-decreases",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "However, solubility decreases with increase in molar mass of amines due to increase in size of the ____.",
-      "back": "However, solubility decreases with increase in molar mass of amines due to increase in size of the hydrophobic alkyl part.",
-      "quote": "However, solubility decreases with increase in molar mass of amines due to increase in size of the hydrophobic alkyl part.",
-      "blanks": [
-        "hydrophobic alkyl part"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 265,
-        "section": "Physical Properties"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "physical"
-      ],
-      "order": 450,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -7837,134 +5207,6 @@
       ]
     },
     {
-      "id": "kc.chemistry.amines.kl-association-primary",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "This intermolecular association is more in primary amines than in secondary amines as there are ____ available for hydrogen bond formation in it.",
-      "back": "This intermolecular association is more in primary amines than in secondary amines as there are two hydrogen atoms available for hydrogen bond formation in it.",
-      "quote": "This intermolecular association is more in primary amines than in secondary amines as there are two hydrogen atoms available for hydrogen bond formation in it.",
-      "blanks": [
-        "two hydrogen atoms"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 265,
-        "section": "Physical Properties"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "physical"
-      ],
-      "order": 500,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-bp-order",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "Therefore, the order of boiling points of isomeric amines is as follows: ____",
-      "back": "Therefore, the order of boiling points of isomeric amines is as follows: Primary > Secondary > Tertiary",
-      "quote": "Therefore, the order of boiling points of isomeric amines is as follows: Primary > Secondary > Tertiary",
-      "blanks": [
-        "Primary > Secondary > Tertiary"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 265,
-        "section": "Physical Properties"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "physical"
-      ],
-      "order": 520,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-nucleophiles",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "Moreover, amines behave as ____ due to the presence of unshared electron pair.",
-      "back": "Moreover, amines behave as nucleophiles due to the presence of unshared electron pair.",
-      "quote": "Moreover, amines behave as nucleophiles due to the presence of unshared electron pair.",
-      "blanks": [
-        "nucleophiles"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 266,
-        "section": "Chemical Reactions"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "reactions"
-      ],
-      "order": 530,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-salt-separation",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "This reaction is the basis for the ____ from the non basic organic compounds insoluble in water.",
-      "back": "This reaction is the basis for the separation of amines from the non basic organic compounds insoluble in water.",
-      "quote": "This reaction is the basis for the separation of amines from the non basic organic compounds insoluble in water.",
-      "blanks": [
-        "separation of amines"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 267,
-        "section": "Chemical Reactions"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "basicity"
-      ],
-      "order": 570,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.chemistry.amines.kl-aliphatic-pkb-range",
       "v": 1,
       "subject": "chemistry",
@@ -7998,51 +5240,17 @@
       ]
     },
     {
-      "id": "kc.chemistry.amines.kl-aromatic-weaker",
+      "id": "kc.chemistry.amines.fact-aqueous-solvation",
       "v": 1,
       "subject": "chemistry",
       "chapterKey": "chemistry.amines",
       "chapter": "Amines",
       "unit": "Amines",
-      "kind": "key_line",
-      "front": "On the other hand, aromatic amines are weaker bases than ammonia due to the ____ of the aryl group.",
-      "back": "On the other hand, aromatic amines are weaker bases than ammonia due to the electron withdrawing nature of the aryl group.",
-      "quote": "On the other hand, aromatic amines are weaker bases than ammonia due to the electron withdrawing nature of the aryl group.",
-      "blanks": [
-        "electron withdrawing nature"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 267,
-        "section": "Chemical Reactions"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "basicity"
-      ],
-      "order": 630,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-aqueous-solvation",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "In the aqueous phase, the substituted ammonium cations get stabilised not only by electron releasing effect of the alkyl group (+I) but also by ____ with water molecules.",
-      "back": "In the aqueous phase, the substituted ammonium cations get stabilised not only by electron releasing effect of the alkyl group (+I) but also by solvation with water molecules.",
+      "kind": "fact",
+      "front": "In water, substituted ammonium cations are stabilised by the +I effect and also by what effect with water molecules?",
+      "back": "Solvation\nIn the aqueous phase, the substituted ammonium cations get stabilised not only by electron releasing effect of the alkyl group (+I) but also by solvation with water molecules.",
       "quote": "In the aqueous phase, the substituted ammonium cations get stabilised not only by electron releasing effect of the alkyl group (+I) but also by solvation with water molecules.",
-      "blanks": [
-        "solvation"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Chemistry Part 2",
@@ -8058,71 +5266,8 @@
       ],
       "order": 650,
       "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-interplay",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "Thus, there is a subtle interplay of the ____ of the alkyl group which decides the basic strength of alkyl amines in the aqueous state.",
-      "back": "Thus, there is a subtle interplay of the inductive effect, solvation effect and steric hinderance of the alkyl group which decides the basic strength of alkyl amines in the aqueous state.",
-      "quote": "Thus, there is a subtle interplay of the inductive effect, solvation effect and steric hinderance of the alkyl group which decides the basic strength of alkyl amines in the aqueous state.",
-      "blanks": [
-        "inductive effect, solvation effect and steric hinderance"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 269,
-        "section": "Chemical Reactions"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "basicity"
-      ],
-      "order": 670,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-aniline-conjugation",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "It results in the unshared electron pair on nitrogen atom to be in ____ and thus making it less available for protonation.",
-      "back": "It results in the unshared electron pair on nitrogen atom to be in conjugation with the benzene ring and thus making it less available for protonation.",
-      "quote": "It results in the unshared electron pair on nitrogen atom to be in conjugation with the benzene ring and thus making it less available for protonation.",
-      "blanks": [
-        "conjugation with the benzene ring"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 269,
-        "section": "Chemical Reactions"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "basicity"
-      ],
-      "order": 700,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Blank \"solvation with water molecules\" has obvious synonym \"hydration\" (and \"hydrogen bonding\"); not one right fill."
       ]
     },
     {
@@ -8159,19 +5304,17 @@
       ]
     },
     {
-      "id": "kc.chemistry.amines.kl-aniline-less-basic",
+      "id": "kc.chemistry.amines.fact-aniline-less-basic",
       "v": 1,
       "subject": "chemistry",
       "chapterKey": "chemistry.amines",
       "chapter": "Amines",
       "unit": "Amines",
-      "kind": "key_line",
-      "front": "Hence, the proton acceptability or the basic nature of aniline or other aromatic amines would be ____.",
-      "back": "Hence, the proton acceptability or the basic nature of aniline or other aromatic amines would be less than that of ammonia.",
-      "quote": "Hence, the proton acceptability or the basic nature of aniline or other aromatic amines would be less than that of ammonia.",
-      "blanks": [
-        "less than that of ammonia"
-      ],
+      "kind": "fact",
+      "front": "Is the basic nature of aniline and other aromatic amines more or less than that of ammonia?",
+      "back": "Less than that of ammonia\nThus you can infer that aniline (five resonating structures) is more stable than anilinium ion. Hence, the proton acceptability or the basic nature of aniline or other aromatic amines would be less than that of ammonia.",
+      "quote": "Thus you can infer that aniline (five resonating structures) is more stable than anilinium ion. Hence, the proton acceptability or the basic nature of aniline or other aromatic amines would be less than that of ammonia.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Chemistry Part 2",
@@ -8187,7 +5330,9 @@
       ],
       "order": 730,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Binary more/less question (50% guess) that repeats the conclusion of fact-aromatic-weaker; redundant, adds no new mark-carrying fact."
       ]
     },
     {
@@ -8224,19 +5369,17 @@
       ]
     },
     {
-      "id": "kc.chemistry.amines.kl-acylation-pyridine",
+      "id": "kc.chemistry.amines.fact-acylation-pyridine",
       "v": 1,
       "subject": "chemistry",
       "chapterKey": "chemistry.amines",
       "chapter": "Amines",
       "unit": "Amines",
-      "kind": "key_line",
-      "front": "The reaction is carried out in the presence of a base stronger than the amine, like ____, which removes HCl so formed and shifts the equilibrium to the right hand side.",
-      "back": "The reaction is carried out in the presence of a base stronger than the amine, like pyridine, which removes HCl so formed and shifts the equilibrium to the right hand side.",
+      "kind": "fact",
+      "front": "In acylation of amines, which base stronger than the amine is used to remove the HCl formed?",
+      "back": "Pyridine\nThe reaction is carried out in the presence of a base stronger than the amine, like pyridine, which removes HCl so formed and shifts the equilibrium to the right hand side.",
       "quote": "The reaction is carried out in the presence of a base stronger than the amine, like pyridine, which removes HCl so formed and shifts the equilibrium to the right hand side.",
-      "blanks": [
-        "pyridine"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Chemistry Part 2",
@@ -8252,7 +5395,8 @@
       ],
       "order": 790,
       "reasons": [
-        "shape:front_too_long"
+        "review:not_unambiguous",
+        "review:NCERT says \"a base stronger than the amine, like pyridine\": pyridine is only an example, so front (no reagents named) does not have exactly one right answer."
       ]
     },
     {
@@ -8289,148 +5433,17 @@
       ]
     },
     {
-      "id": "kc.chemistry.amines.term-carbylamine-test",
+      "id": "kc.chemistry.amines.fact-acetanilide-less-available",
       "v": 1,
       "subject": "chemistry",
       "chapterKey": "chemistry.amines",
       "chapter": "Amines",
       "unit": "Amines",
-      "kind": "term",
-      "front": "This reaction is known as ____ or isocyanide test and is used as a test for primary amines.",
-      "back": "This reaction is known as carbylamine reaction or isocyanide test and is used as a test for primary amines.",
-      "quote": "This reaction is known as carbylamine reaction or isocyanide test and is used as a test for primary amines.",
-      "blanks": [
-        "carbylamine reaction"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 271,
-        "section": "Chemical Reactions"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "carbylamine"
-      ],
-      "order": 830,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-sulphonamide-acidic",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "The hydrogen attached to nitrogen in sulphonamide is strongly acidic due to the presence of strong electron withdrawing sulphonyl group. Hence, it is ____.",
-      "back": "The hydrogen attached to nitrogen in sulphonamide is strongly acidic due to the presence of strong electron withdrawing sulphonyl group. Hence, it is soluble in alkali.",
-      "quote": "The hydrogen attached to nitrogen in sulphonamide is strongly acidic due to the presence of strong electron withdrawing sulphonyl group. Hence, it is soluble in alkali.",
-      "blanks": [
-        "soluble in alkali"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 271,
-        "section": "Chemical Reactions"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "hinsberg"
-      ],
-      "order": 890,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-hinsberg-use",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "This property of amines reacting with benzenesulphonyl chloride in a different manner is used for the ____ and also for the separation of a mixture of amines.",
-      "back": "This property of amines reacting with benzenesulphonyl chloride in a different manner is used for the distinction of primary, secondary and tertiary amines and also for the separation of a mixture of amines.",
-      "quote": "This property of amines reacting with benzenesulphonyl chloride in a different manner is used for the distinction of primary, secondary and tertiary amines and also for the separation of a mixture of amines.",
-      "blanks": [
-        "distinction of primary, secondary and tertiary amines"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 272,
-        "section": "Chemical Reactions"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "hinsberg"
-      ],
-      "order": 920,
-      "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-tosyl-chloride",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "However, these days benzenesulphonyl chloride is replaced by ____.",
-      "back": "However, these days benzenesulphonyl chloride is replaced by p-toluenesulphonyl chloride.",
-      "quote": "However, these days benzenesulphonyl chloride is replaced by p-toluenesulphonyl chloride.",
-      "blanks": [
-        "p-toluenesulphonyl chloride"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 272,
-        "section": "Chemical Reactions"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "hinsberg"
-      ],
-      "order": 930,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-acetanilide-less-available",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "Hence, the lone pair of electrons on nitrogen is ____ for donation to benzene ring by resonance.",
-      "back": "Hence, the lone pair of electrons on nitrogen is less available for donation to benzene ring by resonance.",
-      "quote": "Hence, the lone pair of electrons on nitrogen is less available for donation to benzene ring by resonance.",
-      "blanks": [
-        "less available"
-      ],
+      "kind": "fact",
+      "front": "Why is the activating effect of the –NHCOCH3 group less than that of the amino group?",
+      "back": "Less available for donation to benzene ring by resonance\nHence, the lone pair of electrons on nitrogen is less available for donation to benzene ring by resonance. Therefore, activating effect of –NHCOCH3 group is less than that of amino group.",
+      "quote": "Hence, the lone pair of electrons on nitrogen is less available for donation to benzene ring by resonance. Therefore, activating effect of –NHCOCH3 group is less than that of amino group.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Chemistry Part 2",
@@ -8446,149 +5459,21 @@
       ],
       "order": 980,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-anilinium-meta",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "Moreover, in the strongly acidic medium, aniline is protonated to form the ____ which is meta directing.",
-      "back": "Moreover, in the strongly acidic medium, aniline is protonated to form the anilinium ion which is meta directing.",
-      "quote": "Moreover, in the strongly acidic medium, aniline is protonated to form the anilinium ion which is meta directing.",
-      "blanks": [
-        "anilinium ion"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 273,
-        "section": "Chemical Reactions"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "electrophilic-substitution"
-      ],
-      "order": 1000,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-nitration-controlled",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "the nitration reaction can be controlled and the ____ can be obtained as the major product",
-      "back": "the nitration reaction can be controlled and the p-nitro derivative can be obtained as the major product",
-      "quote": "the nitration reaction can be controlled and the p-nitro derivative can be obtained as the major product",
-      "blanks": [
-        "p-nitro derivative"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 273,
-        "section": "Chemical Reactions"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "electrophilic-substitution"
-      ],
-      "order": 1020,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-sulphonation",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "on heating with sulphuric acid at 453-473K produces p-aminobenzene sulphonic acid, commonly known as ____, as the major product.",
-      "back": "on heating with sulphuric acid at 453-473K produces p-aminobenzene sulphonic acid, commonly known as sulphanilic acid, as the major product.",
-      "quote": "on heating with sulphuric acid at 453-473K produces p-aminobenzene sulphonic acid, commonly known as sulphanilic acid, as the major product.",
-      "blanks": [
-        "sulphanilic acid"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 273,
-        "section": "Chemical Reactions"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "electrophilic-substitution"
-      ],
-      "order": 1030,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-diazonium-naming",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "They are named by ____ to the name of the parent hydrocarbon from which they are formed, followed by the name of anion such as chloride, hydrogensulphate, etc.",
-      "back": "They are named by suffixing diazonium to the name of the parent hydrocarbon from which they are formed, followed by the name of anion such as chloride, hydrogensulphate, etc.",
-      "quote": "They are named by suffixing diazonium to the name of the parent hydrocarbon from which they are formed, followed by the name of anion such as chloride, hydrogensulphate, etc.",
-      "blanks": [
-        "suffixing diazonium"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 274,
-        "section": "Diazonium Salts"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "diazonium"
-      ],
-      "order": 1060,
-      "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Back line \"less available for donation by resonance\" omits the cause (N lone pair drawn into the C=O by the acetyl group) that a student would naturally give; the why-question has two valid answers and the quote opens with a dangling \"Hence\"."
       ]
     },
     {
       "id": "kc.chemistry.amines.kl-bdc-solubility",
-      "v": 1,
+      "v": 2,
       "subject": "chemistry",
       "chapterKey": "chemistry.amines",
       "chapter": "Amines",
       "unit": "Amines",
       "kind": "key_line",
-      "front": "It is readily soluble in water and is ____ but reacts with water when warmed.",
-      "back": "It is readily soluble in water and is stable in cold but reacts with water when warmed.",
-      "quote": "It is readily soluble in water and is stable in cold but reacts with water when warmed.",
+      "front": "Benzenediazonium chloride is a colourless crystalline solid. It is readily soluble in water and is ____ but reacts with water when warmed.",
+      "back": "Benzenediazonium chloride is a colourless crystalline solid. It is readily soluble in water and is stable in cold but reacts with water when warmed.",
+      "quote": "Benzenediazonium chloride is a colourless crystalline solid. It is readily soluble in water and is stable in cold but reacts with water when warmed.",
       "blanks": [
         "stable in cold"
       ],
@@ -8607,39 +5492,8 @@
       ],
       "order": 1150,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.chemistry.amines.kl-bdc-dry",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "It ____ in the dry state.",
-      "back": "It decomposes easily in the dry state.",
-      "quote": "It decomposes easily in the dry state.",
-      "blanks": [
-        "decomposes easily"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 275,
-        "section": "Diazonium Salts"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "diazonium"
-      ],
-      "order": 1160,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Blank \"stable in cold\" accepts synonyms (\"stable\", \"stable at low temperature\", \"unreactive\"); the multi-word blank is not a single mark-carrying fill."
       ]
     },
     {
@@ -8677,38 +5531,6 @@
       ]
     },
     {
-      "id": "kc.chemistry.amines.kl-coupling-electrophilic",
-      "v": 1,
-      "subject": "chemistry",
-      "chapterKey": "chemistry.amines",
-      "chapter": "Amines",
-      "unit": "Amines",
-      "kind": "key_line",
-      "front": "This is an example of ____.",
-      "back": "This is an example of electrophilic substitution reaction.",
-      "quote": "This is an example of electrophilic substitution reaction.",
-      "blanks": [
-        "electrophilic substitution reaction"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Chemistry Part 2",
-        "code": "lech204",
-        "chapterNo": 9,
-        "page": 276,
-        "section": "Diazonium Salts"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "diazonium"
-      ],
-      "order": 1300,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.chemistry.amines.kl-fluoride-iodide-direct",
       "v": 1,
       "subject": "chemistry",
@@ -8742,19 +5564,17 @@
       ]
     },
     {
-      "id": "kc.chemistry.amines.kl-diazo-replacement-helpful",
+      "id": "kc.chemistry.amines.fact-diazo-replacement-helpful",
       "v": 1,
       "subject": "chemistry",
       "chapterKey": "chemistry.amines",
       "chapter": "Amines",
       "unit": "Amines",
-      "kind": "key_line",
-      "front": "Thus, the replacement of diazo group by other groups is helpful in preparing those substituted aromatic compounds which cannot be prepared by ____ in benzene or substituted benzene.",
-      "back": "Thus, the replacement of diazo group by other groups is helpful in preparing those substituted aromatic compounds which cannot be prepared by direct substitution in benzene or substituted benzene.",
-      "quote": "Thus, the replacement of diazo group by other groups is helpful in preparing those substituted aromatic compounds which cannot be prepared by direct substitution in benzene or substituted benzene.",
-      "blanks": [
-        "direct substitution"
-      ],
+      "kind": "fact",
+      "front": "The replacement of the diazo group by other groups is helpful in preparing which substituted aromatic compounds?",
+      "back": "Those substituted aromatic compounds\nThe cyano group cannot be introduced by nucleophilic substitution of chlorine in chlorobenzene but cyanobenzene can be easily obtained from diazonium salt. Thus, the replacement of diazo group by other groups is helpful in preparing those substituted aromatic compounds which cannot be prepared by direct substitution in benzene or substituted benzene.",
+      "quote": "The cyano group cannot be introduced by nucleophilic substitution of chlorine in chlorobenzene but cyanobenzene can be easily obtained from diazonium salt. Thus, the replacement of diazo group by other groups is helpful in preparing those substituted aromatic compounds which cannot be prepared by direct substitution in benzene or substituted benzene.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Chemistry Part 2",
@@ -8770,8 +5590,8 @@
       ],
       "order": 1340,
       "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Back answer line \"Those substituted aromatic compounds\" just repeats the front; real answer (\"those which cannot be prepared by direct substitution in benzene\") is only in the long quote, and quote crosses a page break."
       ]
     },
     {

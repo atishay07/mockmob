@@ -33,99 +33,6 @@
       ]
     },
     {
-      "id": "kc.psychology.variations-in-psychological-attributes.list-gardner-eight-types",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.variations-in-psychological-attributes",
-      "chapter": "Variations in Psychological Attributes",
-      "unit": "Variations in Psychological Attributes",
-      "kind": "list",
-      "front": "Name Gardner's eight types of intelligence.",
-      "back": "Linguistic (an ability to produce and use language)\nLogical-Mathematical (an ability to think logically and critically, and solve problems)\nSpatial (an ability to form visual images and patterns)\nMusical (an ability to produce and manipulate musical rhythms and patterns)\nBodily-Kinaesthetic (an ability to use whole or portions of the body flexibly and creatively)\nInterpersonal (an ability to understand to subtle aspects of others' behaviours)\nIntrapersonal (an ability to understand of one's own feelings, motives, and desires)\nNaturalistic (an ability to identify the features of the natural world)",
-      "quote": "Gardner studied extremely talented persons, who had shown exceptional abilities in their respective areas, and described eight types of intelligence.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy101",
-        "chapterNo": 1,
-        "page": 7,
-        "section": "Theory of Multiple Intelligences"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "theories",
-        "gardner"
-      ],
-      "order": 330,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.psychology.variations-in-psychological-attributes.list-componential-three-components",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.variations-in-psychological-attributes",
-      "chapter": "Variations in Psychological Attributes",
-      "unit": "Variations in Psychological Attributes",
-      "kind": "list",
-      "front": "Name the three components of componential intelligence.",
-      "back": "knowledge acquisition component, which is responsible for learning and acquisition of the ways of doing things\nmeta or a higher order component, which involves planning concerning what to do and how to do\nperformance component, which involves actually doing things",
-      "quote": "This intelligence has three components, each serving a different function.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy101",
-        "chapterNo": 1,
-        "page": 8,
-        "section": "Triarchic Theory of Intelligence"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "sternberg"
-      ],
-      "order": 510,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.psychology.variations-in-psychological-attributes.kl-pass-units-responsible",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.variations-in-psychological-attributes",
-      "chapter": "Variations in Psychological Attributes",
-      "unit": "Variations in Psychological Attributes",
-      "kind": "key_line",
-      "front": "These units are responsible for ____, coding or processing, and planning respectively.",
-      "back": "These units are responsible for arousal/attention, coding or processing, and planning respectively.",
-      "quote": "These units are responsible for arousal/attention, coding or processing, and planning respectively.",
-      "blanks": [
-        "arousal/attention"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy101",
-        "chapterNo": 1,
-        "page": 9,
-        "section": "PASS Model of Intelligence"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "pass"
-      ],
-      "order": 550,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.psychology.variations-in-psychological-attributes.list-twins-correlations",
       "v": 1,
       "subject": "psychology",
@@ -190,100 +97,6 @@
       ]
     },
     {
-      "id": "kc.psychology.variations-in-psychological-attributes.kl-iq-disability-gifted-cutoffs",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.variations-in-psychological-attributes",
-      "chapter": "Variations in Psychological Attributes",
-      "unit": "Variations in Psychological Attributes",
-      "kind": "key_line",
-      "front": "Those with IQ below ____ are suspected to have \"intellectual disability\", while persons with IQ above ____ are considered to have exceptional talents.",
-      "back": "Those with IQ below 70 are suspected to have \"intellectual disability\", while persons with IQ above 130 are considered to have exceptional talents.",
-      "quote": "Those with IQ below 70 are suspected to have \"intellectual disability\", while persons with IQ above 130 are considered to have exceptional talents.",
-      "blanks": [
-        "70",
-        "130"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy101",
-        "chapterNo": 1,
-        "page": 11,
-        "section": "Assessment of Intelligence"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "iq"
-      ],
-      "order": 760,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.psychology.variations-in-psychological-attributes.list-iq-classification-table",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.variations-in-psychological-attributes",
-      "chapter": "Variations in Psychological Attributes",
-      "unit": "Variations in Psychological Attributes",
-      "kind": "list",
-      "front": "Classify people on the basis of IQ range (Table 1.1), highest to lowest.",
-      "back": "Above 130 Very superior\n120 – 130 Superior\n110 – 119 High average\n90 – 109 Average\n80 – 89 Low average\n70 – 79 Borderline\nBelow 70 Intellectually disabled",
-      "quote": "The IQ score of a person can be interpreted by referring to Table 1.1.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy101",
-        "chapterNo": 1,
-        "page": 11,
-        "section": "Assessment of Intelligence"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "iq",
-        "table"
-      ],
-      "order": 770,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.psychology.variations-in-psychological-attributes.list-aamd-three-features",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.variations-in-psychological-attributes",
-      "chapter": "Variations in Psychological Attributes",
-      "unit": "Variations in Psychological Attributes",
-      "kind": "list",
-      "front": "Name the three basic features of intellectual disability (AAMD definition).",
-      "back": "significantly sub-average intellectual functioning\ndeficits in adaptive behaviour\nthe deficits must be observed during the developmental period, that is between 0 and 18 years of age",
-      "quote": "This definition points to three basic features.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy101",
-        "chapterNo": 1,
-        "page": 12,
-        "section": "Intellectual Deficiency"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "intellectual disability"
-      ],
-      "order": 800,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
       "id": "kc.psychology.variations-in-psychological-attributes.kl-prodigies",
       "v": 1,
       "subject": "psychology",
@@ -315,97 +128,6 @@
       "reasons": [
         "review:not_important",
         "review:Minor term ('prodigies'), low exam yield"
-      ]
-    },
-    {
-      "id": "kc.psychology.variations-in-psychological-attributes.list-gifted-early-signs",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.variations-in-psychological-attributes",
-      "chapter": "Variations in Psychological Attributes",
-      "unit": "Variations in Psychological Attributes",
-      "kind": "list",
-      "front": "Name the early signs of intellectual superiority shown by gifted children.",
-      "back": "larger attention span\ngood recognition memory\npreference for novelty\nsensitivity to environmental changes\nearly appearance of language skills",
-      "quote": "Gifted children show early signs of intellectual superiority.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy101",
-        "chapterNo": 1,
-        "page": 13,
-        "section": "Intellectual Giftedness"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "giftedness"
-      ],
-      "order": 880,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.psychology.variations-in-psychological-attributes.list-gifted-characteristics",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.variations-in-psychological-attributes",
-      "chapter": "Variations in Psychological Attributes",
-      "unit": "Variations in Psychological Attributes",
-      "kind": "list",
-      "front": "Name the important characteristics of gifted children.",
-      "back": "Advanced logical thinking, questioning and problem solving behaviour.\nHigh speed in processing information.\nSuperior generalisation and discrimination ability.\nAdvanced level of original and creative thinking.\nHigh level of intrinsic motivation and self-esteem.\nIndependent and non-conformist thinking.\nPreference for solitary academic activities for long periods.",
-      "quote": "Some important characteristics of gifted children are :",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy101",
-        "chapterNo": 1,
-        "page": 13,
-        "section": "Intellectual Giftedness"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "giftedness"
-      ],
-      "order": 890,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.psychology.variations-in-psychological-attributes.list-misuses-intelligence-tests",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.variations-in-psychological-attributes",
-      "chapter": "Variations in Psychological Attributes",
-      "unit": "Variations in Psychological Attributes",
-      "kind": "list",
-      "front": "Name the ill-effects of intelligence testing by naive testers.",
-      "back": "Poor performance on a test may attach a stigma to children and thereby adversely affect their performance and self-respect.\nThe tests may invite discriminating practices from parents, teachers and elders in the society.\nAdministering a test biased in favour of the middle class and higher class populations may underestimate the IQ of children coming from disadvantaged sections of the society.\nIntelligence tests do not capture creative potentialities and practical side of intelligence, and they also do not relate much to success in life.",
-      "quote": "Some of the ill-effects of intelligence testing by naive testers are:",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy101",
-        "chapterNo": 1,
-        "page": 14,
-        "section": "Some Misuses of Intelligence Tests (Box 1.1)"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "tests",
-        "misuse"
-      ],
-      "order": 1000,
-      "reasons": [
-        "shape:back_not_quote"
       ]
     },
     {
@@ -442,67 +164,6 @@
       ]
     },
     {
-      "id": "kc.psychology.variations-in-psychological-attributes.list-indian-facets-of-intelligence",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.variations-in-psychological-attributes",
-      "chapter": "Variations in Psychological Attributes",
-      "unit": "Variations in Psychological Attributes",
-      "kind": "list",
-      "front": "Name the facets of intelligence in the Indian tradition.",
-      "back": "Cognitive capacity (sensitivity to context, understanding, discrimination, problem solving, and effective communication).\nSocial competence (respect for social order, commitment to elders, the young and the needy, concern about others, recognising others' perspectives).\nEmotional competence (self-regulation and self-monitoring of emotions, honesty, politeness, good conduct, and self-evaluation).\nEntrepreneurial competence (commitment, persistence, patience, hard work, vigilance, and goal-directed behaviours).",
-      "quote": "Unlike the western views, which primarily focus on cognitive parameters, the following competencies are identified as facets of intelligence in the Indian tradition :",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy101",
-        "chapterNo": 1,
-        "page": 16,
-        "section": "Intelligence in the Indian Tradition"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "culture",
-        "indian tradition"
-      ],
-      "order": 1110,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.psychology.variations-in-psychological-attributes.list-ei-characteristics",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.variations-in-psychological-attributes",
-      "chapter": "Variations in Psychological Attributes",
-      "unit": "Variations in Psychological Attributes",
-      "kind": "list",
-      "front": "Characteristics of emotionally intelligent persons (Box 1.2).",
-      "back": "Perceive and be sensitive to your feelings and emotions.\nPerceive and be sensitive to various types of emotions in others by noting their body language, voice and tone, and facial expressions.\nRelate your emotions to your thoughts so that you take them into account while solving problems and taking decisions.\nUnderstand the powerful influence of the nature and intensity of your emotions.\nControl and regulate your emotions and their expressions while dealing with self and others to achieve harmony and peace.",
-      "quote": "Characteristics of Emotionally Intelligent Persons",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy101",
-        "chapterNo": 1,
-        "page": 17,
-        "section": "Characteristics of Emotionally Intelligent Persons (Box 1.2)"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "emotional intelligence"
-      ],
-      "order": 1150,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
       "id": "kc.psychology.variations-in-psychological-attributes.def-aptitude-special-abilities",
       "v": 1,
       "subject": "psychology",
@@ -531,38 +192,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Ambiguous with def-aptitude-attribute (two different NCERT aptitude definitions, fronts differ only by 'as a ...'); also Key Term so should be must"
-      ]
-    },
-    {
-      "id": "kc.psychology.variations-in-psychological-attributes.kl-creativity-minimum-intelligence",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.variations-in-psychological-attributes",
-      "chapter": "Variations in Psychological Attributes",
-      "unit": "Variations in Psychological Attributes",
-      "kind": "key_line",
-      "front": "Hence, a certain level of intelligence is required for creativity but beyond that intelligence does not ____ well with creativity.",
-      "back": "Hence, a certain level of intelligence is required for creativity but beyond that intelligence does not correlate well with creativity.",
-      "quote": "Hence, a certain level of intelligence is required for creativity but beyond that intelligence does not correlate well with creativity.",
-      "blanks": [
-        "correlate"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy101",
-        "chapterNo": 1,
-        "page": 20,
-        "section": "Creativity and Intelligence"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "creativity"
-      ],
-      "order": 1310,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -918,19 +547,17 @@
       ]
     },
     {
-      "id": "kc.psychology.meeting-life-challenges.key-life-events-51-changes",
+      "id": "kc.psychology.meeting-life-challenges.fact-presumptive-life-events-scale-items",
       "v": 1,
       "subject": "psychology",
       "chapterKey": "psychology.meeting-life-challenges",
       "chapter": "Meeting Life Challenges",
       "unit": "Meeting Life Challenges",
-      "kind": "key_line",
-      "front": "It is a self-rating questionnaire made up of ____ life changes, which a person may have experienced.",
-      "back": "It is a self-rating questionnaire made up of fifty-one life changes, which a person may have experienced.",
-      "quote": "It is a self-rating questionnaire made up of fifty-one life changes, which a person may have experienced.",
-      "blanks": [
-        "fifty-one"
-      ],
+      "kind": "fact",
+      "front": "How many life changes make up the Presumptive Stressful Life Events Scale for the Indian population?",
+      "back": "Fifty-one\nIt is a self-rating questionnaire made up of fifty-one life changes, which a person may have experienced.",
+      "quote": "A measure of stressful life events based on the above scale known as the Presumptive Stressful Life Events Scale has been developed for the Indian population by Singh, Kaur and Kaur. It is a self-rating questionnaire made up of fifty-one life changes, which a person may have experienced.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Psychology",
@@ -947,7 +574,8 @@
       ],
       "order": 380,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Bare count (fifty-one items) of an Indian scale in a box is trivia; the scale's name/authors or use matter more than the number."
       ]
     },
     {
@@ -981,39 +609,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:blank \"poorer\" has rival fills (worse, lower); wording not unique"
-      ]
-    },
-    {
-      "id": "kc.psychology.meeting-life-challenges.term-burnout",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.meeting-life-challenges",
-      "chapter": "Meeting Life Challenges",
-      "unit": "Meeting Life Challenges",
-      "kind": "term",
-      "front": "This state of physical, emotional and psychological exhaustion is known as ____.",
-      "back": "This state of physical, emotional and psychological exhaustion is known as burnout.",
-      "quote": "This state of physical, emotional and psychological exhaustion is known as burnout.",
-      "blanks": [
-        "burnout"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy103",
-        "chapterNo": 3,
-        "page": 59,
-        "section": "Stress and Health"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "burnout"
-      ],
-      "order": 510,
-      "note": "Burnout follows physical exhaustion (chronic fatigue, weakness) and mental exhaustion (irritability, helplessness).",
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -1086,19 +681,17 @@
       ]
     },
     {
-      "id": "kc.psychology.meeting-life-challenges.key-immune-hiv-t-helper",
+      "id": "kc.psychology.meeting-life-challenges.fact-hiv-attacks-t-helper-cells",
       "v": 1,
       "subject": "psychology",
       "chapterKey": "psychology.meeting-life-challenges",
       "chapter": "Meeting Life Challenges",
       "unit": "Meeting Life Challenges",
-      "kind": "key_line",
-      "front": "It is these ____ cells that are attacked by the Human Immuno Deficiency Virus (HIV)",
-      "back": "It is these T-helper cells that are attacked by the Human Immuno Deficiency Virus (HIV)",
-      "quote": "It is these T-helper cells that are attacked by the Human Immuno Deficiency Virus (HIV)",
-      "blanks": [
-        "T-helper"
-      ],
+      "kind": "fact",
+      "front": "Which cells of the immune system are attacked by HIV, the virus causing AIDS?",
+      "back": "T-helper cells\nIt is these T-helper cells that are attacked by the Human Immuno Deficiency Virus (HIV), the virus causing Acquired Immuno Deficiency Syndrome (AIDS).",
+      "quote": "T cells destroy invaders, and T-helper cells increase immunological activity. It is these T-helper cells that are attacked by the Human Immuno Deficiency Virus (HIV), the virus causing Acquired Immuno Deficiency Syndrome (AIDS).",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Psychology",
@@ -1115,7 +708,8 @@
       ],
       "order": 630,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Front asks only 'which cells of the immune system'; 'T cells' is an equally natural answer while the card needs 'T-helper cells'. Front should say which kind of T cell or ask for the subtype."
       ]
     },
     {
@@ -1146,38 +740,6 @@
       "order": 660,
       "reasons": [
         "quote:not_in_pdf"
-      ]
-    },
-    {
-      "id": "kc.psychology.meeting-life-challenges.key-coping-matters-more",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.meeting-life-challenges",
-      "chapter": "Meeting Life Challenges",
-      "unit": "Meeting Life Challenges",
-      "kind": "key_line",
-      "front": "it is how we ____ with stress and not the stress one experiences that influences our psychological well-being, social functioning and health.",
-      "back": "it is how we cope with stress and not the stress one experiences that influences our psychological well-being, social functioning and health.",
-      "quote": "it is how we cope with stress and not the stress one experiences that influences our psychological well-being, social functioning and health.",
-      "blanks": [
-        "cope"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy103",
-        "chapterNo": 3,
-        "page": 61,
-        "section": "Coping with Stress"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "coping"
-      ],
-      "order": 700,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -1548,39 +1110,6 @@
       ]
     },
     {
-      "id": "kc.psychology.psychological-disorders.kl-criterion-wellbeing",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.psychological-disorders",
-      "chapter": "Psychological Disorders",
-      "unit": "Psychological Disorders",
-      "kind": "key_line",
-      "front": "the best criterion for determining the normality of behaviour is not whether society accepts it but whether it fosters the ____ of the individual and eventually of the group to which s/he belongs.",
-      "back": "the best criterion for determining the normality of behaviour is not whether society accepts it but whether it fosters the well-being of the individual and eventually of the group to which s/he belongs.",
-      "quote": "the best criterion for determining the normality of behaviour is not whether society accepts it but whether it fosters the well-being of the individual and eventually of the group to which s/he belongs.",
-      "blanks": [
-        "well-being"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy104",
-        "chapterNo": 4,
-        "page": 71,
-        "section": "Concepts of Abnormality and Psychological Disorders"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "well-being"
-      ],
-      "order": 100,
-      "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.psychology.psychological-disorders.kl-biological-model",
       "v": 1,
       "subject": "psychology",
@@ -1611,40 +1140,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:'According to this model' names no model on the card; 'biochemical or physiological' vs 'biological/genetic' is not fixed. Add 'biological model'."
-      ]
-    },
-    {
-      "id": "kc.psychology.psychological-disorders.kl-neurotransmitter-disorders",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.psychological-disorders",
-      "chapter": "Psychological Disorders",
-      "unit": "Psychological Disorders",
-      "kind": "key_line",
-      "front": "Anxiety disorders have been linked to low activity of the neurotransmitter ____, schizophrenia to excess activity of ____, and depression to low activity of ____.",
-      "back": "Anxiety disorders have been linked to low activity of the neurotransmitter gamma aminobutyric acid (GABA), schizophrenia to excess activity of dopamine, and depression to low activity of serotonin.",
-      "quote": "Anxiety disorders have been linked to low activity of the neurotransmitter gamma aminobutyric acid (GABA), schizophrenia to excess activity of dopamine, and depression to low activity of serotonin.",
-      "blanks": [
-        "gamma aminobutyric acid (GABA)",
-        "dopamine",
-        "serotonin"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy104",
-        "chapterNo": 4,
-        "page": 74,
-        "section": "Factors Underlying Abnormal Behaviour"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "neurotransmitter"
-      ],
-      "order": 290,
-      "reasons": [
-        "shape:front_too_long"
       ]
     },
     {
@@ -1714,38 +1209,6 @@
       ]
     },
     {
-      "id": "kc.psychology.psychological-disorders.kl-behavioural-learned",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.psychological-disorders",
-      "chapter": "Psychological Disorders",
-      "unit": "Psychological Disorders",
-      "kind": "key_line",
-      "front": "This model states that both normal and abnormal behaviours are learned and psychological disorders are the result of ____.",
-      "back": "This model states that both normal and abnormal behaviours are learned and psychological disorders are the result of learning maladaptive ways of behaving.",
-      "quote": "This model states that both normal and abnormal behaviours are learned and psychological disorders are the result of learning maladaptive ways of behaving.",
-      "blanks": [
-        "learning maladaptive ways of behaving"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy104",
-        "chapterNo": 4,
-        "page": 74,
-        "section": "Factors Underlying Abnormal Behaviour"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "behavioural model"
-      ],
-      "order": 370,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.psychology.psychological-disorders.kl-irrational-assumptions",
       "v": 1,
       "subject": "psychology",
@@ -1776,71 +1239,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:No model named on the front (cognitive model); 'irrational and inaccurate' vs 'negative/unrealistic' is not a single answer."
-      ]
-    },
-    {
-      "id": "kc.psychology.psychological-disorders.kl-social-support",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.psychological-disorders",
-      "chapter": "Psychological Disorders",
-      "unit": "Psychological Disorders",
-      "kind": "key_line",
-      "front": "people who are isolated and lack ____, i.e. strong and fulfilling interpersonal relationships in their lives are likely to become more depressed and remain depressed longer than those who have good friendships.",
-      "back": "people who are isolated and lack social support, i.e. strong and fulfilling interpersonal relationships in their lives are likely to become more depressed and remain depressed longer than those who have good friendships.",
-      "quote": "people who are isolated and lack social support, i.e. strong and fulfilling interpersonal relationships in their lives are likely to become more depressed and remain depressed longer than those who have good friendships.",
-      "blanks": [
-        "social support"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy104",
-        "chapterNo": 4,
-        "page": 75,
-        "section": "Factors Underlying Abnormal Behaviour"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "socio-cultural model"
-      ],
-      "order": 460,
-      "reasons": [
-        "shape:front_too_long",
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.psychology.psychological-disorders.term-ptsd",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.psychological-disorders",
-      "chapter": "Psychological Disorders",
-      "unit": "Psychological Disorders",
-      "kind": "term",
-      "front": "Very often people who have been caught in a natural disaster (such as tsunami) or have been victims of bomb blasts by terrorists, or been in a serious accident or in a war-related situation, experience ____.",
-      "back": "Very often people who have been caught in a natural disaster (such as tsunami) or have been victims of bomb blasts by terrorists, or been in a serious accident or in a war-related situation, experience post-traumatic stress disorder (PTSD).",
-      "quote": "Very often people who have been caught in a natural disaster (such as tsunami) or have been victims of bomb blasts by terrorists, or been in a serious accident or in a war-related situation, experience post-traumatic stress disorder (PTSD).",
-      "blanks": [
-        "post-traumatic stress disorder (PTSD)"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy104",
-        "chapterNo": 4,
-        "page": 78,
-        "section": "Trauma- and Stressor-Related Disorders"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "PTSD"
-      ],
-      "order": 640,
-      "reasons": [
-        "shape:front_too_long"
       ]
     },
     {
@@ -2005,135 +1403,6 @@
       ]
     },
     {
-      "id": "kc.psychology.psychological-disorders.kl-alcohol-tolerance",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.psychological-disorders",
-      "chapter": "Psychological Disorders",
-      "unit": "Psychological Disorders",
-      "kind": "key_line",
-      "front": "Their bodies then build up a ____ for alcohol and they need to drink even greater amounts to feel its effects. They also experience ____ when they stop drinking.",
-      "back": "Their bodies then build up a tolerance for alcohol and they need to drink even greater amounts to feel its effects. They also experience withdrawal responses when they stop drinking.",
-      "quote": "Their bodies then build up a tolerance for alcohol and they need to drink even greater amounts to feel its effects. They also experience withdrawal responses when they stop drinking.",
-      "blanks": [
-        "tolerance",
-        "withdrawal responses"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy104",
-        "chapterNo": 4,
-        "page": 85,
-        "section": "Substance-Related and Addictive Disorders"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "alcohol"
-      ],
-      "order": 1290,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.psychology.psychological-disorders.kl-box42-depresses",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.psychological-disorders",
-      "chapter": "Psychological Disorders",
-      "unit": "Psychological Disorders",
-      "kind": "key_line",
-      "front": "This chemical is absorbed into the blood and carried into the central nervous system (brain and spinal cord) where it ____ functioning.",
-      "back": "This chemical is absorbed into the blood and carried into the central nervous system (brain and spinal cord) where it depresses or slows down functioning.",
-      "quote": "This chemical is absorbed into the blood and carried into the central nervous system (brain and spinal cord) where it depresses or slows down functioning.",
-      "blanks": [
-        "depresses or slows down"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy104",
-        "chapterNo": 4,
-        "page": 86,
-        "section": "Box 4.2 Effects of Alcohol : Some Facts"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "alcohol"
-      ],
-      "order": 1300,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.psychology.psychological-disorders.kl-heroin-overdose",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.psychological-disorders",
-      "chapter": "Psychological Disorders",
-      "unit": "Psychological Disorders",
-      "kind": "key_line",
-      "front": "The most direct danger of heroin abuse is an ____, which slows down the respiratory centres in the brain, almost paralysing breathing, and in many cases causing death.",
-      "back": "The most direct danger of heroin abuse is an overdose, which slows down the respiratory centres in the brain, almost paralysing breathing, and in many cases causing death.",
-      "quote": "The most direct danger of heroin abuse is an overdose, which slows down the respiratory centres in the brain, almost paralysing breathing, and in many cases causing death.",
-      "blanks": [
-        "overdose"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy104",
-        "chapterNo": 4,
-        "page": 86,
-        "section": "Heroin"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "heroin"
-      ],
-      "order": 1320,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.psychology.psychological-disorders.kl-cocaine-dependence",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.psychological-disorders",
-      "chapter": "Psychological Disorders",
-      "unit": "Psychological Disorders",
-      "kind": "key_line",
-      "front": "Dependence may develop, so that ____, more of the drug is needed to get the desired effects, and stopping it results in feelings of depression, fatigue, sleep problems, irritability and anxiety.",
-      "back": "Dependence may develop, so that cocaine dominates the person's life, more of the drug is needed to get the desired effects, and stopping it results in feelings of depression, fatigue, sleep problems, irritability and anxiety.",
-      "quote": "Dependence may develop, so that cocaine dominates the person's life, more of the drug is needed to get the desired effects, and stopping it results in feelings of depression, fatigue, sleep problems, irritability and anxiety.",
-      "blanks": [
-        "cocaine dominates the person's life"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy104",
-        "chapterNo": 4,
-        "page": 86,
-        "section": "Cocaine"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "cocaine"
-      ],
-      "order": 1330,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
       "id": "kc.psychology.therapeutic-approaches.kl-psychotherapy-purpose",
       "v": 1,
       "subject": "psychology",
@@ -2169,15 +1438,15 @@
     },
     {
       "id": "kc.psychology.therapeutic-approaches.kl-psychotherapy-aims",
-      "v": 1,
+      "v": 2,
       "subject": "psychology",
       "chapterKey": "psychology.therapeutic-approaches",
       "chapter": "Therapeutic Approaches",
       "unit": "Therapeutic Approaches",
       "kind": "key_line",
-      "front": "Psychotherapies aim at changing the ____ behaviours, decreasing the sense of personal distress, and helping the client to adapt better to her/his environment.",
-      "back": "Psychotherapies aim at changing the maladaptive behaviours, decreasing the sense of personal distress, and helping the client to adapt better to her/his environment.",
-      "quote": "Psychotherapies aim at changing the maladaptive behaviours, decreasing the sense of personal distress, and helping the client to adapt better to her/his environment.",
+      "front": "Psychotherapies aim at changing the ____ behaviours, decreasing the sense of personal distress",
+      "back": "Psychotherapies aim at changing the maladaptive behaviours, decreasing the sense of personal distress",
+      "quote": "Psychotherapies aim at changing the maladaptive behaviours, decreasing the sense of personal distress",
       "blanks": [
         "maladaptive"
       ],
@@ -2196,132 +1465,8 @@
       ],
       "order": 30,
       "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-therapeutic-relationship-nature",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "This is a ____, interpersonal, and dynamic relationship.",
-      "back": "This is a confidential, interpersonal, and dynamic relationship.",
-      "quote": "This is a confidential, interpersonal, and dynamic relationship.",
-      "blanks": [
-        "confidential"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 90,
-        "section": "Nature and Process of Psychotherapy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "therapeutic-alliance"
-      ],
-      "order": 50,
-      "note": "The therapist-client bond is described as confidential, interpersonal and dynamic.",
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-alliance-confidentiality",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "The therapeutic alliance also requires that the therapist must keep strict ____ of the experiences, events, feelings or thoughts disclosed by the client.",
-      "back": "The therapeutic alliance also requires that the therapist must keep strict confidentiality of the experiences, events, feelings or thoughts disclosed by the client.",
-      "quote": "The therapeutic alliance also requires that the therapist must keep strict confidentiality of the experiences, events, feelings or thoughts disclosed by the client.",
-      "blanks": [
-        "confidentiality"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 91,
-        "section": "Therapeutic Relationship"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "therapeutic-alliance"
-      ],
-      "order": 130,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.list-six-parameters",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "list",
-      "front": "Name the 6 parameters on which psychotherapies are classified.",
-      "back": "What is the cause, which has led to the problem?\nHow did the cause come into existence?\nWhat is the chief method of treatment?\nWhat is the nature of the therapeutic relationship between the client and the therapist?\nWhat is the chief benefit to the client?\nWhat is the duration of treatment?",
-      "quote": "The classification of psychotherapies is based on the following parameters:",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 92,
-        "section": "Type of Therapies"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "classification"
-      ],
-      "order": 160,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.list-clinical-formulation-advantages",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "list",
-      "front": "Name the 3 advantages of clinical formulation.",
-      "back": "Understanding of the problem\nIdentification of the areas to be targetted for treatment in psychotherapy\nChoice of techniques for treatment",
-      "quote": "The clinical formulation has the following advantages:",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 93,
-        "section": "Steps in the Formulation of a Client's Problem"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "clinical-formulation"
-      ],
-      "order": 300,
-      "reasons": [
-        "shape:back_not_quote"
+        "review:not_unambiguous",
+        "review:Blank \"maladaptive\" has obvious synonyms (abnormal, faulty, unhealthy, undesirable) that a student would write; the sentence does not force one fill."
       ]
     },
     {
@@ -2358,19 +1503,17 @@
       ]
     },
     {
-      "id": "kc.psychology.therapeutic-approaches.kl-clinical-formulation-must",
+      "id": "kc.psychology.therapeutic-approaches.fact-clinical-formulation-before-therapy",
       "v": 1,
       "subject": "psychology",
       "chapterKey": "psychology.therapeutic-approaches",
       "chapter": "Therapeutic Approaches",
       "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "It is not ____ to start psychotherapy without a clinical formulation.",
-      "back": "It is not advisable to start psychotherapy without a clinical formulation.",
+      "kind": "fact",
+      "front": "Is it advisable to begin psychotherapy without first making a clinical formulation?",
+      "back": "No.\nIt is not advisable to start psychotherapy without a clinical formulation.",
       "quote": "It is not advisable to start psychotherapy without a clinical formulation.",
-      "blanks": [
-        "advisable"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Psychology",
@@ -2386,19 +1529,20 @@
       ],
       "order": 320,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Yes/no front is guessable (50 percent) and tests nothing a student must recall; the useful content (clinical formulation first) is better as a statement."
       ]
     },
     {
       "id": "kc.psychology.therapeutic-approaches.ex-smoking-antecedent-maintaining",
-      "v": 1,
+      "v": 2,
       "subject": "psychology",
       "chapterKey": "psychology.therapeutic-approaches",
       "chapter": "Therapeutic Approaches",
       "unit": "Therapeutic Approaches",
       "kind": "example",
       "front": "A young person started smoking during exam preparation and felt relief from anxiety. Name the antecedent and maintaining factors.",
-      "back": "Antecedent factor: the anxiety-provoking situation. Maintaining factor: the feeling of relief.\nThus, anxiety-provoking situation becomes the causative or antecedent factor. The feeling of relief becomes the maintaining factor for him to continue smoking.",
+      "back": "Antecedent: anxiety-provoking situation. Maintaining: relief from anxiety.\nThus, anxiety-provoking situation becomes the causative or antecedent factor. The feeling of relief becomes the maintaining factor for him to continue smoking.",
       "quote": "Thus, anxiety-provoking situation becomes the causative or antecedent factor. The feeling of relief becomes the maintaining factor for him to continue smoking.",
       "blanks": [],
       "source": {
@@ -2416,7 +1560,9 @@
       ],
       "order": 390,
       "reasons": [
-        "shape:back_not_quote"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Case-story filler: the exam-smoking case is an illustration; the testable point is the definitions of antecedent and maintaining factors. Front already gives away the maintaining factor (relief from anxiety) and \"exam preparation\" is an equally valid antecedent answer to NCERT's \"anxiety-provoking s"
       ]
     },
     {
@@ -2455,14 +1601,14 @@
     },
     {
       "id": "kc.psychology.therapeutic-approaches.ex-dinner-operations",
-      "v": 1,
+      "v": 2,
       "subject": "psychology",
       "chapterKey": "psychology.therapeutic-approaches",
       "chapter": "Therapeutic Approaches",
       "unit": "Therapeutic Approaches",
       "kind": "example",
       "front": "A child gives trouble in eating dinner. Which is the antecedent operation and which the consequent operation?",
-      "back": "Antecedent operation: reduction of food at tea time. Consequent operation: praising the child for eating dinner.\nThe antecedent operation is the reduction of food at tea time and the consequent operation is praising the child for eating dinner.",
+      "back": "Antecedent: less food at tea time. Consequent: praise for eating dinner.\nThe antecedent operation is the reduction of food at tea time and the consequent operation is praising the child for eating dinner.",
       "quote": "The antecedent operation is the reduction of food at tea time and the consequent operation is praising the child for eating dinner.",
       "blanks": [],
       "source": {
@@ -2480,7 +1626,9 @@
       ],
       "order": 430,
       "reasons": [
-        "shape:back_not_quote"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Case-story filler (child, dinner, tea time); not a point worth a CUET student's memory by itself. Front does not determine the answer: \"less food at tea time\" and \"praise\" cannot be derived from the question, a student could give other operations."
       ]
     },
     {
@@ -2551,15 +1699,15 @@
     },
     {
       "id": "kc.psychology.therapeutic-approaches.kl-progressive-muscular-relaxation",
-      "v": 1,
+      "v": 2,
       "subject": "psychology",
       "chapterKey": "psychology.therapeutic-approaches",
       "chapter": "Therapeutic Approaches",
       "unit": "Therapeutic Approaches",
       "kind": "key_line",
-      "front": "In progressive muscular relaxation, the client is taught to ____ individual muscle groups in order to give the awareness of tenseness or muscular tension.",
-      "back": "In progressive muscular relaxation, the client is taught to contract individual muscle groups in order to give the awareness of tenseness or muscular tension.",
-      "quote": "In progressive muscular relaxation, the client is taught to contract individual muscle groups in order to give the awareness of tenseness or muscular tension.",
+      "front": "In progressive muscular relaxation, the client is taught to ____ individual muscle groups",
+      "back": "In progressive muscular relaxation, the client is taught to contract individual muscle groups",
+      "quote": "In progressive muscular relaxation, the client is taught to contract individual muscle groups",
       "blanks": [
         "contract"
       ],
@@ -2578,7 +1726,8 @@
       ],
       "order": 520,
       "reasons": [
-        "shape:front_too_long"
+        "review:not_unambiguous",
+        "review:Blank \"contract\" has an obvious synonym: NCERT itself says in the next sentence the client learns to \"tense\" the muscle group; \"tense\" fits the gap equally."
       ]
     },
     {
@@ -2610,72 +1759,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Front says '(first steps)' and the back is a paragraph, not NCERT titled ordered steps, so the answer is vague and incomplete; systematic desensitisation procedure is a CUET staple and should be must."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-beck-core-schemas",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "childhood experiences provided by the family and society develop ____ or systems, which include beliefs and action patterns in the individual.",
-      "back": "childhood experiences provided by the family and society develop core schemas or systems, which include beliefs and action patterns in the individual.",
-      "quote": "childhood experiences provided by the family and society develop core schemas or systems, which include beliefs and action patterns in the individual.",
-      "blanks": [
-        "core schemas"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 97,
-        "section": "Cognitive Therapy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "cognitive-therapy",
-        "beck"
-      ],
-      "order": 670,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.term-dysfunctional-cognitive-structures",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "term",
-      "front": "These patterns of thought are called ____.",
-      "back": "These patterns of thought are called dysfunctional cognitive structures.",
-      "quote": "These patterns of thought are called dysfunctional cognitive structures.",
-      "blanks": [
-        "dysfunctional cognitive structures"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 97,
-        "section": "Cognitive Therapy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "cognitive-therapy",
-        "beck"
-      ],
-      "order": 710,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -2746,39 +1829,6 @@
       ]
     },
     {
-      "id": "kc.psychology.therapeutic-approaches.kl-humanistic-cause",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "psychological distress arises from feelings of ____, ____, and an inability to find meaning and genuine fulfilment in life.",
-      "back": "psychological distress arises from feelings of loneliness, alienation, and an inability to find meaning and genuine fulfilment in life.",
-      "quote": "psychological distress arises from feelings of loneliness, alienation, and an inability to find meaning and genuine fulfilment in life.",
-      "blanks": [
-        "loneliness",
-        "alienation"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 98,
-        "section": "Humanistic-existential Therapy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "humanistic-existential"
-      ],
-      "order": 780,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.psychology.therapeutic-approaches.kl-humanistic-chief-aim",
       "v": 1,
       "subject": "psychology",
@@ -2812,48 +1862,16 @@
       ]
     },
     {
-      "id": "kc.psychology.therapeutic-approaches.kl-spiritual-unconscious",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "there is a ____, which is the storehouse of love, aesthetic awareness, and values of life.",
-      "back": "there is a spiritual unconscious, which is the storehouse of love, aesthetic awareness, and values of life.",
-      "quote": "there is a spiritual unconscious, which is the storehouse of love, aesthetic awareness, and values of life.",
-      "blanks": [
-        "spiritual unconscious"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 99,
-        "section": "Existential Therapy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "logotherapy"
-      ],
-      "order": 860,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.psychology.therapeutic-approaches.kl-existential-anxiety",
-      "v": 1,
+      "v": 2,
       "subject": "psychology",
       "chapterKey": "psychology.therapeutic-approaches",
       "chapter": "Therapeutic Approaches",
       "unit": "Therapeutic Approaches",
       "kind": "key_line",
-      "front": "Frankl emphasised the role of spiritual anxieties in leading to meaninglessness and hence it may be called an ____, i.e. neurotic anxiety of spiritual origin.",
-      "back": "Frankl emphasised the role of spiritual anxieties in leading to meaninglessness and hence it may be called an existential anxiety, i.e. neurotic anxiety of spiritual origin.",
-      "quote": "Frankl emphasised the role of spiritual anxieties in leading to meaninglessness and hence it may be called an existential anxiety, i.e. neurotic anxiety of spiritual origin.",
+      "front": "Frankl emphasised the role of spiritual anxieties in leading to meaninglessness and hence it may be called an ____",
+      "back": "Frankl emphasised the role of spiritual anxieties in leading to meaninglessness and hence it may be called an existential anxiety",
+      "quote": "Frankl emphasised the role of spiritual anxieties in leading to meaninglessness and hence it may be called an existential anxiety",
       "blanks": [
         "existential anxiety"
       ],
@@ -2872,7 +1890,8 @@
       ],
       "order": 870,
       "reasons": [
-        "shape:front_too_long"
+        "review:not_unambiguous",
+        "review:Front uses a dangling \"it\" and the same passage also says \"neurotic anxiety of spiritual origin\", so \"neurotic anxiety\" is a plausible fill for \"an ____\"; not a single clear answer."
       ]
     },
     {
@@ -3073,7 +2092,7 @@
     },
     {
       "id": "kc.psychology.therapeutic-approaches.list-healing-factors",
-      "v": 1,
+      "v": 2,
       "subject": "psychology",
       "chapterKey": "psychology.therapeutic-approaches",
       "chapter": "Therapeutic Approaches",
@@ -3081,7 +2100,7 @@
       "kind": "list",
       "front": "Name the factors that contribute to healing in psychotherapy.",
       "back": "A major factor in the healing is the techniques adopted by the therapist and the implementation of the same with the patient/client.\nThe therapeutic alliance, which is formed between the therapist and the patient/client, has healing properties\nThis process of emotional unburdening is known as catharsis, and it has healing properties.\nThere are several non-specific factors associated with psychotherapy.",
-      "quote": "There are several factors which contribute to the healing process. Some of these factors are as follows : 1. A major factor in the healing is the techniques adopted by the therapist and the implementation of the same with the patient/client.",
+      "quote": "There are several factors which contribute to the healing process. Some of these factors are as follows : 1. A major factor in the healing is the techniques adopted by the therapist and the implementation of the same with the patient/client. If the behavioural system and the CBT school are adopted to heal an anxious client, the relaxation procedures and the cognitive restructuring largely contribute to the healing. 2. The therapeutic alliance, which is formed between the therapist and the patient/client, has healing properties, because of the regular availability of the therapist, and the warmth and empathy provided by the therapist. 3. At the outset of therapy while the patient/client is being interviewed in the initial sessions to understand the nature of the problem, s/he unburdens the emotional problems being faced. This process of emotional unburdening is known as catharsis, and it has healing properties. 4. There are several non-specific factors associated with psychotherapy.",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -3098,39 +2117,8 @@
       ],
       "order": 990,
       "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-catharsis",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "This process of emotional unburdening is known as ____, and it has healing properties.",
-      "back": "This process of emotional unburdening is known as catharsis, and it has healing properties.",
-      "quote": "This process of emotional unburdening is known as catharsis, and it has healing properties.",
-      "blanks": [
-        "catharsis"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 100,
-        "section": "Factors Contributing to Healing in Psychotherapy"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "healing"
-      ],
-      "order": 1000,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Front gives no count (4) so the student cannot know the list is complete; back item 3 starts \"This process\" with no named factor and item 4 is not a named factor, so the items do not stand alone."
       ]
     },
     {
@@ -3168,15 +2156,15 @@
     },
     {
       "id": "kc.psychology.therapeutic-approaches.kl-severe-disorders-quality",
-      "v": 1,
+      "v": 2,
       "subject": "psychology",
       "chapterKey": "psychology.therapeutic-approaches",
       "chapter": "Therapeutic Approaches",
       "unit": "Therapeutic Approaches",
       "kind": "key_line",
-      "front": "However, in the case of severe mental disorders such as ____, reduction of symptoms may not be associated with an improvement in the quality of life.",
-      "back": "However, in the case of severe mental disorders such as schizophrenia, reduction of symptoms may not be associated with an improvement in the quality of life.",
-      "quote": "However, in the case of severe mental disorders such as schizophrenia, reduction of symptoms may not be associated with an improvement in the quality of life.",
+      "front": "In the case of severe mental disorders such as ____, reduction of symptoms may not be associated with an improvement in the quality of life.",
+      "back": "In the case of severe mental disorders such as schizophrenia, reduction of symptoms may not be associated with an improvement in the quality of life.",
+      "quote": "In the case of severe mental disorders such as schizophrenia, reduction of symptoms may not be associated with an improvement in the quality of life.",
       "blanks": [
         "schizophrenia"
       ],
@@ -3195,7 +2183,8 @@
       ],
       "order": 1190,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Blank after \"severe mental disorders such as\" accepts other severe disorders (bipolar disorder, psychosis); only NCERT happens to name schizophrenia, so it is not a single fill."
       ]
     },
     {
@@ -3232,52 +2221,17 @@
       ]
     },
     {
-      "id": "kc.psychology.attitude-and-social-cognition.kl-attitude-emotional-tendency",
+      "id": "kc.psychology.attitude-and-social-cognition.fact-attitude-part-of-cognition",
       "v": 1,
       "subject": "psychology",
       "chapterKey": "psychology.attitude-and-social-cognition",
       "chapter": "Attitude & Social Cognition",
       "unit": "Attitude and Social Cognition",
-      "kind": "key_line",
-      "front": "It is accompanied by an ____ component, and a ____ in a particular way with regard to the attitude object.",
-      "back": "It is accompanied by an emotional component, and a tendency to act in a particular way with regard to the attitude object.",
-      "quote": "It is accompanied by an emotional component, and a tendency to act in a particular way with regard to the attitude object.",
-      "blanks": [
-        "emotional",
-        "tendency to act"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy106",
-        "chapterNo": 6,
-        "page": 105,
-        "section": "Nature and Components of Attitudes"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "attitude"
-      ],
-      "order": 40,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.psychology.attitude-and-social-cognition.kl-attitude-part-of-cognition",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.attitude-and-social-cognition",
-      "chapter": "Attitude & Social Cognition",
-      "unit": "Attitude and Social Cognition",
-      "kind": "key_line",
-      "front": "They are part of ____, along with an emotional component, and cannot be observed from outside.",
-      "back": "They are part of cognition, along with an emotional component, and cannot be observed from outside.",
+      "kind": "fact",
+      "front": "Attitudes cannot be observed from outside. Of what are they a part, along with an emotional component?",
+      "back": "Cognition.\nThey are part of cognition, along with an emotional component, and cannot be observed from outside.",
       "quote": "They are part of cognition, along with an emotional component, and cannot be observed from outside.",
-      "blanks": [
-        "cognition"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Psychology",
@@ -3293,7 +2247,9 @@
       ],
       "order": 80,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Odd, low-value NCERT sentence; the A-B-C components are already covered, and \"part of cognition\" is trivia. \"Of what are they a part?\" has other defensible answers (attitude system, personality, social cognition); the answer \"cognition\" cannot be reached from the front."
       ]
     },
     {
@@ -3328,66 +2284,6 @@
       ]
     },
     {
-      "id": "kc.psychology.attitude-and-social-cognition.list-formation-processes",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.attitude-and-social-cognition",
-      "chapter": "Attitude & Social Cognition",
-      "unit": "Attitude and Social Cognition",
-      "kind": "list",
-      "front": "Name the processes of attitude formation (learning of attitudes).",
-      "back": "Learning attitudes by association\nLearning attitudes by being rewarded or punished\nLearning attitudes through modelling (observing others)\nLearning attitudes through group or cultural norms\nLearning through exposure to information",
-      "quote": "The processes and conditions of learning may be different, resulting in varying attitudes among people.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy106",
-        "chapterNo": 6,
-        "page": 107,
-        "section": "Process of Attitude Formation"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "attitude formation"
-      ],
-      "order": 270,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.psychology.attitude-and-social-cognition.list-formation-factors",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.attitude-and-social-cognition",
-      "chapter": "Attitude & Social Cognition",
-      "unit": "Attitude and Social Cognition",
-      "kind": "list",
-      "front": "Name the factors that influence attitude formation.",
-      "back": "Family and School Environment\nReference Groups\nPersonal Experiences\nMedia-related Influences",
-      "quote": "The following factors provide the context for the learning of attitudes through the processes described above.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy106",
-        "chapterNo": 6,
-        "page": 108,
-        "section": "Factors that Influence Attitude Formation"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "attitude formation"
-      ],
-      "order": 330,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
       "id": "kc.psychology.attitude-and-social-cognition.ex-army-driver-example",
       "v": 1,
       "subject": "psychology",
@@ -3419,39 +2315,6 @@
       ]
     },
     {
-      "id": "kc.psychology.attitude-and-social-cognition.kl-media-components",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.attitude-and-social-cognition",
-      "chapter": "Attitude & Social Cognition",
-      "unit": "Attitude and Social Cognition",
-      "kind": "key_line",
-      "front": "These sources first strengthen the ____ components of attitudes, and subsequently may also affect the ____ component.",
-      "back": "These sources first strengthen the cognitive and affective components of attitudes, and subsequently may also affect the behavioural component.",
-      "quote": "These sources first strengthen the cognitive and affective components of attitudes, and subsequently may also affect the behavioural component.",
-      "blanks": [
-        "cognitive and affective",
-        "behavioural"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy106",
-        "chapterNo": 6,
-        "page": 109,
-        "section": "Factors that Influence Attitude Formation"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "media"
-      ],
-      "order": 380,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.psychology.attitude-and-social-cognition.fact-valence-neutral",
       "v": 1,
       "subject": "psychology",
@@ -3480,36 +2343,6 @@
       "reasons": [
         "review:not_important",
         "review:Circular trivia: a neutral attitude has neither positive nor negative valence follows from the word neutral; not a mark-carrying fact."
-      ]
-    },
-    {
-      "id": "kc.psychology.attitude-and-social-cognition.list-change-three-concepts",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.attitude-and-social-cognition",
-      "chapter": "Attitude & Social Cognition",
-      "unit": "Attitude and Social Cognition",
-      "kind": "list",
-      "front": "Name the three major concepts of the process of attitude change.",
-      "back": "The concept of balance\nThe concept of cognitive dissonance\nThe two-step concept",
-      "quote": "Three major concepts that draw attention to some important processes in attitude change are described below :",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy106",
-        "chapterNo": 6,
-        "page": 109,
-        "section": "Process of Attitude Change"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "attitude change"
-      ],
-      "order": 450,
-      "reasons": [
-        "shape:back_not_quote"
       ]
     },
     {
@@ -3572,97 +2405,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Front depends on Box 6.2 (the '$20 group' and the experiment are not described on the card); add the context to the front."
-      ]
-    },
-    {
-      "id": "kc.psychology.attitude-and-social-cognition.steps-two-step-steps",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.attitude-and-social-cognition",
-      "chapter": "Attitude & Social Cognition",
-      "unit": "Attitude and Social Cognition",
-      "kind": "steps",
-      "front": "Steps in Mohsin’s two-step concept of attitude change, in order.",
-      "back": "In the first step, the target of change identifies with the source.\nIn the second step, the source herself/himself shows an attitude change, by actually changing her/him behaviour towards the attitude object.",
-      "quote": "In the first step, the target of change identifies with the source.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy106",
-        "chapterNo": 6,
-        "page": 110,
-        "section": "Process of Attitude Change"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "two-step",
-        "Mohsin"
-      ],
-      "order": 620,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.psychology.attitude-and-social-cognition.list-change-factors",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.attitude-and-social-cognition",
-      "chapter": "Attitude & Social Cognition",
-      "unit": "Attitude and Social Cognition",
-      "kind": "list",
-      "front": "Name the major factors that influence attitude change.",
-      "back": "Characteristics of the existing attitude\nSource characteristics\nMessage characteristics\nTarget characteristics",
-      "quote": "However, most of them agree upon the following major factors that influence attitude change :",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy106",
-        "chapterNo": 6,
-        "page": 111,
-        "section": "Factors that Influence Attitude Change"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "attitude change"
-      ],
-      "order": 650,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.psychology.attitude-and-social-cognition.list-consistency-conditions",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.attitude-and-social-cognition",
-      "chapter": "Attitude & Social Cognition",
-      "unit": "Attitude and Social Cognition",
-      "kind": "list",
-      "front": "When is there consistency between attitudes and behaviour?",
-      "back": "the attitude is strong, and occupies a central place in the attitude system\nthe person is aware of her/his attitude\nthere is very little or no external pressure for the person to behave in a particular way\nthe person’s behaviour is not being watched or evaluated by others\nthe person thinks that the behaviour would have a positive consequence, and therefore, intends to engage in that behaviour",
-      "quote": "Psychologists have found that there would be consistency between attitudes and behaviour when :",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy106",
-        "chapterNo": 6,
-        "page": 115,
-        "section": "Attitude-Behaviour Relationship"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "attitude-behaviour"
-      ],
-      "order": 850,
-      "reasons": [
-        "shape:back_not_quote"
       ]
     },
     {
@@ -3730,37 +2472,6 @@
       ]
     },
     {
-      "id": "kc.psychology.attitude-and-social-cognition.list-prejudice-sources",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.attitude-and-social-cognition",
-      "chapter": "Attitude & Social Cognition",
-      "unit": "Attitude and Social Cognition",
-      "kind": "list",
-      "front": "Name the sources of prejudice.",
-      "back": "Learning\nA strong social identity and ingroup bias\nScapegoating\nKernel of truth concept\nSelf-fulfilling prophecy",
-      "quote": "Social psychologists have shown that prejudice has one or more of the following sources :",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy106",
-        "chapterNo": 6,
-        "page": 116,
-        "section": "Prejudice and Discrimination"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "prejudice",
-        "sources"
-      ],
-      "order": 960,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
       "id": "kc.psychology.attitude-and-social-cognition.kl-scapegoating-frustration",
       "v": 1,
       "subject": "psychology",
@@ -3791,126 +2502,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Alternatives such as anger, hostility or aggression also fit 'a group-based way of expressing ____'; only the NCERT word 'frustration' is accepted."
-      ]
-    },
-    {
-      "id": "kc.psychology.attitude-and-social-cognition.list-handling-aims",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.attitude-and-social-cognition",
-      "chapter": "Attitude & Social Cognition",
-      "unit": "Attitude and Social Cognition",
-      "kind": "list",
-      "front": "Strategies for handling prejudice are effective if they aim at which four things?",
-      "back": "minimising opportunities for learning prejudices\nchanging such attitudes\nde-emphasising a narrow social identity based on the ingroup\ndiscouraging the tendency towards self-fulfilling prophecy among the victims of prejudice",
-      "quote": "Thus, the strategies for handling prejudice would be effective if they aim at :",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy106",
-        "chapterNo": 6,
-        "page": 117,
-        "section": "Strategies for Handling Prejudice"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "strategies"
-      ],
-      "order": 1050,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.psychology.attitude-and-social-cognition.list-handling-methods",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.attitude-and-social-cognition",
-      "chapter": "Attitude & Social Cognition",
-      "unit": "Attitude and Social Cognition",
-      "kind": "list",
-      "front": "Name the ways of accomplishing the goals of handling prejudice.",
-      "back": "Education and information dissemination\nIncreasing intergroup contact\nHighlighting individual identity rather than group identity",
-      "quote": "These goals can be accomplished through :",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy106",
-        "chapterNo": 6,
-        "page": 117,
-        "section": "Strategies for Handling Prejudice"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "strategies"
-      ],
-      "order": 1060,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.psychology.attitude-and-social-cognition.list-contact-conditions",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.attitude-and-social-cognition",
-      "chapter": "Attitude & Social Cognition",
-      "unit": "Attitude and Social Cognition",
-      "kind": "list",
-      "front": "Intergroup contact strategies succeed only if which three conditions hold?",
-      "back": "the two groups meet in a cooperative rather than competitive context\nclose interactions between the groups helps them to know each other better\nthe two groups are not different in power or status",
-      "quote": "However, these strategies are successful only if :",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy106",
-        "chapterNo": 6,
-        "page": 117,
-        "section": "Strategies for Handling Prejudice"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "strategies"
-      ],
-      "order": 1090,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.psychology.social-influence-and-group-processes.list-group-characteristics",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "list",
-      "front": "Name the salient characteristics of groups.",
-      "back": "A social unit consisting of two or more individuals who perceive themselves as belonging to the group.\nA collection of individuals who have common motives and goals.\nA collection of individuals who are interdependent, i.e. what one is doing may have consequences for others.\nIndividuals who are trying to satisfy a need through their joint association also influence each other.\nA gathering of individuals who interact with one another either directly or indirectly.\nA collection of individuals whose interactions are structured by a set of roles and norms.",
-      "quote": "Groups have the following salient characteristics :",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 121,
-        "section": "What is a Group?"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "group"
-      ],
-      "order": 20,
-      "reasons": [
-        "shape:back_not_quote"
       ]
     },
     {
@@ -4083,36 +2674,6 @@
       ]
     },
     {
-      "id": "kc.psychology.social-influence-and-group-processes.list-why-join-groups",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "list",
-      "front": "Name the reasons why people join groups.",
-      "back": "Security: When we are alone, we feel insecure.\nStatus: When we are members of a group that is perceived to be important by others, we feel recognised and experience a sense of power.\nSelf-esteem: Groups provide feelings of self-worth and establish a positive social identity.\nSatisfaction of one’s psychological and social needs: Groups satisfy one’s social and psychological needs such as sense of belongingness, giving and receiving attention, love, and power through a group.\nGoal achievement: Groups help in achieving such goals which cannot be attained individually.\nProvide knowledge and information: Group membership provides knowledge and information and thus broadens our view.",
-      "quote": "People join groups because these groups satisfy a range of needs.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 123,
-        "section": "Why Do People Join Groups?"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "group-membership"
-      ],
-      "order": 140,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
       "id": "kc.psychology.social-influence-and-group-processes.kl-similarity-validate",
       "v": 1,
       "subject": "psychology",
@@ -4209,36 +2770,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Ambiguous: 'this stage' has no antecedent in the front (storming is never named), so the card cannot be answered; 'hierarchy' also has synonyms (structure)."
-      ]
-    },
-    {
-      "id": "kc.psychology.social-influence-and-group-processes.list-group-structure-elements",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "list",
-      "front": "Name the four important elements of group structure.",
-      "back": "Roles\nNorms\nStatus\nCohesiveness",
-      "quote": "Four important elements of group structure are :",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 125,
-        "section": "Group Structure"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "group-structure"
-      ],
-      "order": 270,
-      "reasons": [
-        "shape:back_not_quote"
       ]
     },
     {
@@ -4541,51 +3072,17 @@
       ]
     },
     {
-      "id": "kc.psychology.social-influence-and-group-processes.kl-loafing-less-hard",
+      "id": "kc.psychology.social-influence-and-group-processes.fact-loafing-free-rider",
       "v": 1,
       "subject": "psychology",
       "chapterKey": "psychology.social-influence-and-group-processes",
       "chapter": "Social Influence & Group Processes",
       "unit": "Social Influence and Group Processes",
-      "kind": "key_line",
-      "front": "It has been found that individuals work ____ in a group than they do when performing alone.",
-      "back": "It has been found that individuals work less hard in a group than they do when performing alone.",
-      "quote": "It has been found that individuals work less hard in a group than they do when performing alone.",
-      "blanks": [
-        "less hard"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 128,
-        "section": "Social Loafing"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "social-loafing"
-      ],
-      "order": 580,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.psychology.social-influence-and-group-processes.kl-loafing-free-rider",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "key_line",
-      "front": "Such situations give opportunities to group members to relax and become a ____.",
-      "back": "Such situations give opportunities to group members to relax and become a free rider.",
-      "quote": "Such situations give opportunities to group members to relax and become a free rider.",
-      "blanks": [
-        "free rider"
-      ],
+      "kind": "fact",
+      "front": "In social loafing, what does a group member who relaxes in a collective task become?",
+      "back": "A free rider\nSuch situations give opportunities to group members to relax and become a free rider.",
+      "quote": "It is not possible for you to identify how much force each member of the team has been exerting. Such situations give opportunities to group members to relax and become a free rider.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Psychology",
@@ -4601,7 +3098,8 @@
       ],
       "order": 600,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Front asks for a term with obvious synonyms: 'a social loafer' or 'a loafer' fits as well as 'a free rider'; only NCERT's wording is accepted."
       ]
     },
     {
@@ -4633,98 +3131,6 @@
       "reasons": [
         "review:not_important",
         "review:Not important: Group sizes (alone, two, four, six) are experimental trivia, not exam-tested content."
-      ]
-    },
-    {
-      "id": "kc.psychology.social-influence-and-group-processes.list-loafing-causes",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "list",
-      "front": "Name the explanations offered for why social loafing occurs.",
-      "back": "Group members feel less responsible for the overall task being performed and therefore exert less effort.\nMotivation of members decreases because they realise that their contributions will not be evaluated on individual basis.\nThe performance of the group is not to be compared with other groups.\nThere is an improper coordination (or no coordination) among members.\nBelonging to the same group is not important for members.",
-      "quote": "Why does social loafing occur? The explanations offered are:",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 128,
-        "section": "Social Loafing"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "social-loafing"
-      ],
-      "order": 640,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.psychology.social-influence-and-group-processes.list-loafing-reduce",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "list",
-      "front": "Name the ways in which social loafing may be reduced.",
-      "back": "Making the efforts of each person identifiable.\nIncreasing the pressure to work hard (making group members committed to successful task performance).\nIncreasing the apparent importance or value of a task.\nMaking people feel that their individual contribution is important.\nStrengthening group cohesiveness which increases the motivation for successful group outcome.",
-      "quote": "Social loafing may be reduced by:",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 128,
-        "section": "Social Loafing"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "social-loafing"
-      ],
-      "order": 650,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.psychology.social-influence-and-group-processes.kl-polarisation-extreme",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "key_line",
-      "front": "It has been found that groups are more likely to take ____ decisions than individuals alone.",
-      "back": "It has been found that groups are more likely to take extreme decisions than individuals alone.",
-      "quote": "It has been found that groups are more likely to take extreme decisions than individuals alone.",
-      "blanks": [
-        "extreme"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 129,
-        "section": "Group Polarisation"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "group-polarisation"
-      ],
-      "order": 670,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -4761,19 +3167,17 @@
       ]
     },
     {
-      "id": "kc.psychology.social-influence-and-group-processes.kl-polarisation-dangerous",
+      "id": "kc.psychology.social-influence-and-group-processes.fact-polarisation-dangerous",
       "v": 1,
       "subject": "psychology",
       "chapterKey": "psychology.social-influence-and-group-processes",
       "chapter": "Social Influence & Group Processes",
       "unit": "Social Influence and Group Processes",
-      "kind": "key_line",
-      "front": "This may sometimes have ____ repercussions as groups may take extreme positions, i.e. from very weak to very strong decisions.",
-      "back": "This may sometimes have dangerous repercussions as groups may take extreme positions, i.e. from very weak to very strong decisions.",
-      "quote": "This may sometimes have dangerous repercussions as groups may take extreme positions, i.e. from very weak to very strong decisions.",
-      "blanks": [
-        "dangerous"
-      ],
+      "kind": "fact",
+      "front": "What kind of repercussions may group polarisation sometimes have?",
+      "back": "Dangerous repercussions\nThis may sometimes have dangerous repercussions as groups may take extreme positions, i.e. from very weak to very strong decisions.",
+      "quote": "This strengthening of the group's initial position as a result of group interaction and discussion is referred to as group polarisation. This may sometimes have dangerous repercussions as groups may take extreme positions, i.e. from very weak to very strong decisions.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Psychology",
@@ -4789,37 +3193,9 @@
       ],
       "order": 690,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.psychology.social-influence-and-group-processes.list-polarisation-causes",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "list",
-      "front": "Name the three reasons why group polarisation occurs.",
-      "back": "In the company of like-minded people, you are likely to hear newer arguments favouring your viewpoints.\nWhen you find others also favouring capital punishment, you feel that this view is validated by the public. This is a sort of bandwagon effect.\nWhen you find people having similar views, you are likely to perceive them as ingroup.",
-      "quote": "This firm conviction is because of the following three reasons:",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 129,
-        "section": "Group Polarisation"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "group-polarisation"
-      ],
-      "order": 700,
-      "reasons": [
-        "shape:back_not_quote"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Blank is an adjective with obvious synonyms (harmful, serious, bad); 'dangerous repercussions' is a hedged ('may sometimes') consequence phrase, not a mark-carrying fact. Drop or turn into the definition of group polarisation."
       ]
     }
   ]

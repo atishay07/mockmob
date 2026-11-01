@@ -1,6 +1,6 @@
 {
   "subject": "mathematics",
-  "version": 1,
+  "version": 2,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -609,6 +609,34 @@
         "y-axis"
       ],
       "order": 70
+    },
+    {
+      "id": "kc.mathematics.application-of-integrals.fact-negative-area-absolute",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.application-of-integrals",
+      "chapter": "Application of Integrals",
+      "unit": "Calculus",
+      "kind": "fact",
+      "front": "When the area bounded by a curve below the x-axis comes out negative, which value of it is taken?",
+      "back": "Thus, if the area is negative, we take its absolute value",
+      "quote": "Thus, if the area is negative, we take its absolute value",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh202",
+        "chapterNo": 8,
+        "page": 293,
+        "section": "8.2 Area under Simple Curves"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "negative-area",
+        "absolute-value"
+      ],
+      "order": 90
     },
     {
       "id": "kc.mathematics.application-of-integrals.fact-circle-symmetry",
@@ -2884,6 +2912,33 @@
       "order": 90
     },
     {
+      "id": "kc.mathematics.integrals.fact-infinitely-many",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "kind": "fact",
+      "front": "How many anti derivatives does a function have, given that C can be chosen arbitrarily from the real numbers?",
+      "back": "Infinitely many\nActually, there exist infinitely many anti derivatives of each of these functions which can be obtained by choosing C arbitrarily from the set of real numbers.",
+      "quote": "Actually, there exist infinitely many anti derivatives of each of these functions which can be obtained by choosing C arbitrarily from the set of real numbers.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 226,
+        "section": "7.2 Integration as an Inverse Process of Differentiation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "anti derivative"
+      ],
+      "order": 100
+    },
+    {
       "id": "kc.mathematics.integrals.def-arbitrary-constant",
       "v": 1,
       "subject": "mathematics",
@@ -3160,6 +3215,33 @@
       "order": 330
     },
     {
+      "id": "kc.mathematics.integrals.def-partial-fraction-decomposition",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "kind": "definition",
+      "front": "What is partial fraction decomposition, in integrating a proper rational function?",
+      "back": "It is always possible to write the integrand as a sum of simpler rational functions by a method called partial fraction decomposition.",
+      "quote": "It is always possible to write the integrand as a sum of simpler rational functions by a method called partial fraction decomposition.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 253,
+        "section": "7.5 Integration by Partial Fractions"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "partial fractions"
+      ],
+      "order": 340
+    },
+    {
       "id": "kc.mathematics.integrals.kl-identity",
       "v": 1,
       "subject": "mathematics",
@@ -3212,6 +3294,31 @@
       "asked": 0,
       "tags": [],
       "order": 370
+    },
+    {
+      "id": "kc.mathematics.integrals.fact-constant-superfluous",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "kind": "fact",
+      "front": "In integration by parts, what is the effect of adding a constant to the integral of the second function?",
+      "back": "It is superfluous\nThis shows that adding a constant to the integral of the second function is superfluous so far as the final result is concerned while applying the method of integration by parts.",
+      "quote": "This shows that adding a constant to the integral of the second function is superfluous so far as the final result is concerned while applying the method of integration by parts.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 261,
+        "section": "7.6 Integration by Parts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 410
     },
     {
       "id": "kc.mathematics.integrals.fact-first-function-choice",
@@ -3322,6 +3429,31 @@
       "order": 460
     },
     {
+      "id": "kc.mathematics.integrals.fact-area-function-leads",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "kind": "fact",
+      "front": "What concept leads to the Fundamental Theorems of Integral Calculus?",
+      "back": "The area function\nThis concept of area function leads to the Fundamental Theorems of Integral Calculus.",
+      "quote": "This concept of area function leads to the Fundamental Theorems of Integral Calculus.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 291,
+        "section": "7.8 Fundamental Theorem of Calculus"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 470
+    },
+    {
       "id": "kc.mathematics.integrals.fact-ftc1-assumption",
       "v": 1,
       "subject": "mathematics",
@@ -3405,6 +3537,31 @@
       "note": "Conclusion: the definite integral of f from a to b equals F(b) minus F(a)."
     },
     {
+      "id": "kc.mathematics.integrals.fact-ftc2-useful",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "kind": "fact",
+      "front": "Why is the second fundamental theorem of integral calculus very useful for definite integrals?",
+      "back": "This theorem is very useful, because it gives us a method of calculating the definite integral more easily, without calculating the limit of a sum.",
+      "quote": "This theorem is very useful, because it gives us a method of calculating the definite integral more easily, without calculating the limit of a sum.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 268,
+        "section": "7.8 Fundamental Theorem of Calculus"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 520
+    },
+    {
       "id": "kc.mathematics.integrals.kl-ftc2-crucial",
       "v": 1,
       "subject": "mathematics",
@@ -3459,6 +3616,31 @@
       "order": 540
     },
     {
+      "id": "kc.mathematics.integrals.fact-constant-disappears",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "kind": "fact",
+      "front": "In evaluating a definite integral by the second fundamental theorem, which constant disappears from the value?",
+      "back": "The arbitrary constant\nThus, the arbitrary constant disappears in evaluating the value of the definite integral.",
+      "quote": "Thus, the arbitrary constant disappears in evaluating the value of the definite integral.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 268,
+        "section": "7.8 Fundamental Theorem of Calculus"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 550
+    },
+    {
       "id": "kc.mathematics.integrals.steps-definite-substitution-steps",
       "v": 1,
       "subject": "mathematics",
@@ -3485,6 +3667,56 @@
         "definite integral"
       ],
       "order": 560
+    },
+    {
+      "id": "kc.mathematics.integrals.fact-new-variable-limits",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "kind": "fact",
+      "front": "To quicken definite integration by substitution, what is accordingly changed when the integral is kept in the new variable?",
+      "back": "The limits of the integral\nHere, the integral will be kept in the new variable itself, and the limits of the integral will accordingly be changed, so that we can perform the last step.",
+      "quote": "Here, the integral will be kept in the new variable itself, and the limits of the integral will accordingly be changed, so that we can perform the last step.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 272,
+        "section": "7.9 Evaluation of Definite Integrals by Substitution"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 570
+    },
+    {
+      "id": "kc.mathematics.integrals.diff-differential-vs-integral-calculus",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "kind": "difference",
+      "front": "Differential calculus vs integral calculus: the difference in what is given and what is to be found.",
+      "back": "In the differential calculus, we are given a function and we have to find the derivative or differential of this function, but in the integral calculus, we are to find a function whose differential is given.",
+      "quote": "In the differential calculus, we are given a function and we have to find the derivative or differential of this function, but in the integral calculus, we are to find a function whose differential is given.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 287,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 600
     },
     {
       "id": "kc.mathematics.inverse-trigonometric-functions.fact-inverse-domain-range",
@@ -4046,6 +4278,33 @@
       "order": 240
     },
     {
+      "id": "kc.mathematics.linear-programming.fact-corner-point-method-name",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.linear-programming",
+      "chapter": "Linear Programming",
+      "unit": "Linear Programming",
+      "kind": "fact",
+      "front": "What is the method of solving a linear programming problem by checking the feasible region's corner points called?",
+      "back": "Corner Point Method",
+      "quote": "This method of solving linear programming problem is referred as Corner Point Method.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh206",
+        "chapterNo": 12,
+        "page": 399,
+        "section": "Graphical method of solving linear programming problems"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "corner point method"
+      ],
+      "order": 250
+    },
+    {
       "id": "kc.mathematics.linear-programming.fact-no-feasible-region",
       "v": 1,
       "subject": "mathematics",
@@ -4184,6 +4443,33 @@
         "matrices"
       ],
       "order": 20
+    },
+    {
+      "id": "kc.mathematics.matrices.def-rows-columns",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.matrices",
+      "chapter": "Matrices",
+      "unit": "Algebra",
+      "kind": "definition",
+      "front": "What are the rows and the columns of a matrix?",
+      "back": "The horizontal lines of elements are said to constitute, rows of the matrix and the vertical lines of elements are said to constitute, columns of the matrix.",
+      "quote": "the horizontal lines of elements are said to constitute, rows of the matrix and the vertical lines of elements are said to constitute, columns of the matrix.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh103",
+        "chapterNo": 3,
+        "page": 36,
+        "section": "Matrix"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "matrices"
+      ],
+      "order": 30
     },
     {
       "id": "kc.mathematics.matrices.def-order",
@@ -4633,6 +4919,63 @@
       "order": 240
     },
     {
+      "id": "kc.mathematics.matrices.fact-additive-inverse",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.matrices",
+      "chapter": "Matrices",
+      "unit": "Algebra",
+      "kind": "fact",
+      "front": "What is – A called, the matrix that gives the zero matrix when added to A?",
+      "back": "The additive inverse of A, or negative of A\nSo – A is the additive inverse of A or negative of A.",
+      "quote": "So – A is the additive inverse of A or negative of A.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh103",
+        "chapterNo": 3,
+        "page": 47,
+        "section": "Properties of matrix addition"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "matrices"
+      ],
+      "order": 270
+    },
+    {
+      "id": "kc.mathematics.matrices.kl-mult-condition",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.matrices",
+      "chapter": "Matrices",
+      "unit": "Algebra",
+      "kind": "key_line",
+      "front": "We observe that, for multiplication of two matrices A and B, the number of ____ in A should be equal to the number of ____ in B.",
+      "back": "We observe that, for multiplication of two matrices A and B, the number of columns in A should be equal to the number of rows in B.",
+      "quote": "We observe that, for multiplication of two matrices A and B, the number of columns in A should be equal to the number of rows in B.",
+      "blanks": [
+        "columns",
+        "rows"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh103",
+        "chapterNo": 3,
+        "page": 51,
+        "section": "Multiplication of matrices"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "matrices"
+      ],
+      "order": 280
+    },
+    {
       "id": "kc.mathematics.matrices.fact-product-defined",
       "v": 1,
       "subject": "mathematics",
@@ -4803,6 +5146,33 @@
       "order": 350
     },
     {
+      "id": "kc.mathematics.matrices.fact-mult-not-commutative",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.matrices",
+      "chapter": "Matrices",
+      "unit": "Algebra",
+      "kind": "fact",
+      "front": "Is matrix multiplication commutative?",
+      "back": "Not commutative\nThus matrix multiplication is not commutative.",
+      "quote": "Thus matrix multiplication is not commutative.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh103",
+        "chapterNo": 3,
+        "page": 53,
+        "section": "Non-commutativity of multiplication of matrices"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "matrices"
+      ],
+      "order": 360
+    },
+    {
       "id": "kc.mathematics.matrices.fact-zero-product",
       "v": 1,
       "subject": "mathematics",
@@ -4913,6 +5283,33 @@
         "symmetric"
       ],
       "order": 430
+    },
+    {
+      "id": "kc.mathematics.matrices.fact-skew-diagonal-zero",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.matrices",
+      "chapter": "Matrices",
+      "unit": "Algebra",
+      "kind": "fact",
+      "front": "What is true of all the diagonal elements of a skew symmetric matrix?",
+      "back": "They are all zero\nThis means that all the diagonal elements of a skew symmetric matrix are zero.",
+      "quote": "This means that all the diagonal elements of a skew symmetric matrix are zero.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh103",
+        "chapterNo": 3,
+        "page": 63,
+        "section": "Symmetric and Skew Symmetric Matrices"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "matrices"
+      ],
+      "order": 440
     },
     {
       "id": "kc.mathematics.matrices.fact-thm1",
@@ -5084,6 +5481,62 @@
       "order": 510
     },
     {
+      "id": "kc.mathematics.probability.fact-sample-space-reduced",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "fact",
+      "front": "When event F is known to have occurred, our sample space for E reduces from the set S to what?",
+      "back": "This information reduces our sample space from the set S to its subset F for the event E.",
+      "quote": "This information reduces our sample space from the set S to its subset F for the event E.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 407,
+        "section": "Conditional Probability"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "conditional probability",
+        "sample space"
+      ],
+      "order": 30,
+      "note": "Knowing F happened shrinks the sample space to F."
+    },
+    {
+      "id": "kc.mathematics.probability.fact-definition-general-case",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "fact",
+      "front": "The definition of conditional probability, first used for equally likely events, also applies in what general case?",
+      "back": "the same definition can also be used in the general case where the elementary events of the sample space are not equally likely",
+      "quote": "However, the same definition can also be used in the general case where the elementary events of the sample space are not equally likely",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 412,
+        "section": "Conditional Probability"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "conditional probability"
+      ],
+      "order": 50
+    },
+    {
       "id": "kc.mathematics.probability.def-independent-events",
       "v": 1,
       "subject": "mathematics",
@@ -5166,6 +5619,34 @@
       "order": 120
     },
     {
+      "id": "kc.mathematics.probability.fact-independent-not-mutually-exclusive",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "fact",
+      "front": "Can two independent events with nonzero probabilities of occurrence be mutually exclusive?",
+      "back": "two independent events having nonzero probabilities of occurrence can not be mutually exclusive",
+      "quote": "two independent events having nonzero probabilities of occurrence can not be mutually exclusive",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 418,
+        "section": "Independent Events"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "independent events",
+        "mutually exclusive"
+      ],
+      "order": 140
+    },
+    {
       "id": "kc.mathematics.probability.def-independent-experiments",
       "v": 1,
       "subject": "mathematics",
@@ -5191,6 +5672,34 @@
         "independent experiments"
       ],
       "order": 150
+    },
+    {
+      "id": "kc.mathematics.probability.fact-partition-not-unique",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "fact",
+      "front": "Is the partition of a sample space unique?",
+      "back": "It may be mentioned that the partition of a sample space is not unique. There can be several partitions of the same sample space.",
+      "quote": "It may be mentioned that the partition of a sample space is not unique. There can be several partitions of the same sample space.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 424,
+        "section": "Partition of a Sample Space"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "partition",
+        "sample space"
+      ],
+      "order": 230
     },
     {
       "id": "kc.mathematics.probability.term-bayes-formula-causes",
@@ -5812,6 +6321,61 @@
       "order": 280
     },
     {
+      "id": "kc.mathematics.relations-and-functions.fact-onto-iff-range",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.relations-and-functions",
+      "chapter": "Relations & Functions",
+      "unit": "Relations and Functions",
+      "kind": "fact",
+      "front": "For a function f from X to Y, what must the range of f equal for f to be onto?",
+      "back": "Range of f = Y\nf : X → Y is onto if and only if Range of f = Y.",
+      "quote": "f : X → Y is onto if and only if Range of f = Y.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh101",
+        "chapterNo": 1,
+        "page": 8,
+        "section": "Remark"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "onto"
+      ],
+      "order": 290
+    },
+    {
+      "id": "kc.mathematics.relations-and-functions.ex-roll-number-function",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.relations-and-functions",
+      "chapter": "Relations & Functions",
+      "unit": "Relations and Functions",
+      "kind": "example",
+      "front": "Each of the 50 students of Class X is mapped to their roll number in N. Is this function one-one, onto or both?",
+      "back": "One-one but not onto\nNo two different students of the class can have same roll number. Therefore, f must be one-one. We can assume without any loss of generality that roll numbers of students are from 1 to 50. This implies that 51 in N is not roll number of any student of the class, so that 51 can not be image of any element of X under f. Hence, f is not onto.",
+      "quote": "No two different students of the class can have same roll number. Therefore, f must be one-one. We can assume without any loss of generality that roll numbers of students are from 1 to 50. This implies that 51 in N is not roll number of any student of the class, so that 51 can not be image of any element of X under f. Hence, f is not onto.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh101",
+        "chapterNo": 1,
+        "page": 8,
+        "section": "Example 7"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-one",
+        "onto"
+      ],
+      "order": 300
+    },
+    {
       "id": "kc.mathematics.relations-and-functions.fact-finite-set-one-one-onto",
       "v": 1,
       "subject": "mathematics",
@@ -6118,6 +6682,60 @@
       "order": 90
     },
     {
+      "id": "kc.mathematics.three-dimensional-geometry.fact-dr-sets-proportional",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.three-dimensional-geometry",
+      "chapter": "Three Dimensional Geometry",
+      "unit": "Vectors and Three-Dimensional Geometry",
+      "kind": "fact",
+      "front": "How are any two sets of direction ratios of a line related to each other?",
+      "back": "So, any two sets of direction ratios of a line are also proportional.",
+      "quote": "So, any two sets of direction ratios of a line are also proportional.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh205",
+        "chapterNo": 11,
+        "page": 379,
+        "section": "11.2 Direction Cosines and Direction Ratios of a Line"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "direction ratios"
+      ],
+      "order": 110
+    },
+    {
+      "id": "kc.mathematics.three-dimensional-geometry.fact-dr-infinitely-many-sets",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.three-dimensional-geometry",
+      "chapter": "Three Dimensional Geometry",
+      "unit": "Vectors and Three-Dimensional Geometry",
+      "kind": "fact",
+      "front": "How many sets of direction ratios does any line have?",
+      "back": "Also, for any line there are infinitely many sets of direction ratios.",
+      "quote": "Also, for any line there are infinitely many sets of direction ratios.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh205",
+        "chapterNo": 11,
+        "page": 379,
+        "section": "11.2 Direction Cosines and Direction Ratios of a Line"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "direction ratios"
+      ],
+      "order": 115
+    },
+    {
       "id": "kc.mathematics.three-dimensional-geometry.fact-dc-x-axis",
       "v": 1,
       "subject": "mathematics",
@@ -6283,6 +6901,35 @@
       "order": 190
     },
     {
+      "id": "kc.mathematics.three-dimensional-geometry.term-skew-lines-noncoplanar",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.three-dimensional-geometry",
+      "chapter": "Three Dimensional Geometry",
+      "unit": "Vectors and Three-Dimensional Geometry",
+      "kind": "term",
+      "front": "Further, in a space, there are lines which are neither intersecting nor parallel. In fact, such pair of lines are ____ and are called skew lines.",
+      "back": "Further, in a space, there are lines which are neither intersecting nor parallel. In fact, such pair of lines are non coplanar and are called skew lines.",
+      "quote": "Further, in a space, there are lines which are neither intersecting nor parallel. In fact, such pair of lines are non coplanar and are called skew lines.",
+      "blanks": [
+        "non coplanar"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh205",
+        "chapterNo": 11,
+        "page": 385,
+        "section": "11.5 Shortest Distance between Two Lines"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "skew lines"
+      ],
+      "order": 200
+    },
+    {
       "id": "kc.mathematics.three-dimensional-geometry.def-angle-between-skew-lines",
       "v": 1,
       "subject": "mathematics",
@@ -6338,6 +6985,34 @@
         "shortest distance"
       ],
       "order": 220
+    },
+    {
+      "id": "kc.mathematics.three-dimensional-geometry.fact-sd-parallel-perpendicular",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.three-dimensional-geometry",
+      "chapter": "Three Dimensional Geometry",
+      "unit": "Vectors and Three-Dimensional Geometry",
+      "kind": "fact",
+      "front": "For two parallel lines in space, what is the shortest distance between them?",
+      "back": "the perpendicular distance, i.e. the length of the perpendicular drawn from a point on one line onto the other line.",
+      "quote": "if two lines in space are parallel, then the shortest distance between them will be the perpendicular distance, i.e. the length of the perpendicular drawn from a point on one line onto the other line.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh205",
+        "chapterNo": 11,
+        "page": 385,
+        "section": "11.5 Shortest Distance between Two Lines"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "shortest distance",
+        "parallel lines"
+      ],
+      "order": 230
     },
     {
       "id": "kc.mathematics.three-dimensional-geometry.def-shortest-distance-two-lines",
@@ -6531,6 +7206,33 @@
         "vector"
       ],
       "order": 50
+    },
+    {
+      "id": "kc.mathematics.vector-algebra.fact-directed-line-segment",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.vector-algebra",
+      "chapter": "Vector Algebra",
+      "unit": "Vectors and Three-Dimensional Geometry",
+      "kind": "fact",
+      "front": "What is obtained when a line is restricted to a segment AB, with a magnitude and one of the two directions prescribed?",
+      "back": "Now observe that if we restrict the line l to the line segment AB, then a magnitude is prescribed on the line l with one of the two directions, so that we obtain a directed line segment (Fig 10.1(iii)). Thus, a directed line segment has magnitude as well as direction.",
+      "quote": "Now observe that if we restrict the line l to the line segment AB, then a magnitude is prescribed on the line l with one of the two directions, so that we obtain a directed line segment (Fig 10.1(iii)). Thus, a directed line segment has magnitude as well as direction.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh204",
+        "chapterNo": 10,
+        "page": 339,
+        "section": "10.2 Some Basic Concepts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "directed-line-segment"
+      ],
+      "order": 60
     },
     {
       "id": "kc.mathematics.vector-algebra.def-initial-terminal-point",
@@ -6914,6 +7616,34 @@
       "order": 240
     },
     {
+      "id": "kc.mathematics.vector-algebra.fact-laws-addition-equivalent",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.vector-algebra",
+      "chapter": "Vector Algebra",
+      "unit": "Vectors and Three-Dimensional Geometry",
+      "kind": "fact",
+      "front": "How are the triangle law and the parallelogram law of vector addition related to each other?",
+      "back": "Thus, we may say that the two laws of vector addition are equivalent to each other.",
+      "quote": "Thus, we may say that the two laws of vector addition are equivalent to each other.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh204",
+        "chapterNo": 10,
+        "page": 344,
+        "section": "10.4 Addition of Vectors"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "triangle-law",
+        "parallelogram-law"
+      ],
+      "order": 250
+    },
+    {
       "id": "kc.mathematics.vector-algebra.kl-associative-no-brackets",
       "v": 1,
       "subject": "mathematics",
@@ -6943,6 +7673,33 @@
       "order": 270
     },
     {
+      "id": "kc.mathematics.vector-algebra.fact-zero-vector-additive-identity",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.vector-algebra",
+      "chapter": "Vector Algebra",
+      "unit": "Vectors and Three-Dimensional Geometry",
+      "kind": "fact",
+      "front": "For vector addition, what is the zero vector called?",
+      "back": "Here, the zero vector is called the additive identity for the vector addition.",
+      "quote": "Here, the zero vector is called the additive identity for the vector addition.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh204",
+        "chapterNo": 10,
+        "page": 346,
+        "section": "10.4 Addition of Vectors"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "zero-vector"
+      ],
+      "order": 280
+    },
+    {
       "id": "kc.mathematics.vector-algebra.def-unit-vectors-axes",
       "v": 1,
       "subject": "mathematics",
@@ -6969,6 +7726,33 @@
         "components"
       ],
       "order": 290
+    },
+    {
+      "id": "kc.mathematics.vector-algebra.fact-component-form",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.vector-algebra",
+      "chapter": "Vector Algebra",
+      "unit": "Vectors and Three-Dimensional Geometry",
+      "kind": "fact",
+      "front": "When a vector is written with scalar components x, y, z and unit vectors i, j, k, what is this form called?",
+      "back": "This form of any vector is called its component form.",
+      "quote": "This form of any vector is called its component form.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh204",
+        "chapterNo": 10,
+        "page": 348,
+        "section": "10.5.1 Components of a vector"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "components"
+      ],
+      "order": 300
     },
     {
       "id": "kc.mathematics.vector-algebra.fact-length-pythagoras",
@@ -7169,6 +7953,33 @@
         "right-handed"
       ],
       "order": 450
+    },
+    {
+      "id": "kc.mathematics.vector-algebra.fact-cross-not-commutative",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.vector-algebra",
+      "chapter": "Vector Algebra",
+      "unit": "Vectors and Three-Dimensional Geometry",
+      "kind": "fact",
+      "front": "Is the vector product of two vectors commutative, according to NCERT?",
+      "back": "It is always true that the vector product is not commutative",
+      "quote": "It is always true that the vector product is not commutative",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh204",
+        "chapterNo": 10,
+        "page": 364,
+        "section": "10.6.3 Vector (or cross) product of two vectors"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "cross-product"
+      ],
+      "order": 460
     },
     {
       "id": "kc.mathematics.vector-algebra.fact-cross-distributivity",

@@ -1,8 +1,8 @@
 {
   "accountancy": {
-    "version": 9,
-    "sha256": "ff8041d02c6388eead0229f45de74031babe1cd9af47245fc41bbdfaf4bd297a",
-    "cards": 866
+    "version": 10,
+    "sha256": "8f404133f9c620c8eba58dd1e155d26366a09e43262741f2283f9e97d40f5557",
+    "cards": 912
   },
   "biology": {
     "version": 5,
@@ -15,9 +15,9 @@
     "cards": 901
   },
   "chemistry": {
-    "version": 1,
-    "sha256": "301c529e157a1724d8b9347bd1c20558a7c1af0298263700ba90ffd5910a015c",
-    "cards": 1257
+    "version": 2,
+    "sha256": "9f5940babf3a5785b5828aa108a1a8f9e028cc7b4b2970a1bd0389c05dd46910",
+    "cards": 1354
   },
   "computer_science": {
     "version": 1,
@@ -30,29 +30,29 @@
     "cards": 1195
   },
   "english": {
-    "version": 3,
-    "sha256": "5650e107f90c2dff377a63d3a1569435e51ab8c8255edee465248b131e7a7a06",
-    "cards": 350
+    "version": 4,
+    "sha256": "0ea2da47131916c6a2e338dd76e6495379c284568bcbe99b0249dec8a1c0cac7",
+    "cards": 650
   },
   "geography": {
-    "version": 1,
-    "sha256": "2506d0c71a0a22a83bc8c29d410c021b9ecc64c3d34b35cb7efe88146bf80a86",
-    "cards": 1162
+    "version": 2,
+    "sha256": "91aa402f8bb35f71eead98ca4243c8e780cc584703c5c486bad1494da79b93b6",
+    "cards": 1238
   },
   "history": {
-    "version": 1,
-    "sha256": "02bf4d1e612b3da18c3d9b44ee87c0b1bfaf69a78442e75549fac76251fb2ccb",
-    "cards": 1418
+    "version": 2,
+    "sha256": "489f1eed5bfbc75ab38445d3e62ed3bc626dd43c666f6b4b006126ca0b7060ed",
+    "cards": 1497
   },
   "mathematics": {
-    "version": 1,
-    "sha256": "e283b2c38a638feb32163954896157473eb17e31d1c773f90a97ebe8b1fe6387",
-    "cards": 260
+    "version": 2,
+    "sha256": "9799ff95a4a4faac151d01ea094e3a58be40196ce0636d6ad33ea79d3194d0f3",
+    "cards": 290
   },
   "physics": {
-    "version": 1,
-    "sha256": "baefbf0c9020b4c536e7ba023b9e0daf83a6a488fcf78a98e0122f3f220ae5ac",
-    "cards": 932
+    "version": 2,
+    "sha256": "30f5a89c3a438f3ee64188bcecf88fe5c626634aa6ad2f0ce5ccc64f1c5f350b",
+    "cards": 1044
   },
   "political_science": {
     "version": 5,
@@ -60,13 +60,13 @@
     "cards": 1096
   },
   "psychology": {
-    "version": 1,
-    "sha256": "9c729f4e7614325498ed261b97929044729d49b18db0677bfd33863d5be5facf",
-    "cards": 726
+    "version": 2,
+    "sha256": "4c5357725d3a8861ea721190badf45708cf62217c32b3950b02c90273c93cf43",
+    "cards": 778
   },
   "sociology": {
-    "version": 1,
-    "sha256": "1abca79b1e72f0497ac65b694b724556d48d943b3c28b90c91a4abc4125d6195",
-    "cards": 983
+    "version": 2,
+    "sha256": "7d03a690433a79699f25ef3897e7ff13b9819c2928dd3cb3f765f7d892391d01",
+    "cards": 1102
   }
 }

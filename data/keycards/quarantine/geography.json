@@ -2,19 +2,17 @@
   "subject": "geography",
   "cards": [
     {
-      "id": "kc.geography.human-geography-nature-and-scope.kl-reach-of-geography",
+      "id": "kc.geography.human-geography-nature-and-scope.fact-reach-of-geography",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.human-geography-nature-and-scope",
       "chapter": "Human Geography — Nature & Scope",
       "unit": "Human Geography — Nature and Scope",
-      "kind": "key_line",
-      "front": "Thus, the reach of geography is extensive and each and every event or phenomenon which varies over ____ can be studied geographically.",
+      "kind": "fact",
+      "front": "Which kind of event or phenomenon can be studied geographically, since the reach of geography is extensive?",
       "back": "Thus, the reach of geography is extensive and each and every event or phenomenon which varies over space and time can be studied geographically.",
       "quote": "Thus, the reach of geography is extensive and each and every event or phenomenon which varies over space and time can be studied geographically.",
-      "blanks": [
-        "space and time"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Fundamentals of Human Geography",
@@ -30,107 +28,8 @@
       ],
       "order": 30,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.human-geography-nature-and-scope.kl-core-concern",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-geography-nature-and-scope",
-      "chapter": "Human Geography — Nature & Scope",
-      "unit": "Human Geography — Nature and Scope",
-      "kind": "key_line",
-      "front": "the core concern of geography as a discipline is to understand the earth as ____ and to study all those elements which have sustained them.",
-      "back": "the core concern of geography as a discipline is to understand the earth as home of human beings and to study all those elements which have sustained them.",
-      "quote": "the core concern of geography as a discipline is to understand the earth as home of human beings and to study all those elements which have sustained them.",
-      "blanks": [
-        "home of human beings"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy101",
-        "chapterNo": 1,
-        "page": 1,
-        "section": "Introduction"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "geography"
-      ],
-      "order": 40,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.human-geography-nature-and-scope.kl-nomothetic-idiographic",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-geography-nature-and-scope",
-      "chapter": "Human Geography — Nature & Scope",
-      "unit": "Human Geography — Nature and Scope",
-      "kind": "key_line",
-      "front": "the wide-ranging debates started whether geography as a discipline should be a law making/theorising (____) or descriptive (____)",
-      "back": "the wide-ranging debates started whether geography as a discipline should be a law making/theorising (nomothetic) or descriptive (idiographic)",
-      "quote": "the wide-ranging debates started whether geography as a discipline should be a law making/theorising (nomothetic) or descriptive (idiographic)",
-      "blanks": [
-        "nomothetic",
-        "idiographic"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy101",
-        "chapterNo": 1,
-        "page": 1,
-        "section": "Introduction"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "geography",
-        "dualism"
-      ],
-      "order": 50,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.human-geography-nature-and-scope.kl-physical-human-dichotomy",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-geography-nature-and-scope",
-      "chapter": "Human Geography — Nature & Scope",
-      "unit": "Human Geography — Nature and Scope",
-      "kind": "key_line",
-      "front": "the dichotomy between physical and human is not a very valid one because nature and human are ____ elements and should be seen ____.",
-      "back": "the dichotomy between physical and human is not a very valid one because nature and human are inseparable elements and should be seen holistically.",
-      "quote": "the dichotomy between physical and human is not a very valid one because nature and human are inseparable elements and should be seen holistically.",
-      "blanks": [
-        "inseparable",
-        "holistically"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy101",
-        "chapterNo": 1,
-        "page": 1,
-        "section": "Introduction"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "geography",
-        "dualism"
-      ],
-      "order": 60,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Front already gives away 'reach is extensive' and the answer is an open sentence; the mark-carrying idea 'varies over space and time' is not cued, so several answers ('everything', 'all events') fit. Better as a key line with that phrase blanked."
       ]
     },
     {
@@ -525,39 +424,6 @@
       ]
     },
     {
-      "id": "kc.geography.human-geography-nature-and-scope.term-naturalised-human",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-geography-nature-and-scope",
-      "chapter": "Human Geography — Nature & Scope",
-      "unit": "Human Geography — Nature and Scope",
-      "kind": "term",
-      "front": "we can imagine the presence of a ____, who listened to Nature, was afraid of its fury and worshipped it.",
-      "back": "we can imagine the presence of a naturalised human, who listened to Nature, was afraid of its fury and worshipped it.",
-      "quote": "we can imagine the presence of a naturalised human, who listened to Nature, was afraid of its fury and worshipped it.",
-      "blanks": [
-        "naturalised human"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy101",
-        "chapterNo": 1,
-        "page": 2,
-        "section": "Nature of Human Geography"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "environmental-determinism",
-        "naturalisation"
-      ],
-      "order": 260,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.geography.human-geography-nature-and-scope.fact-benda-abujh-maad",
       "v": 1,
       "subject": "geography",
@@ -650,39 +516,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Blank is three adjectives ('worshipped, revered and conserved'); synonyms abound; 'such cases' has no antecedent in the front."
-      ]
-    },
-    {
-      "id": "kc.geography.human-geography-nature-and-scope.kl-necessity-to-freedom",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-geography-nature-and-scope",
-      "chapter": "Human Geography — Nature & Scope",
-      "unit": "Human Geography — Nature and Scope",
-      "kind": "key_line",
-      "front": "They move from a state of ____ to a state of ____.",
-      "back": "They move from a state of necessity to a state of freedom.",
-      "quote": "They move from a state of necessity to a state of freedom.",
-      "blanks": [
-        "necessity",
-        "freedom"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy101",
-        "chapterNo": 1,
-        "page": 3,
-        "section": "Naturalisation of Humans and Humanisation of Nature"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "possibilism"
-      ],
-      "order": 310,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -782,19 +615,17 @@
       ]
     },
     {
-      "id": "kc.geography.human-geography-nature-and-scope.kl-technology-overcomes-constraints",
+      "id": "kc.geography.human-geography-nature-and-scope.fact-technology-overcomes-constraints",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.human-geography-nature-and-scope",
       "chapter": "Human Geography — Nature & Scope",
       "unit": "Human Geography — Nature and Scope",
-      "kind": "key_line",
-      "front": "It is ____ that has allowed the people of Trondheim and others to overcome the constraints imposed by nature.",
+      "kind": "fact",
+      "front": "What has allowed the people of Trondheim and others to overcome the constraints imposed by nature?",
       "back": "It is technology that has allowed the people of Trondheim and others to overcome the constraints imposed by nature.",
       "quote": "It is technology that has allowed the people of Trondheim and others to overcome the constraints imposed by nature.",
-      "blanks": [
-        "technology"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Fundamentals of Human Geography",
@@ -811,99 +642,9 @@
       ],
       "order": 360,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.human-geography-nature-and-scope.kl-conquer-by-obeying",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-geography-nature-and-scope",
-      "chapter": "Human Geography — Nature & Scope",
-      "unit": "Human Geography — Nature and Scope",
-      "kind": "key_line",
-      "front": "It means that human beings can conquer nature by ____ it.",
-      "back": "It means that human beings can conquer nature by obeying it.",
-      "quote": "It means that human beings can conquer nature by obeying it.",
-      "blanks": [
-        "obeying"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy101",
-        "chapterNo": 1,
-        "page": 4,
-        "section": "Naturalisation of Humans and Humanisation of Nature"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "neodeterminism"
-      ],
-      "order": 400,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.human-geography-nature-and-scope.types-three-schools-1970s",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-geography-nature-and-scope",
-      "chapter": "Human Geography — Nature & Scope",
-      "unit": "Human Geography — Nature and Scope",
-      "kind": "types",
-      "front": "Name the three schools of thought that emerged in human geography in the 1970s.",
-      "back": "humanistic\nradical\nbehavioural",
-      "quote": "Discontentment with the quantitative revolution and its dehumanised manner of doing geography led to the emergence of three new schools of thought of human geography in the 1970s.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy101",
-        "chapterNo": 1,
-        "page": 5,
-        "section": "Schools of Thought"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "schools-of-thought"
-      ],
-      "order": 480,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.geography.human-geography-nature-and-scope.steps-stages-in-order",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-geography-nature-and-scope",
-      "chapter": "Human Geography — Nature & Scope",
-      "unit": "Human Geography — Nature and Scope",
-      "kind": "steps",
-      "front": "Broad stages and approaches of human geography, in order (Table 1.1).",
-      "back": "Early Colonial period: Exploration and description\nLater Colonial period: Regional analysis\n1930s through the inter-War period: Areal differentiation\nLate 1950s to the late 1960s: Spatial organisation\n1970s: Emergence of humanistic, radical and behavioural schools\n1990s: Post-modernism in geography",
-      "quote": "Early Colonial period Exploration and description",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy101",
-        "chapterNo": 1,
-        "page": 4,
-        "section": "Table 1.1: Broad Stages and Thrust of Human Geography"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "stages"
-      ],
-      "order": 500,
-      "reasons": [
-        "shape:back_not_quote"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Built on the Trondheim/Kari case story (front names 'the people of Trondheim' which the student cannot see) and duplicates ex-trondheim; the general principle ('technology loosens the shackles of environment', p.2) is the exam-worthy point. Drop or reword without the case."
       ]
     },
     {
@@ -1096,78 +837,16 @@
       ]
     },
     {
-      "id": "kc.geography.human-geography-nature-and-scope.kl-interdisciplinary",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-geography-nature-and-scope",
-      "chapter": "Human Geography — Nature & Scope",
-      "unit": "Human Geography — Nature and Scope",
-      "kind": "key_line",
-      "front": "Thus, human geography assumes a highly ____ nature.",
-      "back": "Thus, human geography assumes a highly inter-disciplinary nature.",
-      "quote": "Thus, human geography assumes a highly inter-disciplinary nature.",
-      "blanks": [
-        "inter-disciplinary"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy101",
-        "chapterNo": 1,
-        "page": 4,
-        "section": "Fields and Sub-fields of Human Geography"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "fields"
-      ],
-      "order": 570,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.human-geography-nature-and-scope.types-fields-list",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-geography-nature-and-scope",
-      "chapter": "Human Geography — Nature & Scope",
-      "unit": "Human Geography — Nature and Scope",
-      "kind": "types",
-      "front": "Name the fields of human geography listed in Table 1.2.",
-      "back": "Social Geography\nUrban Geography\nPolitical Geography\nPopulation Geography\nSettlement Geography\nEconomic Geography",
-      "quote": "Social Geography Urban Geography Political Geography Population Geography Settlement Geography",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy101",
-        "chapterNo": 1,
-        "page": 5,
-        "section": "Fields and Sub-fields of Human Geography"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "fields"
-      ],
-      "order": 580,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
       "id": "kc.geography.human-geography-nature-and-scope.list-economic-interfaces",
-      "v": 1,
+      "v": 2,
       "subject": "geography",
       "chapterKey": "geography.human-geography-nature-and-scope",
       "chapter": "Human Geography — Nature & Scope",
       "unit": "Human Geography — Nature and Scope",
       "kind": "list",
-      "front": "Economic Geography and its sub-fields: name the sister disciplines of social sciences each interfaces with (Table 1.2).",
-      "back": "Economic Geography: Economics\nGeography of Resources: Resource Economics\nGeography of Agriculture: Agricultural Sciences\nGeography of Industries: Industrial Economics\nGeography of Marketing: Business Studies, Economics, Commerce\nGeography of Tourism: Tourism and Travel Management\nGeography of International Trade: International Trade",
-      "quote": "Economics Resource Economics Agricultural Sciences Industrial Economics Business Studies, Economics, Commerce Tourism and Travel Management International Trade",
+      "front": "Table 1.2: which sister discipline does each sub-field of Economic Geography, from Resources to Tourism, interface with?",
+      "back": "Geography of Resources: Resource Economics\nGeography of Agriculture: Agricultural Sciences\nGeography of Industries: Industrial Economics\nGeography of Marketing: Business Studies, Economics, Commerce\nGeography of Tourism: Tourism and Travel Management",
+      "quote": "Geography of Resources Resource Economics Geography of Agriculture Agricultural Sciences Geography of Industries Industrial Economics Geography of Marketing Business Studies, Economics, Commerce Geography of Tourism Tourism and Travel Management",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -1184,7 +863,8 @@
       ],
       "order": 620,
       "reasons": [
-        "shape:back_not_quote"
+        "review:not_unambiguous",
+        "review:Front caps the list 'from Resources to Tourism' although Table 1.2 has six Economic sub-fields (Geography of International Trade / International Trade is left out), so the cut-off is arbitrary and a student who names all six is marked wrong; make it all six or ask for one pair."
       ]
     },
     {
@@ -1349,39 +1029,6 @@
       ]
     },
     {
-      "id": "kc.geography.population-distribution-density-growth.key-river-valleys",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.population-distribution-density-growth",
-      "chapter": "Population — Distribution, Density, Growth",
-      "unit": "People",
-      "kind": "key_line",
-      "front": "It is because of this that ____ are among the most densely populated areas of the world.",
-      "back": "It is because of this that river valleys are among the most densely populated areas of the world.",
-      "quote": "It is because of this that river valleys are among the most densely populated areas of the world.",
-      "blanks": [
-        "river valleys"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy102",
-        "chapterNo": 2,
-        "page": 8,
-        "section": "Geographical Factors"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "distribution",
-        "factors"
-      ],
-      "order": 120,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.geography.population-distribution-density-growth.key-flat-plains",
       "v": 1,
       "subject": "geography",
@@ -1485,39 +1132,6 @@
       ]
     },
     {
-      "id": "kc.geography.population-distribution-density-growth.key-fertile-loamy-soils",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.population-distribution-density-growth",
-      "chapter": "Population — Distribution, Density, Growth",
-      "unit": "People",
-      "kind": "key_line",
-      "front": "Therefore, areas which have ____ have more people living on them as these can support intensive agriculture.",
-      "back": "Therefore, areas which have fertile loamy soils have more people living on them as these can support intensive agriculture.",
-      "quote": "Therefore, areas which have fertile loamy soils have more people living on them as these can support intensive agriculture.",
-      "blanks": [
-        "fertile loamy soils"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy102",
-        "chapterNo": 2,
-        "page": 8,
-        "section": "Geographical Factors"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "distribution",
-        "factors"
-      ],
-      "order": 170,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.geography.population-distribution-density-growth.fact-katanga-zambia",
       "v": 1,
       "subject": "geography",
@@ -1547,39 +1161,6 @@
       "reasons": [
         "review:not_important",
         "review:Single-location example (Katanga Zambia copper belt) is case filler; back also opens with dangling 'So,'."
-      ]
-    },
-    {
-      "id": "kc.geography.population-distribution-density-growth.key-urbanisation-migration",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.population-distribution-density-growth",
-      "chapter": "Population — Distribution, Density, Growth",
-      "unit": "People",
-      "kind": "key_line",
-      "front": "It leads to ____ and cities grow in size.",
-      "back": "It leads to rural to urban migration and cities grow in size.",
-      "quote": "It leads to rural to urban migration and cities grow in size.",
-      "blanks": [
-        "rural to urban migration"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy102",
-        "chapterNo": 2,
-        "page": 8,
-        "section": "Economic Factors"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "distribution",
-        "factors"
-      ],
-      "order": 190,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -1680,39 +1261,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Open fill: fertile land, minerals or jobs also attract people; 'religious or cultural significance' not uniquely determined."
-      ]
-    },
-    {
-      "id": "kc.geography.population-distribution-density-growth.key-social-political-unrest",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.population-distribution-density-growth",
-      "chapter": "Population — Distribution, Density, Growth",
-      "unit": "People",
-      "kind": "key_line",
-      "front": "people tend to move away from places where there is ____.",
-      "back": "people tend to move away from places where there is social and political unrest.",
-      "quote": "people tend to move away from places where there is social and political unrest.",
-      "blanks": [
-        "social and political unrest"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy102",
-        "chapterNo": 2,
-        "page": 9,
-        "section": "Social and Cultural Factors"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "distribution",
-        "factors"
-      ],
-      "order": 230,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -2047,19 +1595,17 @@
       ]
     },
     {
-      "id": "kc.geography.population-distribution-density-growth.key-demographic-cycle",
+      "id": "kc.geography.population-distribution-density-growth.fact-demographic-cycle",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.population-distribution-density-growth",
       "chapter": "Population — Distribution, Density, Growth",
       "unit": "People",
-      "kind": "key_line",
-      "front": "These changes occur in stages which are collectively known as the ____.",
-      "back": "These changes occur in stages which are collectively known as the demographic cycle.",
-      "quote": "These changes occur in stages which are collectively known as the demographic cycle.",
-      "blanks": [
-        "demographic cycle"
-      ],
+      "kind": "fact",
+      "front": "In demographic transition theory, what are the stages of change in population collectively known as?",
+      "back": "The theory tells us that population of any region changes from high births and high deaths to low births and low deaths as society progresses from rural agrarian and illiterate to urban industrial and literate society. These changes occur in stages which are collectively known as the demographic cycle.",
+      "quote": "The theory tells us that population of any region changes from high births and high deaths to low births and low deaths as society progresses from rural agrarian and illiterate to urban industrial and literate society. These changes occur in stages which are collectively known as the demographic cycle.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Fundamentals of Human Geography",
@@ -2075,7 +1621,8 @@
       ],
       "order": 520,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Front says 'demographic transition theory ... stages ... collectively known as' so 'demographic transition' is an equally natural answer; the NCERT term 'demographic cycle' is not uniquely cued. Make it a term card with the sentence and 'demographic cycle' blanked."
       ]
     },
     {
@@ -2113,19 +1660,17 @@
       ]
     },
     {
-      "id": "kc.geography.population-distribution-density-growth.key-humans-flexible",
+      "id": "kc.geography.population-distribution-density-growth.fact-humans-flexible",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.population-distribution-density-growth",
       "chapter": "Population — Distribution, Density, Growth",
       "unit": "People",
-      "kind": "key_line",
-      "front": "This shows that human beings are ____ and are able to adjust their fertility.",
-      "back": "This shows that human beings are extremely flexible and are able to adjust their fertility.",
-      "quote": "This shows that human beings are extremely flexible and are able to adjust their fertility.",
-      "blanks": [
-        "extremely flexible"
-      ],
+      "kind": "fact",
+      "front": "In the last stage of demographic transition, what does deliberate control of family size show about human beings?",
+      "back": "The population becomes urbanised, literate and has high technical know- how and deliberately controls the family size. This shows that human beings are extremely flexible and are able to adjust their fertility.",
+      "quote": "The population becomes urbanised, literate and has high technical know- how and deliberately controls the family size. This shows that human beings are extremely flexible and are able to adjust their fertility.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Fundamentals of Human Geography",
@@ -2141,7 +1686,9 @@
       ],
       "order": 610,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Open 'what does it show' inference line with no single mark-carrying word (flexible / adaptable / able to adjust fertility all fit); low-yield, the testable content is the stage-3 features, already on fact-stage-3-features."
       ]
     },
     {
@@ -2308,38 +1855,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Malthus's standard terms are preventive vs positive checks; NCERT's 'physical' is non-derivable and blank order is swappable; front lacks Malthus context."
-      ]
-    },
-    {
-      "id": "kc.geography.population-distribution-density-growth.term-density-ratio-term",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.population-distribution-density-growth",
-      "chapter": "Population — Distribution, Density, Growth",
-      "unit": "People",
-      "kind": "term",
-      "front": "This ratio is the ____.",
-      "back": "This ratio is the density of population.",
-      "quote": "This ratio is the density of population.",
-      "blanks": [
-        "density of population"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy102",
-        "chapterNo": 2,
-        "page": 8,
-        "section": "Density of Population"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "density"
-      ],
-      "order": 690,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -2596,38 +2111,6 @@
       ]
     },
     {
-      "id": "kc.geography.human-development.key-bigger-economy",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-development",
-      "chapter": "Human Development",
-      "unit": "Human Development",
-      "kind": "key_line",
-      "front": "the ____ of the country, the more developed it was considered",
-      "back": "the bigger the economy of the country, the more developed it was considered",
-      "quote": "the bigger the economy of the country, the more developed it was considered",
-      "blanks": [
-        "bigger the economy"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy103",
-        "chapterNo": 3,
-        "page": 14,
-        "section": "Growth and Development"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "development"
-      ],
-      "order": 80,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.geography.human-development.key-people-central",
       "v": 1,
       "subject": "geography",
@@ -2661,19 +2144,17 @@
       ]
     },
     {
-      "id": "kc.geography.human-development.key-choices-change",
+      "id": "kc.geography.human-development.fact-choices-change",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.human-development",
       "chapter": "Human Development",
       "unit": "Human Development",
-      "kind": "key_line",
-      "front": "These choices are ____ but keep on changing.",
-      "back": "These choices are not fixed but keep on changing.",
+      "kind": "fact",
+      "front": "In Dr Haq's concept of human development, what is true of the choices people have over time?",
+      "back": "They are not fixed\nThese choices are not fixed but keep on changing.",
       "quote": "These choices are not fixed but keep on changing.",
-      "blanks": [
-        "not fixed"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Fundamentals of Human Geography",
@@ -2689,7 +2170,8 @@
       ],
       "order": 130,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Front 'what is true of the choices people have over time' is vague: a student could equally answer 'they are enlarged by development'; only the NCERT sentence says 'not fixed, keep changing'. Low value on its own."
       ]
     },
     {
@@ -2856,39 +2338,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Three blanks (environmental, financial, human) in interchangeable order; not one right fill."
-      ]
-    },
-    {
-      "id": "kc.geography.human-development.key-empowerment-source",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-development",
-      "chapter": "Human Development",
-      "unit": "Human Development",
-      "kind": "key_line",
-      "front": "Such power comes from increasing ____ and ____.",
-      "back": "Such power comes from increasing freedom and capability.",
-      "quote": "Such power comes from increasing freedom and capability.",
-      "blanks": [
-        "freedom",
-        "capability"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy103",
-        "chapterNo": 3,
-        "page": 16,
-        "section": "The Four Pillars of Human Development"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "empowerment"
-      ],
-      "order": 350,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -4362,36 +3811,6 @@
       ]
     },
     {
-      "id": "kc.geography.secondary-activities.list-modern-large-scale-characteristics",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.secondary-activities",
-      "chapter": "Secondary Activities",
-      "unit": "Secondary Activities",
-      "kind": "list",
-      "front": "Name the characteristics of modern large scale manufacturing.",
-      "back": "Specialisation of Skills/Methods of Production\nMechanisation\nTechnological Innovation\nOrganisational Structure and Stratification\nUneven Geographic Distribution",
-      "quote": "Modern large scale manufacturing has the following characteristics:",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy105",
-        "chapterNo": 5,
-        "page": 36,
-        "section": "Characteristics of Modern Large Scale Manufacturing"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "large scale manufacturing"
-      ],
-      "order": 80,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
       "id": "kc.geography.secondary-activities.key-entertainment-industry",
       "v": 1,
       "subject": "geography",
@@ -4460,39 +3879,6 @@
       ]
     },
     {
-      "id": "kc.geography.secondary-activities.key-technological-innovation",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.secondary-activities",
-      "chapter": "Secondary Activities",
-      "unit": "Secondary Activities",
-      "kind": "key_line",
-      "front": "Technological innovations through ____ strategy are an important aspect of modern manufacturing for quality control, eliminating waste and inefficiency, and ____.",
-      "back": "Technological innovations through research and development strategy are an important aspect of modern manufacturing for quality control, eliminating waste and inefficiency, and combating pollution.",
-      "quote": "Technological innovations through research and development strategy are an important aspect of modern manufacturing for quality control, eliminating waste and inefficiency, and combating pollution.",
-      "blanks": [
-        "research and development",
-        "combating pollution"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy105",
-        "chapterNo": 5,
-        "page": 37,
-        "section": "Technological Innovation"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "technological innovation"
-      ],
-      "order": 170,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
       "id": "kc.geography.secondary-activities.key-organisational-structure",
       "v": 1,
       "subject": "geography",
@@ -4524,39 +3910,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Two multi-word blanks (machine technology, division of labour) are not uniquely recoverable from the front."
-      ]
-    },
-    {
-      "id": "kc.geography.secondary-activities.key-vast-capital",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.secondary-activities",
-      "chapter": "Secondary Activities",
-      "unit": "Secondary Activities",
-      "kind": "key_line",
-      "front": "It also requires ____, large organisations and ____ for a large scale manufacturing industry.",
-      "back": "It also requires vast capital, large organisations and executive bureaucracy for a large scale manufacturing industry.",
-      "quote": "It also requires vast capital, large organisations and executive bureaucracy for a large scale manufacturing industry.",
-      "blanks": [
-        "vast capital",
-        "executive bureaucracy"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy105",
-        "chapterNo": 5,
-        "page": 37,
-        "section": "Organisational Structure and Stratification"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "large scale manufacturing"
-      ],
-      "order": 190,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -4622,36 +3975,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Second blank \"minimum\" equally filled by lowest/least; two blanks."
-      ]
-    },
-    {
-      "id": "kc.geography.secondary-activities.list-location-factors",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.secondary-activities",
-      "chapter": "Secondary Activities",
-      "unit": "Secondary Activities",
-      "kind": "list",
-      "front": "Name the factors influencing industrial locations.",
-      "back": "Access to Market\nAccess to Raw Material\nAccess to Labour Supply\nAccess to Sources of Energy\nAccess to Transportation and Communication Facilities\nGovernment Policy\nAccess to Agglomeration Economies/ Links between Industries",
-      "quote": "Some of the factors influencing industrial locations are as under:",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy105",
-        "chapterNo": 5,
-        "page": 37,
-        "section": "Why do Large-scale Industries choose different locations?"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "industrial location"
-      ],
-      "order": 230,
-      "reasons": [
-        "shape:back_not_quote"
       ]
     },
     {
@@ -4886,39 +4209,6 @@
       ]
     },
     {
-      "id": "kc.geography.secondary-activities.key-small-scale-machines-labour",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.secondary-activities",
-      "chapter": "Secondary Activities",
-      "unit": "Secondary Activities",
-      "kind": "key_line",
-      "front": "This type of manufacturing uses local raw material, ____ and ____.",
-      "back": "This type of manufacturing uses local raw material, simple power-driven machines and semi-skilled labour.",
-      "quote": "This type of manufacturing uses local raw material, simple power-driven machines and semi-skilled labour.",
-      "blanks": [
-        "simple power-driven machines",
-        "semi-skilled labour"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy105",
-        "chapterNo": 5,
-        "page": 40,
-        "section": "Small Scale Manufacturing"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "small scale industry"
-      ],
-      "order": 460,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.geography.secondary-activities.key-food-processing-includes",
       "v": 1,
       "subject": "geography",
@@ -4954,20 +4244,17 @@
       ]
     },
     {
-      "id": "kc.geography.secondary-activities.key-preserving-techniques",
+      "id": "kc.geography.secondary-activities.list-ancient-preserving",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.secondary-activities",
       "chapter": "Secondary Activities",
       "unit": "Secondary Activities",
-      "kind": "key_line",
-      "front": "While some preserving techniques, such as ____, ____ and pickling, have been known since ancient times, these had limited applications to cater to the pre-Industrial Revolution demands.",
-      "back": "While some preserving techniques, such as drying, fermenting and pickling, have been known since ancient times, these had limited applications to cater to the pre-Industrial Revolution demands.",
-      "quote": "While some preserving techniques, such as drying, fermenting and pickling, have been known since ancient times, these had limited applications to cater to the pre-Industrial Revolution demands.",
-      "blanks": [
-        "drying",
-        "fermenting"
-      ],
+      "kind": "list",
+      "front": "Name the preserving techniques that NCERT says have been known since ancient times.",
+      "back": "drying\nfermenting\npickling",
+      "quote": "While some preserving techniques, such as drying, fermenting and pickling, have been known since ancient times",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Fundamentals of Human Geography",
@@ -4983,7 +4270,9 @@
       ],
       "order": 570,
       "reasons": [
-        "shape:front_too_long"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:NCERT says 'some preserving techniques, such as drying, fermenting and pickling': a non-exhaustive example list, so 'name the techniques' has other valid answers (salting, smoking); also trivia about pre-Industrial-Revolution use; 'NCERT says' in the front is odd for a student card."
       ]
     },
     {
@@ -5021,52 +4310,17 @@
       ]
     },
     {
-      "id": "kc.geography.secondary-activities.key-high-tech-workforce",
+      "id": "kc.geography.secondary-activities.fact-high-tech-landscape",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.secondary-activities",
       "chapter": "Secondary Activities",
       "unit": "Secondary Activities",
-      "kind": "key_line",
-      "front": "Professional (____) workers make up a large share of the total workforce. These highly skilled specialists greatly outnumber the actual production (____) workers.",
-      "back": "Professional (white collar) workers make up a large share of the total workforce. These highly skilled specialists greatly outnumber the actual production (blue collar) workers.",
-      "quote": "Professional (white collar) workers make up a large share of the total workforce. These highly skilled specialists greatly outnumber the actual production (blue collar) workers.",
-      "blanks": [
-        "white collar",
-        "blue collar"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy105",
-        "chapterNo": 5,
-        "page": 42,
-        "section": "Concept of High Technology Industry"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "high-tech industry"
-      ],
-      "order": 690,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.geography.secondary-activities.key-high-tech-landscape",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.secondary-activities",
-      "chapter": "Secondary Activities",
-      "unit": "Secondary Activities",
-      "kind": "key_line",
-      "front": "Neatly spaced, low, modern, dispersed, ____ rather than massive assembly structures, factories and storage areas mark the high-tech industrial landscape.",
-      "back": "Neatly spaced, low, modern, dispersed, office-plant-lab buildings rather than massive assembly structures, factories and storage areas mark the high-tech industrial landscape.",
+      "kind": "fact",
+      "front": "What kind of buildings, rather than massive assembly structures and factories, mark the high-tech industrial landscape?",
+      "back": "Neatly spaced, low, modern, dispersed office-plant-lab buildings\nNeatly spaced, low, modern, dispersed, office-plant-lab buildings rather than massive assembly structures, factories and storage areas mark the high-tech industrial landscape.",
       "quote": "Neatly spaced, low, modern, dispersed, office-plant-lab buildings rather than massive assembly structures, factories and storage areas mark the high-tech industrial landscape.",
-      "blanks": [
-        "office-plant-lab buildings"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Fundamentals of Human Geography",
@@ -5082,7 +4336,8 @@
       ],
       "order": 710,
       "reasons": [
-        "shape:front_too_long"
+        "review:not_unambiguous",
+        "review:Answer is a string of five adjectives (neatly spaced, low, modern, dispersed) that the front gives no way to pin down; only 'office-plant-lab' is distinctive. Descriptive landscape detail, low value."
       ]
     },
     {
@@ -5302,7 +4557,8 @@
       "order": 310,
       "reasons": [
         "duplicate:id:kc.geography.transport-and-communication.def-transport",
-        "duplicate:front:kc.geography.transport-and-communication.def-transport"
+        "duplicate:front:kc.geography.transport-and-communication.def-transport",
+        "shape:id_reused"
       ]
     },
     {
@@ -5962,15 +5218,15 @@
     },
     {
       "id": "kc.geography.transport-and-communication.term-ocean-haulage",
-      "v": 1,
+      "v": 2,
       "subject": "geography",
       "chapterKey": "geography.transport-and-communication",
       "chapter": "Transport & Communication",
       "unit": "Transport & Communication",
       "kind": "term",
-      "front": "ocean transport is a cheaper means of ____ (carrying of load) of bulky material over long distances from one continent to another.",
-      "back": "ocean transport is a cheaper means of haulage (carrying of load) of bulky material over long distances from one continent to another.",
-      "quote": "ocean transport is a cheaper means of haulage (carrying of load) of bulky material over long distances from one continent to another.",
+      "front": "Compared to land and air, ocean transport is a cheaper means of ____ (carrying of load) of bulky material",
+      "back": "Compared to land and air, ocean transport is a cheaper means of haulage (carrying of load) of bulky material",
+      "quote": "Compared to land and air, ocean transport is a cheaper means of haulage (carrying of load) of bulky material",
       "blanks": [
         "haulage"
       ],
@@ -5989,7 +5245,9 @@
       ],
       "order": 830,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Blank 'haulage' is a vocabulary word; 'carrying of load' is given in the front so 'transport/carriage' also fit; the mark-carrying point is that ocean transport is cheapest for bulky goods over long distances, not the word haulage."
       ]
     },
     {
@@ -6311,39 +5569,6 @@
       ]
     },
     {
-      "id": "kc.geography.transport-and-communication.kl-global-village",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.transport-and-communication",
-      "chapter": "Transport & Communication",
-      "unit": "Transport & Communication",
-      "kind": "key_line",
-      "front": "It is these modern communication systems, more than transportation, that has made the concept of ____ a reality.",
-      "back": "It is these modern communication systems, more than transportation, that has made the concept of global village a reality.",
-      "quote": "It is these modern communication systems, more than transportation, that has made the concept of global village a reality.",
-      "blanks": [
-        "global village"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy107",
-        "chapterNo": 7,
-        "page": 68,
-        "section": "Cyber Space - Internet"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "communication",
-        "global village"
-      ],
-      "order": 1660,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.geography.international-trade.kl-trade-need",
       "v": 1,
       "subject": "geography",
@@ -6408,38 +5633,6 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:IMPORTANT: Ancient-trade filler; blank also has synonyms (local/regional markets). AMBIGUOUS: Blank 'local markets' has synonyms (regional/domestic markets)."
-      ]
-    },
-    {
-      "id": "kc.geography.international-trade.kl-slave-trade-emerged",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.international-trade",
-      "chapter": "International Trade",
-      "unit": "International Trade",
-      "kind": "key_line",
-      "front": "Fifteenth century onwards, the European colonialism began and along with trade of exotic commodities, a new form of trade emerged which was called ____.",
-      "back": "Fifteenth century onwards, the European colonialism began and along with trade of exotic commodities, a new form of trade emerged which was called slave trade.",
-      "quote": "Fifteenth century onwards, the European colonialism began and along with trade of exotic commodities, a new form of trade emerged which was called slave trade.",
-      "blanks": [
-        "slave trade"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy108",
-        "chapterNo": 8,
-        "page": 71,
-        "section": "History of International Trade"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "slave trade"
-      ],
-      "order": 60,
-      "reasons": [
-        "shape:front_too_long"
       ]
     },
     {
@@ -6538,36 +5731,6 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:IMPORTANT: Nineteenth-century narrative filler. AMBIGUOUS: Blank 'industrial nations' vs 'industrialised nations' synonyms."
-      ]
-    },
-    {
-      "id": "kc.geography.international-trade.list-five-bases",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.international-trade",
-      "chapter": "International Trade",
-      "unit": "International Trade",
-      "kind": "list",
-      "front": "Name the five bases of international trade.",
-      "back": "Difference in national resources\nPopulation factors\nStage of economic development\nExtent of foreign investment\nTransport",
-      "quote": "Difference in national resources: The world's national resources are unevenly distributed because of differences in their physical make up i.e. geology, relief soil and climate.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy108",
-        "chapterNo": 8,
-        "page": 72,
-        "section": "Basis of International Trade"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "international trade"
-      ],
-      "order": 150,
-      "reasons": [
-        "shape:back_not_quote"
       ]
     },
     {
@@ -6800,36 +5963,6 @@
       ]
     },
     {
-      "id": "kc.geography.international-trade.types-two-types",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.international-trade",
-      "chapter": "International Trade",
-      "unit": "International Trade",
-      "kind": "types",
-      "front": "Types of international trade.",
-      "back": "Bilateral trade\nMulti-lateral trade",
-      "quote": "International trade may be categorised into two types: (a) Bilateral trade: Bilateral trade is done by two countries with each other.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy108",
-        "chapterNo": 8,
-        "page": 73,
-        "section": "Types of International Trade"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "international trade"
-      ],
-      "order": 380,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
       "id": "kc.geography.international-trade.list-wto-functions",
       "v": 1,
       "subject": "geography",
@@ -6923,19 +6056,17 @@
       ]
     },
     {
-      "id": "kc.geography.international-trade.kl-blocs-response-failure",
+      "id": "kc.geography.international-trade.fact-blocs-response-failure",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.international-trade",
       "chapter": "International Trade",
       "unit": "International Trade",
-      "kind": "key_line",
-      "front": "These trading blocs developed as a response to the ____ of the global organisations to speed up intra-regional trade.",
-      "back": "These trading blocs developed as a response to the failure of the global organisations to speed up intra-regional trade.",
+      "kind": "fact",
+      "front": "Regional trade blocs developed as a response to the failure of the global organisations to do what?",
+      "back": "To speed up intra-regional trade\nThese trading blocs developed as a response to the failure of the global organisations to speed up intra-regional trade.",
       "quote": "These trading blocs developed as a response to the failure of the global organisations to speed up intra-regional trade.",
-      "blanks": [
-        "failure"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Fundamentals of Human Geography",
@@ -6951,23 +6082,22 @@
       ],
       "order": 560,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Regional trade blocs are not named in CUET 2026 Geography Unit IV (basis, changing patterns, ports, WTO); low-value detail on the cause of blocs."
       ]
     },
     {
-      "id": "kc.geography.international-trade.kl-blocs-remove-tariffs",
+      "id": "kc.geography.international-trade.fact-blocs-remove-tariffs",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.international-trade",
       "chapter": "International Trade",
       "unit": "International Trade",
-      "kind": "key_line",
-      "front": "these regional blocs ____ within the member nations and encourage free trade",
-      "back": "these regional blocs remove trade tariffs within the member nations and encourage free trade",
+      "kind": "fact",
+      "front": "What do regional trade blocs do within their member nations to encourage free trade?",
+      "back": "Remove trade tariffs\nthese regional blocs remove trade tariffs within the member nations and encourage free trade",
       "quote": "these regional blocs remove trade tariffs within the member nations and encourage free trade",
-      "blanks": [
-        "remove trade tariffs"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Fundamentals of Human Geography",
@@ -6983,7 +6113,8 @@
       ],
       "order": 570,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Regional trade blocs are not named in CUET 2026 Geography Unit IV (basis, changing patterns, ports, WTO); spec says unlisted topics get no cards."
       ]
     },
     {
@@ -7020,106 +6151,16 @@
       ]
     },
     {
-      "id": "kc.geography.international-trade.types-ports-by-cargo",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.international-trade",
-      "chapter": "International Trade",
-      "unit": "International Trade",
-      "kind": "types",
-      "front": "Types of port according to cargo handled.",
-      "back": "Industrial Ports\nCommercial Ports\nComprehensive Ports",
-      "quote": "Types of port according to cargo handled: (i) Industrial Ports: These ports specialise in bulk cargo-like grain, sugar, ore, oil, chemicals and similar materials.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy108",
-        "chapterNo": 8,
-        "page": 75,
-        "section": "Types of Port"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "ports"
-      ],
-      "order": 640,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.geography.international-trade.types-ports-by-location",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.international-trade",
-      "chapter": "International Trade",
-      "unit": "International Trade",
-      "kind": "types",
-      "front": "Types of port on the basis of location.",
-      "back": "Inland Ports\nOut Ports",
-      "quote": "Types of port on the basis of location:",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy108",
-        "chapterNo": 8,
-        "page": 75,
-        "section": "Types of Port"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "ports"
-      ],
-      "order": 680,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.geography.international-trade.types-ports-by-function",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.international-trade",
-      "chapter": "International Trade",
-      "unit": "International Trade",
-      "kind": "types",
-      "front": "Types of port on the basis of specialised functions.",
-      "back": "Oil Ports\nPorts of Call\nPacket Station\nEntrepot Ports\nNaval Ports",
-      "quote": "Types of port on the basis of specialised functions:",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Fundamentals of Human Geography",
-        "code": "legy108",
-        "chapterNo": 8,
-        "page": 75,
-        "section": "Types of Port"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "ports"
-      ],
-      "order": 730,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
       "id": "kc.geography.india-people-and-economy.key-uneven-distribution",
-      "v": 1,
+      "v": 2,
       "subject": "geography",
       "chapterKey": "geography.india-people-and-economy",
       "chapter": "India — People & Economy",
       "unit": "Population: Distribution, Density, Growth and Composition",
       "kind": "key_line",
-      "front": "It is clear that India has a highly ____ pattern of population distribution.",
-      "back": "It is clear that India has a highly uneven pattern of population distribution.",
-      "quote": "It is clear that India has a highly uneven pattern of population distribution.",
+      "front": "India has a highly ____ pattern of population distribution.",
+      "back": "India has a highly uneven pattern of population distribution.",
+      "quote": "India has a highly uneven pattern of population distribution.",
       "blanks": [
         "uneven"
       ],
@@ -7138,42 +6179,8 @@
       ],
       "order": 50,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.india-people-and-economy.key-physical-factors",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.india-people-and-economy",
-      "chapter": "India — People & Economy",
-      "unit": "Population: Distribution, Density, Growth and Composition",
-      "kind": "key_line",
-      "front": "it is clear that ____ along with ____ and availability of ____ largely determines the pattern of the population distribution.",
-      "back": "it is clear that climate along with terrain and availability of water largely determines the pattern of the population distribution.",
-      "quote": "it is clear that climate along with terrain and availability of water largely determines the pattern of the population distribution.",
-      "blanks": [
-        "climate",
-        "terrain",
-        "water"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India: People and Economy",
-        "code": "legy201",
-        "chapterNo": 1,
-        "page": 3,
-        "section": "Distribution of Population"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "distribution",
-        "factors"
-      ],
-      "order": 90,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Blank \"uneven\" has obvious synonyms (unequal, irregular, skewed); not a single right fill."
       ]
     },
     {
@@ -7208,19 +6215,17 @@
       ]
     },
     {
-      "id": "kc.geography.india-people-and-economy.key-growth-rate-percentage",
+      "id": "kc.geography.india-people-and-economy.fact-growth-rate-percentage",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.india-people-and-economy",
       "chapter": "India — People & Economy",
       "unit": "Population: Distribution, Density, Growth and Composition",
-      "kind": "key_line",
-      "front": "Its rate is expressed in ____.",
-      "back": "Its rate is expressed in percentage.",
-      "quote": "Its rate is expressed in percentage.",
-      "blanks": [
-        "percentage"
-      ],
+      "kind": "fact",
+      "front": "In what unit is the rate of population growth expressed?",
+      "back": "Percentage\nGrowth of population is the change in the number of people living in a particular area between two points of time. Its rate is expressed in percentage.",
+      "quote": "Growth of population is the change in the number of people living in a particular area between two points of time. Its rate is expressed in percentage.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India: People and Economy",
@@ -7236,7 +6241,8 @@
       ],
       "order": 260,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Trivial: only the unit (percentage) of growth rate; the real memory item is the growth definition. Answer could also be given as per cent per annum."
       ]
     },
     {
@@ -7302,37 +6308,6 @@
       "reasons": [
         "review:not_important",
         "review:Symbols p1 and p2 are useless without the formula g = (p2 - p1) / p1 x 100, which no card carries (coverage gap; spec formula kind expects formula plus symbols). Should be a must formula card, not a good fact card."
-      ]
-    },
-    {
-      "id": "kc.geography.india-people-and-economy.types-four-phases-of-growth",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.india-people-and-economy",
-      "chapter": "India — People & Economy",
-      "unit": "Population: Distribution, Density, Growth and Composition",
-      "kind": "types",
-      "front": "Name the four phases of population growth in India since 1901.",
-      "back": "The period from 1901-1921 is referred to as a period of stagnant or stationary phase of growth of India's population\nThe decades 1921-1951 are referred to as the period of steady population growth\nThe decades 1951-1981 are referred to as the period of population explosion in India\nIn the post 1981 till present, the growth rate of country's population though remained high, has started slowing down gradually",
-      "quote": "There are four distinct phases of growth identified within this period:",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "India: People and Economy",
-        "code": "legy201",
-        "chapterNo": 1,
-        "page": 5,
-        "section": "Growth of Population"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "growth",
-        "phases"
-      ],
-      "order": 320,
-      "reasons": [
-        "shape:back_not_quote"
       ]
     },
     {
@@ -7440,40 +6415,6 @@
       ]
     },
     {
-      "id": "kc.geography.india-people-and-economy.key-phase-4-reasons",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.india-people-and-economy",
-      "chapter": "India — People & Economy",
-      "unit": "Population: Distribution, Density, Growth and Composition",
-      "kind": "key_line",
-      "front": "This was, in turn, affected by an increase in the ____, improved quality of life particularly ____ in the country.",
-      "back": "This was, in turn, affected by an increase in the mean age at marriage, improved quality of life particularly education of females in the country.",
-      "quote": "This was, in turn, affected by an increase in the mean age at marriage, improved quality of life particularly education of females in the country.",
-      "blanks": [
-        "mean age at marriage",
-        "education of females"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India: People and Economy",
-        "code": "legy201",
-        "chapterNo": 1,
-        "page": 7,
-        "section": "Growth of Population"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "growth",
-        "phases"
-      ],
-      "order": 400,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.geography.india-people-and-economy.fact-belt-20-25",
       "v": 1,
       "subject": "geography",
@@ -7506,19 +6447,17 @@
       ]
     },
     {
-      "id": "kc.geography.india-people-and-economy.key-rural-68-8",
+      "id": "kc.geography.india-people-and-economy.fact-rural-68-8",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.india-people-and-economy",
       "chapter": "India — People & Economy",
       "unit": "Population: Distribution, Density, Growth and Composition",
-      "kind": "key_line",
-      "front": "This becomes even more significant for a country where about ____ per cent of its total population lives in village (2011).",
-      "back": "This becomes even more significant for a country where about 68.8 per cent of its total population lives in village (2011).",
-      "quote": "This becomes even more significant for a country where about 68.8 per cent of its total population lives in village (2011).",
-      "blanks": [
-        "68.8"
-      ],
+      "kind": "fact",
+      "front": "About what per cent of India's total population lives in villages (2011)?",
+      "back": "68.8 per cent\nComposition of population by their respective places of residence is an important indicator of social and economic characteristics. This becomes even more significant for a country where about 68.8 per cent of its total population lives in village (2011).",
+      "quote": "Composition of population by their respective places of residence is an important indicator of social and economic characteristics. This becomes even more significant for a country where about 68.8 per cent of its total population lives in village (2011).",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India: People and Economy",
@@ -7535,7 +6474,8 @@
       ],
       "order": 500,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Time-bound census statistic (2011); brief excludes time-bound statistics."
       ]
     },
     {
@@ -7603,19 +6543,17 @@
       ]
     },
     {
-      "id": "kc.geography.india-people-and-economy.key-urban-31-16",
+      "id": "kc.geography.india-people-and-economy.fact-urban-31-16",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.india-people-and-economy",
       "chapter": "India — People & Economy",
       "unit": "Population: Distribution, Density, Growth and Composition",
-      "kind": "key_line",
-      "front": "the proportion of urban population (____ per cent) in India is quite low but it is showing a much faster rate of growth over the decades.",
-      "back": "the proportion of urban population (31.16 per cent) in India is quite low but it is showing a much faster rate of growth over the decades.",
+      "kind": "fact",
+      "front": "What per cent of India's population is urban, which NCERT calls quite low but fast-growing?",
+      "back": "31.16 per cent\nthe proportion of urban population (31.16 per cent) in India is quite low but it is showing a much faster rate of growth over the decades.",
       "quote": "the proportion of urban population (31.16 per cent) in India is quite low but it is showing a much faster rate of growth over the decades.",
-      "blanks": [
-        "31.16"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India: People and Economy",
@@ -7632,7 +6570,9 @@
       ],
       "order": 540,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Time-bound census statistic (2011); and the front gives no year, so the figure is not the single right answer."
       ]
     },
     {
@@ -7665,37 +6605,6 @@
       "reasons": [
         "review:not_important",
         "review:Long list of seven city-pair industrial belts; low exam value."
-      ]
-    },
-    {
-      "id": "kc.geography.india-people-and-economy.types-language-families",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.india-people-and-economy",
-      "chapter": "India — People & Economy",
-      "unit": "Population: Distribution, Density, Growth and Composition",
-      "kind": "types",
-      "front": "Types: the four language families of India, with each family's share of speakers",
-      "back": "Austric (Nishada) 1.38%\nDravidian (Dravida) 20%\nSino-Tibetan (Kirata) 0.85%\nIndo European (Aryan) 73%",
-      "quote": "The speakers of major Indian languages belong to four language families, which have their sub-families and branches or groups.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "India: People and Economy",
-        "code": "legy201",
-        "chapterNo": 1,
-        "page": 9,
-        "section": "Linguistic Composition"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "composition",
-        "language"
-      ],
-      "order": 610,
-      "reasons": [
-        "shape:back_not_quote"
       ]
     },
     {
@@ -7766,40 +6675,6 @@
       ]
     },
     {
-      "id": "kc.geography.india-people-and-economy.key-sectoral-shift",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.india-people-and-economy",
-      "chapter": "India — People & Economy",
-      "unit": "Population: Distribution, Density, Growth and Composition",
-      "kind": "key_line",
-      "front": "This indicates a shift of dependence of workers from ____ occupations to ____ ones, indicating a sectoral shift in the economy of the country.",
-      "back": "This indicates a shift of dependence of workers from farm-based occupations to non-farm based ones, indicating a sectoral shift in the economy of the country.",
-      "quote": "This indicates a shift of dependence of workers from farm-based occupations to non-farm based ones, indicating a sectoral shift in the economy of the country.",
-      "blanks": [
-        "farm-based",
-        "non-farm based"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India: People and Economy",
-        "code": "legy201",
-        "chapterNo": 1,
-        "page": 13,
-        "section": "Occupational Categories"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "composition",
-        "occupation"
-      ],
-      "order": 850,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.geography.human-settlements.kl-erect-houses",
       "v": 1,
       "subject": "geography",
@@ -7831,39 +6706,6 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:Background elaboration, low exam value; blank 'economic support-base' has a natural rival fill 'resource base' (used in the next sentence)."
-      ]
-    },
-    {
-      "id": "kc.geography.human-settlements.kl-grouping-apportioning",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-settlements",
-      "chapter": "Human Settlements",
-      "unit": "Human Settlements",
-      "kind": "key_line",
-      "front": "Thus, the process of settlement inherently involves ____ and ____ as their resource base.",
-      "back": "Thus, the process of settlement inherently involves grouping of people and apportioning of territory as their resource base.",
-      "quote": "Thus, the process of settlement inherently involves grouping of people and apportioning of territory as their resource base.",
-      "blanks": [
-        "grouping of people",
-        "apportioning of territory"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy202",
-        "chapterNo": 2,
-        "page": 15,
-        "section": "Introduction"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "human settlements"
-      ],
-      "order": 30,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -7933,51 +6775,18 @@
       ]
     },
     {
-      "id": "kc.geography.human-settlements.term-urban-settlement",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-settlements",
-      "chapter": "Human Settlements",
-      "unit": "Human Settlements",
-      "kind": "term",
-      "front": "On the other hand, there are fewer but larger settlements which are termed as ____ specialising in secondary and tertiary activities.",
-      "back": "On the other hand, there are fewer but larger settlements which are termed as urban settlements specialising in secondary and tertiary activities.",
-      "quote": "On the other hand, there are fewer but larger settlements which are termed as urban settlements specialising in secondary and tertiary activities.",
-      "blanks": [
-        "urban settlements"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy202",
-        "chapterNo": 2,
-        "page": 15,
-        "section": "Introduction"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "urban settlement"
-      ],
-      "order": 70,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.geography.human-settlements.kl-cities-nodes",
-      "v": 1,
+      "v": 2,
       "subject": "geography",
       "chapterKey": "geography.human-settlements",
       "chapter": "Human Settlements",
       "unit": "Human Settlements",
       "kind": "key_line",
-      "front": "Cities act as ____ of economic growth, provide goods and services not only to urban dwellers but also to the people of the rural settlements in their ____ in return for food and raw materials.",
-      "back": "Cities act as nodes of economic growth, provide goods and services not only to urban dwellers but also to the people of the rural settlements in their hinterlands in return for food and raw materials.",
-      "quote": "Cities act as nodes of economic growth, provide goods and services not only to urban dwellers but also to the people of the rural settlements in their hinterlands in return for food and raw materials.",
+      "front": "Cities act as ____ of economic growth",
+      "back": "Cities act as nodes of economic growth",
+      "quote": "Cities act as nodes of economic growth",
       "blanks": [
-        "nodes",
-        "hinterlands"
+        "nodes"
       ],
       "source": {
         "kind": "ncert",
@@ -7994,101 +6803,8 @@
       ],
       "order": 90,
       "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.geography.human-settlements.kl-urban-rural-link",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-settlements",
-      "chapter": "Human Settlements",
-      "unit": "Human Settlements",
-      "kind": "key_line",
-      "front": "This functional relationship between the urban and rural settlements takes place through ____ and ____ network.",
-      "back": "This functional relationship between the urban and rural settlements takes place through transport and communication network.",
-      "quote": "This functional relationship between the urban and rural settlements takes place through transport and communication network.",
-      "blanks": [
-        "transport",
-        "communication"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy202",
-        "chapterNo": 2,
-        "page": 15,
-        "section": "Rural and urban settlements"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "rural vs urban"
-      ],
-      "order": 100,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.human-settlements.list-rural-factors",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-settlements",
-      "chapter": "Human Settlements",
-      "unit": "Human Settlements",
-      "kind": "list",
-      "front": "Name the groups of factors responsible for the types of rural settlements in India.",
-      "back": "physical features\ncultural and ethenic factors\nsecurity factors",
-      "quote": "There are various factors and conditions responsible for having different types of rural settlements in India.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy202",
-        "chapterNo": 2,
-        "page": 16,
-        "section": "Types of Rural Settlement"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "rural settlement"
-      ],
-      "order": 130,
-      "note": "NCERT prints 'ethenic'; the usual spelling is ethnic.",
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.geography.human-settlements.types-rural-four-types",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-settlements",
-      "chapter": "Human Settlements",
-      "unit": "Human Settlements",
-      "kind": "types",
-      "front": "Name the four types of rural settlements in India.",
-      "back": "Clustered, agglomerated or nucleated\nSemi-clustered or fragmented\nHamleted\nDispersed or isolated",
-      "quote": "Rural settlements in India can broadly be put into four types",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy202",
-        "chapterNo": 2,
-        "page": 16,
-        "section": "Types of Rural Settlement"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "rural settlement"
-      ],
-      "order": 140,
-      "reasons": [
-        "shape:back_not_quote"
+        "review:not_unambiguous",
+        "review:Blank \"nodes\" has synonyms (centres, hubs, engines, drivers); not a single right fill."
       ]
     },
     {
@@ -8160,39 +6876,6 @@
       ]
     },
     {
-      "id": "kc.geography.human-settlements.kl-semi-cluster-social",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-settlements",
-      "chapter": "Human Settlements",
-      "unit": "Human Settlements",
-      "kind": "key_line",
-      "front": "In such cases, generally, the land-owning and dominant community occupies the ____ of the main village, whereas people of lower strata of society and menial workers settle on the ____ of the village.",
-      "back": "In such cases, generally, the land-owning and dominant community occupies the central part of the main village, whereas people of lower strata of society and menial workers settle on the outer flanks of the village.",
-      "quote": "In such cases, generally, the land-owning and dominant community occupies the central part of the main village, whereas people of lower strata of society and menial workers settle on the outer flanks of the village.",
-      "blanks": [
-        "central part",
-        "outer flanks"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy202",
-        "chapterNo": 2,
-        "page": 16,
-        "section": "Semi-Clustered Settlements"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "semi-clustered"
-      ],
-      "order": 170,
-      "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
       "id": "kc.geography.human-settlements.kl-clustered-living-area",
       "v": 1,
       "subject": "geography",
@@ -8224,39 +6907,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:'distinct and separated' are near-synonyms (apart, detached, isolated); blanks not one-answer."
-      ]
-    },
-    {
-      "id": "kc.geography.human-settlements.kl-hamlet-motive",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-settlements",
-      "chapter": "Human Settlements",
-      "unit": "Human Settlements",
-      "kind": "key_line",
-      "front": "This segmentation of a large village is often motivated by ____ and ____ factors.",
-      "back": "This segmentation of a large village is often motivated by social and ethnic factors.",
-      "quote": "This segmentation of a large village is often motivated by social and ethnic factors.",
-      "blanks": [
-        "social",
-        "ethnic"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy202",
-        "chapterNo": 2,
-        "page": 16,
-        "section": "Hamleted Settlements"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "hamleted"
-      ],
-      "order": 260,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -8327,18 +6977,17 @@
     },
     {
       "id": "kc.geography.human-settlements.kl-urban-compact",
-      "v": 1,
+      "v": 2,
       "subject": "geography",
       "chapterKey": "geography.human-settlements",
       "chapter": "Human Settlements",
       "unit": "Human Settlements",
       "kind": "key_line",
-      "front": "Unlike rural settlements, urban settlements are generally ____ and larger in size. They are engaged in a variety of ____, economic and administrative functions.",
-      "back": "Unlike rural settlements, urban settlements are generally compact and larger in size. They are engaged in a variety of non-agricultural, economic and administrative functions.",
-      "quote": "Unlike rural settlements, urban settlements are generally compact and larger in size. They are engaged in a variety of non-agricultural, economic and administrative functions.",
+      "front": "Unlike rural settlements, urban settlements are generally ____ and larger in size.",
+      "back": "Unlike rural settlements, urban settlements are generally compact and larger in size.",
+      "quote": "Unlike rural settlements, urban settlements are generally compact and larger in size.",
       "blanks": [
-        "compact",
-        "non-agricultural"
+        "compact"
       ],
       "source": {
         "kind": "ncert",
@@ -8355,99 +7004,8 @@
       ],
       "order": 310,
       "reasons": [
-        "shape:front_too_long"
-      ]
-    },
-    {
-      "id": "kc.geography.human-settlements.kl-urban-exchange",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-settlements",
-      "chapter": "Human Settlements",
-      "unit": "Human Settlements",
-      "kind": "key_line",
-      "front": "Thus, exchange of goods and services is performed sometimes directly and sometimes through a series of ____ and cities.",
-      "back": "Thus, exchange of goods and services is performed sometimes directly and sometimes through a series of market towns and cities.",
-      "quote": "Thus, exchange of goods and services is performed sometimes directly and sometimes through a series of market towns and cities.",
-      "blanks": [
-        "market towns"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy202",
-        "chapterNo": 2,
-        "page": 17,
-        "section": "Urban Settlements"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "urban settlement"
-      ],
-      "order": 320,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.human-settlements.types-evolution-classes",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-settlements",
-      "chapter": "Human Settlements",
-      "unit": "Human Settlements",
-      "kind": "types",
-      "front": "Classify Indian towns on the basis of their evolution in different periods.",
-      "back": "Ancient towns\nMedieval towns\nModern towns",
-      "quote": "evolution in different periods, Indian towns may be classified as",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy202",
-        "chapterNo": 2,
-        "page": 17,
-        "section": "Evolution of Towns in India"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "evolution of towns"
-      ],
-      "order": 360,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.geography.human-settlements.list-british-nodes",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.human-settlements",
-      "chapter": "Human Settlements",
-      "unit": "Human Settlements",
-      "kind": "list",
-      "front": "Name the three principal nodes around which the British consolidated their hold.",
-      "back": "Mumbai (Bombay)\nChennai (Madras)\nKolkata (Calcutta)",
-      "quote": "The British later consolidated their hold around three principal nodes",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy202",
-        "chapterNo": 2,
-        "page": 17,
-        "section": "Modern Towns"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "modern towns"
-      ],
-      "order": 420,
-      "reasons": [
-        "shape:back_not_quote"
+        "review:not_unambiguous",
+        "review:Blank \"compact\" has synonyms (dense, concentrated, nucleated); not a single right fill."
       ]
     },
     {
@@ -8485,15 +7043,15 @@
     },
     {
       "id": "kc.geography.human-settlements.types-functional-classes",
-      "v": 1,
+      "v": 2,
       "subject": "geography",
       "chapterKey": "geography.human-settlements",
       "chapter": "Human Settlements",
       "unit": "Human Settlements",
       "kind": "types",
-      "front": "Functional classification of Indian towns and cities.",
-      "back": "Administrative towns and cities\nIndustrial towns\nTransport Cities\nCommercial towns\nMining towns\nGarrisson Cantonment towns\nEducational towns\nReligious and cultural towns\nTourist towns",
-      "quote": "On the basis of dominant or specialised functions, Indian cities and towns can be broadly classified as follows",
+      "front": "Name the first six classes in NCERT's functional classification of Indian towns and cities.",
+      "back": "Administrative towns and cities\nIndustrial towns\nTransport Cities\nCommercial towns\nMining towns\nGarrisson Cantonment towns",
+      "quote": "On the basis of dominant or specialised functions, Indian cities and towns can be broadly classified as follows: Administrative towns and cities Towns supporting administrative headquarters of higher order are administrative towns, such as Chandigarh, New Delhi, Bhopal, Shillong, Guwahati, Imphal, Srinagar, Gandhinagar, Jaipur, Chennai, etc. Industrial towns Industries constitute prime motive force of these cities, such as Mumbai, Salem, Coimbatore, Modinagar, Jamshedpur, Hugli, Bhilai, etc. Transport Cities They may be ports primarily engaged in export and import activities such as Kandla, Cochin, Kozhikode, Vishakhapatnam, etc., or hubs of inland transport, such as Agra, Dhulia, Pandit Deendayal Upadhyay Nagar, Itarsi, Katni, etc. Commercial towns Towns and cities specialising in trade and commerce are kept in this class. Kolkata, Saharanpur, Satna, etc., are some examples. Mining towns These towns have developed in mineral rich areas such as Raniganj, Jharia, Digboi, Ankaleshwar, Singrauli, etc. Garrisson Cantonment towns These towns emerged as garrisson towns such as Ambala, Jalandhar, Mhow, Babina, Udhampur, etc.",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -8511,7 +7069,40 @@
       "order": 500,
       "note": "NCERT prints 'Garrisson'; the usual spelling is garrison.",
       "reasons": [
-        "shape:back_not_quote"
+        "review:not_unambiguous",
+        "review:\"First six\" of nine classes is an arbitrary split a student cannot know from the front; ask for all nine classes in one card (titles are short enough)."
+      ]
+    },
+    {
+      "id": "kc.geography.human-settlements.types-functional-classes-last-three",
+      "v": 1,
+      "subject": "geography",
+      "chapterKey": "geography.human-settlements",
+      "chapter": "Human Settlements",
+      "unit": "Human Settlements",
+      "kind": "types",
+      "front": "Name the last three classes in NCERT's functional classification of Indian towns and cities.",
+      "back": "Educational towns\nReligious and cultural towns\nTourist towns",
+      "quote": "Educational towns Starting as centres of education, some of the towns have grown into major campus towns, such as Roorki, Varanasi, Aligarh, Pilani, Prayagraj, etc. Religious and cultural towns Varanasi, Mathura, Amritsar, Madurai, Puri, Ajmer, Pushkar, Tirupati, Kurukshetra, Haridwar, Ujjain came to prominence due to their religious/cultural significance. Tourist towns Nainital, Mussoorie, Shimla, Pachmarhi, Jodhpur, Jaisalmer, Udagamandalam (Ooty), Mount Abu are some of the tourist destinations.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "India : People and Economy",
+        "code": "legy202",
+        "chapterNo": 2,
+        "page": 19,
+        "section": "Functional Classification of Towns"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "functional classification"
+      ],
+      "order": 505,
+      "note": "NCERT prints 'Garrisson'; the usual spelling is garrison.",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:\"Last three\" of nine classes is an arbitrary split a student cannot know from the front; merge with the first six into one nine-item card."
       ]
     },
     {
@@ -8550,131 +7141,6 @@
       ]
     },
     {
-      "id": "kc.geography.land-resources-and-agriculture.list-nine-categories",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.land-resources-and-agriculture",
-      "chapter": "Land Resources and Agriculture",
-      "unit": "Land Resources and Agriculture",
-      "kind": "list",
-      "front": "Name the nine land-use categories maintained in the Land Revenue Records.",
-      "back": "(i) Forests\n(ii) Barren and Wastelands\n(iii) Land put to Non-agricultural Uses\n(iv) Area under Permanent Pastures and Grazing Lands\n(v) Area under Miscellaneous Tree Crops and Groves (Not included in Net sown Area)\n(vi) Culturable Wasteland\n(vii) Current Fallow\n(viii) Fallow other than Current Fallow\n(ix) Net Area Sown",
-      "quote": "The land-use categories as maintained in the Land Revenue Records are as follows :",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy203",
-        "chapterNo": 3,
-        "page": 21,
-        "section": "Land Use Categories"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "land use"
-      ],
-      "order": 60,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.geography.land-resources-and-agriculture.list-three-economic-changes",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.land-resources-and-agriculture",
-      "chapter": "Land Resources and Agriculture",
-      "unit": "Land Resources and Agriculture",
-      "kind": "list",
-      "front": "Name the three types of changes an economy undergoes that affect land-use.",
-      "back": "(i) The size of the economy (measured in terms of value for all the goods and services produced in the economy) grows over time\n(ii) Secondly, the composition of the economy would undergo a change over time\n(iii) Thirdly, though the contribution of the agricultural activities reduces over time, the pressure on land for agricultural activities does not decline",
-      "quote": "At this stage, one needs to appreciate three types of changes that an economy undergoes, which affect land-use.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy203",
-        "chapterNo": 3,
-        "page": 22,
-        "section": "Land-use Changes in India"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "land use"
-      ],
-      "order": 180,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.geography.land-resources-and-agriculture.kl-secondary-tertiary-grow-faster",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.land-resources-and-agriculture",
-      "chapter": "Land Resources and Agriculture",
-      "unit": "Land Resources and Agriculture",
-      "kind": "key_line",
-      "front": "In other words, the ____ and the ____ sectors usually grow much faster than the primary sector, specifically the agricultural sector.",
-      "back": "In other words, the secondary and the tertiary sectors usually grow much faster than the primary sector, specifically the agricultural sector.",
-      "quote": "In other words, the secondary and the tertiary sectors usually grow much faster than the primary sector, specifically the agricultural sector.",
-      "blanks": [
-        "secondary",
-        "tertiary"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy203",
-        "chapterNo": 3,
-        "page": 22,
-        "section": "Land-use Changes in India"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "land use"
-      ],
-      "order": 190,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.land-resources-and-agriculture.kl-shift-to-non-agricultural",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.land-resources-and-agriculture",
-      "chapter": "Land Resources and Agriculture",
-      "unit": "Land Resources and Agriculture",
-      "kind": "key_line",
-      "front": "This process would result in a gradual ____ of land from agricultural uses to non-agricultural uses.",
-      "back": "This process would result in a gradual shift of land from agricultural uses to non-agricultural uses.",
-      "quote": "This process would result in a gradual shift of land from agricultural uses to non-agricultural uses.",
-      "blanks": [
-        "shift"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy203",
-        "chapterNo": 3,
-        "page": 22,
-        "section": "Land-use Changes in India"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "land use"
-      ],
-      "order": 200,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.geography.land-resources-and-agriculture.kl-five-up-four-down",
       "v": 1,
       "subject": "geography",
@@ -8709,82 +7175,17 @@
       ]
     },
     {
-      "id": "kc.geography.land-resources-and-agriculture.kl-non-agri-expense",
+      "id": "kc.geography.land-resources-and-agriculture.fact-scope-limited",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.land-resources-and-agriculture",
       "chapter": "Land Resources and Agriculture",
       "unit": "Land Resources and Agriculture",
-      "kind": "key_line",
-      "front": "Thus, the area under non-agricultural uses is increasing at the expense of ____ and agricultural land.",
-      "back": "Thus, the area under non-agricultural uses is increasing at the expense of wastelands and agricultural land.",
-      "quote": "Thus, the area under non-agricultural uses is increasing at the expense of wastelands and agricultural land.",
-      "blanks": [
-        "wastelands"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy203",
-        "chapterNo": 3,
-        "page": 23,
-        "section": "Land-use Changes (Fig. 3.1)"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "land use"
-      ],
-      "order": 250,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.land-resources-and-agriculture.list-land-crucial-agri",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.land-resources-and-agriculture",
-      "chapter": "Land Resources and Agriculture",
-      "unit": "Land Resources and Agriculture",
-      "kind": "list",
-      "front": "Why is land more crucial to the livelihood of people depending on agriculture? Give the three points.",
-      "back": "(i) Agriculture is a purely land based activity unlike secondary and tertiary activities.\n(ii) Quality of land has a direct bearing on the productivity of agriculture, which is not true for other activities.\n(iii) In rural areas, aside from its value as a productive factor, land ownership has a social value and serves as a security for credit, natural hazards or life contingencies, and also adds to the social status.",
-      "quote": "Land resource is more crucial to the livelihood of the people depending on agriculture:",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy203",
-        "chapterNo": 3,
-        "page": 24,
-        "section": "Agricultural Land Use in India"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "agriculture",
-        "land"
-      ],
-      "order": 360,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.geography.land-resources-and-agriculture.kl-scope-limited",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.land-resources-and-agriculture",
-      "chapter": "Land Resources and Agriculture",
-      "unit": "Land Resources and Agriculture",
-      "kind": "key_line",
-      "front": "It is clear from the above discussion that the scope for bringing in additional land under net sown area in India is ____.",
-      "back": "It is clear from the above discussion that the scope for bringing in additional land under net sown area in India is limited.",
+      "kind": "fact",
+      "front": "How much scope does India have for bringing additional land under net sown area?",
+      "back": "Limited\nIt is clear from the above discussion that the scope for bringing in additional land under net sown area in India is limited.",
       "quote": "It is clear from the above discussion that the scope for bringing in additional land under net sown area in India is limited.",
-      "blanks": [
-        "limited"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India : People and Economy",
@@ -8800,7 +7201,8 @@
       ],
       "order": 380,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:'Limited' has obvious synonyms (little, small, not much); an open 'how much' front does not force NCERT's word"
       ]
     },
     {
@@ -8834,36 +7236,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:'adopt ____ technologies' could be filled with new/modern; land-saving is only recoverable by memory, not from the front."
-      ]
-    },
-    {
-      "id": "kc.geography.land-resources-and-agriculture.types-cropping-seasons",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.land-resources-and-agriculture",
-      "chapter": "Land Resources and Agriculture",
-      "unit": "Land Resources and Agriculture",
-      "kind": "types",
-      "front": "Cropping seasons in India (Table 3.2): kharif, rabi and zaid with their months.",
-      "back": "Kharif June-September\nRabi October – March\nZaid April–June",
-      "quote": "Table 3.2 : Cropping Seasons in India",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy203",
-        "chapterNo": 3,
-        "page": 25,
-        "section": "Cropping Seasons in India"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "seasons"
-      ],
-      "order": 420,
-      "reasons": [
-        "shape:back_not_quote"
       ]
     },
     {
@@ -8934,38 +7306,6 @@
       ]
     },
     {
-      "id": "kc.geography.land-resources-and-agriculture.kl-south-three-crops",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.land-resources-and-agriculture",
-      "chapter": "Land Resources and Agriculture",
-      "unit": "Land Resources and Agriculture",
-      "kind": "key_line",
-      "front": "Therefore, in this region same crops can be grown ____ in an agricultural year provided there is sufficient soil moisture.",
-      "back": "Therefore, in this region same crops can be grown thrice in an agricultural year provided there is sufficient soil moisture.",
-      "quote": "Therefore, in this region same crops can be grown thrice in an agricultural year provided there is sufficient soil moisture.",
-      "blanks": [
-        "thrice"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy203",
-        "chapterNo": 3,
-        "page": 25,
-        "section": "Cropping Seasons in India"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "seasons"
-      ],
-      "order": 490,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.geography.land-resources-and-agriculture.fact-protective-irrigation",
       "v": 1,
       "subject": "geography",
@@ -8994,70 +7334,6 @@
       "reasons": [
         "review:not_exact",
         "review:Front adds paraphrase ('supplements rainfall') not in the quoted sentence and never says what protective irrigation is; NCERT's objective sentence is missing. Definition-level, should be must."
-      ]
-    },
-    {
-      "id": "kc.geography.land-resources-and-agriculture.types-dryland-wetland",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.land-resources-and-agriculture",
-      "chapter": "Land Resources and Agriculture",
-      "unit": "Land Resources and Agriculture",
-      "kind": "types",
-      "front": "Rainfed farming is further classified into which two types?",
-      "back": "dryland farming\nwetland farming",
-      "quote": "Rainfed farming is further classified on the basis of adequacy of soil moisture during cropping season into dryland and wetland farming.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy203",
-        "chapterNo": 3,
-        "page": 26,
-        "section": "Types of Farming"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "farming"
-      ],
-      "order": 530,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
-      "id": "kc.geography.land-resources-and-agriculture.kl-wetland-crops",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.land-resources-and-agriculture",
-      "chapter": "Land Resources and Agriculture",
-      "unit": "Land Resources and Agriculture",
-      "kind": "key_line",
-      "front": "These areas grow various water intensive crops such as ____, ____ and ____ and practise aquaculture in the fresh water bodies.",
-      "back": "These areas grow various water intensive crops such as rice, jute and sugarcane and practise aquaculture in the fresh water bodies.",
-      "quote": "These areas grow various water intensive crops such as rice, jute and sugarcane and practise aquaculture in the fresh water bodies.",
-      "blanks": [
-        "rice",
-        "jute",
-        "sugarcane"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy203",
-        "chapterNo": 3,
-        "page": 26,
-        "section": "Types of Farming"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "farming"
-      ],
-      "order": 570,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -9120,71 +7396,6 @@
       "reasons": [
         "review:not_exact",
         "review:Front adds 'but now grow irrigated rice', which the quoted sentence does not say; the Green Revolution 1970s fact it hints at is on the next sentence."
-      ]
-    },
-    {
-      "id": "kc.geography.land-resources-and-agriculture.kl-wheat-rabi",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.land-resources-and-agriculture",
-      "chapter": "Land Resources and Agriculture",
-      "unit": "Land Resources and Agriculture",
-      "kind": "key_line",
-      "front": "It is primarily a crop of ____ zone. Hence, its cultivation in India is done during winter i.e. ____ season.",
-      "back": "It is primarily a crop of temperate zone. Hence, its cultivation in India is done during winter i.e. rabi season.",
-      "quote": "It is primarily a crop of temperate zone. Hence, its cultivation in India is done during winter i.e. rabi season.",
-      "blanks": [
-        "temperate",
-        "rabi"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy203",
-        "chapterNo": 3,
-        "page": 28,
-        "section": "Wheat"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "wheat"
-      ],
-      "order": 710,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.land-resources-and-agriculture.kl-jowar-semi-arid",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.land-resources-and-agriculture",
-      "chapter": "Land Resources and Agriculture",
-      "unit": "Land Resources and Agriculture",
-      "kind": "key_line",
-      "front": "It is main food crop in ____ areas of central and southern India.",
-      "back": "It is main food crop in semi-arid areas of central and southern India.",
-      "quote": "It is main food crop in semi-arid areas of central and southern India.",
-      "blanks": [
-        "semi-arid"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy203",
-        "chapterNo": 3,
-        "page": 28,
-        "section": "Jowar"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "jowar"
-      ],
-      "order": 780,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -9253,38 +7464,6 @@
       ]
     },
     {
-      "id": "kc.geography.land-resources-and-agriculture.kl-pulses-nitrogen",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.land-resources-and-agriculture",
-      "chapter": "Land Resources and Agriculture",
-      "unit": "Land Resources and Agriculture",
-      "kind": "key_line",
-      "front": "These are legume crops which increase the natural fertility of soils through ____.",
-      "back": "These are legume crops which increase the natural fertility of soils through nitrogen fixation.",
-      "quote": "These are legume crops which increase the natural fertility of soils through nitrogen fixation.",
-      "blanks": [
-        "nitrogen fixation"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy203",
-        "chapterNo": 3,
-        "page": 28,
-        "section": "Pulses"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "pulses"
-      ],
-      "order": 840,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.geography.land-resources-and-agriculture.kl-oilseeds-purpose",
       "v": 1,
       "subject": "geography",
@@ -9318,83 +7497,17 @@
       ]
     },
     {
-      "id": "kc.geography.land-resources-and-agriculture.kl-groundnut-kharif",
+      "id": "kc.geography.land-resources-and-agriculture.fact-self-reliant",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.land-resources-and-agriculture",
       "chapter": "Land Resources and Agriculture",
       "unit": "Land Resources and Agriculture",
-      "kind": "key_line",
-      "front": "It is largely a rainfed ____ crop of drylands.",
-      "back": "It is largely a rainfed kharif crop of drylands.",
-      "quote": "It is largely a rainfed kharif crop of drylands.",
-      "blanks": [
-        "kharif"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy203",
-        "chapterNo": 3,
-        "page": 30,
-        "section": "Groundnut"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "groundnut"
-      ],
-      "order": 930,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.land-resources-and-agriculture.kl-rapeseed-frost",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.land-resources-and-agriculture",
-      "chapter": "Land Resources and Agriculture",
-      "unit": "Land Resources and Agriculture",
-      "kind": "key_line",
-      "front": "These are ____ sensitive crops and their yields fluctuate from year to year.",
-      "back": "These are frost sensitive crops and their yields fluctuate from year to year.",
-      "quote": "These are frost sensitive crops and their yields fluctuate from year to year.",
-      "blanks": [
-        "frost"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy203",
-        "chapterNo": 3,
-        "page": 30,
-        "section": "Rapeseed and Mustard"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "rapeseed"
-      ],
-      "order": 950,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.land-resources-and-agriculture.kl-self-reliant",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.land-resources-and-agriculture",
-      "chapter": "Land Resources and Agriculture",
-      "unit": "Land Resources and Agriculture",
-      "kind": "key_line",
-      "front": "This strategy of agricultural development made the country ____ in foodgrain production.",
-      "back": "This strategy of agricultural development made the country self-reliant in foodgrain production.",
+      "kind": "fact",
+      "front": "The HYV, fertiliser and irrigation strategy of agricultural development made India what in foodgrain production?",
+      "back": "Self-reliant\nThis strategy of agricultural development made the country self-reliant in foodgrain production.",
       "quote": "This strategy of agricultural development made the country self-reliant in foodgrain production.",
-      "blanks": [
-        "self-reliant"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India : People and Economy",
@@ -9410,7 +7523,8 @@
       ],
       "order": 1270,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:'made India what' invites 'self-sufficient' as an equally right answer; front paraphrases 'this strategy' and the fill word is not unique"
       ]
     },
     {
@@ -9442,36 +7556,6 @@
       "reasons": [
         "review:not_important",
         "review:Farmer's Portal is an info box with a web source; not an exam-grade definition."
-      ]
-    },
-    {
-      "id": "kc.geography.land-resources-and-agriculture.list-problems-list",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.land-resources-and-agriculture",
-      "chapter": "Land Resources and Agriculture",
-      "unit": "Land Resources and Agriculture",
-      "kind": "list",
-      "front": "Name the problems of Indian agriculture discussed in the chapter.",
-      "back": "Dependence on Erratic Monsoon\nLow productivity\nConstraints of Financial Resources and Indebtedness\nLack of Land Reforms\nSmall Farm Size and Fragmentation of Landholdings\nLack of Commercialisation\nVast Underemployment\nDegradation of Cultivable Land",
-      "quote": "A detailed discussion on these problems follows:",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy203",
-        "chapterNo": 3,
-        "page": 36,
-        "section": "Problems of Indian Agriculture"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "problems"
-      ],
-      "order": 1370,
-      "reasons": [
-        "shape:back_not_quote"
       ]
     },
     {
@@ -9640,19 +7724,17 @@
       ]
     },
     {
-      "id": "kc.geography.water-resources.kl-irrigated-productivity",
+      "id": "kc.geography.water-resources.fact-irrigated-productivity",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.water-resources",
       "chapter": "Water Resources",
       "unit": "Water Resources",
-      "kind": "key_line",
-      "front": "It has also been found that irrigated lands have ____ agricultural productivity than unirrigated land.",
-      "back": "It has also been found that irrigated lands have higher agricultural productivity than unirrigated land.",
+      "kind": "fact",
+      "front": "Which has higher agricultural productivity: irrigated land or unirrigated land?",
+      "back": "irrigated lands have higher agricultural productivity than unirrigated land.",
       "quote": "It has also been found that irrigated lands have higher agricultural productivity than unirrigated land.",
-      "blanks": [
-        "higher"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India : People and Economy",
@@ -9668,7 +7750,8 @@
       ],
       "order": 330,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Binary irrigated-vs-unirrigated question answered by common sense; no mark-carrying fact to memorise."
       ]
     },
     {
@@ -9770,19 +7853,17 @@
       ]
     },
     {
-      "id": "kc.geography.water-resources.kl-pollutants-unfit",
+      "id": "kc.geography.water-resources.fact-pollutants-unfit",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.water-resources",
       "chapter": "Water Resources",
       "unit": "Water Resources",
-      "kind": "key_line",
-      "front": "Such matters deteriorate the quality of water and render it ____ for human use.",
-      "back": "Such matters deteriorate the quality of water and render it unfit for human use.",
+      "kind": "fact",
+      "front": "Foreign matters like micro-organisms, chemicals and wastes pollute water: what do they do to its quality and use?",
+      "back": "deteriorate the quality of water and render it unfit for human use.",
       "quote": "Such matters deteriorate the quality of water and render it unfit for human use.",
-      "blanks": [
-        "unfit"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India : People and Economy",
@@ -9798,7 +7879,8 @@
       ],
       "order": 480,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Common-sense statement (pollution makes water unfit); front gives away the premise, nothing exam-worthy to recall."
       ]
     },
     {
@@ -10126,19 +8208,17 @@
       ]
     },
     {
-      "id": "kc.geography.water-resources.kl-watershed-few-success",
+      "id": "kc.geography.water-resources.fact-watershed-nascent",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.water-resources",
       "chapter": "Water Resources",
       "unit": "Water Resources",
-      "kind": "key_line",
-      "front": "However, there are only a few success stories. In majority of cases, the programme is still in its ____ stage.",
-      "back": "However, there are only a few success stories. In majority of cases, the programme is still in its nascent stage.",
-      "quote": "However, there are only a few success stories. In majority of cases, the programme is still in its nascent stage.",
-      "blanks": [
-        "nascent"
-      ],
+      "kind": "fact",
+      "front": "Watershed development in India: in majority of cases, which stage is the programme still in?",
+      "back": "In majority of cases, the programme is still in its nascent stage.",
+      "quote": "In majority of cases, the programme is still in its nascent stage.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India : People and Economy",
@@ -10154,71 +8234,9 @@
       ],
       "order": 850,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.water-resources.kl-rwh-lowcost",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.water-resources",
-      "chapter": "Water Resources",
-      "unit": "Water Resources",
-      "kind": "key_line",
-      "front": "It is a low cost and ____ technique for preserving every drop of water by guiding the rain water to borewell, pits and wells.",
-      "back": "It is a low cost and eco-friendly technique for preserving every drop of water by guiding the rain water to borewell, pits and wells.",
-      "quote": "It is a low cost and eco-friendly technique for preserving every drop of water by guiding the rain water to borewell, pits and wells.",
-      "blanks": [
-        "eco-friendly"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy204",
-        "chapterNo": 4,
-        "page": 50,
-        "section": "Rainwater Harvesting"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "rainwater harvesting"
-      ],
-      "order": 870,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.water-resources.kl-rwh-rooftops",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.water-resources",
-      "chapter": "Water Resources",
-      "unit": "Water Resources",
-      "kind": "key_line",
-      "front": "It can be done by harvesting rainwater on ____ and open spaces.",
-      "back": "It can be done by harvesting rainwater on rooftops and open spaces.",
-      "quote": "It can be done by harvesting rainwater on rooftops and open spaces.",
-      "blanks": [
-        "rooftops"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy204",
-        "chapterNo": 4,
-        "page": 50,
-        "section": "Rainwater Harvesting"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "rainwater harvesting"
-      ],
-      "order": 910,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Status remark about watershed programmes (time-bound, trivia); \"which stage\" has synonyms (early, initial, beginning) so only \"nascent\" is right."
       ]
     },
     {
@@ -10287,19 +8305,17 @@
       ]
     },
     {
-      "id": "kc.geography.water-resources.kl-water-pricing",
+      "id": "kc.geography.water-resources.fact-water-pricing",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.water-resources",
       "chapter": "Water Resources",
       "unit": "Water Resources",
-      "kind": "key_line",
-      "front": "However, the most important issue from the point of view of individual users, household and communities is ____ of water.",
-      "back": "However, the most important issue from the point of view of individual users, household and communities is pricing of water.",
+      "kind": "fact",
+      "front": "For individual users, households and communities, what is the most important issue about water?",
+      "back": "the most important issue from the point of view of individual users, household and communities is pricing of water.",
       "quote": "However, the most important issue from the point of view of individual users, household and communities is pricing of water.",
-      "blanks": [
-        "pricing"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India : People and Economy",
@@ -10315,7 +8331,8 @@
       ],
       "order": 960,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Front does not constrain the answer: availability, scarcity, quality or cost are all plausible; only NCERT closing line says pricing."
       ]
     },
     {
@@ -10349,19 +8366,17 @@
       ]
     },
     {
-      "id": "kc.geography.mineral-and-energy-resources.kl-second-crop",
+      "id": "kc.geography.mineral-and-energy-resources.fact-minerals-second-crop",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.mineral-and-energy-resources",
       "chapter": "Mineral and Energy Resources",
       "unit": "Mineral and Energy Resources",
-      "kind": "key_line",
-      "front": "Thus, they have to be conserved and not misused as they do not have the ____.",
-      "back": "Thus, they have to be conserved and not misused as they do not have the second crop.",
+      "kind": "fact",
+      "front": "Why must minerals be conserved and not misused, according to NCERT?",
+      "back": "they have to be conserved and not misused as they do not have the second crop.",
       "quote": "Thus, they have to be conserved and not misused as they do not have the second crop.",
-      "blanks": [
-        "second crop"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India: People and Economy",
@@ -10377,7 +8392,8 @@
       ],
       "order": 80,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:\"Why conserve minerals\" has several valid answers (exhaustible, slow to form, cannot be replenished); the idiom \"no second crop\" cannot be derived from the front."
       ]
     },
     {
@@ -10415,15 +8431,15 @@
       ]
     },
     {
-      "id": "kc.geography.mineral-and-energy-resources.list-three-belts",
+      "id": "kc.geography.mineral-and-energy-resources.fact-three-mineral-belts",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.mineral-and-energy-resources",
       "chapter": "Mineral and Energy Resources",
       "unit": "Mineral and Energy Resources",
-      "kind": "list",
-      "front": "Name the three broad mineral belts of India.",
-      "back": "The North-Eastern Plateau Region\nThe South-Western Plateau Region\nThe North-Western Region",
+      "kind": "fact",
+      "front": "Name the three broad belts in which minerals are generally concentrated in India.",
+      "back": "North-Eastern Plateau, South-Western Plateau and North-Western regions\nMinerals are generally concentrated in three broad belts in India.",
       "quote": "Minerals are generally concentrated in three broad belts in India.",
       "blanks": [],
       "source": {
@@ -10441,24 +8457,22 @@
       ],
       "order": 140,
       "reasons": [
-        "shape:back_not_quote"
+        "review:not_exact",
+        "review:Back first line is a composed paraphrase, not NCERT fragments (NCERT headings are \"The North-Eastern Plateau Region\", \"The South-Western Plateau Region\", \"The North-Western Region\"); quote does not contain the answer; should be a list card with exact headings."
       ]
     },
     {
-      "id": "kc.geography.mineral-and-energy-resources.kl-sw-ferrous-bauxite",
+      "id": "kc.geography.mineral-and-energy-resources.fact-sw-belt-ferrous-bauxite",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.mineral-and-energy-resources",
       "chapter": "Mineral and Energy Resources",
       "unit": "Mineral and Energy Resources",
-      "kind": "key_line",
-      "front": "This belt is rich in ____ and ____.",
+      "kind": "fact",
+      "front": "Mineral belts of India: the South-Western Plateau Region is rich in which two minerals?",
       "back": "This belt is rich in ferrous metals and bauxite.",
       "quote": "This belt is rich in ferrous metals and bauxite.",
-      "blanks": [
-        "ferrous metals",
-        "bauxite"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India: People and Economy",
@@ -10474,39 +8488,8 @@
       ],
       "order": 180,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.mineral-and-energy-resources.kl-sw-neyveli",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.mineral-and-energy-resources",
-      "chapter": "Mineral and Energy Resources",
-      "unit": "Mineral and Energy Resources",
-      "kind": "key_line",
-      "front": "This belt lacks in coal deposits except ____ lignite.",
-      "back": "This belt lacks in coal deposits except Neyveli lignite.",
-      "quote": "This belt lacks in coal deposits except Neyveli lignite.",
-      "blanks": [
-        "Neyveli"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India: People and Economy",
-        "code": "legy205",
-        "chapterNo": 5,
-        "page": 54,
-        "section": "The South-Western Plateau Region"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "mineral belts"
-      ],
-      "order": 190,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:\"Which two minerals\" is not unique: NCERT also lists high grade iron ore, manganese and limestone for this belt; \"ferrous metals\" is a class not a mineral; bauxite is also in the NE belt."
       ]
     },
     {
@@ -10637,38 +8620,6 @@
       ]
     },
     {
-      "id": "kc.geography.mineral-and-energy-resources.kl-conventional-exhaustible",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.mineral-and-energy-resources",
-      "chapter": "Mineral and Energy Resources",
-      "unit": "Mineral and Energy Resources",
-      "kind": "key_line",
-      "front": "These conventional sources are ____ resources.",
-      "back": "These conventional sources are exhaustible resources.",
-      "quote": "These conventional sources are exhaustible resources.",
-      "blanks": [
-        "exhaustible"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India: People and Economy",
-        "code": "legy205",
-        "chapterNo": 5,
-        "page": 57,
-        "section": "Energy Resources"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "energy"
-      ],
-      "order": 520,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.geography.mineral-and-energy-resources.fact-coal-rivers",
       "v": 1,
       "subject": "geography",
@@ -10728,39 +8679,6 @@
       "reasons": [
         "review:not_important",
         "review:Redundant with the new-petroleum-reserves card (Krishna-Godavari and Kaveri basins); adds no new point."
-      ]
-    },
-    {
-      "id": "kc.geography.mineral-and-energy-resources.kl-natural-gas-cng-png",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.mineral-and-energy-resources",
-      "chapter": "Mineral and Energy Resources",
-      "unit": "Mineral and Energy Resources",
-      "kind": "key_line",
-      "front": "natural gas is also emerging as a preferred transport fuel (____) and cooking fuel (____) at homes.",
-      "back": "natural gas is also emerging as a preferred transport fuel (CNG) and cooking fuel (PNG) at homes.",
-      "quote": "natural gas is also emerging as a preferred transport fuel (CNG) and cooking fuel (PNG) at homes.",
-      "blanks": [
-        "CNG",
-        "PNG"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India: People and Economy",
-        "code": "legy205",
-        "chapterNo": 5,
-        "page": 61,
-        "section": "Natural Gas"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "natural gas"
-      ],
-      "order": 720,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -10827,39 +8745,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:\"initial cost\" has near-synonyms (initial investment, set-up cost); one right fill not guaranteed."
-      ]
-    },
-    {
-      "id": "kc.geography.mineral-and-energy-resources.kl-trombay-barc",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.mineral-and-energy-resources",
-      "chapter": "Mineral and Energy Resources",
-      "unit": "Mineral and Energy Resources",
-      "kind": "key_line",
-      "front": "the establishment of the Atomic Energy Institute at Trombay in ____ which was renamed as the Bhabha Atomic Research Centre in ____",
-      "back": "the establishment of the Atomic Energy Institute at Trombay in 1954 which was renamed as the Bhabha Atomic Research Centre in 1967",
-      "quote": "the establishment of the Atomic Energy Institute at Trombay in 1954 which was renamed as the Bhabha Atomic Research Centre in 1967",
-      "blanks": [
-        "1954",
-        "1967"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India: People and Economy",
-        "code": "legy205",
-        "chapterNo": 5,
-        "page": 61,
-        "section": "Nuclear Energy Resources"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "nuclear energy"
-      ],
-      "order": 820,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -11089,38 +8974,6 @@
       "reasons": [
         "review:not_exact",
         "review:List splitting detaches \"semi-arid and arid tract of\" from Gujarat etc., so the items read as standalone regions and change NCERT meaning."
-      ]
-    },
-    {
-      "id": "kc.geography.planning-and-sustainable-development.kl-drought-alternative-employment",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.planning-and-sustainable-development",
-      "chapter": "Planning & Sustainable Development",
-      "unit": "Planning and Sustainable Development",
-      "kind": "key_line",
-      "front": "there is a need to create ____ in the drought-prone areas.",
-      "back": "there is a need to create alternative employment opportunities in the drought-prone areas.",
-      "quote": "there is a need to create alternative employment opportunities in the drought-prone areas.",
-      "blanks": [
-        "alternative employment opportunities"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India: People and Economy",
-        "code": "legy206",
-        "chapterNo": 6,
-        "page": 67,
-        "section": "Drought Prone Area Programme"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "drought prone"
-      ],
-      "order": 280,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -11371,38 +9224,6 @@
       ]
     },
     {
-      "id": "kc.geography.planning-and-sustainable-development.kl-sd-common-future",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.planning-and-sustainable-development",
-      "chapter": "Planning & Sustainable Development",
-      "unit": "Planning and Sustainable Development",
-      "kind": "key_line",
-      "front": "It takes into account the development of whole human kind which have ____.",
-      "back": "It takes into account the development of whole human kind which have common future.",
-      "quote": "It takes into account the development of whole human kind which have common future.",
-      "blanks": [
-        "common future"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India: People and Economy",
-        "code": "legy206",
-        "chapterNo": 6,
-        "page": 72,
-        "section": "Sustainable Development"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "sustainable development"
-      ],
-      "order": 560,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.geography.planning-and-sustainable-development.fact-igc-flow-lift-share",
       "v": 1,
       "subject": "geography",
@@ -11526,19 +9347,17 @@
       ]
     },
     {
-      "id": "kc.geography.planning-and-sustainable-development.kl-five-of-seven-ecological",
+      "id": "kc.geography.planning-and-sustainable-development.fact-five-of-seven-ecological",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.planning-and-sustainable-development",
       "chapter": "Planning & Sustainable Development",
       "unit": "Planning and Sustainable Development",
-      "kind": "key_line",
-      "front": "Hence, ____ of the seven measures proposed to promote sustainable development in the command area are meant to restore ecological balance.",
-      "back": "Hence, five of the seven measures proposed to promote sustainable development in the command area are meant to restore ecological balance.",
+      "kind": "fact",
+      "front": "Indira Gandhi Canal command area: how many of the seven sustainable development measures restore ecological balance?",
+      "back": "five of the seven measures proposed to promote sustainable development in the command area are meant to restore ecological balance.",
       "quote": "Hence, five of the seven measures proposed to promote sustainable development in the command area are meant to restore ecological balance.",
-      "blanks": [
-        "five"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India: People and Economy",
@@ -11554,39 +9373,8 @@
       ],
       "order": 730,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.planning-and-sustainable-development.kl-measure-plantation-crops",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.planning-and-sustainable-development",
-      "chapter": "Planning & Sustainable Development",
-      "unit": "Planning and Sustainable Development",
-      "kind": "key_line",
-      "front": "It shall be adhered to and people shall be encouraged to grow plantation crops such as ____.",
-      "back": "It shall be adhered to and people shall be encouraged to grow plantation crops such as citrus fruits.",
-      "quote": "It shall be adhered to and people shall be encouraged to grow plantation crops such as citrus fruits.",
-      "blanks": [
-        "citrus fruits"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India: People and Economy",
-        "code": "legy206",
-        "chapterNo": 6,
-        "page": 73,
-        "section": "Measures for Promotion of Sustainable Development"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "sustainability measures"
-      ],
-      "order": 760,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Count of measures (five of seven) is trivia; the memory-worthy content is the seven measures themselves, not how many are ecological."
       ]
     },
     {
@@ -11623,51 +9411,17 @@
       ]
     },
     {
-      "id": "kc.geography.planning-and-sustainable-development.kl-measure-economic-sustainability",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.planning-and-sustainable-development",
-      "chapter": "Planning & Sustainable Development",
-      "unit": "Planning and Sustainable Development",
-      "kind": "key_line",
-      "front": "This shall lead to ____ of economic base and establishment of functional linkages between basic villages, agro-service centres and market centres.",
-      "back": "This shall lead to diversification of economic base and establishment of functional linkages between basic villages, agro-service centres and market centres.",
-      "quote": "This shall lead to diversification of economic base and establishment of functional linkages between basic villages, agro-service centres and market centres.",
-      "blanks": [
-        "diversification"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India: People and Economy",
-        "code": "legy206",
-        "chapterNo": 6,
-        "page": 73,
-        "section": "Measures for Promotion of Sustainable Development"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "sustainability measures"
-      ],
-      "order": 810,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.transport-and-communication-india.kl-transport-makes-available",
+      "id": "kc.geography.transport-and-communication-india.fact-transport-makes-available",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.transport-and-communication-india",
       "chapter": "Transport and Communication (India)",
       "unit": "Transport and Communication (India)",
-      "kind": "key_line",
-      "front": "It is the ____ of these items from the site of their production to the market which make them available to the consumer.",
-      "back": "It is the transportation of these items from the site of their production to the market which make them available to the consumer.",
+      "kind": "fact",
+      "front": "What brings goods from the site of their production to the market and makes them available to the consumer?",
+      "back": "Transportation\nIt is the transportation of these items from the site of their production to the market which make them available to the consumer.",
       "quote": "It is the transportation of these items from the site of their production to the market which make them available to the consumer.",
-      "blanks": [
-        "transportation"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India: People and Economy",
@@ -11683,7 +9437,8 @@
       ],
       "order": 10,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Chapter-intro filler: answer 'transportation' is the chapter topic itself and is given away by the question; not worth a CUET student's memory."
       ]
     },
     {
@@ -11721,19 +9476,17 @@
       ]
     },
     {
-      "id": "kc.geography.transport-and-communication-india.kl-roads-urban-concentrate",
+      "id": "kc.geography.transport-and-communication-india.fact-roads-urban-concentrate",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.transport-and-communication-india",
       "chapter": "Transport and Communication (India)",
       "unit": "Transport and Communication (India)",
-      "kind": "key_line",
-      "front": "However, roads continue to concentrate in and around ____.",
-      "back": "However, roads continue to concentrate in and around urban centres.",
+      "kind": "fact",
+      "front": "According to NCERT, roads in India continue to concentrate in and around which places?",
+      "back": "Urban centres\nHowever, roads continue to concentrate in and around urban centres.",
       "quote": "However, roads continue to concentrate in and around urban centres.",
-      "blanks": [
-        "urban centres"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India: People and Economy",
@@ -11749,7 +9502,8 @@
       ],
       "order": 100,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Vague descriptive remark ('continue to concentrate') that depends on the surrounding plan narrative; not a testable CUET fact."
       ]
     },
     {
@@ -11882,37 +9636,6 @@
       ]
     },
     {
-      "id": "kc.geography.transport-and-communication-india.list-railway-zones-hq",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.transport-and-communication-india",
-      "chapter": "Transport and Communication (India)",
-      "unit": "Transport and Communication (India)",
-      "kind": "list",
-      "front": "Name the 17 railway zones of Indian Railways and their headquarters (Table 7.2).",
-      "back": "Central: Mumbai CST\nEastern: Kolkata\nEast Central: Hajipur\nEast Coast: Bhubaneswar\nNorthern: New Delhi\nNorth Central: Prayagraj\nNorth Eastern: Gorakhpur\nNorth East Frontier: Maligaon (Guwahati)\nNorth Western: Jaipur\nSouthern: Chennai\nSouth Central: Secunderabad\nSouth Eastern: Kolkata\nSouth East Central: Bilaspur\nSouth Western: Hubli\nWestern: Mumbai (Church Gate)\nWest Central: Jabalpur\nMetro Railway: Kolkata",
-      "quote": "Central Eastern East Central East Coast Northern North Central North Eastern North East Frontier North Western Southern South Central South Eastern South East Central South Western Western West Central Metro Railway Mumbai CST Kolkata Hajipur Bhubaneswar New Delhi Prayagraj Gorakhpur Maligaon (Guwahati) Jaipur Chennai Secunderabad Kolkata Bilaspur Hubli Mumbai (Church Gate) Jabalpur Kolkata",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "India: People and Economy",
-        "code": "legy207",
-        "chapterNo": 7,
-        "page": 79,
-        "section": "Rail Transport (Table 7.2)"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "railways",
-        "zones"
-      ],
-      "order": 360,
-      "reasons": [
-        "shape:back_not_quote"
-      ]
-    },
-    {
       "id": "kc.geography.transport-and-communication-india.kl-railway-largest-undertaking",
       "v": 1,
       "subject": "geography",
@@ -11943,73 +9666,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:\"largest government undertaking\" is a free phrase; \"largest employer\" or similar also fits the front."
-      ]
-    },
-    {
-      "id": "kc.geography.transport-and-communication-india.kl-railway-17-zones",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.transport-and-communication-india",
-      "chapter": "Transport and Communication (India)",
-      "unit": "Transport and Communication (India)",
-      "kind": "key_line",
-      "front": "Its very large size puts a lot of pressure on a centralised railway management system. Thus, in India, the railway system has been divided into ____.",
-      "back": "Its very large size puts a lot of pressure on a centralised railway management system. Thus, in India, the railway system has been divided into 17 zones.",
-      "quote": "Its very large size puts a lot of pressure on a centralised railway management system. Thus, in India, the railway system has been divided into 17 zones.",
-      "blanks": [
-        "17 zones"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India: People and Economy",
-        "code": "legy207",
-        "chapterNo": 7,
-        "page": 79,
-        "section": "Rail Transport"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "railways",
-        "zones"
-      ],
-      "order": 410,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.transport-and-communication-india.kl-steam-to-diesel-electric",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.transport-and-communication-india",
-      "chapter": "Transport and Communication (India)",
-      "unit": "Transport and Communication (India)",
-      "kind": "key_line",
-      "front": "Moreover, steam engines have been replaced by ____ and ____ engines. This step has increased the speed, as well as, the ____.",
-      "back": "Moreover, steam engines have been replaced by diesel and electric engines. This step has increased the speed, as well as, the haulage capacity.",
-      "quote": "Moreover, steam engines have been replaced by diesel and electric engines. This step has increased the speed, as well as, the haulage capacity.",
-      "blanks": [
-        "diesel",
-        "electric",
-        "haulage capacity"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India: People and Economy",
-        "code": "legy207",
-        "chapterNo": 7,
-        "page": 79,
-        "section": "Rail Transport"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "railways"
-      ],
-      "order": 470,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -12046,19 +9702,17 @@
       ]
     },
     {
-      "id": "kc.geography.transport-and-communication-india.kl-inland-comprises",
+      "id": "kc.geography.transport-and-communication-india.fact-inland-comprises",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.transport-and-communication-india",
       "chapter": "Transport and Communication (India)",
       "unit": "Transport and Communication (India)",
-      "kind": "key_line",
-      "front": "It comprises ____, etc.",
-      "back": "It comprises rivers, canals, backwaters, creeks, etc.",
+      "kind": "fact",
+      "front": "What does India's network of navigable inland waterways comprise?",
+      "back": "Rivers, canals, backwaters, creeks, etc.\nIt comprises rivers, canals, backwaters, creeks, etc.",
       "quote": "It comprises rivers, canals, backwaters, creeks, etc.",
-      "blanks": [
-        "rivers, canals, backwaters, creeks"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India: People and Economy",
@@ -12074,7 +9728,8 @@
       ],
       "order": 610,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Answer is an open list ending in 'etc.' (rivers, canals, backwaters, creeks); no single exact answer a student can give from the front."
       ]
     },
     {
@@ -12382,15 +10037,15 @@
     },
     {
       "id": "kc.geography.international-trade-india.kl-petroleum-raw-material",
-      "v": 1,
+      "v": 2,
       "subject": "geography",
       "chapterKey": "geography.international-trade-india",
       "chapter": "International Trade (India)",
       "unit": "International Trade (India)",
       "kind": "key_line",
-      "front": "It is used not only as a fuel but also as an ____.",
-      "back": "It is used not only as a fuel but also as an industrial raw material.",
-      "quote": "It is used not only as a fuel but also as an industrial raw material.",
+      "front": "Table 8.4 shows that there is a rise in the import of petroleum products. It is used not only as a fuel but also as an ____.",
+      "back": "Table 8.4 shows that there is a rise in the import of petroleum products. It is used not only as a fuel but also as an industrial raw material.",
+      "quote": "Table 8.4 shows that there is a rise in the import of petroleum products. It is used not only as a fuel but also as an industrial raw material.",
       "blanks": [
         "industrial raw material"
       ],
@@ -12409,23 +10064,23 @@
       ],
       "order": 200,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Front cites 'Table 8.4' the student cannot see and rests on a time-bound import trend; blank 'industrial raw material' is multi-word with obvious synonyms (raw material, input, feedstock)."
       ]
     },
     {
-      "id": "kc.geography.international-trade-india.kl-capital-goods-decline",
+      "id": "kc.geography.international-trade-india.fact-capital-goods-decline",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.international-trade-india",
       "chapter": "International Trade (India)",
       "unit": "International Trade (India)",
-      "kind": "key_line",
-      "front": "It is also noticed that the, import of capital goods maintained a ____.",
-      "back": "It is also noticed that the, import of capital goods maintained a steady decline.",
+      "kind": "fact",
+      "front": "According to NCERT, what trend did India's import of capital goods maintain?",
+      "back": "A steady decline\nIt is also noticed that the, import of capital goods maintained a steady decline.",
       "quote": "It is also noticed that the, import of capital goods maintained a steady decline.",
-      "blanks": [
-        "steady decline"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India: People and Economy",
@@ -12441,7 +10096,9 @@
       ],
       "order": 210,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Time-bound data trend read off Table 8.4 (capital goods share 13.0, 13.6, 12.7, 10.1 is not a 'steady' decline); open 'what trend' has synonyms (fall, decrease); quote carries NCERT's stray comma."
       ]
     },
     {
@@ -12925,38 +10582,6 @@
       ]
     },
     {
-      "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.kl-classified-medium",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.geographical-perspective-on-selected-issues-and-problems",
-      "chapter": "Geographical Perspective on Selected Issues and Problems",
-      "unit": "Geographical Perspective on Selected Issues and Problems",
-      "kind": "key_line",
-      "front": "They are classified on the basis of ____ through which pollutants are transported and diffused.",
-      "back": "They are classified on the basis of medium through which pollutants are transported and diffused.",
-      "quote": "They are classified on the basis of medium through which pollutants are transported and diffused.",
-      "blanks": [
-        "medium"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy209",
-        "chapterNo": 9,
-        "page": 95,
-        "section": "Environmental Pollution"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "pollution"
-      ],
-      "order": 30,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.kl-surface-water-impure",
       "v": 1,
       "subject": "geography",
@@ -13215,19 +10840,17 @@
       ]
     },
     {
-      "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.kl-fuels-emission",
+      "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.fact-fuels-emission",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.geographical-perspective-on-selected-issues-and-problems",
       "chapter": "Geographical Perspective on Selected Issues and Problems",
       "unit": "Geographical Perspective on Selected Issues and Problems",
-      "kind": "key_line",
-      "front": "there is a marked increase in emission of ____ gases into the atmosphere resulting in the pollution of air.",
-      "back": "there is a marked increase in emission of toxic gases into the atmosphere resulting in the pollution of air.",
-      "quote": "there is a marked increase in emission of toxic gases into the atmosphere resulting in the pollution of air.",
-      "blanks": [
-        "toxic"
-      ],
+      "kind": "fact",
+      "front": "According to NCERT, increasing use of varieties of fuels causes a marked increase in the emission of which kind of gases?",
+      "back": "Toxic gases\nWith increasing use of varieties of fuels as the source of energy, there is a marked increase in emission of toxic gases into the atmosphere resulting in the pollution of air.",
+      "quote": "With increasing use of varieties of fuels as the source of energy, there is a marked increase in emission of toxic gases into the atmosphere resulting in the pollution of air.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India : People and Economy",
@@ -13243,23 +10866,23 @@
       ],
       "order": 250,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Generic statement; 'toxic gases' has synonyms (harmful, poisonous, greenhouse). The testable content is the list of pollutants/sources, not this line."
       ]
     },
     {
-      "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.kl-noise-recent-concern",
+      "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.fact-noise-recent-concern",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.geographical-perspective-on-selected-issues-and-problems",
       "chapter": "Geographical Perspective on Selected Issues and Problems",
       "unit": "Geographical Perspective on Selected Issues and Problems",
-      "kind": "key_line",
-      "front": "This matter has become a serious concern only in recent years due to a variety of ____ innovations.",
-      "back": "This matter has become a serious concern only in recent years due to a variety of technological innovations.",
+      "kind": "fact",
+      "front": "Noise pollution has become a serious concern only in recent years due to a variety of which innovations?",
+      "back": "Technological innovations\nThis matter has become a serious concern only in recent years due to a variety of technological innovations.",
       "quote": "This matter has become a serious concern only in recent years due to a variety of technological innovations.",
-      "blanks": [
-        "technological"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India : People and Economy",
@@ -13275,7 +10898,8 @@
       ],
       "order": 330,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Filler sentence ('serious concern only in recent years due to technological innovations'); not a definition, list or exam fact."
       ]
     },
     {
@@ -13506,38 +11130,6 @@
       ]
     },
     {
-      "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.kl-waste-compost",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.geographical-perspective-on-selected-issues-and-problems",
-      "chapter": "Geographical Perspective on Selected Issues and Problems",
-      "unit": "Geographical Perspective on Selected Issues and Problems",
-      "kind": "key_line",
-      "front": "These wastes should be treated as resource and utilised for generating energy and ____.",
-      "back": "These wastes should be treated as resource and utilised for generating energy and compost.",
-      "quote": "These wastes should be treated as resource and utilised for generating energy and compost.",
-      "blanks": [
-        "compost"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy209",
-        "chapterNo": 9,
-        "page": 100,
-        "section": "Urban Waste Disposal"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "urban waste"
-      ],
-      "order": 490,
-      "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
       "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.fact-daurala-groundwater",
       "v": 1,
       "subject": "geography",
@@ -13597,38 +11189,6 @@
       "reasons": [
         "review:not_important",
         "review:Case-story list (Daurala measures: tank, pipeline, pond, trees); filler."
-      ]
-    },
-    {
-      "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.kl-poor-bypass-small-cities",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.geographical-perspective-on-selected-issues-and-problems",
-      "chapter": "Geographical Perspective on Selected Issues and Problems",
-      "unit": "Geographical Perspective on Selected Issues and Problems",
-      "kind": "key_line",
-      "front": "the poor people generally bypass these small cities and directly come to the ____ cities for their livelihood.",
-      "back": "the poor people generally bypass these small cities and directly come to the mega cities for their livelihood.",
-      "quote": "the poor people generally bypass these small cities and directly come to the mega cities for their livelihood.",
-      "blanks": [
-        "mega"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy209",
-        "chapterNo": 9,
-        "page": 100,
-        "section": "Rural-Urban Migration"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "migration"
-      ],
-      "order": 550,
-      "reasons": [
-        "shape:front_dangling"
       ]
     },
     {
@@ -13729,19 +11289,17 @@
       ]
     },
     {
-      "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.kl-menial-jobs-informal",
+      "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.fact-menial-jobs-informal",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.geographical-perspective-on-selected-issues-and-problems",
       "chapter": "Geographical Perspective on Selected Issues and Problems",
       "unit": "Geographical Perspective on Selected Issues and Problems",
-      "kind": "key_line",
-      "front": "frequently end up performing ____ jobs at low wages in informal sector in urban areas.",
-      "back": "frequently end up performing menial jobs at low wages in informal sector in urban areas.",
-      "quote": "frequently end up performing menial jobs at low wages in informal sector in urban areas.",
-      "blanks": [
-        "menial"
-      ],
+      "kind": "fact",
+      "front": "In developing countries, what kind of jobs do poor, unskilled rural migrants frequently end up doing at low wages in urban areas?",
+      "back": "Menial jobs\nIn developing countries, poor, semi-illiterate and the unskilled like Ramesh migrating from rural areas frequently end up performing menial jobs at low wages in informal sector in urban areas.",
+      "quote": "In developing countries, poor, semi-illiterate and the unskilled like Ramesh migrating from rural areas frequently end up performing menial jobs at low wages in informal sector in urban areas.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India : People and Economy",
@@ -13757,39 +11315,9 @@
       ],
       "order": 600,
       "reasons": [
-        "shape:front_dangling"
-      ]
-    },
-    {
-      "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.kl-migration-males",
-      "v": 1,
-      "subject": "geography",
-      "chapterKey": "geography.geographical-perspective-on-selected-issues-and-problems",
-      "chapter": "Geographical Perspective on Selected Issues and Problems",
-      "unit": "Geographical Perspective on Selected Issues and Problems",
-      "kind": "key_line",
-      "front": "Thus, the rural-urban migration stream is dominated by the ____.",
-      "back": "Thus, the rural-urban migration stream is dominated by the males.",
-      "quote": "Thus, the rural-urban migration stream is dominated by the males.",
-      "blanks": [
-        "males"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "India : People and Economy",
-        "code": "legy209",
-        "chapterNo": 9,
-        "page": 101,
-        "section": "Comments"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "migration"
-      ],
-      "order": 610,
-      "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Case-story filler: quote and back mention 'Ramesh' (case study the student cannot see); answer 'menial jobs' has synonyms (low-paid, unskilled, informal-sector jobs)."
       ]
     },
     {
@@ -13856,15 +11384,15 @@
     },
     {
       "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.kl-slum-unorganised",
-      "v": 1,
+      "v": 2,
       "subject": "geography",
       "chapterKey": "geography.geographical-perspective-on-selected-issues-and-problems",
       "chapter": "Geographical Perspective on Selected Issues and Problems",
       "unit": "Geographical Perspective on Selected Issues and Problems",
       "kind": "key_line",
-      "front": "Moreover, most of the slum population works in low-paid, high risk-prone, ____ sectors of the urban economy.",
-      "back": "Moreover, most of the slum population works in low-paid, high risk-prone, unorganised sectors of the urban economy.",
-      "quote": "Moreover, most of the slum population works in low-paid, high risk-prone, unorganised sectors of the urban economy.",
+      "front": "Most of the slum population works in low-paid, high risk-prone, ____ sectors of the urban economy.",
+      "back": "Most of the slum population works in low-paid, high risk-prone, unorganised sectors of the urban economy.",
+      "quote": "Most of the slum population works in low-paid, high risk-prone, unorganised sectors of the urban economy.",
       "blanks": [
         "unorganised"
       ],
@@ -13883,7 +11411,8 @@
       ],
       "order": 690,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Blank 'unorganised' has a clear synonym 'informal' (NCERT itself says informal sector elsewhere); more than one defensible fill."
       ]
     },
     {
@@ -14013,19 +11542,17 @@
       ]
     },
     {
-      "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.kl-manmade-wasteland-important",
+      "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.fact-manmade-wasteland-important",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.geographical-perspective-on-selected-issues-and-problems",
       "chapter": "Geographical Perspective on Selected Issues and Problems",
       "unit": "Geographical Perspective on Selected Issues and Problems",
-      "kind": "key_line",
-      "front": "wastelands caused by ____ processes are more important than natural processes.",
-      "back": "wastelands caused by man-made processes are more important than natural processes.",
-      "quote": "wastelands caused by man-made processes are more important than natural processes.",
-      "blanks": [
-        "man-made"
-      ],
+      "kind": "fact",
+      "front": "According to NCERT, wastelands caused by which kind of processes are more important than natural processes?",
+      "back": "Man-made processes\nTable 12.3 indicates that wastelands caused by man-made processes are more important than natural processes.",
+      "quote": "Table 12.3 indicates that wastelands caused by man-made processes are more important than natural processes.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India : People and Economy",
@@ -14041,7 +11568,8 @@
       ],
       "order": 800,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_unambiguous",
+        "review:Back carries a dangling 'Table 12.3' (wrong cross-reference in chapter 9); 'man-made' has synonyms (human-induced, anthropogenic) and the front gives it away via 'than natural'."
       ]
     },
     {
@@ -14237,19 +11765,17 @@
       ]
     },
     {
-      "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.kl-stall-feeding",
+      "id": "kc.geography.geographical-perspective-on-selected-issues-and-problems.fact-stall-feeding",
       "v": 1,
       "subject": "geography",
       "chapterKey": "geography.geographical-perspective-on-selected-issues-and-problems",
       "chapter": "Geographical Perspective on Selected Issues and Problems",
       "unit": "Geographical Perspective on Selected Issues and Problems",
-      "kind": "key_line",
-      "front": "there would be no open grazing on these lands, but ____ feeding of cattle",
-      "back": "there would be no open grazing on these lands, but stall feeding of cattle",
+      "kind": "fact",
+      "front": "In the Jhabua case study, the Bhils said there would be no open grazing on their common lands, but what feeding of cattle?",
+      "back": "Stall feeding\nthere would be no open grazing on these lands, but stall feeding of cattle",
       "quote": "there would be no open grazing on these lands, but stall feeding of cattle",
-      "blanks": [
-        "stall"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "India : People and Economy",
@@ -14266,7 +11792,8 @@
       ],
       "order": 880,
       "reasons": [
-        "shape:front_dangling"
+        "review:not_important",
+        "review:Case-story filler (Jhabua/Bhils/Sat Rundi); quote is a fragment with dangling 'these lands'."
       ]
     },
     {
