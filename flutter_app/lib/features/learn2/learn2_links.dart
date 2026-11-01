@@ -149,7 +149,8 @@ abstract final class Learn2Links {
     final path = url.path.length > 1 && url.path.endsWith('/') ? url.path.substring(0, url.path.length - 1) : url.path;
     if (path == '/learn/run' || path == AppRoutes.learn2Session) return run(RunLaunch.fromQuery(q));
     if (path == '/explore/run' || path == AppRoutes.exploreFeed) return feed(FeedLaunch.fromQuery(q));
-    if (path == AppRoutes.explore) return explore(subject: _text(q['subject']));
+    // Explore with a question filter ("Questions on this chapter in Explore") is the question stream: the ActionRouter's.
+    if (path == AppRoutes.explore) return q.containsKey('chapter') || q.containsKey('difficulty') ? null : explore(subject: _text(q['subject']));
     if (path == '/learn/find') return find(subject: _text(q['subject']), q: _text(q['q']));
     if (path == AppRoutes.learn) return home(subject: _text(q['subject']));
     if (path == AppRoutes.reviewRevise) return revise();
