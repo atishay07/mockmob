@@ -87,7 +87,10 @@ class _LearnHomeState extends ConsumerState<LearnHome> {
     super.didUpdateWidget(old);
     // A new link to this same page replaces what is open; the student's own typing never does.
     if (widget.query != old.query) {
+      // This runs while the page builds: the new words need no rebuild of their own.
+      _text.removeListener(_changed);
       _text.text = _clip(widget.query);
+      _text.addListener(_changed);
       if (_text.text.isNotEmpty) _shelf = null;
     }
     if (widget.subject != old.subject) WidgetsBinding.instance.addPostFrameCallback((_) => mounted ? _followLink() : null);

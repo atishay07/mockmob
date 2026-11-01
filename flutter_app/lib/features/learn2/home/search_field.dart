@@ -69,8 +69,8 @@ class HomeSearchField extends StatelessWidget {
                       autocorrect: false,
                       enableSuggestions: false,
                       inputFormatters: [LengthLimitingTextInputFormatter(maxLength)],
-                      // A field low on the page scrolls itself into view above the keyboard.
-                      scrollPadding: const EdgeInsets.all(96),
+                      // The page docks the field itself (LearnHome); a wide padding here would scroll it back down.
+                      scrollPadding: const EdgeInsets.all(MmSpace.s8),
                       style: type.body.copyWith(fontWeight: FontWeight.w500),
                       cursorColor: colors.ink,
                       decoration: InputDecoration(

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/learn2/cards/find_view.dart';
 import 'package:mockmob/features/learn2/data/learn_providers.dart';
@@ -287,6 +288,37 @@ void main() {
       expect(tester.widget<FindPanel>(find.byType(FindPanel)).query, 'goodwill');
       expect(tester.widget<TextField>(find.byKey(const ValueKey('lh-search'))).controller!.text, 'goodwill');
       expect(find.text('Cancel'), findsOneWidget);
+    });
+
+    testWidgets('a new link to the same page replaces what is open: its words, then none', (tester) async {
+      final query = ValueNotifier<String?>(null);
+      addTearDown(query.dispose);
+      tester.view.physicalSize = const Size(720, 1600);
+      tester.view.devicePixelRatio = 2;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: homeOverrides(HomeLearnApi()),
+          child: MaterialApp(
+            theme: buildTheme(Brightness.dark),
+            home: ValueListenableBuilder<String?>(valueListenable: query, builder: (context, q, _) => HomePage(query: q)),
+          ),
+        ),
+      );
+      await settleHome(tester);
+      expect(find.byType(FindPanel), findsNothing);
+      query.value = 'goodwill';
+      await settleHome(tester);
+      expect(tester.takeException(), isNull);
+      expect(tester.widget<FindPanel>(find.byType(FindPanel)).query, 'goodwill');
+      expect(tester.widget<TextField>(find.byKey(const ValueKey('lh-search'))).controller!.text, 'goodwill');
+      query.value = 'a different search';
+      await settleHome(tester);
+      expect(tester.widget<FindPanel>(find.byType(FindPanel)).query, 'a different search');
+      query.value = null;
+      await settleHome(tester);
+      expect(find.byType(FindPanel), findsNothing);
+      expect(find.text('Book order'), findsOneWidget);
     });
 
     testWidgets('the page\'s scroll before the field docked comes back on Cancel', (tester) async {

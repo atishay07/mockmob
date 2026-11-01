@@ -15,9 +15,6 @@ abstract final class HomeCopy {
 
   // ---- The shelf tiles
   static const String shelvesGroup = 'Your cards';
-  static const String shelfDueLabel = 'due today';
-  static const String shelfMissedLabel = 'missed lately';
-  static const String shelfReviseLabel = 'in Revise';
   static const String shelvesNothing = 'Nothing in Revise yet. Cards you study land here.';
   static const String shelvesFailed = 'Your cards did not load.';
   static const String tryAgain = 'Try again';
@@ -39,7 +36,6 @@ abstract final class HomeCopy {
   static const String notStarted = 'Not started';
 
   // ---- The part switch (LK2)
-  static const String partLabel = 'Your part';
   static const String partSaving = 'Saving your choice';
   static const String partFailed = 'Your choice was not saved. Try again.';
   static const String partChosen = 'Only your part’s chapters show here and in your practice.';
