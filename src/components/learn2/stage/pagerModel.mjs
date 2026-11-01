@@ -140,3 +140,27 @@ export function keyAction(key, ctx = {}) {
   }
   return null;
 }
+
+/**
+ * Where a box scrolls after a wrong answer (R4 ui-correctness#7), from rects measured in one frame (px, viewport space):
+ *   box     { top, bottom, scrollTop }  the scroll box; `bottom` already stops at the action bar when the bar covers it
+ *   head    { top }                     the question's head line (the context: "You missed this in Mock 3 on 16 Oct")
+ *   target  { top, bottom }             the verdict, or the line you needed under it
+ *   fade    the box's head fade (24 px): the head line stays below it
+ * It scrolls only as far as needed to bring `target` into view (up to 200 px of it, 16 px clear of the foot), and never so far
+ * that the head line (so the stem's first line under it) goes under the top. Returns the new scrollTop, or null to stay.
+ */
+export function verdictScrollTop({ box, head, target, fade = 24, show = 200, clear = 16 } = {}) {
+  if (!box || !target) return null;
+  const want = box.scrollTop + Math.min(target.bottom, target.top + show) + clear - box.bottom;
+  const cap = head ? box.scrollTop + head.top - box.top - fade : Infinity;
+  const top = Math.max(0, Math.min(want, cap));
+  return top > box.scrollTop + 1 ? Math.round(top) : null;
+}
+
+/**
+ * Whether option A waits below the fold (M10, R4 ui-correctness#5): less than 28 px of it above `edge`. Every rect is the
+ * page's own (option A and the page's visible foot move together while the pager slides), so a read in mid-slide is still
+ * true; the bar's top joins `edge` only where the bar covers the page.
+ */
+export const optionsBelow = ({ optionTop, edge, peek = 28 } = {}) => Number.isFinite(optionTop) && Number.isFinite(edge) && optionTop + peek > edge;

@@ -16,9 +16,9 @@ const query = (entries) => {
 };
 const withQuery = (path, entries) => { const q = query(entries); return q ? `${path}?${q}` : path; };
 
-/** The production href of a chapter run (the same string the preview's view encodes). */
-export const runHref = ({ chapterKey = null, minutes = 10, kind = 'mix', leaveOut = [], cardIds = [], runId = null, end = false } = {}) => withQuery('/learn/run', [
-  ['chapter', chapterKey], ['min', minutes], ['kind', kind], ['out', (leaveOut || []).join(',')], ['cards', (cardIds || []).join(',')], ['run', runId], ['end', end ? '1' : ''],
+/** The production href of a chapter run (the same string the preview's view encodes). `fresh` asks for a NEW run (R4). */
+export const runHref = ({ chapterKey = null, minutes = 10, kind = 'mix', leaveOut = [], cardIds = [], runId = null, end = false, fresh = false } = {}) => withQuery('/learn/run', [
+  ['chapter', chapterKey], ['min', minutes], ['kind', kind], ['out', (leaveOut || []).join(',')], ['cards', (cardIds || []).join(',')], ['run', runId], ['end', end ? '1' : ''], ['fresh', fresh ? '1' : ''],
 ]);
 /** The production href of a chapter feed. */
 export const feedHref = ({ chapterKey = null, minutes = 10, runId = null, end = false } = {}) => withQuery('/explore/run', [['chapter', chapterKey], ['min', minutes], ['run', runId], ['end', end ? '1' : '']]);
@@ -40,9 +40,10 @@ export function useLearnLinks() {
     find: (subject = null, text = null) => (preview ? previewHref('learn2', { subject, lv: 'find', q: text }) : withQuery('/learn/find', [['subject', subject], ['q', text]])),
     chapter: (key, minutes = null) => (preview ? previewHref('learn2-chapter', { chapter: key, min: minutes }) : withQuery(`/learn/c/${enc(key)}`, [['min', minutes]])),
     cards: (key, filter = null) => (preview ? previewHref('learn2-cards', { chapter: key, f: filter }) : withQuery(`/learn/c/${enc(key)}/cards`, [['f', filter]])),
-    run: ({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds = [], runId = null, end = false }) => (preview
-      ? previewHref('learn2-run', { chapter: chapterKey, min: minutes, kind, out: (leaveOut || []).join(','), cards: (cardIds || []).join(','), run: runId, end: end ? '1' : '' })
-      : runHref({ chapterKey, minutes, kind, leaveOut, cardIds, runId, end })),
+    // `fresh` asks the server for a NEW run (an end's fix key, Keep going), never the one still open today (R4 client-code#1).
+    run: ({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds = [], runId = null, end = false, fresh = false }) => (preview
+      ? previewHref('learn2-run', { chapter: chapterKey, min: minutes, kind, out: (leaveOut || []).join(','), cards: (cardIds || []).join(','), run: runId, end: end ? '1' : '', fresh: fresh ? '1' : '' })
+      : runHref({ chapterKey, minutes, kind, leaveOut, cardIds, runId, end, fresh })),
     feed: (key, minutes = 10, { runId = null, end = false } = {}) => (preview
       ? previewHref('learn2-feed', { chapter: key, min: minutes, run: runId, end: end ? '1' : '' })
       : feedHref({ chapterKey: key, minutes, runId, end })),
@@ -59,7 +60,7 @@ export function useLearnLinks() {
     try { url = new URL(href, 'http://x'); } catch { return href; }
     const get = (k) => url.searchParams.get(k);
     const path = url.pathname;
-    if (path === '/learn/run') return links.run({ chapterKey: get('chapter') || undefined, minutes: Number(get('min')) || 10, kind: get('kind') || 'mix', leaveOut: (get('out') || '').split(',').filter(Boolean), cardIds: (get('cards') || '').split(',').filter(Boolean), runId: get('run'), end: get('end') === '1' });
+    if (path === '/learn/run') return links.run({ chapterKey: get('chapter') || undefined, minutes: Number(get('min')) || 10, kind: get('kind') || 'mix', leaveOut: (get('out') || '').split(',').filter(Boolean), cardIds: (get('cards') || '').split(',').filter(Boolean), runId: get('run'), end: get('end') === '1', fresh: get('fresh') === '1' });
     if (path === '/explore/run') return links.feed(get('chapter'), Number(get('min')) || 10, { runId: get('run'), end: get('end') === '1' });
     if (path === '/explore') return links.explore();
     if (path === '/learn/find') return links.find(get('subject'), get('q'));

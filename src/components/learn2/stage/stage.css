@@ -85,6 +85,9 @@ html:has(.st.kc) { overscroll-behavior: none; }
 }
 .st-iconkey { display: grid; place-items: center; flex: none; width: 44px; height: 44px; margin-left: -10px; border: 0; border-radius: 12px; background: transparent; color: var(--a-ink-2); cursor: pointer; touch-action: manipulation; }
 .st-iconkey:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 0; }
+/* R4 first-timer#17: one close control on runs, feeds, ends and the refusal: the X with the word "Close". */
+.st-iconkey--word { display: inline-flex; align-items: center; gap: 6px; width: auto; padding: 0 12px 0 10px; font: 650 15px/1 var(--font-body); }
+.st-iconkey--word svg { flex: none; }
 @media (hover: hover) { .st-iconkey:hover { color: var(--a-ink); background: var(--a-hover); } }
 .st-counter { display: inline-flex; align-items: center; gap: 3px; flex: none; height: 44px; margin-right: -8px; padding: 0 8px; border: 0; border-radius: 12px; background: transparent; color: var(--a-ink-3); font: 650 13.5px/1 var(--font-body); font-variant-numeric: tabular-nums; cursor: pointer; touch-action: manipulation; }
 .st-counter b { font-weight: 650; color: var(--a-ink); }
@@ -156,10 +159,18 @@ span.st-counter { cursor: default; }
 .st-skel-glyph { display: block; width: 48px; height: 48px; border-radius: 50%; }
 .st-firsthint { display: none; position: absolute; left: 0; right: 0; top: calc(100% + 10px); text-align: center; font: 500 12.5px/1.4 var(--font-body); color: var(--a-ink-3); pointer-events: none; animation: st-in 300ms var(--st-out) 400ms both; }
 
+/* Science notation (R4): a chemistry card's subscripts and superscripts sit inside the line, never opening its leading. */
+.st-sub, .st-sup { font-size: 0.68em; line-height: 0; position: relative; vertical-align: baseline; }
+.st-sub { top: 0.32em; }
+.st-sup { top: -0.5em; }
+
 /* The quiet "Options below" chip (M10): 36 px, ink-2, centred 8 px above the bar. */
 .st-below { position: absolute; left: 0; right: 0; bottom: calc(100% + 8px); margin-inline: auto; width: max-content; display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px 0 16px; border-radius: 18px; border: 1px solid var(--a-line-strong); background: var(--a-raised); color: var(--a-ink-2); font: 600 13.5px/1 var(--font-body); white-space: nowrap; cursor: pointer; touch-action: manipulation; z-index: 2; animation: st-in 200ms var(--st-out) both; }
 .st-below:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 @media (hover: hover) and (pointer: fine) { .st-below:hover { border-color: var(--a-line-hover); background: var(--a-option-hover); } }
+/* R4 ui-correctness#5: in the feed it sits inside the item area, 8 px above the next item's peek strip, never on it (the
+   peek's type label stays whole). It shows only while option A is really below the fold. */
+.st-below--stage { top: auto; bottom: calc(var(--st-peek, 0px) + 8px); z-index: 4; }
 
 /* The first feed's cue (R2 ruling 7, R3-SPEC L3): a 36 px chip with Mobi's head, centred in the 40 px peek strip (the type
    label hides while it shows); it bobs 3 times (420 ms up, 380 ms back) and fades (160 ms) on the first move. Nothing moves
@@ -278,7 +289,7 @@ span.st-counter { cursor: default; }
 .st-cp__n { font: 700 44px/1.05 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); font-variant-numeric: tabular-nums; text-wrap: balance; animation: st-cp-pop 220ms var(--st-out) both; }
 .st-cp__status { margin-top: 10px !important; font: 500 15.5px/1.5 var(--font-body); color: var(--a-ink-2); }
 .st-cp__fan { margin-top: 20px; width: 100%; display: flex; justify-content: center; }
-.st-cp__fan .st-pile__fan { height: 112px; }
+.st-cp__fan .st-pile__fan { height: 128px; }
 .st-state { display: grid; gap: 10px; justify-items: center; width: min(100%, 420px); margin: auto; text-align: center; }
 .st-state__title { font: 700 26px/1.15 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); text-wrap: balance; }
 .st-state__line { font: 500 15px/1.5 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; max-width: 40ch; }
@@ -318,7 +329,7 @@ span.st-counter { cursor: default; }
 .st-endx__h { font: 750 34px/1.08 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); text-wrap: balance; outline: none; animation: st-in 240ms var(--st-out) both; font-variant-numeric: tabular-nums; }
 .st-endx__mobi { display: block; width: 64px; height: 64px; margin: 0; animation: st-nod 420ms var(--st-out) 120ms both; transform-origin: 50% 90%; }
 .st-endx__pile { display: flex; justify-content: center; }
-.st-endx__pile .st-pile__fan { height: 124px; }
+.st-endx__pile .st-pile__fan { height: 132px; }
 .st-endx__body > .st-endx__nums { margin-top: 24px; }
 .st-endx__nums { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 12px; }
 .st-endx__nums > div { display: grid; gap: 4px; align-content: start; min-width: 0; animation: st-in 220ms var(--st-out) calc(var(--i, 0) * 60ms) both; }
@@ -343,13 +354,13 @@ span.st-counter { cursor: default; }
 .st-pile__card { position: absolute; left: 50%; top: 6px; width: 112px; height: 140px; margin-left: -56px; display: grid; align-content: start; gap: 6px; padding: 11px 11px 12px; border-radius: 12px; border: 1px solid var(--a-line-strong); background: var(--a-raised); box-shadow: var(--a-shadow-1); transform: translateX(0) rotate(0deg); transform-origin: 50% 90%; transition: transform 220ms var(--st-ease) var(--d, 0ms); }
 .st-pile__fan[data-open] .st-pile__card { transform: translateX(var(--x)) rotate(var(--r)); }
 .st-pile__fan[data-small] { width: 260px; }
-.st-pile__fan[data-small] .st-pile__card { width: 81px; height: 101px; margin-left: -40px; padding: 8px 8px 9px; border-radius: 10px; gap: 4px; }
+.st-pile__fan[data-small] .st-pile__card { width: 108px; height: 116px; margin-left: -54px; padding: 9px 9px 10px; border-radius: 10px; gap: 5px; }
 .st-pile__fan[data-small][data-open] .st-pile__card { transform: translateX(calc(var(--x) * 0.75)) rotate(var(--r)); }
 .st-pile__fan[data-small] .st-pile__k { font-size: 10.5px; }
-.st-pile__fan[data-small] .st-pile__f { -webkit-line-clamp: 3; font-size: 11px !important; line-height: 1.25; }
+.st-pile__fan[data-small] .st-pile__f { -webkit-line-clamp: 3; font-size: 10.5px; line-height: 1.28; letter-spacing: -0.005em; }
 .st-pile__k { font: 600 12px/1.2 var(--font-body); color: var(--a-ink-3); }
 /* R3-SPEC L6: card text never breaks a word with a hyphen ("partner-ship"); minis show 3 lines, then an ellipsis. */
-.st-pile__f { font: 650 13px/1.28 var(--font-display); color: var(--a-ink); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: normal; word-break: normal; hyphens: manual; text-wrap: balance; }
+.st-pile__f { font: 650 13px/1.28 var(--font-display); color: var(--a-ink); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: normal; word-break: normal; hyphens: manual; text-wrap: pretty; }
 .st-pile__lines { display: grid; gap: 10px; margin-top: 6px; }
 .st-pile__lines i { display: block; height: 1px; background: var(--a-line-strong); }
 .st-pile__lines i:last-child { width: 62%; }
@@ -566,3 +577,18 @@ html[data-theme='light'] .st-scrim { background: color-mix(in srgb, var(--a-bg) 
   .st-endx__bar i[data-grow] { animation: none; transform: scaleX(var(--to, 1)); }
   .st-grid, .st-top__title { transition: none; }
 }
+/* The app's own reduced-motion setting (html[data-motion='reduced']) gets the same rules (R4 client-code#12). */
+html[data-motion='reduced'] .st-card, html[data-motion='reduced'] .st-card[data-turned] { transform: none; transition: none; }
+html[data-motion='reduced'] .st-face { transition: opacity 120ms linear; backface-visibility: visible; -webkit-backface-visibility: visible; }
+html[data-motion='reduced'] .st-face--back { transform: none; opacity: 0; pointer-events: none; }
+html[data-motion='reduced'] .st-card[data-turned] .st-face--back { opacity: 1; pointer-events: auto; }
+html[data-motion='reduced'] .st-card[data-turned] .st-face--front { opacity: 0; pointer-events: none; }
+html[data-motion='reduced'] .st-opt, html[data-motion='reduced'] .st-opt[data-state] { animation: none !important; transform: none !important; transition: none; }
+html[data-motion='reduced'] .st-railkey__glyph[data-pop], html[data-motion='reduced'] .st-kept, html[data-motion='reduced'] .st-kept b, html[data-motion='reduced'] .st-prow, html[data-motion='reduced'] .st-verdict, html[data-motion='reduced'] .st-verdict b, html[data-motion='reduced'] .st-stamp > span, html[data-motion='reduced'] .st-step[data-later], html[data-motion='reduced'] .st-end, html[data-motion='reduced'] .st-drawer, html[data-motion='reduced'] .st-scrim, html[data-motion='reduced'] .st-keys, html[data-motion='reduced'] .st-firsthint, html[data-motion='reduced'] .st-below { animation: none !important; }
+html[data-motion='reduced'] .st-drawer:not(.st-drawer--bottom) { animation: none !important; }
+html[data-motion='reduced'] .st-lineopen { transition: none; }
+html[data-motion='reduced'] .st-seg[data-state='now'] i, html[data-motion='reduced'] .st-ticks--bar i { transition: none; }
+html[data-motion='reduced'] .st-pile__card { transition: none; }
+html[data-motion='reduced'] .st-endx__h, html[data-motion='reduced'] .st-endx__mobi, html[data-motion='reduced'] .st-endx__nums > div, html[data-motion='reduced'] .st-cp__n, html[data-motion='reduced'] .st-cue, html[data-motion='reduced'] .st-cue__in { animation: none !important; }
+html[data-motion='reduced'] .st-endx__bar i[data-grow] { animation: none; transform: scaleX(var(--to, 1)); }
+html[data-motion='reduced'] .st-grid, html[data-motion='reduced'] .st-top__title { transition: none; }
