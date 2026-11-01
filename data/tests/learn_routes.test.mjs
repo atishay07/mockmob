@@ -577,7 +577,7 @@ test('covers: every playable chapter, For you first with its reason, the hook, o
   assert.deepEqual(body.lengths, [5, 10, 20]);
   assert.deepEqual(body.covers.map((c) => c.key), [ST, PL], 'For you, then book order from the next chapter, wrapping');
   const st = body.covers[0];
-  assert.deepEqual([st.forYou, st.reason, st.studentLine, st.mistakes], [true, '1 old mistake to fix', '1 old mistake to fix', 1]);
+  assert.deepEqual([st.forYou, st.reason, st.studentLine, st.mistakes], [true, '1 open mistake to fix', '1 open mistake to fix', 1]);
   assert.deepEqual(Object.keys(st.hook).sort(), ['front', 'id', 'kind', 'mustKnow']);
   assert.equal(st.ref, null);
   assert.equal(st.art, null);

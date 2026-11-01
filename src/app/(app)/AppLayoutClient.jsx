@@ -36,7 +36,7 @@ import Image from 'next/image';
 import mascot from '@/../public/brand/mascot/manifest.json';
 import PlaceTabs from '@/components/nav/PlaceTabs';
 import { useReviseBadge } from '@/lib/reviewRead';
-import { LEARN2_ENV_ON } from '@/components/learn2/flag';
+import { LEARN2_ENV_ON, useL2Off, useNavN1 } from '@/components/learn2/flag';
 import { useLearnDue } from '@/components/learn2/api';
 import { LEARN_DOT_LABEL, REVISE_DOT_LABEL, dotName } from '@/lib/nav/dueCount.mjs';
 import { shownName } from '@/lib/displayName.mjs';
@@ -93,11 +93,10 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   // The Key cards due today, beside "Learn, Key cards" in the sidebar (B 2.2: today.due). One shared read with the other Key cards entries.
   // Under Learn v2 the number comes from Learn's own home, summed over the subjects (each subject row shows its share), so it never
   // disagrees with "9 due today" on the page (M5); with v2 off it is the Key cards home's, as before.
-  // (The flag is read here without useSearchParams: the shell has no Suspense boundary; the preview's &l2=off is read from the address.)
-  const [l2Off] = useState(() => {
-    if (!previewRoute || typeof window === 'undefined') return false;
-    try { return new URLSearchParams(window.location.search).get('l2') === 'off'; } catch { return false; }
-  });
+  // (The flag is read without useSearchParams: the shell has no Suspense boundary. useL2Off answers "not off" on the server and in the
+  // first client render, then reads the address, so the two trees match; R3 X7.)
+  const l2OffAddress = useL2Off();
+  const l2Off = Boolean(previewRoute) && l2OffAddress;
   const learn2 = LEARN2_ENV_ON || (Boolean(previewRoute) && !l2Off);
   const learnShell = status === 'authenticated' && !chromeless && (studyEnabled || previewRoute === '/learn');
   // With v2 off the live sidebar keeps its plain "Learn" row with no count, so nothing is read for it.
@@ -105,11 +104,9 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const learnDue2 = useLearnDue({ enabled: learnShell && learn2, refreshKey: learnPlace });
   const learnDue = learn2 ? learnDue2 || 0 : 0;
   // The development preview's &nav=n1 draws Learn as a place of its own in the sidebar (B 6.4), for the owner's call.
-  // Read once from the address, like &l2=off above (the preview reloads on every view change).
-  const [navAlt] = useState(() => {
-    if (!previewRoute || typeof window === 'undefined') return false;
-    try { return new URLSearchParams(window.location.search).get('nav') === 'n1'; } catch { return false; }
-  });
+  // Read from the address the hydration-safe way, like &l2=off above.
+  const navN1Address = useNavN1();
+  const navAlt = Boolean(previewRoute) && navN1Address;
 
   useEffect(() => {
     if (!mobileMenuOpen) return;

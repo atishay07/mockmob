@@ -147,7 +147,8 @@ test('R3 C3: the subject tile\'s "2 chapters" (the length of the static subject 
 // ---- Round 3 (packet R3-explore): X7 no hydration error with &l2=off -------------------------------------------------------------
 test('R3 X7: the Learn v2 flag is the same on the server and in the first client render (the address is read after hydration)', () => {
   const flag = read('../learn2/flag.js');
-  assert.match(flag, /useSyncExternalStore\(noSubscription, addressSaysOff, \(\) => false\)/, 'server snapshot: not off');
+  assert.match(flag, /useSyncExternalStore\(noSubscription, l2OffNow, \(\) => false\)/, 'server snapshot: not off');
+  assert.match(flag, /useSyncExternalStore\(noSubscription, navN1Now, \(\) => false\)/, '&nav=n1 is read the same hydration-safe way');
   assert.doesNotMatch(flag, /useSearchParams/, 'no search-params read that can differ from the server');
   const page = read('./DiscoveryFeed.jsx');
   assert.match(page, /const v2 = useLearn2On\(\);/);

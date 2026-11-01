@@ -142,11 +142,11 @@ test('covers (R12): every playable chapter; For you first with its reason; then 
   const next = coverOrder(base.map((c) => (c.key === 'c' ? { ...c, lastActivityAt: 5 } : c.key === 'a' ? { ...c, lastActivityAt: 2 } : c.key === 'd' ? { ...c, hasNew: false } : c)));
   assert.deepEqual(keys(next), ['e', 'a', 'c', 'd'], 'For you, then book order from the next chapter, wrapping');
   assert.equal(next[0].reason, 'Next after C');
-  // 2. the most old mistakes.
+  // 2. the most open mistakes.
   const mistakes = coverOrder(base.map((c) => (c.key === 'd' ? { ...c, mistakes: 2 } : c.key === 'a' ? { ...c, mistakes: 1, lastActivityAt: 9 } : c)));
-  assert.deepEqual([mistakes[0].key, mistakes[0].reason], ['d', '2 old mistakes to fix']);
+  assert.deepEqual([mistakes[0].key, mistakes[0].reason], ['d', '2 open mistakes to fix']);
   assert.deepEqual(keys(mistakes), ['d', 'e', 'a', 'c']);
-  assert.equal(coverOrder(base.map((c) => (c.key === 'e' ? { ...c, mistakes: 1 } : c)))[0].reason, '1 old mistake to fix');
+  assert.equal(coverOrder(base.map((c) => (c.key === 'e' ? { ...c, mistakes: 1 } : c)))[0].reason, '1 open mistake to fix');
   // 1. today's unfinished feed.
   const pick = coverOrder(base.map((c) => (c.key === 'c' ? { ...c, openFeed: true } : c.key === 'd' ? { ...c, mistakes: 3 } : c)));
   assert.deepEqual([pick[0].key, pick[0].reason], ['c', 'Pick up where you stopped']);
@@ -157,10 +157,10 @@ test('covers (R12): every playable chapter; For you first with its reason; then 
   assert.equal(coverLine(1, { cards: 0, questions: 1 }), '1 minute, 1 question');
 });
 
-test('the feed end rows (R16): "Old mistakes: 1 still open" when none was fixed, never "Fixed: 0 of 1"; the kept line', () => {
-  assert.deepEqual(feedEndLines({ answered: 6, right: 4, fixed: 0, mistakes: 1 }), [{ label: 'Questions', text: '4 of 6 right' }, { label: 'Old mistakes', text: '1 still open' }]);
-  assert.deepEqual(feedEndLines({ fixed: 2, mistakes: 2 }), [{ label: 'Fixed', text: '2 old mistakes' }]);
-  assert.deepEqual(feedEndLines({ fixed: 1, mistakes: 2 }), [{ label: 'Fixed', text: '1 of 2 old mistakes' }]);
+test('the feed end rows (R16): "Open mistakes: 1 still open" when none was fixed, never "Fixed: 0 of 1"; the kept line', () => {
+  assert.deepEqual(feedEndLines({ answered: 6, right: 4, fixed: 0, mistakes: 1 }), [{ label: 'Questions', text: '4 of 6 right' }, { label: 'Open mistakes', text: '1 still open' }]);
+  assert.deepEqual(feedEndLines({ fixed: 2, mistakes: 2 }), [{ label: 'Fixed', text: '2 open mistakes' }]);
+  assert.deepEqual(feedEndLines({ fixed: 1, mistakes: 2 }), [{ label: 'Fixed', text: '1 of 2 open mistakes' }]);
   assert.deepEqual(feedEndLines({}), []);
   assert.equal(keptLine(6), '6 kept. They are first in Revise.');
   assert.equal(keptLine(0), null);
@@ -257,12 +257,12 @@ test('preview: the covers row is the suggested chapter first with the real count
   const { http, body } = await call('/api/learn/covers', { query: { subject: 'accountancy' } });
   assert.equal(http, 200);
   assert.deepEqual(body.lengths, [5, 10, 20]);
-  // BUILD-1101 1.8 R12: every playable chapter (no cap of 8); For you = most old mistakes, with its reason and one true line.
+  // BUILD-1101 1.8 R12: every playable chapter (no cap of 8); For you = most open mistakes, with its reason and one true line.
   assert.ok(body.covers.length > FEED_RULES.maxCovers);
   assert.equal(body.covers[0].key, PF);
   assert.equal(body.covers[0].forYou, true);
-  assert.equal(body.covers[0].reason, '3 old mistakes to fix');
-  assert.equal(body.covers[0].studentLine, '3 old mistakes to fix', 'B7 4: the student line carries no due counts');
+  assert.equal(body.covers[0].reason, '3 open mistakes to fix');
+  assert.equal(body.covers[0].studentLine, '3 open mistakes to fix', 'B7 4: the student line carries no due counts');
   assert.equal(typeof body.covers[0].hook.id, 'string', 'B7 4: the hook is a real card of the feed, with its id');
   assert.equal(body.covers[1].key, 'accountancy.profit-and-loss-appropriation-account', 'then book order from the chapter after it');
   assert.ok(body.covers.slice(1).every((c) => !c.forYou));

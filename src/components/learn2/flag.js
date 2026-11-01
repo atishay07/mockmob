@@ -10,13 +10,20 @@ import { usePathname } from 'next/navigation';
 export const LEARN2_ENV_ON = process.env.NEXT_PUBLIC_LEARN2 === 'on';
 
 const noSubscription = () => () => {};
-const addressSaysOff = () => {
-  try { return new URLSearchParams(window.location.search).get('l2') === 'off'; } catch { return false; }
+const addressSays = (key, value) => () => {
+  try { return new URLSearchParams(window.location.search).get(key) === value; } catch { return false; }
 };
+const l2OffNow = addressSays('l2', 'off');
+const navN1Now = addressSays('nav', 'n1');
 
 /** The preview's &l2=off: false on the server and during hydration, the address's answer after. */
 export function useL2Off() {
-  return useSyncExternalStore(noSubscription, addressSaysOff, () => false);
+  return useSyncExternalStore(noSubscription, l2OffNow, () => false);
+}
+
+/** The preview's &nav=n1 (Learn as a place of its own in the sidebar), read the same hydration-safe way. */
+export function useNavN1() {
+  return useSyncExternalStore(noSubscription, navN1Now, () => false);
 }
 
 export function useLearn2On() {

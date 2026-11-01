@@ -25,8 +25,8 @@ const specOf = (groups) => groups.flatMap(([chapter, verdicts]) => [...verdicts]
 const iso = (ms) => new Date(ms).toISOString();
 
 const MOCK = {
-  chapter: [[PF, 'rrbrrrbrrrrb'], ['Goodwill', 'rrwrwwbrrb'], ['Ratios', 'rrwwrrbrwr'], ['Cash flow statement', 'rbrwbwrrbw'], ['Admission of a partner', 'rwrwbrwb']],
-  none: [[PF, 'rrbrrwrrbrrb'], ['Goodwill', 'rrwrwwbrrb'], ['Ratios', 'rrwwrrbrwr'], ['Cash flow statement', 'rbrwbwrrbw'], ['Admission of a partner', 'rwrwbrwb']],
+  chapter: [[PF, 'rrbrrrbrrrrb'], ['Goodwill Valuation', 'rrwrwwbrrb'], ['Accounting Ratios', 'rrwwrrbrwr'], ['Cash Flow Statement', 'rbrwbwrrbw'], ['Admission of Partner', 'rwrwbrwb']],
+  none: [[PF, 'rrbrrwrrbrrb'], ['Goodwill Valuation', 'rrwrwwbrrb'], ['Accounting Ratios', 'rrwwrrbrwr'], ['Cash Flow Statement', 'rbrwbwrrbw'], ['Admission of Partner', 'rwrwbrwb']],
 };
 
 const cache = new Map();
@@ -40,8 +40,8 @@ function build(day, variant) {
     const a = previewAttempt(id, day - onDay, specOf(groups), subject);
     papers.push({ ...a, mode, selectionMeta: { ...a.selectionMeta, mode, scoringVersion: 'server_practice_v1' }, paper: { source, completedAt: a.completedAt } });
   };
-  if (day > 1) add('fw-p1', 1, 'accountancy', 'quick', [[PF, 'rww'], ['Goodwill', 'rbw'], ['Ratios', 'wwrb']], 'Quick practice');
-  if (day > 3) add('fw-p3', 3, 'accountancy', 'quick', [[PF, 'rrrwr'], ['Goodwill', 'rwb'], ['Ratios', 'wr']], 'Quick practice');
+  if (day > 1) add('fw-p1', 1, 'accountancy', 'quick', [[PF, 'rww'], ['Goodwill Valuation', 'rbw'], ['Accounting Ratios', 'wwrb']], 'Quick practice');
+  if (day > 3) add('fw-p3', 3, 'accountancy', 'quick', [[PF, 'rrrwr'], ['Goodwill Valuation', 'rwb'], ['Accounting Ratios', 'wr']], 'Quick practice');
   if (day > 4) add('fw-p4', 4, 'economics', 'quick', [['Money and Banking', 'rrwrb'], ['Introduction to Microeconomics', 'rrwwr']], 'Quick practice');
   if (day > 5) {
     add('fw-p5', 5, 'accountancy', 'full', variant === 'none' ? MOCK.none : MOCK.chapter, 'Mock 1');

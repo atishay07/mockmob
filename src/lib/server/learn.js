@@ -1415,9 +1415,9 @@ export function createLearn(deps) {
       }
       const runHere = S.runs.find((r) => r.kind === 'feed' && r.chapter_key === info.key && istDay(Date.parse(r.created_at)) === S.day && Number(r.done_count) > 0 && Number(r.done_count) < Number(r.item_count));
       const resume = runHere ? { runId: runHere.id, done: Number(runHere.done_count), of: Number(runHere.item_count), minutesLeft: minutesFor(Number(runHere.seconds_left) || 0) } : null;
-      // One true line without due counts (A2 4.11): the stop, else the old mistakes, else the chapter's state, else "New to you".
+      // One true line without due counts (A2 4.11): the stop, else the open mistakes, else the chapter's state, else "New to you".
       const studentLine = resume ? `You stopped at ${resume.done} of ${resume.of}`
-        : info.mistakes.length ? `${plural(info.mistakes.length, 'old mistake')} to fix` : info.studied ? info.state.label : 'New to you';
+        : info.mistakes.length ? `${plural(info.mistakes.length, 'open mistake')} to fix` : info.studied ? info.state.label : 'New to you';
       return {
         key: info.key, title: info.title, name: info.name, ref: info.ref, refLine: refLineOf(info), number: info.chapterNo ? Number(info.chapterNo) : null, partTitle: partTitleOf(info), unitTitle: unitTitleOf(info),
         reason, forYou,

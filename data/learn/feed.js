@@ -6,7 +6,7 @@
 //   covers        the Explore covers row (R12): every playable chapter, For you first with its reason, then book order from
 //                 the chapter after it, wrapping
 //   cover line    "10 minutes, 16 Key cards and 5 questions"
-//   end lines     the feed end's rows: questions right, fixed old mistakes, or "Old mistakes: 1 still open" (R16)
+//   end lines     the feed end's rows: questions right, fixed open mistakes, or "Open mistakes: 1 still open" (R16)
 //   order check   the shape the feed promises: a card first, about two cards per question, no two questions back to back
 // Free's one Learn session a day is data/learn/allowance.js (LK15).
 import { FREE_SESSION_DONE } from './allowance.js';
@@ -71,11 +71,11 @@ export function freeFeed({ isPro = false, startedToday = 0, perDay = FEED_RULES.
 
 /**
  * The covers row's order (R12). chapters, in book order: [{ key, title, order, chapterNo, cards, questions, mistakes,
- * lastActivityAt, hasNew, openFeed }] where `cards` are the cards the student may open, `mistakes` the eligible old mistakes
+ * lastActivityAt, hasNew, openFeed }] where `cards` are the cards the student may open, `mistakes` the eligible open mistakes
  * (R10.1), `hasNew` the chapter has open cards the student does not hold, `openFeed` today's unfinished feed is here.
  * A chapter with nothing to play (no cards and no questions) is left out. For you, the first that applies:
  *   1. today's unfinished feed                                 "Pick up where you stopped"
- *   2. the most eligible old mistakes                           "2 old mistakes to fix"
+ *   2. the most eligible open mistakes                           "2 open mistakes to fix"
  *   3. the chapter after the latest Learn activity, with new    "Next after Goodwill"
  *   4. the first chapter with cards                             "Chapter 1 of your book" (null when it has no number)
  * Then book order from the chapter after it, wrapping. Returns the chapters with { forYou, reason } added.
@@ -89,7 +89,7 @@ export function coverOrder(chapters = [], max = FEED_RULES.maxCovers) {
   if (open) { pick = open; reason = 'Pick up where you stopped'; }
   if (!pick) {
     const most = list.reduce((best, c) => ((c.mistakes || 0) > (best?.mistakes || 0) ? c : best), null);
-    if (most) { pick = most; reason = `${plural(most.mistakes, 'old mistake')} to fix`; }
+    if (most) { pick = most; reason = `${plural(most.mistakes, 'open mistake')} to fix`; }
   }
   if (!pick) {
     const latest = list.filter((c) => Number.isFinite(c.lastActivityAt)).sort((a, b) => b.lastActivityAt - a.lastActivityAt)[0];
@@ -115,16 +115,16 @@ export function coverLine(minutes, { cards = 0, questions = 0 } = {}) {
 }
 
 /**
- * The feed end's rows (FEED-2 section 5, R16): "Questions: 4 of 6 right"; old mistakes either "Fixed: 2 old mistakes" (all),
- * "Fixed: 1 of 2 old mistakes", or, when none was fixed, "Old mistakes: 1 still open" (never "Fixed: 0 of 1").
+ * The feed end's rows (FEED-2 section 5, R16): "Questions: 4 of 6 right"; open mistakes either "Fixed: 2 open mistakes" (all),
+ * "Fixed: 1 of 2 open mistakes", or, when none was fixed, "Open mistakes: 1 still open" (never "Fixed: 0 of 1").
  */
 export function feedEndLines({ answered = 0, right = 0, fixed = 0, mistakes = 0 } = {}) {
   const lines = [];
   if (answered) lines.push({ label: 'Questions', text: `${right} of ${answered} right` });
   if (mistakes) {
-    if (!fixed) lines.push({ label: 'Old mistakes', text: `${mistakes} still open` });
-    else if (fixed === mistakes) lines.push({ label: 'Fixed', text: plural(fixed, 'old mistake') });
-    else lines.push({ label: 'Fixed', text: `${fixed} of ${plural(mistakes, 'old mistake')}` });
+    if (!fixed) lines.push({ label: 'Open mistakes', text: `${mistakes} still open` });
+    else if (fixed === mistakes) lines.push({ label: 'Fixed', text: plural(fixed, 'open mistake') });
+    else lines.push({ label: 'Fixed', text: `${fixed} of ${plural(mistakes, 'open mistake')}` });
   }
   return lines;
 }
