@@ -50,6 +50,9 @@ next-env.d.ts
 # pipeline runtime data
 scripts/pipeline/data/
 
+# Key cards API batch run records, dry-run request files and raw results (scripts/keycards/api-batch.mjs)
+/tmp/keycards-api/
+
 # Persistent private content-production ledger (back up outside Git)
 data/pipeline-budget.sqlite*
 mobile/node_modules/
