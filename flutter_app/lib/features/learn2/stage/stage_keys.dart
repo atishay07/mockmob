@@ -24,6 +24,7 @@ import '../../../core/widgets/hit_slop.dart';
 import '../../../core/widgets/key_button.dart' show KeyButton;
 import '../../../core/widgets/materials/shape.dart';
 import '../../../core/widgets/mm_spinner.dart';
+import 'stage_balance.dart';
 import 'stage_motion.dart';
 
 /// The two looks of a stage key.
@@ -360,20 +361,17 @@ class StageStepKey extends StatelessWidget {
     final disabled = onTap == null;
     final volt = tone == StageTone.volt;
     final r = BorderRadius.circular(radius);
+    final style = type.button.copyWith(
+      fontSize: 16,
+      height: 1.25,
+      fontWeight: FontWeight.w600,
+      color: volt ? colors.voltInk : (quiet ? colors.ink2 : colors.ink),
+    );
+    // A long key ("Next chapter: Retirement and Death of a Partner") wraps in even lines, as the web's balance does.
     final words = MmOverlapSwitcher.fade(
       duration: const Duration(milliseconds: 120),
       alignment: Alignment.center,
-      child: Text(
-        label,
-        key: ValueKey<String>(label),
-        textAlign: TextAlign.center,
-        style: type.button.copyWith(
-          fontSize: 16,
-          height: 1.25,
-          fontWeight: FontWeight.w600,
-          color: volt ? colors.voltInk : (quiet ? colors.ink2 : colors.ink),
-        ),
-      ),
+      child: StageBalancedText(TextSpan(text: label, style: style), key: ValueKey<String>(label), textAlign: TextAlign.center),
     );
     final key = Semantics(
       container: true,
@@ -591,6 +589,58 @@ class StageCloseKey extends StatelessWidget {
                   const SizedBox(width: MmSpace.s8),
                   Text(label, style: type.labelLarge.copyWith(fontSize: 15, height: 1, color: colors.ink2)),
                 ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// "Options below" (the web's `BelowChip`, M10): a quiet 36 dp chip, ink-2 words and a chevron, over the foot of a long
+/// question while its first option waits below the fold. A tap brings option A up.
+class StageBelowChip extends StatelessWidget {
+  const StageBelowChip({super.key, required this.onTap, this.label = 'Options below'});
+
+  final VoidCallback onTap;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmHitSlop.toTarget(
+      visual: 36,
+      child: Semantics(
+        container: true,
+        button: true,
+        label: label,
+        excludeSemantics: true,
+        onTap: onTap,
+        child: _StagePress(
+          onTap: onTap,
+          builder: (context, depth, focused) => _FocusRing(
+            show: focused,
+            radius: BorderRadius.circular(18),
+            child: Transform.scale(
+              scale: 1 - 0.03 * depth,
+              child: Container(
+                height: 36,
+                padding: const EdgeInsets.fromLTRB(16, 0, 12, 0),
+                decoration: BoxDecoration(
+                  color: colors.raised,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: colors.lineStrong),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(label, maxLines: 1, softWrap: false, style: type.label.copyWith(fontSize: 13.5, height: 1, color: colors.ink2)),
+                    const SizedBox(width: MmSpace.s6),
+                    Icon(LucideIcons.chevronDown, size: 16, color: colors.ink2),
+                  ],
+                ),
               ),
             ),
           ),

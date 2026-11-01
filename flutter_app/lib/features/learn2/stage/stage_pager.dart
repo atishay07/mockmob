@@ -22,11 +22,13 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
+import 'package:flutter/rendering.dart';
 
 import '../../../core/motion/motion.dart';
 import 'pager_model.dart';
 import 'stage_frame.dart';
+import 'stage_keys.dart' show StageBelowChip;
+import 'stage_motion.dart';
 
 /// How a page sits in the item area.
 enum StagePageKind {
@@ -499,8 +501,23 @@ class _FillScroll extends StatelessWidget {
   }
 }
 
+/// What a question's page offers its content: the first option row, watched for the "Options below" chip. A
+/// `QuestionView` on the page sets it while the question is unanswered.
+class StageQuestionScope extends InheritedWidget {
+  const StageQuestionScope({super.key, required this.firstOption, required super.child});
+
+  final ValueNotifier<GlobalKey?> firstOption;
+
+  static StageQuestionScope? maybeOf(BuildContext context) => context.getInheritedWidgetOfExactType<StageQuestionScope>();
+
+  @override
+  bool updateShouldNotify(StageQuestionScope old) => old.firstOption != firstOption;
+}
+
 /// A question's page: from the top (16 dp down, 24 under the last line), its head fading 24 dp once it is scrolled
-/// and its foot fading 56 dp while more waits below.
+/// and its foot fading 56 dp while more waits below. While the first option waits below the fold (less than 28 dp of
+/// it above the page's foot, M10) a quiet "Options below" chip sits over the foot; a tap brings option A to 12 dp
+/// under the top.
 class _QuestionScroll extends StatefulWidget {
   const _QuestionScroll({required this.physics, required this.child});
 
@@ -512,8 +529,22 @@ class _QuestionScroll extends StatefulWidget {
 }
 
 class _QuestionScrollState extends State<_QuestionScroll> {
+  final ValueNotifier<GlobalKey?> _first = ValueNotifier(null);
   bool _top = false;
   bool _more = false;
+  bool _below = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _first.addListener(_check);
+  }
+
+  @override
+  void dispose() {
+    _first.dispose();
+    super.dispose();
+  }
 
   bool _read(ScrollMetrics m) {
     if (m.axis != Axis.vertical) return false;
@@ -528,7 +559,42 @@ class _QuestionScrollState extends State<_QuestionScroll> {
         });
       });
     }
+    _check();
     return false;
+  }
+
+  RenderBox? _firstRow() {
+    final row = _first.value?.currentContext?.findRenderObject();
+    return row is RenderBox && row.attached && row.hasSize ? row : null;
+  }
+
+  /// Whether option A waits below the fold, read after the frame.
+  void _check() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final page = context.findRenderObject();
+      final row = _firstRow();
+      var below = false;
+      if (page is RenderBox && page.hasSize && row != null) {
+        below = row.localToGlobal(Offset.zero, ancestor: page).dy + 28 > page.size.height;
+      }
+      if (below != _below) setState(() => _below = below);
+    });
+  }
+
+  void _goToOptions() {
+    final row = _firstRow();
+    final rowContext = _first.value?.currentContext;
+    if (row == null || rowContext == null) return;
+    final viewport = RenderAbstractViewport.maybeOf(row);
+    final position = Scrollable.maybeOf(rowContext)?.position;
+    if (viewport == null || position == null) return;
+    final target = (viewport.getOffsetToReveal(row, 0).offset - 12).clamp(position.minScrollExtent, position.maxScrollExtent);
+    if (Motion.reduced(context)) {
+      position.jumpTo(target);
+    } else {
+      unawaited(position.animateTo(target, duration: PagerModel.duration, curve: Motion.drawer));
+    }
   }
 
   @override
@@ -542,26 +608,38 @@ class _QuestionScrollState extends State<_QuestionScroll> {
           child: SingleChildScrollView(
             physics: widget.physics,
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-            child: widget.child,
+            child: StageQuestionScope(firstOption: _first, child: widget.child),
           ),
         ),
       ),
     );
-    return ShaderMask(
-      blendMode: BlendMode.dstIn,
-      shaderCallback: (rect) {
-        final top = (24 / rect.height).clamp(0.0, 0.5);
-        final bottom = (56 / rect.height).clamp(0.0, 0.5);
-        const clear = Color(0x00FFFFFF);
-        const solid = Color(0xFFFFFFFF);
-        return LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [_top ? clear : solid, solid, solid, _more ? clear : solid],
-          stops: [0, top, 1 - bottom, 1],
-        ).createShader(rect);
-      },
-      child: scroll,
+    return Stack(
+      fit: StackFit.passthrough,
+      children: [
+        ShaderMask(
+          blendMode: BlendMode.dstIn,
+          shaderCallback: (rect) {
+            final top = (24 / rect.height).clamp(0.0, 0.5);
+            final bottom = (56 / rect.height).clamp(0.0, 0.5);
+            const clear = Color(0x00FFFFFF);
+            const solid = Color(0xFFFFFFFF);
+            return LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [_top ? clear : solid, solid, solid, _more ? clear : solid],
+              stops: [0, top, 1 - bottom, 1],
+            ).createShader(rect);
+          },
+          child: scroll,
+        ),
+        if (_below)
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 4,
+            child: Center(child: StageIn(child: StageBelowChip(onTap: _goToOptions))),
+          ),
+      ],
     );
   }
 }

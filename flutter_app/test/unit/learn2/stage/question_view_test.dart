@@ -199,6 +199,22 @@ void main() {
     expect(tester.getTopLeft(_row('C')).dy - viewportTop, moreOrLessEquals(12, epsilon: 1));
   });
 
+  testWidgets('a long question says "Options below" while option A waits under the fold; a tap brings it up', (tester) async {
+    await pumpStage(tester, _QHost(stem: _plain.stem, options: _plain.options));
+    await tester.pumpAndSettle();
+    expect(find.text('Options below'), findsNothing, reason: 'a short question shows its options');
+
+    await tester.pumpWidget(const SizedBox());
+    await pumpStage(tester, _QHost(stem: _lists.stem, options: _lists.options, room: 900));
+    await tester.pumpAndSettle();
+    expect(find.text('Options below'), findsOneWidget);
+    await tester.tap(find.text('Options below'));
+    await tester.pumpAndSettle();
+    final viewportTop = tester.getTopLeft(find.byType(StagePager)).dy;
+    expect(tester.getTopLeft(_row('A')).dy - viewportTop, moreOrLessEquals(12, epsilon: 1));
+    expect(find.text('Options below'), findsNothing, reason: 'gone once the options show');
+  });
+
   testWidgets('a locked line says why and offers See Pro; no card: Why and the explanation', (tester) async {
     await pumpStage(tester, _QHost(stem: _plain.stem, options: _plain.options));
     _host(tester).set(const StageAnswer.graded('B', StageResult(correct: false, key: 'A', line: StageLine(locked: true, text: 'Free shows 3 lines a day. This one is on Pro.'))));

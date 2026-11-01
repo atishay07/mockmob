@@ -34,6 +34,7 @@ import '../../keycards/data/keycards_models.dart';
 import 'stage_keys.dart';
 import 'stage_motion.dart';
 import 'stage_ncert.dart';
+import 'stage_pager.dart' show StageQuestionScope;
 import 'stage_text.dart';
 
 /// The line the server sends with a wrong answer: a linked [card], or [locked] with its [text] (Free), or neither
@@ -130,12 +131,32 @@ class _QuestionViewState extends State<QuestionView> {
   String? _tapped;
   Timer? _scroll;
   String? _scrollTo;
+  StageQuestionScope? _page;
 
   GlobalKey _rowKey(int index) => _rows.putIfAbsent(index, GlobalKey.new);
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _page = StageQuestionScope.maybeOf(context);
+    _watchFirst();
+  }
+
+  /// While the question waits for its answer, its page watches option A for the "Options below" chip.
+  void _watchFirst() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final page = _page;
+      if (!mounted || page == null) return;
+      final open = widget.answer == null && widget.skipped == null && widget.options.isNotEmpty;
+      final want = open ? _rowKey(0) : null;
+      if (page.firstOption.value != want) page.firstOption.value = want;
+    });
+  }
+
+  @override
   void didUpdateWidget(QuestionView old) {
     super.didUpdateWidget(old);
+    if (old.answer != widget.answer || old.skipped != widget.skipped) _watchFirst();
     // An answer that came back (an error, a refusal) frees the rows again.
     if ((old.answer != null && widget.answer == null) || widget.error != old.error) _tapped = null;
     final was = old.answer?.result;
@@ -154,6 +175,8 @@ class _QuestionViewState extends State<QuestionView> {
   @override
   void dispose() {
     _scroll?.cancel();
+    final page = _page;
+    if (page != null && page.firstOption.value == _rows[0]) page.firstOption.value = null;
     super.dispose();
   }
 

@@ -40,7 +40,7 @@ class StageCentre extends StatelessWidget {
             key: titleKey,
             header: true,
             child: StageBalancedText(
-              TextSpan(text: title, style: type.headline.copyWith(fontSize: 26, height: 1.15, letterSpacing: -0.52, wordSpacing: 0, color: colors.ink)),
+              TextSpan(text: title, style: type.headline.copyWith(fontSize: 26, height: 1.15, letterSpacing: -0.26, color: colors.ink)),
               textAlign: TextAlign.center,
             ),
           ),
@@ -101,8 +101,7 @@ class StageCheckpoint extends StatelessWidget {
               style: type.headline.copyWith(
                 fontSize: 44,
                 height: 1.05,
-                letterSpacing: -1.32,
-                wordSpacing: 0,
+                letterSpacing: -0.44,
                 color: colors.ink,
                 fontFeatures: const [FontFeature.tabularFigures()],
               ),

@@ -222,6 +222,7 @@ class _CardFaceState extends State<CardFace> with SingleTickerProviderStateMixin
           children: [
             side(
               Stack(
+                fit: StackFit.passthrough,
                 children: [
                   front,
                   // The front's tap target: a button over the face, so its words stay readable on their own.
@@ -315,6 +316,8 @@ class _FaceState extends State<_Face> {
         child: MmClip(
           borderRadius: r,
           child: Stack(
+            // The face's own height reaches its content, so the prompt centres and the foot sits at the foot.
+            fit: StackFit.passthrough,
             children: [
               content,
               // The foot fades while more of the face waits below.
@@ -388,7 +391,7 @@ class _FrontBody extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final p = CardFace.promptStyle(StageText.frontSize(front), width);
-    final style = type.headline.copyWith(fontSize: p.size, height: p.height, letterSpacing: p.size * p.tracking, wordSpacing: 0, color: colors.ink);
+    final style = type.title.copyWith(fontSize: p.size, height: p.height, letterSpacing: p.size * p.tracking, wordSpacing: 0, color: colors.ink);
     final line = BlankedLine.front(front);
     final span = TextSpan(
       style: style,

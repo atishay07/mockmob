@@ -103,7 +103,8 @@ class EndForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final titleStyle = type.headline.copyWith(fontSize: 28, height: 1.12, letterSpacing: -0.84, wordSpacing: 0, color: colors.ink);
+    // The app's moment headline at 28: its own tracking and word air, so the letters never touch.
+    final titleStyle = type.headline.copyWith(fontSize: 28, height: 1.12, color: colors.ink);
     final quiet = type.body.copyWith(fontSize: 15, height: 1.5, fontWeight: FontWeight.w500, color: colors.ink2);
 
     if (loading) {
@@ -370,7 +371,7 @@ class _PileCard extends StatelessWidget {
                     card.front.replaceAll(RegExp(r'_{3,}'), '____'),
                     maxLines: 5,
                     overflow: TextOverflow.ellipsis,
-                    style: type.headline.copyWith(fontSize: 13, height: 1.28, letterSpacing: 0, wordSpacing: 0, color: colors.ink),
+                    style: type.title.copyWith(fontSize: 13, height: 1.28, letterSpacing: 0, wordSpacing: 0, color: colors.ink),
                   ),
                 ),
               ],

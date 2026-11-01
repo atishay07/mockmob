@@ -42,9 +42,11 @@ Future<void> pumpStage(
   tester.view.physicalSize = size * 2;
   tester.view.devicePixelRatio = 2;
   addTearDown(tester.view.reset);
+  // Never the phone's channel in a test: a recorder always stands in for it.
+  final driver = haptics ?? StageHaptics();
   await tester.pumpWidget(
     ProviderScope(
-      overrides: [if (haptics != null) hapticsProvider.overrideWithValue(Haptics(enabled: true, driver: haptics))],
+      overrides: [hapticsProvider.overrideWithValue(Haptics(enabled: true, driver: driver))],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: _themes[brightness],
