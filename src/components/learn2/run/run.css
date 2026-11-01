@@ -92,8 +92,8 @@
 .lr-area[data-type='question'] { flex: 1 0 auto; padding-bottom: 8px; }
 .lr-area[data-type='question'] > .lr-enter > .lr-q { flex: 1 0 auto; }
 @media (max-width: 767px) {
-  .lr-q { display: flex; flex-direction: column; }
-  .lr-q > .lr-opts { margin-top: auto; padding-top: 10px; }
+  .lr-area .lr-q { display: flex; flex-direction: column; }
+  .lr-area .lr-q > .lr-opts { margin-top: auto; padding-top: 10px; }
 }
 .lr-area[data-type='question'] + .lr-bar { margin-top: 8px; }
 .lr-enter { position: relative; display: flex; flex-direction: column; flex: 1 1 auto; animation: lr-rise 240ms var(--lr-ease) 60ms both; touch-action: pan-y; }
