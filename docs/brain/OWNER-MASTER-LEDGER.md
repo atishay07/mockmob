@@ -642,3 +642,4 @@ His frame: "Keep going. You have a bit of a direction and a taste of what I have
 | STANDING GOAL | **LK33** Keep improving the feature and the whole UI/UX, plus the usefulness of every feature, until satisfied. |
 | OPEN (content waves) | **LK34** Populate every subject and chapter: at least 3 hours of study per subject, more is fine. |
 | STANDING GOAL | **LK35** Keep going; double down on this direction. |
+| DECIDED 1 Nov ~5:45 pm | **LK34 route:** asked for an Anthropic API key (about $500) for card batches, he chose "Use subscription". Cards are written by subscription agents, paced across the 5-hour windows. The API pipeline (scripts/keycards/api-batch.mjs, web/1101-content-api 3b0feaa05) stays ready, unused. |
