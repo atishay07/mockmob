@@ -1,3 +1,21 @@
+## 2 Nov 2026, about 4 am IST: Key cards for Physics and Mathematics to production (owner LK34)
+
+**What shipped:**
+- **Physics:** 932 cards from 14 NCERT chapters, 397 held back.
+- **Mathematics:** 260 cards from 14 chapters, 234 held back.
+- Both were written under the plain-text notation rule. pdftotext flattens powers, subscripts and fractions, so a card carries no formula whose meaning depends on them, and the reviewers flagged any flattened notation. A scan of both decks found none.
+- **Mathematics is thin.** Three Dimensional Geometry has 1 card; Inverse Trigonometric Functions and Vector Algebra have 5 each. Its formulas need a typeset pipeline: transcribe NCERT pages to LaTeX and render them on cards.
+- **Tiers:** 3,165 of 12,540 cards are Must-know.
+
+**Verified:**
+- test:keycards 82, test:learn 381.
+- `next build --webpack` exit 0.
+- Looked at: a Physics card (Alternating Current) and a Maths card (Application of Derivatives), at 390 Night.
+
+**A note on the preview:** the 4-card feeds are the backlog rule, "Revise first: 42 due", for the seeded preview student. This is not a bug.
+
+**Rollback:** the previous production deployment (main 26e5f359a).
+
 ## 2 Nov 2026, about 3:30 am IST: Key cards for Geography, Psychology and Sociology to production (owner LK34)
 
 **What shipped:**
