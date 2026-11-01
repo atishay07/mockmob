@@ -15,7 +15,8 @@ import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { BookOpen, Bookmark, Check, X } from 'lucide-react';
+import { BookOpen, Bookmark, Check, ChevronUp, X } from 'lucide-react';
+import MobiReact from '@/components/brand/MobiReact';
 import { cardFace } from '@/components/keycards/kinds';
 import { refreshHome } from '@/components/keycards/api';
 import { feedSlots } from '@/../data/learn/feed.js';
@@ -26,16 +27,19 @@ import {
 } from '../stage/Stage';
 import { CardFace } from '../stage/CardFace';
 import { QuestionView, letterOf } from '../stage/Question';
-import { EndForm } from '../stage/EndForm';
+import { EndKey, EndScreen, KeptFan } from '../stage/EndForm';
+import FreeUsed from '../stage/FreeUsed';
+import { FREE_END_LINE, endHeadline, endNumbers, endProgress } from '../stage/endModel.mjs';
 import { Sheet, StopSheet } from '../stage/Sheet';
 import { usePager } from '../stage/usePager';
 import { keyAction, scrollerThatCanMove } from '../stage/pagerModel.mjs';
-import { chapterRef, doneLine, optionTexts, speakable, timeLeft } from '../stage/stageText.mjs';
-import { checkpointText, feedNumbers, questionPlaces, secondsFrom, sheetRows, spliceReinsert, upNextText } from './feedModel.mjs';
+import { chapterRef, optionTexts, speakable, timeLeft } from '../stage/stageText.mjs';
+import { checkpointText, feedNumbers, secondsFrom, sheetRows, spliceReinsert, upNextText } from './feedModel.mjs';
 import './feed.css';
 
-const KEYS_HINT = 'learn2.feed.keys.v1';
-const NUDGE = 'learn2.feed.nudge.v1';
+// The first feed's cue (R2 ruling 7): a chip with Mobi's head until the student moves once, by any means. Marked seen only
+// after that first move, never when it is shown.
+const NUDGE = 'learn2.feed.nudge.v2';
 const LEFT_OUT = {
   question_changed: 'This question changed a moment ago, so it is left out.',
   question_held: 'This question is in an open Mob paper, so it is left out for now.',
@@ -45,7 +49,6 @@ const seenFlag = (k) => { try { return localStorage.getItem(k) === '1'; } catch 
 const markFlag = (k) => { try { localStorage.setItem(k, '1'); } catch { /* shown again next time */ } };
 const typing = (el) => Boolean(el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)));
 const fine = () => { try { return window.matchMedia('(pointer: fine)').matches; } catch { return false; } };
-const coarse = () => { try { return window.matchMedia('(pointer: coarse)').matches; } catch { return false; } };
 
 // A feed the page already holds, by run id: putting ?run= in the URL may mount the feed again (the preview keys it by run),
 // and Back from the chapter page returns to it. The server stays the truth on a real reload (GET /api/learn/runs/:id).
@@ -53,21 +56,6 @@ const held = new Map();
 
 /** The end's chapter title: the server's chapter, else the title of "10 minutes on X". */
 const endTitle = (data, run) => data?.chapter?.title || run?.chapter?.title || String(data?.feed?.title || data?.title || '').replace(/^.*?\bminutes?\s+on\s+/i, '') || 'This feed';
-
-/** The end's lines in A1's order: Cards, Questions, Old mistakes (B7 G: one definition). */
-function endLines(f, { seen, kept, hasCards }) {
-  const out = [];
-  if (hasCards && (seen || kept)) out.push({ label: 'Cards', text: `${Math.max(seen, kept)} seen, ${kept} kept` });
-  for (const l of f?.lines || []) {
-    if (l.label === 'Questions') out.push(l);
-    else if (l.label === 'Fixed') {
-      const all = String(l.text).match(/^(\d+) old mistakes?$/);
-      const some = String(l.text).match(/^(\d+) of (\d+) old mistakes?$/);
-      out.push({ label: 'Old mistakes', text: all ? `${all[1]} of ${all[1]} fixed` : some ? `${some[1]} of ${some[2]} fixed` : l.text });
-    } else out.push(l);
-  }
-  return out;
-}
 
 const noop = () => () => {};
 export default function ChapterFeed(props) {
@@ -93,7 +81,9 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   const [note, setNote] = useState(null);
   const [slow, setSlow] = useState(false);
   const [again, setAgain] = useState(false);
-  const [hints, setHints] = useState({ keys: false, nudge: false });
+  const [hints, setHints] = useState({ nudge: false, leaving: false, desk: false });
+  const stopping = useRef(false);
+  const [stoppedHere, setStoppedHere] = useState(false);
   const [furthest, setFurthest] = useState(() => kept0?.furthest || 0);
   const rootRef = useRef(null);
   const viewRef = useRef(null);
@@ -110,7 +100,6 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   const slots = useMemo(() => feedSlots(items), [items]);
   const endAt = slots.length;
   const of = base + items.length;
-  const places = useMemo(() => questionPlaces(items), [items]);
   const numbers = useMemo(() => feedNumbers(items, states), [items, states]);
   const hasCards = items.some((i) => i.type === 'card');
   const title = run?.chapter?.title || '';
@@ -123,6 +112,8 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     const all = (r.items || []).filter((i) => i.type === 'card' || i.type === 'question');
     const done = Number(r.resumed?.done) || 0;
     sent.current = new Set();
+    stopping.current = false;
+    setStoppedHere(false);
     setList(all);
     setStates(all[0]?.type === 'card' ? { [all[0].id]: { seen: true } } : {});
     setBase(done);
@@ -147,10 +138,11 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     } catch { /* no history API */ }
   }, [links, chapterKey, minutes]);
 
-  const readEnd = useCallback(async (id, version) => {
+  const readEnd = useCallback(async (id, version, { stop = false } = {}) => {
     setEnd((e) => ({ ...e, status: e.data && e.version === version ? 'ready' : 'loading' }));
     try {
-      const data = await runEnd(id);
+      // A stop part way keeps the feed open on the server, to pick up today (R2 ruling 6).
+      const data = await runEnd(id, { stop });
       setEnd({ status: 'ready', data, version });
       setClosed(true);
     } catch {
@@ -187,8 +179,8 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     queueMicrotask(() => begin());
   }, [begin, readEnd, endAsked, runId, chapterKey, kept0]);
 
-  // First-time affordances (A1 3.7): the keys line on desktop, the nudge on a phone; read once.
-  useEffect(() => { queueMicrotask(() => setHints({ keys: !seenFlag(KEYS_HINT), nudge: !seenFlag(NUDGE) })); }, []);
+  // First-time cue (R2 ruling 7): the chip on the first feed, phone and desktop words by the pointer; read once.
+  useEffect(() => { queueMicrotask(() => setHints({ nudge: !seenFlag(NUDGE), leaving: false, desk: fine() })); }, []);
 
   // What the page holds for this run, for a second mount of the same feed.
   useEffect(() => {
@@ -226,11 +218,19 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     }
     if (s?.type === 'checkpoint') setFurthest((f) => Math.max(f, s.after));
     if (n >= endAt && run?.id) {
-      setFurthest(items.length);
-      if (end.status !== 'ready' || end.version !== dirty) readEnd(run.id, dirty);
+      const stop = stopping.current;
+      if (!stop) setFurthest(items.length);
+      if (end.status !== 'ready' || end.version !== dirty) readEnd(run.id, dirty, { stop });
+    }
+    // The first move of the first feed: the chip fades out (160 ms) and only now is the cue marked seen.
+    if (n !== active && hints.nudge && !hints.leaving) {
+      markFlag(NUDGE);
+      setHints((h) => ({ ...h, leaving: true }));
+      setTimeout(() => setHints((h) => ({ ...h, nudge: false })), still() ? 0 : 160);
     }
     announce(n);
-  }, [endAt, slots, patch, run, items.length, end.status, end.version, dirty, readEnd, announce]);
+  }, [endAt, slots, patch, run, items.length, end.status, end.version, dirty, readEnd, announce, active, hints.nudge, hints.leaving]);
+  const stopHere = useCallback(() => { stopping.current = true; setStoppedHere(true); setSheet(null); go(endAt); }, [go, endAt]);
 
   usePager({ rootRef, viewRef, trackRef, index: active, count: endAt + 1, go, enabled: load.status === 'ready' && !onlyEnd && sheet !== 'feed' && sheet !== 'stop' });
 
@@ -261,16 +261,8 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     if (!st.turned) {
       setTimeout(() => patch(item.id, { seenBack: true }), still() ? 0 : 170);
       speak(`NCERT's line. ${String(item.card?.back || '').slice(0, 600)}`);
-      // The first feed's nudge on a phone (P2): the track shows that the next item waits below, once.
-      if (hints.nudge && coarse() && !still()) {
-        setHints((h) => ({ ...h, nudge: false }));
-        markFlag(NUDGE);
-        setTimeout(() => {
-          try { trackRef.current?.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-24px)' }, { transform: 'translateY(0)' }], { duration: 360, easing: 'ease-out', composite: 'add' }); } catch { /* no WAAPI */ }
-        }, 700);
-      }
     } else speak('The card side.');
-  }, [states, patch, speak, hints.nudge]);
+  }, [states, patch, speak]);
 
   const keep = useCallback(async (item) => {
     const st = states[item.id] || {};
@@ -279,16 +271,16 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     patch(item.id, { keeping: true, stamp: null });
     try {
       const res = await keepItem(run.id, item.id);
-      patch(item.id, { kept: true, keeping: false, stamp: { text: res.line || 'In Revise' } });
+      patch(item.id, { kept: true, keeping: false, stamp: { text: 'Added to Revise' } });
       setDirty((d) => d + 1);
-      speak(`Kept. ${res.line || 'In Revise'}.`);
+      speak(`Added to Revise. ${res.line || ''}`.trim());
       requestAnimationFrame(() => requestAnimationFrame(() => flyTo(cardEls.current[item.id], visible([pileEl.current, countEl.current]))));
       refreshHome();
     } catch (e) {
       if (isRunClosed(e)) { patch(item.id, { keeping: false }); setClosed(true); go(endAt); return; }
       const pro = e.status === 402;
-      patch(item.id, { keeping: false, keepPro: pro, stamp: pro ? { text: 'This card is on Pro.' } : { text: 'Not kept. Try again.', bad: true } });
-      speak(pro ? 'This card is on Pro.' : 'Could not keep that card. Try again.');
+      patch(item.id, { keeping: false, keepPro: pro, stamp: pro ? { text: 'This card is on Pro.' } : { text: 'Not added. Try again.', bad: true } });
+      speak(pro ? 'This card is on Pro.' : 'Could not add that card to Revise. Try again.');
     }
   }, [states, run, patch, speak, router, go, endAt]);
 
@@ -392,8 +384,6 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     return () => window.removeEventListener('keydown', onKey);
   });
 
-  // The keys line (desktop, the first feed): marked as seen once the third item is passed.
-  useEffect(() => { if (hints.keys && active >= 3) markFlag(KEYS_HINT); }, [hints.keys, active]);
 
   // ------------------------------------------------------------ the frame
   const chapterHref = key ? links.chapter(key) : links.explore();
@@ -409,9 +399,10 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   const keptCount = numbers.kept;
   const counter = load.status === 'ready' && of ? <><b>{pos}</b>&nbsp;of {of}</> : null;
   const panelRows = [];
-  if (numbers.answered) panelRows.push({ label: 'Questions', value: `${numbers.right} of ${numbers.answered} right`, sub: streak >= 3 ? `${streak} in a row` : null });
-  if (numbers.mistakes) panelRows.push({ label: 'Old mistakes', value: `${numbers.fixed} of ${numbers.mistakes} fixed` });
-  if (keptCount) panelRows.push({ label: 'Kept', value: keptCount, extra: <MiniPile refEl={pileEl} /> });
+  // Never a zero (R2 ruling 1): "0 of 1 right" reads "1 tried".
+  if (numbers.answered) panelRows.push({ label: 'Questions', value: numbers.right ? `${numbers.right} of ${numbers.answered} right` : `${numbers.answered} tried`, sub: streak >= 3 ? `${streak} in a row` : null });
+  if (numbers.mistakes) panelRows.push({ label: 'Old mistakes', value: numbers.fixed ? `${numbers.fixed} of ${numbers.mistakes} fixed` : `${numbers.mistakes} tried` });
+  if (keptCount) panelRows.push({ label: 'In Revise', value: keptCount, extra: <MiniPile refEl={pileEl} /> });
 
   const top = (
     <TopBar onClose={askClose} closeLabel="Close the feed" title={title} titleNote={note}
@@ -423,7 +414,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     <Panel onClose={askClose} closeLabel="Close the feed" title={title} bookRef={book} loading={load.status === 'loading'}
       position={load.status === 'ready' && of ? pos : null} of={of || null} time={load.status === 'ready' ? left : null}
       note={note} rows={panelRows} next={nextLine}
-      foot={load.status === 'ready' && items.length ? <button type="button" className="st-textkey" onClick={() => go(endAt)}>Stop here</button> : null} />
+      foot={load.status === 'ready' && items.length ? <button type="button" className="st-textkey" onClick={() => { if (itemsDone > 0) setSheet('stop'); else close(); }}>Stop here</button> : null} />
   );
 
   // ------------------------------------------------------------ states without items
@@ -480,34 +471,16 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     );
   }
   if (load.status === 'free') {
-    const f = load.free || {};
-    const r = f.resume;
-    const resumeHref = r ? (r.kind === 'feed' ? links.feed(r.chapterKey, minutes, { runId: r.id }) : links.run({ chapterKey: r.chapterKey, runId: r.id })) : null;
-    const optionHref = (o) => {
-      if (o.href) return links.resolve(o.href);
-      if (o.run) return links.run({ chapterKey: o.run.chapterKey, minutes: o.run.minutes, kind: o.run.kind, cardIds: o.run.cardIds || [] });
-      return links.explore();
-    };
-    const evidence = (o) => o.evidence || (o.run?.minutes ? `About ${o.run.minutes} min.` : null);
-    return centerState(
-      <div className="st-state">
-        <h2 className="st-state__title">Today&apos;s free session is used</h2>
-        <p className="st-state__line">{f.line || 'Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like.'}</p>
-        <div className="st-state__keys">
-          {resumeHref ? (
-            <Link className="kc-btn kc-btn--volt st-opt-key" href={resumeHref}>
-              <span>{`Pick up where you stopped, ${r.done} of ${r.of}`}</span>
-              {r.title && r.chapterKey !== key ? <small style={{ color: 'rgb(16 20 14 / 0.72)' }}>{r.title}</small> : null}
-            </Link>
-          ) : null}
-          {(f.options || []).map((o) => (
-            <Link key={o.label} className="kc-btn kc-btn--line st-opt-key" href={optionHref(o)}>
-              <span>{o.label}</span>{evidence(o) ? <small>{evidence(o)}</small> : null}
-            </Link>
-          ))}
-          <button type="button" className="st-textkey" style={{ justifySelf: 'center' }} onClick={(e) => seePro('learn_feed', e.currentTarget, router.push)}>See Pro</button>
-        </div>
-      </div>,
+    return (
+      <Stage label="Today's free session is used" rootRef={rootRef} viewRef={viewRef} trackRef={trackRef} mode="end" say={say}
+        end={(
+          <div className="st-end">
+            <div className="st-endx-wrap">
+              <div className="st-endx__top"><button type="button" className="st-closekey" onClick={close} aria-label="Close"><X size={20} strokeWidth={2.2} aria-hidden="true" />Close</button></div>
+              <FreeUsed data={load.free || {}} links={links} chapterKey={key} minutes={minutes} />
+            </div>
+          </div>
+        )} />
     );
   }
 
@@ -524,7 +497,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
       ? <StepKey onClick={() => go(endAt)}>See how it went</StepKey>
       : (
         <>
-          <button type="button" className="kc-btn kc-btn--line st-step" onClick={() => go(endAt)}>End here</button>
+          <button type="button" className="kc-btn kc-btn--line st-step" onClick={stopHere}>Stop here</button>
           <StepKey onClick={() => go(active + 1)}>Keep going</StepKey>
         </>
       );
@@ -537,7 +510,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   const keepKey = (it, place) => {
     const s2 = states[it.id] || {};
     const look = Boolean(it.look);
-    return <RailKey key={`keep-${place}`} icon={Bookmark} label={look ? 'In Revise' : s2.kept ? 'Kept' : s2.keepPro ? 'Pro' : 'Keep'} on={s2.kept || look} busy={s2.keeping} pop={s2.kept} disabled={closed && !s2.kept} onClick={() => keep(it)} />;
+    return <RailKey key={`keep-${place}`} icon={Bookmark} label={look || s2.kept ? 'In Revise' : s2.keepPro ? 'Pro' : 'Revise later'} on={s2.kept || look} busy={s2.keeping} pop={s2.kept} disabled={closed && !s2.kept} onClick={() => keep(it)} />;
   };
   const saveKey = (it, place) => {
     const s2 = states[it.id] || {};
@@ -545,57 +518,82 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   };
   const sideKey = (place) => (item?.type === 'card' ? keepKey(item, place) : item?.type === 'question' && !st.skipped ? saveKey(item, place) : null);
   const chapterKeyEl = (place) => (item ? <RailKey key={`ch-${place}`} icon={BookOpen} label="Chapter" href={chapterHref} /> : null);
-  const showHint = hints.keys && active < 3 && mode === 'items';
+  const below = optBelow && item?.type === 'question' && !st.answer && !st.skipped;
+  const chip = hints.nudge && mode === 'items' && !below && active < endAt ? (
+    <p className="st-cue" data-leaving={hints.leaving || undefined} role="note">
+      <span className="st-cue__in">
+        <span className="st-cue__mobi" aria-hidden="true"><MobiReact act="idle" size={34} still /></span>
+        <span>{hints.desk ? 'Scroll or press \u2193 for the next one' : 'Swipe up for the next one'}</span>
+        <ChevronUp size={16} strokeWidth={2.4} aria-hidden="true" />
+      </span>
+    </p>
+  ) : null;
   const bar = mode === 'items' ? (
     <ActionBar left={wide ? null : sideKey('bar')} right={wide ? null : chapterKeyEl('bar')} wide={wide}
       prev={<PrevKey onClick={() => go(active - 1)} disabled={active === 0} />}
-      hint={showHint ? 'The mouse wheel and the arrow keys move between items too.' : null}
-      extra={<>{optBelow && item?.type === 'question' && !st.answer && !st.skipped ? <BelowChip show onClick={() => goToOptions(trackRef.current?.querySelector('.st-page--q:not([inert]) .st-opt'))} /> : null}{sheet === 'keys' ? <KeysList onClose={() => setSheet(null)} /> : null}</>}>
+      extra={<>{below ? <BelowChip show onClick={() => goToOptions(trackRef.current?.querySelector('.st-page--q:not([inert]) .st-opt'))} /> : null}{chip}{sheet === 'keys' ? <KeysList onClose={() => setSheet(null)} /> : null}</>}>
       {step}
     </ActionBar>
   ) : null;
-  const rail = item ? <>{sideKey('rail')}{chapterKeyEl('rail')}</> : null;
+  const rail = null; // R2 screens 19: Revise later and Chapter sit in the action bar at every width
 
   const f = end.data?.feed || null;
-  const endView = mode === 'end' ? (
-    <div className="st-end" data-pager-ignore={onlyEnd || undefined}>
-      <div className="st-endwrap">
-        <div className="st-endtop">
-          <button type="button" className="st-closekey" onClick={close} aria-label="Close the feed"><X size={18} strokeWidth={2.2} aria-hidden="true" />Close</button>
-          {of && !onlyEnd ? <span className="st-counter st-endtop__n"><b>{Math.min(of, f?.done?.reached ?? base + furthest)}</b>&nbsp;of {of}</span> : null}
-        </div>
-        <EndForm
+  const d = end.data || null;
+  const closeKey = <button type="button" className="st-closekey" onClick={close} aria-label="Close the feed"><X size={20} strokeWidth={2.2} aria-hidden="true" />Close</button>;
+  let endView = null;
+  if (mode === 'end') {
+    const stopped = stoppedHere;
+    const reached = onlyEnd ? f?.done?.reached || 0 : stopped ? Math.min(of, base + furthest) : of;
+    const qLine = (f?.lines || []).find((l) => l.label === 'Questions')?.text || '';
+    const n = onlyEnd
+      ? { answered: Number((qLine.match(/of (\d+)/) || [])[1]) || 0, right: Number((qLine.match(/^(\d+) of/) || [])[1]) || 0, mistakes: Number(d?.numbers?.mistakes) || 0, fixed: Number(d?.numbers?.fixed) || 0, seen: 0 }
+      : numbers;
+    const kept = f?.kept?.count || 0;
+    // Cards this feed showed for the first time count as seen on the chapter's bar (R2 ruling 3: turned feed cards are seen).
+    const freshSeen = onlyEnd ? 0 : items.filter((i) => i.type === 'card' && i.stage === 'new' && states[i.id]?.seen && !states[i.id]?.kept).length;
+    const prog = d?.progress ? endProgress({ ...d.progress, seen: Math.min(d.progress.of, (d.progress.seen || 0) + freshSeen) }) : null;
+    const opts = d?.options || [];
+    const optHref = (o) => (o.href ? links.resolve(o.href) : o.run ? links.run({ chapterKey: o.run.chapterKey || key, minutes: o.run.minutes, kind: o.run.kind, cardIds: o.run.cardIds || [], leaveOut: o.run.leaveOut || [] }) : links.explore());
+    let main = null;
+    let quiet = null;
+    let freeLine = null;
+    if (f?.free) {
+      const first = opts.find((o) => o.kind === 'recap' || o.kind === 'revise') || null;
+      const explore = opts.find((o) => o.kind === 'explore') || null;
+      freeLine = { line: FREE_END_LINE, onSeePro: (e) => seePro('learn_feed', e.currentTarget, router.push) };
+      if (first) main = <EndKey as={Link} href={optHref(first)}>{first.kind === 'recap' ? `Quick recap${first.minutes ? `, ${first.minutes} min` : ''}` : `${first.title}${first.minutes ? `, ${first.minutes} min` : ''}`}</EndKey>;
+      else main = <EndKey as={Link} href={explore ? optHref(explore) : links.explore()}>Answer single questions</EndKey>;
+      if (first && explore) quiet = <Link className="st-textkey" href={optHref(explore)}>Questions on this chapter</Link>;
+    } else if (f) {
+      if (f.lead) main = <EndKey onClick={again10} disabled={again}>{again ? 'Starting' : f.lead.label}</EndKey>;
+      if (f.next) quiet = <Link className="st-textkey" href={f.next.run ? links.feed(f.next.key, minutes) : links.chapter(f.next.key)}>{`Next: ${String(f.next.label || '').replace(/^Next chapter:\s*/, '')}`}</Link>;
+    }
+    endView = (
+      <div className="st-end" data-pager-ignore={onlyEnd || undefined}>
+        <EndScreen
+          close={closeKey}
           titleRef={endTitleEl}
           loading={end.status === 'loading' || end.status === 'idle'}
           error={end.status === 'error' ? { title: 'Your feed is saved', line: 'Its summary did not load.' } : null}
-          onRetry={() => run?.id && readEnd(run.id, dirty)}
+          onRetry={() => run?.id && readEnd(run.id, dirty, { stop: stoppedHere })}
           retryKeys={<Link className="st-textkey st-textkey--quiet" href={links.explore()}>Back to Explore</Link>}
-          title={endTitle(end.data, run)}
-          done={doneLine(f?.done ? { reached: f.done.reached, of: f.done.of, minutes: f.done.minutes } : { reached: onlyEnd ? 0 : Math.min(of, base + furthest), of: onlyEnd ? 0 : of })}
-          pile={f ? { count: f.kept?.count || 0, cards: f.kept?.cards || [], line: String(f.kept?.line || '').replace(/^\d+ kept\.\s*/, '') || null, none: hasCards || onlyEnd ? 'Nothing kept this time. Keep a card and it comes back in Revise.' : null } : null}
-          lines={f ? endLines(f, { seen: numbers.seen, kept: f.kept?.count || 0, hasCards: hasCards && !onlyEnd }) : []}
-          note={f?.free ? <p className="st-endform__free"><span>{f.free.text}</span><button type="button" className="st-textkey" onClick={(e) => seePro('learn_feed', e.currentTarget, router.push)}>See Pro</button></p> : null}
-          keys={f ? (
-            <>
-              {!f.free && f.lead ? <button type="button" className="kc-btn kc-btn--volt" onClick={again10} disabled={again}>{again ? 'Starting' : f.lead.label}</button> : null}
-              {f.next ? <Link className="kc-btn kc-btn--line" href={f.next.run ? links.feed(f.next.key, minutes) : links.chapter(f.next.key)}>{f.next.label}</Link> : null}
-              {f.dueOffer ? <Link className="kc-btn kc-btn--line" href={links.run({ chapterKey: f.dueOffer.run?.chapterKey || key, minutes: f.dueOffer.run?.minutes || f.dueOffer.minutes, kind: 'cards', cardIds: f.dueOffer.run?.cardIds || [] })}>{f.dueOffer.label}</Link> : null}
-              <Link className="st-textkey st-textkey--quiet" href={links.explore()}>Back to Explore</Link>
-            </>
-          ) : null}
+          chapter={endTitle(d, run)}
+          headline={endHeadline({ reached, of: onlyEnd ? f?.done?.of || 0 : of, minutes: f?.done?.minutes, stopped })}
+          mobi="nod"
+          pile={kept ? f.kept.cards || [] : null}
+          numbers={endNumbers({ revise: kept, reviseText: 'in Revise', seen: hasCards && !onlyEnd ? n.seen : 0, answered: n.answered, right: n.right, mistakes: n.mistakes, fixed: n.fixed })}
+          progress={prog}
+          free={freeLine}
+          main={main}
+          quiet={quiet}
         />
       </div>
-    </div>
-  ) : null;
+    );
+  }
 
   const rows = sheet === 'feed' ? sheetRows(items, states, base) : [];
-  const stopDetail = [
-    numbers.answered ? `${numbers.right} of ${numbers.answered} ${numbers.answered === 1 ? 'question' : 'questions'} right.` : null,
-    numbers.mistakes ? `${numbers.fixed} of ${numbers.mistakes} old ${numbers.mistakes === 1 ? 'mistake' : 'mistakes'} fixed.` : null,
-    numbers.kept ? `${numbers.kept} kept in Revise.` : null,
-  ].filter(Boolean).join(' ') || null;
   const overlay = sheet === 'stop' ? (
-    <StopSheet done={Math.min(itemsDone, of)} of={of} detail={stopDetail} onEnd={() => { setSheet(null); go(endAt); }} onKeepGoing={() => setSheet(null)} onLeave={close} />
+    <StopSheet done={Math.min(itemsDone, of)} of={of} onEnd={stopHere} onKeepGoing={() => setSheet(null)} />
   ) : sheet === 'feed' ? (
     <Sheet title="This feed" bottom onClose={() => setSheet(null)}>
       <ol className="st-list">
@@ -613,7 +611,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
           );
         })}
       </ol>
-      <div className="st-drawer__keys"><button type="button" className="st-textkey" onClick={() => { setSheet(null); go(endAt); }}>End here, see how it went</button></div>
+      <div className="st-drawer__keys"><button type="button" className="st-textkey" onClick={stopHere}>Stop here</button></div>
     </Sheet>
   ) : null;
 
@@ -628,13 +626,13 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
         const common = { style: { '--p': i }, 'data-far': far || undefined, inert: !here || undefined, 'aria-hidden': !here || undefined };
         if (slot.type === 'checkpoint') {
           const cp = checkpointText(numbers, { done: base + slot.after, of, seconds: secondsFrom(items, slot.after) });
+          const keptCards = items.filter((x) => x.type === 'card' && states[x.id]?.kept).map((x) => x.card).filter(Boolean);
           return (
-            <article key={slot.id} className="st-page st-page--center" {...common} aria-label={`Checkpoint after ${base + slot.after} of ${of}`}>
+            <article key={slot.id} className="st-page st-page--cp" {...common} aria-label={`Checkpoint after ${base + slot.after} of ${of}`}>
               <div className="st-cp">
-                {numbers.kept ? <span className="fx-cp-mini"><MiniPile /></span> : null}
-                <p className="st-cp__n">{cp.big}</p>
+                <p className="st-cp__n" key={here ? 'here' : 'away'}>{cp.big}</p>
                 <p className="st-cp__status">{cp.status}</p>
-                <p className="st-cp__line">{cp.line}</p>
+                {keptCards.length ? <div className="st-cp__fan"><KeptFan cards={keptCards} small /></div> : null}
               </div>
             </article>
           );
@@ -651,8 +649,8 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
             </article>
           );
         }
-        const place = places.get(it.id);
-        const head = it.origin === 'mistake' ? (it.mistake?.label || 'You missed this before') : place && !base ? `Question ${place.n} of ${place.of}` : 'Question';
+        // One counter only (the top bar's "5 of 16"): a question's head is its kind, like a card's (phone clarity 11).
+        const head = it.origin === 'mistake' ? (it.mistake?.label || 'You missed this before') : 'Question';
         return (
           <article key={it.id} className="st-page st-page--q" {...common} aria-posinset={n} aria-setsize={of} aria-label={`Question ${n} of ${of}`} tabIndex={-1}>
             <QuestionView head={head} mistake={it.origin === 'mistake'} stem={it.question?.body || ''} options={it.question?.options || []}

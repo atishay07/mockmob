@@ -26,7 +26,7 @@ import { KIND_LABELS, KEYCARD_RULES, istDay, lineNeeded, lockedStub, memoryShare
 import { stateFor, tallyChapters } from '../../../data/chapter_state.js';
 import { getCanonicalSubject, isTopSubject } from '../../../data/canonical_syllabus.js';
 import { LEARN_RULES, budgetSeconds, composeRun, dryRun, minutesFor, cardStage, mistakeLabel } from '../../../data/learn/compose.js';
-import { suggestions, endOptions, cardRunMinutes, recapMinutes } from '../../../data/learn/suggest.js';
+import { suggestions, endOptions, cardRunMinutes, fixMinutes, recapMinutes } from '../../../data/learn/suggest.js';
 import { searchSubject } from '../../../data/learn/search.js';
 import { ROADMAP_RULES, roadmap as roadmapOf, verdictOf } from '../../../data/learn/roadmap.js';
 import { IN_RUN, doneLine, istDaysBetween, levelPick, movedLine, retryReady, returnDay, revisePileGroups, shortDate } from '../../../data/learn/stamps.js';
@@ -1128,7 +1128,7 @@ export function createLearn(deps) {
 
   // ---------------------------------------------------------------- GET /api/learn/runs/:id/end
 
-  async function end(userId, id) {
+  async function end(userId, id, { stop = false } = {}) {
     const row = await store.run(userId, id);
     if (!row) return bad('RUN_NOT_FOUND', 404);
     const me = await who(userId);
@@ -1198,9 +1198,12 @@ export function createLearn(deps) {
       missed: n(1), fresh, here: five ? { cards: five.piles.cards.count, questions: five.piles.questions.count + five.piles.mistakes.count } : null,
       next: nextChapterOf(S, row.chapter_key), mistakeElsewhere: topInfo ? { key: topInfo.key, title: topInfo.title, count: top[1], seconds: topSecs.mistakeSeconds } : null,
       due: { count: dueAll }, mustKnow: info ? (S.isPro ? info.counts.mustKnow : info.counts.openMust) : 0, recapSeconds: secs?.recapSeconds ?? null,
+      // R2 ruling 3 (P1 request): stay in the chapter until its cards are seen once.
+      unseen: Number.isFinite(info?.coverage?.unseen) ? info.coverage.unseen : null,
     });
     const sessionDone = !S.isPro && Boolean(S.session);
     if (sessionDone) opts = freeEndOptions(S, info);
+    else if (row.kind !== 'level') opts = { lead: opts.lead, options: endExtra(S, info, row, opts) };
     // The level run's end names the chapter to start (R16): the lowest share right among its questions' chapters.
     let level = null;
     if (row.kind === 'level') {
@@ -1212,19 +1215,51 @@ export function createLearn(deps) {
         level = { chapterKey: pick.key, title: pick.title, right: pick.right, of: pick.of };
         if (!sessionDone) {
           const start = { kind: 'next', title: `Start with ${pick.title}`, minutes: 10, label: `Start with ${pick.title}`, evidence: `Your lowest score here: ${pick.right} of ${pick.of} right.`, run: { kind: 'mix', chapterKey: pick.key, minutes: 10, leaveOut: [] } };
-          opts = { lead: start, options: [opts.lead, ...opts.options].filter((o) => o && !(o.run && o.run.chapterKey === pick.key && o.run.kind === 'mix')).slice(0, 3) };
+          opts = { lead: start, options: [opts.lead, ...opts.options].filter((o) => o && !(o.run && o.run.chapterKey === pick.key && o.run.kind === 'mix')).slice(0, 1) };
         }
       }
     }
-    await store.endRun(userId, row.id);
+    // R2 ruling 6: a run stopped part way (the stop sheet's "Stop here": ?stop=1) is not ended, so the student can pick it up
+    // today (Learn home and the chapter page offer "Pick up"; a start of the same chapter resumes it). A run that reached
+    // its end, or a stop with every item done, is ended once.
+    const finished = !stop || recap || Number(row.done_count) >= Number(row.item_count);
+    if (finished) await store.endRun(userId, row.id);
     // How far the run got and how long it took, for every run kind ("You stopped at 8 of 21." / "All 21 done in 9 min.").
     const done = runDone(row, ev);
+    const progress = info ? chapterProgress(info, items, ev) : null;
     const feed = row.kind === 'feed' ? feedEnd(S, row, info, { ev, itemOf, answered: answered.length, right, fixed, mistakes: mistakesIn.length, sessionDone, length, done }) : null;
     return ok({
-      feed, title, done,
+      feed, title, done, stopped: !finished, progress, chapter: info ? { key: info.key, title: info.title } : null,
       numbers: { cards: perCard.size, questions: answered.length, fixed, mistakes: mistakesTried, detail },
       lines, revisePile: groups, reviseCards, moved, free, lead: opts.lead, options: opts.options, ...(level ? { level } : {}),
     });
+  }
+
+  /**
+   * The end's one extra key (R2 ruling 5: one main key and at most one quiet link). An open mistake in this chapter comes
+   * first ("Fix 1 open mistake", its own short run of the mistakes only), else the other of next chapter / another 5 minutes.
+   */
+  function endExtra(S, info, row, opts) {
+    const open = info ? info.mistakes.length : 0;
+    if (open) {
+      const m = fixMinutes(open);
+      return [{ kind: 'fix', title: open === 1 ? 'Fix 1 open mistake' : `Fix ${open} open mistakes`, minutes: m, label: open === 1 ? 'Fix 1 open mistake' : `Fix ${open} open mistakes`, evidence: `${info.title}, ${m} min`, run: { chapterKey: info.key, minutes: m, leaveOut: ['questions', 'cards', 'lesson'], kind: 'mix' } }];
+    }
+    const other = (opts.options || []).find((o) => o && (o.kind === 'here' || o.kind === 'next') && o !== opts.lead);
+    return other && row.kind !== 'cards' ? [other] : (opts.options || []).filter((o) => o && o.kind !== 'mock').slice(0, 1);
+  }
+
+  /**
+   * The chapter's cards seen, before this run and now (R2 ruling 5: the end's progress bar grows from `before` to `seen`).
+   * Seen: a card with a state, or a card this run acted on; this run's new ones are those served as new that it acted on.
+   */
+  function chapterProgress(info, items, ev) {
+    const acted = new Set(ev.filter((e) => e.card_id && ['rate', 'look', 'keep', 'recap'].includes(e.kind)).map((e) => e.card_id));
+    const known = new Set(info.all.filter((x) => info.states.has(x.id)).map((x) => x.id));
+    const inChapter = new Set(info.all.map((x) => x.id));
+    for (const id of acted) if (inChapter.has(id)) known.add(id);
+    const fresh = new Set(items.filter((i) => i.type === 'card' && i.stage === 'new' && acted.has(i.cardId)).map((i) => i.cardId));
+    return { of: info.all.length, seen: known.size, before: Math.max(0, known.size - fresh.size) };
   }
 
   /**

@@ -10,11 +10,11 @@
 //     locked    null | text: the run is closed, the options are shown but answer nothing
 //   <Options>, <Verdict>, <LineInPlace> are exported for a screen that lays them out itself.
 // The rows use aria-disabled (never disabled) so focus is not lost on answering (A8 F7); each row reads "Option B. <text>".
-import { useEffect, useId, useRef } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { Check, LoaderCircle, X } from 'lucide-react';
 import { CardSource, NcertText } from '@/components/keycards/KeyCard';
 import { stemParts } from '../run/runMath';
-import { scrollToRow } from './Stage';
+import { scrollToStemEnd } from './Stage';
 import { assertionReason, matchLists, optionTexts, statementList, stemSize, twoColumns } from './stageText.mjs';
 
 export const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -112,7 +112,7 @@ export function Verdict({ res, letter, streak = 0 }) {
       </p>
     );
   }
-  return <p className="st-verdict" data-bad="" aria-hidden="true"><X size={18} strokeWidth={2.6} /><span>{`Not quite. The answer is ${letter}.`}</span></p>;
+  return <p className="st-verdict" data-bad="" aria-hidden="true"><X size={18} strokeWidth={2.6} /><span>{`Not quite. It\u2019s ${letter}.`}</span></p>;
 }
 
 /** The line you needed, opened in place under the options (never a sheet over them). */
@@ -132,7 +132,7 @@ export function LineInPlace({ res, open, titleRef, onSeePro }) {
               </>
             ) : line?.card ? (
               <>
-                <NcertText card={line.card} />
+                <ClampLine><NcertText card={line.card} /></ClampLine>
                 <CardSource card={line.card} />
               </>
             ) : <p className="st-line__text">{res.explanation || 'The right answer is marked above.'}</p>}
@@ -140,6 +140,31 @@ export function LineInPlace({ res, open, titleRef, onSeePro }) {
         ) : null}
       </div>
     </div>
+  );
+}
+
+/**
+ * The line you needed shows at most 4 lines with a 32 px fade and "Read the whole line" (R2 screens 6), so a two-paragraph
+ * NCERT line is never a wall under the options.
+ */
+export function ClampLine({ children, className = '' }) {
+  const ref = useRef(null);
+  const [open, setOpen] = useState(false);
+  const [long, setLong] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || open) return undefined;
+    const read = () => setLong(el.scrollHeight > el.clientHeight + 2);
+    const f = requestAnimationFrame(read);
+    let ro = null;
+    if (typeof ResizeObserver !== 'undefined') { ro = new ResizeObserver(read); ro.observe(el); }
+    return () => { cancelAnimationFrame(f); ro?.disconnect(); };
+  }, [open]);
+  return (
+    <>
+      <div ref={ref} className={`st-clamp ${className}`.trim()} data-open={open || undefined} data-long={long || undefined}>{children}</div>
+      {long && !open ? <button type="button" className="st-textkey st-clamp__more" onClick={() => setOpen(true)}>Read the whole line</button> : null}
+    </>
   );
 }
 
@@ -155,12 +180,13 @@ export function QuestionView({ head, mistake = false, stem, options, answer, onC
     if (!res || res.correct) return undefined;
     const t = setTimeout(() => {
       try {
-        const row = root.current?.querySelector('.st-opt[aria-pressed="true"]') || titleRef.current;
-        scrollToRow(row, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
+        // R2 screens 6: the stem's last line stays in view, so the student reads the question, their pick and the line together.
+        const stem = root.current?.querySelector('.st-stem');
+        scrollToStemEnd(stem, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
       } catch { /* old browser */ }
     }, 300);
     return () => clearTimeout(t);
-  }, [res, titleRef]);
+  }, [res]);
   return (
     <div className="st-q" ref={root}>
       <p className="st-qhead" data-mistake={mistake || undefined}>{head}</p>

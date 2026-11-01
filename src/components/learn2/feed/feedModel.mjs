@@ -1,7 +1,7 @@
 // The Explore feed's client rules (A1 3.3, 3.8, 3.10; A8 F6, F9, F11, F17, F18): pure, so node --test holds them
 // (feedModel.test.mjs). One definition of every count (B7 G): "Questions" are plain questions; old mistakes have their own
 // line; "seen" counts cards that were on screen, not positions passed.
-import { checkpointNumber, CHECKPOINT_LINE } from '../../../../data/learn/feed.js';
+import { checkpointLines } from '../stage/endModel.mjs';
 
 const secondsOf = (item) => {
   const own = Number(item?.seconds);
@@ -35,13 +35,18 @@ export function feedNumbers(items, states) {
   return out;
 }
 
-/** A checkpoint's number, line and status (A1 3.8): "2 of 3 right" or "6 cards seen, 2 kept". */
+/**
+ * A checkpoint's number and its one line (A1 3.8 as amended by R2 screens 12): "2 of 3 right" / "6 cards seen" and
+ * "8 of 21 done, about 6 min left." Never a zero lead ("0 kept" is dropped); the third line is gone.
+ */
 export function checkpointText(numbers, { done, of, seconds }) {
   const n = numbers || {};
-  const big = checkpointNumber({ answered: n.answered, right: n.right, seen: n.seen, kept: n.kept });
-  const mins = seconds > 0 ? (seconds * 1.1 < 60 ? ' Under a minute left.' : ` About ${Math.max(1, Math.round((seconds * 1.1) / 60))} min left.`) : '';
-  return { big, status: `${done} of ${of} done.${mins}`, line: n.kept > 0 ? CHECKPOINT_LINE : 'Keep going, or end here.' };
+  const left = timeLeftOf(seconds);
+  const { big, line } = checkpointLines({ answered: n.answered, right: n.right, seen: n.seen, kept: n.kept }, { done, of, left });
+  return { big, status: line, line: null };
 }
+
+const timeLeftOf = (seconds) => (seconds > 0 ? (seconds * 1.1 < 60 ? 'Under a minute left' : `About ${Math.max(1, Math.round((seconds * 1.1) / 60))} min left`) : null);
 
 /** "Up next: ..." from the next slot (A1 3.3), null when nothing follows. */
 export function upNextText(slot) {

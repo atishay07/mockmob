@@ -164,8 +164,9 @@ export const rateItem = (runId, { itemId, rating }) => call(`/api/learn/runs/${e
  * A run's end. Every kind carries `done: { reached, of, minutes }` ("You stopped at 8 of 21." / "All 21 done in 9 min.");
  * a feed's `feed.done` is the same object.
  */
-export async function runEnd(runId) {
-  const data = await call(`/api/learn/runs/${encodeURIComponent(runId)}/end`);
+export async function runEnd(runId, { stop = false } = {}) {
+  // stop: the student stopped part way; the server keeps the run open to pick up today (R2 ruling 6).
+  const data = await call(`/api/learn/runs/${encodeURIComponent(runId)}/end${stop ? '?stop=1' : ''}`);
   clearLearnHome();
   forgetRun(runId);
   return data;

@@ -2,13 +2,14 @@
 // Sheets over the study stage: a phone bottom sheet; from 768 px a 400 px dialog in the middle (StopSheet), or always a
 // bottom sheet (`bottom`). Focus moves in and is kept inside, Escape and a tap outside close it, focus returns to the opener.
 //   <Sheet title onClose bottom labelledBy>{children}</Sheet>
-//   <StopSheet done of detail endLabel onEnd onKeepGoing onLeave />
-//                                                    The one stop rule of the feed and the run (critic 2 row 9; A4 3.3.10): after
-//                                                    at least one item Close and Escape open it. It says what was done (done of
-//                                                    of, then detail), then Stop here (volt; shows the end), Keep going (line),
-//                                                    Leave for now, pick up later today (text). No guilt copy. Escape closes it only.
+//   <StopSheet done of endLabel onEnd onKeepGoing />
+//                                                    The one stop rule of the feed and the run (critic 2 row 9; A4 3.3.10; R2
+//                                                    ruling 6): after at least one item Close and Escape open it. "5 of 20 done.
+//                                                    It's all saved.", then Stop here (volt; shows the end, the run stays open
+//                                                    to pick up today) and a quiet Keep going. Escape and the X keep going.
 import { useEffect, useId, useRef } from 'react';
 import { X } from 'lucide-react';
+import { stopSheetLine } from './endModel.mjs';
 
 const FOCUSABLE = 'button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
@@ -49,14 +50,15 @@ export function Sheet({ title, onClose, bottom = false, children, closeLabel = '
   );
 }
 
-export function StopSheet({ done = 0, of = 0, detail = null, endLabel = 'End here, see how it went', onEnd, onKeepGoing, onLeave }) {
+export function StopSheet({ done = 0, of = 0, endLabel = 'Stop here', onEnd, onKeepGoing }) {
+  // R2 ruling 6: one line, two keys. Stop here shows the end and the run stays open to pick up today (the server keeps a
+  // stopped run open), so the old third key "Leave for now, pick up later today" is gone. The X closes the sheet: keep going.
   return (
     <Sheet title="Stop for now?" onClose={onKeepGoing} closeLabel="Keep going">
-      <p className="st-drawer__line">{of ? `${done} of ${of} done. ` : ''}{detail ? `${detail} ` : ''}Everything you did is saved.</p>
+      <p className="st-drawer__line">{stopSheetLine(done, of)}</p>
       <div className="st-drawer__keys">
         <button type="button" className="kc-btn kc-btn--volt" onClick={onEnd} data-autofocus="">{endLabel}</button>
-        <button type="button" className="kc-btn kc-btn--line" onClick={onKeepGoing}>Keep going</button>
-        {onLeave ? <button type="button" className="st-textkey" onClick={onLeave}>Leave for now, pick up later today</button> : null}
+        <button type="button" className="st-textkey st-textkey--line" onClick={onKeepGoing}>Keep going</button>
       </div>
     </Sheet>
   );

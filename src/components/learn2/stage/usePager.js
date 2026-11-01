@@ -28,7 +28,8 @@ export function usePager({ rootRef, viewRef, trackRef, index, count, go, enabled
     const track = trackRef.current;
     if (!track) return;
     track.style.transition = animate ? `transform ${PAGER.ms}ms ${PAGER.ease}` : 'none';
-    track.style.transform = `translate3d(0, calc(${-i * 100}% + ${Math.round(dy)}px), 0)`;
+    // Each page is the view less the peek (R2 ruling 7: the next item's top always shows above the action bar).
+    track.style.transform = `translate3d(0, calc(${-i} * (100% - var(--st-peek, 0px)) + ${Math.round(dy)}px), 0)`;
   }, [trackRef]);
 
   // The page changes: the track moves in 320 ms (reduced motion: at once, with a 120 ms cross-fade).
