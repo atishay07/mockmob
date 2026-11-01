@@ -1,5 +1,19 @@
 # NOW: MockMob current state
 
+## 2 Nov 2026, about 5:50 am IST: Computer Science Key cards live (LK34); a recovery round and the English top-up are being checked
+- **Live:** main feb30935e, deployment dpl_9D1LG3MWRpJ6qB6DCWpBic8a4NLQ. No runtime errors; /, /learn, /explore, /today, /pricing and a Computer Science chapter page answer 200.
+  - The first deploy of this commit (dpl_3mveaRtzPDRYTRTnZFSQGsy6bpaA) failed when the build could not fetch the Geist Mono font from Google Fonts; a redeploy of the same commit passed.
+  - Rollback: dpl_8B5HtwbPkxUfDXTKa5UeBzyTdd8F (main 7f1b204a7).
+- **Computer Science:** 1,350 cards across 18 chapters, from Computer Science XII Ch 1-12 and Informatics Practices XII Ch 1-7; 567 held back. Project Based Learning (CS Ch 13) is outside CUET Section B1, so it has no cards.
+- **Blanks:** a comma or bracket that touches a blank now stays on its line (1,087 fronts had one; a line could start with ", and").
+- **Every subject now has Key cards (13,890):** Accountancy 866, Biology 1,394, Business Studies 901, Chemistry 1,257, Computer Science 1,350, Economics 1,195, English 350, Geography 1,162, History 1,418, Mathematics 260, Physics 932, Political Science 1,096, Psychology 726, Sociology 983.
+- **Short of his 3-hour bar:** Mathematics (about 2 h; needs the formula pipeline, offered to him) and English (about 1.7 h; the top-up below adds about 300).
+- **In progress (next release):** workflow recovery-topup-1102 (handoff-1102/recovery-topup-1102.js).
+  - 778 cards held back only for front wording (It/This openings, over-long fronts) are being fixed and re-reviewed by an independent reviewer.
+  - English: 322 new cards written, 22 flagged. Accountancy thin chapters: 80 new, 34 flagged.
+  - Then: handoff-1102/check-drafts-1102.mjs, merge-reviews3-1102.mjs, review-merge, validate per subject, tier, suites, a look, build, deploy.
+- **LK25:** the app port session (Port Learn v2 and the Explore feed to the app) stopped on 1 Nov at about 3 pm at the old account's usage limit, before its emulator walk. It has not resumed.
+
 ## 2 Nov 2026, about 4 am IST: Physics and Mathematics Key cards live (LK34); Maths is thin
 - **Live:** main 7f1b204a7, deployment dpl_8B5HtwbPkxUfDXTKa5UeBzyTdd8F. No runtime errors.
 - **Physics:** 932 cards across 14 chapters.
