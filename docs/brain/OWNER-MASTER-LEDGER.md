@@ -630,16 +630,16 @@ His frame: "Keep going. You have a bit of a direction and a taste of what I have
 
 | Status | Item |
 |---|---|
-| OPEN (round 2) | **LK24** The phone website is too cluttered. |
+| LIVE 1 Nov ~11:55 pm (main 668341aea): one subject picker on phones, no status line or ring dots, Saved grouped; check on his phone | **LK24** The phone website is too cluttered. |
 | OPEN (after the app port's walk) | **LK25** Ship a fresh Google Play release as soon as the app update is ready. |
-| OPEN (round 2) | **LK26** The Explore / Saved / All top tabs confuse a first-time visitor. |
-| OPEN (round 2) | **LK27** Learn leads with a clear offer to start learning ("Start learning <subject>", "Your roadmap"), never a line of zeros. |
-| OPEN (round 2) | **LK28** The phone website and the website are slow. |
-| OPEN (round 2) | **LK29** First-time cues: the Explore feed moves by swiping down, so show how. Think about cues everywhere. |
-| OPEN (round 2) | **LK30** Too much blank space; use it. |
-| OPEN (round 2) | **LK31** End screens carry too many lines and walls of text. |
-| OPEN (round 2) | **LK32** Home hero: 10-20% less space for the details, more branded, reacts to taps (Mobi). Use the animation and promo-film assets. |
+| LIVE 1 Nov ~11:55 pm (main 668341aea): four equal tabs Practice · Learn · Explore · Papers; Saved moved into Explore | **LK26** The Explore / Saved / All top tabs confuse a first-time visitor. |
+| LIVE 1 Nov ~11:55 pm (main 668341aea): "Start learning Accountancy" / "Start chapter 1 · 10 min", no zero anywhere (pinned by tests) | **LK27** Learn leads with a clear offer to start learning ("Start learning <subject>", "Your roadmap"), never a line of zeros. |
+| LIVE 1 Nov ~11:55 pm (main 668341aea), partly: combined /api/today and /api/learn/home reads, auth chain in parallel, /api/stats CDN cache (MISS then HIT), CSS split; Fluid compute not readable through the API | **LK28** The phone website and the website are slow. |
+| LIVE 1 Nov ~11:55 pm (main 668341aea): the next card peeks as a real card edge with a one-time Mobi chip; first-run turn and question hints once per student | **LK29** First-time cues: the Explore feed moves by swiping down, so show how. Think about cues everywhere. |
+| LIVE 1 Nov ~11:55 pm (main 668341aea): cards are flashcards (text centred), question options in the thumb zone, end keys pinned at the bottom | **LK30** Too much blank space; use it. |
+| LIVE 1 Nov ~11:55 pm (main 668341aea): one end screen: headline, up to 3 numbers, the bar, one key and one link | **LK31** End screens carry too many lines and walls of text. |
+| LIVE 1 Nov ~11:55 pm (main 668341aea): the painted room, Mobi tap reactions with bubble lines, one still headline, desktop Mobi in the gutter. Left: a repainted Day poster (image job) | **LK32** Home hero: 10-20% less space for the details, more branded, reacts to taps (Mobi). Use the animation and promo-film assets. |
 | STANDING GOAL | **LK33** Keep improving the feature and the whole UI/UX, plus the usefulness of every feature, until satisfied. |
-| OPEN (content waves) | **LK34** Populate every subject and chapter: at least 3 hours of study per subject, more is fine. |
+| IN PROGRESS: Chemistry 1,257 and History 1,418 cards published on branch web/1101-content (not live yet; science formulas get a look first); Geography 15 of 17 chapters written; Physics, Mathematics, Psychology, Computer Science, Sociology next | **LK34** Populate every subject and chapter: at least 3 hours of study per subject, more is fine. |
 | STANDING GOAL | **LK35** Keep going; double down on this direction. |
 | DECIDED 1 Nov ~5:45 pm | **LK34 route:** asked for an Anthropic API key (about $500) for card batches, he chose "Use subscription". Cards are written by subscription agents, paced across the 5-hour windows. The API pipeline (scripts/keycards/api-batch.mjs, web/1101-content-api 3b0feaa05) stays ready, unused. |

@@ -1,5 +1,32 @@
 # NOW: MockMob current state
 
+## 1 Nov 2026, about 11:55 pm IST: Learn v2 rounds 2 to 4 are live (his LK24-LK33)
+- **Live:** main 668341aea, deployment dpl_kmM3Rym59riGDcmQ1MVgRzs9RbGa.
+  - No runtime errors.
+  - The pages answer 200.
+  - /api/stats is served from the CDN cache.
+  - Rollback: dpl_DoGHp6AAWaCKngaFxKAckyhq7vAy.
+- **What he will see:**
+  - **Learn:** opens with a start offer and no zeros, one subject picker on phones, Free rows show each chapter's real size, chapters are named "Chapter 5 of 14", and "Needs work · from your papers".
+  - **Cards:** read like flashcards, with the next card peeking and a one-time swipe chip.
+  - **Ends:** short, with the keys at the bottom. Free gets one true line: questions come back tomorrow, Key cards stay open.
+  - **Today:** for a new student, no false history and no zeros, and the start key is above the dock.
+  - **Home hero:** the headline stays still.
+- **How it was checked:**
+  - 3 rounds of fixes.
+  - Round 3 was reviewed by 5 lenses, and every serious finding was checked by 1 to 3 skeptics (docs/brain/learn-1031/r4/R3-REVIEW-FINDINGS.md in the web repo).
+  - The suites, lint and build passed.
+  - 180 screenshots, which I looked at.
+- **Not checked:** a real phone, a trackpad, or a screen reader. He should look on his phone.
+- **Cards (LK34, subscription):**
+  - Chemistry (1,257) and History (1,418) are published on branch web/1101-content. They are not live yet: the chemistry formulas need a look first.
+  - Geography: 15 of 17 chapters are written.
+  - Next: Physics, Mathematics, Psychology, Computer Science and Sociology, after the 1:50 am usage reset.
+- **Open:**
+  - LK25, the Play release, waits on the app port session's emulator walk.
+  - The Day hero poster needs a repaint (an image job).
+  - Practice may say 15 chapters on the live site if the chapters table holds Computerised Accounting.
+
 ## 1 Nov 2026, about 4:15 pm IST: his first live feedback on Learn v2 (LK24-LK35); round 2 starting
 - **His words:** verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md (1 Nov, about 4:05 pm). Items LK24-LK35 are in the ledger.
 - **What he asked for:**
