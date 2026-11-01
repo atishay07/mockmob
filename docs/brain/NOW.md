@@ -1,6 +1,18 @@
 # NOW: MockMob current state
 
-## 2 Nov 2026, about 5:50 am IST: Computer Science Key cards live (LK34); a recovery round and the English top-up are being checked
+## 2 Nov 2026, about 4:40 am IST: +911 Key cards (14,801): wording recovery, English to 650, Accountancy thin chapters (LK34)
+- **Live:** main e120b004d, deployment dpl_4WjR4cqaxDCjgKuWZn8ct4f8Qcts (a redeploy: the first build of this commit failed on the Geist Mono font fetch, as one did at 4:15 am). No runtime errors; /, /learn, /explore, /today, /pricing, /api/stats and the English, Accountancy and History chapter pages answer 200. Rollback: dpl_9D1LG3MWRpJ6qB6DCWpBic8a4NLQ (main feb30935e).
+- **What students get:**
+  - 663 cards that were held back only for front wording are back, re-cut and checked by an independent reviewer: Chemistry +97, Geography +76, History +79, Mathematics +30, Physics +112, Psychology +52, Sociology +119.
+  - English 350 to 650 (word meanings, idioms, one-word substitutions, confused words, grammar rules): about 3.2 h, above his 3-hour bar.
+  - Accountancy 866 to 912: Change in Profit Sharing Ratio, Retirement & Death, Analysis of Financial Statements, Comparative & Common Size Statements.
+  - No published card was removed or changed.
+- **Per subject now:** Accountancy 912, Biology 1,394, Business Studies 901, Chemistry 1,354, Computer Science 1,350, Economics 1,195, English 650, Geography 1,238, History 1,497, Mathematics 290, Physics 1,044, Political Science 1,096, Psychology 778, Sociology 1,102.
+- **Still short:** Mathematics (290 cards, about 2 h). The formula pipeline waits for his yes.
+- **LK25:** the app port session was resumed at about 4:40 am with the web changes since 1 Nov (rounds 2-4, Key cards for every subject) and the plan: finish its walk, align with LK24-LK33, emulator walk, release AAB for him to upload.
+- **Reliability:** 2 of 4 Vercel builds today failed fetching Geist Mono from Google Fonts. A redeploy passes. The lasting fix (self-host the font) is proposed, not done.
+
+## 2 Nov 2026, about 4:15 am IST: Computer Science Key cards live (LK34); a recovery round and the English top-up are being checked
 - **Live:** main feb30935e, deployment dpl_9D1LG3MWRpJ6qB6DCWpBic8a4NLQ. No runtime errors; /, /learn, /explore, /today, /pricing and a Computer Science chapter page answer 200.
   - The first deploy of this commit (dpl_3mveaRtzPDRYTRTnZFSQGsy6bpaA) failed when the build could not fetch the Geist Mono font from Google Fonts; a redeploy of the same commit passed.
   - Rollback: dpl_8B5HtwbPkxUfDXTKa5UeBzyTdd8F (main 7f1b204a7).
