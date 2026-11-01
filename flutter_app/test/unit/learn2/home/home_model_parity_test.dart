@@ -73,7 +73,7 @@ void _expectMap(List<LearnPart> parts, Map<String, dynamic> want, String where) 
     }
     for (final e in (w['effective'] as List).cast<Map<String, dynamic>>()) {
       final local = e['local'] as String?;
-      expect(HomeModel.effectiveChoice(part, {'${part.id}': ?local}), e['out'], reason: '$at: effectiveChoice with $local');
+      expect(HomeModel.effectiveChoice(part, {part.id: ?local}), e['out'], reason: '$at: effectiveChoice with $local');
     }
     final shown = w['shown'] as Map<String, dynamic>;
     for (final e in shown.entries) {
