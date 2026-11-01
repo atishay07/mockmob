@@ -1,0 +1,243 @@
+{
+  "subject": "history",
+  "chapters": {
+    "history.an-imperial-capital-vijayanagara": {
+      "published": 88,
+      "quarantined": 15,
+      "byKind": {
+        "definition": 8,
+        "key_line": 18,
+        "fact": 59,
+        "list": 2,
+        "difference": 1
+      },
+      "byImportance": {
+        "must": 23,
+        "good": 65
+      },
+      "coverage_note": null,
+      "mustShare": 0.26,
+      "belowMinimum": false
+    },
+    "history.bhakti-sufi-traditions": {
+      "published": 145,
+      "quarantined": 25,
+      "byKind": {
+        "term": 3,
+        "list": 10,
+        "definition": 23,
+        "fact": 87,
+        "key_line": 14,
+        "types": 3,
+        "quote": 4,
+        "difference": 1
+      },
+      "byImportance": {
+        "must": 42,
+        "good": 103
+      },
+      "coverage_note": null,
+      "mustShare": 0.29,
+      "belowMinimum": false
+    },
+    "history.bricks-beads-and-bones": {
+      "published": 116,
+      "quarantined": 25,
+      "byKind": {
+        "fact": 83,
+        "types": 3,
+        "term": 1,
+        "list": 6,
+        "key_line": 7,
+        "definition": 11,
+        "quote": 2,
+        "steps": 3
+      },
+      "byImportance": {
+        "must": 27,
+        "good": 89
+      },
+      "coverage_note": null,
+      "mustShare": 0.23,
+      "belowMinimum": false
+    },
+    "history.colonialism-and-the-countryside": {
+      "published": 96,
+      "quarantined": 38,
+      "byKind": {
+        "fact": 57,
+        "key_line": 15,
+        "definition": 12,
+        "list": 9,
+        "steps": 2,
+        "difference": 1
+      },
+      "byImportance": {
+        "must": 28,
+        "good": 68
+      },
+      "coverage_note": null,
+      "mustShare": 0.29,
+      "belowMinimum": false
+    },
+    "history.framing-the-constitution": {
+      "published": 142,
+      "quarantined": 11,
+      "byKind": {
+        "fact": 104,
+        "key_line": 18,
+        "term": 2,
+        "list": 6,
+        "definition": 2,
+        "quote": 9,
+        "types": 1
+      },
+      "byImportance": {
+        "must": 31,
+        "good": 111
+      },
+      "coverage_note": null,
+      "mustShare": 0.22,
+      "belowMinimum": false
+    },
+    "history.kings-farmers-and-towns": {
+      "published": 140,
+      "quarantined": 39,
+      "byKind": {
+        "term": 13,
+        "fact": 94,
+        "key_line": 6,
+        "list": 15,
+        "definition": 8,
+        "difference": 1,
+        "types": 3
+      },
+      "byImportance": {
+        "must": 41,
+        "good": 99
+      },
+      "coverage_note": null,
+      "mustShare": 0.29,
+      "belowMinimum": false
+    },
+    "history.kinship-caste-and-class": {
+      "published": 115,
+      "quarantined": 29,
+      "byKind": {
+        "key_line": 13,
+        "fact": 79,
+        "term": 7,
+        "definition": 10,
+        "types": 2,
+        "list": 3,
+        "difference": 1
+      },
+      "byImportance": {
+        "must": 28,
+        "good": 87
+      },
+      "coverage_note": null,
+      "mustShare": 0.24,
+      "belowMinimum": false
+    },
+    "history.mahatma-gandhi-and-the-nationalist-movement": {
+      "published": 92,
+      "quarantined": 36,
+      "byKind": {
+        "fact": 75,
+        "key_line": 5,
+        "list": 10,
+        "definition": 2
+      },
+      "byImportance": {
+        "must": 29,
+        "good": 63
+      },
+      "coverage_note": null,
+      "mustShare": 0.32,
+      "belowMinimum": false
+    },
+    "history.peasants-zamindars-and-the-state": {
+      "published": 136,
+      "quarantined": 33,
+      "byKind": {
+        "fact": 81,
+        "key_line": 24,
+        "term": 14,
+        "types": 3,
+        "list": 4,
+        "definition": 7,
+        "difference": 2,
+        "steps": 1
+      },
+      "byImportance": {
+        "must": 31,
+        "good": 105
+      },
+      "coverage_note": null,
+      "mustShare": 0.23,
+      "belowMinimum": false
+    },
+    "history.rebels-and-the-raj": {
+      "published": 137,
+      "quarantined": 23,
+      "byKind": {
+        "fact": 117,
+        "key_line": 4,
+        "steps": 1,
+        "definition": 7,
+        "difference": 1,
+        "list": 4,
+        "quote": 2,
+        "term": 1
+      },
+      "byImportance": {
+        "must": 26,
+        "good": 111
+      },
+      "coverage_note": null,
+      "mustShare": 0.19,
+      "belowMinimum": false
+    },
+    "history.thinkers-beliefs-and-buildings": {
+      "published": 94,
+      "quarantined": 42,
+      "byKind": {
+        "fact": 56,
+        "list": 4,
+        "key_line": 21,
+        "term": 7,
+        "definition": 5,
+        "quote": 1
+      },
+      "byImportance": {
+        "must": 22,
+        "good": 72
+      },
+      "coverage_note": null,
+      "mustShare": 0.23,
+      "belowMinimum": false
+    },
+    "history.through-the-eyes-of-travellers": {
+      "published": 117,
+      "quarantined": 21,
+      "byKind": {
+        "list": 6,
+        "fact": 92,
+        "key_line": 9,
+        "steps": 1,
+        "definition": 4,
+        "types": 3,
+        "difference": 1,
+        "term": 1
+      },
+      "byImportance": {
+        "must": 32,
+        "good": 85
+      },
+      "coverage_note": null,
+      "mustShare": 0.27,
+      "belowMinimum": false
+    }
+  }
+}

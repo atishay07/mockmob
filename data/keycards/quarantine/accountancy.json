@@ -33,38 +33,6 @@
       ]
     },
     {
-      "id": "kc.accountancy.partnership-fundamentals.def-partnership-section-4",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.partnership-fundamentals",
-      "chapter": "Partnership Fundamentals",
-      "unit": "Partnership Fundamentals",
-      "kind": "definition",
-      "front": "Define partnership (Section 4, Indian Partnership Act 1932).",
-      "back": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
-      "quote": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy – Partnership Accounts",
-        "code": "leac101",
-        "chapterNo": 1,
-        "page": 2,
-        "section": "1.1 Nature of Partnership"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "partnership",
-        "partnership act"
-      ],
-      "order": 20,
-      "reasons": [
-        "review:not_important",
-        "review:DUPLICATE: same fact as kc.accountancy.partnership-fundamentals.def-partnership. Both define partnership; kept has the fuller quote (duplicate sweep, 31 Oct)"
-      ]
-    },
-    {
       "id": "kc.accountancy.partnership-fundamentals.term-deed-term-summary",
       "v": 1,
       "subject": "accountancy",
@@ -158,6 +126,37 @@
       "reasons": [
         "review:not_important",
         "review:Not important: introductory narrative filler with no testable point; the answer 'partnership' is given away by the chapter title."
+      ]
+    },
+    {
+      "id": "kc.accountancy.partnership-fundamentals.def-partnership",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.partnership-fundamentals",
+      "chapter": "Partnership Fundamentals",
+      "unit": "Partnership Fundamentals",
+      "kind": "definition",
+      "front": "Define partnership.",
+      "back": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
+      "quote": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 48,
+        "section": "Introduction"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "partnership"
+      ],
+      "order": 10,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.accountancy.partnership-fundamentals.def-partnership-section-4, which quotes this chapter's own NCERT text (Section 4, Ch 1, p. 2); this line is from Ch 2, p. 48 (CTO content call, 1 Nov 2026)."
       ]
     },
     {

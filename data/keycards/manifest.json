@@ -1,7 +1,7 @@
 {
   "accountancy": {
-    "version": 7,
-    "sha256": "2c0716d0161a4da544f477e04c816172039fd519e474b2766876edcd43bcea2f",
+    "version": 9,
+    "sha256": "ff8041d02c6388eead0229f45de74031babe1cd9af47245fc41bbdfaf4bd297a",
     "cards": 866
   },
   "biology": {
@@ -28,6 +28,11 @@
     "version": 3,
     "sha256": "5650e107f90c2dff377a63d3a1569435e51ab8c8255edee465248b131e7a7a06",
     "cards": 350
+  },
+  "history": {
+    "version": 1,
+    "sha256": "02bf4d1e612b3da18c3d9b44ee87c0b1bfaf69a78442e75549fac76251fb2ccb",
+    "cards": 1418
   },
   "political_science": {
     "version": 5,
