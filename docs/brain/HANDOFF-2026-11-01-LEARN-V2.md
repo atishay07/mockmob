@@ -20,6 +20,11 @@
   test gate and the emulator walk. A hung `flutter test` (started 1:11 pm) holds a Flutter slot; its agent was refused a
   kill: the owner may end it.
 
+## App port, at the stop (about 2:55 pm IST, usage 94%)
+- All eight packets built on `ui/1101-learn-app` (worktree wt-1101-learn-app); combined gate green (about 3,800 tests, analyze clean).
+  Stopped at a checkpoint; three demo builds, the emulator boot and first launch were left running in the background.
+  Next for that session: the emulator walk with screenshots after the 4:40 pm IST reset. Nothing pushed.
+
 ## Owner, latest words
 - "Ship it" and: he wants it live to test everything properly; he "mostly loved the direction"; "a bit of refinement and
   fixes" after deploy; it was "still a bit buggy in the local server". He has feedback to give after testing live.
