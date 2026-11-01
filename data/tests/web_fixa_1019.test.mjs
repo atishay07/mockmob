@@ -4,7 +4,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { dueBadge, dueLabel, dueTabBadge, dueWords } from '../../src/lib/nav/dueCount.mjs';
+import { LEARN_DOT_LABEL, REVISE_DOT_LABEL, dotName } from '../../src/lib/nav/dueCount.mjs';
 import { paperCountsOf, scopeOf, statsOf, subjectsOf } from '../../src/components/review/reviewScope.mjs';
 import { ATTEMPT_WINDOW, buildReviewRecord, paperCounts } from '../../src/lib/server/review.js';
 import { reviewBody } from '../review_input.mjs';
@@ -12,30 +12,28 @@ import { reviewBody } from '../review_input.mjs';
 const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const code = (src) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 
-// ---- 1. (verifier M1) the Revise count reads as a Revise count ---------------------------------------------------------------
-test('M1: the sidebar and the dock say "8 due", the row of tabs "8 to revise", and a screen reader hears "8 questions to revise today"', () => {
-  assert.equal(dueBadge(8), '8 due');
-  assert.equal(dueBadge(1), '1 due');
-  assert.equal(dueBadge(140), '99+ due');
-  assert.equal(dueTabBadge(8), '8 to revise');
-  assert.equal(dueTabBadge(140), '99+ to revise');
-  assert.equal(dueWords(8), '8 questions to revise today');
-  assert.equal(dueLabel('Your papers', 8), 'Your papers, 8 questions to revise today');
-  assert.equal(dueLabel('Practice', 1), 'Practice, 1 question to revise today');
+// ---- 1. (verifier M1, then R3 ruling Z) the Revise mark is a dot with a name, never a number ---------------------------------
+test('M1 and R3 Z: the sidebar, the dock and the row of tabs draw a dot with an aria-label, never a due number', () => {
+  assert.equal(REVISE_DOT_LABEL, 'Questions to revise');
+  assert.equal(LEARN_DOT_LABEL, 'Key cards due in Learn');
+  assert.equal(dotName('Your papers', REVISE_DOT_LABEL), 'Your papers, questions to revise');
   const layout = code(read('src/app/(app)/AppLayoutClient.jsx'));
   const tabs = code(read('src/components/nav/PlaceTabs.jsx'));
-  // Every place the count is drawn: the sidebar's Your papers, the dock's Practice and Practice's row of tabs.
-  assert.match(layout, /<i className="arena-nav-link__count" aria-hidden="true">\{dueBadge\(reviseBadge\)\}<\/i>/);
-  assert.match(layout, /<i className="arena-badge" aria-hidden="true">\{dueBadge\(reviseBadge\)\}<\/i>/);
-  assert.match(tabs, /<i className="arena-tab__count" aria-hidden="true">\{dueTabBadge\(badge\)\}<\/i>/);
-  assert.match(layout, /const countLabel = \(tab\) => \(reviseBadge && \(tab\.id === 'review' \|\| tab\.id === 'dashboard'\) \? dueLabel\(tab\.label, reviseBadge\) : undefined\);/);
+  // Every place the mark is drawn: the sidebar's Your papers and Learn, the dock's Practice and Practice's row of tabs.
+  assert.match(layout, /<i className="arena-dot" role="img" aria-label=\{REVISE_DOT_LABEL\} \/>/);
+  assert.match(layout, /<i className="arena-dot" role="img" aria-label=\{LEARN_DOT_LABEL\} \/>/);
+  assert.match(layout, /<i className="arena-dot arena-dot--dock" role="img" aria-label=\{REVISE_DOT_LABEL\} \/>/);
+  assert.match(tabs, /<i className="arena-tab__dot" role="img" aria-label=\{REVISE_DOT_LABEL\} \/>/);
+  assert.match(layout, /dotName\(tab\.label, REVISE_DOT_LABEL\)/, 'a link that needs its own name carries the dot in it');
   for (const src of [layout, tabs]) {
-    assert.doesNotMatch(src, /> 99 \? '99\+' : (reviseBadge|badge)\}/, 'no bare number is drawn');
+    assert.doesNotMatch(src, /dueBadge|dueTabBadge|dueWords|dueLabel/, 'no due number is drawn or spoken as a count');
+    assert.doesNotMatch(src, /> 99 \? '99\+'/, 'no bare number is drawn');
     assert.doesNotMatch(src, /due back today/, 'the old words are gone from the navigation');
+    assert.doesNotMatch(src, /arena-badge"|arena-nav-link__count|arena-tab__count/, 'the number pills are gone');
   }
-  // The dock's disc grows into a pill that holds the word and stays inside Practice's slot.
   const css = read('src/app/(app)/nav-badge.css');
-  assert.match(css, /i\.arena-badge \{[^}]*left: calc\(50% \+ 14px\); translate: -50% 0;[^}]*white-space: nowrap;/);
+  assert.match(css, /i\.arena-dot--dock \{[^}]*left: calc\(50% \+ 12px\); translate: -50% 0;/, 'the dock dot sits at the icon right edge');
+  assert.doesNotMatch(read('src/app/(app)/arena.css'), /\[data-due\]/, 'S1: no tick for what is due, the yellow bar is for the current page alone');
 });
 
 // ---- 2. (verifier M2) "Your first practice set" only when it is ----------------------------------------------------------

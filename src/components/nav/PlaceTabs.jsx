@@ -13,11 +13,11 @@
 //
 // Learn v2's Practice row (`group.fit`, R2 ruling 10, LK26): four equal tabs that always fit, so none of the above runs: no peek, no
 // nudge, no edges, no chevron. A tab may stand for pages inside it (`tab.within`: Explore for Saved) and may read shorter in the
-// row (`tab.short`: "Papers"). The Revise count on Papers is a dot; its number is said to screen readers and on the Papers page.
+// row (`tab.short`: "Papers"). The Revise mark on Papers is a dot with an aria-label ("Questions to revise"), never a number (R3 ruling Z).
 import Link from 'next/link';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ChevronRight } from 'lucide-react';
-import { dueTabBadge } from '@/lib/nav/dueCount.mjs';
+import { REVISE_DOT_LABEL } from '@/lib/nav/dueCount.mjs';
 import { NUDGE_BACK_MS, NUDGE_DELAY_MS, NUDGE_EASE_OUT, NUDGE_KEY, NUDGE_OUT_MS, NUDGE_PX, NUDGE_SETTLE, TAB_PAD, peekPadding, scrollToShow } from './placeTabsPeek.mjs';
 
 const EDGE = 2;
@@ -156,7 +156,7 @@ export default function PlaceTabs({ group, hrefOf, isActive, count = 0, countLab
             <Link key={tab.id} href={hrefOf(tab)} className="arena-tab" aria-current={here ? 'page' : undefined}
               aria-label={badge ? countLabel?.(tab) : tab.short ? tab.label : undefined} onClick={onNavigate}>
               <span>{tab.short || tab.label}</span>
-              {badge ? (fits ? <i className="arena-tab__dot" aria-hidden="true" /> : <i className="arena-tab__count" aria-hidden="true">{dueTabBadge(badge)}</i>) : null}
+              {badge ? <i className="arena-tab__dot" role="img" aria-label={REVISE_DOT_LABEL} /> : null}
             </Link>
           );
         })}

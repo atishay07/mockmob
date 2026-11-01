@@ -240,9 +240,9 @@ function DueFallback({ home, shelves, links }) {
   const all = Number(shelves?.due?.all) || Number(shelves?.due?.count) || 0;
   return (
     <>
-      {all ? <div className="l2c-keys"><Link className="kc-btn kc-btn--volt kc-btn--small" data-page-primary="" href={links.revise()}>{`Revise ${all} due, all subjects`}</Link></div> : null}
+      {all ? <div className="l2c-keys"><Link className="kc-btn kc-btn--volt kc-btn--small" data-page-primary="" href={links.revise()}>{`Revise ${all === 1 ? '1 due card' : `${all} due cards`}, all subjects`}</Link></div> : null}
       <ul className="l2f-links" aria-label="Chapters with cards due">
-        {rows.map((c) => <li key={c.key}><Link className="l2f-link" href={links.chapter(c.key)}><b>{c.title}</b><span>{c.due} due</span><ChevronRight size={16} strokeWidth={2.2} aria-hidden="true" /></Link></li>)}
+        {rows.map((c) => <li key={c.key}><Link className="l2f-link" href={links.chapter(c.key)}><b>{c.title}</b><span>{c.due === 1 ? '1 due card' : `${c.due} due cards`}</span><ChevronRight size={16} strokeWidth={2.2} aria-hidden="true" /></Link></li>)}
       </ul>
     </>
   );

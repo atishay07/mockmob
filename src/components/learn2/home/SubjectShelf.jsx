@@ -12,9 +12,9 @@ import '@/app/(app)/dashboard/practice.css';
 /** The loop has room for one short name: "Economics / Business Economics" reads as "Economics" under its object (the whole name is its label and the heading below). */
 const shortName = (name) => displayTitle(String(name || '').split(' / ')[0]);
 
-// `line`: the chosen subject's counts, drawn under its name from 640 px up (on a phone the page draws the same line under the loop).
-// `dues`: { [subjectId]: number }, each subject's Key cards due today (drawn under its name, so the sidebar's total adds up, M5).
-export default function SubjectShelf({ subjects, current, onPick, busy = false, line = '', dues = null }) {
+// `line`: the chosen subject's counts ("14 chapters · 866 Key cards · 4 lessons"), drawn under its name from 1300 px up. No due count is
+// drawn here (R3 ruling R6): due cards are the offer's Revise row and the sidebar's dot. From 768 px; on a phone SubjectPicker is drawn.
+export default function SubjectShelf({ subjects, current, onPick, busy = false, line = '' }) {
   const shelfRef = useRef(null);
   const hintRef = useRef(null);
   const { edges } = useRailCue(shelfRef, { active: subjects.length > 1, items: '.pr-subject', min: 92, max: 132, endInset: 16, nudgeKey: 'mm:cue:learn-shelf:v1', nudgeDelay: 900, hintRef, count: subjects.length });
@@ -35,20 +35,15 @@ export default function SubjectShelf({ subjects, current, onPick, busy = false, 
     <div className="pr lh-shelf" data-long={subjects.some((s) => shortName(s.name).length > 12) || undefined}>
       <div className="pr-shelf" data-overflow={edges.overflow || undefined} data-at-end={edges.end || undefined}>
         <div className="pr-subjects" role="group" aria-label="Subject" data-count={Math.min(subjects.length, 6)} ref={shelfRef}>
-          {subjects.map((subject) => {
-            const due = Number(dues?.[subject.id]);
-            const dueText = Number.isFinite(due) && due > 0 ? `${due.toLocaleString('en-IN')} due` : '';
-            return (
-              <button key={subject.id} type="button" aria-pressed={subject.id === current} aria-label={dueText ? `${subject.name}, ${dueText}` : subject.name} className="pr-subject" data-busy={busy || undefined} onClick={() => onPick(subject.id)}>
-                <SubjectObject id={subject.id} size={132} life lit className="pr-subject__obj" />
-                <span className="pr-subject__name">{shortName(subject.name)}</span>
-                <span className="lh-shelf__sub" aria-hidden="true">
-                  <span className="lh-shelf__due">{dueText}</span>
-                  <span className="lh-shelf__line">{subject.id === current ? line : ''}</span>
-                </span>
-              </button>
-            );
-          })}
+          {subjects.map((subject) => (
+            <button key={subject.id} type="button" aria-pressed={subject.id === current} aria-label={subject.name} className="pr-subject" data-busy={busy || undefined} onClick={() => onPick(subject.id)}>
+              <SubjectObject id={subject.id} size={132} life lit className="pr-subject__obj" />
+              <span className="pr-subject__name">{shortName(subject.name)}</span>
+              <span className="lh-shelf__sub" aria-hidden="true">
+                <span className="lh-shelf__line">{subject.id === current ? line : ''}</span>
+              </span>
+            </button>
+          ))}
         </div>
         <button ref={hintRef} type="button" className="pr-shelf__hint" tabIndex={-1} aria-hidden="true"
           onClick={() => { const el = shelfRef.current; const first = el?.querySelector('.pr-subject'); if (el) el.scrollBy({ left: (first?.offsetWidth || 104) * 2, behavior: railReduced() ? 'auto' : 'smooth' }); }}>

@@ -608,7 +608,7 @@ export function createLearn(deps) {
     const { me, sid } = await subjectAndMe(userId, p);
     if (!sid) return bad('SUBJECT_NOT_FOUND', 404);
     const S = await snapshot(userId, me, sid, { seen: true });
-    return ok({ ...subjectBody(S, sid), shelves: await shelvesOf(S, sid, userId, null) });
+    return ok({ ...subjectBody(S, sid), shelves: await shelvesOf(S, sid, userId) });
   }
 
   /** Learn home's body from one snapshot (GET /api/learn/subject and /home). */
@@ -645,6 +645,12 @@ export function createLearn(deps) {
       minutesLeft: minutesFor(Number(runInSubject.seconds_left) || 0), kind: runInSubject.kind, leaveOut: runInSubject.leave_out || [],
     } : null;
     const levelQuestions = pool.filter((q) => !q.seen).length || pool.length;
+    // Free after the day's session: today's own unfinished run of a kind the pick-up does not carry (a stopped feed), for the
+    // Free-done block's "Continue" row (R3 ruling F). A mix or cards run is picked up first, as before.
+    const holder = !S.isPro && S.session?.reference && !runOut ? S.runs.find((r) => r.id === S.session.reference) : null;
+    const holderOk = holder && holder.subject === sid && !holder.ended_at && S.now - Date.parse(holder.created_at) < LEARN_LIMITS.resumeHours * HOUR
+      && Number(holder.done_count) > 0 && Number(holder.done_count) < Number(holder.item_count);
+    const freeRun = holderOk ? { id: holder.id, chapterKey: holder.chapter_key, kind: holder.kind, minutesLeft: minutesFor(Number(holder.seconds_left) || 0) } : null;
     const sugg = suggestions({
       subject: { id: sid, name: subjectName(sid), cards: S.cards.length },
       isNew,
@@ -674,13 +680,17 @@ export function createLearn(deps) {
       due,
       // Free's one session of the day is used (by any run that is not the open one: an open run is picked up first).
       freeDone: !S.isPro && Boolean(S.session),
+      freeRun,
+      // C1: the Revise row reads dueNow, the same count and minutes the shelves' due.bySubject[sid] and due.minutes carry.
+      reviseDue: dueNow(S),
       level: { questions: levelQuestions, chapterKey: pool[0] ? S.questionsById.get(pool[0].id)?.chapterKey || null : null },
     });
     return {
       plan: S.isPro ? 'pro' : 'free',
       student: { isNew },
       subjects: S.subjects.map((id) => ({ id, name: subjectName(id) })),
-      subject: { id: sid, name: subjectName(sid), cards: S.cards.length, chapters: infos.size, lessons: lessons.length, note: sid === 'english' ? ENGLISH_NOTE : null },
+      // C2: the chapters the student can play (the student's part, with cards), never the coming-soon ones.
+      subject: { id: sid, name: subjectName(sid), cards: S.cards.length, chapters: allowed.filter((i) => i.counts.cards > 0).length, lessons: lessons.length, note: sid === 'english' ? ENGLISH_NOTE : null },
       freeNote: S.isPro ? null : `Free opens ${KEYCARD_RULES.free.tastePerChapter} cards in every chapter. Pro opens all ${S.cards.length}.`,
       free: !S.isPro && S.session ? { text: FREE_SESSION_DONE, maxMinutes: LEARN_FREE.maxMinutes } : null,
       suggestions: sugg,
@@ -1483,32 +1493,47 @@ export function createLearn(deps) {
   async function shelves(userId, p) {
     const { me, sid } = await subjectAndMe(userId, p);
     if (!sid) return bad('SUBJECT_NOT_FOUND', 404);
-    const [S, dueAll] = await Promise.all([snapshot(userId, me, sid), kc.dueCount(userId)]);
-    return ok(await shelvesOf(S, sid, userId, dueAll));
+    const S = await snapshot(userId, me, sid);
+    return ok(await shelvesOf(S, sid, userId));
   }
 
-  /** Find's shelves from a snapshot. `dueAll` null: the sum of each subject's own count (one read fewer, speed.md item 3). */
-  async function shelvesOf(S, sid, userId, dueAll) {
+  /** This subject's due Key cards from the snapshot: { count, minutes } (the live open rows; shelves.due and the offer's Revise row). */
+  function dueNow(S) {
     const live = S.states.filter((s) => !s.suspended && S.isOpen(s.card_id) && S.pub.byId.has(s.card_id));
-    const due = live.filter((s) => cardStage(s, S.now) === 'due').length;
-    const recent = S.now - LEARN_LIMITS.missedDays * DAY;
-    const missed = new Set(live.filter((s) => s.last_rating === 1 && Date.parse(s.last_review_at) >= recent).map((s) => s.card_id));
-    for (const list of S.mistakes.values()) for (const m of list) for (const id of S.questionsById.get(m.id)?.cards || []) if (S.isOpen(id) && S.pub.byId.has(id)) missed.add(id);
-    const must = S.cards.filter((x) => x.importance === 'must' && S.isOpen(x.id));
-    // Each subject's own due count (the subject row's "12 due"; the sidebar badge is their sum, so the numbers add up, M5): the
-    // same rule as `due` above, read for every subject the student has. A subject whose read fails is left out, never a zero.
-    const bySubject = {};
-    await Promise.all(S.subjects.map(async (id) => {
+    const due = live.filter((s) => cardStage(s, S.now) === 'due');
+    const seconds = due.reduce((sum, st) => sum + cardSeconds({ stage: 'due', words: cardWords(S.pub.byId.get(st.card_id)) }), 0);
+    return { live, count: due.length, minutes: cardRunMinutes(due.length, seconds) };
+  }
+
+  /**
+   * The Key cards due today: ONE function for both routes (R3 ruling C1). `mine` is this subject's own count (the live open rows);
+   * every other subject is counted by the same rule from its own states. `all` is the sum, so the sidebar's dot, the subject rows and
+   * Learn home's Revise row can never disagree, and /api/learn/home and /api/learn/shelves give the same `due.all` for one student.
+   * A subject whose read fails is left out, never a zero.
+   */
+  async function dueSummary(S, sid, userId, mine) {
+    const bySubject = { [sid]: mine };
+    await Promise.all(S.subjects.filter((id) => id !== sid).map(async (id) => {
       try {
-        const rows = id === sid ? S.states : await store.states(userId, { subject: id });
+        const rows = await store.states(userId, { subject: id });
         const taste = S.isPro ? null : tasteIds(S.pub.cardsOf(id));
         bySubject[id] = rows.filter((s) => !s.suspended && (S.isPro || taste.has(s.card_id)) && S.pub.byId.has(s.card_id) && cardStage(s, S.now) === 'due').length;
       } catch { /* left out */ }
     }));
-    const all = dueAll === null || dueAll === undefined ? Object.values(bySubject).reduce((n, x) => n + (Number(x) || 0), 0) : dueAll;
+    return { bySubject, all: Object.values(bySubject).reduce((n, x) => n + (Number(x) || 0), 0) };
+  }
+
+  /** Find's shelves from a snapshot (the due numbers come from dueSummary). */
+  async function shelvesOf(S, sid, userId) {
+    const { live, count: due, minutes: dueMinutes } = dueNow(S);
+    const recent = S.now - LEARN_LIMITS.missedDays * DAY;
+    const missed = new Set(live.filter((s) => s.last_rating === 1 && Date.parse(s.last_review_at) >= recent).map((s) => s.card_id));
+    for (const list of S.mistakes.values()) for (const m of list) for (const id of S.questionsById.get(m.id)?.cards || []) if (S.isOpen(id) && S.pub.byId.has(id)) missed.add(id);
+    const must = S.cards.filter((x) => x.importance === 'must' && S.isOpen(x.id));
+    const { bySubject, all } = await dueSummary(S, sid, userId, due);
     return {
-      // The same count over every subject (the sidebar's due badge, CRITIQUE-1 E2): the Key cards service's own dueCount, or the sum.
-      due: { bySubject, count: due, minutes: cardRunMinutes(due, live.filter((st) => cardStage(st, S.now) === 'due').reduce((sum, st) => sum + cardSeconds({ stage: 'due', words: cardWords(S.pub.byId.get(st.card_id)) }), 0)), all, subjects: S.subjects.length },
+      // The same count over every subject (the sidebar's dot, CRITIQUE-1 E2): the sum of bySubject, from dueSummary.
+      due: { bySubject, count: due, minutes: dueMinutes, all, subjects: S.subjects.length },
       missed: { count: missed.size, days: LEARN_LIMITS.missedDays },
       revise: { count: live.length, chapters: new Set(live.map((s) => s.chapter_key)).size },
       must: { count: must.length, chapters: new Set(must.map((x) => x.chapterKey)).size },

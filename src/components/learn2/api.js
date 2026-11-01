@@ -176,11 +176,17 @@ export const chapterCards = ({ chapter, filter = 'all' }) => call(`/api/learn/ca
 export const subjectCards = ({ subject, filter = 'all' }) => call(`/api/learn/cards?${q({ subject, filter })}`);
 export const learnShelves = (subject) => call(`/api/learn/shelves?${q({ subject })}`);
 
-/** The Key cards due today over every subject: the sum of each subject's own count (shelves.due.bySubject), so the sidebar's badge and the subject rows add up (M5). */
+/**
+ * The Key cards due today over every subject: the server's own `due.all` (R3 ruling C1: one function behind /api/learn/home and
+ * /api/learn/shelves, the sum of `due.bySubject`), so the sidebar's dot, the subject rows and Learn home's Revise row agree. Only when a
+ * body carries no `all` is the sum of the subjects taken here.
+ */
 export const dueTotal = (shelves) => {
+  const all = shelves?.due?.all;
+  if (typeof all === 'number' && Number.isFinite(all)) return all;
   const by = shelves?.due?.bySubject;
   if (by && typeof by === 'object') return Object.values(by).reduce((s, n) => s + (Number(n) || 0), 0);
-  return Number(shelves?.due?.all) || 0;
+  return 0;
 };
 
 /**

@@ -1,9 +1,9 @@
 'use client';
 // Learn home's one start offer (R2 ruling 1, LK27): the headline, one line, the page's one volt key, and at most two quiet "Or"
 // rows. Every word comes from the server's `roadmap` (data/learn/roadmap.js); nothing is made up here and no zero is ever drawn.
-// Under the line, the route: one node per chapter of the student's roadmap, the chapters seen once filled, the one the student is
-// in ringed in volt. The nodes fill left to right once on arrival (24 ms apart, 180 ms each) and the current one swells once
-// (400 ms); reduced motion draws them at once. Tapping the route scrolls to "Your roadmap".
+// R3 ruling R2: under the headline stays "Chapter 1 of 14 · <chapter>"; the row of ring dots is gone (the roadmap below is the route).
+// R3 ruling R3: the Or rows are at most two, in the server's order (Revise N due cards, the open mistakes, Skip what you already
+// know, the feed); on Free after the day's session the block is the feed refusal's: headline, line, See Pro, Continue, Revise, singles.
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import { openUpgrade } from '@/components/pro';
@@ -30,24 +30,6 @@ function Track({ progress }) {
   );
 }
 
-/** The route: one node per chapter in book order. `rows` are the roadmap rows ({ key, title, progress }). */
-function Route({ rows, current, onGo }) {
-  if (!rows || rows.length < 2) return null;
-  const at = rows.findIndex((r) => r.key === current);
-  const label = at >= 0 ? `Your roadmap: chapter ${at + 1} of ${rows.length}. Show the chapters` : 'Show your roadmap';
-  return (
-    <button type="button" className="lh-route" onClick={onGo} aria-label={label}>
-      {rows.map((r, i) => {
-        const p = r.progress || {};
-        const of = Number(p.of) || 0;
-        const seen = Number(p.seen) || 0;
-        const state = r.key === current ? 'here' : of > 0 && seen >= of ? 'done' : seen > 0 || Number(p.tried) > 0 ? 'some' : 'none';
-        return <span key={r.key} className="lh-route__node" data-state={state} style={{ '--i': i }} aria-hidden="true" />;
-      })}
-    </button>
-  );
-}
-
 /** The offer's place before the data, at its final height (title, line, key), so nothing moves when it lands. */
 export function HeroSkeleton() {
   return (
@@ -59,7 +41,7 @@ export function HeroSkeleton() {
   );
 }
 
-export default function RoadmapHero({ roadmap, links, rows = [], onRoute }) {
+export default function RoadmapHero({ roadmap, links }) {
   if (!roadmap) return null;
   const { mode, headline, line, sub, progress, key, quiet } = roadmap;
   const or = (roadmap.or || []).slice(0, 2);
@@ -70,7 +52,6 @@ export default function RoadmapHero({ roadmap, links, rows = [], onRoute }) {
       <h2 className="lh-hero__title" id="lh-hero-title">{displayTitle(headline)}</h2>
       {line ? <p className="lh-hero__line">{displayTitle(line)}</p> : null}
       {progress ? <Track progress={progress} /> : null}
-      {mode !== 'pickup' && mode !== 'freeDone' ? <Route rows={rows} current={roadmap.position?.chapterKey} onGo={onRoute} /> : null}
       {sub ? <p className="lh-hero__sub">{sub}</p> : null}
       <div className="lh-hero__keys">
         {key?.go === 'pro'
@@ -84,7 +65,7 @@ export default function RoadmapHero({ roadmap, links, rows = [], onRoute }) {
             const href = actionHref(o, links);
             if (!href) return null;
             return (
-              <li key={o.kind}>
+              <li key={o.kind} data-kind={o.kind}>
                 <Link className="lh-or__row" href={href}>
                   <span className="lh-or__text"><b>{o.label}</b>{o.line ? <span>{displayTitle(o.line)}</span> : null}</span>
                   <ChevronRight className="lh-or__chev" size={18} strokeWidth={2} aria-hidden="true" />

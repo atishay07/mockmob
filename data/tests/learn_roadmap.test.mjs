@@ -5,9 +5,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  ROADMAP_RULES, coverageLine, coverageShare, hasZeroCount, offerLines, positionOf, roadmap, todayDue, verdictOf,
+  ROADMAP_RULES, coverageLine, coverageShare, hasCards, hasZeroCount, offerLines, positionOf, roadmap, todayDue, verdictOf,
 } from '../learn/roadmap.js';
 import { budgetSeconds } from '../learn/compose.js';
+import { FREE_DONE_HEADLINE, FREE_DONE_LINE } from '../learn/allowance.js';
+import { WORDS } from '../learn/words.js';
 import { previewAnswer } from '../../src/lib/server/keycardsPreview.js';
 
 const ACC = { id: 'accountancy', name: 'Accountancy' };
@@ -71,7 +73,9 @@ test('the start offer: the exact copy for each state (ruling 1)', () => {
   assert.equal(fresh.key.label, 'Start chapter 1 · 10 min');
   assert.equal(fresh.line, 'Chapter 1 of 5 · Chapter title 1');
   assert.deepEqual(fresh.key.run, { chapterKey: BOOK[0].key, minutes: 10, kind: 'mix', leaveOut: [] });
-  assert.deepEqual(fresh.or.map((o) => o.label), ['Find your level', 'Play this chapter as a feed']);
+  assert.deepEqual(fresh.or.map((o) => o.label), ['Skip what you already know', 'Play this chapter as a feed']);
+  assert.equal(fresh.or[0].line, '6 questions · about 6 min');
+  assert.equal(fresh.or[0].label, WORDS.skipKnown, 'the level check is "Skip what you already know" on Learn');
 
   const run = { id: 'lr_1', chapterKey: BOOK[3].key, title: 'Admission of a Partner', done: 6, of: 16, minutesLeft: 6, kind: 'mix', leaveOut: [] };
   const pick = roadmap({ subject: ACC, chapters: BOOK.map((c) => ({ ...c, seen: 4, unseen: 36, learnAt: T })), run });
@@ -89,19 +93,37 @@ test('the start offer: the exact copy for each state (ruling 1)', () => {
   assert.equal(today.key.label, 'Start · 10 min');
   assert.deepEqual(today.key.run, { chapterKey: BOOK[1].key, minutes: 10, kind: 'mix', leaveOut: [], cardIds: ['b', 'a'] });
   assert.equal(today.sub, '2 due cards first, then new ones here');
-  assert.equal(today.or[0].label, 'Fix 2 open mistakes');
+  assert.equal(today.or[0].label, 'Revise 2 due cards · 1 min', 'R3: the Revise row leads the Or rows');
+  assert.equal(today.or[1].label, 'Fix 2 open mistakes · 2 min');
+  assert.deepEqual(today.or[0].run, { chapterKey: BOOK[1].key, minutes: 1, kind: 'cards', leaveOut: [], cardIds: ['b', 'a'] }, 'a cards run: never counted against the free session');
   const noDue = roadmap({ subject: ACC, chapters: returning });
   assert.equal(noDue.sub, '30 new cards left here');
   assert.equal('cardIds' in noDue.key.run, false);
 
   const done = roadmap({ subject: ACC, chapters: returning, freeDone: true, isPro: false });
   assert.equal(done.mode, 'freeDone');
-  assert.equal(done.headline, "That was today's free session.");
+  assert.equal(done.headline, FREE_DONE_HEADLINE);
+  assert.equal(done.line, FREE_DONE_LINE);
+  assert.doesNotMatch(offerLines(done).join(' '), /opens again tomorrow/i, '"Learn opens again tomorrow" appears nowhere');
   assert.deepEqual([done.key.label, done.key.href], ['See Pro', '/pricing']);
-  assert.deepEqual([done.quiet.label, done.quiet.href], ['Answer single questions', '/explore']);
-  assert.deepEqual(done.or, []);
+  assert.deepEqual(done.or.map((o) => o.label), ['Answer single questions'], 'no due card, no unfinished run: only the single questions');
+  const withDue = roadmap({ subject: ACC, chapters: returning, due, freeDone: true, isPro: false, freeRun: { id: 'lr_9', chapterKey: BOOK[1].key, minutesLeft: 4, kind: 'feed' } });
+  assert.deepEqual(withDue.or.map((o) => o.label), ['Continue · 4 min', 'Revise 2 due cards · 1 min'], 'ruling F order, at most two');
+  assert.deepEqual(withDue.or[0].run, { chapterKey: BOOK[1].key, minutes: 4, kind: 'feed', leaveOut: [], resume: 'lr_9' });
+  const dueOnly = roadmap({ subject: ACC, chapters: returning, due, freeDone: true, isPro: false });
+  assert.deepEqual(dueOnly.or.map((o) => o.label), ['Revise 2 due cards · 1 min', 'Answer single questions']);
+  assert.deepEqual([dueOnly.or[1].href, dueOnly.or[1].go], ['/explore', 'explore']);
   // An open run is picked up first, even on Free with the day used (its pick-up is the same session).
   assert.equal(roadmap({ subject: ACC, chapters: returning, freeDone: true, run }).mode, 'pickup');
+});
+
+test('C2: a chapter with no cards is never counted, never a position and never "Chapter 1 of N"', () => {
+  const book = [{ ...ch(1), of: 0, cards: 0, questions: 3 }, ch(2), ch(3), { ...ch(4), of: 0, cards: 0, questions: 0 }, ch(5)];
+  const r = roadmap({ subject: ACC, chapters: book });
+  assert.equal(r.line, 'Chapter 1 of 3 · Chapter title 2');
+  assert.equal(r.key.label, 'Start chapter 1 · 10 min');
+  assert.equal(hasCards(book[0]), false);
+  assert.equal(hasCards(book[1]), true);
 });
 
 test('no zero is ever a lead: across states, every line of the offer is free of "0 due", "0 of", "0 kept"', () => {
@@ -201,9 +223,11 @@ test('service: Free after the day\'s session is told so, with See Pro and single
   await call(`/api/learn/runs/${run.id}/end`);
   const { body } = await call('/api/learn/subject', { query: { subject: 'accountancy' } });
   assert.equal(body.roadmap.mode, 'freeDone');
-  assert.equal(body.roadmap.headline, "That was today's free session.");
+  assert.equal(body.roadmap.headline, FREE_DONE_HEADLINE);
+  assert.equal(body.roadmap.line, FREE_DONE_LINE);
   assert.equal(body.roadmap.key.label, 'See Pro');
-  assert.equal(body.roadmap.quiet.label, 'Answer single questions');
+  assert.equal(body.roadmap.or.at(-1).label, 'Answer single questions');
+  assert.ok(body.roadmap.or.length <= 2);
 });
 
 test('service: /home is the subject body and the shelves from one snapshot; due.all is the sum over subjects', async () => {

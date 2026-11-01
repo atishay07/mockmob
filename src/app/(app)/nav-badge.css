@@ -1,30 +1,26 @@
-/* The Review count and More as the current tab (LEARN-REVIEW-1017 5.12 and 5.9; NAV-1017 badge position: centre at the icon's right + 2, icon top + 1).
-   The count is Revise due today, a plain neutral pill (ink on the dock's own colour, never lime: the Start key is the dock's one
-   lime fill). It says "8 due", never a bare number that reads as a paper count (release 11 verifier M1), on one line, and its
-   centre stays at the icon's right + 2 however wide the words are (`translate`, so the pop's own transform is untouched), so
-   the pill stays inside Practice's slot and clear of the Start key ("8 to revise" was too wide: it ran over the Start key). It appears with a small pop and is absent when nothing is
-   due. Nothing here touches the Start key or the dock's size. */
-html .app-shell .arena-bottomnav a > i.arena-badge {
-  position: absolute; top: 3px; left: calc(50% + 14px); translate: -50% 0;
-  min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px;
-  background: var(--a-ink); color: var(--a-bg);
-  font: 700 11px/18px var(--font-body); font-style: normal; text-align: center; font-variant-numeric: tabular-nums; white-space: nowrap;
+/* The due mark (R3 rulings Z and S2): a dot with an aria-label, never a number, on Your papers and Learn in the sidebar and on Practice in the
+   dock (and on Papers in the row of tabs, nav-places.css). Neutral ink on the row's own colour, never lime: the Start key is the dock's one
+   lime fill. In the sidebar it sits at the row's right edge; on the dock its centre stays at the icon's right + 2 (`translate`, so the
+   pop's own transform is untouched). It appears with a small pop (150 to 220 ms) and is absent when nothing is due. */
+.app-shell .arena-dot { flex: none; display: block; width: 8px; height: 8px; border-radius: 50%; background: var(--a-ink); box-shadow: 0 0 0 2px var(--a-raised-2, var(--a-bg)); font-style: normal; }
+.app-shell .arena-nav-link > i.arena-dot { margin-left: auto; margin-right: 6px; }
+html .app-shell .arena-bottomnav a > i.arena-dot--dock {
+  position: absolute; top: 7px; left: calc(50% + 12px); translate: -50% 0;
   box-shadow: 0 0 0 2px var(--dock-solid, var(--a-bg)); pointer-events: none;
   animation: arena-badge-pop 220ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) both;
 }
 @keyframes arena-badge-pop { from { transform: scale(0.8); opacity: 0; } to { transform: none; opacity: 1; } }
-html[data-motion='reduced'] .app-shell .arena-bottomnav a > i.arena-badge { animation: none; }
-@media (prefers-reduced-motion: reduce) { html .app-shell .arena-bottomnav a > i.arena-badge { animation: none; } }
-
-/* The sidebar's count sits at the row's right edge, quiet. */
-.app-shell .arena-nav-link > i.arena-nav-link__count { margin-left: auto; font: 700 12px/1 var(--font-body); font-style: normal; color: var(--a-ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; flex: none; }
-.app-shell .arena-nav-link[aria-current='page'] > i.arena-nav-link__count { color: var(--a-ink-2); }
+html[data-motion='reduced'] .app-shell .arena-bottomnav a > i.arena-dot--dock { animation: none; }
+@media (prefers-reduced-motion: reduce) { html .app-shell .arena-bottomnav a > i.arena-dot--dock { animation: none; } }
+.app-shell .arena-tab__dot { flex: none; display: block; width: 6px; height: 6px; border-radius: 50%; background: var(--a-select); font-style: normal; }
 
 /* More is the current tab on Concepts: the lens sits under it, as when the sheet is open. */
 html .app-shell .arena-bottomnav:has(> :nth-child(5)[aria-current='page']) { --abn-i: 4; --abn-on: 1; }
 
-/* "Learn, Key cards" with its due count fits the sidebar's indented row on one line (DESIGN-SPEC A8): the two-part label does not
-   wrap, the detail is a notch smaller and the gaps tighten, so "27 due" keeps its place at the end. */
+/* "Learn, Key cards" with its dot fits the sidebar's indented row on one line (DESIGN-SPEC A8): the two-part label does not
+   wrap, the detail is a notch smaller and the gaps tighten, so the dot keeps its place at the end. */
 .app-shell .arena-sidebar .arena-nav-link--sub[data-tour='nav-learn'] { gap: 6px; padding: 0 6px; }
 .app-shell .arena-sidebar .arena-nav-link[data-tour='nav-learn'] .arena-nav-link__label { white-space: nowrap; }
 .app-shell .arena-sidebar .arena-nav-link--sub[data-tour='nav-learn'] .arena-nav-link__hint { font-size: 11.5px; }
+/* Learn's indented row has a tighter padding (6 px, above): its dot keeps the same right edge as Your papers' (R3 ruling Z). */
+.app-shell .arena-sidebar .arena-nav-link--sub[data-tour='nav-learn'] > i.arena-dot { margin-right: 10px; }
