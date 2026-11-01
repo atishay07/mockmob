@@ -6,7 +6,8 @@
 .lc {
   --lc-ease: var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1));
   /* Paper: the top card is the lit card surface Practice uses, a step lighter than the page; the cards under it sit a step darker. */
-  --lc-face: radial-gradient(130% 80px at 25% 0%, var(--kc-cool), transparent 100%), var(--kc-grain), #1b241e;
+  /* Flat paper and grain, no tinted radial (R2 screens 18: no gradients or glow). */
+  --lc-face: var(--kc-grain), #1b241e;
   --lc-under: #161e18;
   --lc-under-2: #121914;
   --lc-edge: #3a4a3a;
@@ -16,7 +17,7 @@
   gap: 20px;
 }
 html[data-theme='light'] .lc {
-  --lc-face: radial-gradient(130% 80px at 25% 0%, var(--kc-cool), transparent 100%), var(--kc-grain), #ffffff;
+  --lc-face: var(--kc-grain), #ffffff;
   --lc-under: #f4f6ef;
   --lc-under-2: #eceee6;
   --lc-edge: #cdd5c2;
@@ -40,19 +41,26 @@ html[data-theme='light'] .lc {
 }
 @container lc-board (max-width: 919px) { .lc-shelf { max-width: 640px; } }
 
-/* ---------- Head ---------- */
-.lc-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 24px; }
+/* ---------- Head (above the board since R2, so the shelf beside the board lines up with the length control) ---------- */
+/* R2 ruling 9: the title is 32 px on at most 2 lines; a long title steps down on a phone (data-size, chapterModel titleSize). */
+.lc-head { display: grid; grid-template-columns: minmax(0, max-content) auto; justify-content: start; align-items: center; column-gap: 20px; max-width: 760px; }
 .lc-head__text { display: grid; min-width: 0; }
 .lc-head__unit { font: 600 13px/1.3 var(--font-body); color: var(--a-ink-3); text-wrap: balance; margin-bottom: 6px; }
-.lc-head__title { font-size: clamp(26px, 3vw, 44px); line-height: 1.04; letter-spacing: -0.035em; text-wrap: balance; max-width: 600px; }
-.lc-head__ref { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin-top: 10px; font: 500 14px/1.4 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
-@media (min-width: 600px) { .lc-head__unit { font-size: 14px; } .lc-head__ref { font-size: 15px; } }
-@media (max-width: 374px) { .lc-head__title { font-size: 25px; } }
-.lc-head__obj { align-self: center; }
-@media (max-width: 639px) {
-  .lc-head { align-items: start; column-gap: 10px; }
-  .lc-head .lc-head__obj { --obj-size: 76px !important; margin-top: 2px; }
+.lc-head__title {
+  font-size: 32px; line-height: 1.08; letter-spacing: -0.03em; text-wrap: balance; max-width: 640px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
+.lc-head__ref { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin-top: 8px; font: 500 14px/1.4 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+@media (min-width: 600px) { .lc-head__unit { font-size: 14px; } .lc-head__ref { font-size: 15px; } }
+.lc-head__obj { align-self: center; }
+/* On a phone the title takes the full width (so a long one keeps to 2 lines) and the object sits up on the back key's row. */
+@media (max-width: 639px) {
+  .lc-head { position: relative; grid-template-columns: minmax(0, 1fr); }
+  .lc-head__title[data-size='l'] { font-size: 28px; }
+  .lc-head__title[data-size='xl'] { font-size: 25px; }
+  .lc-head .lc-head__obj { --obj-size: 48px !important; position: absolute; top: -54px; right: 0; }
+}
+@media (max-width: 374px) { .lc-head__title, .lc-head__title[data-size] { font-size: 23px; } }
 .lc-state { display: inline-flex; align-items: center; gap: 6px; font: 600 14px/1.3 var(--font-body); color: var(--a-ink-2); }
 .lc-state[data-state='weak'] { color: var(--a-warn-text); }
 .lc-state[data-state='strong'] { color: var(--a-good-text); }
@@ -63,7 +71,18 @@ html[data-theme='light'] .lc {
 .lc-resume { display: grid; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid var(--a-line); }
 .lc-resume__text { display: grid; gap: 2px; }
 .lc-resume__h { font: 650 15px/1.4 var(--font-body); color: var(--a-ink); }
-.lc-resume__left { font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.lc-resume__left { font-weight: 500; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+/* "Start fresh instead": the length picker waits under it while a run is unfinished (one main key, R2 ruling 9). */
+.lc-fresh {
+  justify-self: start; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin: -8px 0 0 -10px; padding: 0 10px; border: 0; border-radius: 10px;
+  background: none; color: var(--a-ink-2); font: 600 14.5px/1 var(--font-body); cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: color 200ms var(--lc-ease), background-color 200ms var(--lc-ease);
+}
+.lc-fresh svg { transition: transform 220ms var(--lc-ease); }
+.lc-fresh[aria-expanded='true'] svg { transform: rotate(180deg); }
+.lc-fresh:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) { .lc-fresh:hover { color: var(--a-ink); background: var(--a-hover); } }
+.lc-resume ~ .lc-lined { animation: kc-rise 240ms var(--lc-ease) both; }
 .lc-resume__key { min-height: 52px; width: 100%; font-size: 16px; }
 @media (min-width: 600px) {
   .lc-resume { grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 20px; max-width: 692px; }
@@ -234,7 +253,7 @@ html[data-theme='light'] .lc-own__scrim { background: rgb(23 32 22 / 0.28); }
 .lc-skel-text--short { width: 50%; }
 .lc-skel-text--h { height: 18px; width: 70%; margin-bottom: 12px; }
 
-.lc-coach { font: 500 13.5px/1.4 var(--font-body); color: var(--a-ink-2); margin-top: 8px; animation: kc-fade 260ms var(--lc-ease) 300ms both; }
+.lc-coach { font: 500 13px/1.4 var(--font-body); color: var(--a-ink-3); margin-top: 6px; animation: kc-fade 260ms var(--lc-ease) 300ms both; }
 .lc-coach[data-done] { animation: lc-out 200ms var(--lc-ease) both; }
 @keyframes lc-out { from { opacity: 1; } to { opacity: 0; } }
 .lc-fine { font: 500 14px/1.5 var(--font-body); color: var(--a-ink-2); max-width: 60ch; text-wrap: pretty; }
@@ -262,11 +281,13 @@ html[data-theme='light'] .lc-own__scrim { background: rgb(23 32 22 / 0.28); }
     margin-inline: -16px; padding: 8px 16px 10px; background: var(--a-bg);
   }
 }
+/* The quick recap: a quiet key on one line, "Quick recap, 1 min" (R2 phone-clarity 16). */
 .lc-recap {
-  justify-self: start; display: inline-flex; align-items: center; min-height: 44px; margin: 4px 0 0 -10px; padding: 0 10px; border-radius: 10px; color: var(--a-ink-2);
-  font: 600 14.5px/1.35 var(--font-body); text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 4px; text-wrap: pretty;
+  justify-self: start; display: inline-flex; align-items: center; gap: 4px; min-height: 48px; margin: 2px 0 0 -10px; padding: 0 10px; border-radius: 10px; color: var(--a-ink-2);
+  font: 600 15px/1 var(--font-body); text-decoration: none; white-space: nowrap; font-variant-numeric: tabular-nums;
   transition: color 200ms var(--lc-ease), background-color 200ms var(--lc-ease);
 }
+.lc-recap svg { color: var(--a-ink-3); }
 .lc-recap:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 @media (hover: hover) { .lc-recap:hover { color: var(--a-ink); background: var(--a-hover); } }
 
@@ -291,8 +312,31 @@ html[data-theme='light'] .lc-own__scrim { background: rgb(23 32 22 / 0.28); }
 @media (hover: hover) { a.lc-shelf__row:hover { background: var(--a-hover); } a.lc-shelf__row:hover .lc-shelf__chev { transform: translateX(2px); color: var(--a-ink); } }
 /* On a phone the shelf sits under the lined-up block, so its outline waits for the dry run (it would only be pushed down). */
 @container lc-board (max-width: 919px) { .lc-shelf--skel { display: none; } }
-/* Beside the main column, the shelf's heading lines up with the chapter's title. */
-@container lc-board (min-width: 920px) { .lc-shelf { margin-top: 12px; } }
+/* Beside the main column, the shelf's heading lines up with "How long have you got?" (the head sits above the board). */
+@container lc-board (min-width: 920px) { .lc-shelf { margin-top: 0; } }
+
+/* ---------- First up: the 3 real card fronts the run opens with (R2 ruling 9) ---------- */
+.lc-first { display: grid; gap: 10px; margin-top: 10px; min-width: 0; }
+.lc-first__h { font: 650 13px/1.3 var(--font-body); color: var(--a-ink-2); letter-spacing: 0; }
+.lc-first__row {
+  list-style: none; margin: 0; padding: 2px 0 6px; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(150px, 1fr); gap: 10px;
+  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none;
+}
+.lc-first__row::-webkit-scrollbar { display: none; }
+.lc-first__card {
+  position: relative; display: flex; flex-direction: column; justify-content: center; gap: 6px; min-height: 92px; padding: 12px 14px; scroll-snap-align: start;
+  border-radius: 12px; border: 1px solid var(--lc-edge); background: var(--lc-face); box-shadow: var(--lc-paper-shadow), inset 0 1px 0 var(--lc-top-light);
+  animation: lc-deal 220ms var(--lc-ease) both; animation-delay: calc(var(--i, 0) * 50ms);
+}
+.lc-first__front {
+  font: 650 14px/1.28 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); text-wrap: balance;
+  overflow-wrap: normal; word-break: normal; hyphens: auto;
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+}
+@keyframes lc-deal { from { opacity: 0; transform: translateY(12px); } }
+@container lc-lined (max-width: 599px) {
+  .lc-first__row { grid-auto-columns: 168px; margin-inline: -16px; padding-inline: 16px; scroll-padding-inline: 16px; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .lc-own-layer *,

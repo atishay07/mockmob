@@ -60,38 +60,48 @@
    draws only when NEXT_PUBLIC_LEARN2 is on (always in the preview): with the flag off none of this applies. The Subject
    control and the page's one subject object sit in the head; the chapter covers run full width under it; a "Questions"
    heading carries the Chapter and Difficulty filters; the right column follows the questions with a quieter heading. ---------- */
-.ex-page--v2 .pr-head { align-items: end; }
-.ex-page--v2 .ex-lede__short { display: none; }
-.ex-subject { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: end; gap: 14px; min-width: 0; }
-.ex-subject__obj { display: grid; place-items: center; width: 64px; height: 64px; }
+/* Round 2 (R2 ruling 11): no slogan head. One row: the subject on the left (its object and the Subject control), "Saved 2" on the
+   right; the covers start right under it. Then "Single questions" with 3 stems and "More questions". No right column. */
+.ex-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-width: 0; margin: 0 0 4px; }
+.ex-subject { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 0 1 340px; }
+.ex-subject__obj { display: grid; place-items: center; flex: none; width: 40px; height: 40px; }
+.ex-subject__obj > * { width: 40px !important; height: 40px !important; }
 .ex-subject__obj:empty { visibility: hidden; }
-.ex-subject__field { display: grid; gap: 8px; min-width: 0; }
-.ex-subject__label { color: var(--a-ink-2); font-size: 13px; font-weight: 650; }
-.ex-qhead { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: end; gap: 12px 28px; margin: 0 0 20px; }
+.ex-subject__field { display: block; flex: 1 1 auto; min-width: 0; }
+.ex-saved {
+  display: inline-flex; align-items: center; gap: 7px; flex: none; min-height: 44px; padding: 0 14px; border-radius: 22px;
+  border: 1px solid var(--a-line); background: var(--a-raised); color: var(--a-ink-2); text-decoration: none;
+  font: 650 14px/1 var(--font-display); -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 100ms ease-out;
+}
+.ex-saved:active { transform: scale(0.97); }
+.ex-saved:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.ex-saved__n { color: var(--a-ink); font: 700 14px/1 var(--font-body); font-variant-numeric: tabular-nums; }
+@media (hover: hover) { .ex-saved:hover { border-color: var(--a-line-hover); background: var(--a-hover); color: var(--a-ink); } }
+.ex-page--v2 .fxc { margin: 16px 0 36px; }
+.ex-singles { max-width: 760px; }
+.ex-qhead { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: end; gap: 12px 28px; margin: 0 0 16px; }
 .ex-qhead h2 { margin: 0; font: 700 20px/1.2 var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); padding-bottom: 12px; outline: none; scroll-margin-top: 96px; }
 .ex-qhead h2:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 4px; border-radius: 6px; }
 .ex-page--v2 .ex-filters--v2 { grid-template-columns: 1.5fr 0.8fr auto; align-items: end; padding: 0; border: 0; }
 .ex-page--v2 .ex-filters__clear { align-self: end; min-height: 48px; }
-.ex-page--v2 .ex-aside { padding-top: 0; }
-.ex-page--v2 .ex-aside h2 { font: 700 20px/1.2 var(--font-display); letter-spacing: -0.015em; margin: 0 0 10px; }
+/* A single question shows its stem first (at most 4 lines, the passage folded); "Answer it" opens the rest in place. */
+.ex-page--v2 .ex-question { margin-bottom: 12px; }
+.ex-page--v2 .ex-question__meta { margin-bottom: 12px; }
+.ex-question[data-closed] .ex-question__body { margin-bottom: 0; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.ex-question[data-closed] .ex-passage { display: none; }
+.ex-question[data-closed] .ex-question__actions { margin-top: 16px; padding-top: 12px; }
+.ex-action--open { border-color: var(--a-line-strong); color: var(--a-ink); }
+.ex-more--quiet { display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: auto; min-width: 200px; background: transparent; }
+.ex-singles .ex-footnote { margin-top: 20px; font-size: 12px; color: var(--a-ink-3); }
 @media (max-width: 899px) {
-  .ex-subject { grid-template-columns: 40px auto minmax(0, 1fr); align-items: center; gap: 10px; }
-  .ex-subject__obj { width: 40px; height: 40px; }
-  .ex-subject__obj > * { width: 40px !important; height: 40px !important; }
-  .ex-subject__field { display: contents; }
   .ex-qhead { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .ex-qhead h2 { padding-bottom: 0; }
 }
 @media (max-width: 600px) {
-  .ex-page--v2 .ex-lede__more { display: none; }
   .ex-page--v2 .ex-filters--v2 { grid-template-columns: 1fr 1fr; }
   .ex-page--v2 .ex-filters--v2 label:first-child { grid-column: auto; }
   .ex-page--v2 .ex-filters__clear { grid-column: 1 / -1; justify-self: start; }
-}
-@media (max-width: 379.98px) {
-  .ex-page--v2 .ex-lede__long { display: none; }
-  .ex-page--v2 .ex-lede__short { display: inline; }
-  .ex-page--v2 .pr-head p { font-size: 13.5px; line-height: 1.4; }
-  .app-shell .ex-page--v2 .pr-head h1.display-md { font-size: 26px; }
-  .ex-page--v2 .fxc { margin-top: 12px; }
+  .ex-page--v2 .fxc { margin: 12px 0 28px; }
+  .ex-more--quiet { width: 100%; }
 }

@@ -710,12 +710,18 @@ export function createLearn(deps) {
     if (dry.shrink?.addNext && next) dry.shrink.addNext = { ...dry.shrink.addNext, ref: next.ref };
     const held = (id) => (rule.cardsOnly && (id === 'questions' || id === 'mistakes') ? 'free' : null);
     const open = info.run ? { runId: info.run.id, done: Number(info.run.done_count), of: Number(info.run.item_count), minutesLeft: minutesFor(Number(info.run.seconds_left) || 0), kind: info.run.kind } : null;
+    // R2 ruling 9: the chapter page's "First up" row, the fronts of the first 3 Key cards this run serves (the composer is
+    // deterministic, so a start serves these first). Only cards this student may open; [] when the run starts with none.
+    const firstUp = run.items.filter((item) => item.type === 'card').map((item) => cardOf(S, item.cardId))
+      .filter((card) => card && card.front && S.isOpen(card.id)).slice(0, 3)
+      .map((card) => ({ id: card.id, front: card.front, kind: card.kind || null, mustKnow: card.importance === 'must' }));
     return ok({
       // The unit is left out when the title already starts with it (CRITIQUE-1 C4): the part names the place instead.
       chapter: { key: info.key, title: info.title, ref: info.ref, partTitle: partTitleOf(info), unitTitle: unitTitleOf(info), state: info.state },
       ...dry,
       piles: dry.piles.map((pile) => ({ ...pile, held: held(pile.id) })),
       resume: open,
+      firstUp,
       firstVisit: !info.studied,
       ...(rule.cardsOnly ? { free: { text: FREE_CARDS_ONLY } } : {}),
       asked,

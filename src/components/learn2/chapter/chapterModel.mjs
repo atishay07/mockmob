@@ -39,16 +39,17 @@ export function pileView(pile) {
   return { state, line, of, note, aria: `${label}: ${pile?.count}${of ? ` of ${of}` : ''}, ${line}.${note ? ` ${note}.` : ''} Tap to leave it out` };
 }
 
+// R2 ruling 9: the first-visit line under Start is gone (the run's own first card says how it works). Kept as a name only so
+// older callers and tests read that it is never shown.
 export const FIRST_VISIT_LINE = 'Cards and questions, one at a time. Stop whenever you like; what you do is saved.';
 export const ONLY_CARDS_LINE = "Only Key cards here for now. This chapter's questions are still being checked.";
 export const ONLY_QUESTIONS_LINE = "Only questions here for now. This chapter's Key cards are not ready yet.";
 export const RATINGS_USED_LINE = "You've used today's 10 free card ratings. Cards in this run show their answers but won't be added to Revise.";
-const OLD_NOTE_FIRST = 'Ratings join Revise, so cards come back when they are due.';
 
 /**
  * The one quiet line under the Start key, by priority (3.2.5): Free's Key-cards-only day, Free's 10-minute cap (only when more
- * was chosen), a short chapter, Free's ratings used, one kind only, a first visit; else null. The old "Ratings join Revise"
- * note is never shown.
+ * was chosen), a short chapter, Free's ratings used, one kind only; else null. The old "Ratings join Revise" note and, since R2
+ * ruling 9, the first-visit line are never shown.
  */
 export function chapterQuietLine(data) {
   if (!data) return null;
@@ -63,25 +64,25 @@ export function chapterQuietLine(data) {
     if (cards && !questions) return ONLY_CARDS_LINE;
     if (!cards && questions) return ONLY_QUESTIONS_LINE;
   }
-  if (data.firstVisit === true || (data.firstVisit === undefined && data.note === OLD_NOTE_FIRST)) return FIRST_VISIT_LINE;
   return null;
 }
 
 /**
- * "Everything in this chapter" (3.2.6): only rows that lead somewhere, with plain lines; what is missing becomes one quiet
- * line. Free's taste is said here only ("Free opens 5"). `mistakeMinutes(n)` gives the minutes n mistakes take.
+ * "Everything in this chapter" (3.2.6): only rows that lead somewhere, with plain lines. What is missing is never announced
+ * (R2 ruling 9: "No lesson yet. No open mistakes." is gone; `missing` stays null). Free's taste is said here only
+ * ("46 cards. 5 open on Free."). `mistakeMinutes(n)` gives the minutes n mistakes take.
  */
 export function shelfView(data, { mistakeMinutes = (n) => n } = {}) {
   const shelf = data?.shelf || {};
   const isPro = !shelf.print?.locked;
   const used = Boolean(data?.freeSession?.used);
   const rows = [];
-  const missing = [];
+  const missing = []; // what is not there; collected for reading, never drawn (R2 ruling 9)
   const cards = Number(shelf.cards?.count) || 0;
   if (cards) {
     const open = shelf.cards?.open;
     const inRevise = Number(shelf.cards?.inRevise) || 0;
-    const line = !isPro && open != null && open < cards ? `${plural(cards, 'card')}, Free opens ${open}`
+    const line = !isPro && open != null && open < cards ? `${plural(cards, 'card')}. ${open} open on Free.`
       : inRevise ? `All ${cards}, ${inRevise} in Revise` : `All ${cards}, by section`;
     rows.push({ id: 'cards', title: 'Key cards', line, link: true });
   } else missing.push('Key cards are not ready yet.');
@@ -102,7 +103,28 @@ export function shelfView(data, { mistakeMinutes = (n) => n } = {}) {
   // The rows in the order a student reaches for them: cards, questions, mistakes, the lesson, the print sheet.
   const order = ['cards', 'questions', 'mistakes', 'lesson', 'print'];
   rows.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
-  return { rows, missing: missing.length ? missing.join(' ') : null };
+  return { rows, missing: null };
+}
+
+/**
+ * The chapter's verdict beside its ref (R2 ruling 2): only "Needs work", and only when the server says the chapter is weak above
+ * its evidence floor (state key needs_work). Not started, Too few answers, Getting there, Holding and Fading are never shown.
+ */
+export const chapterVerdict = (state) => (state?.key === 'needs_work' ? (state.label || 'Needs work') : null);
+
+/** The quick recap as a quiet key: "Quick recap, 1 min" (the server's minutes), or null when the chapter has no Must-know line. */
+export const recapLabel = (recap) => (recap?.count ? `Quick recap, ${Math.max(1, Number(recap.minutes) || 1)} min` : null);
+
+/** The title's size step by length, so a long title keeps to 2 lines at 390 (R2 ruling 9: 32 px, at most 2 lines). */
+export const titleSize = (title) => { const n = String(title || '').length; return n <= 24 ? 'm' : n <= 40 ? 'l' : 'xl'; };
+
+/**
+ * "First up" (R2 ruling 9): up to 3 real card fronts from the dry run's `firstUp`, cleaned; [] when there is nothing to show
+ * (the cards pile left out, or none open), so the row is not drawn.
+ */
+export function firstUpCards(data) {
+  const list = Array.isArray(data?.firstUp) ? data.firstUp : [];
+  return list.filter((c) => c && String(c.front || '').trim()).slice(0, 3).map((c) => ({ id: c.id, front: String(c.front).trim(), mustKnow: Boolean(c.mustKnow) }));
 }
 
 /** A start or dry run that failed because the chapter is not in the book list (404 CHAPTER_NOT_FOUND). */

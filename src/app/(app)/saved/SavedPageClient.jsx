@@ -23,6 +23,8 @@ import { NUDGE_AFTER_MS, nudgeToday } from '@/lib/mobiRation';
 import { useShrug } from '@/lib/mobiHooks';
 import { foldExit, useSwipeCommit } from '@/lib/motion';
 import { SUBJECTS } from '@/../data/subjects';
+import { ChevronLeft } from 'lucide-react';
+import { useLearn2On } from '@/components/learn2/flag';
 import './saved.css';
 
 const FREE_LIMIT = 25;
@@ -31,6 +33,9 @@ const FIRST_SAVE_KEY = 'mm:saved-first:v1';
 // Set by Explore when a bookmark POST is confirmed (see QuestionCard). Kept for one visit, ten minutes at most.
 const JUST_SAVED_KEY = 'mm:just-saved:v1';
 const JUST_SAVED_MS = 10 * 60 * 1000;
+// First-time cue (R2 ruling 7, phone-clarity 17): in place of the sentence "Swipe a question left to remove it...", on a touch
+// screen the first row slides 40 px left showing its red Remove edge, then back (500 ms), once per student on this device.
+const SWIPE_CUE_KEY = 'mm:saved:swipe-cue:v1';
 
 const subjectName = (id) => SUBJECTS.find((s) => s.id === id)?.name || (id ? String(id) : 'Other');
 
@@ -72,7 +77,7 @@ function SlotMeter({ count, limit, pop }) {
   );
 }
 
-function SavedRow({ question, coarse, pending, shake, onRemove, onPractise, rowRef, enter }) {
+function SavedRow({ question, coarse, pending, shake, onRemove, onPractise, rowRef, enter, cue = false }) {
   const href = practiseHref(question);
   const { bind } = useSwipeCommit({
     disabled: !coarse || pending,
@@ -85,6 +90,7 @@ function SavedRow({ question, coarse, pending, shake, onRemove, onPractise, rowR
       className={`sv-row${enter ? ' mk-rise' : ''}`}
       data-pending={pending ? 'true' : undefined}
       data-shake={shake || undefined}
+      data-cue={cue || undefined}
     >
       <div className="sv-under" aria-hidden="true">
         <span className="sv-under__go">Practise</span>
@@ -118,6 +124,8 @@ export default function SavedPageClient() {
   const [pop, setPop] = useState(null);
   const [entered, setEntered] = useState(null);
   const [firstSave, setFirstSave] = useState(false);
+  const learn2 = useLearn2On();
+  const [cueId, setCueId] = useState(null);
   const rows = useRef(new Map());
   const undoTimer = useRef(0);
   const questionsRef = useRef(questions);
@@ -236,6 +244,27 @@ export default function SavedPageClient() {
     return () => window.clearTimeout(timer);
   }, [status, questions.length, prefs.reduced]);
 
+  // The swipe cue: once, on a touch screen, a moment after the list lands; reduced motion shows nothing (the row keys still work).
+  const firstId = visible[0]?.id || null;
+  useEffect(() => {
+    if (status !== 'ready' || !coarse || !firstId || prefs.reduced) return undefined;
+    try { if (window.localStorage.getItem(SWIPE_CUE_KEY) === '1') return undefined; } catch { return undefined; }
+    let run = null;
+    const timer = window.setTimeout(() => {
+      const card = rows.current.get(firstId)?.querySelector('.sv-card');
+      if (!card?.animate) return;
+      try { window.localStorage.setItem(SWIPE_CUE_KEY, '1'); } catch { /* it may show once more */ }
+      setCueId(firstId);
+      run = card.animate([
+        { transform: 'translate3d(0, 0, 0)', easing: 'cubic-bezier(.2, .8, .2, 1)' },
+        { transform: 'translate3d(-40px, 0, 0)', offset: 0.45, easing: 'cubic-bezier(.23, 1, .32, 1)' },
+        { transform: 'translate3d(0, 0, 0)' },
+      ], { duration: 500 });
+      run.onfinish = () => setCueId(null);
+    }, 900);
+    return () => { window.clearTimeout(timer); try { run?.cancel(); } catch { /* done */ } };
+  }, [status, coarse, firstId, prefs.reduced]);
+
   if (status === 'loading') {
     return (
       <div className="container-narrow student-page student-page--saved flex flex-col gap-4">
@@ -268,8 +297,10 @@ export default function SavedPageClient() {
   return (
     <div className="container-narrow view student-page student-page--saved">
       <div className="mb-6">
+        {/* Learn v2: Saved lives inside Explore (R2 ruling 10), so its way back names Explore and the two side links go. */}
+        {learn2 ? <Link href="/explore" className="sv-back"><ChevronLeft size={18} strokeWidth={2.4} aria-hidden="true" />Explore</Link> : null}
         <ArenaHead title="Saved questions" lede={count ? `${count} saved from Explore, kept here for another look.` : 'Questions you save from Explore wait here for another look.'}
-          aside={<span className="saved-aside"><Link href="/explore" className="na__alt">Explore questions</Link><Link href="/dashboard" className="na__alt">Choose practice</Link></span>} />
+          aside={learn2 ? null : <span className="saved-aside"><Link href="/explore" className="na__alt">Explore questions</Link><Link href="/dashboard" className="na__alt">Choose practice</Link></span>} />
       </div>
 
       {showMeter ? <SlotMeter count={count} limit={FREE_LIMIT} pop={pop} /> : null}
@@ -298,7 +329,6 @@ export default function SavedPageClient() {
               ))}
             </div>
           ) : null}
-          {coarse ? <p className="sv-hint">Swipe a question left to remove it, right to practise its chapter.</p> : null}
           <ul className="sv-list">
             {visible.map((question) => (
               <SavedRow
@@ -308,6 +338,7 @@ export default function SavedPageClient() {
                 pending={pending.has(question.id)}
                 shake={shake === question.id}
                 enter={entered === question.id}
+                cue={cueId === question.id}
                 rowRef={(node) => { if (node) rows.current.set(question.id, node); else rows.current.delete(question.id); }}
                 onRemove={remove}
                 onPractise={(href) => router.push(href)}

@@ -48,6 +48,13 @@ const LENGTH_OPTIONS = LENGTHS.map((m, i) => ({ value: m, label: <>{m}<span clas
 
 const reducedMotion = () => typeof window !== 'undefined' && (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced');
 const leftKey = (subject) => `mm:fxc:left:${subject}`;
+// First-time cue (R2 ruling 7, phone-clarity 17): on the first visit, once the covers land, the row slides 24 px toward the next
+// cover and settles back (420 ms out, 380 ms back), so a first-timer sees that covers page sideways. Once per student (this
+// device), never with reduced motion, and a touch, wheel or scroll first cancels it.
+const NUDGE_KEY = 'mm:fxc:nudged';
+const NUDGE = { delay: 900, px: 24, out: 420, back: 380 };
+const nudgedBefore = () => { try { return window.localStorage.getItem(NUDGE_KEY) === '1'; } catch { return true; } };
+const markNudged = () => { try { window.localStorage.setItem(NUDGE_KEY, '1'); } catch { /* it may play once more */ } };
 // Where a feed was started from (BUILD-1101 B7 item 4, A2 F19): the cover link cannot carry it, so the tap leaves it for the
 // feed for a minute; the feed sends it with its start as { source: 'explore_cover', forYou, position } (startRun options).
 
@@ -89,7 +96,7 @@ function Cover({ c, index, minutes, lead, history, free, freeDone, swap, tabInde
   const top = lead ? leadLine(c, { history }) : null;
   const line = lead ? null : studentLineOf(c, { history });
   const toQuestions = opensQuestions(c, { freeDone });
-  const mix = toQuestions ? '' : mixLineOf(c, minutes, { free });
+  const mix = toQuestions ? '' : mixLineOf(c, minutes, { free, history });
   const label = keyLabelOf(c, minutes, { freeDone });
   const ids = { t: `${id}t`, k: `${id}k`, l: `${id}l`, m: `${id}m`, h: `${id}h` };
   const describedBy = [(top || line) ? ids.l : null, mix ? ids.m : null, ids.h].filter(Boolean).join(' ');
@@ -198,6 +205,37 @@ export default function ExploreCovers({ subject, subjectName = null, enabled, on
     return () => { row.removeEventListener('scroll', onScroll); ro?.disconnect(); cancelAnimationFrame(frame); };
   }, [phase, subject, n, measure]);
 
+  // The first-visit nudge (above): only when a cover waits past the right edge.
+  useEffect(() => {
+    const row = rowRef.current;
+    if (phase !== 'ready' || !row || nudgedBefore() || reducedMotion()) return undefined;
+    let run = null;
+    let done = false;
+    const timer = window.setTimeout(() => {
+      if (done || row.scrollLeft > 2 || row.scrollWidth - row.clientWidth <= 2 || !row.getClientRects().length) return;
+      markNudged();
+      const total = NUDGE.out + NUDGE.back;
+      run = row.animate([
+        { transform: 'translate3d(0, 0, 0)', easing: 'cubic-bezier(.2, .8, .2, 1)' },
+        { transform: `translate3d(${-NUDGE.px}px, 0, 0)`, offset: NUDGE.out / total, easing: 'cubic-bezier(.23, 1, .32, 1)' },
+        { transform: 'translate3d(0, 0, 0)' },
+      ], { duration: total });
+    }, NUDGE.delay);
+    const stop = () => { done = true; window.clearTimeout(timer); try { run?.cancel(); } catch { /* finished */ } };
+    const opts = { passive: true };
+    row.addEventListener('pointerdown', stop, opts);
+    row.addEventListener('wheel', stop, opts);
+    row.addEventListener('touchstart', stop, opts);
+    row.addEventListener('scroll', stop, opts);
+    return () => {
+      stop();
+      row.removeEventListener('pointerdown', stop);
+      row.removeEventListener('wheel', stop);
+      row.removeEventListener('touchstart', stop);
+      row.removeEventListener('scroll', stop);
+    };
+  }, [phase]);
+
   // An arrow that reaches its end is disabled; if it held focus, focus moves to the other arrow (A2 4.5).
   useEffect(() => {
     // A disabled button has already dropped focus to the page, so the arrow last used is what counts.
@@ -252,7 +290,7 @@ export default function ExploreCovers({ subject, subjectName = null, enabled, on
   if (!on) return null;
 
   const sub = freeDone
-    ? <p className="fxc-sub fxc-sub--free"><span>Your free Learn session for today is done. Explore questions stay free.</span> <button type="button" className="fxc-textkey" onClick={(e) => openUpgrade({ trigger: 'learn_feed', opener: e.currentTarget })}>See Pro</button></p>
+    ? <p className="fxc-sub fxc-sub--free"><span>That was today’s free session. Single questions stay free.</span> <button type="button" className="fxc-textkey" onClick={(e) => openUpgrade({ trigger: 'learn_feed', opener: e.currentTarget })}>See Pro</button></p>
     : free && minutes === 20
       ? <p className="fxc-sub fxc-sub--free">Free sessions are up to 10 minutes. Pro has any length.</p>
       : <p className="fxc-sub fxc-sub--wide">Key cards and questions, one at a time.</p>;

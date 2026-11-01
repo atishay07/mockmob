@@ -42,19 +42,25 @@ export function leadLine(c = {}, { history = true } = {}) {
   return { prefix: 'For you:', text: lowerFirst(reason) };
 }
 
+// R2 ruling 2: the only verdict word on a chapter is "Needs work". These never show on a cover: they told a teen nothing apart.
+const QUIET_VERDICTS = /^(getting there|holding|too few answers|fading|not started|thin)$/i;
+
 /**
- * Another cover's one line: resume, else old mistakes, else the state label, else "New to you". Due counts never show (a feed
- * serves no due card). Null when the student has no history in the subject (every line would say "New to you").
+ * Another cover's one line: resume, else old mistakes, else "Needs work" (the only verdict word, R2 ruling 2), else "New to you"
+ * for a chapter never opened; a studied chapter with nothing to say has no line. Due counts never show (a feed serves no due
+ * card). Null when the student has no history in the subject (every line would say "New to you").
  */
 export function studentLineOf(c = {}, { history = true } = {}) {
   if (!history) return null;
   if (c.resume && c.resume.of) return `You stopped at ${c.resume.done} of ${c.resume.of}`;
   const raw = String(c.studentLine || '').trim();
-  const parts = raw.split(/,\s*/).filter((p) => p && !/^\d[\d,]*\s+due$/i.test(p));
+  const parts = raw.split(/,\s*/).filter((p) => p && !/^\d[\d,]*\s+due$/i.test(p) && !QUIET_VERDICTS.test(p));
   const line = parts.join(', ').replace(/^(\d[\d,]*\s+old mistakes?)$/i, '$1 to fix');
   if (line) return line;
   if (c.mistakes > 0) return `${plural(c.mistakes, 'old mistake')} to fix`;
-  if (c.state?.label && c.state.key !== 'none' && c.state.label !== 'Not started') return c.state.label;
+  if (c.state?.key === 'needs_work') return 'Needs work';
+  if (c.state?.key && c.state.key !== 'none') return null;
+  if (QUIET_VERDICTS.test(raw) && !/^not started$/i.test(raw)) return null;
   return 'New to you';
 }
 
@@ -62,12 +68,14 @@ export function studentLineOf(c = {}, { history = true } = {}) {
 export const countsOf = (c = {}, minutes = 10) => c.counts?.[minutes] || c.counts?.[10] || { cards: 0, questions: 0, minutes };
 
 /**
- * The mix line: "16 Key cards, 5 questions", "36 Key cards", "8 questions", "16 Key cards, all it has today", or on resume
+ * The mix line (a first visit: "Cards and questions"): "16 Key cards, 5 questions", "36 Key cards", "8 questions", "16 Key cards, all it has today", or on resume
  * "About 4 minutes left". Free never gets "all it has today" (its five open cards are Free's rule, not the chapter's size).
  */
-export function mixLineOf(c = {}, minutes = 10, { free = false } = {}) {
+export function mixLineOf(c = {}, minutes = 10, { free = false, history = true } = {}) {
   if (c.resume && c.resume.of) return `About ${minutesText(Math.max(1, Math.round(c.resume.minutesLeft || 1)))} left`;
   const n = countsOf(c, minutes);
+  // A first visit (no history in the subject): what a feed holds in plain words, since "Key card" means nothing yet (phone-clarity 18).
+  if (!history) return n.cards && n.questions ? 'Cards and questions' : n.cards ? 'Cards, one at a time' : n.questions ? 'Questions, one at a time' : '';
   const parts = [n.cards ? plural(n.cards, 'Key card') : null, n.questions ? plural(n.questions, 'question') : null].filter(Boolean);
   if (!parts.length) return '';
   const short = !free && !n.capped && Number(n.minutes) < Number(minutes);

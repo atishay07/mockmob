@@ -37,6 +37,13 @@
 .sv-row:has(.sv-card[data-swipe]) .sv-under { opacity: 1; background: linear-gradient(90deg, var(--a-volt-wash) 50%, var(--a-bad-wash) 50%); }
 .sv-under__go { display: inline-flex; align-items: center; gap: 8px; color: var(--a-accent-text); }
 .sv-under__rm { color: var(--a-bad-text); }
+/* The one-time swipe cue: the first row's red Remove edge shows while it slides 40 px left and back. */
+.sv-row[data-cue] .sv-under { opacity: 1; justify-content: flex-end; background: var(--a-bad-wash); }
+.sv-row[data-cue] .sv-under__go { visibility: hidden; }
+/* Learn v2: the way back to Explore above the title (Saved lives inside Explore). */
+.sv-back { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; margin: -8px 0 4px -6px; padding: 0 8px 0 2px; border-radius: 10px; color: var(--a-ink-2); font: 600 14px/1 var(--font-body); text-decoration: none; }
+.sv-back:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) { .sv-back:hover { color: var(--a-ink); } }
 
 .sv-actions { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 4px 0; position: relative; z-index: 1; }
 .sv-act { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink-2); font: 700 13px var(--font-display); text-decoration: none; cursor: pointer; }

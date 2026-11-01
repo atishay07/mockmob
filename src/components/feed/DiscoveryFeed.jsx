@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { Bookmark, ChevronRight } from 'lucide-react';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { EmptyState, ErrorState, SkeletonLines } from '@/components/ui/Skeleton';
@@ -14,6 +15,7 @@ import { chapterNameOf } from '@/components/learn2/feed/coverModel';
 import { resolveChapter } from '@/../data/cuet_syllabus.js';
 import { useAuth } from '@/components/AuthProvider';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { firstShown, moreShown, savedLabel } from './exploreModel.mjs';
 
 const PAGE_SIZE = 12;
 const EMPTY_PAGE = { questions: [], nextOffset: 0, hasMore: false, state: 'idle', error: null };
@@ -22,6 +24,11 @@ const EMPTY_PAGE = { questions: [], nextOffset: 0, hasMore: false, state: 'idle'
 // filters, and the right column demoted to follow the questions. Only when Learn v2 is on (NEXT_PUBLIC_LEARN2 = 'on') and
 // always in the development preview (where &l2=off shows the page exactly as the live site draws it with the flag off).
 // With the flag off nothing below changes: the same effects, the same tree, the same look as before Learn v2.
+// Round 2 (R2 ruling 11, LK24, LK26): the slogan head goes, so the covers start near the top under one row that holds the
+// subject on the left and "Saved 2" on the right (Saved moved here from the phone's tab row: moved, not removed). Under the
+// covers, "Single questions" shows 3 short questions, stem first (tap opens the options), then "More questions". The right column
+// ("Answer first. Then ask why.", its two routes and the record line) goes: Saved is in the head, Your papers is a tab, and the
+// record line read /api/learning/summary's solvedTotal, a field that never arrives (speed.md item 2), so that call is gone too.
 const LEARN2_ON = process.env.NEXT_PUBLIC_LEARN2 === 'on';
 const DIFFICULTY_OPTIONS = [{ value: '', label: 'All levels' }, { value: 'easy', label: 'Easy' }, { value: 'medium', label: 'Medium' }, { value: 'hard', label: 'Hard' }];
 
@@ -44,9 +51,9 @@ export function DiscoveryFeed() {
   const [chapterState, setChapterState] = useState('idle');
   const [chapterRetry, setChapterRetry] = useState(0);
   const [page, setPage] = useState(EMPTY_PAGE);
-  const [summary, setSummary] = useState(null);
+  const [shown, setShown] = useState(() => firstShown());
+  const [saved, setSaved] = useState(null);
   const request = useRef({ sequence: 0, controller: null });
-  const summaryRequest = useRef({ sequence: 0, controller: null });
   const moreButton = useRef(null);
   const endStatus = useRef(null);
 
@@ -123,24 +130,28 @@ export function DiscoveryFeed() {
     return () => { active = false; currentRequest.sequence += 1; currentRequest.controller?.abort(); };
   }, [loadPage]);
 
-  const refreshSummary = useCallback(() => {
-    if (!filters.subject) return;
-    summaryRequest.current.controller?.abort();
+  // v2: the head's "Saved 2" reads the count alone (?count=1: one head count, no question rows); a save or unsave below moves it.
+  useEffect(() => {
+    if (!v2) return undefined;
     const controller = new AbortController();
-    const sequence = ++summaryRequest.current.sequence;
-    summaryRequest.current.controller = controller;
-    fetch(`/api/learning/summary?subject=${encodeURIComponent(filters.subject)}`, { signal: controller.signal }).then(async (response) => {
-      const data = await response.json();
-      if (response.ok && sequence === summaryRequest.current.sequence) setSummary({ subject: filters.subject, data });
+    fetch('/api/bookmarks?count=1', { signal: controller.signal, cache: 'no-store' }).then(async (response) => {
+      const data = await response.json().catch(() => null);
+      if (response.ok && Number.isFinite(data?.count)) setSaved((current) => (current === null ? data.count : current));
     }).catch(() => {});
-    return controller;
-  }, [filters.subject]);
-  useEffect(() => { const currentRequest = summaryRequest.current; refreshSummary(); return () => { currentRequest.sequence += 1; currentRequest.controller?.abort(); }; }, [refreshSummary]);
+    return () => controller.abort();
+  }, [v2]);
+  const onProgress = useCallback((event) => {
+    if (event?.type === 'save') setSaved((n) => (Number(n) || 0) + 1);
+    if (event?.type === 'unsave') setSaved((n) => Math.max(0, (Number(n) || 0) - 1));
+  }, []);
+  // A new subject or filter starts the short list again (state adjusted while rendering, React's documented pattern).
+  const filterKey = `${filters.subject}|${filters.chapter}|${filters.difficulty}`;
+  const [shownFor, setShownFor] = useState(filterKey);
+  if (shownFor !== filterKey) { setShownFor(filterKey); setShown(firstShown()); }
 
   const subjectName = subjects.find((subject) => subject.id === filters.subject)?.name || 'your subject';
   const busy = page.state === 'loading';
   const hasFilters = Boolean(filters.chapter || filters.difficulty);
-  const solved = summary?.subject === filters.subject ? summary.data?.solvedTotal : null;
 
   // v2: a link that named a chapter lands on the Questions heading once its first page is in.
   useEffect(() => {
@@ -175,51 +186,54 @@ export function DiscoveryFeed() {
 
   if (v2) {
     const realName = subjects.find((subject) => subject.id === filters.subject)?.name || null;
+    const list = page.questions.slice(0, shown);
+    const hidden = page.questions.length - list.length;
+    const savedHref = pathname.startsWith('/preview/') ? previewHref(params, 'saved') : '/saved';
+    const more = () => {
+      if (busy) return;
+      setShown((n) => moreShown(n));
+      if (hidden <= 0 && page.hasMore) loadPage(page.nextOffset);
+    };
     return (
       <div className="ex-page ex-page--v2">
-        <ArenaHead
-          title="One question. One useful step."
-          lede={<><span className="ex-lede__long">Untimed practice, separate from your timed mock score.</span><span className="ex-lede__short">Untimed practice, separate from your mock score.</span><span className="ex-lede__more"> Play a short chapter feed, or take one question at a time.</span></>}
-          aside={(
-            <div className="ex-subject">
-              <span className="ex-subject__obj" aria-hidden="true">{filters.subject ? <SubjectObject key={filters.subject} id={filters.subject} size={64} framed={false} lit className="mk-pop" /> : null}</span>
-              <span className="ex-subject__field">
-                <span id="ex-f-subject" className="ex-subject__label">Subject</span>
-                <Listbox labelledBy="ex-f-subject" sheetTitle="Subject" value={filters.subject} disabled={subjectState !== 'ready'} placeholder={subjectState === 'loading' ? 'Loading subjects…' : 'Choose a subject'} options={subjects.map((subject) => ({ value: subject.id, label: subject.name }))} onChange={(value) => { setChapterState('loading'); setChapters([]); setFilters({ subject: value, chapter: '', difficulty: '' }); }} />
-              </span>
-            </div>
-          )}
-        />
+        <h1 className="sr-only">Explore</h1>
+        <div className="ex-top">
+          <div className="ex-subject">
+            <span className="ex-subject__obj" aria-hidden="true">{filters.subject ? <SubjectObject key={filters.subject} id={filters.subject} size={40} framed={false} lit className="mk-pop" /> : null}</span>
+            <span className="ex-subject__field">
+              <span id="ex-f-subject" className="sr-only">Subject</span>
+              <Listbox labelledBy="ex-f-subject" sheetTitle="Subject" value={filters.subject} disabled={subjectState !== 'ready'} placeholder={subjectState === 'loading' ? 'Loading subjects…' : 'Choose a subject'} options={subjects.map((subject) => ({ value: subject.id, label: subject.name }))} onChange={(value) => { setChapterState('loading'); setChapters([]); setFilters({ subject: value, chapter: '', difficulty: '' }); }} />
+            </span>
+          </div>
+          <Link href={savedHref} className="ex-saved" aria-label={savedLabel(saved, { spoken: true })}>
+            <Bookmark size={16} strokeWidth={2.2} aria-hidden="true" />
+            <span>Saved</span>
+            {saved > 0 ? <b className="ex-saved__n">{saved.toLocaleString('en-IN')}</b> : null}
+          </Link>
+        </div>
         {subjectState === 'error' && <ErrorState message="Subjects did not load. Check your connection and try again." onRetry={() => setSubjectRetry((count) => count + 1)} />}
         {subjectState !== 'error' ? <ExploreCovers enabled subject={filters.subject} subjectName={realName} onQuestions={openQuestions} onCovers={setCoverData} /> : null}
-        <div className="ex-layout">
-          <div className="ex-main">
-            <div className="ex-qhead">
-              <h2 id="ex-questions" ref={questionsHead} tabIndex={-1}>Questions</h2>
-              <form className="ex-filters ex-filters--v2" aria-label="Filter practice questions" onSubmit={(event) => event.preventDefault()}>
-                <label><span id="ex-f-chapter">Chapter</span><Listbox labelledBy="ex-f-chapter" sheetTitle="Chapter" value={filters.chapter} disabled={chapterState !== 'ready'} options={[{ value: '', label: chapterState === 'loading' ? 'Loading chapters…' : 'All chapters' }, ...chapters.flatMap((group) => group.chapters.map((chapter) => ({ value: chapter.name, label: titles.get(chapter.name) || chapter.name, group: group.name })))]} onChange={(value) => setFilters((current) => ({ ...current, chapter: value }))} /></label>
-                <label><span id="ex-f-difficulty">Difficulty</span><Listbox labelledBy="ex-f-difficulty" sheetTitle="Difficulty" value={filters.difficulty} options={DIFFICULTY_OPTIONS} onChange={(value) => setFilters((current) => ({ ...current, difficulty: value }))} /></label>
-                {hasFilters ? <button type="button" className="ex-action ex-filters__clear" onClick={() => setFilters((current) => ({ ...current, chapter: '', difficulty: '' }))}>Clear filters</button> : null}
-              </form>
-              <span className="sr-only" role="status">{busy ? 'Loading questions' : `${page.questions.length} questions loaded`}</span>
-            </div>
-            {chapterState === 'error' && <ErrorState title="Chapter filters did not load" message="You can still practise all chapters." onRetry={() => setChapterRetry((count) => count + 1)} />}
-            <div aria-busy={busy}>
-              {page.questions.map((question) => <QuestionCard key={`${filters.subject}-${question.id}`} row={question} onProgressChange={refreshSummary} chapterTitle={titleOf(question)} />)}
-              {busy && <div className="ex-loading" role="status"><span>Finding questions…</span><SkeletonLines count={4} /></div>}
-            </div>
-            {page.state === 'error' && <ErrorState scene="unreachable" title="Questions did not load" message="Your answers above are still here. Try loading this page again." onRetry={() => loadPage(page.error.offset, page.error.reset)} />}
-            {page.state === 'ready' && !page.questions.length && <EmptyState scene={page.hasMore ? 'nothingYet' : 'noResults'} title={page.hasMore ? 'No ready questions on this page.' : 'No questions for these filters yet.'} message={page.hasMore ? 'Some questions are held for checks. Continue to the next page.' : 'Try all chapters or another subject. Held questions stay out of practice.'} actionLabel={hasFilters ? 'Clear filters' : undefined} onAction={() => setFilters((current) => ({ ...current, chapter: '', difficulty: '' }))} />}
-            {page.hasMore && <button ref={moreButton} type="button" className="ex-more" aria-disabled={busy} onClick={() => { if (!busy) loadPage(page.nextOffset); }}>{busy ? 'Loading…' : 'Load more questions'}</button>}
-            {page.state === 'ready' && !page.hasMore && page.questions.length > 0 && <p ref={endStatus} tabIndex={-1} className="ex-end" role="status">You’re up to date for these filters. Saved questions are ready for your next round.</p>}
+        <section className="ex-singles" aria-labelledby="ex-questions">
+          <div className="ex-qhead">
+            <h2 id="ex-questions" ref={questionsHead} tabIndex={-1}>Single questions</h2>
+            <form className="ex-filters ex-filters--v2" aria-label="Filter single questions" onSubmit={(event) => event.preventDefault()}>
+              <label><span id="ex-f-chapter">Chapter</span><Listbox labelledBy="ex-f-chapter" sheetTitle="Chapter" value={filters.chapter} disabled={chapterState !== 'ready'} options={[{ value: '', label: chapterState === 'loading' ? 'Loading chapters…' : 'All chapters' }, ...chapters.flatMap((group) => group.chapters.map((chapter) => ({ value: chapter.name, label: titles.get(chapter.name) || chapter.name, group: group.name })))]} onChange={(value) => setFilters((current) => ({ ...current, chapter: value }))} /></label>
+              <label><span id="ex-f-difficulty">Difficulty</span><Listbox labelledBy="ex-f-difficulty" sheetTitle="Difficulty" value={filters.difficulty} options={DIFFICULTY_OPTIONS} onChange={(value) => setFilters((current) => ({ ...current, difficulty: value }))} /></label>
+              {hasFilters ? <button type="button" className="ex-action ex-filters__clear" onClick={() => setFilters((current) => ({ ...current, chapter: '', difficulty: '' }))}>Clear filters</button> : null}
+            </form>
+            <span className="sr-only" role="status">{busy ? 'Loading questions' : `${list.length} questions shown`}</span>
           </div>
-          <aside className="ex-aside ex-aside--v2" aria-label="Make practice count">
-            <h2>Answer first. Then ask why.</h2><p>A wrong answer with a clear reason is worth coming back to. Keep those questions close.</p>
-            <Link href="/saved" className="ex-route">Open saved questions</Link><Link href="/review" className="ex-route">Review your timed sessions</Link>
-            {Number.isFinite(solved) && <p className="ex-record"><b>{solved}</b> questions solved in your recorded untimed practice. <Link href="/progress">See progress</Link></p>}
-            {contributeOn ? <p className="ex-footnote">Community votes help organise the feed. They do not certify an answer.</p> : null}
-          </aside>
-        </div>
+          {chapterState === 'error' && <ErrorState title="Chapter filters did not load" message="You can still practise all chapters." onRetry={() => setChapterRetry((count) => count + 1)} />}
+          <div aria-busy={busy}>
+            {list.map((question) => <QuestionCard key={`${filters.subject}-${question.id}`} row={question} onProgressChange={onProgress} chapterTitle={titleOf(question)} closed />)}
+            {busy && <div className="ex-loading" role="status"><span>Finding questions…</span><SkeletonLines count={3} /></div>}
+          </div>
+          {page.state === 'error' && <ErrorState scene="unreachable" title="Questions did not load" message="Your answers above are still here. Try loading this page again." onRetry={() => loadPage(page.error.offset, page.error.reset)} />}
+          {page.state === 'ready' && !page.questions.length && <EmptyState scene={page.hasMore ? 'nothingYet' : 'noResults'} title={page.hasMore ? 'No ready questions on this page.' : 'No questions for these filters yet.'} message={page.hasMore ? 'Some questions are held for checks. Continue to the next page.' : 'Try all chapters or another subject. Held questions stay out of practice.'} actionLabel={hasFilters ? 'Clear filters' : undefined} onAction={() => setFilters((current) => ({ ...current, chapter: '', difficulty: '' }))} />}
+          {hidden > 0 || page.hasMore ? <button ref={moreButton} type="button" className="ex-more ex-more--quiet" aria-disabled={busy} onClick={more}>{busy ? 'Loading…' : 'More questions'}{busy ? null : <ChevronRight size={16} strokeWidth={2.2} aria-hidden="true" />}</button> : null}
+          {page.state === 'ready' && !page.hasMore && hidden <= 0 && page.questions.length > 0 && <p ref={endStatus} tabIndex={-1} className="ex-end" role="status">That is every question for these filters.</p>}
+          {contributeOn ? <p className="ex-footnote">Community votes help organise the feed. They do not certify an answer.</p> : null}
+        </section>
       </div>
     );
   }
@@ -239,7 +253,7 @@ export function DiscoveryFeed() {
           {subjectState !== 'error' ? <ExploreCovers subject={filters.subject} /> : null}
           <div className="ex-listhead"><span className="ex-listhead__obj" aria-hidden="true">{filters.subject ? <SubjectObject key={filters.subject} id={filters.subject} size={96} framed={false} lit className="mk-pop" /> : null}</span><h2>{subjectName}</h2>{hasFilters && <button type="button" className="ex-action" onClick={() => setFilters((current) => ({ ...current, chapter: '', difficulty: '' }))}>Clear filters</button>}<span className="sr-only" role="status">{busy ? 'Loading questions' : `${page.questions.length} questions loaded`}</span></div>
           <div aria-busy={busy}>
-            {page.questions.map((question) => <QuestionCard key={`${filters.subject}-${question.id}`} row={question} onProgressChange={refreshSummary} />)}
+            {page.questions.map((question) => <QuestionCard key={`${filters.subject}-${question.id}`} row={question} />)}
             {busy && <div className="ex-loading" role="status"><span>Finding questions…</span><SkeletonLines count={4} /></div>}
           </div>
           {page.state === 'error' && <ErrorState scene="unreachable" title="Questions did not load" message="Your answers above are still here. Try loading this page again." onRetry={() => loadPage(page.error.offset, page.error.reset)} />}
@@ -250,10 +264,16 @@ export function DiscoveryFeed() {
         <aside className="ex-aside" aria-label="Make practice count">
           <span className="mono-label">Tonight’s rule</span><h2>Answer first.<br />Then ask why.</h2><p>A wrong answer with a clear reason is worth coming back to. Keep those questions close.</p>
           <Link href="/saved" className="ex-route">Open saved questions</Link><Link href="/review" className="ex-route">Review your timed sessions</Link>
-          {Number.isFinite(solved) && <p className="ex-record"><b>{solved}</b> questions solved in your recorded untimed practice. <Link href="/progress">See progress</Link></p>}
           {contributeOn ? <p className="ex-footnote">Community votes help organise the feed. They do not certify an answer.</p> : null}
         </aside>
       </div>
     </div>
   );
+}
+
+/** The preview's own view for a page, keeping its fixture flags, so a walk never leaves the fixtures. */
+function previewHref(params, view) {
+  const next = new URLSearchParams({ view });
+  for (const k of ['plan', 'data', 'decks', 'student', 'kcs', 'kcline', 'theme', 'nav', 'study']) if (params?.get(k)) next.set(k, params.get(k));
+  return `/preview/arena?${next.toString()}`;
 }

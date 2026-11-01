@@ -25,6 +25,11 @@ export async function GET(request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    // ?count=1 (Explore's "Saved 2" in its head, R2 ruling 10): one head count, no rows and no question reads.
+    if (new URL(request.url).searchParams.get('count') === '1') {
+      return NextResponse.json({ count: await getBookmarkCount(session.user.id) });
+    }
+
     const { data, error } = await supabaseAdmin()
       .from('question_bookmarks')
       .select('question_id, created_at')
