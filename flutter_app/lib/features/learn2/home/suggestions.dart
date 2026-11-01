@@ -145,10 +145,11 @@ class _Track extends StatelessWidget {
                   fit: StackFit.expand,
                   children: [
                     ColoredBox(color: colors.line),
-                    // The fill grows from the left once: 420 ms after a 120 ms wait; at rest under reduced motion.
+                    // The fill grows from the left once per visit (420 ms); at rest under reduced motion and on a page
+                    // that has played its entrance already.
                     TweenAnimationBuilder<double>(
-                      tween: Tween<double>(begin: 0, end: share),
-                      duration: Motion.of(context, const Duration(milliseconds: 420)),
+                      tween: Tween<double>(begin: HomeEntrance.playingIn(context) ? 0 : share, end: share),
+                      duration: HomeEntrance.playingIn(context) ? const Duration(milliseconds: 420) : Duration.zero,
                       curve: Motion.emphasized,
                       builder: (context, v, _) => Align(
                         alignment: Alignment.centerLeft,

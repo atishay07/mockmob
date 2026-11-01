@@ -28,6 +28,10 @@ class HomeEntrance extends StatefulWidget {
 
   static Duration get total => step * (cap - 1) + length;
 
+  /// True while this visit's entrance is the one running (or has run) around [context]: a block that animates once per
+  /// visit (the pick-up track's fill) asks here, so a page rebuilt later never replays it.
+  static bool playingIn(BuildContext context) => _EntranceScope.maybeOf(context)?.parent != null;
+
   @override
   State<HomeEntrance> createState() => _HomeEntranceState();
 }
