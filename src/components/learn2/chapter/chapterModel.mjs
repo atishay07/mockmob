@@ -1,7 +1,11 @@
 // Pure rules of the Learn v2 chapter page (A4-chapter-run.md 3.2.1, 3.2.4 to 3.2.6, BUILD-1101 B2 and B7). No React here, so
-// node --test can hold them (chapterModel.test.mjs).
+// node --test can hold them (chapterModel.test.mjs). R3: its words come from data/learn/words.js (ruling W).
+import { WORDS, fixMistakes, withMinutes } from '../../../../data/learn/words.js';
 
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
+
+/** R3 ruling W: due Key cards are never a bare "46 due"; the server's "Revise first: 46 due" reads "Revise first: 46 due cards". */
+export const dueWords = (text) => String(text || '').replace(/\b(\d[\d,]*) due\b(?! cards?)/g, (m, n) => `${n} due ${Number(n.replace(/,/g, '')) === 1 ? 'card' : 'cards'}`);
 
 /** "Part 1, Partnership Accounts" reads "Part 1" beside the chapter ref ("Part 1, Ch 1"); a part without a number keeps its name. */
 export const partShort = (title) => (title ? (String(title).match(/^Part \d+/)?.[0] || String(title)) : null);
@@ -35,7 +39,7 @@ export function pileView(pile) {
   if (state === 'left') return { state, line: 'Tap to put back', of: null, note: null, aria: `${label}, left out. Tap to put it back` };
   const line = pileMinutes(pile);
   const of = pile?.id === 'mistakes' && Number(pile?.of) > Number(pile?.count) ? Number(pile.of) : null;
-  const note = pile?.note || null;
+  const note = pile?.note ? dueWords(pile.note) : null;
   return { state, line, of, note, aria: `${label}: ${pile?.count}${of ? ` of ${of}` : ''}, ${line}.${note ? ` ${note}.` : ''} Tap to leave it out` };
 }
 
@@ -55,7 +59,7 @@ export function chapterQuietLine(data) {
   if (!data) return null;
   if (data.freeSession?.used && data.free?.text) return data.free.text;
   if (data.capped?.text) return data.capped.text;
-  if (data.shrink?.text && !data.added) return data.shrink.text;
+  if (data.shrink?.text && !data.added) return dueWords(data.shrink.text);
   if (/ratings are used/i.test(String(data.free?.text || ''))) return RATINGS_USED_LINE;
   const shelf = data.shelf;
   if (shelf) {
@@ -96,7 +100,7 @@ export function shelfView(data, { mistakeMinutes = (n) => n } = {}) {
   } else missing.push('No lesson yet.');
   const mistakes = Number(shelf.mistakes?.open) || 0;
   if (mistakes) {
-    rows.push({ id: 'mistakes', title: 'Your mistakes', line: used ? `${mistakes} open, back tomorrow` : `${mistakes} open. Fix them in about ${Math.max(1, mistakeMinutes(mistakes))} min`, link: !used });
+    rows.push({ id: 'mistakes', title: 'Your mistakes', line: used ? `${plural(mistakes, 'open mistake')}, back tomorrow` : fixMistakes(mistakes, mistakeMinutes(mistakes)), link: !used });
   } else missing.push('No open mistakes.');
   const must = Number(shelf.print?.mustKnow) || 0;
   if (must) rows.push({ id: 'print', title: 'Print sheet', line: shelf.print.locked ? 'Part of Pro' : `${plural(must, 'Must-know line')}, with your name`, locked: Boolean(shelf.print.locked), link: Boolean(shelf.print.locked), action: shelf.print.locked ? null : 'print' });
@@ -112,8 +116,31 @@ export function shelfView(data, { mistakeMinutes = (n) => n } = {}) {
  */
 export const chapterVerdict = (state) => (state?.key === 'needs_work' ? (state.label || 'Needs work') : null);
 
-/** The quick recap as a quiet key: "Quick recap, 1 min" (the server's minutes), or null when the chapter has no Must-know line. */
-export const recapLabel = (recap) => (recap?.count ? `Quick recap, ${Math.max(1, Number(recap.minutes) || 1)} min` : null);
+/**
+ * The quick recap as a quiet key: "Quick recap · 1 min" (the server's minutes). Null when the chapter has no Must-know line, and
+ * (R3 X6) until the student has seen at least 1 card in this chapter: a recap of what they have not met is not a recap.
+ */
+export const recapLabel = (recap, { seen = true } = {}) => (recap?.count && seen ? withMinutes(WORDS.quickRecap, recap.minutes) : null);
+
+/** Whether the student has seen at least 1 card of this chapter: the dry run's `cardsSeen`, else (an older server) "not a first visit". */
+export const hasSeenCards = (data) => (!data ? false : Number.isFinite(data.cardsSeen) ? data.cardsSeen > 0 : !data.firstVisit);
+
+/**
+ * The Start key (R3 ruling W: " · N min" after a label). The server's "Start 10 minutes" becomes "Start · 10 min"; with a run to
+ * continue the new-run key is "Start fresh · 10 min". Any other server label ("Start the 7-minute lesson") is kept as it is.
+ */
+export function startKeyLabel(serverLabel, minutes, { fresh = false } = {}) {
+  const m = /^Start (\d+) minutes?$/.exec(String(serverLabel || ''));
+  const n = m ? Number(m[1]) : (serverLabel ? null : minutes);
+  if (n !== null) return withMinutes(fresh ? 'Start fresh' : 'Start', n);
+  return fresh ? String(serverLabel).replace(/^Start /, 'Start fresh: ') : String(serverLabel);
+}
+
+/** The key that continues today's unfinished run: "Continue · 6 min" (R3 ruling W). */
+export const continueLabel = (resume) => withMinutes(WORDS.continue, resume?.minutesLeft || 1);
+
+/** The pile tip's storage key: once per student, so a new account on the same device sees it again. */
+export const coachKeyFor = (userId) => `mm:learn2:coach:piles:${userId || 'anon'}`;
 
 /** The title's size step by length, so a long title keeps to 2 lines at 390 (R2 ruling 9: 32 px, at most 2 lines). */
 export const titleSize = (title) => { const n = String(title || '').length; return n <= 24 ? 'm' : n <= 40 ? 'l' : 'xl'; };

@@ -1,7 +1,7 @@
 // node --test src/components/learn2/chapter/chapterModel.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { FIRST_VISIT_LINE, ONLY_CARDS_LINE, chapterQuietLine, chapterVerdict, firstUpCards, headLines, isChapterMissing, pileView, recapLabel, shelfView, titleSize, withFlag } from './chapterModel.mjs';
+import { FIRST_VISIT_LINE, ONLY_CARDS_LINE, chapterQuietLine, chapterVerdict, coachKeyFor, continueLabel, firstUpCards, hasSeenCards, headLines, isChapterMissing, pileView, recapLabel, shelfView, startKeyLabel, titleSize, withFlag } from './chapterModel.mjs';
 
 test('the head: the unit only when it does not repeat the title; the ref "Part 1, Ch 2"', () => {
   assert.deepEqual(headLines({ title: 'Admission of a Partner', unitTitle: 'Reconstitution of a Partnership firm', partTitle: 'Part 1, Partnership Accounts', ref: 'Ch 2' }), { eyebrow: 'Reconstitution of a Partnership firm', ref: 'Part 1, Ch 2' });
@@ -36,7 +36,7 @@ test('the quiet line under Start, by priority; never the old Ratings note (A4 3.
 test('"Everything in this chapter": rows that lead somewhere, the rest in one quiet line (A4 3.2.6)', () => {
   const pro = shelfView({ shelf: { cards: { count: 46, open: 46, inRevise: 12 }, questions: { total: 10 }, mistakes: { open: 3 }, lesson: null, print: { mustKnow: 12, locked: false } } }, { mistakeMinutes: (n) => n });
   assert.deepEqual(pro.rows.map((r) => [r.title, r.line]), [
-    ['Key cards', 'All 46, 12 in Revise'], ['Questions only', '10 questions in this chapter'], ['Your mistakes', '3 open. Fix them in about 3 min'], ['Print sheet', '12 Must-know lines, with your name'],
+    ['Key cards', 'All 46, 12 in Revise'], ['Questions only', '10 questions in this chapter'], ['Your mistakes', 'Fix 3 open mistakes · 3 min'], ['Print sheet', '12 Must-know lines, with your name'],
   ]);
   assert.equal(pro.missing, null, 'R2 ruling 9: what is missing is never announced');
   const free = shelfView({ freeSession: { used: true }, shelf: { cards: { count: 46, open: 5 }, questions: { total: 0 }, mistakes: { open: 0 }, lesson: { id: 'l', title: 'Goodwill', minutes: 7, read: false }, print: { mustKnow: 12, locked: true } } });
@@ -62,9 +62,10 @@ test('R2 ruling 9: the only verdict is "Needs work"; never Not started, Too few 
   assert.equal(chapterVerdict(null), null);
 });
 
-test('R2 ruling 9: the recap is a quiet key "Quick recap, 1 min"; First up is up to 3 real fronts, none drawn when empty', () => {
-  assert.equal(recapLabel({ count: 5, minutes: 1 }), 'Quick recap, 1 min');
-  assert.equal(recapLabel({ count: 12, minutes: 2 }), 'Quick recap, 2 min');
+test('R2 ruling 9 and R3 W: the recap is a quiet key "Quick recap · 1 min"; First up is up to 3 real fronts, none drawn when empty', () => {
+  assert.equal(recapLabel({ count: 5, minutes: 1 }), 'Quick recap · 1 min');
+  assert.equal(recapLabel({ count: 12, minutes: 2 }), 'Quick recap · 2 min');
+  assert.equal(recapLabel({ count: 12, minutes: 0.4 }), 'Quick recap · 1 min', 'at least 1 min');
   assert.equal(recapLabel({ count: 0, minutes: 1 }), null, 'no Must-know line: no recap key');
   assert.equal(recapLabel(null), null);
   const four = [1, 2, 3, 4].map((i) => ({ id: `c${i}`, front: ` Front ${i} `, mustKnow: i === 1 }));
@@ -89,4 +90,70 @@ test('R2 ruling 9: the page draws no first-visit line, no missing line, one main
   assert.match(page, /<FirstUp key=/);
   assert.match(page, /const picker = !resume \|\| fresh;/, 'with a run to pick up, the picker waits under "Start fresh instead"');
   assert.equal((page.match(/kc-btn--volt/g) || []).length, 3, 'the volt is the resume key, or the Start key (its link and its waiting button) only when there is no resume');
+});
+
+// ---- Round 3 (packet R3-explore): X6 and ruling W on the chapter page -------------------------------------------------------
+test('R3 X6: Quick recap shows only after the student has seen at least 1 card in the chapter', () => {
+  const recap = { count: 5, minutes: 1 };
+  assert.equal(recapLabel(recap, { seen: false }), null, 'a brand-new student has nothing to recap');
+  assert.equal(recapLabel(recap, { seen: true }), 'Quick recap · 1 min');
+  assert.equal(hasSeenCards({ cardsSeen: 0, firstVisit: false }), false, 'the count wins');
+  assert.equal(hasSeenCards({ cardsSeen: 1, firstVisit: true }), true);
+  assert.equal(hasSeenCards({ firstVisit: true }), false, 'an older server: a first visit has seen nothing');
+  assert.equal(hasSeenCards({ firstVisit: false }), true);
+  assert.equal(hasSeenCards(null), false);
+});
+
+test('R3 W: the Start key and the key that continues a run use the one time format', () => {
+  assert.equal(startKeyLabel('Start 10 minutes', 10), 'Start · 10 min');
+  assert.equal(startKeyLabel('Start 1 minute', 1), 'Start · 1 min');
+  assert.equal(startKeyLabel('Start 10 minutes', 10, { fresh: true }), 'Start fresh · 10 min');
+  assert.equal(startKeyLabel(undefined, 5), 'Start · 5 min', 'before the first dry run answers');
+  assert.equal(startKeyLabel('Start the 7-minute lesson', 10), 'Start the 7-minute lesson');
+  assert.equal(startKeyLabel('Nothing to start yet', 10), 'Nothing to start yet');
+  assert.equal(continueLabel({ minutesLeft: 6 }), 'Continue · 6 min');
+  assert.equal(continueLabel({ minutesLeft: 0 }), 'Continue · 1 min');
+  assert.equal(continueLabel({}), 'Continue · 1 min');
+  assert.equal(continueLabel({ minutesLeft: 5.2 }), 'Continue · 6 min', 'rounded up');
+});
+
+test('R3 W: Free after the session says "3 open mistakes", never a bare "3 open"', () => {
+  const view = shelfView({ freeSession: { used: true }, shelf: { cards: { count: 46, open: 5 }, questions: { total: 4 }, mistakes: { open: 3 }, print: { mustKnow: 12, locked: true } } });
+  const row = view.rows.find((r) => r.id === 'mistakes');
+  assert.equal(row.line, '3 open mistakes, back tomorrow');
+  assert.equal(shelfView({ freeSession: { used: true }, shelf: { cards: { count: 1 }, mistakes: { open: 1 } } }).rows.find((r) => r.id === 'mistakes').line, '1 open mistake, back tomorrow');
+});
+
+test('R3 X6: the pile tip is kept per student; the piles share the row; the page uses the shared words', async () => {
+  const { readFileSync } = await import('node:fs');
+  assert.notEqual(coachKeyFor('a'), coachKeyFor('b'));
+  assert.equal(coachKeyFor(null), coachKeyFor(undefined));
+  const page = readFileSync(new URL('./ChapterPage.jsx', import.meta.url), 'utf8');
+  assert.match(page, /coachKeyFor\(user\?\.id\)/, 'the tip is once per student');
+  assert.match(page, /tipDue = picker && piles\.length > 1/, 'and only once it is drawn');
+  assert.doesNotMatch(page, /Pick up where you stopped/, 'W: one word for resuming');
+  assert.doesNotMatch(page, /Start a new/);
+  assert.doesNotMatch(page, /About \{resume\.minutesLeft\} min left/, 'the time sits on the key only');
+  assert.match(page, /continueLabel\(resume\)/);
+  assert.match(page, /recapLabel\(data\?\.recap, \{ seen: hasSeenCards\(data\) \}\)/);
+  const css = readFileSync(new URL('./chapter.css', import.meta.url), 'utf8');
+  assert.match(css, /\.lc-piles:is\(\[data-n='1'\], \[data-n='2'\]\) \{ grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/, 'two piles take the full row at 390');
+  assert.doesNotMatch(css, /lc-first__front \{[^}]*hyphens: auto/, 'L6: no hyphenated card text');
+});
+
+test('R3 X6: the dry run reports how many of the chapter\'s cards the student has seen', async () => {
+  const { readFileSync } = await import('node:fs');
+  const server = readFileSync(new URL('../../../lib/server/learn.js', import.meta.url), 'utf8');
+  assert.match(server, /cardsSeen: info\.coverage\.seen/);
+});
+
+test('R3 W: a due count on the chapter page always says "cards", never a bare "46 due"', async () => {
+  const { dueWords } = await import('./chapterModel.mjs');
+  assert.equal(dueWords('Revise first: 46 due'), 'Revise first: 46 due cards');
+  assert.equal(dueWords('Revise first: 1 due. Until then a run takes at most 5 new cards.'), 'Revise first: 1 due card. Until then a run takes at most 5 new cards.');
+  assert.equal(dueWords('Revise first: 9 due cards'), 'Revise first: 9 due cards');
+  assert.equal(dueWords('Revise first: 1,200 due'), 'Revise first: 1,200 due cards');
+  assert.equal(dueWords(null), '');
+  assert.equal(pileView({ id: 'cards', label: 'Key cards', count: 5, minutes: 2, note: 'Revise first: 46 due' }).note, 'Revise first: 46 due cards');
+  assert.equal(chapterQuietLine({ shrink: { text: 'Revise first: 8 due. Until then a run takes at most 5 new cards, about 2 min.' } }), 'Revise first: 8 due cards. Until then a run takes at most 5 new cards, about 2 min.');
 });

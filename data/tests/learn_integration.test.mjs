@@ -21,6 +21,10 @@ async function load(rel, { env = {}, tag = '' } = {}) {
     const src = read(rel)
       .replace(/^"use client";?$/m, '')
       .replace(/^import \{ useCallback \} from 'react';$/m, 'const useCallback = (fn) => fn;')
+      // R3 X7: flag.js reads the address through useSyncExternalStore (server snapshot: not off), so its stubs differ from links.js's.
+      .replace(/^import \{ useSyncExternalStore \} from 'react';$/m, 'const useSyncExternalStore = (subscribe, get) => get();')
+      .replace(/^import \{ usePathname \} from 'next\/navigation';$/m, 'const usePathname = () => globalThis.__learnPath;')
+      .replace('window.location.search', '(globalThis.__learnSearch || "")')
       .replace(/^import \{ usePathname, useSearchParams \} from 'next\/navigation';$/m, 'const usePathname = () => globalThis.__learnPath; const useSearchParams = () => new URLSearchParams(globalThis.__learnSearch || "");');
     assert.doesNotMatch(src, /^import /m, `every import of ${rel} is stubbed`);
     return await import(`data:text/javascript;base64,${Buffer.from(`${src}\n// ${tag}`).toString('base64')}`);

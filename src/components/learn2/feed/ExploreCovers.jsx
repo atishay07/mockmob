@@ -8,11 +8,10 @@
 // The row: arrows in the section head on a computer, a "1 of 14" pager under the row on a phone, one tab stop with Left, Right,
 // Home and End. The length is the site's SegmentedControl, remembered per viewer. Every state is drawn: loading (skeleton at
 // the real size), error (a line and Try again), empty, Free at 20 (the capped line), Free at the day's limit (keys open the
-// chapter's questions on this page, no feed start), resume ("Pick up, 4 minutes").
+// chapter's questions on this page, no feed start), resume ("Continue · 4 min", R3 ruling W).
 // The words live in coverModel.js (tested). Hidden on the real site until Learn v2 is on (NEXT_PUBLIC_LEARN2 = 'on').
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { SegmentedControl } from '@/components/ui/controls/SegmentedControl';
 import { openUpgrade } from '@/components/pro/proNudgeStore';
@@ -21,6 +20,9 @@ import { useLearnLinks } from '../links';
 import {
   COVER_START_KEY, LENGTHS, hasHistory, hookTier, isFreePlan, keyLabelOf, leadLine, mediaOf, mixLineOf, opensQuestions, readLength, refLineOf, studentLineOf,
 } from './coverModel';
+import { useL2Off } from '../flag';
+import { WORDS } from '../../../../data/learn/words.js';
+import { FREE_DONE_HEADLINE } from '../../../../data/learn/allowance.js';
 import '@/components/keycards/keycards.css';
 import './covers.css';
 
@@ -138,9 +140,9 @@ function Cover({ c, index, minutes, lead, history, free, freeDone, swap, tabInde
  */
 export default function ExploreCovers({ subject, subjectName = null, enabled, onQuestions, onCovers }) {
   const links = useLearnLinks();
-  const params = useSearchParams();
+  const l2Off = useL2Off(); // R3 X7: false on the server and while hydrating, then the address's answer
   // The preview always shows them, except with &l2=off (the live page with the flag off, for side-by-side checks).
-  const on = enabled ?? ((links.preview && params?.get('l2') !== 'off') || process.env.NEXT_PUBLIC_LEARN2 === 'on');
+  const on = enabled ?? ((links.preview && !l2Off) || process.env.NEXT_PUBLIC_LEARN2 === 'on');
   const minutes = useSyncExternalStore(subscribeLength, lengthSnapshot, () => 10);
   const [swap, setSwap] = useState(false);
   const [status, setStatus] = useState('');
@@ -290,7 +292,7 @@ export default function ExploreCovers({ subject, subjectName = null, enabled, on
   if (!on) return null;
 
   const sub = freeDone
-    ? <p className="fxc-sub fxc-sub--free"><span>That was today’s free session. Single questions stay free.</span> <button type="button" className="fxc-textkey" onClick={(e) => openUpgrade({ trigger: 'learn_feed', opener: e.currentTarget })}>See Pro</button></p>
+    ? <p className="fxc-sub fxc-sub--free"><span>{FREE_DONE_HEADLINE} Single questions stay free.</span> <button type="button" className="fxc-textkey" onClick={(e) => openUpgrade({ trigger: 'learn_feed', opener: e.currentTarget })}>{WORDS.seePro}</button></p>
     : free && minutes === 20
       ? <p className="fxc-sub fxc-sub--free">Free sessions are up to 10 minutes. Pro has any length.</p>
       : <p className="fxc-sub fxc-sub--wide">Key cards and questions, one at a time.</p>;

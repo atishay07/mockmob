@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Bookmark, ChevronRight } from 'lucide-react';
 import ArenaHead from '@/components/arena/ArenaHead';
@@ -11,11 +11,11 @@ import { useContributeEnabled } from '@/components/contribute/ContributeFlag';
 import { Listbox } from '@/components/ui/controls/Listbox';
 import { appendUniqueQuestions, chapterGroups } from '@/../data/explore_feed';
 import ExploreCovers from '@/components/learn2/feed/ExploreCovers';
+import { useLearn2On } from '@/components/learn2/flag';
 import { chapterNameOf } from '@/components/learn2/feed/coverModel';
-import { resolveChapter } from '@/../data/cuet_syllabus.js';
 import { useAuth } from '@/components/AuthProvider';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { firstShown, moreShown, savedLabel } from './exploreModel.mjs';
+import { firstShown, moreShown, pickSingles, savedLabel, syllabusTitle } from './exploreModel.mjs';
 
 const PAGE_SIZE = 12;
 const EMPTY_PAGE = { questions: [], nextOffset: 0, hasMore: false, state: 'idle', error: null };
@@ -29,7 +29,6 @@ const EMPTY_PAGE = { questions: [], nextOffset: 0, hasMore: false, state: 'idle'
 // covers, "Single questions" shows 3 short questions, stem first (tap opens the options), then "More questions". The right column
 // ("Answer first. Then ask why.", its two routes and the record line) goes: Saved is in the head, Your papers is a tab, and the
 // record line read /api/learning/summary's solvedTotal, a field that never arrives (speed.md item 2), so that call is gone too.
-const LEARN2_ON = process.env.NEXT_PUBLIC_LEARN2 === 'on';
 const DIFFICULTY_OPTIONS = [{ value: '', label: 'All levels' }, { value: 'easy', label: 'Easy' }, { value: 'medium', label: 'Medium' }, { value: 'hard', label: 'Hard' }];
 
 export function DiscoveryFeed() {
@@ -37,7 +36,8 @@ export function DiscoveryFeed() {
   const pathname = usePathname() || '';
   const params = useSearchParams();
   const { user } = useAuth() || {};
-  const v2 = LEARN2_ON || (pathname.startsWith('/preview/') && params?.get('l2') !== 'off');
+  // R3 X7: the flag-dependent branch is the same on the server and in the first client render (flag.js reads &l2=off after hydration).
+  const v2 = useLearn2On();
   const [entry] = useState(() => ({ subject: params?.get('subject') || '', chapter: params?.get('chapter') || '' }));
   const prefer = useRef({ v2: false, entry, mine: [] });
   const jump = useRef(false);
@@ -152,6 +152,17 @@ export function DiscoveryFeed() {
   const subjectName = subjects.find((subject) => subject.id === filters.subject)?.name || 'your subject';
   const busy = page.state === 'loading';
   const hasFilters = Boolean(filters.chapter || filters.difficulty);
+  // R3 X1: only syllabus chapters, no repeated stem, the first 3 from different chapters where the page allows.
+  const singles = useMemo(() => pickSingles(page.questions, { subject: filters.subject }), [page.questions, filters.subject]);
+  // A page whose rows were mostly out of syllabus or repeats leaves fewer than the 3 asked for: the next page is read (at most 5 in a row).
+  const topUps = useRef(0);
+  useEffect(() => {
+    if (!v2 || page.state !== 'ready') return;
+    if (singles.length >= shown) { topUps.current = 0; return; }
+    if (!page.hasMore || topUps.current >= 5) return;
+    topUps.current += 1;
+    loadPage(page.nextOffset);
+  }, [v2, page.state, page.hasMore, page.nextOffset, singles.length, shown, loadPage]);
 
   // v2: a link that named a chapter lands on the Questions heading once its first page is in.
   useEffect(() => {
@@ -172,8 +183,7 @@ export function DiscoveryFeed() {
   const titleOf = (question) => {
     if (!v2 || !question?.chapter) return null;
     if (titles.has(question.chapter)) return titles.get(question.chapter);
-    const hit = resolveChapter(question.subject || filters.subject, question.chapter);
-    return hit && !hit.retired && hit.title ? String(hit.title).replace(/\s*\/\s*/g, ' and ').replace(/\s+/g, ' ').trim() : null;
+    return syllabusTitle(question.subject || filters.subject, question.chapter);
   };
   // v2, Free at the day's limit: a cover's key sets the Chapter filter and brings the Questions heading into view.
   const openQuestions = (cover) => {
@@ -186,13 +196,13 @@ export function DiscoveryFeed() {
 
   if (v2) {
     const realName = subjects.find((subject) => subject.id === filters.subject)?.name || null;
-    const list = page.questions.slice(0, shown);
-    const hidden = page.questions.length - list.length;
+    const list = singles.slice(0, shown);
+    const hidden = singles.length - list.length;
     const savedHref = pathname.startsWith('/preview/') ? previewHref(params, 'saved') : '/saved';
     const more = () => {
       if (busy) return;
-      setShown((n) => moreShown(n));
-      if (hidden <= 0 && page.hasMore) loadPage(page.nextOffset);
+      topUps.current = 0;
+      setShown((n) => moreShown(n)); // the top-up effect above reads the next page when the 6 more are not all here yet
     };
     return (
       <div className="ex-page ex-page--v2">
@@ -229,9 +239,9 @@ export function DiscoveryFeed() {
             {busy && <div className="ex-loading" role="status"><span>Finding questions…</span><SkeletonLines count={3} /></div>}
           </div>
           {page.state === 'error' && <ErrorState scene="unreachable" title="Questions did not load" message="Your answers above are still here. Try loading this page again." onRetry={() => loadPage(page.error.offset, page.error.reset)} />}
-          {page.state === 'ready' && !page.questions.length && <EmptyState scene={page.hasMore ? 'nothingYet' : 'noResults'} title={page.hasMore ? 'No ready questions on this page.' : 'No questions for these filters yet.'} message={page.hasMore ? 'Some questions are held for checks. Continue to the next page.' : 'Try all chapters or another subject. Held questions stay out of practice.'} actionLabel={hasFilters ? 'Clear filters' : undefined} onAction={() => setFilters((current) => ({ ...current, chapter: '', difficulty: '' }))} />}
+          {page.state === 'ready' && !singles.length && <EmptyState scene={page.hasMore ? 'nothingYet' : 'noResults'} title={page.hasMore ? 'No ready questions on this page.' : 'No questions for these filters yet.'} message={page.hasMore ? 'Some questions are held for checks. Continue to the next page.' : 'Try all chapters or another subject. Held questions stay out of practice.'} actionLabel={hasFilters ? 'Clear filters' : undefined} onAction={() => setFilters((current) => ({ ...current, chapter: '', difficulty: '' }))} />}
           {hidden > 0 || page.hasMore ? <button ref={moreButton} type="button" className="ex-more ex-more--quiet" aria-disabled={busy} onClick={more}>{busy ? 'Loading…' : 'More questions'}{busy ? null : <ChevronRight size={16} strokeWidth={2.2} aria-hidden="true" />}</button> : null}
-          {page.state === 'ready' && !page.hasMore && hidden <= 0 && page.questions.length > 0 && <p ref={endStatus} tabIndex={-1} className="ex-end" role="status">That is every question for these filters.</p>}
+          {page.state === 'ready' && !page.hasMore && hidden <= 0 && singles.length > 0 && <p ref={endStatus} tabIndex={-1} className="ex-end" role="status">That is every question for these filters.</p>}
           {contributeOn ? <p className="ex-footnote">Community votes help organise the feed. They do not certify an answer.</p> : null}
         </section>
       </div>

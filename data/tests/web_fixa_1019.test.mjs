@@ -245,8 +245,9 @@ test('walk 15: the new student is greeted without a name until a real first name
   assert.equal(greeting({ hour: 9, name: 'Asha Rao', email }), 'Good morning, Asha');
   // Every screen that greets or labels the account reads the rule: Practice's heading, Account's "Hi", the shell's account labels.
   const practice = read('src/app/(app)/dashboard/DashboardPageClient.jsx');
-  assert.match(practice, /const greetFirst = shownFirstName\(user\?\.name, user\?\.email\);/);
-  assert.match(practice, /\{greetFirst \? `\$\{greetFirst\}, what are we practising\?` : 'What are we practising\?'\}/);
+  // R3 X5: Practice's hero is one line, "What are we practising?", with no greeting name (the avatar carries it).
+  assert.match(practice, /<h1 className="display-md">What are we practising\?<\/h1>/);
+  assert.doesNotMatch(practice, /greetFirst/);
   assert.doesNotMatch(practice, /user\.name\.split/);
   const profile = read('src/app/(app)/profile/ProfilePageClient.jsx');
   assert.match(profile, /const hi = shownFirstName\(user\?\.name, user\?\.email\);/);

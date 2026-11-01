@@ -568,7 +568,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const milestones = empty ? [] : studyMilestones([{ id: 'preview-a1', completedAt: Date.now() - 1000, selectionMeta: { scoringVersion: 'server_practice_v1' } }], []);
       return json({ ordinaryReview, progress: [], milestones, playbook: empty ? [] : [{ id: 'pb1', strategy: 'two_pass', reflection: 'Do the sure questions first, then come back to the long ones.' }], reviewState: 'ready', note: '' });
     }
-    if (url.pathname === '/api/bookmarks' && method === 'GET') return json({ questions: state === 'empty' ? [] : fixtureFeed('accountancy').slice(0, 2).map((q) => ({ ...q, saved: true })), questionIds: [], count: state === 'empty' ? 0 : 2 });
+    // A brand-new student (&student=new) has saved nothing (R3 X2: the Explore head reads "Saved", never "Saved 2").
+    if (url.pathname === '/api/bookmarks' && method === 'GET') { const none = state === 'empty' || fixture.get('student') === 'new'; return json({ questions: none ? [] : fixtureFeed('accountancy').filter((_, i) => i === 0 || i === 2).map((q) => ({ ...q, saved: true })), questionIds: [], count: none ? 0 : 2 }); }
     if (url.pathname === '/api/learning/plan') {
       // ?record=down fails the plan read; ?record=empty or ?data=empty has no saved session.
       if (new URLSearchParams(window.location.search).get('record') === 'down') return json({ error: 'unavailable' }, 503);

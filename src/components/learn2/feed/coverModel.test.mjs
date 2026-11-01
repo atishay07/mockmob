@@ -17,7 +17,7 @@ test('ref line: the server line wins, else derived from part and ref, else the u
 });
 
 test('lead line: For you only from history; book order reads Start here', () => {
-  assert.deepEqual(leadLine({ forYou: true, reason: '3 old mistakes to fix' }), { prefix: 'For you:', text: '3 old mistakes to fix' });
+  assert.deepEqual(leadLine({ forYou: true, reason: '3 old mistakes to fix' }), { prefix: 'For you:', text: '3 open mistakes to fix' }, 'R3 X4: the server line says "old", the page says "open"');
   assert.deepEqual(leadLine({ forYou: true, reason: 'Pick up where you stopped' }), { prefix: 'For you:', text: 'pick up where you stopped' });
   assert.deepEqual(leadLine({ forYou: true, reason: 'Next after Goodwill: Nature and Valuation' }), { prefix: 'For you:', text: 'next after Goodwill: Nature and Valuation' });
   assert.deepEqual(leadLine({ forYou: true, reason: 'Chapter 1 of your book' }), { prefix: 'Start here:', text: 'first in the syllabus' });
@@ -27,14 +27,15 @@ test('lead line: For you only from history; book order reads Start here', () => 
 });
 
 test('student line: never a due count; resume, mistakes, state, New to you; nothing without history', () => {
-  assert.equal(studentLineOf({ studentLine: '3 due, 3 old mistakes' }), '3 old mistakes to fix');
-  assert.equal(studentLineOf({ studentLine: '2 old mistakes to fix' }), '2 old mistakes to fix');
-  assert.equal(studentLineOf({ studentLine: '1 old mistake' }), '1 old mistake to fix');
+  assert.equal(studentLineOf({ studentLine: '3 due, 3 old mistakes' }), '3 open mistakes to fix');
+  assert.equal(studentLineOf({ studentLine: '2 old mistakes to fix' }), '2 open mistakes to fix');
+  assert.equal(studentLineOf({ mistakes: 3, studentLine: '' }), '3 open mistakes to fix');
+  assert.equal(studentLineOf({ studentLine: '1 old mistake' }), '1 open mistake to fix');
   // R2 ruling 2: "Needs work" is the only verdict word; Holding, Getting there and Too few answers never show.
   assert.equal(studentLineOf({ studentLine: '3 due', state: { key: 'holding', label: 'Holding' } }), null);
   assert.equal(studentLineOf({ studentLine: '', state: { key: 'needs_work', label: 'Needs work' } }), 'Needs work');
   assert.equal(studentLineOf({ studentLine: 'Too few answers', state: { key: 'thin', label: 'Too few answers' } }), null);
-  assert.equal(studentLineOf({ studentLine: 'Holding, 2 old mistakes' }), '2 old mistakes to fix');
+  assert.equal(studentLineOf({ studentLine: 'Holding, 2 old mistakes' }), '2 open mistakes to fix');
   assert.equal(studentLineOf({ studentLine: '3 due', state: { key: 'none', label: 'Not started' } }), 'New to you');
   assert.equal(studentLineOf({ studentLine: 'Getting there' }), null);
   assert.equal(studentLineOf({ studentLine: 'Needs work' }), 'Needs work');
@@ -57,15 +58,15 @@ test('mix line and key: the picked length, short chapters, Free, resume and the 
   assert.equal(mixLineOf({ counts: { 10: { cards: 1, questions: 1, minutes: 10 } } }, 10), '1 Key card, 1 question');
   assert.equal(mixLineOf({ counts: { 10: { cards: 5, questions: 0, minutes: 1 } } }, 10, { free: true }), '5 Key cards');
   assert.equal(mixLineOf({ counts: { 20: { cards: 5, questions: 7, minutes: 9, capped: true } } }, 20), '5 Key cards, 7 questions');
-  assert.equal(keyLabelOf(c, 10), 'Play 10 minutes');
-  assert.equal(keyLabelOf(c, 20), 'Play 4 minutes');
-  assert.equal(keyLabelOf({ counts: { 10: { cards: 5, questions: 0, minutes: 1 } } }, 10), 'Play 1 minute');
+  assert.equal(keyLabelOf(c, 10), 'Play · 10 min');
+  assert.equal(keyLabelOf(c, 20), 'Play · 4 min');
+  assert.equal(keyLabelOf({ counts: { 10: { cards: 5, questions: 0, minutes: 1 } } }, 10), 'Play · 1 min');
   const r = { ...c, resume: { done: 6, of: 16, minutesLeft: 4 } };
-  assert.equal(keyLabelOf(r, 20), 'Pick up, 4 minutes');
-  assert.equal(mixLineOf(r, 5), 'About 4 minutes left');
+  assert.equal(keyLabelOf(r, 20), 'Continue · 4 min', 'R3 W: one word for resuming, "Continue · N min"');
+  assert.equal(mixLineOf(r, 5), '', 'the key carries the time, so the line does not repeat it');
   assert.equal(keyLabelOf(c, 10, { freeDone: true }), 'Questions on this chapter');
   // M3: at Free's day limit a cover with a feed to pick up says so (the feed resumes its own run); only the others open questions.
-  assert.equal(keyLabelOf(r, 10, { freeDone: true }), 'Pick up, 4 minutes');
+  assert.equal(keyLabelOf(r, 10, { freeDone: true }), 'Continue · 4 min');
   assert.equal(opensQuestions(r, { freeDone: true }), false);
   assert.equal(opensQuestions(c, { freeDone: true }), true);
   assert.equal(opensQuestions(c, { freeDone: false }), false);

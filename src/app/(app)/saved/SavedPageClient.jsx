@@ -25,6 +25,7 @@ import { foldExit, useSwipeCommit } from '@/lib/motion';
 import { SUBJECTS } from '@/../data/subjects';
 import { ChevronLeft } from 'lucide-react';
 import { useLearn2On } from '@/components/learn2/flag';
+import { syllabusTitle } from '@/components/feed/exploreModel.mjs';
 import './saved.css';
 
 const FREE_LIMIT = 25;
@@ -97,7 +98,7 @@ function SavedRow({ question, coarse, pending, shake, onRemove, onPractise, rowR
         <span className="sv-under__rm">Remove</span>
       </div>
       <div {...bind} className={`${bind.className} sv-card`}>
-        <QuestionCard row={question} variant="saved" onProgressChange={(event) => { if (event?.type === 'unsave') onRemove(question, { confirmed: true }); }} actions={<>
+        <QuestionCard row={question} variant="saved" chapterTitle={syllabusTitle(question.subject, question.chapter)} onProgressChange={(event) => { if (event?.type === 'unsave') onRemove(question, { confirmed: true }); }} actions={<>
           {hasChapter ? <Link className="sv-act sv-act--go mk-press" href={href}>Practise {question.chapter ? 'this chapter' : subjectName(question.subject)}</Link> : null}
           <button type="button" className="sv-act sv-act--rm mk-press" disabled={pending} onClick={() => onRemove(question)}>{pending ? 'Removing…' : 'Remove'}</button>
         </>} />
