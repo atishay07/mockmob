@@ -1,6 +1,6 @@
 /* Learn home (BUILD-1101 B5, A3). Arena tokens (--a-*) only, so Night and Day both follow the app shell.
-   One volt key on the screen: the first suggestion's (or the panel's Study key while results or a set are open). Hairlines group;
-   the only raised surfaces are the suggestion tiles, lit the way Practice's cards are. The subjects loop is Practice's own
+   One volt key on the screen: the start offer's (or the panel's Study key while results or a set are open). Hairlines group;
+   nothing is a raised card: the offer is type on the page (R2 ruling 1). The subjects loop is Practice's own
    (practice.css), sized down here. Only transform and opacity move, 100 to 450 ms on ease-out curves; reduced motion lands at once.
    No glass: it is on the chrome only.
    Width: `.lh` is a size container. Everything below the subject row switches on the container's width (the sidebar takes 252 px
@@ -9,9 +9,6 @@
 .lh {
   --lh-ease: var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
   --lh-ease-exit: var(--mm-ease-exit, cubic-bezier(0.4, 0.3, 0.8, 0.6));
-  --lh-cool: rgb(118 168 255 / 0.13);
-  --lh-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.16'/%3E%3C/svg%3E");
-  --lh-surface: radial-gradient(120% 90px at 30% 0%, var(--lh-cool), transparent 100%), var(--lh-grain), var(--a-raised);
   container: lh / inline-size;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -22,10 +19,6 @@
   margin-inline: auto;
   /* The shell's main already clears the dock (108 px); a little air under the last row is all this adds. */
   padding-bottom: 16px;
-}
-html[data-theme='light'] .lh {
-  --lh-cool: rgb(70 120 220 / 0.09);
-  --lh-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .1 0 0 0 0 .12 0 0 0 0 .1 0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.12'/%3E%3C/svg%3E");
 }
 @media (min-width: 1024px) { .lh { padding-bottom: 40px; } }
 .lh :is(h1, h2, h3, h4, p, ul, ol) { margin: 0; }
@@ -172,89 +165,14 @@ html[data-theme='light'] .lh {
 }
 .lh-key__short { display: none; }
 
-/* ---------- Suggestions: three, the first leads. Sized to what they say; on a wide screen they share rows (subgrid). ---------- */
-.lh-sugs { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; min-width: 0; margin-bottom: 28px; }
-.lh-sug {
-  position: relative; min-width: 0; border: 1px solid var(--a-line); background: var(--lh-surface); box-shadow: var(--a-shadow-1);
-  animation: lh-rise 260ms var(--lh-ease) both; animation-delay: calc(var(--i, 0) * 50ms);
-}
-.lh-panel[data-swap] .lh-sug { animation: none; }
-.lh-sug__title { font: 500 15px/1.3 var(--font-display); letter-spacing: -0.012em; color: var(--a-ink); text-wrap: pretty; overflow-wrap: break-word; }
-.lh-sug__title b { font-weight: 700; }
-.lh-sug__why { font: 500 13px/1.4 var(--font-body); color: var(--a-ink-3); text-wrap: pretty; }
-.lh-sug__text { display: grid; align-content: start; min-width: 0; }
-.lh-sug__ev { display: grid; gap: 12px; align-content: start; min-width: 0; }
+/* ---------- The pick-up track and the skeleton pieces the offer uses ---------- */
 .lh-track { display: block; width: min(100%, 240px); height: 4px; border-radius: 2px; background: var(--a-line); overflow: hidden; }
 .lh-track__fill { display: block; width: var(--p, 0%); height: 100%; border-radius: 2px; background: var(--a-ink-2); transform-origin: left center; animation: lh-fill 420ms var(--mm-ease-emphasized, cubic-bezier(0.2, 0, 0, 1)) 120ms both; }
 @keyframes lh-fill { from { transform: scaleX(0); } to { transform: none; } }
-
-/* Phone: the lead card and two compact rows */
-.lh-sug[data-lead] { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; padding: 18px 16px 16px; border-radius: 20px; }
-.lh-sug[data-lead] .lh-sug__title { font-size: 22px; font-weight: 700; line-height: 1.18; letter-spacing: -0.022em; }
-.lh-sug .lh-sug__ev { margin-top: 6px; }
-.lh-sug[data-lead] .lh-sug__why { font-size: 15px; line-height: 1.45; color: var(--a-ink-2); }
-.lh-sug[data-lead] .lh-key { width: 100%; margin-top: 14px; }
-
-/* Under 560 px the key sits under the text, full width and 44 px tall, as the lead tile's does (M7): no title beside a key squeezed into four
-   lines, and no line cut with an ellipsis. */
-.lh-sug:not([data-lead]) {
-  display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'text' 'key'; align-items: start; row-gap: 12px;
-  padding: 16px; border-radius: 16px;
-}
-.lh-sug:not([data-lead]) .lh-sug__text { grid-area: text; }
-.lh-sug:not([data-lead]) .lh-sug__ev { margin-top: 4px; }
-.lh-sug:not([data-lead]) .lh-sug__why { display: block; font-size: 14px; color: var(--a-ink-2); }
-.lh-sug:not([data-lead]) .lh-key { grid-area: key; width: 100%; min-height: 44px; padding: 0 14px; }
-.lh-sug:not([data-lead]) .lh-key__full { display: inline; }
-.lh-sug:not([data-lead]) .lh-key__short { display: none; }
-
-/* Tablet (container 560 to 879): the lead across, the other two side by side on shared rows */
-@container lh (min-width: 560px) {
-  .lh-sugs { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(4, auto); column-gap: 12px; row-gap: 0; margin-bottom: 32px; }
-  .lh-sug, .lh-sug:not([data-lead]) { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: none; grid-template-rows: subgrid; row-gap: 0; align-items: start; align-content: start; border-radius: 20px; }
-  .lh-sug[data-lead] { grid-column: 1 / -1; grid-row: 1 / span 2; padding: 16px; }
-  .lh-sug:not([data-lead]) { grid-row: 3 / span 2; padding: 16px; margin-top: 12px; }
-  /* Rows of a tile: 1 the words (title, evidence, the pick-up track), 2 the key. Shared across tiles, so the keys sit on one line. */
-  .lh-sug .lh-sug__text, .lh-sug:not([data-lead]) .lh-sug__text { grid-area: 1 / 1; }
-  .lh-sug .lh-key, .lh-sug:not([data-lead]) .lh-key { grid-area: 2 / 1; align-self: start; }
-  .lh-sug[data-lead] .lh-sug__title { font-size: 22px; }
-  .lh-sug[data-lead] .lh-key { width: auto; min-width: 200px; justify-self: start; }
-  .lh-sug:not([data-lead]) .lh-sug__title { font-size: 16px; line-height: 1.35; }
-  .lh-sug:not([data-lead]) .lh-sug__ev { margin-top: 6px; }
-  .lh-sug:not([data-lead]) .lh-sug__why { overflow: visible; white-space: normal; font-size: 14px; color: var(--a-ink-2); }
-  .lh-sug:not([data-lead]) .lh-key { width: 100%; min-height: 44px; margin-top: 12px; }
-  .lh-sug:not([data-lead]) .lh-key__full { display: inline; }
-  .lh-sug:not([data-lead]) .lh-key__short { display: none; }
-}
-/* A search suggestion is never drawn here; when the engine sends two kinds only, the two tiles share the row */
-
-/* Container 880 and up: all three in one row, the lead wider */
-@container lh (min-width: 880px) {
-  .lh-sugs { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: repeat(2, auto); }
-  .lh-sugs[data-count='2'] { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); }
-  .lh-sug[data-lead] { grid-column: auto; grid-row: 1 / span 2; padding: 16px; }
-  .lh-sug:not([data-lead]) { grid-row: 1 / span 2; margin-top: 0; }
-}
-
-.lh-sugs--skel .lh-sug { animation: none; border-color: var(--a-line); }
-.lh-sugs--skel .lh-sug[data-lead] { min-height: 182px; align-content: space-between; }
 .lh-sk { display: block; border-radius: 8px; }
 .lh-sk--t { height: 26px; width: 72%; }
 .lh-sk--l { height: 18px; width: 90%; margin-top: 8px; }
 .lh-sk--key { height: 44px; width: 100%; margin-top: 14px; border-radius: 14px; }
-.lh-sugs--skel .lh-sug:not([data-lead]) { min-height: 150px; grid-template-areas: 't' 'l' 'key'; }
-.lh-sugs--skel .lh-sug:not([data-lead]) .lh-sk--t { grid-area: t; width: 80%; height: 20px; }
-.lh-sugs--skel .lh-sug:not([data-lead]) .lh-sk--l { grid-area: l; width: 60%; margin-top: 0; }
-.lh-sugs--skel .lh-sug:not([data-lead]) .lh-sk--key { grid-area: key; width: 100%; height: 44px; margin-top: 0; }
-@container lh (min-width: 560px) {
-  .lh-sugs--skel { grid-template-rows: none; row-gap: 12px; }
-  .lh-sugs--skel .lh-sug, .lh-sugs--skel .lh-sug:not([data-lead]) { grid-template-rows: none; grid-row: auto; margin-top: 0; }
-  .lh-sugs--skel .lh-sug[data-lead] { min-height: 180px; }
-  .lh-sugs--skel .lh-sug:not([data-lead]) { min-height: 180px; grid-template-areas: none; align-content: space-between; }
-  .lh-sugs--skel .lh-sug:not([data-lead]) :is(.lh-sk--t, .lh-sk--l, .lh-sk--key) { grid-area: auto; width: 80%; }
-  .lh-sugs--skel .lh-sug:not([data-lead]) .lh-sk--l { margin-top: 8px; }
-  .lh-sugs--skel .lh-sug:not([data-lead]) .lh-sk--key { width: 100%; margin-top: 14px; }
-}
 .lh-loading { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
 
 /* ---------- The chapter map ---------- */
@@ -358,14 +276,14 @@ html[data-theme='light'] .lh-row[data-here] .lh-row__bar > span { background: #7
 
 /* ---------- Reduced motion: things land at once; state changes are short fades ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .lh :is(.lh-sug, .lh-panel[data-swap], .lh-sort__list, .lh-optgroup[data-stage='in'], .lh-recent) { animation: lh-fade 120ms linear both; animation-delay: 0ms; }
+  .lh :is(.lh-panel[data-swap], .lh-sort__list, .lh-optgroup[data-stage='in'], .lh-recent) { animation: lh-fade 120ms linear both; animation-delay: 0ms; }
   .lh :is(.lh-track__fill, .lh-row__bar > span, .lh-route__node, .lh-hero) { animation: none; }
   .lh .lh-find__cancel { animation: none; }
   .lh :is(.lh-opt__btn, .lh-row__chev, .lh-sort__btn svg, .lh-row__link, .lh-skey, .lh-or__row) { transition: none; }
   .lh :is(.lh-row__link, .lh-or__row, .lh-key, .lh-skey):active { transform: none; }
   .lh .lh-optgroup[data-stage='out'] { transition: opacity 120ms linear; }
 }
-:root[data-motion='reduced'] .lh :is(.lh-sug, .lh-panel[data-swap], .lh-sort__list, .lh-optgroup[data-stage='in'], .lh-recent) { animation: lh-fade 120ms linear both; animation-delay: 0ms; }
+:root[data-motion='reduced'] .lh :is(.lh-panel[data-swap], .lh-sort__list, .lh-optgroup[data-stage='in'], .lh-recent) { animation: lh-fade 120ms linear both; animation-delay: 0ms; }
 :root[data-motion='reduced'] .lh :is(.lh-track__fill, .lh-row__bar > span, .lh-route__node, .lh-hero) { animation: none; }
 :root[data-motion='reduced'] .lh .lh-find__cancel { animation: none; }
 :root[data-motion='reduced'] .lh :is(.lh-opt__btn, .lh-row__chev, .lh-sort__btn svg, .lh-row__link, .lh-skey, .lh-or__row) { transition: none; }
