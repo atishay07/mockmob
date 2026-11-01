@@ -73,6 +73,17 @@ export function positionWords(item, position, total) {
 export const stopLine = (done, total) => `${done} of ${total} done. Everything you did is saved.`;
 
 /**
+ * How many items the student has finished, for the stop sheet's "N of M done". It counts the items before the one on screen,
+ * plus the one on screen once the server has it: an answered question, or a card whose rating or look the server already
+ * holds while the card is still flying away. Counting that flying card keeps the sheet equal to the end screen, which counts
+ * up to the last item the server saw.
+ */
+export function itemsFinished({ phase, at, length, item = null, answered = false, acted = false }) {
+  if (phase !== 'play') return length;
+  return at + (item && ((item.type === 'question' && answered) || acted) ? 1 : 0);
+}
+
+/**
  * Where a re-inserted item goes in the client's list (A5 R7, A8 F9 and F11). The server's `at` is a place in the run's whole
  * list; a resumed run holds only the items after `offset`. `moved: true` moves the item already in the list (never a copy).
  * Returns the new list (the same list when nothing changes).

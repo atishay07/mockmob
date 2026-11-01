@@ -1,7 +1,7 @@
 // node --test src/components/learn2/run/runView.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { answerTally, endLines, endTitle, freeEndLines, frontStep, leadView, movedParts, placeReinsert, positionWords, reviseSummary, rightLine, runPiles, stageTag, stateKeyOf } from './runView.mjs';
+import { answerTally, endLines, endTitle, freeEndLines, frontStep, itemsFinished, leadView, movedParts, placeReinsert, positionWords, reviseSummary, rightLine, runPiles, stageTag, stateKeyOf } from './runView.mjs';
 
 const card = (id, cardId = id, extra = {}) => ({ id, type: 'card', card: { id: cardId }, ...extra });
 const q = (id, origin = 'chapter') => ({ id, type: 'question', origin, question: { id: `q-${id}` } });
@@ -88,4 +88,20 @@ test('the lead names its length on a run and its own verb otherwise; Free splits
   assert.deepEqual(freeEndLines({ line: 'Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like.' }), { head: 'Your free Learn session for today is done.', rest: 'Explore questions stay free. Pro has as many as you like.' });
   assert.deepEqual(endTitle('10 minutes on Goodwill'), { lead: '10 minutes on', name: 'Goodwill' });
   assert.deepEqual(endTitle('Quick recap of Goodwill', { kind: 'recap' }), { lead: 'Quick recap of', name: 'Goodwill' });
+});
+
+test('itemsFinished counts the item on screen once the server has it, so the stop sheet matches the end screen', () => {
+  const c = card('c1');
+  const question = q('q1');
+  // Before the card is rated: only the items before it.
+  assert.equal(itemsFinished({ phase: 'play', at: 3, length: 10, item: c }), 3);
+  // Rated and confirmed, still flying away: the server already counts it, so the sheet does too.
+  assert.equal(itemsFinished({ phase: 'play', at: 3, length: 10, item: c, acted: true }), 4);
+  // A question counts once answered, not before.
+  assert.equal(itemsFinished({ phase: 'play', at: 5, length: 10, item: question }), 5);
+  assert.equal(itemsFinished({ phase: 'play', at: 5, length: 10, item: question, answered: true }), 6);
+  // An unanswered card is never counted by "answered" alone.
+  assert.equal(itemsFinished({ phase: 'play', at: 2, length: 10, item: c, answered: true }), 2);
+  // Off the play screen every item of the list is finished.
+  assert.equal(itemsFinished({ phase: 'end', at: 2, length: 10, item: null }), 10);
 });

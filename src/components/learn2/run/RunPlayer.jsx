@@ -28,7 +28,7 @@ import RunEnd from './RunEnd';
 import { BelowChip, StopSheet, goToOptions, scrollToRow, watchBelow, watchMore } from '../stage';
 import { CardItem, LessonItem, QuestionItem, SaveKey, SessionPanel, TopBar } from './RunParts';
 import { FLIGHT, minutesLeftLine, upNextLine } from './runMath';
-import { answerTally, placeReinsert, positionWords, runPiles } from './runView.mjs';
+import { answerTally, itemsFinished, placeReinsert, positionWords, runPiles } from './runView.mjs';
 import '@/components/keycards/keycards.css';
 import './run.css';
 
@@ -190,6 +190,8 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const [tally, setTally] = useState({ missed: 0, got: 0, easy: 0, right: 0, wrong: 0 });
   const [end, setEnd] = useState({ status: 'idle', data: null });
   const [stoppedAt, setStoppedAt] = useState(null);
+  // The card on screen whose rating or look the server already holds while it flies away (it counts as done).
+  const [actedId, setActedId] = useState(null);
   const [leaving, setLeaving] = useState(false);
   const [sheet, setSheet] = useState(false);
   const [announce, setAnnounce] = useState('');
@@ -216,7 +218,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const begin = useCallback(async (p) => {
     setLoad({ status: 'loading', error: null });
     setRun(null); setItems([]); setAt(0); setOffset(0); setPhase('play'); setAnswers({}); setTurned({}); setLookLine(null); setLookSaid(false);
-    setError(null); setNote(null); setBusy(null); setStoppedAt(null); setSheet(false);
+    setError(null); setNote(null); setBusy(null); setStoppedAt(null); setSheet(false); setActedId(null);
     setTally({ missed: 0, got: 0, easy: 0, right: 0, wrong: 0 }); setEnd({ status: 'idle', data: null }); setRound(0);
     // An end screen asked for by its link (?run=<id>&end=1): read it; the run is the server's.
     if (p.openEnd && p.runId) {
@@ -256,7 +258,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const answerState = item ? answers[item.id] : null;
   const answered = Boolean(answerState?.result) || answerState?.status === 'skipped';
   const isTurned = Boolean(item && (turned[item.id] || isRecap));
-  const finished = phase === 'play' ? at + (item?.type === 'question' && answered ? 1 : 0) : items.length;
+  const finished = itemsFinished({ phase, at, length: items.length, item, answered, acted: Boolean(item && actedId === item.id) });
   const total = offset + items.length;
   const position = offset + at + 1;
   const doneCount = offset + finished;
@@ -305,7 +307,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const itemsRef = useRef(items);
   useEffect(() => { itemsRef.current = items; }, [items]);
   const advance = useCallback(() => {
-    setBusy(null); setError(null); setReporting(null);
+    setBusy(null); setError(null); setReporting(null); setActedId(null);
     const list = itemsRef.current;
     const next = at + 1;
     if (next >= list.length) { finish(); return; }
@@ -380,6 +382,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
       return;
     }
     flying.current = true;
+    setActedId(item.id);
     setLeaving(true);
     setBusy(null);
     const kindOf = FLIGHT[rating] || 'got';
@@ -408,7 +411,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const lookNext = useCallback(async () => {
     if (flying.current || !item) return;
     logLook(item);
-    flying.current = true; setLeaving(true);
+    flying.current = true; setActedId(item.id); setLeaving(true);
     await launch(cardRef.current, null, 'missed').handoff;
     flying.current = false; setLeaving(false);
     advance();
