@@ -352,7 +352,7 @@ abstract final class ActionRouter {
       from: Uri(queryParameters: {
         if (subject != null && _subject.hasMatch(subject)) 'subject': subject,
         'find': '1',
-        if (text != null && text.length <= 80 && !text.contains(RegExp(r'[ -]'))) 'q': text,
+        if (text != null && text.length <= 80 && text.codeUnits.every((c) => c >= 0x20)) 'q': text,
       }),
     );
   }
