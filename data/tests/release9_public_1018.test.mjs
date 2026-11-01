@@ -141,7 +141,8 @@ test('price framing: /pricing and the landing read the same helpers, and checkou
   assert.match(pricing, /\.\.\.priceTag\(offer\),/);
   assert.doesNotMatch(pricing, /\{`Pro is ₹\$\{offer\.monthly\.rupees\} a month\.`\}/, 'the H1 no longer hard-codes "a month"');
   const home = read('src/app/page.js');
-  assert.match(home, /<li><Check size=\{16\} aria-hidden="true" \/>\{priceLine\(OFFER\)\}<\/li>/);
+  // LK32 (1 Nov 2026): the hero's reassurances are one quiet line, still built from priceLine(OFFER).
+  assert.match(home, /<p className="lp-trust-line">\{heroTrustLine\(priceLine\(OFFER\), \{ monthly: OFFER\.purchasable === 'monthly' \}\)\}<\/p>/);
   // What a buyer is charged today (checkout code, unchanged): the one-time plan is ₹99, live, through 31 July 2027;
   // the monthly plan opens only when its Razorpay plan id is configured.
   const plans = read('src/lib/payments/plans.js');

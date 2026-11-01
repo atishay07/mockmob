@@ -42,29 +42,11 @@ function clearLook(nodes) {
     delete node.dataset.pipLooking;
   }
 }
-// When the hero's headline changes its last line (HeroMorph, 'pip:glance'), the hero's Mobi looks at it: his eyes
-// go to the line and his head dips toward it (about 3 degrees, 680 ms), then he looks back after 1.15 s unless a
-// mouse has caught his eyes since. `node` carries the look variables, `head` turns (WAAPI, rotate only, so the
-// CSS breath, float and acts on the other properties carry on).
+// The hero has its own Mobi since LK32 (1 Nov: the rigged Mobi in the painted room on a phone, the sample's host on
+// desktop; HeroMobi.jsx). The guide no longer has a hero seat and starts at the next one; it no longer glances at the
+// headline's changing line either (a line every 2.3 s would fight his tap acts). On desktop the flyer stays out of
+// view while the hero's Mobi is on screen, so only one Mobi is ever in view (W-074).
 const pointer = { at: 0 };
-let glanceTimer = 0;
-function glanceAt(node, head, target) {
-  const t = target?.getBoundingClientRect();
-  const box = node?.getBoundingClientRect();
-  if (!t || !box?.width) return;
-  const x = clamp(((t.left + t.right) / 2 - (box.left + box.width / 2)) / Math.max(160, box.width * 1.5), -1, 1);
-  const y = clamp(((t.top + t.bottom) / 2 - (box.top + box.height * 0.4)) / Math.max(160, box.height * 1.5), -1, 1);
-  const started = performance.now();
-  setLook([node], x, y, 0);
-  node.dataset.pipLooking = 'true';
-  head?.animate?.([{ rotate: '0deg' }, { rotate: `${x < 0 ? -3 : 3}deg`, offset: 0.4 }, { rotate: '0deg' }], { duration: 680, easing: 'cubic-bezier(0.37, 0, 0.63, 1)' });
-  clearTimeout(glanceTimer);
-  glanceTimer = setTimeout(() => {
-    if (pointer.at > started) return;
-    setLook([node], 0, 0, 0);
-    delete node.dataset.pipLooking;
-  }, 1150);
-}
 function useLook(targets, enabled) {
   useEffect(() => {
     if (!enabled) return undefined;
@@ -240,16 +222,13 @@ export default function PipGuide() {
         };
         const visibility = () => { if (document.hidden) clear(); };
         // Arrival: each seat's Mobi hops in once (anticipation squash, hop, landing squash, settle) the first
-        // time most of his seat is on screen; until then the seat keeps its space, empty. The hero's Mobi flies
-        // in instead (brand-pip.css, Round 7). Seats on screen get the scroll look; a seat off screen pauses its
+        // time most of his seat is on screen; until then the seat keeps its space, empty. Seats on screen get the scroll look; a seat off screen pauses its
         // breath, float and blink (data-pip-off).
         const seats = [...document.querySelectorAll('.pip-seat[data-pip-station]')];
-        let heroAt = 0;
         const arrive = new IntersectionObserver((entries) => {
           for (const entry of entries) {
             if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
               entry.target.dataset.pipEnter = 'true';
-              if (entry.target.dataset.pipStation === 'hero') heroAt = performance.now();
               arrive.unobserve(entry.target);
               recheck();
             }
@@ -266,20 +245,12 @@ export default function PipGuide() {
           }
           recheck();
         });
-        // The headline changed: the hero's Mobi looks at it, once he has landed and waved, unless he is reacting.
-        const glance = () => {
-          const seat = document.querySelector('.pip-seat[data-pip-station="hero"]');
-          const art = seat?.querySelector('.pip-seat__art');
-          if (!art || !inView.current.has(art) || seat.dataset.pipYield || !heroAt || performance.now() - heroAt < 2600 || (activeSeat === seat && timer) || document.hidden) return;
-          glanceAt(art, art.querySelector('.pip-rig__breath'), document.querySelector('.lp-morph'));
-        };
         seats.forEach((seat) => { arrive.observe(seat); watch.observe(seat); });
         root.dataset.pipGuide = 'local';
         setRunning(true);
         window.addEventListener('pip:react', react);
-        window.addEventListener('pip:glance', glance);
         document.addEventListener('visibilitychange', visibility);
-        dispose = () => { clear(); arrive.disconnect(); watch.disconnect(); one.dispose(); clearLook([...inView.current]); inView.current.clear(); seats.forEach((seat) => { delete seat.dataset.pipEnter; delete seat.dataset.pipOff; }); delete root.dataset.pipGuide; window.removeEventListener('pip:react', react); window.removeEventListener('pip:glance', glance); document.removeEventListener('visibilitychange', visibility); };
+        dispose = () => { clear(); arrive.disconnect(); watch.disconnect(); one.dispose(); clearLook([...inView.current]); inView.current.clear(); seats.forEach((seat) => { delete seat.dataset.pipEnter; delete seat.dataset.pipOff; }); delete root.dataset.pipGuide; window.removeEventListener('pip:react', react); document.removeEventListener('visibilitychange', visibility); };
         return;
       }
       const lab = document.querySelector('.ml');
@@ -339,7 +310,7 @@ export default function PipGuide() {
           if(queued!=='eureka'||!peakPlayed.current){mood=REACTIONS[queued];reactionUntil=now+mood.ms;n++;if(queued==='eureka')peakPlayed.current=true;}
           pending.delete(s.id);
         }
-        const shown=(wide||onScreen) && scrollY < mainEnd-140;
+        const shown=(wide||onScreen) && scrollY < mainEnd-140 && !heroMobi;
         // His line stays under him while he stands on his seat. When he is held in the lane lower than his seat (the
         // seat has gone up past the top of the lane, or he is still catching up with the scroll), his feet would
         // stand on it, so it steps out until he is back on the seat (nothing overlaps).
@@ -356,12 +327,12 @@ export default function PipGuide() {
         const pose=guidePose(s.pose,{settled:poseSettled,reactionPose:mood?.pose});
         const facing=guideFacing(current.x,current.w,innerWidth);
         // He arrives once (a hop in from below with squash and stretch), and the first time he settles at the
-        // hero or the close he waves; at the lab he reads (brand-pip.css, data-station).
+        // close he waves; at the lab he reads (brand-pip.css, data-station).
         if(shown && !arrivedAt) arrivedAt=now;
         const arriving=arrivedAt>0 && now-arrivedAt<900;
-        if(!arriving && !mood && poseSettled && (s.id==='hero'||s.id==='close') && !greeted.has(s.id)){greeted.add(s.id);mood={pose:null,motion:'wave',ms:1400};reactionUntil=now+1400;n++;}
-        // At the hero he flies in on a short arc and settles (Round 7); everywhere else he hops in.
-        const motion=mood?`${mood.motion}-${n%2}`:arriving?(s.id==='hero'?'fly-0':'arrive-0'):'';
+        if(!arriving && !mood && poseSettled && s.id==='close' && !greeted.has(s.id)){greeted.add(s.id);mood={pose:null,motion:'wave',ms:1400};reactionUntil=now+1400;n++;}
+        // He hops in at his first seat.
+        const motion=mood?`${mood.motion}-${n%2}`:arriving?'arrive-0':'';
         const state=`${s.id}:${pose}:${facing}:${motion}:${n}`;
         if(state!==rendered){rendered=state;setActor({pose,facing,motion,station:s.id});}
         if(arriving && !arriveTimer) arriveTimer=setTimeout(()=>{arriveTimer=0;wake();},920);
@@ -378,13 +349,16 @@ export default function PipGuide() {
       let reactionTimer=0;
       let arriveTimer=0;
       // The headline changed: he looks at it from the lane, once he has flown in and waved, never mid-act.
-      const glance=()=>{if(disposed||document.hidden||activeId!=='hero'||!visible||mood||!greeted.has('hero')||!flyer.current)return;glanceAt(flyer.current,flyer.current.querySelector('.pip-art-direction'),document.querySelector('.lp-morph'));};
+      // The hero's own Mobi (HeroMobi, the sample's host) is on screen: the flyer waits out of view (W-074).
+      let heroMobi=false;
+      const heroWatch=new IntersectionObserver((entries)=>{const seen=entries.some(e=>e.isIntersecting);if(seen!==heroMobi){heroMobi=seen;wake();}});
+      document.querySelectorAll('.lp-mobi').forEach(el=>heroWatch.observe(el));
       const react=e=>{const {station}=e.detail||{};const kind=calmMood(e.detail?.mood);if(!REACTIONS[kind]||(kind==='eureka'&&peakPlayed.current)||(kind==='nod'&&(mood||pending.get(station)==='eureka')))return;pending.set(station,kind);wake();};
       const observer=new ResizeObserver(resize);observer.observe(document.querySelector('main')||document.body);
       root.dataset.pipGuide='on';setRunning(true);
-      window.addEventListener('scroll',wake,{passive:true});window.addEventListener('resize',resize);window.addEventListener('pip:react',react);window.addEventListener('pip:glance',glance);document.addEventListener('visibilitychange',wake);
+      window.addEventListener('scroll',wake,{passive:true});window.addEventListener('resize',resize);window.addEventListener('pip:react',react);document.addEventListener('visibilitychange',wake);
       document.fonts.ready.then(()=>{if(!disposed)resize();});wake();
-      dispose=()=>{disposed=true;cancelAnimationFrame(raf);clearTimeout(reactionTimer);clearTimeout(arriveTimer);observer.disconnect();window.removeEventListener('scroll',wake);window.removeEventListener('resize',resize);window.removeEventListener('pip:react',react);window.removeEventListener('pip:glance',glance);document.removeEventListener('visibilitychange',wake);stations.forEach(s=>{s.seat.style.removeProperty('transform');s.seat.removeAttribute('data-pip-away');});delete root.dataset.pipGuide;delete root.dataset.pipPerch;delete root.dataset.pipPerchVisible;};
+      dispose=()=>{disposed=true;cancelAnimationFrame(raf);clearTimeout(reactionTimer);clearTimeout(arriveTimer);observer.disconnect();window.removeEventListener('scroll',wake);window.removeEventListener('resize',resize);window.removeEventListener('pip:react',react);heroWatch.disconnect();document.removeEventListener('visibilitychange',wake);stations.forEach(s=>{s.seat.style.removeProperty('transform');s.seat.removeAttribute('data-pip-away');});delete root.dataset.pipGuide;delete root.dataset.pipPerch;delete root.dataset.pipPerchVisible;};
     }
     initMobiPrefs();start();media.addEventListener('change',start);desktop.addEventListener('change',start);window.addEventListener('mm-prefs',start);return()=>{dispose();media.removeEventListener('change',start);desktop.removeEventListener('change',start);window.removeEventListener('mm-prefs',start);};
   },[]);

@@ -14,7 +14,10 @@ import { CloseActions, DockLine } from '@/components/landing/CloseActions';
 import { DemoJump } from '@/components/landing/DemoJump';
 import { HashSettle } from '@/components/landing/HashSettle';
 import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
-import { HeroScene } from '@/components/landing/HeroScene';
+import { HeroRoom } from '@/components/landing/HeroRoom';
+import HeroMobi from '@/components/landing/HeroMobi';
+import { MobiPoster } from '@/components/landing/MobiPoster';
+import { heroTrustLine } from '@/components/landing/heroTaps.mjs';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import { HeroMorph } from '@/components/landing/HeroMorph';
 import { HeroLine } from '@/components/landing/HeroLine';
@@ -53,6 +56,7 @@ import './tour-screens.css';
 import './lab-cinema.css';
 import './home.css';
 import './hero-motion.css';
+import '@/components/brand/mobi-figure.css';
 import './hero-scene.css';
 
 const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
@@ -167,7 +171,7 @@ export default function LandingPage() {
       <JsonLd id="home-breadcrumb-json-ld" data={breadcrumbJsonLd([{ name: 'Home', path: '/' }])} />
       <JsonLd id="home-faq-json-ld" data={faqJsonLd(faqs)} />
       <noscript>
-        <style>{'.rv,.rv-item,.lp-hero [data-hero]{opacity:1!important;transform:none!important}'}</style>
+        <style>{'.rv,.rv-item,.lp-hero [data-hero]{opacity:1!important;transform:none!important}.lp-room__file{opacity:1!important}'}</style>
       </noscript>
       <NavBar />
       <SectionPosition sections={POSITION} />
@@ -177,9 +181,10 @@ export default function LandingPage() {
           <HeroBackdrop />
           <div className="mm-wrap lp-hero__grid">
             <div className="lp-hero__copy">
-              {/* Phones (max-width 760 px) stage this row as the app's welcome: the lamp-lit study (HeroScene), Mobi standing
-                  in its light and his line in a bubble (hero-scene.css). Wider screens never draw the scene or the bubble. */}
-              <div className="lp-hero__greeting"><HeroScene /><p className="lp-hero__for" data-hero style={{ '--h': 0 }}>For CUET UG 2027</p><MascotSeat station="hero" pose="greeting" label="Mobi’s on your side." note="Even at 11pm." eager /><p className="lp-scene__bubble">Hi, I’m Mobi. Let’s find yours.</p></div>
+              {/* Phones (up to 760 px) stage this row as the Play app's welcome (LK32, 1 Nov): the app's own painted room
+                  (HeroRoom), the real rigged Mobi standing in its light, and his line in a bubble that changes with each
+                  tap (HeroMobi, heroTaps.mjs). Wider screens never draw the room; their Mobi is the sample's host. */}
+              <div className="lp-hero__greeting"><HeroRoom /><HeroMobi variant="room" poster={<MobiPoster id="room" />} /></div>
               <h1 className="lp-title">
                 {recoveryReleased() ? <><span className="lp-title__line">Find the mistake</span><span className="lp-title__line">behind the marks.</span></> : <>
                 {/* The two still lines run inline in the h1 with a break between them, so the browser counts them as one
@@ -194,19 +199,21 @@ export default function LandingPage() {
               <p className="lp-lead" data-hero style={{ '--h': 1 }}>
                 {recoveryReleased() ? 'Find the missing step. Practise it. Check it on fresh questions. Built for CUET Commerce and English.' : 'Take a timed mock. See exactly where every mark went. Fix the right chapter tonight.'}
               </p>
-              <QuestionBankLine className="lp-bank" data-hero style={{ '--h': 1 }} />
               <div className="lp-cta" data-hero style={{ '--h': 2 }}>
                 <LandingActions />
               </div>
-              <ul className="lp-trust" data-hero style={{ '--h': 3 }}>
-                <li><Check size={16} aria-hidden="true" />Free to start</li>
-                <li><Check size={16} aria-hidden="true" />{priceLine(OFFER)}</li>
-                <li><Check size={16} aria-hidden="true" />{OFFER.purchasable === 'monthly' ? 'Cancel anytime' : 'No auto-renewal'}</li>
-              </ul>
-              <Link href="/cuet-cutoff-calculator" className="lp-link lp-hero__tool" data-hero style={{ '--h': 4 }}>
-                Free DU eligibility and cutoff calculator
-              </Link>
-              <a href="#exam-experience" className="lp-hero__exam-link"><Monitor size={16} aria-hidden="true" />Try the exam-day screen</a>
+              {/* Two quiet lines (LK32: the details band cut by about a quarter): the reassurances on one line, the
+                  live bank on the next. The long bank sentence with the subject claim stays in the shelf and the FAQ. */}
+              <div className="lp-hero__facts" data-hero style={{ '--h': 3 }}>
+                <p className="lp-trust-line">{heroTrustLine(priceLine(OFFER), { monthly: OFFER.purchasable === 'monthly' })}</p>
+                <QuestionBankLine variant="short" className="lp-bank lp-bank--short" />
+              </div>
+              <div className="lp-hero__links" data-hero style={{ '--h': 4 }}>
+                <Link href="/cuet-cutoff-calculator" className="lp-link lp-hero__tool">
+                  Free DU eligibility and cutoff calculator
+                </Link>
+                <a href="#exam-experience" className="lp-hero__exam-link"><Monitor size={16} aria-hidden="true" />Try the exam-day screen</a>
+              </div>
             </div>
 
             <div className="lp-stage" id="try-practice" data-hero style={{ '--h': 2 }}>
@@ -214,9 +221,10 @@ export default function LandingPage() {
               <div className="lp-stage__card">
                 <DemoDrill />
               </div>
-              <div className="lp-stage__path"><span>Answer</span><i /><span>Read why it’s right</span></div>
-              <p className="lp-stage__note">Five original CUET-style questions. Every answer comes with the why.</p>
+              <p className="lp-stage__note">Five CUET-style questions, each with the why.</p>
               <p className="lp-stage__other">Taking other subjects? <Link href="/signup">Sign up free and pick yours</Link></p>
+              {/* Tablets and desktop: Mobi hosts the sample from the gutter at its lower left (one Mobi in view, W-074). */}
+              <HeroMobi variant="host" poster={<MobiPoster id="host" />} />
             </div>
           </div>
 

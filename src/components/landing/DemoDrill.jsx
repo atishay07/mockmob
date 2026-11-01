@@ -240,11 +240,15 @@ export function DemoDrill() {
           })}
         </div>
 
+        {/* The reasoning is not drawn until an answer is chosen (LK30, LK31: no placeholder lines); then it opens,
+            0fr to 1fr over 240 ms (landing.css, .mm-drill__reveal). */}
+        <div className="mm-drill__reveal" data-open={answered ? 'true' : 'false'}>
         <div className="mm-drill__foot" aria-live="polite" ref={footRef}>
           {answered ? (
             <>
               {/* Mobi answers the pick: a hop for a right one, a head tilt in his warm pose for a wrong one (brand-pip.css,
-                  Round 7). On desktop the hero's Mobi in the lane answers instead and this one steps aside. */}
+                  Round 7). Where the hero's Mobi is in view (the host beside the stage, or the room's on a phone) he
+                  answers instead and this one steps aside (hero-scene.css). */}
               <p className="mm-drill__why pip-drill-reaction" data-verdict={picked === question.correct ? 'right' : 'wrong'}>
                 <Mascot pose={picked === question.correct ? 'celebrating' : 'encouraging'} />
                 <span>
@@ -258,18 +262,8 @@ export function DemoDrill() {
                 {index + 1 >= DRILL.length ? 'See your readout' : 'Next question'}
               </button>
             </>
-          ) : (
-            <>
-              <p className="mm-drill__hint">
-                Tap an answer. No signup needed.
-              </p>
-              <div className="mm-drill__ghost" aria-hidden="true">
-                <span>The reasoning shows up here</span>
-                <i />
-                <i />
-              </div>
-            </>
-          )}
+          ) : null}
+        </div>
         </div>
       </div>
     </div>
