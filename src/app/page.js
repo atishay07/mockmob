@@ -1,4 +1,5 @@
 import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only where it is drawn
+import { Fragment } from 'react';
 import Link from 'next/link';
 import { CAPABILITIES, recoveryReleased, newOfferReleased } from '@/../data/capabilities';
 import { priceLine, publicOffer } from '@/lib/payments/offer';
@@ -18,11 +19,9 @@ import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
 import { HeroRoom } from '@/components/landing/HeroRoom';
 import HeroMobi from '@/components/landing/HeroMobi';
 import { MobiPoster } from '@/components/landing/MobiPoster';
-import { heroTrustLine } from '@/components/landing/heroTaps.mjs';
+import { heroTrustSegments } from '@/components/landing/heroTaps.mjs';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
-import { HeroMorph } from '@/components/landing/HeroMorph';
-import { HeroLine } from '@/components/landing/HeroLine';
-import { HERO_LINES, heroMotionMode } from '@/components/landing/heroPhrases.mjs';
+import { HERO_LINES } from '@/components/landing/heroLines.mjs';
 import { Reveal } from '@/components/landing/Reveal';
 import { LiveStatsBand } from '@/components/landing/LiveStatsBand';
 import { QuestionBankLine } from '@/components/landing/QuestionBankLine';
@@ -56,7 +55,6 @@ import './feature-tour.css';
 import './tour-screens.css';
 import './lab-cinema.css';
 import './home.css';
-import './hero-motion.css';
 import '@/components/brand/mobi-figure.css';
 import './hero-scene.css';
 
@@ -164,9 +162,6 @@ const faqs = [
 ];
 
 export default function LandingPage() {
-  // D115: option C ("select and type") ships OFF. Everyone gets the released line; ?hero=v2 previews option C on any
-  // build, production included, and HERO_MOTION_V2=1 switches it on for everyone after his OK (heroPhrases.mjs).
-  const heroMotion = heroMotionMode(process.env);
   return (
     <div className="mm lp">
       <JsonLd id="home-breadcrumb-json-ld" data={breadcrumbJsonLd([{ name: 'Home', path: '/' }])} />
@@ -188,13 +183,12 @@ export default function LandingPage() {
               <div className="lp-hero__greeting"><HeroRoom /><HeroMobi variant="room" poster={<MobiPoster id="room" />} /></div>
               <h1 className="lp-title">
                 {recoveryReleased() ? <><span className="lp-title__line">Find the mistake</span><span className="lp-title__line">behind the marks.</span></> : <>
-                {/* The two still lines run inline in the h1 with a break between them, so the browser counts them as one
-                    paint (largest contentful paint) at first render. Each was its own block before, and the typed third
-                    line, a new element every change, then out-sized either one and moved LCP to its first change
-                    (about 3.2 s on a desktop): the page looked done at 0.5 s but measured slow. */}
+                {/* The headline is static (R3 H1): three inline runs with a break between them, so the browser counts them
+                    as one paint (largest contentful paint) at first render. The spaces before the breaks keep the
+                    sentence "CUET 2027. One mock. Know what to fix." for a screen reader and a search engine. */}
                 <span className="lp-title__line lp-title__line--run lp-title__brand">{HERO_LINES[0]}</span>{' '}<br />
-                <span className="lp-title__line lp-title__line--run">{HERO_LINES[1]}</span>
-                {heroMotion === 'v1' ? <HeroMorph /> : <HeroLine mode={heroMotion} />}
+                <span className="lp-title__line lp-title__line--run">{HERO_LINES[1]}</span>{' '}<br />
+                <span className="lp-title__line lp-title__line--run">{HERO_LINES[2]}</span>
                 </>}
               </h1>
               <p className="lp-lead" data-hero style={{ '--h': 1 }}>
@@ -206,7 +200,7 @@ export default function LandingPage() {
               {/* Two quiet lines (LK32: the details band cut by about a quarter): the reassurances on one line, the
                   live bank on the next. The long bank sentence with the subject claim stays in the shelf and the FAQ. */}
               <div className="lp-hero__facts" data-hero style={{ '--h': 3 }}>
-                <p className="lp-trust-line">{heroTrustLine(priceLine(OFFER), { monthly: OFFER.purchasable === 'monthly' })}</p>
+                <p className="lp-trust-line">{heroTrustSegments(priceLine(OFFER), { monthly: OFFER.purchasable === 'monthly' }).map((part, i, all) => <Fragment key={part}>{i > 0 ? ' ' : null}<span className="lp-trust-line__seg">{part}{i < all.length - 1 ? ' ·' : ''}</span></Fragment>)}</p>
                 <QuestionBankLine variant="short" className="lp-bank lp-bank--short" />
               </div>
               <div className="lp-hero__links" data-hero style={{ '--h': 4 }}>

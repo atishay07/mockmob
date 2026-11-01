@@ -4,7 +4,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { HERO_KEY_LIFT_STEP, HERO_LINE_LOAD, HERO_TAP_COUNT, heroBankLine, heroTapLine, heroTapLines, heroTrustLine, nextHeroStep } from './heroTaps.mjs';
+import { HERO_KEY_LIFT_STEP, HERO_LINE_LOAD, HERO_TAP_COUNT, heroBankLine, heroTapLine, heroTapLines, heroTrustLine, heroTrustSegments, nextHeroStep } from './heroTaps.mjs';
+import { HERO_LINES, HERO_SENTENCE } from './heroLines.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 
@@ -68,4 +69,25 @@ test('the count is the page\'s real inventory value (/api/stats bankSize), fetch
   for (const file of ['HeroMobi.jsx', 'HeroRoom.jsx', 'heroTaps.mjs', 'QuestionBankLine.jsx', '../../app/page.js']) {
     assert.doesNotMatch(read(file), /\b\d{1,2},\d{3}\b|\b\d{4,6} questions/, file);
   }
+});
+
+test('R3 H1: the headline is static, so the reactions are only his own (no cycling line, no caret, no glance listener)', () => {
+  assert.deepEqual([...HERO_LINES], ['CUET 2027.', 'One mock.', 'Know what to fix.']);
+  assert.equal(HERO_SENTENCE, 'CUET 2027. One mock. Know what to fix.');
+  const page = read('../../app/page.js');
+  assert.ok(page.includes('{HERO_LINES[2]}'));
+  assert.doesNotMatch(page, /HeroMorph|HeroLine|HeroType|HeroMelt|lp-morph|caret/);
+  assert.doesNotMatch(read('HeroMobi.jsx'), /pip:glance|HERO_LINES/, 'his taps do not depend on the headline');
+});
+
+test('R3 H2: every trust segment is whole on its own, and the string is only the segments joined', () => {
+  for (const monthly of [true, false]) {
+    const parts = heroTrustSegments('Pro ₹99 once, through 31 July 2027', { monthly });
+    assert.equal(parts.length, 3);
+    assert.equal(parts[2], monthly ? 'Cancel anytime' : 'No auto-renewal');
+    for (const part of parts) assert.doesNotMatch(part, / · |·/, 'a segment never contains the separator');
+    assert.equal(heroTrustLine('Pro ₹99 once, through 31 July 2027', { monthly }), parts.join(' · '));
+  }
+  assert.match(read('../../app/hero-scene.css'), /.lp-trust-line__seg { white-space: nowrap; }/);
+  assert.match(read('../../app/page.js'), /className="lp-trust-line__seg"/);
 });

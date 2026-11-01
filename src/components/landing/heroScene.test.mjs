@@ -97,7 +97,8 @@ test('phones only: wider screens never draw the room', () => {
 });
 
 test('the details band is two quiet lines: no eyebrow, no stacked checks, no three-line bank sentence', () => {
-  assert.match(PAGE, /<p className="lp-trust-line">\{heroTrustLine\(priceLine\(OFFER\), \{ monthly: OFFER\.purchasable === 'monthly' \}\)\}<\/p>/);
+  // R3 H2: the line is the segments, each in its own nowrap span (heroLines.test.mjs pins the markup).
+  assert.ok(PAGE.includes('<p className="lp-trust-line">{heroTrustSegments(priceLine(OFFER), '));
   assert.match(PAGE, /<QuestionBankLine variant="short" className="lp-bank lp-bank--short" \/>/);
   assert.doesNotMatch(PAGE, /<ul className="lp-trust"/);
   assert.match(strip(CSS), /\.lp \.lp-hero__facts > p \{ margin: 0; max-width: none; font-size: 0\.8125rem;/);

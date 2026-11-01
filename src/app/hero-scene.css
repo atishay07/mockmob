@@ -11,6 +11,42 @@
    LCP: the room's box is fixed before anything decodes, so nothing shifts; the h1 rises by transform only.
    ========================================================================== */
 
+/* ---------- The headline (R3 H1: static; it no longer moves) ----------
+   "CUET 2027." in the brand colour: volt on Night, the Day links' dark olive on Day (volt text on a light ground fails
+   contrast). Plain text, never a button. The size holds the old widest line on one line: 11 cqi on a phone (home.css),
+   11.3 cqi from 761 px. */
+.mm.lp .lp-title__brand { color: var(--accent-text); }
+@media (min-width: 761px) {
+  .mm.lp .lp-title { font-size: clamp(1.75rem, min(11.3cqi, 13.5svh), 5.1rem); }
+}
+
+/* ---------- Phones: one quiet line of proof, then the buttons ---------- */
+.lp .lp-bank { color: var(--ink-3); }
+.lp .lp-bank__n { color: var(--ink); }
+@media (max-width: 760px) {
+  .lp .lp-hero__copy { gap: 0.75rem; }
+  .lp .lp-bank { margin-top: -0.125rem; font-size: 0.8125rem; line-height: 1.5; }
+  .lp .lp-cta { margin-top: 0.5rem; }
+}
+
+/* ---------- The sample's way out for other subjects (L-015) ---------- */
+.lp-stage__other { margin: -0.35rem 0 0; justify-self: center; text-align: center; font-size: 0.75rem; line-height: 1.5; color: var(--ink-3); }
+.lp-stage__other a {
+  color: var(--accent-text);
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  /* The line keeps its leading; the padding makes the 44 px target (W-079). */
+  padding-block: 13px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .lp-stage__other a:hover { text-decoration-thickness: 2px; }
+}
+
+/* ---------- The trust line (R3 H2): each part stays whole; the line may wrap between parts ---------- */
+.lp-trust-line__seg { white-space: nowrap; }
+
 .lp-room,
 .lp-mobi--room,
 .lp-mobi--host { display: none; }
@@ -245,15 +281,16 @@
 @media (min-width: 761px) {
   .mm.lp .lp-hero__greeting { display: none; }
   .lp .lp-hero__copy > .lp-hero__links { margin-top: -4px; }
-  /* He stands in the gutter at the stage's lower left, his feet on the bay's bottom line, overlapping its border by
-     36 px, facing the card. */
+  /* He stands fully in the gutter at the stage's lower left, his feet on the bay's bottom line, his right edge
+     --gap clear of the bay's border (R3 H3: he never overlaps the card's frame or its words), facing the card. */
   .lp-mobi--host {
     --mobi-h: 120px;
-    --bay: 0.7rem;
+    --bay: 1.1rem; /* the stage's frame (home-refinements.css .lp-stage::before) sits 1.1 rem outside it from 761 px up */
+    --gap: 12px;
     display: block;
     position: absolute;
     z-index: 3;
-    left: calc(36px - var(--bay) - var(--mobi-w));
+    left: calc(-1 * var(--bay) - var(--gap) - var(--mobi-w));
     bottom: calc(-1 * var(--bay) - var(--mobi-h) * 6 / 168);
     width: var(--mobi-w);
     height: var(--mobi-h);
@@ -265,7 +302,6 @@
   .lp-stage .pip-drill-result { display: none; }
 }
 @media (min-width: 960px) {
-  .lp-mobi--host { --bay: 1.1rem; }
   /* The gutter is his: wide enough for Mobi and his bubble (at most 9 rem, right-aligned over him), so neither ever
      meets the copy, before or after the sample grows. */
   .lp .lp-hero__grid { column-gap: max(clamp(2.5rem, 5vw, 5rem), 8.5rem); }
@@ -275,8 +311,10 @@
   .lp-mobi--host { --mobi-h: 140px; }
 }
 /* One column (761 to 959 px): the stage's side margin is too narrow for a bubble beside the card, so his line is read
-   out (the live region stays) but not drawn; he still answers taps and the sample. */
+   out (the live region stays) but not drawn; he still answers taps and the sample. He is smaller here so he still
+   fits the margin (at least 81 px at 761 px) without touching the frame. */
 @media (min-width: 761px) and (max-width: 959px) {
+  .lp-mobi--host { --mobi-h: 88px; --gap: 6px; }
   .lp-mobi--host .lp-mobi__bubble { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 }
 @media (min-width: 761px) and (prefers-reduced-motion: no-preference) {

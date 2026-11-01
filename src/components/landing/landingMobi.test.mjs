@@ -11,8 +11,6 @@ const GUIDE = read('../brand/PipGuide.jsx');
 const ACTOR = read('../brand/PipActor.jsx');
 const CSS = read('../../app/brand-pip.css');
 const DRILL = read('DemoDrill.jsx');
-const MORPH = read('HeroMorph.jsx');
-const TYPE_LINE = read('HeroType.jsx');
 
 // LK32 (1 Nov 2026) replaced the hero's PNG seat, its fly-in and its headline glance with the rigged Mobi (HeroMobi.jsx):
 // these two tests pin the new hero Mobi instead of the old seat (updated on purpose; hero.md item 16).
@@ -47,9 +45,7 @@ test('a sample answer makes the hero Mobi react (right: correct, wrong: encourag
   assert.match(CSS, /\.pip-actor\[data-motion\^='tilt'\] \{ animation: pip-tilt 900ms/);
   assert.match(DRILL, /data-verdict=\{picked === question\.correct \? 'right' : 'wrong'\}/);
   assert.match(DRILL, /<Mascot pose=\{picked === question\.correct \? 'celebrating' : 'encouraging'\} \/>/);
-  // The headline still asks for a glance (harmless now nobody listens), so its motion is untouched (D120).
-  assert.match(MORPH, /new CustomEvent\('pip:glance'/);
-  assert.match(TYPE_LINE, /new CustomEvent\('pip:glance'/);
+  // The headline is static now (R3 H1): nothing on the page asks for a glance any more.
 });
 
 test('his eyes follow a mouse by under 3 px, and Reduce motion keeps him still', () => {
