@@ -535,6 +535,109 @@ test('R3 ruling F: every key a Free end and the feed refusal offer is accepted b
   else assert.equal(done.lead.href, '/pricing');
 });
 
+// ---------------------------------------------------------------- R4-server (R4-SPEC server-security#1, #3, #5, #6)
+
+test('server-security#1: Free stops a mix after one card, takes the fix key and answers: every Continue the server then offers answers 200', async () => {
+  const s = setup({ tables: { user_question_progress: [wrongMistake('q-p3', T0 - 3 * DAY)] } });
+  const { learn, tables } = s;
+  const a = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'r4-s1-run-a01' })).body;
+  assert.ok(a.items.some((i) => i.type === 'question'), 'run A serves questions');
+  assert.equal((await learn.rate('u1', a.id, { itemId: a.items.find((i) => i.type === 'card').id, rating: 3 })).http, 200);
+  const stopEnd = (await learn.end('u1', a.id, { stop: true })).body;
+  assert.equal(stopEnd.lead.kind, 'continue');
+  assert.deepEqual(stopEnd.options, [], 'A holds the day pending: no fix key on its end');
+  assert.ok(!tables.learning_allowances?.some((r) => r.kind === 'learn_session'), 'rating a card claims nothing');
+  // The fix key Learn home still offers (fresh: a new run), taken and answered: its first answer claims the day for B.
+  const home0 = (await learn.home('u1', P({ subject: 'business_studies' }))).body;
+  const fix = home0.roadmap.or.find((o) => o.kind === 'fix');
+  assert.ok(fix && fix.run.fresh === true);
+  const b = (await learn.start('u1', { ...fix.run, requestKey: 'r4-s1-run-b01' })).body;
+  assert.notEqual(b.id, a.id);
+  assert.equal((await learn.answer('u1', b.id, { itemId: b.items.find((i) => i.type === 'question').id, choice: 'A' })).http, 200);
+  assert.equal(tables.learning_allowances.find((r) => r.kind === 'learn_session').reference, b.id);
+  // Every Continue the server offers now: home's offer and rows, the suggestions, both chapter pages, the covers, A's own end.
+  const home = (await learn.home('u1', P({ subject: 'business_studies' }))).body;
+  const offered = [
+    home.roadmap.key?.run?.resume, ...(home.roadmap.or || []).map((o) => o.run?.resume),
+    ...home.suggestions.map((x) => x.action?.run?.resume),
+    (await learn.preview('u1', { chapterKey: PL, minutes: 10 })).body.resume?.runId,
+    (await learn.preview('u1', { chapterKey: ST, minutes: 10 })).body.resume?.runId,
+    ...(await learn.covers('u1', P({ subject: 'business_studies' }))).body.covers.map((c) => c.resume?.runId),
+  ];
+  const again = (await learn.end('u1', a.id, { stop: true })).body;
+  assert.notEqual(again.lead?.kind, 'continue', 'A\'s end offers no Continue once B holds the day');
+  assert.equal(again.stopped, false, 'and is not drawn as stopped (body and keys agree)');
+  offered.push(again.lead?.run?.resume, ...(again.options || []).map((o) => o.run?.resume));
+  const ids = offered.filter(Boolean);
+  assert.ok(!ids.includes(a.id), 'run A is never offered as Continue');
+  let k = 0;
+  for (const id of ids) {
+    const run = (await learn.start('u1', { resume: id, chapterKey: PL, kind: 'mix', requestKey: `r4-s1-cont-${String(k += 1).padStart(2, '0')}` })).body;
+    const q = run.items.find((i) => i.type === 'question');
+    if (q) assert.equal((await learn.answer('u1', run.id, { itemId: q.id, choice: 'A' })).http, 200, `Continue ${id}`);
+  }
+  // An explicit resume of A (a stale key) is not resumed: a new Key cards only run, with no question to refuse.
+  const stale = (await learn.start('u1', { resume: a.id, chapterKey: PL, kind: 'mix', minutes: 10, requestKey: 'r4-s1-stale-01' })).body;
+  assert.notEqual(stale.id, a.id);
+  assert.ok(!stale.items.some((i) => i.type === 'question'));
+  // A plain start of A's chapter does not resume A either.
+  assert.notEqual((await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'r4-s1-plain-01' })).body.id, a.id);
+});
+
+test('server-security#1: a Free feed stopped before its first answer is never offered or resumed once another run holds the day', async () => {
+  const { learn } = setup();
+  const feed = (await learn.start('u1', { chapterKey: ST, minutes: 10, kind: 'feed', requestKey: 'r4-s1-feed-01' })).body;
+  const card = feed.items.find((i) => i.type === 'card');
+  assert.equal((await learn.rate('u1', feed.id, { itemId: card.id, keep: true })).http, 200);
+  await learn.end('u1', feed.id, { stop: true });
+  const b = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'r4-s1-feed-b1' })).body;
+  assert.equal((await learn.answer('u1', b.id, { itemId: b.items.find((i) => i.type === 'question').id, choice: 'A' })).http, 200);
+  const covers = (await learn.covers('u1', P({ subject: 'business_studies' }))).body.covers;
+  assert.ok(covers.every((c) => c.resume?.runId !== feed.id), 'no cover resumes the feed');
+  const again = await learn.start('u1', { chapterKey: ST, minutes: 10, kind: 'feed', requestKey: 'r4-s1-feed-02' });
+  assert.equal(again.http, 402, 'a feed start is refused at once, never resumed into a refused first question');
+  assert.equal(again.body.resume?.id, b.id, 'the Continue of the refusal is the holder B, never the stopped feed');
+  assert.equal((await learn.start('u1', { resume: feed.id, chapterKey: ST, kind: 'feed', minutes: 10, requestKey: 'r4-s1-feed-03' })).http, 402);
+});
+
+test('server-security#3: a stopped questions-only run is never resumed by the fix row; the fix row starts a run of mistakes only', async () => {
+  const { learn } = setup({ isPro: true, tables: { user_question_progress: [wrongMistake('q-p3', T0 - 3 * DAY), wrongMistake('q-p5', T0 - 3 * DAY)] } });
+  const qOnly = { chapterKey: PL, minutes: 10, kind: 'mix', leaveOut: ['cards', 'mistakes', 'lesson'] };
+  const q = (await learn.start('u1', { ...qOnly, requestKey: 'r4-s3-qonly-01' })).body;
+  assert.ok(q.items.every((i) => i.type === 'question' && i.origin !== 'mistake'));
+  assert.equal((await learn.answer('u1', q.id, { itemId: q.items[0].id, choice: 'A' })).http, 200);
+  await learn.end('u1', q.id, { stop: true });
+  const home = (await learn.home('u1', P({ subject: 'business_studies' }))).body;
+  const fix = home.roadmap.or.find((o) => o.kind === 'fix');
+  assert.equal(fix.run.fresh, true);
+  const m = (await learn.start('u1', { ...fix.run, requestKey: 'r4-s3-fix-0001' })).body;
+  assert.notEqual(m.id, q.id);
+  assert.ok(m.items.length > 0 && m.items.every((i) => i.type === 'question' && i.origin === 'mistake'), 'every item an open mistake');
+  // Without `fresh`, the make check alone keeps them apart: a mistakes-only start never resumes the questions-only run ...
+  const m2 = (await learn.start('u1', { chapterKey: PL, minutes: 2, kind: 'mix', leaveOut: ['questions', 'cards', 'lesson'], requestKey: 'r4-s3-fix-0002' })).body;
+  assert.notEqual(m2.id, q.id);
+  // ... and a start of the same make (questions only) does resume it.
+  assert.equal((await learn.start('u1', { ...qOnly, requestKey: 'r4-s3-qonly-02' })).body.id, q.id);
+});
+
+test('server-security#5 and #6: an ended run never gets the stopped keys; a stopped level check is ended, body and keys agree', async () => {
+  const { learn, tables } = setup({ isPro: true });
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'mix', requestKey: 'r4-s5-run-001' })).body;
+  await learn.rate('u1', run.id, { itemId: run.items.find((i) => i.type === 'card').id, rating: 3 });
+  await learn.end('u1', run.id);
+  assert.ok(runOf(tables, run.id).ended_at, 'ended');
+  const late = (await learn.end('u1', run.id, { stop: true })).body;
+  assert.equal(late.stopped, false);
+  assert.notEqual(late.lead.kind, 'continue', 'never "Continue" on an ended run');
+  const level = (await learn.start('u1', { chapterKey: PL, minutes: 6, kind: 'level', requestKey: 'r4-s6-level-01' })).body;
+  assert.equal((await learn.answer('u1', level.id, { itemId: level.items[0].id, choice: 'A' })).http, 200);
+  const stopped = (await learn.end('u1', level.id, { stop: true })).body;
+  assert.equal(stopped.stopped, false, 'a level check has no Continue, so it is not drawn as stopped');
+  assert.notEqual(stopped.lead?.kind, 'continue');
+  assert.ok(runOf(tables, level.id).ended_at, 'the stopped level run is ended, never left answerable');
+  assert.equal((await learn.answer('u1', level.id, { itemId: level.items[1].id, choice: 'A' })).http, 409);
+});
+
 // ---------------------------------------------------------------- cards, shelves, search, covers
 
 test('cards: the four filters, the locked line on Free, and the subject-wide read equals the per-chapter reads', async () => {

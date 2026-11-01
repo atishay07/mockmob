@@ -5,9 +5,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  ROADMAP_RULES, coverageLine, coverageShare, hasCards, hasZeroCount, offerLines, positionOf, roadmap, todayDue, verdictOf,
+  FEED_ROW_LINE, ROADMAP_RULES, coverageLine, coverageShare, hasCards, hasZeroCount, offerLines, positionOf, reviseRowOf, roadmap, todayDue, verdictOf,
 } from '../learn/roadmap.js';
-import { budgetSeconds } from '../learn/compose.js';
+import { LEARN_RULES, budgetSeconds } from '../learn/compose.js';
 import { FREE_DONE_HEADLINE, FREE_DONE_LINE } from '../learn/allowance.js';
 import { WORDS } from '../learn/words.js';
 import { previewAnswer } from '../../src/lib/server/keycardsPreview.js';
@@ -93,9 +93,16 @@ test('the start offer: the exact copy for each state (ruling 1)', () => {
   assert.equal(today.key.label, 'Start · 10 min');
   assert.deepEqual(today.key.run, { chapterKey: BOOK[1].key, minutes: 10, kind: 'mix', leaveOut: [], cardIds: ['b', 'a'] });
   assert.equal(today.sub, '2 due cards first, then new ones here');
-  assert.equal(today.or[0].label, 'Revise 2 due cards · 1 min', 'R3: the Revise row leads the Or rows');
-  assert.equal(today.or[1].label, 'Fix 2 open mistakes · 2 min');
-  assert.deepEqual(today.or[0].run, { chapterKey: BOOK[1].key, minutes: 1, kind: 'cards', leaveOut: [], cardIds: ['b', 'a'] }, 'a cards run: never counted against the free session');
+  // R4 owner-eye#9: the line already leads with the due cards the Start key plays, so no "Revise 2 due cards" Or row as well.
+  assert.ok(!today.or.some((o) => o.kind === 'revise'), 'one of the two, never both');
+  assert.deepEqual(today.or.map((o) => o.label), ['Fix 2 open mistakes · 2 min', 'Play this chapter as a feed']);
+  assert.equal(today.or[0].run.fresh, true, 'R4 server-security#3: the fix row is a NEW mistakes-only run, never a resume');
+  assert.equal(today.or[1].line, 'Scroll through the chapter, stop any time', 'R4 first-timer#7: the feed row says what is different');
+  assert.deepEqual(today.chapter.place, { n: 2, of: 5 }, 'R4 ruling N: the position chapter\'s place');
+  // The Revise row still leads where the offer does not hold the due cards (a pick-up): a cards run, never counted on Free.
+  const pickDue = roadmap({ subject: ACC, chapters: returning, due, run: { id: 'lr_2', chapterKey: BOOK[1].key, title: 'Chapter title 2', done: 2, of: 9, minutesLeft: 5, kind: 'mix', leaveOut: [] } });
+  assert.equal(pickDue.or[0].label, 'Revise 2 due cards · 1 min', 'R3: the Revise row leads the Or rows');
+  assert.deepEqual(pickDue.or[0].run, { chapterKey: BOOK[1].key, minutes: 1, kind: 'cards', leaveOut: [], cardIds: ['b', 'a'] }, 'a cards run: never counted against the free session');
   const noDue = roadmap({ subject: ACC, chapters: returning });
   assert.equal(noDue.sub, '30 new cards left here');
   assert.equal('cardIds' in noDue.key.run, false);
@@ -273,4 +280,39 @@ test('the end screen stays in the chapter while cards are unseen: "Keep going ·
   assert.equal(endOptions(base).lead.kind, 'next');
   // Free after the day's session: never a key the server will refuse.
   assert.equal(endOptions({ ...base, unseen: 30, freeSessionUsed: true, hadCards: false }).lead.label, 'See Pro');
+});
+
+// ---------------------------------------------------------------- R4 (server packet)
+
+test('R4: reviseRowOf is the one Revise row: its count is its cardIds.length, capped at maxCardIds with that run\'s own minutes', () => {
+  const at = (i) => T - (200 - i) * 60_000;
+  const many = Array.from({ length: 150 }, (_, i) => ({ id: `d${String(i).padStart(3, '0')}`, chapterKey: 'accountancy.c2', dueAt: at(i), seconds: 12 }));
+  const capped = reviseRowOf(many, { reviseDue: { count: 150, minutes: 40 } });
+  assert.equal(capped.run.cardIds.length, LEARN_RULES.maxCardIds);
+  assert.equal(capped.count, LEARN_RULES.maxCardIds);
+  assert.equal(capped.minutes, Math.ceil((LEARN_RULES.maxCardIds * 12) / 60), 'the 100 cards\' own minutes, not the 150\'s');
+  assert.equal(capped.label, `Revise ${LEARN_RULES.maxCardIds} due cards · ${capped.minutes} min`, 'server-security#7: never "Revise 150 due cards · 40 min"');
+  assert.equal(capped.run.cardIds[0], 'd000', 'oldest due first');
+  assert.equal(capped.run.chapterKey, 'accountancy.c2');
+  const few = reviseRowOf(many.slice(0, 7), { reviseDue: { count: 7, minutes: 3 } });
+  assert.equal(few.label, 'Revise 7 due cards · 3 min', 'the shelves\' minutes when they count the same list');
+  assert.equal(few.count, few.run.cardIds.length);
+  const other = reviseRowOf(many.slice(0, 7), { reviseDue: { count: 12, minutes: 3 } });
+  assert.equal(other.count, 7, 'a count from another list never leads: the row states the cards it plays');
+  assert.equal(reviseRowOf([], {}), null);
+  assert.equal(reviseRowOf([{ id: 'x', dueAt: T }], { fallbackKey: 'accountancy.c1' }).run.chapterKey, 'accountancy.c1');
+});
+
+test('R4: the fix row and the feed row (owner-eye#9, first-timer#7, server-security#3)', () => {
+  assert.equal(FEED_ROW_LINE, 'Scroll through the chapter, stop any time');
+  const returning = BOOK.map((c, i) => (i === 0 ? { ...c, seen: 10, unseen: 30, learnAt: T, mistakes: 3 } : c));
+  const r = roadmap({ subject: ACC, chapters: returning });
+  const fix = r.or.find((o) => o.kind === 'fix');
+  assert.deepEqual(fix.run, { chapterKey: BOOK[0].key, minutes: 3, leaveOut: ['questions', 'cards', 'lesson'], kind: 'mix', fresh: true });
+  const feed = r.or.find((o) => o.kind === 'feed');
+  assert.equal(feed.line, FEED_ROW_LINE);
+  const fresh = roadmap({ subject: ACC, chapters: BOOK, level: { questions: 6 } });
+  assert.equal(fresh.or.find((o) => o.kind === 'feed').line, FEED_ROW_LINE);
+  // The Revise row is drawn when the offer does not lead with due cards (no due card fits the Start key: none due).
+  assert.equal(roadmap({ subject: ACC, chapters: returning, due: [] }).or.some((o) => o.kind === 'revise'), false);
 });
