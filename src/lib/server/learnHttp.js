@@ -108,15 +108,25 @@ export async function learnService() {
 }
 
 /** Run `fn(service, userId, body, url)` behind the flag, auth, the rate limit and the body cap. */
-export async function learnHttp(request, fn, { write = false } = {}) {
+export async function learnHttp(request, fn, { write = false, pure = false } = {}) {
   const headers = { 'Cache-Control': 'no-store' };
   if (!learnEnabled()) return Response.json(LEARN_OFF.body, { status: LEARN_OFF.http, headers });
   try {
     const session = await auth(request);
     if (!session?.user?.id) return Response.json({ error: 'Unauthorized' }, { status: 401, headers });
-    if (!(await checkPersistentRateLimit(request, { route: '/api/learn', limit: 120, keyParts: [session.user.id] })).allowed) {
-      return Response.json({ error: 'Please wait a moment and try again.' }, { status: 429, headers });
+    const limited = checkPersistentRateLimit(request, { route: '/api/learn', limit: 120, keyParts: [session.user.id] });
+    const refuse = () => Response.json({ error: 'Please wait a moment and try again.' }, { status: 429, headers });
+    // speed.md item 5a: a pure read (no side effects) runs alongside the rate limit and a refusal still answers 429;
+    // a write, and a GET that writes (a run's end), waits for the limit first, as before.
+    if (pure && !write) {
+      const url = new URL(request.url);
+      const work = learnService().then((svc) => fn(svc, session.user.id, null, url));
+      work.catch(() => {}); // a refused read's own failure is not reported
+      if (!(await limited).allowed) return refuse();
+      const out = await work;
+      return Response.json(out.body, { status: out.http, headers });
     }
+    if (!(await limited).allowed) return refuse();
     let body = null;
     if (write) {
       const text = await request.text();

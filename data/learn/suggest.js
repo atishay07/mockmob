@@ -16,6 +16,8 @@ import { FREE_SESSION_DONE, isCounted } from './allowance.js';
 
 export const SUGGESTION_KINDS = Object.freeze(['pickup', 'due', 'fix', 'next', 'start', 'feed', 'level', 'recap', 'search']);
 export const CARDS_ONLY_TODAY = 'Key cards only today.';
+/** A chapter with this many unseen open cards keeps the student (data/learn/roadmap.js ROADMAP_RULES.stayUnseen is the same rule). */
+export const STAY_UNSEEN = 3;
 
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 const minutesWord = (n) => plural(n, 'minute');
@@ -231,11 +233,13 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
  *   mistakeElsewhere null | { key, title, count, seconds? }      due   { count, seconds? } Key cards due in the subject
  *   mustKnow      the chapter's Must-know count (Quick recap)      recapSeconds   its recap's own seconds (optional)
  *   freeSessionUsed  Free with today's session used: nothing that serves questions; the line leads with "See Pro" (BUILD 1.6)
+ *   unseen        the chapter's open cards not seen yet (R2 ruling 3, optional). With STAY_UNSEEN or more the student stays: the lead
+ *                 is "30 new cards left here" with the key "Next 10 minutes here", and the next chapter follows as "Next chapter: ...".
  * Every lead and option also carries (BUILD-1101 B7 item 6) `kind` ('next' | 'here' | 'fix' | 'revise' | 'recap' | 'mock' | 'explore'),
  * `title` (the heading that names it: "Next: Goodwill", "Another 5 minutes here", "Fix 2 open mistakes") and `minutes` (the
  * length the key says, null when it is not a timed run). `label` is the older whole line and stays.
  */
-export function endOptions({ subject = null, chapter, minutes = 10, missed = 0, fresh = 0, here: hereCounts = null, next = null, mistakeElsewhere = null, due = { count: 0 }, mustKnow = 0, recapSeconds = null, freeSessionUsed = false }) {
+export function endOptions({ subject = null, chapter, minutes = 10, missed = 0, fresh = 0, here: hereCounts = null, next = null, mistakeElsewhere = null, due = { count: 0 }, mustKnow = 0, recapSeconds = null, freeSessionUsed = false, unseen = null }) {
   const recap = mustKnow > 0 ? (() => {
     const m = recapMinutes(mustKnow, recapSeconds);
     return { kind: 'recap', title: 'Quick recap of this chapter', minutes: m, label: `Quick recap of this chapter, ${m} min`, evidence: `Its ${plural(mustKnow, 'Must-know line')}, answers showing.`, run: { chapterKey: chapter.key, minutes: m, leaveOut: [], kind: 'recap' } };
@@ -266,7 +270,14 @@ export function endOptions({ subject = null, chapter, minutes = 10, missed = 0, 
   } : null;
   let lead;
   let second;
-  if (missed >= 3 || !nextOpt) { lead = here; second = nextOpt; } else { lead = nextOpt; second = here; }
+  if (Number.isFinite(unseen) && unseen >= STAY_UNSEEN) {
+    // R2 ruling 3: a chapter is finished before the next one leads (its unseen cards are exactly the ones not served yet).
+    lead = {
+      kind: 'here', title: `${unseen} new cards left here`, minutes, label: `Next ${minutesWord(minutes)} here`,
+      evidence: `More of ${chapter.title}.`, run: { chapterKey: chapter.key, minutes, leaveOut: [], kind: 'mix' },
+    };
+    second = nextOpt ? { ...nextOpt, title: `Next chapter: ${next.title}` } : null;
+  } else if (missed >= 3 || !nextOpt) { lead = here; second = nextOpt; } else { lead = nextOpt; second = here; }
   let third = null;
   if (mistakeElsewhere?.count) {
     const m = fixMinutes(mistakeElsewhere.count, mistakeElsewhere.seconds);

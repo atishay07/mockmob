@@ -25,9 +25,10 @@ import { createHash, randomBytes } from 'node:crypto';
 import { KIND_LABELS, KEYCARD_RULES, istDay, lineNeeded, lockedStub, memoryShare, tasteIds } from '../../../data/keycards.js';
 import { stateFor, tallyChapters } from '../../../data/chapter_state.js';
 import { getCanonicalSubject, isTopSubject } from '../../../data/canonical_syllabus.js';
-import { LEARN_RULES, composeRun, dryRun, minutesFor, cardStage, mistakeLabel } from '../../../data/learn/compose.js';
+import { LEARN_RULES, budgetSeconds, composeRun, dryRun, minutesFor, cardStage, mistakeLabel } from '../../../data/learn/compose.js';
 import { suggestions, endOptions, cardRunMinutes, recapMinutes } from '../../../data/learn/suggest.js';
 import { searchSubject } from '../../../data/learn/search.js';
+import { ROADMAP_RULES, roadmap as roadmapOf, verdictOf } from '../../../data/learn/roadmap.js';
 import { IN_RUN, doneLine, istDaysBetween, levelPick, movedLine, retryReady, returnDay, revisePileGroups, shortDate } from '../../../data/learn/stamps.js';
 import { FEED_RULES, coverOrder, feedEndLines, keptLine } from '../../../data/learn/feed.js';
 import { LEARN_FREE, FREE_SESSION_DONE, FREE_CAPPED, FREE_CARDS_ONLY, freeSession, isCounted } from '../../../data/learn/allowance.js';
@@ -50,7 +51,7 @@ export const LOOKS_TEXT = Object.freeze({
   keycard_reviews: "Today's 10 free card ratings are used. The rest of your cards show without ratings.",
   keycard_new: "Today's 5 new free cards are used. The rest of your cards show without ratings.",
 });
-export const LEARN_LIMITS = Object.freeze({ resumeHours: 24, answerHours: 48, restDays: 3, missedDays: 7, maxCardIds: 100, requestKey: /^[A-Za-z0-9_-]{8,100}$/ });
+export const LEARN_LIMITS = Object.freeze({ seenFeedDays: 60, seenFeedRuns: 40, resumeHours: 24, answerHours: 48, restDays: 3, missedDays: 7, maxCardIds: 100, requestKey: /^[A-Za-z0-9_-]{8,100}$/ });
 const STATE_KEYS = Object.freeze({ none: 'none', thin: 'thin', weak: 'needs_work', mid: 'getting_there', strong: 'holding', unknown: 'unknown' });
 export const PART_TITLES = Object.freeze({
   'Accountancy Part 1': 'Part 1, Partnership Accounts',
@@ -166,19 +167,23 @@ export function createLearn(deps) {
    * Everything one request needs about one subject, read once in parallel. Throws LEARN_UNAVAILABLE when the plan, the card
    * states, the answered progress or today's allowances cannot be read (a 503, never a zero).
    */
-  async function snapshot(userId, me, subject, { feeds = false } = {}) {
+  async function snapshot(userId, meIn, subject, { feeds = false, seen: wantSeen = false } = {}) {
     const t = now();
     const day = istDay(t);
     const held = heldQuestions
       ? heldQuestions(userId).then((qids) => ({ qids: qids instanceof Set ? qids : new Set(qids || []), failed: false }), () => ({ qids: new Set(), failed: true }))
       : Promise.resolve({ qids: new Set(), failed: false });
-    const [options, pub, states, progress, allowances, runs, heldOut, index, lessons, revise, recentFeeds] = await Promise.all([
+    // speed.md item 5b: the student's plan is read in the same round as everything else (`meIn` may be who()'s promise).
+    const [me, options, pub, states, progress, allowances, runs, heldOut, index, lessons, revise, recentFeeds, seenFeeds] = await Promise.all([
+      Promise.resolve(meIn),
       store.options(userId), published(), store.states(userId, { subject }), store.progress(userId, subject), store.allowances(userId, day),
       store.openRuns(userId, { hours: LEARN_LIMITS.resumeHours }), held,
       Promise.resolve(questionIndex(subject)).catch((e) => { throw fail('LEARN_UNAVAILABLE', e); }),
       lessonsFor ? Promise.resolve(lessonsFor(userId, subject)).catch(() => []) : Promise.resolve([]),
       store.reviseCards(userId),
       feeds ? store.recentFeeds(userId, { days: LEARN_LIMITS.restDays }) : Promise.resolve([]),
+      // R2 ruling 3: cards moved past in an Explore feed count as seen on the roadmap (a longer window than the feed's 3-day rest).
+      wantSeen ? store.recentFeeds(userId, { days: LEARN_LIMITS.seenFeedDays, limit: LEARN_LIMITS.seenFeedRuns }) : Promise.resolve([]),
     ]);
     const S = { userId, isPro: me.isPro, subjects: subjectsOf(me), subject, now: t, day, options, option: options.get(subject) || null, pub, states, progress, allowances, runs, held: heldOut, lessons: lessons || [] };
     S.stateMap = new Map(states.map((s) => [s.card_id, s]));
@@ -204,12 +209,18 @@ export function createLearn(deps) {
     S.session = me.isPro ? null : allowances.find((r) => r.kind === 'learn_session') || null;
     S.recentFeeds = recentFeeds;
     S.feedReach = new Map();
-    S.shownAt = feeds ? await shownCards(recentFeeds, S.feedReach) : new Map();
+    // speed.md item 5c: the feed's shown cards and the mistakes' places are read together.
+    const subjectFeeds = (list_) => (list_ || []).filter((f) => String(f.chapter_key || '').split('.')[0] === subject);
+    const [shownAt, feedSeen, places] = await Promise.all([
+      feeds ? shownCards(recentFeeds, S.feedReach) : Promise.resolve(new Map()),
+      wantSeen ? shownCards(subjectFeeds(seenFeeds)) : Promise.resolve(new Map()),
+      mistakePlaces ? Promise.resolve().then(() => mistakePlaces(userId, subject, [...S.mistakes.values()].flat().map((m) => m.id))).catch(() => null) : Promise.resolve(null),
+    ]);
+    S.shownAt = shownAt;
+    S.feedSeen = feedSeen;
     if (mistakePlaces) {
-      try {
-        const places = await mistakePlaces(userId, subject, [...S.mistakes.values()].flat().map((m) => m.id));
-        for (const list_ of S.mistakes.values()) for (const m of list_) if (places?.get?.(m.id)) m.where = places.get(m.id);
-      } catch { /* the place stays unknown: "You missed this on 16 Oct" */ }
+      // A failed read leaves the place unknown: "You missed this on 16 Oct".
+      for (const list_ of S.mistakes.values()) for (const m of list_) if (places?.get?.(m.id)) m.where = places.get(m.id);
       for (const list_ of S.mistakes.values()) for (const m of list_) m.label = mistakeText(m.where, m.at, t);
     }
     return S;
@@ -316,6 +327,16 @@ export function createLearn(deps) {
     const reviewed = mine.map((s) => Date.parse(s.last_review_at)).filter(Number.isFinite);
     const last = [tally.lastAt, ...reviewed].filter((x) => x !== null && Number.isFinite(x));
     const st = stateFor({ n: tally.n, right: tally.right, memory, lastActivityAt: last.length ? Math.max(...last) : null, now: S.now });
+    // The roadmap (R2 rulings 2 and 3): an open card is seen once it has a state row or was moved past in an Explore feed; the
+    // chapter's latest Learn activity is its newest card review, feed showing or unfinished run (never a mock answer).
+    const feedSeen = S.feedSeen || new Map();
+    const seenCards = open.filter((x) => states.has(x.id) || feedSeen.has(x.id));
+    const run = unfinished(S, key);
+    const learnTimes = [
+      ...reviewed,
+      ...all.map((x) => feedSeen.get(x.id)).filter(Number.isFinite),
+      ...(run ? [Date.parse(run.created_at)] : []),
+    ].filter(Number.isFinite);
     return {
       key, subject: S.subject, ch, title: cleanTitle(ch.title || ch.name), name: ch.name, unit: ch.unit, section: ch.section || null,
       ref: ch.ncert?.chapter ? `Ch ${ch.ncert.chapter}` : null, chapterNo: ch.ncert?.chapter || null, book: ch.ncert?.book || null,
@@ -329,7 +350,9 @@ export function createLearn(deps) {
       state: { key: STATE_KEYS[st.state] || 'unknown', label: st.fading ? `${st.label}, fading` : st.label },
       studied: tally.n > 0 || mine.some((s) => Number(s.reps) > 0),
       lastActivityAt: last.length ? Math.max(...last) : null,
-      tally, memory, run: unfinished(S, key),
+      tally, memory, run,
+      coverage: { of: open.length, seen: seenCards.length, unseen: open.length - seenCards.length, questions: questions.length, tried: questions.filter((q) => q.seen).length },
+      learnAt: learnTimes.length ? Math.max(...learnTimes) : null,
     };
   }
 
@@ -348,6 +371,8 @@ export function createLearn(deps) {
       key: info.key, title: info.title, ref: info.ref,
       cards: info.counts.cards, mustKnow: info.counts.mustKnow, due: info.counts.due, mistakes: info.mistakes.length, questions: info.questions.length,
       lesson: info.lesson, state: info.state, meta: rowMeta(S, info), marksOpen: null,
+      // R2 ruling 2: coverage through the chapter (never mastery) and the one verdict word Learn lists may carry.
+      progress: { ...info.coverage }, verdict: verdictOf(info.state.key), unit: info.unit || null,
     };
   }
   const unitTitleOf = (info) => {
@@ -360,13 +385,60 @@ export function createLearn(deps) {
 
   // ---------------------------------------------------------------- composing
 
-  function composeFor(S, info, { kind, minutes, leaveOut, cardIds = null }) {
+  function composeFor(S, info, { kind, minutes, leaveOut, cardIds = null, ratingsLeft = S.ratingsLeft }) {
     return composeRun({
       kind, minutes, leaveOut, cardIds, now: S.now,
       cards: info.open, states: info.states, questions: info.questions, mistakes: info.mistakes, lesson: info.lesson,
-      ratingsLeft: S.ratingsLeft, newLeft: S.newLeft, shownAt: S.shownAt, overdue: S.overdue || 0,
+      ratingsLeft, newLeft: S.newLeft, shownAt: S.shownAt, overdue: S.overdue || 0,
       dueLooks: !S.isPro, // Free's returning feed: the cards it already holds show again as looks (BUILD-1101 F4)
     });
+  }
+
+  /**
+   * "Today's 10 minutes" (R2 ruling 1, usefulness.md item 5): a mix on the roadmap chapter whose `cardIds` are due cards from any
+   * chapter of the subject. The due cards play first, oldest due first, taking at most 40 percent of the time; the rest is the
+   * chapter's own new cards and questions; one open mistake (the oldest, any chapter) plays second-last. A card that is not due,
+   * not open or not in this subject is dropped here, whatever the link said.
+   */
+  function todayPlan(S, info, { minutes, leaveOut, cardIds, dropped }) {
+    const budget = budgetSeconds(minutes);
+    const cap = budget * ROADMAP_RULES.dueShare;
+    const dueAt = (c) => Date.parse(S.stateMap.get(c.id)?.due_at) || 0;
+    const due = [...new Set(cardIds)].map((id) => S.pub.byId.get(id))
+      .filter((c) => c && S.isOpen(c.id) && String(c.chapterKey || '').split('.')[0] === S.subject && cardStage(S.stateMap.get(c.id), S.now) === 'due')
+      .sort((a, b) => dueAt(a) - dueAt(b) || String(a.id).localeCompare(String(b.id)));
+    const taken = [];
+    let dueSecs = 0;
+    for (const c of due) {
+      const sec = cardSeconds({ stage: 'due', words: cardWords(c) });
+      if (taken.length && dueSecs + sec > cap + 1e-6) break;
+      taken.push(c);
+      dueSecs += sec;
+    }
+    const left = S.ratingsLeft;
+    let rated = 0;
+    const dueItems = taken.map((c) => {
+      const look = left !== null && left !== undefined && rated >= left;
+      if (!look) rated += 1;
+      return { type: 'card', cardId: c.id, stage: 'due', ...(look ? { look: true } : {}), mustKnow: c.importance === 'must', seconds: cardSeconds({ stage: 'due', look, words: cardWords(c) }) };
+    });
+    const takenIds = new Set(taken.map((c) => c.id));
+    const restMinutes = Math.max(1, minutesFor(Math.max(0, budget - dueSecs)));
+    const rest = composeFor(S, { ...info, open: info.open.filter((c) => !takenIds.has(c.id)), mistakes: [] }, {
+      kind: 'mix', minutes: restMinutes, leaveOut, ratingsLeft: left === null || left === undefined ? left : Math.max(0, left - rated),
+    });
+    const m = leaveOut.includes('mistakes') || leaveOut.includes('questions') ? null
+      : [...S.mistakes.values()].flat().filter((x) => !dropped.has(x.id) && S.questionsById.has(x.id)).sort((a, b) => (a.at ?? 0) - (b.at ?? 0) || a.id.localeCompare(b.id))[0] || null;
+    const q = m ? S.questionsById.get(m.id) : null;
+    const mistakeItem = q ? {
+      type: 'question', questionId: q.id, origin: 'mistake', links: q.cards || [], difficulty: q.difficulty || null,
+      seconds: questionSeconds({ origin: 'mistake', words: q.words }), mistake: { where: m.where || null, when: m.when || null, label: m.label || null },
+    } : null;
+    const tail = rest.items;
+    const body = mistakeItem ? (tail.length ? [...tail.slice(0, -1), mistakeItem, tail[tail.length - 1]] : [mistakeItem]) : tail;
+    const items = [...dueItems, ...body];
+    const seconds = items.reduce((sum, i) => sum + secondsOf(i), 0);
+    return { ...rest, kind: 'mix', minutes, items, seconds, realMinutes: minutesFor(seconds), shrunk: false, shrink: null, today: { due: dueItems.length } };
   }
 
   /** R15: the student's overdue Key cards over every subject (the Key cards service's own count); 0 when unread. */
@@ -502,11 +574,37 @@ export function createLearn(deps) {
 
   // ---------------------------------------------------------------- GET /api/learn/subject
 
+  /**
+   * The subject a read asks for, with the student's plan read alongside (speed.md item 5b): a subject that has a deck is valid for
+   * everyone, so its reads start at once; any other (or none) waits for the plan to pick it.
+   */
+  async function subjectAndMe(userId, p) {
+    const meP = who(userId);
+    const asked = p.get('subject');
+    if (asked && decks.bySubject.has(asked)) return { me: meP, sid: asked };
+    const me = await meP;
+    return { me, sid: pickSubject(me, asked) };
+  }
+
   async function subject(userId, p) {
-    const me = await who(userId);
-    const sid = pickSubject(me, p.get('subject'));
+    const { me, sid } = await subjectAndMe(userId, p);
     if (!sid) return bad('SUBJECT_NOT_FOUND', 404);
-    const S = await snapshot(userId, me, sid);
+    const S = await snapshot(userId, me, sid, { seen: true });
+    return ok(subjectBody(S, sid));
+  }
+
+  // ---------------------------------------------------------------- GET /api/learn/home (speed.md item 3)
+
+  /** Learn home in one answer: the subject body and the shelves from ONE snapshot; `shelves.due.all` is the sum over subjects. */
+  async function home(userId, p) {
+    const { me, sid } = await subjectAndMe(userId, p);
+    if (!sid) return bad('SUBJECT_NOT_FOUND', 404);
+    const S = await snapshot(userId, me, sid, { seen: true });
+    return ok({ ...subjectBody(S, sid), shelves: await shelvesOf(S, sid, userId, null) });
+  }
+
+  /** Learn home's body from one snapshot (GET /api/learn/subject and /home). */
+  function subjectBody(S, sid) {
     const opts = syllabus.subjectOptions(sid);
     const units = syllabus.unitsFor(sid, {});
     const infos = new Map();
@@ -533,6 +631,12 @@ export function createLearn(deps) {
     const runInfo = runInSubject ? infos.get(runInSubject.chapter_key) : null;
     const lessons = S.lessons;
     const pool = levelPool(S);
+    const secs = new Map(allowed.map((i) => [i.key, chapterSeconds(S, i)]));
+    const runOut = runInSubject ? {
+      id: runInSubject.id, chapterKey: runInSubject.chapter_key, title: runInfo?.title || runInSubject.chapter_key, done: Number(runInSubject.done_count), of: Number(runInSubject.item_count),
+      minutesLeft: minutesFor(Number(runInSubject.seconds_left) || 0), kind: runInSubject.kind, leaveOut: runInSubject.leave_out || [],
+    } : null;
+    const levelQuestions = pool.filter((q) => !q.seen).length || pool.length;
     const sugg = suggestions({
       subject: { id: sid, name: subjectName(sid), cards: S.cards.length },
       isNew,
@@ -542,15 +646,29 @@ export function createLearn(deps) {
       chapters: allowed.map((i) => ({
         key: i.key, title: i.title, chapterNo: i.chapterNo, book: i.book, cards: i.counts.cards, mustKnow: S.isPro ? i.counts.mustKnow : i.counts.openMust,
         due: i.counts.due, dueIds: i.dueIds, mistakes: i.mistakes.length, questions: i.questions.length, studied: i.studied, lastActivityAt: i.lastActivityAt,
-        mistakeWhere: i.mistakes[0]?.where, mistakeWhen: i.mistakes[0]?.when, state: i.state.key, ...chapterSeconds(S, i),
+        mistakeWhere: i.mistakes[0]?.where, mistakeWhen: i.mistakes[0]?.when, state: i.state.key, ...secs.get(i.key),
       })),
-      run: runInSubject ? {
-        id: runInSubject.id, chapterKey: runInSubject.chapter_key, title: runInfo?.title || runInSubject.chapter_key, done: Number(runInSubject.done_count), of: Number(runInSubject.item_count),
-        minutesLeft: minutesFor(Number(runInSubject.seconds_left) || 0), kind: runInSubject.kind, leaveOut: runInSubject.leave_out || [],
-      } : null,
-      level: { questions: pool.filter((q) => !q.seen).length || pool.length },
+      run: runOut,
+      level: { questions: levelQuestions },
     });
-    return ok({
+    // R2 rulings 1 to 3: the one start offer and the student's place in the subject (data/learn/roadmap.js), from the same rows.
+    const due = allowed.flatMap((i) => i.dueIds.map((id) => ({
+      id, chapterKey: i.key, dueAt: i.states.get(id)?.due_at || null, seconds: cardSeconds({ stage: 'due', words: cardWords(S.pub.byId.get(id)) }),
+    })));
+    const road = roadmapOf({
+      subject: { id: sid, name: subjectName(sid) },
+      isPro: S.isPro,
+      chapters: allowed.map((i) => ({
+        key: i.key, title: i.title, of: i.coverage.of, cards: i.counts.cards, seen: i.coverage.seen, unseen: i.coverage.unseen, questions: i.coverage.questions,
+        tried: i.coverage.tried, learnAt: i.learnAt, mistakes: i.mistakes.length, mistakeSeconds: secs.get(i.key)?.mistakeSeconds, state: i.state.key,
+      })),
+      run: runOut,
+      due,
+      // Free's one session of the day is used (by any run that is not the open one: an open run is picked up first).
+      freeDone: !S.isPro && Boolean(S.session),
+      level: { questions: levelQuestions, chapterKey: pool[0] ? S.questionsById.get(pool[0].id)?.chapterKey || null : null },
+    });
+    return {
       plan: S.isPro ? 'pro' : 'free',
       student: { isNew },
       subjects: S.subjects.map((id) => ({ id, name: subjectName(id) })),
@@ -558,8 +676,9 @@ export function createLearn(deps) {
       freeNote: S.isPro ? null : `Free opens ${KEYCARD_RULES.free.tastePerChapter} cards in every chapter. Pro opens all ${S.cards.length}.`,
       free: !S.isPro && S.session ? { text: FREE_SESSION_DONE, maxMinutes: LEARN_FREE.maxMinutes } : null,
       suggestions: sugg,
+      roadmap: road,
       parts: parts.map(({ book: _b, ...rest }) => rest),
-    });
+    };
   }
 
   // ---------------------------------------------------------------- POST /api/learn/runs/preview
@@ -572,7 +691,7 @@ export function createLearn(deps) {
     if (typeof key !== 'string' || !key || key.length > 120) return bad('CHAPTER_NOT_FOUND', 404);
     const ch = syllabus.chapterByKey(key);
     if (!ch || ch.retired) return bad('CHAPTER_NOT_FOUND', 404);
-    const me = await who(userId);
+    const me = who(userId); // read alongside the snapshot (speed.md item 5b)
     const [S, overdue] = await Promise.all([snapshot(userId, me, key.split('.')[0]), overdueOf(userId)]);
     S.overdue = overdue;
     const info = chapterInfo(S, key);
@@ -698,6 +817,8 @@ export function createLearn(deps) {
     if (kind === 'feed') leaveOut = [...new Set([...leaveOut, 'lesson'])]; // a feed never plays a lesson
     if (rule.cardsOnly) leaveOut = [...new Set([...leaveOut, 'questions', 'mistakes'])];
 
+    // A mix that names its chapter and carries cards is "Today's 10 minutes" (the roadmap's key): due cards folded into the chapter.
+    const today = kind === 'mix' && Boolean(cardIds?.length) && typeof body?.chapterKey === 'string';
     // Compose; then check the managed questions picked on their fresh rows, and compose again without the failures (3 rounds).
     const dropped = new Set();
     let plan;
@@ -706,6 +827,8 @@ export function createLearn(deps) {
       const infoNow = dropped.size ? { ...info, questions: info.questions.filter((q) => !dropped.has(q.id)), mistakes: info.mistakes.filter((m) => !dropped.has(m.id)) } : info;
       if (kind === 'level') {
         plan = composeRun({ kind: 'level', minutes, questions: levelPool(S).filter((q) => !dropped.has(q.id)), now: S.now });
+      } else if (today) {
+        plan = todayPlan(S, infoNow, { minutes, leaveOut, cardIds, dropped });
       } else if (cardIds?.length) {
         const open = cardIds.map((id) => S.pub.byId.get(id)).filter((x) => x && S.isOpen(x.id));
         plan = composeRun({ kind: kind === 'recap' ? 'recap' : 'cards', minutes, cardIds: open.map((x) => x.id), cards: open, states: S.stateMap, now: S.now, ratingsLeft: S.ratingsLeft, newLeft: S.newLeft });
@@ -733,7 +856,7 @@ export function createLearn(deps) {
       ? { source: 'explore_cover', forYou: body.forYou === true, position: Number.isInteger(body.position) && body.position >= 0 && body.position <= 500 ? body.position : null }
       : {};
     const meta = {
-      key: info.state.key, label: info.state.label, ...fromCover,
+      key: info.state.key, label: info.state.label, ...fromCover, ...(plan.today ? { today: plan.today } : {}),
       free: rule.cardsOnly ? { text: FREE_CARDS_ONLY } : null,
       capped: rule.capped,
       shrink: plan.shrunk && plan.shrink ? plan.shrink : null,
@@ -1326,10 +1449,14 @@ export function createLearn(deps) {
   // ---------------------------------------------------------------- GET /api/learn/shelves
 
   async function shelves(userId, p) {
-    const me = await who(userId);
-    const sid = pickSubject(me, p.get('subject'));
+    const { me, sid } = await subjectAndMe(userId, p);
     if (!sid) return bad('SUBJECT_NOT_FOUND', 404);
     const [S, dueAll] = await Promise.all([snapshot(userId, me, sid), kc.dueCount(userId)]);
+    return ok(await shelvesOf(S, sid, userId, dueAll));
+  }
+
+  /** Find's shelves from a snapshot. `dueAll` null: the sum of each subject's own count (one read fewer, speed.md item 3). */
+  async function shelvesOf(S, sid, userId, dueAll) {
     const live = S.states.filter((s) => !s.suspended && S.isOpen(s.card_id) && S.pub.byId.has(s.card_id));
     const due = live.filter((s) => cardStage(s, S.now) === 'due').length;
     const recent = S.now - LEARN_LIMITS.missedDays * DAY;
@@ -1346,13 +1473,14 @@ export function createLearn(deps) {
         bySubject[id] = rows.filter((s) => !s.suspended && (S.isPro || taste.has(s.card_id)) && S.pub.byId.has(s.card_id) && cardStage(s, S.now) === 'due').length;
       } catch { /* left out */ }
     }));
-    return ok({
-      // The same count over every subject (the sidebar's due badge, CRITIQUE-1 E2): the Key cards service's own dueCount.
-      due: { bySubject, count: due, minutes: cardRunMinutes(due, live.filter((st) => cardStage(st, S.now) === 'due').reduce((sum, st) => sum + cardSeconds({ stage: 'due', words: cardWords(S.pub.byId.get(st.card_id)) }), 0)), all: dueAll, subjects: S.subjects.length },
+    const all = dueAll === null || dueAll === undefined ? Object.values(bySubject).reduce((n, x) => n + (Number(x) || 0), 0) : dueAll;
+    return {
+      // The same count over every subject (the sidebar's due badge, CRITIQUE-1 E2): the Key cards service's own dueCount, or the sum.
+      due: { bySubject, count: due, minutes: cardRunMinutes(due, live.filter((st) => cardStage(st, S.now) === 'due').reduce((sum, st) => sum + cardSeconds({ stage: 'due', words: cardWords(S.pub.byId.get(st.card_id)) }), 0)), all, subjects: S.subjects.length },
       missed: { count: missed.size, days: LEARN_LIMITS.missedDays },
       revise: { count: live.length, chapters: new Set(live.map((s) => s.chapter_key)).size },
       must: { count: must.length, chapters: new Set(must.map((x) => x.chapterKey)).size },
-    });
+    };
   }
 
   // ---------------------------------------------------------------- GET /api/learn/search
@@ -1380,5 +1508,5 @@ export function createLearn(deps) {
     }));
   }
 
-  return { subject, preview, start, getRun, answer, rate, end, cards, shelves, search, covers, store, snapshot };
+  return { subject, home, preview, start, getRun, answer, rate, end, cards, shelves, search, covers, store, snapshot };
 }

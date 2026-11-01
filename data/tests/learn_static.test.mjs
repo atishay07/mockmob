@@ -18,6 +18,7 @@ const LEARN_ENGINE = readdirSync(path.join(root, 'data/learn')).filter((f) => f.
 const ROUTES = walk(path.join(root, 'src/app/api/learn')).filter((f) => f.endsWith('route.js')).map((f) => path.relative(root, f).split(path.sep).join('/'));
 export const LEARN_ROUTES = Object.freeze({
   'src/app/api/learn/subject/route.js': ['GET'],
+  'src/app/api/learn/home/route.js': ['GET'], // R2 speed.md item 3: the subject body and the shelves in one answer
   'src/app/api/learn/runs/route.js': ['POST'],
   'src/app/api/learn/runs/preview/route.js': ['POST'],
   'src/app/api/learn/runs/[id]/route.js': ['GET'],
@@ -46,7 +47,7 @@ test('the production service and wrapper never import a preview or in-memory mod
 });
 
 test('every /api/learn route exists, is dynamic, takes (request), goes through learnHttp and imports no preview module', () => {
-  assert.deepEqual([...ROUTES].sort(), Object.keys(LEARN_ROUTES).sort(), 'the 11 route files (12 handlers with the rate Keep body)');
+  assert.deepEqual([...ROUTES].sort(), Object.keys(LEARN_ROUTES).sort(), 'the 12 route files (13 handlers with the rate Keep body)');
   for (const [file, methods] of Object.entries(LEARN_ROUTES)) {
     const src = read(file);
     assert.match(src, /export const dynamic = 'force-dynamic'/, file);

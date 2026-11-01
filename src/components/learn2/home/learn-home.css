@@ -1,6 +1,6 @@
 /* Learn home (BUILD-1101 B5, A3). Arena tokens (--a-*) only, so Night and Day both follow the app shell.
-   One volt key on the screen: the first suggestion's (or the panel's Study key while results or a set are open). Hairlines group;
-   the only raised surfaces are the suggestion tiles, lit the way Practice's cards are. The subjects loop is Practice's own
+   One volt key on the screen: the start offer's (or the panel's Study key while results or a set are open). Hairlines group;
+   nothing is a raised card: the offer is type on the page (R2 ruling 1). The subjects loop is Practice's own
    (practice.css), sized down here. Only transform and opacity move, 100 to 450 ms on ease-out curves; reduced motion lands at once.
    No glass: it is on the chrome only.
    Width: `.lh` is a size container. Everything below the subject row switches on the container's width (the sidebar takes 252 px
@@ -9,9 +9,6 @@
 .lh {
   --lh-ease: var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
   --lh-ease-exit: var(--mm-ease-exit, cubic-bezier(0.4, 0.3, 0.8, 0.6));
-  --lh-cool: rgb(118 168 255 / 0.13);
-  --lh-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.16'/%3E%3C/svg%3E");
-  --lh-surface: radial-gradient(120% 90px at 30% 0%, var(--lh-cool), transparent 100%), var(--lh-grain), var(--a-raised);
   container: lh / inline-size;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -22,10 +19,6 @@
   margin-inline: auto;
   /* The shell's main already clears the dock (108 px); a little air under the last row is all this adds. */
   padding-bottom: 16px;
-}
-html[data-theme='light'] .lh {
-  --lh-cool: rgb(70 120 220 / 0.09);
-  --lh-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .1 0 0 0 0 .12 0 0 0 0 .1 0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.12'/%3E%3C/svg%3E");
 }
 @media (min-width: 1024px) { .lh { padding-bottom: 40px; } }
 .lh :is(h1, h2, h3, h4, p, ul, ol) { margin: 0; }
@@ -103,25 +96,24 @@ html[data-theme='light'] .lh {
 .lh-recent__item:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
 @media (hover: hover) { .lh-recent__item:hover { background: var(--a-hover); } }
 
-/* Shelf keys: three keys in a row on a phone (count over label), inline beside the field from 900 px */
-.lh-skeys { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 20px; min-width: 0; }
+/* The student's own sets: one line of text keys under the field ("9 due · 6 missed · 26 in Revise"), each drawn only when it holds
+   cards (R2 ruling 1). No tiles, no zeros. */
+.lh-skeys { display: flex; flex-wrap: wrap; align-items: center; gap: 0 4px; margin: -4px 0 18px; min-width: 0; }
 .lh-skey {
-  display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px; min-width: 0; min-height: 56px; padding: 8px 12px; border: 1px solid var(--a-line-strong); border-radius: 14px;
-  background: var(--a-raised); color: var(--a-ink); text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent;
-  transition: transform 100ms var(--lh-ease), background-color 160ms var(--lh-ease), border-color 160ms var(--lh-ease), color 160ms var(--lh-ease);
+  position: relative; display: inline-flex; align-items: center; gap: 5px; min-height: 44px; padding: 0 8px; border: 0; border-radius: 10px;
+  background: transparent; color: var(--a-ink); cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background-color 160ms var(--lh-ease);
 }
-.lh-skey__n { font: 750 18px/1 var(--font-display); letter-spacing: -0.01em; font-variant-numeric: tabular-nums; color: inherit; }
-.lh-skey__l { font: 600 12.5px/1.2 var(--font-body); color: var(--a-ink-2); white-space: nowrap; transition: color 160ms var(--lh-ease); }
-.lh-skey:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-.lh-skey:active:not([data-zero]) { transform: scale(0.97); }
-@media (hover: hover) { .lh-skey:not([data-zero]):not([aria-pressed='true']):hover { border-color: var(--a-line-hover); background: var(--a-hover); } }
-.lh-skey[aria-pressed='true'] { background: var(--a-ink); border-color: transparent; color: var(--a-bg); }
+.lh-skey:first-child { margin-left: -8px; }
+.lh-skey + .lh-skey::before { content: ''; position: absolute; left: -4px; top: 50%; width: 3px; height: 3px; margin-top: -1px; border-radius: 50%; background: var(--a-ink-3); }
+.lh-skey__n { font: 700 15px/1 var(--font-body); font-variant-numeric: tabular-nums; color: inherit; }
+.lh-skey__l { font: 550 14px/1 var(--font-body); color: var(--a-ink-2); white-space: nowrap; }
+.lh-skey:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
+.lh-skey:active { transform: scale(0.97); }
+@media (hover: hover) { .lh-skey:hover { background: var(--a-hover); } }
+.lh-skey[aria-pressed='true'] { background: var(--a-ink); color: var(--a-bg); }
 .lh-skey[aria-pressed='true'] .lh-skey__l { color: var(--a-bg); }
-.lh-skey[data-zero] { border-color: var(--a-line); color: var(--a-ink-3); cursor: default; }
-.lh-skey[data-zero] .lh-skey__l { color: var(--a-ink-3); }
-.lh-skey--skel { min-height: 56px; border-color: transparent; }
-/* Nothing yet: one line in the keys' own place and height, so nothing moves when it replaces them */
-.lh-skeys-line { display: flex; align-items: center; min-height: 56px; margin-bottom: 20px; font: 500 14px/1.45 var(--font-body); color: var(--a-ink-3); text-wrap: balance; }
+.lh-skeys--skel { min-height: 44px; }
+.lh-skey--skel { display: block; width: 180px; height: 18px; border-radius: 8px; }
 .lh-textkey { min-height: 44px; padding: 0 4px; border: 0; background: none; color: var(--a-ink); font: 650 14px/1 var(--font-body); text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 4px; cursor: pointer; }
 .lh-textkey:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 6px; }
 
@@ -133,13 +125,8 @@ html[data-theme='light'] .lh {
 }
 @container lh (min-width: 900px) {
   .lh-findband { display: grid; grid-template-columns: minmax(320px, 1fr) auto; column-gap: 12px; align-items: center; margin-bottom: 24px; }
-  .lh-find, .lh-skeys, .lh-skeys-line { margin-bottom: 0; }
-  .lh-skeys { display: flex; gap: 8px; }
-  .lh-skeys-line { width: 382px; min-height: 52px; }
-  .lh-skey { flex-direction: row; align-items: center; justify-content: flex-start; gap: 6px; min-height: 52px; padding: 0 16px; }
-  .lh-skey__n { font-size: 16px; }
-  .lh-skey__l { font-size: 14.5px; }
-  .lh-skey--skel { width: 122px; min-height: 52px; }
+  .lh-find, .lh-skeys { margin-bottom: 0; }
+  .lh-skeys { flex-wrap: nowrap; }
   .lh[data-panel='results'] .lh-findband, .lh[data-panel='set'] .lh-findband { position: sticky; top: var(--arena-topbar-h, 63px); z-index: 6; margin-block: -8px 16px; padding-block: 8px; background: var(--a-bg); }
   .lh-findband[data-stuck] { box-shadow: 0 1px 0 var(--a-line); }
 }
@@ -178,96 +165,21 @@ html[data-theme='light'] .lh {
 }
 .lh-key__short { display: none; }
 
-/* ---------- Suggestions: three, the first leads. Sized to what they say; on a wide screen they share rows (subgrid). ---------- */
-.lh-sugs { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; min-width: 0; margin-bottom: 28px; }
-.lh-sug {
-  position: relative; min-width: 0; border: 1px solid var(--a-line); background: var(--lh-surface); box-shadow: var(--a-shadow-1);
-  animation: lh-rise 260ms var(--lh-ease) both; animation-delay: calc(var(--i, 0) * 50ms);
-}
-.lh-panel[data-swap] .lh-sug { animation: none; }
-.lh-sug__title { font: 500 15px/1.3 var(--font-display); letter-spacing: -0.012em; color: var(--a-ink); text-wrap: pretty; overflow-wrap: break-word; }
-.lh-sug__title b { font-weight: 700; }
-.lh-sug__why { font: 500 13px/1.4 var(--font-body); color: var(--a-ink-3); text-wrap: pretty; }
-.lh-sug__text { display: grid; align-content: start; min-width: 0; }
-.lh-sug__ev { display: grid; gap: 12px; align-content: start; min-width: 0; }
+/* ---------- The pick-up track and the skeleton pieces the offer uses ---------- */
 .lh-track { display: block; width: min(100%, 240px); height: 4px; border-radius: 2px; background: var(--a-line); overflow: hidden; }
 .lh-track__fill { display: block; width: var(--p, 0%); height: 100%; border-radius: 2px; background: var(--a-ink-2); transform-origin: left center; animation: lh-fill 420ms var(--mm-ease-emphasized, cubic-bezier(0.2, 0, 0, 1)) 120ms both; }
 @keyframes lh-fill { from { transform: scaleX(0); } to { transform: none; } }
-
-/* Phone: the lead card and two compact rows */
-.lh-sug[data-lead] { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; padding: 18px 16px 16px; border-radius: 20px; }
-.lh-sug[data-lead] .lh-sug__title { font-size: 22px; font-weight: 700; line-height: 1.18; letter-spacing: -0.022em; }
-.lh-sug .lh-sug__ev { margin-top: 6px; }
-.lh-sug[data-lead] .lh-sug__why { font-size: 15px; line-height: 1.45; color: var(--a-ink-2); }
-.lh-sug[data-lead] .lh-key { width: 100%; margin-top: 14px; }
-
-/* Under 560 px the key sits under the text, full width and 44 px tall, as the lead tile's does (M7): no title beside a key squeezed into four
-   lines, and no line cut with an ellipsis. */
-.lh-sug:not([data-lead]) {
-  display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'text' 'key'; align-items: start; row-gap: 12px;
-  padding: 16px; border-radius: 16px;
-}
-.lh-sug:not([data-lead]) .lh-sug__text { grid-area: text; }
-.lh-sug:not([data-lead]) .lh-sug__ev { margin-top: 4px; }
-.lh-sug:not([data-lead]) .lh-sug__why { display: block; font-size: 14px; color: var(--a-ink-2); }
-.lh-sug:not([data-lead]) .lh-key { grid-area: key; width: 100%; min-height: 44px; padding: 0 14px; }
-.lh-sug:not([data-lead]) .lh-key__full { display: inline; }
-.lh-sug:not([data-lead]) .lh-key__short { display: none; }
-
-/* Tablet (container 560 to 879): the lead across, the other two side by side on shared rows */
-@container lh (min-width: 560px) {
-  .lh-sugs { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(4, auto); column-gap: 12px; row-gap: 0; margin-bottom: 32px; }
-  .lh-sug, .lh-sug:not([data-lead]) { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: none; grid-template-rows: subgrid; row-gap: 0; align-items: start; align-content: start; border-radius: 20px; }
-  .lh-sug[data-lead] { grid-column: 1 / -1; grid-row: 1 / span 2; padding: 16px; }
-  .lh-sug:not([data-lead]) { grid-row: 3 / span 2; padding: 16px; margin-top: 12px; }
-  /* Rows of a tile: 1 the words (title, evidence, the pick-up track), 2 the key. Shared across tiles, so the keys sit on one line. */
-  .lh-sug .lh-sug__text, .lh-sug:not([data-lead]) .lh-sug__text { grid-area: 1 / 1; }
-  .lh-sug .lh-key, .lh-sug:not([data-lead]) .lh-key { grid-area: 2 / 1; align-self: start; }
-  .lh-sug[data-lead] .lh-sug__title { font-size: 22px; }
-  .lh-sug[data-lead] .lh-key { width: auto; min-width: 200px; justify-self: start; }
-  .lh-sug:not([data-lead]) .lh-sug__title { font-size: 16px; line-height: 1.35; }
-  .lh-sug:not([data-lead]) .lh-sug__ev { margin-top: 6px; }
-  .lh-sug:not([data-lead]) .lh-sug__why { overflow: visible; white-space: normal; font-size: 14px; color: var(--a-ink-2); }
-  .lh-sug:not([data-lead]) .lh-key { width: 100%; min-height: 44px; margin-top: 12px; }
-  .lh-sug:not([data-lead]) .lh-key__full { display: inline; }
-  .lh-sug:not([data-lead]) .lh-key__short { display: none; }
-}
-/* A search suggestion is never drawn here; when the engine sends two kinds only, the two tiles share the row */
-
-/* Container 880 and up: all three in one row, the lead wider */
-@container lh (min-width: 880px) {
-  .lh-sugs { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: repeat(2, auto); }
-  .lh-sugs[data-count='2'] { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); }
-  .lh-sug[data-lead] { grid-column: auto; grid-row: 1 / span 2; padding: 16px; }
-  .lh-sug:not([data-lead]) { grid-row: 1 / span 2; margin-top: 0; }
-}
-
-.lh-sugs--skel .lh-sug { animation: none; border-color: var(--a-line); }
-.lh-sugs--skel .lh-sug[data-lead] { min-height: 182px; align-content: space-between; }
 .lh-sk { display: block; border-radius: 8px; }
 .lh-sk--t { height: 26px; width: 72%; }
 .lh-sk--l { height: 18px; width: 90%; margin-top: 8px; }
 .lh-sk--key { height: 44px; width: 100%; margin-top: 14px; border-radius: 14px; }
-.lh-sugs--skel .lh-sug:not([data-lead]) { min-height: 150px; grid-template-areas: 't' 'l' 'key'; }
-.lh-sugs--skel .lh-sug:not([data-lead]) .lh-sk--t { grid-area: t; width: 80%; height: 20px; }
-.lh-sugs--skel .lh-sug:not([data-lead]) .lh-sk--l { grid-area: l; width: 60%; margin-top: 0; }
-.lh-sugs--skel .lh-sug:not([data-lead]) .lh-sk--key { grid-area: key; width: 100%; height: 44px; margin-top: 0; }
-@container lh (min-width: 560px) {
-  .lh-sugs--skel { grid-template-rows: none; row-gap: 12px; }
-  .lh-sugs--skel .lh-sug, .lh-sugs--skel .lh-sug:not([data-lead]) { grid-template-rows: none; grid-row: auto; margin-top: 0; }
-  .lh-sugs--skel .lh-sug[data-lead] { min-height: 180px; }
-  .lh-sugs--skel .lh-sug:not([data-lead]) { min-height: 180px; grid-template-areas: none; align-content: space-between; }
-  .lh-sugs--skel .lh-sug:not([data-lead]) :is(.lh-sk--t, .lh-sk--l, .lh-sk--key) { grid-area: auto; width: 80%; }
-  .lh-sugs--skel .lh-sug:not([data-lead]) .lh-sk--l { margin-top: 8px; }
-  .lh-sugs--skel .lh-sug:not([data-lead]) .lh-sk--key { width: 100%; margin-top: 14px; }
-}
 .lh-loading { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
 
 /* ---------- The chapter map ---------- */
 .lh-map { display: grid; min-width: 0; }
 .lh-map__head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0 12px; min-height: 40px; }
 .lh-h2 { font: 750 20px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
-.lh-map__new { margin: 2px 0 4px; font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); }
+.lh .lh-map__new { margin: 2px 0 4px; font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); }
 
 .lh-sort { position: relative; justify-self: end; }
 .lh-sort__btn { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 10px; margin: -2px -10px -2px 0; border: 0; border-radius: 10px; background: transparent; color: var(--a-ink-2); font: 600 14px/1 var(--font-body); cursor: pointer; }
@@ -295,32 +207,32 @@ html[data-theme='light'] .lh {
 .lh-unit__title { font: 650 13.5px/1.3 var(--font-body); color: var(--a-ink-3); padding: 12px 0 4px; }
 .lh-unit:first-child .lh-unit__title { padding-top: 4px; }
 
-/* ---------- Rows: one anatomy at every width (A3-02, A3-19): name and count, then state and one true line ---------- */
+/* ---------- Rows of "Your roadmap" (R2 ruling 2): the name, one coverage line, a 3 px bar of the cards seen. "Needs work" is the only
+   verdict; the chapter the student is in carries a volt "Start here" or "Up next". ---------- */
 .lh-rows { display: grid; min-width: 0; border-top: 1px solid var(--a-line); }
 .lh-row { border-bottom: 1px solid var(--a-line); }
 .lh-row__link {
-  display: grid; grid-template-columns: minmax(0, 1fr) auto 16px; grid-template-areas: 'title count chev' 'sub sub chev'; column-gap: 12px; row-gap: 4px; align-items: baseline; align-content: center;
+  display: grid; grid-template-columns: minmax(0, 1fr) 16px; grid-template-areas: 'head chev' 'meta chev' 'bar chev'; column-gap: 12px; row-gap: 4px; align-items: center; align-content: center;
   min-height: 64px; padding: 10px 4px; color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent;
   transition: background-color 150ms var(--lh-ease), transform 100ms var(--lh-ease);
 }
-.lh-row__link:not(:has(.lh-row__sub)) { row-gap: 0; }
-.lh-row__link:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
-.lh-row__link:active { transform: scale(0.99); }
-@media (hover: hover) { .lh-row__link:hover { background: var(--a-hover); } .lh-row__link:hover .lh-row__chev { transform: translateX(2px); color: var(--a-ink); } }
-.lh-row__title { grid-area: title; font: 650 16px/1.35 var(--font-body); color: var(--a-ink); text-wrap: pretty; overflow-wrap: break-word; }
-.lh-row[data-empty] .lh-row__title { color: var(--a-ink-2); }
-.lh-row__count { grid-area: count; display: inline-flex; align-items: baseline; gap: 10px; font: 600 13.5px/1.35 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.lh-row__marks { color: var(--a-bad-text); font-weight: 750; }
-.lh-row__sub { grid-area: sub; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px; font: 500 13px/1.4 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
-.lh-row__state { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--a-ink-2); }
-.lh-row__state[data-state='weak'] { color: var(--a-warn-text); }
-.lh-row__state[data-state='strong'] { color: var(--a-good-text); }
-.lh-row__state[data-state='none'], .lh-row__state[data-state='thin'] { color: var(--a-ink-3); }
-.lh-row__state[data-state='unknown'] { color: var(--a-ink-3); font-weight: 500; }
-.lh-row__meta { color: var(--a-ink-2); }
+a.lh-row__link:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
+a.lh-row__link:active { transform: scale(0.99); }
+@media (hover: hover) { a.lh-row__link:hover { background: var(--a-hover); } a.lh-row__link:hover .lh-row__chev { transform: translateX(2px); color: var(--a-ink); } }
+.lh-row__head { grid-area: head; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; min-width: 0; }
+.lh-row__title { font: 650 16px/1.35 var(--font-body); color: var(--a-ink); text-wrap: pretty; overflow-wrap: break-word; min-width: 0; }
+.lh-row[data-empty] .lh-row__title { color: var(--a-ink-3); }
+.lh-row__here { flex: none; display: inline-flex; align-items: center; height: 22px; padding: 0 9px; border-radius: 11px; background: #d2f000; color: #10140e; font: 700 12px/1 var(--font-body); letter-spacing: 0.01em; transform: translateY(-1px); }
+.lh-row__verdict { flex: none; font: 650 13px/1.3 var(--font-body); color: var(--a-warn-text); }
+.lh-row__meta { grid-area: meta; font: 500 13.5px/1.4 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; text-wrap: pretty; }
 .lh-row[data-empty] .lh-row__meta { color: var(--a-ink-3); }
-.lh-ring { flex: none; }
+.lh-row__bar { grid-area: bar; display: block; height: 3px; margin-top: 4px; border-radius: 2px; background: var(--a-line); overflow: hidden; max-width: 320px; }
+.lh-row__bar > span { display: block; height: 100%; border-radius: 2px; background: var(--a-ink-2); transform: scaleX(var(--p, 0)); transform-origin: left center; animation: lh-bar 600ms var(--lh-ease) 120ms both; }
+.lh-row[data-here] .lh-row__bar > span { background: #b5d000; }
+html[data-theme='light'] .lh-row[data-here] .lh-row__bar > span { background: #7d9200; }
+@keyframes lh-bar { from { transform: scaleX(0); } }
 .lh-row__chev { grid-area: chev; align-self: center; color: var(--a-ink-3); transition: transform 200ms var(--lh-ease), color 200ms var(--lh-ease); }
+.lh-ring { flex: none; }
 
 /* The book spread: from a 960 px container the two parts face each other, each from its own title */
 @container lh (min-width: 960px) {
@@ -333,49 +245,25 @@ html[data-theme='light'] .lh {
   .lh-rows--flat .lh-row { break-inside: avoid; }
 }
 
-/* ---------- The part switch (LK2): one indicator, each choice says how many chapters it holds ---------- */
-.lh-opt { display: grid; gap: 8px; padding: 4px 0 12px; }
-.lh-opt__label { font: 650 13.5px/1.3 var(--font-body); color: var(--a-ink-3); }
-.lh-opt__row { position: relative; display: grid; grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); padding: 4px; border-radius: 14px; background: var(--a-sunken); border: 1px solid var(--a-line); max-width: 560px; isolation: isolate; }
-.lh-opt__thumb {
-  position: absolute; z-index: 0; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px) / var(--n, 2)); border-radius: 10px; background: var(--a-raised);
-  box-shadow: var(--a-shadow-1), inset 0 0 0 1px var(--a-line-strong); opacity: 0; transform: translateX(calc(var(--i, 0) * 100%));
-  transition: transform 240ms var(--lh-ease), opacity 160ms var(--lh-ease);
+/* ---------- The part switch (LK2, phone-clarity.md item 9): "Your school teaches" and two chips, under the part's heading ---------- */
+.lh-opt { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 2px 0 12px; }
+.lh-opt__label { font: 600 13.5px/1.3 var(--font-body); color: var(--a-ink-3); }
+.lh-opt__row { display: flex; flex-wrap: wrap; gap: 8px; }
+.lh-opt__btn {
+  display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border: 1px solid var(--a-line-strong); border-radius: 18px; background: transparent;
+  color: var(--a-ink-2); font: 600 14px/1.2 var(--font-body); cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background-color 200ms var(--lh-ease), color 200ms var(--lh-ease), border-color 200ms var(--lh-ease);
 }
-.lh-opt__thumb[data-on] { opacity: 1; }
-.lh-opt__btn { position: relative; z-index: 1; display: grid; align-content: center; justify-items: center; gap: 2px; min-height: 56px; padding: 8px 12px; border: 0; border-radius: 10px; background: transparent; color: var(--a-ink-2); text-wrap: balance; cursor: pointer; transition: color 200ms var(--lh-ease); -webkit-tap-highlight-color: transparent; }
-.lh-opt__name { font: 600 14.5px/1.25 var(--font-body); }
-.lh-opt__count { font: 500 12.5px/1.3 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
-.lh-opt__btn[aria-checked='true'] { color: var(--a-ink); }
-.lh-opt__btn[aria-checked='true'] .lh-opt__name { font-weight: 700; }
-.lh-opt__btn:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 1px; }
-.lh-opt__hint { font: 500 13px/1.5 var(--font-body); color: var(--a-ink-3); min-height: 39px; max-width: 60ch; }
+.lh-opt__btn[aria-checked='true'] { background: var(--a-ink); border-color: var(--a-ink); color: var(--a-bg); }
+.lh-opt__btn:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) { .lh-opt__btn:not([aria-checked='true']):hover { border-color: var(--a-line-hover); color: var(--a-ink); } }
+.lh-opt__hint { flex-basis: 100%; font: 500 13px/1.5 var(--font-body); color: var(--a-ink-3); }
 .lh-opt__hint[data-failed] { color: var(--a-bad-text); font-weight: 600; }
-@media (min-width: 560px) { .lh-opt__hint { min-height: 20px; } }
 .lh-optgroup { min-width: 0; }
 .lh-optgroup[data-stage='out'] { opacity: 0; pointer-events: none; transition: opacity 160ms var(--lh-ease-exit); }
 .lh-optgroup[data-stage='in'] { animation: lh-fade 220ms var(--lh-ease) both; }
 
-/* ---------- Foot, states ---------- */
-.lh-foot { display: grid; grid-template-columns: minmax(0, 1fr); margin-top: 24px; }
-.lh-foot__link {
-  display: grid; grid-template-columns: 20px minmax(0, 1fr) 18px; align-items: center; gap: 14px; min-height: 64px; padding: 10px 6px; color: inherit; text-decoration: none;
-  border-bottom: 1px solid var(--a-line); -webkit-tap-highlight-color: transparent; transition: background-color 150ms var(--lh-ease), transform 100ms var(--lh-ease);
-}
-.lh-foot__link:first-child { border-top: 1px solid var(--a-line); }
-.lh-foot__link:active { transform: scale(0.99); }
-.lh-foot__link:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
-.lh-foot__icon, .lh-foot__chev { color: var(--a-ink-3); }
-.lh-foot__text { display: grid; gap: 2px; min-width: 0; }
-.lh-foot__text b { font: 650 15.5px/1.3 var(--font-body); color: var(--a-ink); }
-.lh-foot__text span { font: 500 13.5px/1.35 var(--font-body); color: var(--a-ink-3); }
-.lh-foot__chev { transition: transform 200ms var(--lh-ease), color 200ms var(--lh-ease); }
-@media (hover: hover) { .lh-foot__link:hover { background: var(--a-hover); } .lh-foot__link:hover .lh-foot__chev { transform: translateX(2px); color: var(--a-ink); } }
-@container lh (min-width: 560px) {
-  .lh-foot { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; margin-top: 28px; }
-  .lh-foot__link:nth-child(2) { border-top: 1px solid var(--a-line); }
-}
-@container lh (min-width: 960px) { .lh-foot { column-gap: 48px; } }
+/* ---------- States ---------- */
 .lh-skelmap { display: grid; }
 .lh-skelmap__head { height: 26px; width: 130px; margin-bottom: 12px; border-radius: 8px; }
 .lh-skelmap__rows { display: grid; gap: 1px; }
@@ -388,16 +276,99 @@ html[data-theme='light'] .lh {
 
 /* ---------- Reduced motion: things land at once; state changes are short fades ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .lh :is(.lh-sug, .lh-panel[data-swap], .lh-sort__list, .lh-optgroup[data-stage='in'], .lh-recent) { animation: lh-fade 120ms linear both; animation-delay: 0ms; }
-  .lh .lh-track__fill { animation: none; }
+  .lh :is(.lh-panel[data-swap], .lh-sort__list, .lh-optgroup[data-stage='in'], .lh-recent) { animation: lh-fade 120ms linear both; animation-delay: 0ms; }
+  .lh :is(.lh-track__fill, .lh-row__bar > span, .lh-route__node, .lh-hero) { animation: none; }
   .lh .lh-find__cancel { animation: none; }
-  .lh :is(.lh-opt__thumb, .lh-row__chev, .lh-foot__chev, .lh-sort__btn svg, .lh-row__link, .lh-foot__link, .lh-skey) { transition: none; }
-  .lh :is(.lh-row__link, .lh-foot__link, .lh-key, .lh-skey):active { transform: none; }
+  .lh :is(.lh-opt__btn, .lh-row__chev, .lh-sort__btn svg, .lh-row__link, .lh-skey, .lh-or__row) { transition: none; }
+  .lh :is(.lh-row__link, .lh-or__row, .lh-key, .lh-skey):active { transform: none; }
   .lh .lh-optgroup[data-stage='out'] { transition: opacity 120ms linear; }
 }
-:root[data-motion='reduced'] .lh :is(.lh-sug, .lh-panel[data-swap], .lh-sort__list, .lh-optgroup[data-stage='in'], .lh-recent) { animation: lh-fade 120ms linear both; animation-delay: 0ms; }
-:root[data-motion='reduced'] .lh .lh-track__fill { animation: none; }
+:root[data-motion='reduced'] .lh :is(.lh-panel[data-swap], .lh-sort__list, .lh-optgroup[data-stage='in'], .lh-recent) { animation: lh-fade 120ms linear both; animation-delay: 0ms; }
+:root[data-motion='reduced'] .lh :is(.lh-track__fill, .lh-row__bar > span, .lh-route__node, .lh-hero) { animation: none; }
 :root[data-motion='reduced'] .lh .lh-find__cancel { animation: none; }
-:root[data-motion='reduced'] .lh :is(.lh-opt__thumb, .lh-row__chev, .lh-foot__chev, .lh-sort__btn svg, .lh-row__link, .lh-foot__link, .lh-skey) { transition: none; }
-:root[data-motion='reduced'] .lh :is(.lh-row__link, .lh-foot__link, .lh-key, .lh-skey):active { transform: none; }
+:root[data-motion='reduced'] .lh :is(.lh-opt__btn, .lh-row__chev, .lh-sort__btn svg, .lh-row__link, .lh-skey, .lh-or__row) { transition: none; }
+:root[data-motion='reduced'] .lh :is(.lh-row__link, .lh-or__row, .lh-key, .lh-skey):active { transform: none; }
 :root[data-motion='reduced'] .lh .lh-optgroup[data-stage='out'] { transition: opacity 120ms linear; }
+
+/* ---------- The start offer (R2 ruling 1, LK27): type on the page, not a card among cards. One volt key; at most two quiet rows. ---------- */
+.lh-hero { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; min-width: 0; margin: 6px 0 22px; animation: lh-rise 260ms var(--lh-ease) both; }
+.lh-hero__title { font: 750 28px/1.14 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); text-wrap: balance; overflow-wrap: break-word; }
+.lh-hero__line { padding-top: 8px; font: 550 16px/1.4 var(--font-body); color: var(--a-ink); text-wrap: pretty; }
+.lh-hero__sub { padding-top: 4px; font: 500 15px/1.4 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
+.lh-hero__track { margin-top: 12px; width: min(100%, 280px); }
+.lh-hero__track .lh-track__fill { background: #b5d000; }
+.lh-hero__keys { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; margin-top: 16px; }
+.lh-hero__key { width: 100%; min-height: 56px; font-size: 16px; border-radius: 16px; }
+.lh-hero__quiet { justify-self: center; display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; color: var(--a-ink); font: 650 15px/1 var(--font-body); text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 4px; }
+.lh-hero__quiet:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 6px; }
+.lh-hero--skel { gap: 0; }
+.lh-hero--skel .lh-sk--t { height: 32px; width: 78%; }
+.lh-hero--skel .lh-sk--key { height: 56px; margin-top: 20px; border-radius: 16px; }
+
+/* The route: one node per chapter, done ones filled, the one the student is in ringed in volt. Fills left to right once. */
+.lh-route { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; width: fit-content; max-width: 100%; min-height: 24px; margin: 8px 0 0 -6px; padding: 6px; border: 0; border-radius: 10px; background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.lh-route:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 0; }
+@media (hover: hover) { .lh-route:hover { background: var(--a-hover); } }
+.lh-route__node { flex: none; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--a-ink-3); opacity: 0.7; animation: lh-node 180ms var(--lh-ease) both; animation-delay: calc(var(--i, 0) * 24ms); }
+.lh-route__node[data-state='some'] { border-color: var(--a-ink-2); background: linear-gradient(90deg, var(--a-ink-2) 50%, transparent 50%); opacity: 1; }
+.lh-route__node[data-state='done'] { border-color: var(--a-ink-2); background: var(--a-ink-2); opacity: 1; }
+.lh-route__node[data-state='here'] { width: 12px; height: 12px; border: 3px solid #c4e000; background: transparent; opacity: 1; animation: lh-node 180ms var(--lh-ease) both, lh-here 400ms var(--lh-ease) both; animation-delay: calc(var(--i, 0) * 24ms), calc(var(--i, 0) * 24ms + 220ms); }
+html[data-theme='light'] .lh-route__node[data-state='here'] { border-color: #8ba000; }
+@keyframes lh-node { from { opacity: 0; transform: scale(0.4); } }
+@keyframes lh-here { 50% { transform: scale(1.15); } }
+
+/* The "Or" rows: 56 px, a hairline between, no card, no key */
+.lh .lh-or { display: grid; margin-top: 14px; border-top: 1px solid var(--a-line); }
+.lh-or li { border-bottom: 1px solid var(--a-line); }
+.lh-or__row {
+  display: grid; grid-template-columns: minmax(0, 1fr) 18px; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 8px 4px; border: 0; background: transparent;
+  color: inherit; text-align: left; text-decoration: none; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background-color 150ms var(--lh-ease), transform 100ms var(--lh-ease);
+}
+.lh-or__row:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
+.lh-or__row:active { transform: scale(0.99); }
+.lh-or__text { display: grid; gap: 2px; min-width: 0; }
+.lh-or__text b { font: 650 15px/1.3 var(--font-body); color: var(--a-ink); }
+.lh-or__text span { font: 500 13.5px/1.35 var(--font-body); color: var(--a-ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lh-or__chev { color: var(--a-ink-3); transition: transform 200ms var(--lh-ease), color 200ms var(--lh-ease); }
+@media (hover: hover) { .lh-or__row:hover { background: var(--a-hover); } .lh-or__row:hover .lh-or__chev { transform: translateX(2px); color: var(--a-ink); } }
+
+/* Wide: the offer on the left, the quiet rows beside it, so the first screen is used, not left empty (LK30) */
+@container lh (min-width: 760px) {
+  .lh-hero { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); grid-template-areas: 'title or' 'line or' 'track or' 'route or' 'sub or' 'keys or'; column-gap: 48px; margin: 4px 0 28px; }
+  .lh-hero > .lh-hero__title { grid-area: title; font-size: 34px; }
+  .lh-hero > .lh-hero__line { grid-area: line; font-size: 17px; }
+  .lh-hero > .lh-hero__track { grid-area: track; }
+  .lh-hero > .lh-route { grid-area: route; }
+  .lh-hero > .lh-hero__sub { grid-area: sub; }
+  .lh-hero > .lh-hero__keys { grid-area: keys; grid-template-columns: auto auto; justify-content: start; align-items: center; gap: 4px 16px; margin-top: 18px; }
+  .lh-hero__key { width: auto; min-width: 240px; padding: 0 28px; }
+  .lh .lh-hero > .lh-or { grid-area: or; align-self: center; margin-top: 0; }
+  .lh-hero:not(:has(.lh-or)) { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'title' 'line' 'track' 'route' 'sub' 'keys'; }
+}
+
+/* ---------- Find with nothing typed: the student's sets as rows, or a line and four words to try ---------- */
+.lh-findhome { display: grid; gap: 24px; min-width: 0; padding-top: 12px; }
+/* Find reads as a narrow column on a wide screen: a field and a list, not a stretched bar (LK30 is about use, not width). */
+@container lh (min-width: 760px) { .lh[data-panel='find'] :is(.lh-findband, .lh-panel) { max-width: 720px; } }
+.lh-findhome__line { font: 500 15px/1.5 var(--font-body); color: var(--a-ink-2); }
+.lh-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.lh-chip { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border: 1px solid var(--a-line-strong); border-radius: 20px; background: transparent; color: var(--a-ink); font: 600 14.5px/1 var(--font-body); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.lh-chip:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.lh-chip:active { transform: scale(0.97); }
+@media (hover: hover) { .lh-chip:hover { background: var(--a-hover); border-color: var(--a-line-hover); } }
+.lh-findhome__h { margin-bottom: 4px; }
+.lh-findhome__rows { margin-top: 4px; }
+.lh[data-panel='find'] .lh-head { position: static; width: auto; height: auto; overflow: visible; clip-path: none; white-space: normal; margin-bottom: 12px; }
+.lh[data-panel='find'] .lh-title { font-size: 28px; }
+@media (min-width: 1024px) { .lh[data-panel='find'] .lh-title { font-size: 40px; } }
+
+/* ---------- A phone: the subjects row is one compact line (84 px), so the offer is on the first screen (phone-clarity.md item 15) ---------- */
+@media (max-width: 639px) {
+  .app-shell .pr.lh-shelf { margin-bottom: 6px; }
+  .app-shell .pr.lh-shelf .pr-subjects { padding-bottom: 4px; gap: 4px; }
+  .app-shell .pr.lh-shelf .pr-subject { --pr-obj: 44px; width: 80px; padding: 0 0 8px; row-gap: 4px; }
+  .app-shell .pr.lh-shelf .pr-subject__name { font-size: 13px; font-weight: 650; max-width: 76px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .app-shell .pr.lh-shelf[data-long] .pr-subject__name { min-height: 0; }
+  .app-shell .pr.lh-shelf .lh-shelf__sub { display: none; }
+  .app-shell .pr.lh-shelf .pr-shelf[data-overflow]:not([data-at-end]) .pr-subjects { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 24px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 24px), transparent); }
+}

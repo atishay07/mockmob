@@ -1,5 +1,7 @@
-// Learn home, the pure parts (B 3.1 and 3.2, DESIGN-SPEC A7): how a chapter row reads, what the sort and the filter do to
-// the map, and which units the part switch shows. No imports, so the page and its test read the same rules.
+// Learn home, the pure parts (B 3.1 and 3.2, DESIGN-SPEC A7, R2 rulings 1 and 2): how a roadmap row reads, what the sort and the
+// filter do to the map, and which units the part switch shows. Its only import is the roadmap's own pure rules, so the page, the
+// service and the tests read one rule for coverage.
+import { coverageLine, coverageShare, verdictOf } from '../../../../data/learn/roadmap.js';
 
 /** The ring beside a state word: the word is the first cue, the shape the second (never colour alone). */
 const SHAPE = { none: 'none', thin: 'thin', needs_work: 'weak', getting_there: 'mid', holding: 'strong', unknown: 'unknown' };
@@ -198,7 +200,10 @@ export function pickupProgress(suggestion) {
 /** The field's placeholder: the card count when there are cards, what it can still find when there are none, and a plain word while it is unknown. */
 export const searchPlaceholder = (cards) => (!Number.isFinite(cards) ? 'Search Key cards' : cards > 0 ? `Search ${cards} Key cards` : 'Search chapters and lessons');
 
-/** The three shelf keys, from GET /api/learn/shelves (A3 3.2.3). Zero is a true value: it is drawn, quiet, and says so. */
+/**
+ * The shelf keys under the search field (R2 ruling 1): "9 due", "6 missed", "26 in Revise". A count that is 0 is never drawn
+ * (LK27: "Revise should not be 0"); with every count at 0 there are no keys at all.
+ */
 export function shelfKeys(shelves, subjectName = '') {
   if (!shelves) return [];
   const sub = subjectName ? `${subjectName} ` : '';
@@ -208,11 +213,31 @@ export function shelfKeys(shelves, subjectName = '') {
   const days = Number(shelves.missed?.days) || 14;
   const chapters = Number(shelves.revise?.chapters) || 0;
   return [
-    { id: 'due', count: due, label: 'due today', zero: due === 0, name: due ? `Due today: ${due} ${sub}${due === 1 ? 'card' : 'cards'}. Show them` : 'No cards due today' },
-    { id: 'missed', count: missed, label: 'missed lately', zero: missed === 0, name: missed ? `Missed lately: ${missed} ${missed === 1 ? 'card' : 'cards'} in the last ${days} days. Show them` : 'None missed lately' },
-    { id: 'revise', count: revise, label: 'in Revise', zero: revise === 0, name: revise ? `In Revise: ${revise} ${revise === 1 ? 'card' : 'cards'} in ${plural(chapters, 'chapter')}. Show them` : 'Nothing in Revise yet' },
-  ];
+    { id: 'due', count: due, label: 'due', title: 'Due today', name: `Due today: ${due} ${sub}${due === 1 ? 'card' : 'cards'}. Show them` },
+    { id: 'missed', count: missed, label: 'missed', title: 'Missed lately', name: `Missed lately: ${missed} ${missed === 1 ? 'card' : 'cards'} in the last ${days} days. Show them` },
+    { id: 'revise', count: revise, label: 'in Revise', title: 'In Revise', name: `In Revise: ${revise} ${revise === 1 ? 'card' : 'cards'} in ${plural(Math.max(1, chapters), 'chapter')}. Show them` },
+  ].filter((k) => k.count > 0);
 }
+
+/** A roadmap row (R2 ruling 2): the coverage line, the 3 px bar's share and the one verdict word. Never a zero, a % or "mastered". */
+export function roadmapRow(row, { isPro = true } = {}) {
+  const p = row?.progress || null;
+  if (!p) return { line: '', share: 0, seen: 0, verdict: null };
+  return { line: coverageLine(p, { isPro }), share: coverageShare(p), seen: Number(p.seen) || 0, verdict: row.verdict ?? verdictOf(row.state?.key) };
+}
+
+/** Find with nothing typed: a few words from the book to start with, per subject (a tap searches it). */
+const FIND_HINTS = Object.freeze({
+  accountancy: ['goodwill', 'sacrificing ratio', 'revaluation', 'debentures'],
+  business_studies: ['delegation', 'marketing mix', 'planning', 'motivation'],
+  economics: ['elasticity', 'national income', 'money multiplier', 'opportunity cost'],
+  english: ['synonym', 'antonym', 'idiom', 'one word substitution'],
+  biology: ['pollination', 'DNA replication', 'Mendel', 'enzymes'],
+  political_science: ['cold war', 'federalism', 'non-aligned', 'planning commission'],
+});
+export const findHints = (subject) => FIND_HINTS[subject] || [];
+export const findHintLine = (subject) => { const w = findHints(subject)[0]; return w ? `Search any word from the book, like “${w}”.` : 'Search any word from the book.'; };
+
 export const SHELF_IDS = Object.freeze(['due', 'missed', 'revise', 'must']);
 export const shelfFromParam = (value) => (SHELF_IDS.includes(value) ? value : null);
 

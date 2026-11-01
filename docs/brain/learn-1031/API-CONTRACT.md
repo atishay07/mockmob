@@ -99,6 +99,25 @@ replaced by `FREE_SESSION_USED` (`reason: 'learn_session'`); clients read only t
 ### GET /api/learn/subject
 ```
 + free: null | { text, maxMinutes: 10 }      // Free, only when today's session is used (the real limit)
++ roadmap: null | {                           // R2 rulings 1 to 3 (data/learn/roadmap.js); Learn home leads with it
+    mode: 'pickup' | 'freeDone' | 'new' | 'today',
+    headline, line, sub: string|null,         // "Start learning Accountancy" / "Pick up Admission of a Partner" /
+                                              // "Today's 10 minutes in Accountancy" / "That was today's free session."
+    progress: null | { done, of },            // pickup only
+    key: { label, run? | href?, go? },        // "Start chapter 1 · 10 min" / "Continue · 6 min" / "Start · 10 min" / "See Pro"
+    quiet: null | { label, href, go },        // freeDone: "Answer single questions" -> /explore
+    or: [{ kind: 'level'|'feed'|'fix', label, line, run? | href? }] (at most 2),
+    position: null | { chapterKey, index, of }, chapter: null | { key, title, seen, of, unseen } }
+  today's key.run is a mix on the position chapter with cardIds = due cards (at most 40 percent of the minutes)
+parts[].units[].chapters[] + progress: { of, seen, unseen, questions, tried }   // coverage, never mastery; feed cards count as seen
+                           + verdict: 'Needs work' | null   + unit
+```
+
+### GET /api/learn/home?subject= (new, R2 speed.md item 3)
+```
+the /subject body + shelves (the /shelves body) from ONE snapshot; shelves.due.all is the sum of shelves.due.bySubject.
+The shell's due badge shares this answer (learn2/api.js, a 30 s module cache cleared by every write and a run's end).
+/subject and /shelves stay for the app.
 ```
 
 ### POST /api/learn/runs/preview
@@ -119,6 +138,9 @@ body + requestKey: 8-100 of [A-Za-z0-9_-]     // one id per start tap; a retried
      + fresh?: true                           // "Another 10 minutes": never resume
      + kind: + 'level'
      A start of the same chapter and kind (mix or feed) on the same India day, with that run unfinished, resumes it.
+     A mix with chapterKey AND cardIds is "Today's 10 minutes" (R2): the cards that are due, open and in the subject play first
+     (oldest due first, at most 40 percent of the minutes), then the chapter's new cards and questions, and one open mistake
+     second-last. start_state.today = { due }.
 answer + asked: number                        // the length chosen (Free: at most 10)
        + resumed: null | { done, of }         // a resume sends only the items not done
        + added: null | { key, title }   + looks: null | { text }

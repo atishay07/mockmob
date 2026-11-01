@@ -51,20 +51,35 @@ export function createPracticeSource({ db, subjectId, mode, opts = {}, targetCou
   };
   // Evidence precedence and freshness need the whole filtered subject pool;
   // a recent sample can hide older, fully verified inventory.
-  const readPool = async (columns) => {
+  const readPage = async (columns, offset) => {
+    let { data, error } = await buildQuery(columns, true, offset);
+    if (error && isMissingPhase1VoteSchema(error)) ({ data, error } = await buildQuery(columns, false, offset));
+    if (error) throw error;
+    return data || [];
+  };
+  // `upper`: the subject's row count when it is known (an upper bound of the filtered pool). Its pages are then read together
+  // (speed.md item 6b: a cold Learn instance read them one after another); any page past it is read in order, as before.
+  const readPool = async (columns, upper = null) => {
     const pool = [];
-    for (let offset = 0; ; offset += 1000) {
-      let { data, error } = await buildQuery(columns, true, offset);
-      if (error && isMissingPhase1VoteSchema(error)) ({ data, error } = await buildQuery(columns, false, offset));
-      if (error) throw error;
-      pool.push(...(data || []));
-      if (!data || data.length < 1000) break;
+    let offset = 0;
+    const known = Number.isInteger(upper) && upper > 0 ? Math.ceil(upper / 1000) : 0;
+    if (known > 1) {
+      const pages = await Promise.all(Array.from({ length: known }, (_, i) => readPage(columns, i * 1000)));
+      for (const page of pages) pool.push(...page);
+      if (pages[pages.length - 1].length < 1000) return pool;
+      offset = known * 1000;
+    }
+    for (; ; offset += 1000) {
+      const data = await readPage(columns, offset);
+      pool.push(...data);
+      if (data.length < 1000) break;
     }
     return pool;
   };
   const readManagedIds = async () => {
     const ids = new Set();
-    for (const column of ['evidence', 'provenance']) {
+    // The two columns are read together; each column's pages in order.
+    await Promise.all(['evidence', 'provenance'].map(async (column) => {
       for (let offset = 0; ; offset += 1000) {
         const { data, error } = await db.from('questions').select('id').eq('subject', subjectId).eq('is_deleted', false)
           .not(column, 'is', null).order('id').range(offset, offset + 999);
@@ -72,7 +87,7 @@ export function createPracticeSource({ db, subjectId, mode, opts = {}, targetCou
         for (const row of data || []) ids.add(row.id);
         if (!data || data.length < 1000) break;
       }
-    }
+    }));
     return ids;
   };
   return {
@@ -94,7 +109,7 @@ export function createPracticeSource({ db, subjectId, mode, opts = {}, targetCou
       // The count is taken before the read, so a row that arrives or changes while the pool is read shows next time.
       let count = null;
       try { count = await subjectCount(db, subjectId); } catch { count = null; }
-      const [rows, managedIds] = await Promise.all([readPool(PRACTICE_LIGHT_SELECT), readManagedIds()]);
+      const [rows, managedIds] = await Promise.all([readPool(PRACTICE_LIGHT_SELECT, count), readManagedIds()]);
       const value = { rows, managedIds };
       caches.pools.set(key, { at: clock(), readAt, count, value });
       while (caches.pools.size > MAX_CACHED_POOLS) caches.pools.delete(caches.pools.keys().next().value);
