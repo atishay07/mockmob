@@ -1,5 +1,25 @@
 # NOW: MockMob current state
 
+## 1 Nov 2026, about 6:20 am IST: Learn v2 and the Explore feed built completely (LK20-LK23); waiting for his look
+- **Branch web/1031-learn-v2 (wt-1031-learn-v2), not pushed or deployed.** Spec BUILD-1101.md; audits A1-A8, 00-critic, 09-final-critic in
+  docs/brain/learn-1031/audit-1101/. Commits: 06d7b40f5 e61e5517e e8e6d3c0c 0cd13b463 978699f89 2e90b5be7 f684d507a eea222a3f ee3f61abe
+  e36c92f4f 6bffc64c2 153f534e9 ea6543d7d d9afdf8e8 2be498715 1bfd86ee9 4bba8db6f.
+- **What is built:** real pager (one wheel notch, swipe or key = one item; slow drag works; visible Previous and one named volt key),
+  desktop session panel, cards that fit their words, the line in place, covers that show each chapter's own opening card, Learn home
+  with search and shelves, chapter page, run on the same stage, stop sheet, ends with real numbers, watermarked v2 print sheet,
+  production service + 11 /api/learn routes behind LEARN2_ENABLED, pages behind NEXT_PUBLIC_LEARN2, one Key cards world when on.
+- **Verified:** final capture 182 stills at 1440/1366x650/1024/390/360, Night (Day at 1440/390), 0 console errors, 0 sideways scroll; wheel,
+  trackpad, keys and touch measures pass; owner-eye critic M1-M10 fixed (1bfd86ee9). Not verified: real phone or trackpad, screen reader,
+  real Ctrl+P margins; the two films predate the last fixes.
+- **Owner links (LAN, this PC on):** http://192.168.1.15:3451/preview/arena?decks=real&study=on&view=learn2-feed&plan=pro&student=commerce&chapter=accountancy.admission-of-partner&min=10
+  (also view=explore, view=learn2&subject=accountancy, view=learn2-chapter&chapter=accountancy.admission-of-partner). Owner set:
+  wt-1031-learn-v2/tmp/learn-1101/for-owner/.
+- **Needs him:** his look and verdict; confirm the CTO decisions (Keep = add to Revise; realistic seconds; LK15 claimed at the first answer,
+  Free clamped to 10 min, second Free run cards only; no Must-know tag on feed/run cards; chapter page keeps the subject object); content
+  calls (duplicate card "Define partnership." vs "What is partnership?"; the card "If this amount is paid..." reads oddly alone); to ship:
+  run supabase/dryrun/20261101150000_learn_runs.dryrun.sql, then apply the migration, approve merge + deploy, set LEARN2_ENABLED=true and
+  NEXT_PUBLIC_LEARN2=on; then the app port (A7, stale in places; the web is the source of truth).
+
 ## 1 Nov 2026, about 3:45 am IST: Learn v2 built for production behind flags; UI rebuild running
 - **Branch web/1031-learn-v2 (wt-1031-learn-v2), not pushed or deployed.** Spec: docs/brain/learn-1031/BUILD-1101.md in that worktree
   (logic Part 1, production Part 2, UI Part B with B7 decisions); audits in docs/brain/learn-1031/audit-1101/ (A1-A8).
