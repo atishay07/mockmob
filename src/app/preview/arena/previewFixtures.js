@@ -14,8 +14,16 @@ const EXAMPLES = [
   { chapter: 'Partnership Fundamentals', body: 'Goodwill brought in by an incoming partner is shared by old partners in:', options: ['New ratio', 'Old ratio', 'Sacrificing ratio', 'Equal ratio'], answer: 'C', explanation: 'The sacrificing partners are compensated, so goodwill is shared in the sacrificing ratio.' },
   { chapter: 'Accounting Equation', body: 'Assets are ₹80,000 and liabilities are ₹30,000. What is the owner’s equity?', options: ['₹30,000', '₹50,000', '₹80,000', '₹1,10,000'], answer: 'B', explanation: 'Equity = assets − liabilities = ₹50,000.' },
 ];
+// Accountancy's singles draw from real syllabus chapters (R3 X1) plus Class 11's "Accounting Equation", which Explore must leave out.
+const ACCOUNTANCY_EXAMPLES = [
+  EXAMPLES[0],
+  EXAMPLES[1],
+  { chapter: 'Goodwill Valuation', body: 'Goodwill valued at two years’ purchase of super profit of ₹40,000 is:', options: ['₹40,000', '₹80,000', '₹1,20,000', '₹20,000'], answer: 'B', explanation: 'Goodwill = super profit × years’ purchase = ₹40,000 × 2.' },
+  { chapter: 'Admission of Partner', body: 'On admission of a new partner, the revaluation account is credited with:', options: ['Increase in liabilities', 'Decrease in assets', 'Increase in assets', 'Goodwill brought in'], answer: 'C', explanation: 'A gain on revaluation, such as an increase in assets, is credited.' },
+  { chapter: 'Accounting Ratios', body: 'A current ratio of 2:1 means current assets are:', options: ['Half of current liabilities', 'Equal to current liabilities', 'Twice current liabilities', 'Four times current liabilities'], answer: 'C', explanation: 'Current ratio = current assets ÷ current liabilities = 2.' },
+];
 const SUBJECT_EXAMPLES = {
-  accountancy: EXAMPLES,
+  accountancy: ACCOUNTANCY_EXAMPLES,
   economics: [
     { chapter: 'Money and Banking', body: 'Which of these is NOT a function of the Reserve Bank of India?', options: ['Banker to the government', 'Issuing currency', 'Accepting public deposits', 'Controlling credit'], answer: 'C', explanation: 'The RBI is the central bank. It does not accept deposits from the general public.' },
     { chapter: 'Introduction to Microeconomics', body: 'The value of the next best alternative forgone is called:', options: ['Fixed cost', 'Opportunity cost', 'Sunk cost', 'Total cost'], answer: 'B', explanation: 'Opportunity cost describes the next best alternative given up when making a choice.' },
@@ -48,7 +56,8 @@ export const LIVE_SUBJECTS = withoutRetiredSubjects(CATALOGUE).map((subject) => 
 });
 export const FIXTURE_SUBJECTS = SUBJECTS.map((subject) => ({ ...subject, chapters: (SUBJECT_EXAMPLES[subject.id] || EXAMPLES).map((question) => question.chapter) }));
 export const fixtureFeed = (subject, long = false) => Array.from({ length: 29 }, (_, index) => {
-  const example = (SUBJECT_EXAMPLES[subject] || EXAMPLES)[index % 2];
+  const examples = SUBJECT_EXAMPLES[subject] || EXAMPLES;
+  const example = examples[index % examples.length];
   return { id: `fixture-${subject}-${index + 1}`, subject, chapter: example.chapter, body: example.body + (long && index === 0 ? '\nA deliberately long line for layout checks: ' + 'WorkingCapitalAndPartnershipAccounting'.repeat(7) : ''), options: example.options.map((text, optionIndex) => ({ key: 'ABCD'[optionIndex], text })), correct_answer: example.answer, explanation: example.explanation, difficulty: ['easy', 'medium', 'hard'][index % 3], score: index % 7, userVote: null, saved: false };
 });
 export function fixtureChapters(subject) {

@@ -723,6 +723,8 @@ export function createLearn(deps) {
       resume: open,
       firstUp,
       firstVisit: !info.studied,
+      // R3 X6: the chapter's cards this student has seen (a state row or a feed past), so the page offers Quick recap only after 1.
+      cardsSeen: info.coverage.seen,
       ...(rule.cardsOnly ? { free: { text: FREE_CARDS_ONLY } } : {}),
       asked,
       capped: rule.capped,

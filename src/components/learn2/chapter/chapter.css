@@ -149,7 +149,8 @@ html[data-theme='light'] .lc-own__scrim { background: rgb(23 32 22 / 0.28); }
 .lc-piles { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 12px; }
 .lc-lined .lc-piles { margin: 18px 0 0; padding: 8px 0 0; }
 .lc-piles[data-n='4'] { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 14px; }
-.lc-piles:is([data-n='1'], [data-n='2']) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+/* R3 X6: at 390 the piles share the full row width (two piles take half each; one takes the first half), never a third each with an empty third. */
+.lc-piles:is([data-n='1'], [data-n='2']) { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 14px; }
 @container lc-lined (min-width: 600px) {
   .lc-piles { grid-template-columns: repeat(3, 212px); column-gap: 28px; row-gap: 16px; }
   .lc-piles[data-n='4'] { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 20px; }
@@ -330,8 +331,8 @@ html[data-theme='light'] .lc-own__scrim { background: rgb(23 32 22 / 0.28); }
 }
 .lc-first__front {
   font: 650 14px/1.28 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); text-wrap: balance;
-  overflow-wrap: normal; word-break: normal; hyphens: auto;
-  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+  overflow-wrap: normal; word-break: normal; hyphens: manual; /* R3 L6: never "provi-sions" */
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
 }
 @keyframes lc-deal { from { opacity: 0; transform: translateY(12px); } }
 @container lc-lined (max-width: 599px) {

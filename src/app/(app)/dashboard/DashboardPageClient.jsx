@@ -37,7 +37,6 @@ import PracticeRepairs from './PracticeRepairs';
 import { useRailCue, reducedMotion as railReduced } from '@/components/start/railCue';
 import { InlineNudge, ProFacts, openUpgrade } from '@/components/pro';
 import { fullMocksIn } from '@/lib/proNudge.mjs';
-import { shownFirstName } from '@/lib/displayName.mjs';
 import './practice.css';
 import './chapter-picker.css';
 
@@ -45,7 +44,7 @@ import './chapter-picker.css';
 const MODE_LIST = ['quick', 'full', 'smart', 'nta'];
 
 // Short facts are joined by a comma, never a dot.
-const Sep = () => <>, </>;
+const Sep = () => <> · </>; // R3 ruling W: a middle dot between a label and its time or price, never a comma
 // A pick is a choice, so the object answers it a little more than a passing tap (the app's 0.4).
 const PICK_AMPLITUDE = 0.7;
 
@@ -141,8 +140,6 @@ function PracticeSkeleton() {
 export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const { user, status: authStatus } = useAuth();
   const learn2 = useLearn2On();
-  // A real first name only (release 11 walk: never the email's prefix or a handle; src/lib/displayName.mjs, the app's rule).
-  const greetFirst = shownFirstName(user?.name, user?.email);
   const toast = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -404,8 +401,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   function chooseSubject(event, subject) {
     answerPick(event);
     if (subject.id === selSubj) return;
-    const total = subject.chapters?.length || 0;
-    setChapterNote(selectedChapters.length && total ? `Chapters reset to all ${total} for ${subject.name}.` : null);
+    // R3 C3: no chapter count from the static subject list (it disagrees with the syllabus and with Learn); the picker has the live one.
+    setChapterNote(selectedChapters.length ? `Chapters reset to all chapters for ${subject.name}.` : null);
     setSelSubj(subject.id);
     setSelectedChapters([]);
     setDifficultyMode('auto');
@@ -452,7 +449,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const modeBadge = (id) => {
     const capability = MODE_CAPABILITIES[id];
     if (capability.state !== 'available') return { text: 'Unavailable', tone: 'muted' };
-    // Pro: no "Included" on every tile (R2 phone-clarity 14: four badges saying the same thing); access is said once, at the foot.
+    // Pro: no "Included" on every tile (R2 phone-clarity 14: four badges saying the same thing); the sentence about access is gone too (R3 X5).
     if (isPremium) return { text: '', tone: 'included' };
     if (capability.entitlement === 'access') return { text: 'Needs Pro', tone: 'locked' };
     if (id === 'full' && firstFullState === FIRST_FULL_MOCK_STATE.available) return { text: FIRST_FULL_MOCK_COPY.short, tone: 'included' };
@@ -470,7 +467,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const shortfall = quoteStatus === 'ready' && quoteMatches && quote.reasonCode === 'insufficient_credits' ? Math.max(0, (quote.creditCost || 0) - balance) : 0;
   const costLabel = quoteStatus === 'ready' && quoteMatches
     ? !quote.launchable ? (quote.reasonCode === 'access_required' ? 'Needs Pro' : quote.creditCost ? `${quote.creditCost} credits` : 'Not available')
-      : isPremium ? 'Included with access'
+      : isPremium ? '' // R3 X5: Pro is never told a mode is included; the Cost row is not drawn
         : quote.creditCost === 0 ? (quoteFirstFree ? FIRST_FULL_MOCK_COPY.price : 'Free: today’s included set')
           : `${quote.creditCost} credits`
     : 'Checking';
@@ -490,7 +487,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const barCost = quoteStatus === 'ready' && quoteMatches
     ? !quote.launchable ? (quote.reasonCode === 'access_required' ? 'Needs Pro'
       : quote.reasonCode === 'insufficient_credits' && quote.creditCost ? `${quote.creditCost} credits` : 'Not available')
-      : isPremium ? 'Included'
+      : isPremium ? ''
         : quote.creditCost === 0 ? (quoteFirstFree ? FIRST_FULL_MOCK_COPY.short : 'Free today')
           : `${quote.creditCost} ${quote.creditCost === 1 ? 'credit' : 'credits'}`
     : modeBadge(effectiveModeId).text || 'Checking';
@@ -563,13 +560,15 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
         <CreditsRemainingModal open={showCreditsModal} credits={user?.creditBalance ?? 0} offer={quote?.offer} onClose={() => setShowCreditsModal(false)} />
       )}
 
+      {/* R3 X5: the hero is one line. The greeting name and the lede go: the name is in the header's avatar, and the lede's facts
+          (timed, marked +5 / −1, saved to your record) are on the mode tiles and the Start card. The lede stays for screen readers. */}
       <header className="pr-head pr-head--solo">
         <div>
-          <h1 className="display-md">{greetFirst ? `${greetFirst}, what are we practising?` : 'What are we practising?'}</h1>
-          <p>Pick a subject and a way to practise. Timed, marked +5 / −1, saved to your record.</p>
+          <h1 className="display-md">What are we practising?</h1>
+          <p className="sr-only">Pick a subject and a way to practise. Timed, marked +5 / −1, saved to your record.</p>
           {/* The balance under the lede at every width. The price is said once, on the mode tiles (and the card's own Cost line),
               not again here (release 9: it was stated about four times in the first fold). */}
-          {/* Pro: no "Unlimited" pill and no access sentence up here (R2 phone-clarity 14); "Your access" at the foot says it. */}
+          {/* Pro: no pill and no access sentence up here (R2 phone-clarity 14, R3 X5). */}
           {isPremium ? null : (
             <p className="pr-head__credits">
               <CreditAmount kind="practice" amount={balance} unit unitLabel="credits" size={15} />
@@ -619,7 +618,6 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
               <div className="pr-subjects" role="group" aria-label="Subject" data-count={Math.min(mySubs.length, 6)} ref={shelfRef}>
                 {mySubs.map((subject) => {
                   const on = selSubj === subject.id;
-                  const total = subject.chapters?.length || 0;
                   return (
                     <button key={subject.id} type="button" aria-pressed={on} className="pr-subject" onClick={(event) => chooseSubject(event, subject)}>
                       {/* Drawn at the shelf's largest size and alive at every size; the lamp is always there and
@@ -627,7 +625,6 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                       <SubjectObject id={subject.internalId || subject.id} size={132} life lit className="pr-subject__obj" />
                       <span className="pr-subject__name">{subject.name}</span>
                       <span className="pr-subject__meta">
-                        {total ? <span>{total} {total === 1 ? 'chapter' : 'chapters'}</span> : null}
                         {subject.officialCode ? <span>Code {subject.officialCode}</span> : null}
                       </span>
                     </button>
@@ -764,17 +761,18 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
             <dl>
               <div><dt>Time</dt><dd>{approximate ? 'About ' : ''}{minutes} min</dd></div>
               <div><dt>Marking</dt><dd>+5 / −1</dd></div>
-              <div data-wide="" data-emph=""><dt>Cost</dt><dd data-tone={costTone}>{costLabel}</dd></div>
+              {costLabel ? <div data-wide="" data-emph=""><dt>Cost</dt><dd data-tone={costTone}>{costLabel}</dd></div> : null}
             </dl>
             {/* The bank behind every paper, said once and quietly (owner, 16 Oct; START-1017 D10): no fixed set of mocks,
                 each paper built fresh, unseen questions first. Count from /api/stats; unknown is not 0. */}
+            <p className="pr-ticket__marking">Timed, marked +5 / −1, saved to your record.</p>
             <p className="pr-ticket__fresh">{freshPaperLine({ count: selectedSubjectBank, subjectName: subjectLabel, isPremium, mode: effectiveModeId })}</p>
             {/* Free only, when this set has a credit price (D79): one quiet line under the cost. */}
             {!isPremium && quoteLaunchable && quote.creditCost > 0 ? <InlineNudge placement="practice_cost" facts={{ balance }} className="pr-nudge" onShown={setCostNudgeShown} /> : null}
             <p className="pr-summary__reason" role="status" aria-live="polite" tabIndex={-1}>
               {quoteStatus === 'loading' && 'Checking access, credits and questions…'}
               {quoteStatus === 'error' && <>Could not check this session. Nothing was charged. <button type="button" onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button></>}
-              {quoteStatus === 'ready' && quoteMatches && quote.reason}
+              {quoteStatus === 'ready' && quoteMatches && !(isPremium && quote.launchable) && quote.reason}
               {quoteStatus === 'ready' && quoteMatches && !quote.launchable && quote.upgradeHref && (
                 <> <Link href={quote.upgradeHref} data-pro-feature={quote.reasonCode === 'access_required' ? effectiveModeId : 'credits'}>{quote.reasonCode === 'access_required' ? 'See Pro' : 'See options'}</Link></>
               )}
@@ -820,7 +818,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
               <span className="pr-bar__text" data-blocked={blocked || undefined}>
                 <b>{mode.label}</b>
                 {/* The key already names the count ("Start 10 questions"), so the line does not repeat it; full and NTA papers keep it. */}
-                <span><span className="sr-only">{subjectLabel}, {keyNamesCount ? `${quoteCount} questions, ` : ''}</span>{keyNamesCount ? null : <>{quoteCount} Q<Sep /></>}<span className="pr-bar__min">{approximate ? 'about ' : ''}{minutes} min<Sep /></span><i data-tone={blocked ? 'locked' : undefined}>{barCost}</i></span>
+                <span><span className="sr-only">{subjectLabel}, {keyNamesCount ? `${quoteCount} questions, ` : ''}</span>{keyNamesCount ? null : <>{quoteCount} Q<Sep /></>}<span className="pr-bar__min">{approximate ? 'about ' : ''}{minutes} min{barCost ? <Sep /> : null}</span><i data-tone={blocked ? 'locked' : undefined}>{barCost}</i></span>
               </span>
               {startKey('pr-bar__go', true)}
             </div>
@@ -881,18 +879,20 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
 
       <div className="pr-lower pr-lower--1020">
         <div className="pr-lower__side">
+        {/* R3 X5: Pro is not shown an access panel (no sentence about what is included, no pill). This panel is
+            the Free and ended-Pro student's one place that names Pro and the balance. */}
+        {isPremium ? null : (
         <section className="pr-panel" aria-labelledby="pr-access">
-          <div className="pr-panel__head"><h2 id="pr-access">{isPremium ? 'Your access' : 'MockMob Pro'}</h2></div>
-          <p className="pr-panel__lead">{isPremium
-            ? `Quick practice, Full mock, Smart practice and NTA mode are included${user?.premiumUntil ? ` until ${new Date(user.premiumUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}` : ''}.`
-            : proEnded
-              ? `Your Pro access ended on ${new Date(user.premiumUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}. Quick practice and Full mock now use credits; your history and saved questions stay.`
-              : 'Pro adds Smart practice and NTA mode, and Quick practice and Full mock stop costing credits.'}</p>
+          <div className="pr-panel__head"><h2 id="pr-access">MockMob Pro</h2></div>
+          <p className="pr-panel__lead">{proEnded
+            ? `Your Pro access ended on ${new Date(user.premiumUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}. Quick practice and Full mock now use credits; your history and saved questions stay.`
+            : 'Pro adds Smart practice and NTA mode, and Quick practice and Full mock stop costing credits.'}</p>
           <div className="pr-panel__row">
-            <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} unitLabel="credits" />
-            {!isPremium && <Link className="pr-link" href="/pricing">{proEnded ? 'See Pro to renew' : 'See Pro'}</Link>}
+            <CreditAmount kind="practice" amount={balance} unit unitLabel="credits" />
+            <Link className="pr-link" href="/pricing">{proEnded ? 'See Pro to renew' : 'See Pro'}</Link>
           </div>
         </section>
+        )}
 
         {contributeOn && <section className="pr-panel" aria-labelledby="pr-bank">
           <div className="pr-panel__head"><h2 id="pr-bank">Add a question</h2></div>

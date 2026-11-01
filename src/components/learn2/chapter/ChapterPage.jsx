@@ -3,7 +3,7 @@
 //   Head     a 44 px back key that names the subject, the unit only when it does not repeat the title, the title with the
 //            subject's lamp-lit object (B7 keeps it: it appears once here), then "Part 1, Ch 1" and the state ring
 //   Resume   when today's run of this chapter is unfinished (preview.resume): "You stopped at 6 of 21 today." and the volt
-//            "Pick up where you stopped"; the Start key turns into a line key "Start a new 10 minutes" that sends fresh
+//            "Continue · 6 min" (R3 ruling W); the Start key turns into a line key "Start fresh · 10 min" that sends fresh
 //   Length   "How long have you got?": the site's SegmentedControl (5 min | 10 min | 20 min | Your own). The chosen segment
 //            never rewrites itself: the real length is on the key and the reason in one quiet line under it (A4 F13)
 //   Piles    up to four paper fans (Key cards, Questions, Your mistakes, Lesson) whose minutes add up to the key (S1 splits
@@ -14,9 +14,11 @@
 //   Shelf    "Everything in this chapter": only rows that lead somewhere; what is missing is one quiet line (3.2.6)
 // Round 2 (R2 ruling 9, LK27, LK30): the head sits above the board (so the shelf lines up with "How long have you got?"), the
 // title is 32 px on at most 2 lines, the only verdict beside the ref is "Needs work", the first-visit line under Start and the
-// "No lesson yet. No open mistakes." line are gone, the recap is a quiet key ("Quick recap, 1 min"), and a "First up" row shows
-// the 3 real card fronts the run opens with. With an unfinished run, "Pick up where you stopped" is the one main key and the
+// "No lesson yet. No open mistakes." line are gone, the recap is a quiet key ("Quick recap · 1 min"), and a "First up" row shows
+// the 3 real card fronts the run opens with. With an unfinished run, "Continue · N min" is the one main key and the
 // length picker waits under "Start fresh instead". "Your own" reads "Other".
+// Round 3 (R3-SPEC X6, ruling W): the recap shows only after the student has seen a card here; the pile tip shows once per student;
+// at 390 the piles share the full row; the keys read "Start · 10 min", "Continue · 6 min", "Quick recap · 1 min".
 // Every number on screen comes from the preview response. Links come from useLearnLinks, never built here.
 // Motion: counts roll 180 ms, fans re-spread 220 ms, the segment lens slides 240 ms; transform and opacity only.
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
@@ -32,7 +34,8 @@ import { useLearnLinks } from '../links';
 import { StateRing } from '../home/ChapterMap';
 import { minutesFor } from '../run/runMath';
 import { usePrintSheet } from '../print/ChapterPrintSheet';
-import { chapterQuietLine, chapterVerdict, firstUpCards, headLines, isChapterMissing, pileView, recapLabel, shelfView, titleSize, withFlag } from './chapterModel.mjs';
+import { useAuth } from '@/components/AuthProvider';
+import { chapterQuietLine, chapterVerdict, coachKeyFor, continueLabel, firstUpCards, hasSeenCards, headLines, isChapterMissing, pileView, recapLabel, shelfView, startKeyLabel, titleSize, withFlag } from './chapterModel.mjs';
 import '../../keycards/keycards.css';
 import './chapter.css';
 
@@ -43,7 +46,6 @@ const OWN_MAX = 120;
 const OWN_STEP = 5;
 const PILE_ORDER = ['lesson', 'cards', 'questions', 'mistakes'];
 const MINUTES_KEY = 'mm:learn2:minutes';
-const COACH_KEY = 'mm:learn2:coach:piles';
 
 const store = {
   get(key) { try { return window.localStorage.getItem(key); } catch { return null; } },
@@ -371,9 +373,9 @@ function ResumeRow({ resume, href }) {
   return (
     <section className="lc-resume" aria-labelledby="lc-resume-h">
       <div className="lc-resume__text">
-        <p className="lc-resume__h" id="lc-resume-h">You stopped at {resume.done} of {resume.of} today.{resume.minutesLeft ? <span className="lc-resume__left"> About {resume.minutesLeft} min left.</span> : null}</p>
+        <p className="lc-resume__h" id="lc-resume-h">You stopped at {resume.done} of {resume.of} today.</p>
       </div>
-      <Link className="kc-btn kc-btn--volt lc-resume__key" data-page-primary="" href={href} aria-label={`Pick up where you stopped, ${resume.done} of ${resume.of} done`}>Pick up where you stopped</Link>
+      <Link className="kc-btn kc-btn--volt lc-resume__key" data-page-primary="" href={href} aria-label={`${continueLabel(resume)}, ${resume.done} of ${resume.of} done`}>{continueLabel(resume)}</Link>
     </section>
   );
 }
@@ -389,6 +391,8 @@ export default function ChapterPage({ chapterKey, minutes: asked = null }) {
   const [shake, setShake] = useState(null);
   const [lastIn, setLastIn] = useState(false);
   const [coach, setCoach] = useState(false);
+  const { user, status: authStatus } = useAuth() || {};
+  const coachKey = coachKeyFor(user?.id);
   const [fresh, setFresh] = useState(false);
   const lenRef = useRef(null);
   const lastTimer = useRef(null);
@@ -403,7 +407,6 @@ export default function ChapterPage({ chapterKey, minutes: asked = null }) {
       // eslint-disable-next-line react-hooks/set-state-in-effect -- a remembered preference, read once after mount
       if (validMinutes(kept)) setMinutes(kept);
     }
-    if (!store.get(COACH_KEY)) { setCoach(true); store.set(COACH_KEY, '1'); }
   }, [asked]);
   useEffect(() => () => clearTimeout(lastTimer.current), []);
 
@@ -455,17 +458,24 @@ export default function ChapterPage({ chapterKey, minutes: asked = null }) {
 
   const ready = Boolean(data) && piles.some((p) => !p.left);
   const refreshing = read.status === 'refreshing';
-  const startLabelNow = data?.startLabel || `Start ${minutes} minutes`;
   const resume = data?.resume && Number(data.resume.done) < Number(data.resume.of) ? data.resume : null;
   const startHref = withFlag(withFlag(links.run({ chapterKey, minutes, kind: 'mix', leaveOut }), 'next', addNext && data?.added ? '1' : null), 'fresh', resume ? '1' : null);
   const resumeHref = resume ? (resume.kind === 'feed' ? links.feed(chapterKey, minutes, { runId: resume.runId }) : links.run({ chapterKey, minutes, kind: resume.kind || 'mix', runId: resume.runId })) : null;
-  const startLabel = resume ? startLabelNow.replace(/^Start /, 'Start a new ') : startLabelNow;
+  const startLabel = startKeyLabel(data?.startLabel, minutes, { fresh: Boolean(resume) });
   const verdict = chapterVerdict(chapter?.state);
   const head = chapter ? headLines(chapter) : null;
   const firstUp = firstUpCards(data);
-  const recap = recapLabel(data?.recap);
+  const recap = recapLabel(data?.recap, { seen: hasSeenCards(data) });
   // With an unfinished run the picker waits under "Start fresh instead", so the page has one main key (R2 ruling 9).
   const picker = !resume || fresh;
+  // The pile tip (R3 X6): once per student, and only when it is drawn (the picker is open and there is more than one pile), so a
+  // chapter with one pile, or a resume view that hides the piles, does not use it up.
+  const tipDue = picker && piles.length > 1 && authStatus !== 'loading';
+  useEffect(() => {
+    if (!tipDue || store.get(coachKey)) return;
+    store.set(coachKey, '1');
+    setCoach(true); // eslint-disable-line react-hooks/set-state-in-effect -- shown once, then remembered per student
+  }, [tipDue, coachKey]);
   const shrink = data?.shrink || null;
   const next = !data?.added && shrink?.addNext ? shrink.addNext : null;
   const added = data?.added || null;

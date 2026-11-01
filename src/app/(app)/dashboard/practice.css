@@ -466,8 +466,16 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
 /* Phones and tablets: the card has no Start of its own; the bar under it is its footer and carries Start. */
 @media (max-width: 1023px) {
   .app-shell .pr .pr-ticket.pr-summary .pr-summary__cta { display: none; }
-  .app-shell .pr .pr-ticket.pr-summary { padding-bottom: 14px; }
+  /* The bar overlaps the card's last 31 px (it is the card's footer), so the card reserves that height and then some: no line of the
+     card ends up under the bar (R3 X5: the bar never covers what the setup says). */
+  .app-shell .pr .pr-ticket.pr-summary { padding-bottom: 48px; }
+  /* R3 X5: the phone's Start card and the session bar below it were one summary drawn twice (the mode, its time and cost, Fine-tune,
+     Start). The bar is the summary now (mode, time, cost, Fine-tune line, Start); the card keeps what the bar cannot hold: the
+     marking line, the fresh-paper line, the reason a session cannot start, and the rule line. */
+  .app-shell .pr .pr-ticket__top, .app-shell .pr .pr-ticket.pr-summary > dl { display: none; }
+  .app-shell .pr .pr-ticket__marking { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); }
 }
+@media (min-width: 1024px) { .app-shell .pr .pr-ticket__marking { display: none; } }
 
 /* ---------- The session bar (phones and tablets): the F12 fix ----------
    position: sticky inside the setup (the bar is the last child of .pr-layout, right after the card). While the setup is on
