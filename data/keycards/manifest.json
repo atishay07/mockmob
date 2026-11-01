@@ -29,6 +29,11 @@
     "sha256": "5650e107f90c2dff377a63d3a1569435e51ab8c8255edee465248b131e7a7a06",
     "cards": 350
   },
+  "geography": {
+    "version": 1,
+    "sha256": "2506d0c71a0a22a83bc8c29d410c021b9ecc64c3d34b35cb7efe88146bf80a86",
+    "cards": 1162
+  },
   "history": {
     "version": 1,
     "sha256": "02bf4d1e612b3da18c3d9b44ee87c0b1bfaf69a78442e75549fac76251fb2ccb",
@@ -38,5 +43,15 @@
     "version": 5,
     "sha256": "389d8a2b5e492f08411ea2693a0a9ec93594350fa8b9e0840b6d78a65ef33ac9",
     "cards": 1096
+  },
+  "psychology": {
+    "version": 1,
+    "sha256": "9c729f4e7614325498ed261b97929044729d49b18db0677bfd33863d5be5facf",
+    "cards": 726
+  },
+  "sociology": {
+    "version": 1,
+    "sha256": "1abca79b1e72f0497ac65b694b724556d48d943b3c28b90c91a4abc4125d6195",
+    "cards": 983
   }
 }
