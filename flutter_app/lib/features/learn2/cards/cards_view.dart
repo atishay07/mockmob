@@ -201,7 +201,7 @@ class _CardsViewScreenState extends ConsumerState<CardsViewScreen> {
         Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: _Title(line: CardsModel.headLine(widget.chapterKey, data))),
         const SizedBox(height: 14),
         CardsFilterRow(value: _filter, options: options, onChanged: _setFilter),
-        const SizedBox(height: 6),
+        const SizedBox(height: 14),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
           child: CardsToolsRow(
@@ -213,7 +213,7 @@ class _CardsViewScreenState extends ConsumerState<CardsViewScreen> {
           ),
         ),
         if (n > 0) ...[
-          const SizedBox(height: 6),
+          const SizedBox(height: 14),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
             child: CardsStudyKey(
@@ -223,7 +223,7 @@ class _CardsViewScreenState extends ConsumerState<CardsViewScreen> {
             ),
           ),
         ],
-        const SizedBox(height: 4),
+        const SizedBox(height: 16),
       ],
     );
 
@@ -232,7 +232,7 @@ class _CardsViewScreenState extends ConsumerState<CardsViewScreen> {
       if (n == 0)
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 14, MmSpace.gutter, 0),
+            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, 0),
             child: CardsEmpty(key: ValueKey('cards-empty-$_filter'), title: empty.title, line: empty.line),
           ),
         )
@@ -426,11 +426,11 @@ class _LoadingBody extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 6),
+          SizedBox(height: 14),
           SizedBox(height: MmTarget.min, child: Align(alignment: Alignment.centerLeft, child: Skeleton(width: 168, height: 24, radius: 12))),
-          SizedBox(height: 6),
+          SizedBox(height: 14),
           Skeleton(height: 52, radius: 26),
-          SizedBox(height: 4),
+          SizedBox(height: 16),
           CardsSkeletonRows(groups: 2, rows: 3),
         ],
       ),
