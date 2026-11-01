@@ -1,5 +1,14 @@
 # NOW: MockMob current state
 
+## 2 Nov 2026, about 3:40 am IST: Geography, Psychology and Sociology Key cards are live too (LK34)
+- **Live:** main 26e5f359a, deployment dpl_6hhcRyXQwLwtknmeVNiL1aDbyuqQ. No runtime errors.
+- **New subjects:**
+  - Geography: 1,162 cards, 17 chapters
+  - Psychology: 726 cards, 7 chapters
+  - Sociology: 983 cards, 14 chapters
+- **With Chemistry and History, live since about 3 am:** 5 new subjects and 5,546 new cards.
+- **Still being written:** Physics, Mathematics, Computer Science.
+
 ## 2 Nov 2026, about 3 am IST: Chemistry and History Key cards are live (LK34)
 - **Live:** main 90679d8c0, deployment dpl_Bb2sB56bG5wADahBaBkiQvzAQEyh. No runtime errors; rollback is the previous deployment.
 - **Chemistry:** 1,257 cards from 10 NCERT chapters.
