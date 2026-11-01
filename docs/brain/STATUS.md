@@ -1,3 +1,38 @@
+## 2 Nov 2026, about 3 am IST: Key cards for Chemistry and History to production (owner LK34)
+
+**What shipped:**
+- **Chemistry:** 1,257 cards from 10 NCERT chapters.
+- **History:** 1,418 cards from 12 NCERT chapters.
+- Both are NCERT Reprint 2026-27 exact text with book, chapter and page. Each chapter was written by a subscription author and checked by an independent reviewer. 298 and 337 cards are held back, with reasons, in `data/keycards/quarantine/`.
+- **Review rule:** importanceRight is advice only (scripts/keycards/review-merge.mjs), because tiers.json decides Must-know. This publishes 4 cards in Business Studies, Economics and English that had been held only for their label.
+- **Accountancy chapter 1** defines partnership by Section 4 of the Partnership Act (Ch 1, p. 2). The Ch 2 restatement is held as its duplicate.
+- **Tiers:** 2,105 of 8,477 cards are Must-know.
+- **Science notation (chemistry cards):** formulas, complex-ion charges, NCERT's en-dash minus, electron configurations and monatomic ions. Checked over all 1,257 cards and on screen.
+
+**Verified:**
+- Suites:
+  - test:learn 381
+  - keycards 82
+  - keycards-ui 40
+  - today 146
+  - app 984
+  - auth 141
+  - egress 101
+  - health-egress 56
+  - dock 55
+  - recovery 637
+  - billing 453
+  - subjects 62
+  - syllabus 24
+  - learning 357
+- `eslint .` exit 0.
+- `next build --webpack` exit 0 on the second try. The first try failed in next/font while fetching the Google Fonts CSS, a transient network failure; the retry passed unchanged.
+- Looked at: the feed cards for Coordination Compounds, d- and f-Block, Alcohols and Harappa, front and back, at 390 Night.
+
+**Not changed:** no migration, no env var. The decks are bundled JSON, and the manifest sha256 is checked at load.
+
+**Rollback:** Vercel instant rollback to the previous production deployment (main 668341aea), or revert this fast-forward.
+
 ## 1 Nov 2026, about 11:55 pm IST: Learn v2 rounds 2 to 4 (owner LK24-LK35) to production
 
 **Owner, 4:05 pm** (verbatim in mockmob-next docs/brain/OWNER-FEEDBACK-2026-10-31-LEARN.md):
