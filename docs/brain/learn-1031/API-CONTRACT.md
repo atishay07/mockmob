@@ -331,3 +331,20 @@ open cards. Pro is unchanged: a feed never serves a due card. A Free feed with a
 ```
 Writes: body cap 16,000 characters (was 8,000): "Study these 100" no longer answers 413.
 ```
+
+---
+
+## Learn v2 round 2, packet P3 (1 Nov 2026)
+
+Added only; nothing above is renamed.
+
+### POST /api/learn/runs/preview
+```
++ firstUp: [{ id, front, kind, mustKnow }]   // the chapter page's "First up" row (R2 ruling 9): the first 3 Key cards this run serves
+                                             // (the composer is deterministic), only cards the student may open; [] when none
+```
+
+### GET /api/bookmarks?count=1
+```
+{ count }    // Explore's "Saved 2" (R2 ruling 10): one head count, no rows, no question reads. Without ?count=1 the route is unchanged.
+```

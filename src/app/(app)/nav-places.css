@@ -177,6 +177,29 @@ html .app-shell .arena-sheet > .arena-sheet__lead, html .app-shell .arena-sheet 
   }
   .app-shell .arena-tabs__disc svg { width: 16px; height: 16px; }
   .app-shell .arena-tabs[data-overflow]:not([data-at-end]) .arena-tabs__hint { opacity: 1; pointer-events: none; }
+  /* Learn v2's Practice row (R2 ruling 10): four equal tabs that always fit, never scroll, no fades, no chevron. */
+  .app-shell .arena-tabs[data-fit] .arena-tabs__row { gap: 6px; overflow: visible; }
+  .app-shell .arena-tabs[data-fit]::before, .app-shell .arena-tabs[data-fit]::after { content: none; }
+  .app-shell .arena-tabs[data-fit] .arena-tab {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    gap: 5px;
+    padding: 0 6px;
+    font-size: 14.5px;
+  }
+  .app-shell .arena-tabs[data-fit] .arena-tab > span { overflow: hidden; text-overflow: ellipsis; }
+  .app-shell .arena-tabs[data-fit] .arena-tab[aria-current='page']::after { left: 28%; right: 28%; }
+  /* The Revise count on Papers: a dot, not a number (the number is on the Papers page and in the tab's spoken name). */
+  .app-shell .arena-tab__dot {
+    flex: none;
+    width: 6px;
+    height: 6px;
+    margin-top: -8px;
+    border-radius: 50%;
+    background: var(--a-select);
+    box-shadow: 0 0 0 2px var(--a-raised);
+  }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
   .app-shell .arena-tabs { --tabs-bleed: 20px; }

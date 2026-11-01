@@ -30,9 +30,14 @@ test('student line: never a due count; resume, mistakes, state, New to you; noth
   assert.equal(studentLineOf({ studentLine: '3 due, 3 old mistakes' }), '3 old mistakes to fix');
   assert.equal(studentLineOf({ studentLine: '2 old mistakes to fix' }), '2 old mistakes to fix');
   assert.equal(studentLineOf({ studentLine: '1 old mistake' }), '1 old mistake to fix');
-  assert.equal(studentLineOf({ studentLine: '3 due', state: { key: 'holding', label: 'Holding' } }), 'Holding');
+  // R2 ruling 2: "Needs work" is the only verdict word; Holding, Getting there and Too few answers never show.
+  assert.equal(studentLineOf({ studentLine: '3 due', state: { key: 'holding', label: 'Holding' } }), null);
+  assert.equal(studentLineOf({ studentLine: '', state: { key: 'needs_work', label: 'Needs work' } }), 'Needs work');
+  assert.equal(studentLineOf({ studentLine: 'Too few answers', state: { key: 'thin', label: 'Too few answers' } }), null);
+  assert.equal(studentLineOf({ studentLine: 'Holding, 2 old mistakes' }), '2 old mistakes to fix');
   assert.equal(studentLineOf({ studentLine: '3 due', state: { key: 'none', label: 'Not started' } }), 'New to you');
-  assert.equal(studentLineOf({ studentLine: 'Getting there' }), 'Getting there');
+  assert.equal(studentLineOf({ studentLine: 'Getting there' }), null);
+  assert.equal(studentLineOf({ studentLine: 'Needs work' }), 'Needs work');
   assert.equal(studentLineOf({ studentLine: 'x', resume: { done: 6, of: 16, minutesLeft: 4 } }), 'You stopped at 6 of 16');
   assert.equal(studentLineOf({ studentLine: 'New to you' }), 'New to you');
   assert.equal(studentLineOf({ studentLine: 'New to you' }, { history: false }), null);
@@ -109,3 +114,14 @@ test('a feed started from a cover reads where it came from once, within a minute
   storage.setItem(COVER_START_KEY, JSON.stringify({ chapterKey: 'a.b', forYou: false, position: 1, at: 1000 }));
   assert.equal(readCoverStart('a.b', { now: 70000, storage }), null);
 });
+
+test('R2: a first visit names what a feed holds in plain words, not "Key cards" counts (phone-clarity 18)', () => {
+  const c = { counts: { 10: { cards: 5, questions: 7, minutes: 10 } } };
+  assert.equal(mixLineOf(c, 10, { history: false }), 'Cards and questions');
+  assert.equal(mixLineOf({ counts: { 10: { cards: 5, questions: 0, minutes: 10 } } }, 10, { history: false }), 'Cards, one at a time');
+  assert.equal(mixLineOf(c, 10), '5 Key cards, 7 questions', 'a returning student keeps the counts');
+});
+
+// R2 (packet P3): Explore's own page rules run with test:learn from here, so package.json's one-line test list is not edited by
+// three packets at once (the orchestrator may move it there).
+await import('../../feed/exploreModel.test.mjs');

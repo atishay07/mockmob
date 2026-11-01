@@ -118,7 +118,7 @@ test('entry points that never linked to /cards still reach Learn v2 on their own
 
 test('R9: the Explore question meta says the chapter title with the flag on, the syllabus name otherwise', () => {
   const card = read('src/components/feed/QuestionCard.jsx');
-  assert.match(card, /actions = null, chapterTitle = null \}\)/, 'an optional prop, null by default');
+  assert.match(card, /actions = null, chapterTitle = null(, closed = false)? \}\)/, 'an optional prop, null by default');
   assert.match(card, /<span>\{chapterTitle \|\| q\.chapter \|\| 'Practice question'\}<\/span>/, "falls back to the row's own chapter, then the old words");
   const feed = read('src/components/feed/DiscoveryFeed.jsx');
   assert.match(feed, /if \(!v2 \|\| !question\?\.chapter\) return null;/, 'no title unless v2');

@@ -16,10 +16,11 @@ import { claimFeedMobi, feedMobiOwner, feedMobiServerOwner, subscribeFeedMobi } 
 
 // variant 'saved' (the Saved list): a ruled row, the question first, the options only once the student opens them,
 // no vote control and no save toggle (the row's own actions replace it).
+// closed (Learn v2 Explore's single questions, R2 ruling 11): the stem first; "Answer it" opens the options in place.
 // chapterTitle (Learn v2 Explore only, R9): the chapter's title as the covers and Learn print it, in place of the syllabus name the row carries.
-export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, variant = 'feed', actions = null, chapterTitle = null }) {
+export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, variant = 'feed', actions = null, chapterTitle = null, closed = false }) {
   const savedList = variant === 'saved';
-  const [open, setOpen] = useState(!savedList);
+  const [open, setOpen] = useState(!savedList && !closed);
   const q = row?.questions ?? row ?? {};
   const options = feedOptions(q.options);
   const toast = useToast();
@@ -91,7 +92,7 @@ export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, 
   }
 
   return (
-    <article ref={card} className="ex-question">
+    <article ref={card} className="ex-question" data-closed={!open && !savedList ? '' : undefined}>
       <header className="ex-question__meta"><span>{chapterTitle || q.chapter || 'Practice question'}</span><span className="ex-difficulty" data-level={q.difficulty}>{['easy', 'medium', 'hard'].includes(q.difficulty) ? q.difficulty : 'Unlabelled'}</span></header>
       {(q.passage_text || q.passageText) && <section aria-label="Reading passage" className="ex-passage"><p className="ex-passage__label">Reading passage</p><div>{q.passage_text || q.passageText}</div></section>}
       <h3 className="ex-question__body">{formatQuestionText(q.body ?? q.question ?? 'Question unavailable')}</h3>
@@ -112,7 +113,7 @@ export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, 
         </footer>
       ) : <footer className="ex-question__actions">
         <VoteControls questionId={q.id} initialScore={q.score} initialUserVote={q.userVote} onError={() => toast.error('Your vote did not save. Try again when your connection is back.')} />
-        <div className="ex-question__tools"><button type="button" className="ex-action" aria-pressed={saved} disabled={saving} onClick={save}><AppIcon name="saved" size={16} />{saving ? 'Saving…' : saved ? 'Saved' : 'Save'}</button>{!revealed && feedback.state !== 'unavailable' && <button type="button" className="ex-action" onClick={(event) => reveal(null, event.detail === 0)}>Show answer</button>}</div>
+        <div className="ex-question__tools">{!open ? <button type="button" className="ex-action ex-action--open" aria-expanded="false" onClick={() => setOpen(true)}>Answer it</button> : null}<button type="button" className="ex-action" aria-pressed={saved} disabled={saving} onClick={save}><AppIcon name="saved" size={16} />{saving ? 'Saving…' : saved ? 'Saved' : 'Save'}</button>{open && !revealed && feedback.state !== 'unavailable' && <button type="button" className="ex-action" onClick={(event) => reveal(null, event.detail === 0)}>Show answer</button>}</div>
       </footer>}
     </article>
   );

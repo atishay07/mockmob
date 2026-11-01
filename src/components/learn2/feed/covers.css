@@ -80,7 +80,8 @@ html[data-theme='light'] .fxc {
 
 .fxc-media {
   display: grid; grid-template-rows: 16px minmax(0, 1fr); row-gap: 10px; padding: 14px 18px 10px; min-height: 0;
-  background: radial-gradient(120% 90px at 30% 0%, var(--kc-cool), transparent 100%), var(--kc-grain);
+  /* Flat surface and grain, no tinted radial (R2 screens 18: no gradients or glow, and the blue tint was off the palette). */
+  background: var(--kc-grain), var(--a-raised-2);
   border-bottom: 1px solid var(--a-line);
 }
 .fxc-ref { font: 600 12.5px/16px var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

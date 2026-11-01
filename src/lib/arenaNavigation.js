@@ -91,16 +91,27 @@ export function youSheetGroups(moderator = false, { mob = false, contribute = fa
   ];
 }
 
+/**
+ * The Practice row of tabs on a phone. Learn v2 (R2 ruling 10, LK26): four equal tabs that always fit and never scroll, in the
+ * order "Practice · Learn · Explore · Papers". Your papers reads "Papers" in the row (`short`; the top bar keeps "Your papers"),
+ * and Saved is not a tab of its own: it moved into Explore's header ("Saved 2"), so Explore stays marked while on /saved
+ * (`within`). Moved, not removed: Saved keeps its address and its sidebar row. Off: the live row, all five pages.
+ */
+export function practiceTabs({ learn2 = LEARN2_NAV, study = true } = {}) {
+  const tabs = learn2 ? [PRACTICE, LEARN, { ...EXPLORE, within: ['saved'] }, { ...PAPERS, short: 'Papers' }] : practicePages({ learn2 });
+  return tabs.filter((tab) => study || tab.id !== 'learn');
+}
+
 // Phones: the pages inside a place sit in a row of tabs under the top bar, on each of those pages (WEB-NAV-1019 option A).
-// Practice: Practice, Learn (while the lessons are on), Your papers, Explore, Saved. The Mob: Your Mob, Your standing.
+// Practice: practiceTabs above. The Mob: Your Mob, Your standing.
 // The row is drawn only on the place's own pages and Learn's chapter and Find pages, never deeper (a lesson run, a rule book).
 export function placeTabs(path, { mob = false, study = false, learn2 = LEARN2_NAV } = {}) {
   // Learn v2's own pages (a chapter, Find, its cards) draw the row too, so a phone student on a chapter can move sideways without Back;
   // the player (/learn/run) is a focus place and draws none.
   const learnPage = learn2 && study && /^\/learn\/(c\/|find\b)/.test(String(path || ""));
-  const at = (tabs) => learnPage || tabs.some((tab) => tab.href === path);
-  const practice = practicePages({ learn2 }).filter((tab) => study || tab.id !== 'learn');
-  if (at(practice)) return { id: 'practice', label: 'Practice pages', tabs: practice };
+  const at = (tabs) => learnPage || tabs.some((tab) => tab.href === path || (tab.within || []).some((id) => path === `/${id}`));
+  const practice = practiceTabs({ learn2, study });
+  if (at(practice)) return { id: 'practice', label: 'Practice pages', tabs: practice, ...(learn2 ? { fit: true } : {}) };
   if (mob && at(MOB_PAGES)) return { id: 'mob', label: 'Mob pages', tabs: MOB_PAGES };
   return null;
 }

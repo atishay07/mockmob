@@ -84,7 +84,7 @@ test('Practice: Ways to practise straight after the subject; Your papers and Lea
   const setupEnd = at('<div className="pr-bar" role="region"');
   const doors = at('<div className="pr-doors"');
   const papers = at('<h2 id="pr-recent">Your papers</h2>');
-  const learn = at('{studyEnabled && <ConceptsPanel />}');
+  const learn = at('{studyEnabled && !learn2 && <ConceptsPanel />}');
   const stats = at('<dl className="pr-stats"');
   assert.ok(subjects < modes && modes < setupEnd && setupEnd < doors && doors < papers && papers < learn && learn < stats, 'order');
   assert.ok(!page.slice(subjects, modes).includes('<PracticeRepairs'), 'nothing between the shelf and the ways to practise');

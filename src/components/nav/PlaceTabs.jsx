@@ -10,6 +10,10 @@
 //            after the page has landed; a touch, wheel or scroll first cancels it. Reduced motion: no nudge.
 //   edges    a fade at whichever edge has tabs past it, and a chevron over the right fade that steps the row on.
 // From 1024 px the sidebar lists every page, so the row is not drawn (nav-places.css).
+//
+// Learn v2's Practice row (`group.fit`, R2 ruling 10, LK26): four equal tabs that always fit, so none of the above runs: no peek, no
+// nudge, no edges, no chevron. A tab may stand for pages inside it (`tab.within`: Explore for Saved) and may read shorter in the
+// row (`tab.short`: "Papers"). The Revise count on Papers is a dot; its number is said to screen readers and on the Papers page.
 import Link from 'next/link';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ChevronRight } from 'lucide-react';
@@ -35,6 +39,8 @@ export default function PlaceTabs({ group, hrefOf, isActive, count = 0, countLab
   const hint = useRef(null);
   const [edges, setEdges] = useState({ overflow: false, start: true, end: true });
   const tabs = group.tabs;
+  const fit = Boolean(group.fit);
+  const current = (tab) => isActive(tab.id) || (tab.within || []).some((id) => isActive(id));
 
   const measure = useCallback(() => {
     const el = row.current;
@@ -47,7 +53,7 @@ export default function PlaceTabs({ group, hrefOf, isActive, count = 0, countLab
   // The peek, before paint and again whenever the row's width changes; then the current tab is brought into view.
   useLayoutEffect(() => {
     const el = row.current;
-    if (!el) return undefined;
+    if (!el || fit) return undefined;
     let width = -1;
     const fit = () => {
       if (Math.abs(el.clientWidth - width) < 1) return;
@@ -67,12 +73,12 @@ export default function PlaceTabs({ group, hrefOf, isActive, count = 0, countLab
     const resize = typeof ResizeObserver === 'function' ? new ResizeObserver(fit) : null;
     resize?.observe(el);
     return () => resize?.disconnect();
-  }, [group.id, tabs.length, count, measure]);
+  }, [group.id, tabs.length, count, measure, fit]);
 
   // The current tab is in view on arrival (Saved sits past the edge at 390 px), with no movement. The Revise count arrives a moment
   // after the page and widens "Your papers", so the row is placed again when the count lands (the peek above is refitted then too);
   // once the student has touched the row, only a change of the current tab moves it.
-  const currentId = tabs.find((tab) => isActive(tab.id))?.id || null;
+  const currentId = tabs.find((tab) => current(tab))?.id || null;
   const touched = useRef(false);
   const placedFor = useRef(null);
   useEffect(() => {
@@ -107,7 +113,7 @@ export default function PlaceTabs({ group, hrefOf, isActive, count = 0, countLab
   // The nudge: once per device, after the page has landed, only while tabs wait past the right edge and the row is untouched.
   useEffect(() => {
     const el = row.current;
-    if (!el || seen() || reducedMotion()) return undefined;
+    if (!el || fit || seen() || reducedMotion()) return undefined;
     let runs = [];
     let done = false;
     const timer = window.setTimeout(() => {
@@ -137,29 +143,31 @@ export default function PlaceTabs({ group, hrefOf, isActive, count = 0, countLab
       el.removeEventListener('touchstart', stop);
       el.removeEventListener('scroll', stop);
     };
-  }, [group.id]);
+  }, [group.id, fit]);
 
   return (
-    <nav className="arena-tabs" aria-label={group.label} data-place={group.id}
+    <nav className="arena-tabs" aria-label={group.label} data-place={group.id} data-fit={fit || undefined}
       data-overflow={edges.overflow || undefined} data-at-start={edges.start || undefined} data-at-end={edges.end || undefined}>
       <div className="arena-tabs__row" ref={row}>
         {tabs.map((tab) => {
-          const current = isActive(tab.id);
+          const here = current(tab);
           const badge = tab.id === 'review' && count ? count : 0;
           return (
-            <Link key={tab.id} href={hrefOf(tab)} className="arena-tab" aria-current={current ? 'page' : undefined}
-              aria-label={badge ? countLabel?.(tab) : undefined} onClick={onNavigate}>
-              <span>{tab.label}</span>
-              {badge ? <i className="arena-tab__count" aria-hidden="true">{dueTabBadge(badge)}</i> : null}
+            <Link key={tab.id} href={hrefOf(tab)} className="arena-tab" aria-current={here ? 'page' : undefined}
+              aria-label={badge ? countLabel?.(tab) : tab.short ? tab.label : undefined} onClick={onNavigate}>
+              <span>{tab.short || tab.label}</span>
+              {badge ? (fit ? <i className="arena-tab__dot" aria-hidden="true" /> : <i className="arena-tab__count" aria-hidden="true">{dueTabBadge(badge)}</i>) : null}
             </Link>
           );
         })}
       </div>
       {/* The chevron hint is a picture, never a target (R11 G27): a tap on the cut tab under it opens that tab. A finger
           swipes the row; keyboard users tab through the tabs themselves. */}
-      <span ref={hint} className="arena-tabs__hint" aria-hidden="true">
-        <span className="arena-tabs__disc"><ChevronRight size={18} strokeWidth={2.2} aria-hidden="true" /></span>
-      </span>
+      {fit ? null : (
+        <span ref={hint} className="arena-tabs__hint" aria-hidden="true">
+          <span className="arena-tabs__disc"><ChevronRight size={18} strokeWidth={2.2} aria-hidden="true" /></span>
+        </span>
+      )}
     </nav>
   );
 }

@@ -29,6 +29,7 @@ import { retiredSubjectEntry } from '@/../data/subject_claim';
 import StartRule, { useStartRule } from './StartRule';
 import ChapterPicker from './ChapterPicker';
 import ConceptsPanel from '@/components/study/ConceptsPanel';
+import { useLearn2On } from '@/components/learn2/flag';
 import { chapterUnits, chaptersForMode } from './chapterGroups.mjs';
 import { MODE_SPECS, MODE_TILE_SPECS, bankCount, freshPaperLine } from '@/lib/paperCopy.mjs';
 import PracticeMobChip from '@/components/mob/PracticeMobChip';
@@ -139,6 +140,7 @@ function PracticeSkeleton() {
 // sheet and this page (NAV-1017 8.2), so its panel is drawn here only while Concepts exists. The panel is personalised (ConceptsPanel).
 export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const { user, status: authStatus } = useAuth();
+  const learn2 = useLearn2On();
   // A real first name only (release 11 walk: never the email's prefix or a handle; src/lib/displayName.mjs, the app's rule).
   const greetFirst = shownFirstName(user?.name, user?.email);
   const toast = useToast();
@@ -450,7 +452,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const modeBadge = (id) => {
     const capability = MODE_CAPABILITIES[id];
     if (capability.state !== 'available') return { text: 'Unavailable', tone: 'muted' };
-    if (isPremium) return { text: 'Included', tone: 'included' };
+    // Pro: no "Included" on every tile (R2 phone-clarity 14: four badges saying the same thing); access is said once, at the foot.
+    if (isPremium) return { text: '', tone: 'included' };
     if (capability.entitlement === 'access') return { text: 'Needs Pro', tone: 'locked' };
     if (id === 'full' && firstFullState === FIRST_FULL_MOCK_STATE.available) return { text: FIRST_FULL_MOCK_COPY.short, tone: 'included' };
     if (id === 'full' && !firstFullState) return { text: '', tone: 'cost' };
@@ -566,10 +569,12 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
           <p>Pick a subject and a way to practise. Timed, marked +5 / −1, saved to your record.</p>
           {/* The balance under the lede at every width. The price is said once, on the mode tiles (and the card's own Cost line),
               not again here (release 9: it was stated about four times in the first fold). */}
-          <p className="pr-head__credits">
-            <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} unitLabel="credits" size={15} />
-            {isPremium ? <span>Quick practice and Full mock are included with your access.</span> : null}
-          </p>
+          {/* Pro: no "Unlimited" pill and no access sentence up here (R2 phone-clarity 14); "Your access" at the foot says it. */}
+          {isPremium ? null : (
+            <p className="pr-head__credits">
+              <CreditAmount kind="practice" amount={balance} unit unitLabel="credits" size={15} />
+            </p>
+          )}
           <PracticeMobChip userId={user?.id} />
         </div>
       </header>
@@ -828,7 +833,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
           extra"). Right under the setup, before the figures: Your papers holds the repairs line and Ask Mobi for the chosen subject
           (owner D5) and the newest papers; Learn names the next lesson. On a phone the row of tabs above the page opens both too. */}
       {mySubs.length > 0 ? (
-        <div className="pr-doors" data-count={studyEnabled ? 2 : 1}>
+        <div className="pr-doors" data-count={studyEnabled && !learn2 ? 2 : 1}>
           <section className="pr-panel pr-door pr-door--papers" aria-labelledby="pr-recent">
             <div className="pr-door__head">
               <span className="pr-door__ico" aria-hidden="true"><AppIcon name="review" size={20} /></span>
@@ -859,7 +864,9 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
               </ul>
             ) : null}
           </section>
-          {studyEnabled && <ConceptsPanel />}
+          {/* Learn v2: Learn is the next tab, so the old lessons card leaves Practice (R2 phone-clarity 14: a second Learn door). Its
+              lessons stay on each chapter page's shelf ("Everything in this chapter"). With Learn v2 off it stays as it was. */}
+          {studyEnabled && !learn2 && <ConceptsPanel />}
         </div>
       ) : null}
 

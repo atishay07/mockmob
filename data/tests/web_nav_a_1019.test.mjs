@@ -159,12 +159,14 @@ test('Mobi’s door sits at the sidebar’s foot above Night and Day, is the ord
   assert.doesNotMatch(read('src/components/ai/AskMobiHost.jsx'), /data-tour="nav-mentor"/, 'the door is a plain link: it opens /mentor, Ask Mobi’s own page, and no longer the panel in place (1019 option B)');
 });
 
-test('Practice and the Mob get a row of tabs on a phone: Practice, Learn, Your papers, Explore, Saved; Your Mob, Your standing', () => {
+test('Practice and the Mob get a row of tabs on a phone: Practice, Learn, Explore, Papers (Learn v2); Your Mob, Your standing', () => {
   for (const path of ['/dashboard', '/review', '/learn', '/explore', '/saved']) {
     assert.deepEqual(placeTabs(path, { mob: true, study: true }).tabs.map((tab) => tab.label), ['Practice', 'Your papers', 'Learn', 'Explore', 'Saved'], 'the live order while Learn v2 is off');
     const row = placeTabs(path, { mob: true, study: true, learn2: true });
     assert.equal(row.id, 'practice', path);
-    assert.deepEqual(row.tabs.map((tab) => tab.label), ['Practice', 'Learn', 'Your papers', 'Explore', 'Saved']);
+    // R2 ruling 10 (LK26): four equal tabs, Saved moved into Explore's head (Explore stands for /saved), Your papers reads "Papers".
+    assert.deepEqual(row.tabs.map((tab) => tab.short || tab.label), ['Practice', 'Learn', 'Explore', 'Papers']);
+    assert.equal(row.fit, true);
   }
   assert.deepEqual(placeTabs('/dashboard', { study: false }).tabs.map((tab) => tab.label), ['Practice', 'Your papers', 'Explore', 'Saved'], 'Learn only while the lessons are on');
   for (const path of ['/mob', '/leaderboard']) assert.deepEqual(placeTabs(path, { mob: true }).tabs.map((tab) => tab.label), ['Your Mob', 'Your standing']);
@@ -176,7 +178,7 @@ test('Practice and the Mob get a row of tabs on a phone: Practice, Learn, Your p
   assert.match(layout, /const tabRow = isTestRoute \? null : placeTabs\(activePath/);
   // Each tab is a link to its own route (a page, not a tablist), and the current one says so.
   const row = read('src/components/nav/PlaceTabs.jsx');
-  assert.match(row, /<Link key=\{tab\.id\} href=\{hrefOf\(tab\)\} className="arena-tab" aria-current=\{current \? 'page' : undefined\}/);
+  assert.match(row, /<Link key=\{tab\.id\} href=\{hrefOf\(tab\)\} className="arena-tab" aria-current=\{here \? 'page' : undefined\}/);
   assert.doesNotMatch(row, /role="tab"/);
 });
 
@@ -203,7 +205,7 @@ test('the sideways cue (G27): the cut tab, a 24 px nudge once per device, the ed
   assert.ok(NUDGE_DELAY_MS >= 420, 'it waits for the page’s own entrance (about 420 ms)');
   assert.equal(NUDGE_KEY, 'mm:cue:place-tabs:v1');
   const row = read('src/components/nav/PlaceTabs.jsx');
-  assert.match(row, /if \(!el \|\| seen\(\) \|\| reducedMotion\(\)\) return undefined;/, 'seen before, or reduced motion: no nudge');
+  assert.match(row, /if \(!el \|\| fit \|\| seen\(\) \|\| reducedMotion\(\)\) return undefined;/, 'seen before, a row that fits, or reduced motion: no nudge');
   assert.match(row, /markSeen\(\);[\s\S]{0,400}node\.animate\(/, 'it is marked seen as it plays, so it is once');
   assert.match(row, /document\.documentElement\.dataset\.motion === 'reduced' \|\| window\.matchMedia\('\(prefers-reduced-motion: reduce\)'\)\.matches/);
   for (const event of ['pointerdown', 'wheel', 'touchstart', 'scroll']) assert.match(row, new RegExp(`addEventListener\\('${event}', stop`), `a ${event} cancels it`);
