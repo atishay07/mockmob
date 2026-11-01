@@ -10,7 +10,7 @@ import MobiReact from '@/components/brand/MobiReact';
 import { CardHead, InShort, NcertText, Prompt } from '@/components/keycards/KeyCard';
 import { cardFace, isNcert, sourceLine } from '@/components/keycards/kinds';
 import { ncertFont } from '@/components/keycards/ncertFont';
-import { ClampLine, Stem } from '../stage';
+import { ClampLine, SciFront, SciNcert, Stem } from '../stage';
 import { WORDS, pileLabel } from '../../../../data/learn/words.js';
 import { firstLine, optionText } from './runMath';
 import { frontStep, rightLine, stageTag } from './runView.mjs';
@@ -53,11 +53,15 @@ export function Ticks({ total, done, current, offset = 0 }) {
 
 // ---------------------------------------------------------------- the top bar (phone and tablet; on desktop Close and the ticks)
 
+/** The Revise-later pile's name for a screen reader: an image named "4 cards to revise later", from 1; nothing at 0. */
+export const pileName = (pile) => (pile > 0 ? { role: 'img', 'aria-label': `${pile} ${pile === 1 ? 'card' : 'cards'} to revise later` } : { 'aria-hidden': true });
+
 /**
  * The top bar (R3-SPEC L4): one row with the X, the ticks and the counter "4 of 20"; under it one quiet line with the chapter's
  * name (one line, an ellipsis), and from 768 px the time left at its end. The Revise-later pile is not in a phone's bar; from
- * 1024 px it is one card-stack glyph with "4 to revise" (aria-label "4 cards to revise later"), shown from 1. The first time
- * the pile goes from 0 to 1 a 1.6 s tip says "In Revise".
+ * 1024 px it is one card-stack glyph with "4 to revise" (role img, named "4 cards to revise later": R4 client-code#4), shown from
+ * 1. The first time the pile goes from 0 to 1 a 1.6 s tip says "In Revise" (seen on desktop only; the player's live region
+ * says it to a screen reader at every width, R4 client-code#11).
  */
 export function TopBar({ title, position, total, done, current, offset, left, pile, pop, pileRef, posRef, onClose, closeHref, showPile = true }) {
   const [tip, setTip] = useState(false);
@@ -77,11 +81,11 @@ export function TopBar({ title, position, total, done, current, offset, left, pi
       </Link>
       <p className="lr-top__title" title={title || undefined}>{title}</p>
       {showPile ? (
-        <p className="lr-top__pile" data-zero={pile ? undefined : ''} aria-label={pile ? `${pile} ${pile === 1 ? 'card' : 'cards'} to revise later` : undefined}>
+        <span className="lr-top__pile" data-zero={pile ? undefined : ''} {...pileName(pile)}>
           <PileGlyph pileRef={pileRef} />
           <b key={pop} data-pop={pop ? '' : undefined} aria-hidden="true">{pile ? pileLabel(pile) : ''}</b>
-          {tip ? <span className="lr-top__tip" role="status">{WORDS.inRevise}</span> : null}
-        </p>
+          {tip ? <span className="lr-top__tip" aria-hidden="true">{WORDS.inRevise}</span> : null}
+        </span>
       ) : <span className="lr-top__pile" />}
       <p className="lr-top__pos" ref={posRef} aria-label={position ? `${position} of ${total}` : undefined}>{position ? <><b>{position}</b> of {total}</> : null}</p>
       <div className="lr-top__ticks"><Ticks total={total - offset} done={done} current={current} offset={offset} /></div>
@@ -100,12 +104,17 @@ function MiniFan({ id }) {
   );
 }
 
-export function SessionPanel({ chapter, refLine, position, total, left, upNext, piles, pile, pop, pileRef, stamp, tally, onStop, recap, mustKnow }) {
+/**
+ * The session panel (1200 px and up). Under the chapter's name its place in the roadmap, "Chapter 5 of 14" (R4 ruling N:
+ * `placeLine` from chapterPlace; no line when the server sent no place, never "Part 1, Ch 2"). The Revise-later pile is the
+ * card-stack glyph with "4 to revise" (pileLabel), named "4 cards to revise later", from 1 (R4 ui-correctness#14).
+ */
+export function SessionPanel({ chapter, placeLine, position, total, left, upNext, piles, pile, pop, pileRef, stamp, tally, onStop, recap, mustKnow }) {
   return (
     <aside className="lr-panel" aria-label="This session">
       <div className="lr-panel__ch">
         <p className="lr-panel__title">{chapter}</p>
-        {refLine ? <p className="lr-panel__ref">{refLine}</p> : null}
+        {placeLine ? <p className="lr-panel__ref">{placeLine}</p> : null}
       </div>
       <div className="lr-panel__where">
         <p className="lr-panel__pos"><b>{position}</b> of {total}</p>
@@ -126,12 +135,11 @@ export function SessionPanel({ chapter, refLine, position, total, left, upNext, 
             ))}
           </ul>
           <div className="lr-panel__revise" data-zero={pile ? undefined : ''}>
-            <PileGlyph size="big" pileRef={pileRef} />
-            <div>
-              <p className="lr-panel__rl">In Revise</p>
-              <p className="lr-panel__rn"><b key={pop} data-pop={pop ? '' : undefined}>{pile}</b></p>
-              <p className="lr-panel__stamp" data-on={stamp ? '' : undefined}>{stamp?.text || ''}</p>
-            </div>
+            <span className="lr-panel__pile" {...pileName(pile)}>
+              <PileGlyph size="big" pileRef={pileRef} />
+              <b className="lr-panel__rl" key={pop} data-pop={pop ? '' : undefined} aria-hidden="true">{pile ? pileLabel(pile) : ''}</b>
+            </span>
+            <p className="lr-panel__stamp" data-on={stamp ? '' : undefined}>{stamp?.text || ''}</p>
           </div>
           {tally.answered ? (
             <div className="lr-panel__right">
@@ -148,7 +156,13 @@ export function SessionPanel({ chapter, refLine, position, total, left, upNext, 
 
 // ---------------------------------------------------------------- the Key card (A4 3.3.6, B1)
 
-export function CardItem({ item, turned, recap, still, cardRef, onTurn, onReport }) {
+/** The prompt, with a chemistry card's notation drawn (R4; display only). */
+function Ask({ card, sci, as: Tag, className, id }) {
+  if (!sci) return <Prompt card={card} as={Tag} className={className} id={id} />;
+  return <Tag className={className} id={id}><SciFront text={cardFace(card).front} numbered /></Tag>;
+}
+
+export function CardItem({ item, turned, recap, still, cardRef, onTurn, onReport, sci = false }) {
   // No "Must-know" on a run's card face: the composer serves Must-know first, so every card would carry it (MAIN 03:55, LK13).
   const card = item.card ? { ...item.card, importance: null } : {};
   const face = cardFace(card);
@@ -165,19 +179,20 @@ export function CardItem({ item, turned, recap, still, cardRef, onTurn, onReport
         <section className="lr-face lr-face--front" aria-hidden={turned || undefined} inert={turned || undefined}>
           {head}
           <div className="lr-face__body">
-            <Prompt card={card} as="h2" className="lr-front" id={turned ? undefined : `lr-q-${item.id}`} />
+            <Ask card={card} sci={sci} as="h2" className="lr-front" id={turned ? undefined : `lr-q-${item.id}`} />
           </div>
           {src ? <p className="lr-src"><BookOpen size={14} strokeWidth={2} aria-hidden="true" />{src}</p> : <span />}
         </section>
         <section className="lr-face lr-face--back" aria-hidden={!turned || undefined} inert={!turned || undefined} tabIndex={turned ? 0 : -1} aria-label={turned ? 'The answer' : undefined}>
           {head}
           <div className="lr-back">
-            <Prompt card={card} as="p" className="lr-back__ask" id={turned ? `lr-q-${item.id}` : undefined} />
+            <Ask card={card} sci={sci} as="p" className="lr-back__ask" id={turned ? `lr-q-${item.id}` : undefined} />
             <div className="lr-back__rule" aria-hidden="true" />
-            <NcertText card={card} className="lr-ncert" />
-            {src ? <p className="lr-src lr-src--back">{src}</p> : null}
+            {sci ? <SciNcert card={card} className="lr-ncert" /> : <NcertText card={card} className="lr-ncert" />}
             <InShort card={card} />
           </div>
+          {/* R4 ui-correctness#20: the source is pinned to the card's foot on the back too; the words sit centred above it. */}
+          {src ? <p className="lr-src lr-src--back"><BookOpen size={14} strokeWidth={2} aria-hidden="true" />{src}</p> : <span />}
         </section>
       </div>
     </div>
@@ -222,21 +237,25 @@ function FixedVerdict({ text }) {
   );
 }
 
-function LinePanel({ line, back }) {
+function LinePanel({ line, back, sci = false }) {
   return (
     <section className={`lr-line ${ncertFont.variable}`} aria-label="The line you needed">
       <div className="lr-line__head">
         <h3 className="lr-line__title">The line you needed</h3>
         <span className="lr-line__kind">{cardFace(line).label}</span>
       </div>
-      <ClampLine><NcertText card={line} className="lr-ncert lr-ncert--line" /></ClampLine>
+      <ClampLine>{sci ? <SciNcert card={line} className="lr-ncert lr-ncert--line" /> : <NcertText card={line} className="lr-ncert lr-ncert--line" />}</ClampLine>
       {sourceText(line) ? <p className="lr-src">{sourceText(line)}</p> : null}
       {back ? <p className="lr-line__back">You&apos;ll see this card again later in this run.</p> : null}
     </section>
   );
 }
 
-export function QuestionItem({ item, state, streak, cardRef, onPick, onSeePro, place = '' }) {
+/**
+ * A question on the page. `hint` (WORDS.pickHint) shows once per student, on the first question they ever see, as a quiet line
+ * above the options (R4 owner-eye#15, first-timer#12): read before the options, never under Skip.
+ */
+export function QuestionItem({ item, state, streak, cardRef, onPick, onSeePro, place = '', hint = null, sci = false }) {
   const result = state?.result || null;
   const picked = state?.choice ?? null;
   const skipped = state?.status === 'skipped';
@@ -259,6 +278,7 @@ export function QuestionItem({ item, state, streak, cardRef, onPick, onSeePro, p
         {mistake ? <History size={14} strokeWidth={2.2} aria-hidden="true" /> : null}{head}{place ? <span className="sr-only">, {place}</span> : null}
       </h2>
       <div className="lr-stemwrap"><Stem text={q.body} /></div>
+      {hint && !result ? <p className="lr-q__hint">{hint}</p> : null}
       <div className="lr-opts" role="group" aria-label="Choose one answer" data-cols={twoCols ? '2' : undefined}>
         {options.map((o) => {
           const isKey = result && o.key === result.key;
@@ -289,7 +309,7 @@ export function QuestionItem({ item, state, streak, cardRef, onPick, onSeePro, p
             <p className="lr-locked">{locked} <button type="button" className="lr-textkey" onClick={onSeePro}>See Pro</button></p>
           ) : null}
           <div className="lr-fold" data-open={lineShown || undefined}>
-            <div className="lr-fold__in">{line ? <LinePanel line={line} back={Boolean(result.reinsert)} /> : null}</div>
+            <div className="lr-fold__in">{line ? <LinePanel line={line} back={Boolean(result.reinsert)} sci={sci} /> : null}</div>
           </div>
           {result.correct && line ? (
             <button type="button" className="lr-textkey lr-textkey--fold" aria-expanded={lineOpen} onClick={() => setLineOpen((o) => !o)}>

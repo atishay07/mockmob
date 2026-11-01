@@ -169,3 +169,100 @@ test('text: every fixture question that has Statement lines splits into 2 or mor
     assert.ok(m.lead.length > 0 && !/Statement/.test(m.lead), 'the lead is the lead-in only');
   }
 });
+
+// ---------------------------------------------------------------- R4: science notation, the verdict scroll, Options below
+import { sciText, sciPlain, hasSci, isChemistry } from './sciText.mjs';
+import { verdictScrollTop, optionsBelow } from './pagerModel.mjs';
+
+const readText = (url) => readFileSync(url, 'utf8').replace(/\r\n/g, '\n');
+
+test('R4 sciText: common ions take their charge from the table', () => {
+  assert.equal(sciPlain(sciText('SO42− and NH4+ ions')), 'SO₄²⁻ and NH₄⁺ ions');
+  assert.equal(sciPlain(sciText('Cu2+, Fe2+, Fe3+, Zn2+, Ag+, Na+, K+, Ca2+, Mg2+, Al3+')), 'Cu²⁺, Fe²⁺, Fe³⁺, Zn²⁺, Ag⁺, Na⁺, K⁺, Ca²⁺, Mg²⁺, Al³⁺');
+  assert.equal(sciPlain(sciText('OH−, NO3−, CO32−, PO43−, HCO3−, Cl−, H3O+')), 'OH⁻, NO₃⁻, CO₃²⁻, PO₄³⁻, HCO₃⁻, Cl⁻, H₃O⁺');
+  assert.equal(sciPlain(sciText('Cl- and SO42- ions')), 'Cl⁻ and SO₄²⁻ ions', 'a hyphen at a word end reads as the minus sign');
+  assert.deepEqual(sciText('SO42−'), [{ kind: 'plain', text: 'SO' }, { kind: 'sub', text: '4' }, { kind: 'sup', text: '2−' }]);
+  assert.deepEqual(sciText('NH4+'), [{ kind: 'plain', text: 'NH' }, { kind: 'sub', text: '4' }, { kind: 'sup', text: '+' }]);
+});
+
+test('R4 sciText: a digit after an element symbol or ")" in a formula token is a subscript', () => {
+  assert.equal(sciPlain(sciText('CH3OH, (CH3)2NH, PbO2, H2SO4, C6H5OH')), 'CH₃OH, (CH₃)₂NH, PbO₂, H₂SO₄, C₆H₅OH');
+  assert.equal(sciPlain(sciText('2H2O and CuSO4·5H2O')), '2H₂O and CuSO₄·5H₂O', 'a coefficient stays plain');
+  assert.deepEqual(sciText('(CH3)2NH'), [{ kind: 'plain', text: '(CH' }, { kind: 'sub', text: '3' }, { kind: 'plain', text: ')' }, { kind: 'sub', text: '2' }, { kind: 'plain', text: 'NH' }]);
+});
+
+test('R4 sciText: [X]0 and t1/2', () => {
+  assert.equal(sciPlain(sciText('[A]0 and [R]0')), '[A]₀ and [R]₀');
+  assert.equal(sciPlain(sciText('The half-life t1/2 is constant.')), 'The half-life t₁/₂ is constant.');
+});
+
+test('R4 sciText: plain numbers, words and reaction names are never touched', () => {
+  for (const t of ['Table 2.4', 'Unit 4', 'p. 52', 'step 1', '373 K', 'NCERT, Chemistry Part 1, Ch 2, p. 48', 'SN1 and SN2, E1, E2', 'Vitamin B12', 'Class 12', 'pH 7', 'I- and F-', 'Part I-A']) {
+    assert.deepEqual(sciText(t), [{ kind: 'plain', text: t }], t);
+    assert.equal(hasSci(sciText(t)), false, t);
+  }
+  assert.deepEqual(sciText(''), []);
+  assert.equal(sciPlain(sciText('O2 and O2−')), 'O₂ and O²⁻');
+});
+
+test('R4 sciText is for chemistry only: isChemistry reads the card or the chapter key', () => {
+  assert.equal(isChemistry({ subject: 'chemistry' }), true);
+  assert.equal(isChemistry(null, 'chemistry.solutions'), true);
+  assert.equal(isChemistry(null, 'accountancy.partnership-fundamentals'), false);
+  assert.equal(isChemistry({}), false);
+  const face = readText(new URL('./CardFace.jsx', import.meta.url));
+  assert.match(face, /sci \? <SciNcert card=\{card\} \/> : <NcertText card=\{card\} \/>/, 'the back');
+  assert.match(face, /const FrontText = sci \? SciFront : Front;/, 'the front');
+  const q = readText(new URL('./Question.jsx', import.meta.url));
+  assert.match(q, /sci \? <SciNcert card=\{line\.card\} \/> : <NcertText card=\{line\.card\} \/>/, 'the quote (the line you needed)');
+});
+
+test('R4 ui-correctness#7: the verdict scroll brings the line into view but never moves the head line under the top', () => {
+  // The box is 70..770; the head at 90, the line at 600..900: the line needs 146 px, the head allows 90 - 70 - 24 < 0: none.
+  assert.equal(verdictScrollTop({ box: { top: 70, bottom: 770, scrollTop: 0 }, head: { top: 90 }, target: { top: 600, bottom: 900 } }), null, 'the head is near the top: no scroll at all');
+  // The head sits 300 px down: the scroll goes only as far as 200 px of the line (146), short of the head's limit (206).
+  assert.equal(verdictScrollTop({ box: { top: 70, bottom: 770, scrollTop: 0 }, head: { top: 300 }, target: { top: 700, bottom: 1100 } }), 146);
+  // The head's limit wins over the line: 170 - 70 - 24 = 76.
+  assert.equal(verdictScrollTop({ box: { top: 70, bottom: 770, scrollTop: 0 }, head: { top: 170 }, target: { top: 700, bottom: 1100 } }), 76);
+  assert.equal(verdictScrollTop({ box: { top: 0, bottom: 800, scrollTop: 0 }, head: { top: 40 }, target: { top: 300, bottom: 420 } }), null, 'already in view: stay');
+  assert.equal(verdictScrollTop({ box: { top: 0, bottom: 800, scrollTop: 50 }, head: { top: 500 }, target: { top: 900, bottom: 1000 } }), 266);
+  assert.equal(verdictScrollTop({ box: null, target: { top: 0, bottom: 1 } }), null);
+});
+
+test('R4 ui-correctness#5: Options below only while option A is really below the fold, inside the stage', () => {
+  assert.equal(optionsBelow({ optionTop: 400, edge: 760 }), false, 'all four options in view (f03): no chip');
+  assert.equal(optionsBelow({ optionTop: 740, edge: 760 }), true, 'less than 28 px of option A shows');
+  assert.equal(optionsBelow({ optionTop: 733, edge: 760 }), true);
+  assert.equal(optionsBelow({ optionTop: 732, edge: 760 }), false);
+  assert.equal(optionsBelow({ optionTop: Number.NaN, edge: 760 }), false);
+  const stage = readText(new URL('./Stage.jsx', import.meta.url));
+  assert.match(stage, /st-below--stage/, 'the feed draws the chip inside the stage');
+  const feed = readText(new URL('../feed/ChapterFeed.jsx', import.meta.url));
+  assert.match(feed, /below=\{below \? <BelowChip show place="stage"/, 'the feed passes the chip to the stage, never the bar or the peek strip');
+  assert.match(feed, /viewport: false/, 'a page still sliding in reads against its own foot');
+  const css = readText(new URL('./stage.css', import.meta.url));
+  assert.match(css, /\.st-below--stage \{ top: auto; bottom: calc\(var\(--st-peek, 0px\) \+ 8px\)/, 'above the peek strip');
+});
+
+test('R4 client-code#12: every stage reduced-motion rule is mirrored under html[data-motion=reduced]', () => {
+  const css = readText(new URL('./stage.css', import.meta.url));
+  const media = css.slice(css.indexOf('@media (prefers-reduced-motion: reduce) {\n  .st-card'));
+  const block = media.slice(0, media.indexOf('\n}\n'));
+  const selectors = block.split('\n').slice(1).map((l) => l.trim()).filter(Boolean).flatMap((l) => l.split('{')[0].split(',').map((x) => x.trim()));
+  assert.ok(selectors.length > 20);
+  for (const sel of selectors) assert.ok(css.includes(`html[data-motion='reduced'] ${sel}`), sel);
+  const run = readText(new URL('../run/run.css', import.meta.url));
+  assert.match(run, /html\[data-motion='reduced'\] \.lr \.lr-face--back \{ transform: none/);
+  assert.match(run, /html\[data-motion='reduced'\] \.lr \*, /);
+  assert.match(readText(new URL('./Stage.jsx', import.meta.url)), /document\.documentElement\.dataset\.motion === 'reduced'/, 'still() reads the app setting');
+});
+
+test('R4 ui-correctness#18 and first-timer#17: the stop sheet goes "Back to it"; one close control, the X with "Close"', () => {
+  const sheet = readText(new URL('./Sheet.jsx', import.meta.url));
+  assert.match(sheet, /export const BACK_TO_IT = 'Back to it';/);
+  assert.doesNotMatch(sheet.split('\n').filter((l) => !/^\s*(\/\/|\*)/.test(l)).join('\n'), />Keep going</);
+  const stage = readText(new URL('./Stage.jsx', import.meta.url));
+  assert.match(stage, /st-iconkey st-iconkey--word" aria-label=\{closeLabel\} onClick=\{onClose\}><X size=\{22\} strokeWidth=\{2\.2\} aria-hidden="true" \/><span aria-hidden="true">Close<\/span>/);
+  const run = readText(new URL('../run/run.css', import.meta.url));
+  assert.match(run, /\n\.lr-close__word \{ display: inline; \}/, 'the run shows the word at every width');
+});

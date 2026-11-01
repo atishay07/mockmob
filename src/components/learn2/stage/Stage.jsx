@@ -3,6 +3,7 @@
 //
 //   <Stage label rootRef viewRef trackRef mode panel top ticks rail bar end overlay say busy chip>{pages}</Stage>
 //     chip: the first feed's cue, drawn in the peek strip at the foot of the item area (R3-SPEC L3)
+//     below: the "Options below" chip, inside the item area above the peek strip (R4 ui-correctness#5)
 //     A focus place over the whole shell: role dialog, focus moves in on mount and back on unmount, the app shell is inert
 //     while it is open, one polite live region that exists before its text (A8 F2, F7). mode 'items' | 'end'.
 //     Bands: phone (top bar, item, action bar), tablet (top bar, item + rail, bar), desktop (panel, ticks + item + bar, rail).
@@ -23,11 +24,13 @@ import Link from 'next/link';
 import { ChevronDown, ChevronUp, LoaderCircle, X } from 'lucide-react';
 import { ncertFont } from '@/components/keycards/ncertFont';
 import { pileLabel } from '../../../../data/learn/words.js';
+import { optionsBelow, verdictScrollTop } from './pagerModel.mjs';
 import { openUpgrade, useUpgradeState } from '@/components/pro/proNudgeStore';
 import '@/components/keycards/keycards.css';
 import './stage.css';
 
-export const still = () => { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return false; } };
+/** Reduced motion: the system setting or the app's own (html[data-motion='reduced']). */
+export const still = () => { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced'; } catch { return false; } };
 /** A light haptic where the browser has one: a turn 8 ms, a right answer 12 ms, a wrong answer nothing (A1 3.11). */
 export const buzz = (pattern) => { try { if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') navigator.vibrate(pattern); } catch { /* no haptics */ } };
 /** "See Pro": the shell's Upgrade sheet, or /pricing where no sheet is mounted (a focus route, Pro). */
@@ -55,11 +58,13 @@ export function watchMore(el) {
 }
 
 /**
- * Whether the first option of an unanswered question waits below the fold (M10): `onChange(true)` while less than half of
- * option A is above the highest of `limits` ([{ el, edge: 'top' | 'bottom' }]: the scroll boxes' bottom, the bar's top). The rects
- * are read, so it does not matter which box scrolls. `roots` are the scroll boxes (scroll listeners); `find()` gives option A.
+ * Whether the first option of an unanswered question waits below the fold (M10, R4 ui-correctness#5): `onChange(true)` while
+ * less than 28 px of option A is above the highest of `limits` ([{ el, edge: 'top' | 'bottom' }]: the page's own foot, the
+ * bar's top). `viewport: false` leaves the window's height out, so a page the pager is still sliding in reads true to its
+ * resting place (option A and the page's foot move together). It reads again after every transition and twice after mount
+ * (a slide that ends without an event never leaves a stale "Options below"). `roots` are the scroll boxes; `find()` gives A.
  */
-export function watchBelow({ roots = [], limits = [], find, onChange }) {
+export function watchBelow({ roots = [], limits = [], find, onChange, viewport = true }) {
   const els = roots.filter(Boolean);
   if (!els.length || typeof find !== 'function') { onChange(false); return () => {}; }
   let last = null;
@@ -67,24 +72,36 @@ export function watchBelow({ roots = [], limits = [], find, onChange }) {
     const a = find();
     let below = false;
     if (a && a.getClientRects().length && !a.closest('.st-opts, .lr-opts')?.querySelector('[data-state]')) {
-      const edge = Math.min(window.innerHeight, ...limits.filter((l) => l?.el).map((l) => l.el.getBoundingClientRect()[l.edge || 'bottom']));
-      below = a.getBoundingClientRect().top + 28 > edge;
+      const edges = limits.filter((l) => l?.el && l.el.getClientRects().length).map((l) => l.el.getBoundingClientRect()[l.edge || 'bottom']);
+      if (viewport || !edges.length) edges.push(window.innerHeight);
+      below = optionsBelow({ optionTop: a.getBoundingClientRect().top, edge: Math.min(...edges) });
     }
     if (below !== last) { last = below; onChange(below); }
   };
   read();
+  const timers = [setTimeout(read, 260), setTimeout(read, 520)];
   for (const el of els) el.addEventListener('scroll', read, { passive: true });
   window.addEventListener('resize', read);
+  document.addEventListener('transitionend', read, true);
   let ro = null;
   if (typeof ResizeObserver !== 'undefined') { ro = new ResizeObserver(read); for (const el of els) { ro.observe(el); for (const c of el.children) ro.observe(c); } }
-  return () => { for (const el of els) el.removeEventListener('scroll', read); window.removeEventListener('resize', read); ro?.disconnect(); };
+  return () => {
+    timers.forEach(clearTimeout);
+    for (const el of els) el.removeEventListener('scroll', read);
+    window.removeEventListener('resize', read);
+    document.removeEventListener('transitionend', read, true);
+    ro?.disconnect();
+  };
 }
 
-/** The quiet "Options below" chip: 36 px, ink-2, a down chevron, centred 8 px above the bar. A tap goes to option A. */
-export function BelowChip({ show, onClick }) {
+/**
+ * The quiet "Options below" chip: 36 px, ink-2, a down chevron. A tap goes to option A. `place` 'stage' sits inside the item
+ * area, 8 px above the next item's peek strip (the feed: never on the peek, R4 ui-correctness#5); 'bar' sits 8 px above the bar.
+ */
+export function BelowChip({ show, onClick, place = 'bar' }) {
   if (!show) return null;
   return (
-    <button type="button" className="st-below" onClick={onClick}>
+    <button type="button" className={`st-below${place === 'stage' ? ' st-below--stage' : ''}`} onClick={onClick}>
       Options below<ChevronDown size={16} strokeWidth={2.2} aria-hidden="true" />
     </button>
   );
@@ -107,21 +124,39 @@ export function scrollToRow(row, behavior = 'auto') {
   box.scrollTo({ top: Math.max(0, top), behavior });
 }
 
-/**
- * After a wrong pick (R2 screens 6): scroll the nearest box so the stem's last line stays in view, 56 px under the box's top,
- * and the verdict and the line you needed come up under it. Never scrolls up.
- */
-export function scrollToStemEnd(stem, behavior = 'auto') {
-  let box = stem?.parentElement;
+/** The nearest box that scrolls `el` (overflow-y auto or scroll and taller than itself), else null. */
+function scrollBoxOf(el) {
+  let box = el?.parentElement;
   while (box && box !== document.body) {
     const oy = getComputedStyle(box).overflowY;
-    if ((oy === 'auto' || oy === 'scroll') && box.scrollHeight > box.clientHeight + 1) break;
+    if ((oy === 'auto' || oy === 'scroll') && box.scrollHeight > box.clientHeight + 1) return box;
     box = box.parentElement;
   }
-  if (!stem || !box || box === document.body) return;
-  const top = box.scrollTop + stem.getBoundingClientRect().bottom - box.getBoundingClientRect().top - 56;
-  if (top > box.scrollTop) box.scrollTo({ top, behavior });
+  return null;
 }
+
+/**
+ * After a wrong pick (R4 ui-correctness#7): scroll the nearest box only as far as it takes to bring the verdict and the start of
+ * the line you needed into view, and never so far that the question's head line (its context, "You missed this in Mock 3")
+ * or the stem's first line goes under the top. `root` is the question; `floor` an element over the box's foot (the bar).
+ */
+export function scrollToVerdict(root, behavior = 'auto', floor = null) {
+  if (!root) return;
+  const box = scrollBoxOf(root);
+  if (!box) return;
+  const head = root.querySelector('.lr-q__head, .st-qhead') || root.querySelector('.st-stem');
+  const target = root.querySelector('.lr-line, .st-line') || root.querySelector('.lr-verdict, .st-verdict');
+  if (!target) return;
+  const b = box.getBoundingClientRect();
+  const f = floor?.getClientRects?.().length ? floor.getBoundingClientRect() : null;
+  const bottom = f && f.top < b.bottom && f.top > b.top ? f.top : b.bottom;
+  const t = target.getBoundingClientRect();
+  const top = verdictScrollTop({ box: { top: b.top, bottom, scrollTop: box.scrollTop }, head: head ? { top: head.getBoundingClientRect().top } : null, target: { top: t.top, bottom: t.bottom } });
+  if (top !== null) box.scrollTo({ top, behavior });
+}
+
+/** The older name: the verdict rule above (the stem is found from its question). */
+export const scrollToStemEnd = (stem, behavior = 'auto') => scrollToVerdict(stem?.closest?.('.lr-q, .st-q') || null, behavior);
 
 /** Option A to the top of its scroll box (smooth unless motion is reduced). */
 export const goToOptions = (a) => { try { scrollToRow(a, still() ? 'auto' : 'smooth'); } catch { /* old browser */ } };
@@ -175,7 +210,7 @@ function useFocusPlace(rootRef, paused) {
   }, [paused]);
 }
 
-export function Stage({ label, rootRef, viewRef, trackRef, mode = 'items', busy = false, panel = null, top = null, ticks = null, rail = null, bar = null, end = null, overlay = null, say = '', feedLabel, chip = null, children, className = '' }) {
+export function Stage({ label, rootRef, viewRef, trackRef, mode = 'items', busy = false, panel = null, top = null, ticks = null, rail = null, bar = null, end = null, overlay = null, say = '', feedLabel, chip = null, below = null, children, className = '' }) {
   const own = useRef(null);
   const ref = rootRef || own;
   const upgrade = useUpgradeState();
@@ -191,6 +226,7 @@ export function Stage({ label, rootRef, viewRef, trackRef, mode = 'items', busy 
             {children}
           </div>
           {chip}
+          {below}
         </div>
         {rail ? <div className="st-side">{rail}</div> : null}
         {bar}
@@ -246,7 +282,7 @@ export function TopBar({ onClose, closeLabel = 'Close', title, titleNote = null,
     <header className="st-top">
       <div className="st-top__ticks" aria-hidden="true">{ticks}</div>
       <div className="st-top__row">
-        <button type="button" className="st-iconkey" aria-label={closeLabel} onClick={onClose}><X size={22} strokeWidth={2.2} aria-hidden="true" /></button>
+        <button type="button" className="st-iconkey st-iconkey--word" aria-label={closeLabel} onClick={onClose}><X size={22} strokeWidth={2.2} aria-hidden="true" /><span aria-hidden="true">Close</span></button>
         <p className="st-top__title" title={titleNote ? undefined : title || undefined}>{titleNote || title}</p>
         {kept}
         {counter ? (onCounter

@@ -185,3 +185,93 @@ test('R3 W and F: the run, the feed, the ends and the refusal never carry a reti
   const words = (await import('../../../../data/learn/words.js')).WORDS;
   assert.deepEqual([words.turnOver, words.turnCue, words.pickHint, words.reviseLater, words.inRevise, words.seePro, words.singles], ['Turn over', 'Tap the card to turn it over', 'Pick the answer you think is right.', 'Revise later', 'In Revise', 'See Pro', 'Answer single questions']);
 });
+
+// ---------------------------------------------------------------- R4-run
+import { progressLabel, miniFront, FREE_REST_PRO } from '../stage/endModel.mjs';
+import { runAddressParams, feedAddressParams, sameAddress } from './address.mjs';
+import { chapterPlace } from '../../../../data/learn/words.js';
+
+const source = async (f) => (await import('node:fs')).readFileSync(new URL(f, new URL('../', import.meta.url)), 'utf8').replace(/\r\n/g, '\n');
+
+test('R4 first-timer#4: a Free bar says the rest open with Pro once the free cards are all seen', () => {
+  assert.equal(FREE_REST_PRO, 'the rest open with Pro');
+  assert.equal(progressLabel({ seen: 5, of: 45, open: 5 }), '5 of 45 cards seen · the rest open with Pro');
+  assert.equal(progressLabel({ seen: 3, of: 45, open: 5 }), '3 of 45 cards seen', 'free cards still to see');
+  assert.equal(progressLabel({ seen: 20, of: 45 }), '20 of 45 cards seen', 'Pro sends no open count');
+  assert.equal(progressLabel({ seen: 45, of: 45, open: 45 }), '45 of 45 cards seen', 'a chapter Free opens whole');
+  assert.equal(endProgress({ of: 45, seen: 5, before: 0, open: 5 }).label, '5 of 45 cards seen · the rest open with Pro');
+  assert.equal(endProgress({ of: 45, seen: 20, before: 14 }).label, '20 of 45 cards seen');
+});
+
+test('R4 owner-eye#14: a fan mini is cut at a word boundary, never mid-word', async () => {
+  assert.equal(miniFront('A partnership firm has no separate legal entity from its partners at all'), 'A partnership firm has no separate legal entity from…');
+  assert.equal(miniFront('The sacrifice by a partner.'), 'The sacrifice by a partner.');
+  assert.equal(miniFront('Name the 6 essential features of a partnership as given in the Act'), 'Name the 6 essential features of a partnership as…');
+  assert.equal(miniFront('Persons are called ________ and ________'), 'Persons are called ____ and ____');
+  for (const t of ['Persons who have entered into partnership with one another are individually called ____', 'Explain, with reasons, the meaning of goodwill and the sacrificing ratio']) {
+    const m = miniFront(t);
+    assert.ok(m.endsWith('…') && m.length <= 55, m);
+    const kept = m.slice(0, -1);
+    assert.ok(t.startsWith(kept) && /[\s,;:.]/.test(t[kept.length]), `whole words only: ${m}`);
+  }
+  const css = await source('stage/stage.css');
+  assert.match(css, /\.st-pile__f \{[^}]*text-wrap: pretty;/, 'pretty, not balance (no orphan first word)');
+  assert.match(css, /\.st-pile__fan\[data-small\] \.st-pile__f \{ -webkit-line-clamp: 3; font-size: 10\.5px;/);
+  assert.match(await source('stage/EndForm.jsx'), /miniFront\(cardFace\(c\)\.front \|\| c\.front \|\| '', small \? 54 : 72\)/);
+});
+
+test('R4 client-code#1: a run started in place writes ?run=<new id>, never end=1 or fresh', async () => {
+  const to = runAddressParams({ id: 'run-new', kind: 'mix', chapter: { key: 'accountancy.goodwill' } }, { chapterKey: 'accountancy.goodwill', minutes: 10, kind: 'mistakes', fresh: true, openEnd: true, leaveOut: ['lesson'], cardIds: ['c1'] });
+  assert.deepEqual(to, { chapterKey: 'accountancy.goodwill', minutes: 10, kind: 'mix', runId: 'run-new' }, 'the new run by its id; no end, fresh, leave-outs or cards');
+  assert.equal(runAddressParams({}, {}), null, 'no id from the server: no address');
+  assert.deepEqual(feedAddressParams({ id: 'feed-2', chapter: { key: 'accountancy.goodwill' } }, { minutes: 10 }), ['accountancy.goodwill', 10, { runId: 'feed-2' }]);
+  assert.equal(sameAddress('/learn/run?run=x&chapter=a', '/learn/run?chapter=a&run=x'), true);
+  assert.equal(sameAddress('/learn/run?run=x&end=1', '/learn/run?run=x'), false, 'an end=1 address is rewritten');
+  // The player writes the address the moment the server answers a start or a resume, and only for the current start.
+  const player = await source('run/RunPlayer.jsx');
+  assert.match(player, /if \(!current\(\)\) return;\n\s+starting\.current = false;\n\s+writeAddress\(data, p\);/);
+  assert.match(player, /const href = links\.run\(to\);/);
+  assert.match(player, /window\.history\.replaceState\(null, '', href\)/);
+  assert.match(player, /const token = \+\+beginToken\.current;/, 'client-code#10: a start carries a token');
+  assert.match(player, /if \(starting\.current\) return;\n\s+starting\.current = true;/, 'one start at a time from the end keys');
+  const feed = await source('feed/ChapterFeed.jsx');
+  assert.match(feed, /const href = to \? links\.feed\(\.\.\.to\) : null;/);
+  assert.match(feed, /if \(token === startToken\.current\) adopt\(r\);/, 'Continue resumes and writes the address');
+  assert.match(feed, /if \(token === startToken\.current\) adopt\(r, \{ fresh: true \}\);/, 'Keep going starts and writes the address');
+  const links = await source('links.js');
+  assert.match(links, /\['fresh', fresh \? '1' : ''\]/, 'links.run takes a fresh option (production)');
+  assert.match(links, /end: end \? '1' : '', fresh: fresh \? '1' : '' \}\)/, 'and in the preview');
+});
+
+test('R4 ruling N: the run and feed rails name the chapter by its place, and draw nothing without one', async () => {
+  assert.equal(chapterPlace({ n: 5, of: 14 }), 'Chapter 5 of 14');
+  assert.equal(chapterPlace(undefined), '');
+  const player = await source('run/RunPlayer.jsx');
+  assert.match(player, /const placeLine = chapterPlace\(chapter\.place\) \|\| null;/);
+  assert.doesNotMatch(player, /partShort|refLine/, 'no "Part 1, Ch 1" in the run rail');
+  const feed = await source('feed/ChapterFeed.jsx');
+  assert.match(feed, /const book = chapterPlace\(run\?\.chapter\?\.place\) \|\| null;/);
+  assert.doesNotMatch(feed, /chapterRef\(/, 'no "Ch 2, Part 1" in the feed rail');
+});
+
+test('R4 ui-correctness#14, client-code#4 and #11: the desktop pile reads "4 to revise", named for a screen reader', async () => {
+  const parts = await source('run/RunParts.jsx');
+  const code = parts.split('\n').filter((l) => !/^\s*(\/\/|\*)/.test(l)).join('\n');
+  assert.match(code, /export const pileName = \(pile\) => \(pile > 0 \? \{ role: 'img', 'aria-label': `\$\{pile\} \$\{pile === 1 \? 'card' : 'cards'\} to revise later` \}/);
+  assert.match(code, /<span className="lr-panel__pile" \{\.\.\.pileName\(pile\)\}>/);
+  assert.match(code, /\{pile \? pileLabel\(pile\) : ''\}<\/b>\n\s+<\/span>\n\s+<p className="lr-panel__stamp"/, 'the panel draws pileLabel');
+  assert.doesNotMatch(code, /lr-panel__rl">In Revise/, '"In Revise" stays for a card the server confirmed');
+  assert.doesNotMatch(code, /role="status"/, 'the tip is not a live region; the player says it');
+  const player = await source('run/RunPlayer.jsx');
+  assert.match(player, /sayFirst\.current = `\$\{WORDS\.inRevise\}\. `;/);
+});
+
+test('R4 owner-eye#15 and ui-correctness#20: the hint once per student above the options; the back\'s source at the foot', async () => {
+  const player = await source('run/RunPlayer.jsx');
+  assert.match(player, /export const coachKeyOf = \(userId\) => `mm:learn2:coach:v2:\$\{userId \|\| 'anon'\}`;/);
+  assert.match(player, /useCoach\(coachKey, 'pick', phase === 'play' && !hasHistory && at === firstQuestion && !answered\)/);
+  assert.doesNotMatch(player, /coachPick && item\?\.type === 'question' && !answered \? \{ text: WORDS\.pickHint \}/, 'no longer in the status line under Skip');
+  const parts = await source('run/RunParts.jsx');
+  assert.match(parts, /<div className="lr-stemwrap"><Stem text=\{q\.body\} \/><\/div>\n\s+\{hint && !result \? <p className="lr-q__hint">\{hint\}<\/p> : null\}\n\s+<div className="lr-opts"/);
+  assert.match(parts, /<InShort card=\{card\} \/>\n\s+<\/div>\n[^\n]*\n\s+\{src \? <p className="lr-src lr-src--back">/, 'the source sits after the back block, at the foot');
+});

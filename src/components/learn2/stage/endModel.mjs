@@ -64,7 +64,36 @@ export function endProgress(progress) {
   const seen = Math.min(num(progress?.seen), of);
   if (!of || !seen) return null;
   const before = Math.min(num(progress?.before), seen);
-  return { from: before / of, to: seen / of, label: `${seen} of ${of} cards seen` };
+  return { from: before / of, to: seen / of, label: progressLabel({ seen, of, open: progress?.open }) };
+}
+
+/** The Free bar's tail once every free card is seen (R4 first-timer#4): one line, no extra block. */
+export const FREE_REST_PRO = 'the rest open with Pro';
+
+/**
+ * The bar's label: "20 of 45 cards seen". On Free (`open`, the cards Free opens in this chapter, is sent and is fewer than
+ * the chapter's cards) once the seen cards reach the free count: "5 of 45 cards seen · the rest open with Pro". Pro never
+ * sends `open` (or sends the whole chapter), so it never reads the tail.
+ */
+export function progressLabel({ seen = 0, of = 0, open = null } = {}) {
+  const s = num(seen);
+  const o = num(of);
+  const base = `${s} of ${o} cards seen`;
+  const free = open === null || open === undefined || open === '' ? null : num(open);
+  return free !== null && free > 0 && free < o && s >= free ? `${base} · ${FREE_REST_PRO}` : base;
+}
+
+/**
+ * A fan mini's front, cut at a word boundary (R4 owner-eye#14): at most `max` characters (about 3 lines of 18), ending on a
+ * whole word with an ellipsis, never mid-word. A first word longer than `max` is kept whole (the CSS clamp is the backstop).
+ */
+export function miniFront(text, max = 54) {
+  const s = String(text || '').replace(/_{3,}/g, '____').replace(/\s+/g, ' ').trim();
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max + 1);
+  const at = cut.lastIndexOf(' ');
+  const head = (at > 0 ? cut.slice(0, at) : s.split(' ')[0]).replace(/[\s,;:.–—-]+$/u, '');
+  return `${head}…`;
 }
 
 /** The checkpoint (R2 screens 12): a headline that never leads with a zero, and one line. */

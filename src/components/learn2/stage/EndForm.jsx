@@ -17,7 +17,7 @@
 import { useEffect, useState } from 'react';
 import MobiReact from '@/components/brand/MobiReact';
 import { cardFace } from '@/components/keycards/kinds';
-import { pileFrontSize } from './endModel.mjs';
+import { miniFront, pileFrontSize } from './endModel.mjs';
 
 const reduced = () => { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced'; } catch { return false; } };
 
@@ -27,13 +27,14 @@ export function KeptFan({ cards = [], open = true, small = false }) {
   return (
     <div className="st-pile__fan" data-open={open || undefined} data-small={small || undefined} aria-hidden="true">
       {shown.map((c, i) => {
-        const front = String(cardFace(c).front || c.front || '').replace(/_{3,}/g, '____');
+        // R4 owner-eye#14: a whole-word cut (about 3 lines of 18 characters on a small mini), never mid-word.
+        const front = miniFront(cardFace(c).front || c.front || '', small ? 54 : 72);
         return (
           <span key={c.id || i} className="st-pile__card" style={{ '--r': `${(i - mid) * 7}deg`, '--x': `${(i - mid) * 26}px`, '--d': `${i * 40}ms`, zIndex: i }}>
             {i === shown.length - 1 ? (
               <>
                 <span className="st-pile__k">{cardFace(c).label}</span>
-                <span className="st-pile__f" lang="en" style={{ fontSize: pileFrontSize(front) }}>{front}</span>
+                <span className="st-pile__f" lang="en" style={small ? undefined : { fontSize: pileFrontSize(front) }}>{front}</span>
               </>
             ) : <span className="st-pile__lines"><i /><i /><i /></span>}
           </span>
