@@ -99,7 +99,7 @@ test('practice links open Practice set up, never the test itself', () => {
 
 test('the hero is the live plan, with the chosen subject added to a bare practice link', () => {
   const plan = learningPlan({ minutes: 10 });
-  const hero = heroFromPlan(plan, { subject: 'economics', balance: 40 });
+  const hero = heroFromPlan(plan, { subject: 'economics', balance: 40, learn2: true });
   // START-1017 D3: plain practice follows the chosen subject (the plan's own title is kept too). Owner G26 (R11): it leads
   // with the mode, as Practice does; the count and the subject are said once, on the key.
   assert.equal(hero.followsSubject, true);
@@ -156,7 +156,7 @@ test('the hero is the live plan, with the chosen subject added to a bare practic
 
 test('rows: Quick practice folds into a hero that is already 10 questions; NTA says Pro on Free', () => {
   const plan = learningPlan({ minutes: 10 });
-  const merged = startRows({ plan, subjects: ['accountancy', 'economics'], subject: 'economics', balance: 40 });
+  const merged = startRows({ plan, subjects: ['accountancy', 'economics'], subject: 'economics', balance: 40, learn2: true });
   // Every mode the app offers is a button in the sheet (owner F5): the exam pair, then By chapter and Smart practice.
   assert.deepEqual(merged.rows.map((r) => r.id), ['full', 'nta', 'chapter', 'learn', 'smart']);
   assert.equal(merged.choose.href, '/dashboard');
@@ -178,19 +178,19 @@ test('rows: Quick practice folds into a hero that is already 10 questions; NTA s
   assert.equal(merged.rows[1].graphic, 'exam');
 
   // A fixed hero (a resume) stays above the rail: the Quick practice row comes back and the label names the subject.
-  const fixed = startRows({ plan: { primary: { kind: 'resume_session', title: 'Finish your recall session', href: '/recall?session=r1', reason: '7 cards left.' } }, subjects: ['accountancy', 'economics'], subject: 'economics', balance: 40 });
+  const fixed = startRows({ plan: { primary: { kind: 'resume_session', title: 'Finish your recall session', href: '/recall?session=r1', reason: '7 cards left.' } }, subjects: ['accountancy', 'economics'], subject: 'economics', balance: 40, learn2: true });
   assert.equal(fixed.hero.followsSubject, false);
   assert.deepEqual(fixed.rows.map((r) => r.id), ['quick', 'full', 'nta', 'chapter', 'learn', 'smart']);
   assert.equal(fixed.section, 'Or start in Economics');
   assert.equal(startRows({ plan: null, subjects: ['economics'] }).section, 'Pick a session');
 
-  const twenty = startRows({ plan: learningPlan({ minutes: 20 }), subjects: ['accountancy'], balance: 40 });
+  const twenty = startRows({ plan: learningPlan({ minutes: 20 }), subjects: ['accountancy'], balance: 40, learn2: true });
   assert.deepEqual(twenty.rows.map((r) => r.id), ['quick', 'full', 'nta', 'chapter', 'learn', 'smart']);
   const quick = twenty.rows[0];
   assert.equal(quick.href, '/dashboard?subject=accountancy&mode=quick&count=10');
   assert.equal(quick.detail, '10 Accountancy questions, about 10 minutes');
 
-  const loading = startRows({ plan: null, subjects: ['economics'], balance: 40 });
+  const loading = startRows({ plan: null, subjects: ['economics'], balance: 40, learn2: true });
   assert.equal(loading.hero, null);
   assert.deepEqual(loading.rows.map((r) => r.id), ['quick', 'full', 'nta', 'chapter', 'learn', 'smart']);
   const nta = loading.rows.find((r) => r.id === 'nta');
@@ -206,7 +206,7 @@ test('copy rules: sentence case, no exclamation mark, no em dash', () => {
   const texts = [];
   for (const pro of [false, true]) {
     for (const minutes of [10, 20, 30]) {
-      const m = startRows({ plan: learningPlan({ minutes }), subjects: ['accountancy', 'economics'], subject: 'accountancy', pro, balance: 4 });
+      const m = startRows({ plan: learningPlan({ minutes }), subjects: ['accountancy', 'economics'], subject: 'accountancy', pro, balance: 4, learn2: true });
       if (m.hero) texts.push(m.hero.eyebrow, m.hero.cta, m.hero.cost?.text);
       for (const r of [...m.rows, m.choose]) texts.push(r.title, r.detail, r.cost?.text, r.tag);
     }
@@ -318,7 +318,8 @@ test('G26 Practice ticket: the card leads with the mode; the count and the subje
 });
 
 test('Learn a chapter is the one row Learn adds: between By chapter and Smart practice, free, opening Learn on the chosen subject', () => {
-  const { rows } = startRows({ subjects: ['accountancy', 'economics'], subject: 'economics' });
+  assert.ok(!startRows({ subjects: ['accountancy', 'economics'], subject: 'economics' }).rows.some((r) => r.id === 'learn'), 'only with Learn v2 on');
+  const { rows } = startRows({ subjects: ['accountancy', 'economics'], subject: 'economics', learn2: true });
   const ids = rows.map((r) => r.id);
   assert.equal(ids.indexOf('learn'), ids.indexOf('chapter') + 1);
   assert.equal(ids.indexOf('smart'), ids.indexOf('learn') + 1);
@@ -327,7 +328,7 @@ test('Learn a chapter is the one row Learn adds: between By chapter and Smart pr
   assert.equal(row.detail, 'Key cards and questions on one chapter, 5 to 20 minutes');
   assert.equal(row.href, '/learn?subject=economics');
   assert.deepEqual(row.cost, { text: 'Free', tone: 'included' }, 'it prints no credit cost: Free, or Included for Pro');
-  assert.equal(startRows({ subjects: ['economics'], subject: 'economics', pro: true }).rows.find((r) => r.id === 'learn').cost.text, 'Included');
+  assert.equal(startRows({ subjects: ['economics'], subject: 'economics', pro: true, learn2: true }).rows.find((r) => r.id === 'learn').cost.text, 'Included');
   assert.equal(row.graphic, 'subject', 'the chosen subject lamp-lit object');
   assert.equal(row.action, 'Choose', 'it opens the chapter map, it does not start anything');
   assert.equal(row.go, 'open');

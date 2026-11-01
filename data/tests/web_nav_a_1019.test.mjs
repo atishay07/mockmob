@@ -32,7 +32,9 @@ const OLD_PAGES = Object.freeze({
 });
 
 test('the sidebar draws four places, each with its pages under it: no group headers, no Study or Planning', () => {
-  const groups = arenaNavigation(false, { mob: true });
+  // The live order while Learn v2 is off: Learn after Your papers, a plain row.
+  assert.deepEqual(arenaNavigation(false, { mob: true }).find((g) => g.id === 'practice').items.map((i) => i.label), ['Practice', 'Your papers', 'Learn', 'Explore', 'Saved']);
+  const groups = arenaNavigation(false, { mob: true, learn2: true });
   assert.deepEqual(groups.map((group) => group.id), ['today', 'practice', 'mob', 'you']);
   assert.deepEqual(groups.map((group) => group.items.map((item) => item.label)), [
     ['Today'],
@@ -159,7 +161,8 @@ test('Mobi’s door sits at the sidebar’s foot above Night and Day, is the ord
 
 test('Practice and the Mob get a row of tabs on a phone: Practice, Learn, Your papers, Explore, Saved; Your Mob, Your standing', () => {
   for (const path of ['/dashboard', '/review', '/learn', '/explore', '/saved']) {
-    const row = placeTabs(path, { mob: true, study: true });
+    assert.deepEqual(placeTabs(path, { mob: true, study: true }).tabs.map((tab) => tab.label), ['Practice', 'Your papers', 'Learn', 'Explore', 'Saved'], 'the live order while Learn v2 is off');
+    const row = placeTabs(path, { mob: true, study: true, learn2: true });
     assert.equal(row.id, 'practice', path);
     assert.deepEqual(row.tabs.map((tab) => tab.label), ['Practice', 'Learn', 'Your papers', 'Explore', 'Saved']);
   }

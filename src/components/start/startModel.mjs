@@ -348,7 +348,7 @@ export function heroFromPlan(plan, { subject = null, pro = false, balance = null
  * @param {'available'|'used'|'unknown'|null} [o.firstFullMock] whether the chosen subject's first full mock is still free
  * @returns {{ hero: object|null, rows: object[], choose: object }}
  */
-export function startRows({ plan = null, subjects = [], subject = null, pro = false, balance = null, tonightKey = null, dailySet = DAILY_SET.priced, firstFullMock = null } = {}) {
+export function startRows({ plan = null, subjects = [], subject = null, pro = false, balance = null, tonightKey = null, dailySet = DAILY_SET.priced, firstFullMock = null, learn2 = false } = {}) {
   const chosen = subjectFor(subject)?.id || subjects[0] || null;
   const name = subjectName(chosen);
   const hero = heroFromPlan(plan, { subject: chosen, pro, balance, tonightKey, dailySet, firstFullMock });
@@ -373,8 +373,9 @@ export function startRows({ plan = null, subjects = [], subject = null, pro = fa
     href: practiceHref({ subject: chosen, mode: 'quick', count: SESSION.quickCount, pick: 'chapters' }), graphic: 'chapters', subject: chosen, cost: costLine('quick', { pro, balance, short: true, dailySet }), go: 'start', action: 'Pick chapters' });
   // Learn a chapter (DESIGN-SPEC A8, B 2.2): the one row Learn adds, between By chapter and Smart practice. It opens Learn's chapter map (the
   // key says "Pick a chapter", because it does not start anything) and costs nothing, so it says "Included" beside Pro's other rows or "Free".
-  // The picture is the chosen subject's lamp-lit object, like Quick practice's.
-  rows.push({ id: 'learn', title: 'Learn a chapter', detail: 'Key cards and questions on one chapter, 5 to 20 minutes',
+  // The picture is the chosen subject's lamp-lit object, like Quick practice's. Only with Learn v2 on (learn2): off, /learn is still the
+  // lessons hub, so the live sheet keeps its rows as they were.
+  if (learn2) rows.push({ id: 'learn', title: 'Learn a chapter', detail: 'Key cards and questions on one chapter, 5 to 20 minutes',
     href: chosen ? `${LEARN_HREF}?subject=${chosen}` : LEARN_HREF, graphic: chosen && subjectArt(chosen) ? 'subject' : 'cards', subject: chosen, cost: { text: pro ? 'Included' : 'Free', tone: 'included' }, go: 'open', action: 'Choose', spoken: ', opens Learn' });
   rows.push({ id: 'smart', title: 'Smart practice', detail: `${SESSION.smartCount} ${name ? `${name} ` : ''}questions on the topics you miss most`,
     href: practiceHref({ subject: chosen, mode: 'smart' }), graphic: 'weights', subject: chosen, cost: costLine('smart', { pro, balance, short: true }), tag: SESSION.smartPro && !pro ? 'Pro' : null, go: 'start', action: 'Set up' });

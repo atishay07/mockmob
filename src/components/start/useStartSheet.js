@@ -7,7 +7,9 @@
 // the hero keeps its place with a skeleton; if it fails the other rows still work and the hero says
 // so in one quiet line. The chosen subject is remembered on this device only.
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { SUBJECT_KEY, pickSubject, startRows, startSubjects } from './startModel.mjs';
+import { LEARN2_ENV_ON } from '@/components/learn2/flag';
 import { useDailySet } from '@/lib/useDailySet';
 import { useFirstFullMock } from '@/lib/useFirstFullMock';
 
@@ -73,7 +75,10 @@ export function useStartSheet({ open = false, user = null }) {
   const dailySet = useDailySet({ userId: open ? userId : null, premium: pro, subject });
   // Whether this subject's first full mock is still free (C-dec 1), from the server quote for its Full mock, read while the sheet is open.
   const firstFullMock = useFirstFullMock({ userId: open ? userId : null, premium: pro, subject });
-  const model = useMemo(() => startRows({ plan: mine?.plan || null, subjects, subject, pro, balance, tonightKey, dailySet, firstFullMock }), [mine, subjects, subject, pro, balance, tonightKey, dailySet, firstFullMock]);
+  // Learn v2's "Learn a chapter" row: on the live site only with NEXT_PUBLIC_LEARN2 on; always in the development preview.
+  const pathname = usePathname() || '';
+  const learn2 = LEARN2_ENV_ON || pathname.startsWith('/preview/');
+  const model = useMemo(() => startRows({ plan: mine?.plan || null, subjects, subject, pro, balance, tonightKey, dailySet, firstFullMock, learn2 }), [mine, subjects, subject, pro, balance, tonightKey, dailySet, firstFullMock, learn2]);
   const selectSubject = useCallback((id) => { setChosen(id); writeStored(id); }, []);
   const retry = useCallback(() => { fetched.current = { userId: null, at: 0 }; setRecord(null); setNonce((n) => n + 1); }, []);
 

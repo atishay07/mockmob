@@ -35,7 +35,6 @@ import Image from 'next/image';
 import mascot from '@/../public/brand/mascot/manifest.json';
 import PlaceTabs from '@/components/nav/PlaceTabs';
 import { useReviseBadge } from '@/lib/reviewRead';
-import { useKeycardsHome } from '@/components/keycards/api';
 import { LEARN2_ENV_ON } from '@/components/learn2/flag';
 import { useLearnDue } from '@/components/learn2/api';
 import { dueBadge, dueLabel } from '@/lib/nav/dueCount.mjs';
@@ -100,10 +99,10 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   });
   const learn2 = LEARN2_ENV_ON || (Boolean(previewRoute) && !l2Off);
   const learnShell = status === 'authenticated' && !chromeless && (studyEnabled || previewRoute === '/learn');
-  const keycardsHome = useKeycardsHome({ enabled: learnShell && !learn2 });
+  // With v2 off the live sidebar keeps its plain "Learn" row with no count, so nothing is read for it.
   const learnPlace = /^\/(learn|explore)(\/|$)/.test(activePath) ? activePath : '';
   const learnDue2 = useLearnDue({ enabled: learnShell && learn2, refreshKey: learnPlace });
-  const learnDue = learn2 ? learnDue2 || 0 : keycardsHome.state === 'ready' ? Number(keycardsHome.data?.today?.due) || 0 : 0;
+  const learnDue = learn2 ? learnDue2 || 0 : 0;
   // The development preview's &nav=n1 draws Learn as a place of its own in the sidebar (B 6.4), for the owner's call.
   const [navAlt, setNavAlt] = useState(false);
   useEffect(() => {
@@ -365,11 +364,11 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   // The five places (WEB-NAV-1019 option A, owner D114): the sidebar draws Today, Practice, Mob and You as bold rows with their
   // pages indented under them (no group headers); the phone dock draws Today, Practice, the Start key, Mob and You; You opens
   // the You sheet; Practice's and the Mob's pages are a row of tabs on those pages. Every page keeps its link and route.
-  const navGroups = arenaNavigation(isModerator, { mob: mobOn, contribute: contributeOn, learnPlace: navAlt && showStudy }).map((group) => ({ ...group, items: group.items.filter(keepLearn) }));
+  const navGroups = arenaNavigation(isModerator, { mob: mobOn, contribute: contributeOn, learnPlace: navAlt && showStudy, learn2 }).map((group) => ({ ...group, items: group.items.filter(keepLearn) }));
   const sheetGroups = youSheetGroups(isModerator, { mob: mobOn, contribute: contributeOn });
   const dockTabs = mobileNavigation({ mob: mobOn });
   const dockPlace = isTestRoute ? null : dockPlaceOf(activePath, { mob: mobOn });
-  const tabRow = isTestRoute ? null : placeTabs(activePath, { mob: mobOn, study: showStudy });
+  const tabRow = isTestRoute ? null : placeTabs(activePath, { mob: mobOn, study: showStudy, learn2 });
   const allTabs = [...navGroups.flatMap((group) => group.items), ...sheetGroups.flatMap((group) => group.items), ASK_MOBI_NAV];
   // The rail fills top to bottom once on entering the Arena, and the You sheet's rows rise one after another: each row's place in
   // its own list is its --i (the stagger the release 10 rail had, kept across the places).

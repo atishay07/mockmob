@@ -32,7 +32,7 @@ test('the dock holds Today, Practice, the Start key, Mob and You; every other pa
   assert.deepEqual(sheet, ['progress', 'analytics', 'admission-compass', 'wallet'], 'the You sheet lists the plan; the account head and Ask Mobi sit above it');
   assert.equal(ASK_MOBI_NAV.href, '/mentor');
   // Learn, Explore, Saved and Your papers moved into Practice's row of tabs on a phone, in this order.
-  assert.deepEqual(PRACTICE_PAGES.map((tab) => tab.label), ['Practice', 'Learn', 'Your papers', 'Explore', 'Saved']);
+  assert.deepEqual(PRACTICE_PAGES.map((tab) => tab.label), ['Practice', 'Your papers', 'Learn', 'Explore', 'Saved']);
   // The shell draws the capsule from those lists: the Start key as the third child, You (the sheet's opener) as the last.
   assert.match(layout, /const dockTabs = mobileNavigation\(\{ mob: mobOn \}\)/);
   assert.match(layout, /\{index === 2 \? <StartKey variant="bar" onOpen=\{\(\) => setMobileMenuOpen\(false\)\} \/> : null\}/);
