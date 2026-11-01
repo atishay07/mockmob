@@ -205,22 +205,30 @@ class PileFan extends StatelessWidget {
     final reduced = Motion.reduced(context);
     final top = _top(context, paper);
     if (emptyDashed) return AspectRatio(aspectRatio: aspect, child: top);
+    // The two under papers close and open again when [animateKey] changes (their builder is keyed); the top paper is outside
+    // that key, so the count on it keeps its state and rolls to its new value.
     return AspectRatio(
       aspectRatio: aspect,
-      child: TweenAnimationBuilder<double>(
-        key: ValueKey(animateKey),
-        tween: Tween<double>(begin: spreadAnimated && !reduced ? 0 : 1, end: 1),
-        duration: spreadAnimated && !reduced ? const Duration(milliseconds: 220) : Duration.zero,
-        curve: Motion.out,
-        builder: (context, spread, _) => Stack(
-          clipBehavior: Clip.none,
-          fit: StackFit.expand,
-          children: [
-            _sheet(paper, paper.under2, spread, const Offset(5, -7), 3, shadow: true),
-            _sheet(paper, paper.under, spread, const Offset(-5, -4), -4, shadow: true),
-            top,
-          ],
-        ),
+      child: Stack(
+        clipBehavior: Clip.none,
+        fit: StackFit.expand,
+        children: [
+          TweenAnimationBuilder<double>(
+            key: ValueKey(animateKey),
+            tween: Tween<double>(begin: spreadAnimated && !reduced ? 0 : 1, end: 1),
+            duration: spreadAnimated && !reduced ? const Duration(milliseconds: 220) : Duration.zero,
+            curve: Motion.out,
+            builder: (context, spread, _) => Stack(
+              clipBehavior: Clip.none,
+              fit: StackFit.expand,
+              children: [
+                _sheet(paper, paper.under2, spread, const Offset(5, -7), 3, shadow: true),
+                _sheet(paper, paper.under, spread, const Offset(-5, -4), -4, shadow: true),
+              ],
+            ),
+          ),
+          top,
+        ],
       ),
     );
   }

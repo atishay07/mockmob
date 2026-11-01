@@ -271,6 +271,25 @@ void main() {
       expect(find.descendant(of: pileFinder('questions'), matching: find.text('Left out')), findsNothing);
     });
 
+
+    testWidgets('a new count rolls to its value on the paper while the papers under it close and open again', (tester) async {
+      await pumpChapter(tester, api: _aop(), chapter: l2Aop, minutes: 5, disableAnimations: false);
+      List<int> counts() => [
+        for (final t in tester.widgetList<Text>(find.descendant(of: pileFinder('cards'), matching: find.byType(Text))))
+          if (int.tryParse(t.data ?? '') != null) int.parse(t.data!),
+      ];
+      expect(counts(), [6]);
+      await tester.tap(find.text('20 min'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 130));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 30));
+      final rolling = counts();
+      expect(rolling.single, allOf(greaterThan(6), lessThan(17)), reason: 'on its way from 6 to 17: $rolling');
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(counts(), [17]);
+    });
+
     testWidgets('"Tap a pile to leave it out." is said once, goes quiet at the first tap and never comes back', (tester) async {
       final store = storeWith({});
       await pumpChapter(tester, api: _aop(), chapter: l2Aop, store: store);
