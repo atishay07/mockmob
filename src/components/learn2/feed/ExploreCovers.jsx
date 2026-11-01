@@ -1,7 +1,7 @@
 'use client';
 // The way into the Explore feed (FEED-2 section 6; rebuilt to A2-explore-covers.md 4.2-4.9 as BUILD-1101 B7 decides): a row of
 // chapter covers. Each cover is the chapter's own: its media is the first Key card its feed opens with (the hook, set in display
-// type on the lit card surface), with the small ref line ("Part 1, Ch 2") above it; under a hairline, the title, the student's
+// type on the lit card surface), with the small label ("Chapter 5": R4 ruling N, the chapter's place in the roadmap, never the NCERT number) above it; under a hairline, the title, the student's
 // one true line, the mix for the picked length and the key ("Play 10 minutes"). No subject object on covers (LK21), no big
 // numeral (numerals repeat on neighbours). The whole cover is one link. Only the lead cover's key is volt, and it never moves
 // with scrolling; it is the page's primary (data-page-primary quiets the sidebar's and the dock's Start).
@@ -108,11 +108,11 @@ function Cover({ c, index, minutes, lead, history, free, freeDone, swap, tabInde
   };
   const inner = (
     <>
-      <span className="fxc-media" data-kind={media.kind}>
-        {ref ? <span className="fxc-ref">{ref}</span> : <span className="fxc-ref" aria-hidden="true" />}
+      <span className="fxc-media" data-kind={media.kind} data-noref={ref ? undefined : ''}>
+        {ref ? <span className="fxc-ref">{ref}</span> : null}
         {media.kind === 'card' ? <span className="fxc-hook" id={ids.h} data-tier={hookTier(media.text)}>{media.text}</span> : null}
         {media.kind === 'locked' ? <span className="fxc-hook fxc-hook--note" id={ids.h}><span className="fxc-hook__kind">{media.label}</span><span className="fxc-hook__note">Opens with a Pro card</span></span> : null}
-        {media.kind === 'questions' ? <span className="fxc-hook fxc-hook--note" id={ids.h}><span className="fxc-hook__big">{media.text}</span><span className="fxc-hook__note">{media.note}</span></span> : null}
+        {media.kind === 'questions' || media.kind === 'cards' ? <span className="fxc-hook fxc-hook--note" id={ids.h}><span className="fxc-hook__big">{media.text}</span><span className="fxc-hook__note">{media.note}</span></span> : null}
       </span>
       <span className="fxc-body">
         <h3 className="fxc-name" id={ids.t} data-long={c.title && c.title.length > 48 ? '' : undefined}>{c.title}</h3>

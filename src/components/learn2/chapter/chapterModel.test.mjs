@@ -3,10 +3,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { FIRST_VISIT_LINE, ONLY_CARDS_LINE, chapterQuietLine, chapterVerdict, coachKeyFor, continueLabel, firstUpCards, hasSeenCards, headLines, isChapterMissing, pileView, recapLabel, shelfView, startKeyLabel, titleSize, withFlag } from './chapterModel.mjs';
 
-test('the head: the unit only when it does not repeat the title; the ref "Part 1, Ch 2"', () => {
-  assert.deepEqual(headLines({ title: 'Admission of a Partner', unitTitle: 'Reconstitution of a Partnership firm', partTitle: 'Part 1, Partnership Accounts', ref: 'Ch 2' }), { eyebrow: 'Reconstitution of a Partnership firm', ref: 'Part 1, Ch 2' });
-  assert.deepEqual(headLines({ title: 'Goodwill: Nature and Valuation', unitTitle: 'Goodwill', partTitle: 'Part 1, Partnership Accounts', ref: 'Ch 3' }), { eyebrow: null, ref: 'Part 1, Ch 3' });
-  assert.deepEqual(headLines({ title: 'Reading', unitTitle: null, partTitle: 'CUET English', ref: null }), { eyebrow: null, ref: 'CUET English' });
+test('the head: the unit only when it does not repeat the title; the ref is the roadmap place, "Chapter 5 of 14" (R4 ruling N)', () => {
+  assert.deepEqual(headLines({ title: 'Admission of a Partner', unitTitle: 'Reconstitution of a Partnership firm', partTitle: 'Part 1, Partnership Accounts', ref: 'Ch 2', place: { n: 5, of: 14 } }), { eyebrow: 'Reconstitution of a Partnership firm', ref: 'Chapter 5 of 14' });
+  assert.deepEqual(headLines({ title: 'Goodwill: Nature and Valuation', unitTitle: 'Goodwill', partTitle: 'Part 1, Partnership Accounts', ref: 'Ch 2', place: { n: 4, of: 14 } }), { eyebrow: null, ref: 'Chapter 4 of 14' });
+  // no place from the server: no ref line at all, never the NCERT number ("Part 1, Ch 2" is three different chapters)
+  assert.deepEqual(headLines({ title: 'Admission of a Partner', unitTitle: null, partTitle: 'Part 1, Partnership Accounts', ref: 'Ch 2' }), { eyebrow: null, ref: null });
+  assert.deepEqual(headLines({ title: 'Reading', unitTitle: null, partTitle: 'CUET English', ref: null }), { eyebrow: null, ref: null });
+  assert.deepEqual(headLines(null), { eyebrow: null, ref: null });
 });
 
 test('a pile: in, left out, held by Free, and "2 of 3" mistakes (A4 3.2.4)', () => {
@@ -18,6 +21,20 @@ test('a pile: in, left out, held by Free, and "2 of 3" mistakes (A4 3.2.4)', () 
   const m = pileView({ id: 'mistakes', label: 'Your mistakes', count: 2, of: 3, minutes: 2 });
   assert.equal(m.of, 3);
   assert.match(m.aria, /Your mistakes: 2 of 3, about 2 min/);
+});
+
+test('R4 owner-eye#9: a mistakes pile that holds fewer than the chapter has says "2 fit in 10 min", so it never reads as a different number from "Fix 3 open mistakes"', () => {
+  const m = pileView({ id: 'mistakes', label: 'Your mistakes', count: 2, of: 3, minutes: 2 }, { minutes: 10 });
+  assert.equal(m.line, '2 fit in 10 min');
+  assert.equal(m.of, 3);
+  assert.match(m.aria, /Your mistakes: 2 of 3, 2 fit in 10 min\./);
+  // all of them fit: the pile and the row say the same number, and the line is the usual minutes
+  assert.equal(pileView({ id: 'mistakes', label: 'Your mistakes', count: 3, minutes: 3 }, { minutes: 10 }).line, 'about 3 min');
+  assert.equal(pileView({ id: 'mistakes', label: 'Your mistakes', count: 3, of: 3, minutes: 3 }, { minutes: 10 }).line, 'about 3 min', 'of equal to count is no "of"');
+  // other piles never read "fit in"
+  assert.equal(pileView({ id: 'cards', label: 'Key cards', count: 16, minutes: 4 }, { minutes: 10 }).line, 'about 4 min');
+  // a length that is not a whole number of minutes is rounded up, as every label is
+  assert.equal(pileView({ id: 'mistakes', label: 'Your mistakes', count: 1, of: 4, minutes: 1 }, { minutes: 4.2 }).line, '1 fit in 5 min');
 });
 
 test('the quiet line under Start, by priority; never the old Ratings note (A4 3.2.5)', () => {
@@ -41,7 +58,7 @@ test('"Everything in this chapter": rows that lead somewhere, the rest in one qu
   assert.equal(pro.missing, null, 'R2 ruling 9: what is missing is never announced');
   const free = shelfView({ freeSession: { used: true }, shelf: { cards: { count: 46, open: 5 }, questions: { total: 0 }, mistakes: { open: 0 }, lesson: { id: 'l', title: 'Goodwill', minutes: 7, read: false }, print: { mustKnow: 12, locked: true } } });
   assert.deepEqual(free.rows.map((r) => [r.title, r.line, Boolean(r.link)]), [
-    ['Key cards', '46 cards. 5 open on Free.', true], ['Goodwill', '7-minute lesson, not read yet', true], ['Print sheet', 'Part of Pro', true],
+    ['Key cards', '46 cards. 5 open on Free.', true], ['Goodwill', 'Lesson · 7 min, not read yet', true], ['Print sheet', 'Part of Pro', true],
   ]);
   assert.equal(free.missing, null);
 });

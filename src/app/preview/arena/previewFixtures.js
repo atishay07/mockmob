@@ -2,6 +2,7 @@ import { scoreSession } from '../../../../data/recovery';
 import { getSubjectById, SUBJECTS as CATALOGUE } from '../../../../data/subjects';
 import { toPublicSubjectId } from '../../../../data/cuet_controls';
 import { resolveSubject } from '../../../../data/subject_registry';
+import { defaultOption, unitsFor } from '../../../../data/cuet_syllabus';
 import { withoutRetiredSubjects } from '../../../../data/subject_claim';
 // Original examples for layout and interaction checks. Never content-bank records.
 const SUBJECTS = [
@@ -10,8 +11,9 @@ const SUBJECTS = [
   { id: 'business_studies', name: 'Business Studies', practice: 'supported' },
   { id: 'english', name: 'English', practice: 'supported' },
 ];
+// R4 owner-eye#12: the incoming partner's goodwill question is an Admission of a Partner question (the sacrificing ratio), not Basic Concepts.
 const EXAMPLES = [
-  { chapter: 'Partnership Fundamentals', body: 'Goodwill brought in by an incoming partner is shared by old partners in:', options: ['New ratio', 'Old ratio', 'Sacrificing ratio', 'Equal ratio'], answer: 'C', explanation: 'The sacrificing partners are compensated, so goodwill is shared in the sacrificing ratio.' },
+  { chapter: 'Admission of Partner', body: 'Goodwill brought in by an incoming partner is shared by old partners in:', options: ['New ratio', 'Old ratio', 'Sacrificing ratio', 'Equal ratio'], answer: 'C', explanation: 'The sacrificing partners are compensated, so goodwill is shared in the sacrificing ratio.' },
   { chapter: 'Accounting Equation', body: 'Assets are ₹80,000 and liabilities are ₹30,000. What is the owner’s equity?', options: ['₹30,000', '₹50,000', '₹80,000', '₹1,10,000'], answer: 'B', explanation: 'Equity = assets − liabilities = ₹50,000.' },
 ];
 // Accountancy's singles draw from real syllabus chapters (R3 X1) plus Class 11's "Accounting Equation", which Explore must leave out.
@@ -54,15 +56,24 @@ export const LIVE_SUBJECTS = withoutRetiredSubjects(CATALOGUE).map((subject) => 
   const registry = resolveSubject(id);
   return { ...subject, id, internalId: subject.id, officialCode: registry.code, officialName: registry.officialName, practice: registry.renamedFrom ? 'merged' : registry.practice, practiceReason: registry.reason };
 });
-export const FIXTURE_SUBJECTS = SUBJECTS.map((subject) => ({ ...subject, chapters: (SUBJECT_EXAMPLES[subject.id] || EXAMPLES).map((question) => question.chapter) }));
+// R4 ui-correctness#2: Practice's picker for Accountancy lists the syllabus chapters the way /api/chapters sends them (the live syllabus,
+// grouped by unit, stored names with their titles), as many as Learn plays: the option Part 2 shows until a student picks (AFS), so the
+// preview says 14 in Practice, Explore and Learn alike. It was the 5 illustrative examples, which read "all 5 chapters".
+const accountancyUnits = () => unitsFor('accountancy', { option: defaultOption('accountancy') }).map((unit, u) => ({
+  id: `fixture-unit-${u}`, name: unit.unit, sortOrder: u,
+  chapters: unit.chapters.map((chapter, c) => ({ id: `accountancy-chapter-${u}-${c}`, name: chapter.name, title: chapter.title, sortOrder: c })),
+}));
+const ACCOUNTANCY_CHAPTERS = accountancyUnits().flatMap((unit) => unit.chapters.map((chapter) => chapter.name));
+export const FIXTURE_SUBJECTS = SUBJECTS.map((subject) => ({ ...subject, chapters: subject.id === 'accountancy' ? ACCOUNTANCY_CHAPTERS : (SUBJECT_EXAMPLES[subject.id] || EXAMPLES).map((question) => question.chapter) }));
 export const fixtureFeed = (subject, long = false) => Array.from({ length: 29 }, (_, index) => {
   const examples = SUBJECT_EXAMPLES[subject] || EXAMPLES;
   const example = examples[index % examples.length];
   return { id: `fixture-${subject}-${index + 1}`, subject, chapter: example.chapter, body: example.body + (long && index === 0 ? '\nA deliberately long line for layout checks: ' + 'WorkingCapitalAndPartnershipAccounting'.repeat(7) : ''), options: example.options.map((text, optionIndex) => ({ key: 'ABCD'[optionIndex], text })), correct_answer: example.answer, explanation: example.explanation, difficulty: ['easy', 'medium', 'hard'][index % 3], score: index % 7, userVote: null, saved: false };
 });
 export function fixtureChapters(subject) {
+  if (subject === 'accountancy') return { grouped: true, units: accountancyUnits() };
   const chapters = (SUBJECT_EXAMPLES[subject] || EXAMPLES).map((example, index) => ({ id: `${subject}-chapter-${index}`, name: example.chapter }));
-  return subject === 'accountancy' ? { grouped: true, units: [{ id: 'fixture-unit', name: 'Original illustrative examples', chapters }] } : { grouped: false, chapters };
+  return { grouped: false, chapters };
 }
 // ?chapters=syllabus: the static syllabus chapter list (the /api/chapters fallback, data/subjects.js), so the chapter
 // picker's unit grouping and search can be checked with real chapter names. Flat, as the route's fallback sends it.
@@ -76,7 +87,7 @@ export function fixtureUploads() {
 }
 // A 10-question practice session shaped like a real hard one: 3 right, 6 wrong, 1 blank, two answer
 // changes (one right to wrong, one wrong to right) and several fast wrong picks. Scored by the real engine.
-const ADMISSION = { chapter: 'Admission of a Partner', body: 'A and B share profits 3:2. C is admitted and the new ratio is 2:2:1. The sacrificing ratio of A and B is:', options: ['3:2', '1:0', '1:1', '2:3'], answer: 'B', explanation: 'A gives up 3/5 − 2/5 = 1/5; B gives up 2/5 − 2/5 = 0. So only A sacrifices: 1:0.' };
+const ADMISSION = { chapter: 'Admission of Partner', body: 'A and B share profits 3:2. C is admitted and the new ratio is 2:2:1. The sacrificing ratio of A and B is:', options: ['3:2', '1:0', '1:1', '2:3'], answer: 'B', explanation: 'A gives up 3/5 − 2/5 = 1/5; B gives up 2/5 − 2/5 = 0. So only A sacrifices: 1:0.' };
 // The paper was taken a little while ago, in the viewer's own time, so a row that reads the paper's age (the Badge earned row
 // from ?earned=) can show; a fixed 4 Oct date could never be recent (R9).
 const PAPER_AGE_MS = 25 * 60 * 1000;

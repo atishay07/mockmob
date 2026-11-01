@@ -49,7 +49,7 @@ html[data-theme='light'] .fxc {
 
 /* ---------- The row ---------- */
 .fxc-row {
-  --g: 16px; --peek: 40px; --w: calc((100cqw - 3 * var(--g) - var(--peek)) / 4); --h: 356px; --media: 146px;
+  --g: 16px; --peek: 40px; --w: calc((100cqw - 3 * var(--g) - var(--peek)) / 4); --h: 300px; --media: 128px;
   list-style: none; margin: 0; padding: 4px 0 8px; display: grid; grid-auto-flow: column; grid-auto-columns: var(--w); gap: var(--g);
   overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch;
   margin-block: -4px -8px;
@@ -58,11 +58,13 @@ html[data-theme='light'] .fxc {
 .fxc-row--skel { overflow: hidden; }
 .fxc[data-phase='ready'] .fxc-row { animation: fxc-in 160ms var(--fxc-out) both; }
 @keyframes fxc-in { from { opacity: 0; } }
-.fxc-item { display: block; min-width: 0; scroll-snap-align: start; }
+.fxc-item { display: block; min-width: 0; scroll-snap-align: start; height: 100%; }
 
 /* ---------- The cover: one surface; media (ref line, hook) over a hairline, then the body ---------- */
 .fxc-cover {
-  position: relative; display: grid; grid-template-rows: var(--media) minmax(0, 1fr); width: 100%; height: var(--h); padding: 0; margin: 0;
+  /* R4 owner-eye#10: a cover is as tall as its fullest neighbour (the row stretches them), with a floor, so a short title no longer
+     leaves a fixed empty middle between the line and the mix. */
+  position: relative; display: grid; grid-template-rows: minmax(var(--media), auto) minmax(0, 1fr); width: 100%; height: 100%; min-height: var(--h); padding: 0; margin: 0;
   border-radius: 24px; border: 1px solid var(--a-line-strong); background: var(--a-raised); box-shadow: var(--a-shadow-1);
   color: inherit; text-align: left; text-decoration: none; overflow: hidden; cursor: pointer; font: inherit;
   transition: transform 180ms var(--fxc-out), border-color 180ms var(--fxc-out), box-shadow 180ms var(--fxc-out);
@@ -84,6 +86,7 @@ html[data-theme='light'] .fxc {
   background: var(--kc-grain), var(--a-raised-2);
   border-bottom: 1px solid var(--a-line);
 }
+.fxc-media[data-noref] { grid-template-rows: minmax(0, 1fr); }
 .fxc-ref { font: 600 12.5px/16px var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .fxc-hook {
   --hs: 26px; --hl: 1.1;
@@ -128,7 +131,7 @@ html[data-theme='light'] .fxc {
 
 /* ---------- Widths per row width (A2 4.3) ---------- */
 @container fxc (min-width: 740px) and (max-width: 1039.98px) {
-  .fxc-row { --w: calc((100cqw - 2 * var(--g) - var(--peek)) / 3); --h: 368px; }
+  .fxc-row { --w: calc((100cqw - 2 * var(--g) - var(--peek)) / 3); --h: 304px; }
   .fxc-media, .fxc-body { padding-inline: 16px; }
   .fxc-hook { --hs: 24px; }
   .fxc-hook[data-tier='m'] { --hs: 20px; }
@@ -145,7 +148,7 @@ html[data-theme='light'] .fxc {
   .fxc-head { grid-template-columns: minmax(0, 1fr) auto; }
   .fxc-count, .fxc-arrows, .fxc-sub--wide { display: none; }
   .fxc-row {
-    --g: 12px; --w: min(320px, calc(100cqw - 56px)); --h: 338px; --media: 134px;
+    --g: 12px; --w: min(320px, calc(100cqw - 56px)); --h: 292px; --media: 118px;
     margin-inline: -16px; padding-inline: 16px; scroll-padding-inline: 16px;
   }
   .fxc { gap: 12px; }
