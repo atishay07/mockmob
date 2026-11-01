@@ -5,6 +5,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../insights/insights_routes.dart' show EntryRow, StreamEntry;
+import '../../learn2/learn2_door.dart' show ChapterFeedsRow;
 import '../../review/review_routes.dart' show ReviewAgainRow;
 import '../../social/social.dart' show MobEntryPlace, MobEntryRow;
 import '../copy.dart';
@@ -31,6 +32,8 @@ class PracticeMoreRows extends StatelessWidget {
         const ReviewAgainRow(),
         // This week's Mob paper, for a student in a Mob (nothing at all otherwise).
         const MobEntryRow(place: MobEntryPlace.practice),
+        // Learn v2's chapter feeds (APP-1101 decision 4), above the untimed questions; nothing while Learn v2 is off.
+        ChapterFeedsRow(subject: subject),
         StreamEntry(subject: subject),
         Divider(height: 1, color: context.mmColors.line),
         EntryRow(

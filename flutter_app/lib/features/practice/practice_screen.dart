@@ -14,7 +14,9 @@ import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
 import '../insights/ask_mobi.dart' show AskMobiButton, AskMobiCard;
 import '../learn/data/catalog_repository.dart' show learnCatalogProvider;
-import '../learn/screens/learn_screen.dart' show LearnScreen, pendingRunIdsProvider;
+import '../learn/screens/learn_screen.dart' show pendingRunIdsProvider;
+import '../learn2/data/learn_providers.dart' show invalidateLearnReads, learnOnProvider, learnSubjectIdProvider, learnSubjectProvider;
+import '../learn2/learn2_door.dart' show Learn2Door;
 import '../review/data/review_providers.dart' show openRepairsProvider;
 import '../review/screens/review_screen.dart' show ReviewScreen;
 import '../pro_nudge/pro_nudge.dart';
@@ -131,7 +133,9 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
 
   /// The doors there are: Learn only while lessons are not switched off on the server (a catalog not read yet still
   /// counts, so the switch does not grow a door after it lands).
-  bool _learnOpen(WidgetRef ref) => !(ref.watch(learnCatalogProvider.select((s) => s.value?.isDisabled ?? false)));
+  bool _learnOpen(WidgetRef ref) =>
+      // Learn v2 (APP-1101) keeps the door open on its own switch: Key cards and questions live without lessons.
+      ref.watch(learnOnProvider) || !(ref.watch(learnCatalogProvider.select((s) => s.value?.isDisabled ?? false)));
 
   /// The door on show: the address's, unless it names Learn while Learn is switched off.
   PracticeDoor _doorShown(bool learnOpen) => widget.door == PracticeDoor.learn && !learnOpen ? PracticeDoor.practise : widget.door;
@@ -147,6 +151,12 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
       case PracticeDoor.papers:
         await ref.read(attemptsRepositoryProvider.notifier).refresh(force: true);
       case PracticeDoor.learn:
+        // Learn v2: read Learn home again (each read keeps its previous value on screen while it reloads).
+        if (ref.read(learnOnProvider)) {
+          invalidateLearnReads(ref.invalidate);
+          await ref.read(learnSubjectProvider(ref.read(learnSubjectIdProvider)).future);
+          return;
+        }
         ref.invalidate(pendingRunIdsProvider);
         await ref.read(learnCatalogProvider.notifier).refresh();
         final error = ref.read(learnCatalogProvider).error;
@@ -572,7 +582,7 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                             builder: (context, d) => switch (d) {
                               PracticeDoor.practise => practiseDoor(),
                               PracticeDoor.papers => ReviewScreen(embedded: true, focusPaper: widget.focusPaper),
-                              PracticeDoor.learn => const LearnScreen(embedded: true),
+                              PracticeDoor.learn => const Learn2Door(),
                             },
                           ),
                         ],
