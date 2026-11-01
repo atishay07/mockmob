@@ -241,6 +241,24 @@ test('session end (R3 L5, C2-1): a stopped run continues by its id; its fix key 
   assert.deepEqual(endOptions({ ...base, freeSessionUsed: true, stopped: { runId: 'lr_1', kind: 'mix', minutesLeft: 3 } }).options, []);
 });
 
+test('session end (R4 server-security#1): on Free, a stopped counted run is the pending holder, so its end has no fix key', () => {
+  const base = { subject: 'accountancy', chapter: { key: 'accountancy.partnership-fundamentals', title: 'Basic Concepts' }, minutes: 10, unseen: 20, mistakes: { count: 2 } };
+  for (const kind of ['mix', 'feed']) {
+    const free = endOptions({ ...base, isPro: false, stopped: { runId: 'lr_1', kind, minutesLeft: 4 } });
+    assert.equal(free.lead.kind, 'continue', kind);
+    assert.deepEqual(free.options, [], `${kind}: the fix run's first answer would claim the day, and Continue would then be refused`);
+  }
+  // A cards run is not counted: the fix key stays. Pro: always.
+  assert.equal(endOptions({ ...base, isPro: false, stopped: { runId: 'lr_1', kind: 'cards', minutesLeft: 4 } }).options[0].kind, 'fix');
+  assert.equal(endOptions({ ...base, isPro: true, stopped: { runId: 'lr_1', kind: 'mix', minutesLeft: 4 } }).options[0].kind, 'fix');
+});
+
+test('suggestions (R4 server-security#3): the fix action is a NEW mistakes-only run (fresh), never a resume', () => {
+  const list = suggestions({ subject: { id: 'accountancy', name: 'Accountancy', cards: 40 }, chapters: [{ key: 'accountancy.a', title: 'A', cards: 10, questions: 5, mistakes: 2, studied: true, lastActivityAt: 1 }] });
+  const fix = list.find((x) => x.kind === 'fix');
+  assert.deepEqual(fix.action.run, { chapterKey: 'accountancy.a', minutes: fixMinutes(2), leaveOut: ['questions', 'cards', 'lesson'], kind: 'mix', fresh: true });
+});
+
 test('session end (R3 ruling F): Free after the day\'s session: one line, Quick recap when the session had cards, else See Pro', () => {
   const base = { subject: 'accountancy', chapter: { key: 'accountancy.partnership-fundamentals', title: 'Basic Concepts', name: 'Partnership Fundamentals' }, minutes: 10, mustKnow: 12, unseen: 30, mistakes: { count: 3 }, due: { count: 2 } };
   const cards = endOptions({ ...base, freeSessionUsed: true, hadCards: true });

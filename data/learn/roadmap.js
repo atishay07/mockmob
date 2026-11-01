@@ -19,6 +19,9 @@
 //              then the open mistakes, then "Skip what you already know" while the subject has no Learn activity, then the feed).
 // R3 ruling C2: a subject's chapter count is its playable chapters, those with cards; a chapter with no cards is not a position and
 // not a number in "Chapter 1 of 14".
+// R4 (owner-eye#9): when the offer's line already says "N due cards first, then new ones here", the Start key holds those due cards,
+// so the "Revise N due cards" Or row is not drawn as well (one of the two, never both). R4 ruling N: `chapter.place` is { n, of },
+// the position chapter's place among the playable chapters (data/learn/words.js chapterPlace draws it).
 // Never a zero: a count that is 0 is left out of every line (ruling 1). Never "mastered", never a %, never marks (ruling 12).
 import { budgetSeconds, LEARN_RULES } from './compose.js';
 import { SECONDS } from './seconds.js';
@@ -60,6 +63,33 @@ export const coverageShare = (row) => (num(row?.of) > 0 ? Math.min(1, num(row.se
 
 /** The one verdict word a roadmap row may carry: "Needs work", only when the chapter state is weak above its evidence floor. */
 export const verdictOf = (stateKey) => (stateKey === 'needs_work' ? 'Needs work' : null);
+
+/** The feed Or row's one line: what is different from the chapter run (first-timer#7). */
+export const FEED_ROW_LINE = 'Scroll through the chapter, stop any time';
+
+const byDueAt = (a, b) => (time(a.dueAt) ?? 0) - (time(b.dueAt) ?? 0) || String(a.id).localeCompare(String(b.id));
+
+/**
+ * "Revise 9 due cards · 3 min" (R3 C1, R4 server-security#2, #4 and #7): ONE helper for Learn home's Revise row and the feed
+ * refusal's Revise option, so both read the same subject-wide due list. `due`: [{ id, chapterKey?, dueAt, seconds? }], the
+ * subject's due open cards (already filtered by the student's part, never a retired chapter). The run plays at most
+ * LEARN_RULES.maxCardIds of them, oldest due first, and the label states that run's own count and minutes: the count is always
+ * its cardIds.length. `reviseDue` { count, minutes } (the shelves' figure) gives the minutes only when it counts the same list.
+ * Returns null when nothing is due, else { label, count, minutes, run: { chapterKey, minutes, kind: 'cards', leaveOut: [], cardIds } }.
+ */
+export function reviseRowOf(due, { reviseDue = null, fallbackKey = null } = {}) {
+  const all = [...(due || [])].filter((d) => d?.id).sort(byDueAt);
+  const list = all.slice(0, LEARN_RULES.maxCardIds);
+  if (!list.length) return null;
+  const count = list.length;
+  const own = list.reduce((s, d) => s + (num(d.seconds) > 0 ? num(d.seconds) : SECONDS.card.due), 0) / 60;
+  const same = num(reviseDue?.count) === all.length && all.length === count && num(reviseDue?.minutes) > 0;
+  const minutes = wholeMinutes(same ? reviseDue.minutes : own);
+  return {
+    label: reviseDueLabel(count, minutes), count, minutes,
+    run: { chapterKey: list[0].chapterKey || fallbackKey || null, minutes, kind: 'cards', leaveOut: [], cardIds: list.map((d) => d.id) },
+  };
+}
 
 /** The chapter the student is in (see the header). `chapters` are in book order. Returns the chapter or null. */
 export function positionOf(chapters, { levelPick = null } = {}) {
@@ -119,10 +149,10 @@ export function roadmap({ subject, chapters = [], run = null, due = [], freeDone
   const pos = positionOf(list, { levelPick });
   const index = pos ? list.indexOf(pos) + 1 : 0;
   const where = pos ? { chapterKey: pos.key, index, of: list.length } : null;
-  const chapter = pos ? { key: pos.key, title: pos.title, seen: num(pos.seen), of: num(pos.of), unseen: num(pos.unseen) } : null;
+  const chapter = pos ? { key: pos.key, title: pos.title, seen: num(pos.seen), of: num(pos.of), unseen: num(pos.unseen), place: { n: index, of: list.length } } : null;
   const isNew = !list.some((c) => num(c.seen) > 0 || num(c.tried) > 0 || time(c.learnAt) !== null);
   const feedRow = pos && num(pos.of) + num(pos.questions) > 0
-    ? { kind: 'feed', label: 'Play this chapter as a feed', line: 'One card or question at a time', href: `/explore/run?${new URLSearchParams({ chapter: pos.key, min: String(minutes) })}`, go: 'feed' }
+    ? { kind: 'feed', label: 'Play this chapter as a feed', line: FEED_ROW_LINE, href: `/explore/run?${new URLSearchParams({ chapter: pos.key, min: String(minutes) })}`, go: 'feed' }
     : null;
   const fixRow = (() => {
     const c = [...list].filter((r) => num(r.mistakes) > 0).sort((a, b) => num(b.mistakes) - num(a.mistakes))[0];
@@ -131,18 +161,15 @@ export function roadmap({ subject, chapters = [], run = null, due = [], freeDone
     const m = fixMinutes(n, c.mistakeSeconds);
     return {
       kind: 'fix', label: fixMistakes(n, m), line: c.title,
-      run: { chapterKey: c.key, minutes: m, leaveOut: ['questions', 'cards', 'lesson'], kind: 'mix' },
+      // `fresh` (server-security#3): a NEW mistakes-only run, never a resume of a stopped run of the chapter.
+      run: { chapterKey: c.key, minutes: m, leaveOut: ['questions', 'cards', 'lesson'], kind: 'mix', fresh: true },
     };
   })();
   const base = { position: where, chapter, progress: null, quiet: null, sub: null };
   const or = (...rows) => rows.filter(Boolean).slice(0, ROADMAP_RULES.maxOr);
-  // "Revise 9 due cards · 3 min": every due card of the subject, oldest first (a 'cards' run is never counted against Free's session).
-  const dueSorted = [...(due || [])].filter((d) => d?.id).sort((a, b) => (time(a.dueAt) ?? 0) - (time(b.dueAt) ?? 0) || String(a.id).localeCompare(String(b.id))).slice(0, LEARN_RULES.maxCardIds);
-  const dueCount = Math.max(0, Math.floor(num(reviseDue?.count ?? due?.length)));
-  const dueMinutes = wholeMinutes(reviseDue?.minutes || (dueSorted.reduce((s, d) => s + (num(d.seconds) > 0 ? num(d.seconds) : SECONDS.card.due), 0) / 60));
-  const reviseRow = dueCount > 0 && dueSorted.length
-    ? { kind: 'revise', label: reviseDueLabel(dueCount, dueMinutes), run: { chapterKey: dueSorted[0].chapterKey || pos?.key || null, minutes: dueMinutes, kind: 'cards', leaveOut: [], cardIds: dueSorted.map((d) => d.id) } }
-    : null;
+  // "Revise 9 due cards · 3 min": the subject's due cards, oldest first (a 'cards' run is never counted against Free's session).
+  const revise = reviseRowOf(due, { reviseDue, fallbackKey: pos?.key || null });
+  const reviseRow = revise ? { kind: 'revise', label: revise.label, run: revise.run } : null;
 
   if (run && num(run.of) > num(run.done)) {
     const left = Math.max(1, num(run.minutesLeft) || 1);
@@ -199,7 +226,8 @@ export function roadmap({ subject, chapters = [], run = null, due = [], freeDone
     sub,
     key: { label: `Start · ${minutes} min`, run: startRun(today.ids) },
     due: { count: today.ids.length },
-    or: or(reviseRow, fixRow, feedRow),
+    // owner-eye#9: the line already leads with the due cards the Start key plays, so no Revise row as well.
+    or: or(today.ids.length ? null : reviseRow, fixRow, feedRow),
   };
 }
 

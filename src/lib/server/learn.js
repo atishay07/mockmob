@@ -28,7 +28,7 @@ import { getCanonicalSubject, isTopSubject } from '../../../data/canonical_sylla
 import { LEARN_RULES, budgetSeconds, composeRun, dryRun, minutesFor, cardStage, mistakeLabel } from '../../../data/learn/compose.js';
 import { suggestions, endOptions, cardRunMinutes, fixMinutes, recapMinutes } from '../../../data/learn/suggest.js';
 import { searchSubject } from '../../../data/learn/search.js';
-import { ROADMAP_RULES, roadmap as roadmapOf, verdictOf } from '../../../data/learn/roadmap.js';
+import { ROADMAP_RULES, reviseRowOf, roadmap as roadmapOf, verdictOf } from '../../../data/learn/roadmap.js';
 import { IN_RUN, doneLine, istDaysBetween, levelPick, movedLine, retryReady, returnDay, revisePileGroups, shortDate } from '../../../data/learn/stamps.js';
 import { FEED_RULES, coverOrder, feedEndLines, keptLine } from '../../../data/learn/feed.js';
 import { LEARN_FREE, FREE_SESSION_DONE, FREE_END_LINE, FREE_CAPPED, FREE_CARDS_ONLY, freeSession, isCounted } from '../../../data/learn/allowance.js';
@@ -291,11 +291,36 @@ export function createLearn(deps) {
   }
   const hasPlay = (S, key) => S.cards.some((x) => x.chapterKey === key) || (S.byChapter.get(key) || []).length > 0;
   const refOf = (ch) => (ch?.ncert?.chapter ? `Ch ${ch.ncert.chapter}` : null);
+
+  /**
+   * R4 ruling N: a chapter's place among the student's playable chapters, { n, of }, in the roadmap's order and with its filter:
+   * the subject's live chapters in syllabus order, open to the student's part option, that have Key cards (R3 C2). `X` is a
+   * snapshot or a light read ({ subject, option, cards }). Memoised on X. null for a chapter that is not playable for this student.
+   * `ref` ("Ch 2", the NCERT number) stays in the payloads, but only for source lines.
+   */
+  function placesOf(X) {
+    if (X.places) return X.places;
+    const withCards = new Set((X.cards || []).map((c) => c.chapterKey));
+    const list = subjectChapters(X.subject).filter((ch) => !ch.retired && syllabus.sectionAllowed(X.subject, ch.section, X.option || null) && withCards.has(ch.key));
+    X.places = new Map(list.map((ch, i) => [ch.key, { n: i + 1, of: list.length }]));
+    return X.places;
+  }
+  const placeOf = (X, key) => (X && key ? placesOf(X).get(key) || null : null);
+
+  /**
+   * R4 server-security#1: on Free, once today's session is claimed by one run, any OTHER unfinished counted run (a mix or a feed)
+   * would be refused at its first question. Such a run is never offered as "Continue" and never resumed. A Key cards only run (one
+   * started after the claim) serves no question, so it stays open to Continue.
+   */
+  const freeBlocked = (S, run) => Boolean(run) && !S.isPro && Boolean(S.session) && S.session.reference !== run.id && isCounted(run.kind) && holdsQuestions(run);
+  /** A run that may serve a question: unless it left out both questions and mistakes (a Key cards only run never answers one). */
+  const holdsQuestions = (run) => { const out = Array.isArray(run?.leave_out) ? run.leave_out : []; return !(out.includes('questions') && out.includes('mistakes')); };
+
   function nextChapterOf(S, key) {
     const list = allowedChapters(S);
     const at = list.findIndex((ch) => ch.key === key);
     const next = list.slice(at + 1).find((ch) => hasPlay(S, ch.key));
-    return next ? { key: next.key, title: cleanTitle(next.title || next.name), ref: refOf(next) } : null;
+    return next ? { key: next.key, title: cleanTitle(next.title || next.name), ref: refOf(next), place: placeOf(S, next.key) } : null;
   }
   /** The chapter's lesson (R11): its first unread lesson in catalog order, else its first (read) one. */
   function lessonOf(S, key) {
@@ -354,6 +379,10 @@ export function createLearn(deps) {
       tally, memory, run,
       coverage: { of: open.length, seen: seenCards.length, unseen: open.length - seenCards.length, questions: questions.length, tried: questions.filter((q) => q.seen).length },
       learnAt: learnTimes.length ? Math.max(...learnTimes) : null,
+      // R4 ruling V: the verdict's evidence includes Learn when the chapter has any Learn activity (a card state, a card moved past
+      // in a feed, an unfinished run); otherwise it comes from the student's papers (answered questions only).
+      learnEvidence: mine.length > 0 || learnTimes.length > 0,
+      place: placeOf(S, key),
     };
   }
 
@@ -369,11 +398,13 @@ export function createLearn(deps) {
   }
   function chapterRow(S, info) {
     return {
-      key: info.key, title: info.title, ref: info.ref,
+      key: info.key, title: info.title, ref: info.ref, place: info.place,
       cards: info.counts.cards, mustKnow: info.counts.mustKnow, due: info.counts.due, mistakes: info.mistakes.length, questions: info.questions.length,
       lesson: info.lesson, state: info.state, meta: rowMeta(S, info), marksOpen: null,
       // R2 ruling 2: coverage through the chapter (never mastery) and the one verdict word Learn lists may carry.
       progress: { ...info.coverage }, verdict: verdictOf(info.state.key), unit: info.unit || null,
+      // R4 ruling V: where the verdict comes from ('papers' | 'learn'); "Needs work · from your papers" when only papers.
+      needsWorkFrom: info.learnEvidence ? 'learn' : 'papers',
     };
   }
   const unitTitleOf = (info) => {
@@ -472,7 +503,7 @@ export function createLearn(deps) {
     const available = Object.fromEntries(Object.keys(plan.available).map((k) => [k, plan.available[k] || more.available[k]]));
     return {
       plan: { ...plan, items: [...plan.items, ...more.items], seconds, realMinutes, shrunk: more.shrunk && realMinutes < minutes, shrink: more.shrunk && realMinutes < minutes ? more.shrink : null, available, piles: { cards: sum('cards'), questions: sum('questions'), mistakes: sum('mistakes'), lesson: sum('lesson') } },
-      added: { key: info2.key, title: info2.title, ref: info2.ref },
+      added: { key: info2.key, title: info2.title, ref: info2.ref, place: info2.place },
     };
   }
 
@@ -506,11 +537,10 @@ export function createLearn(deps) {
    */
   function sessionUsed(S, info, holder = null) {
     const options = [];
-    const secs = info ? chapterSeconds(S, info) : null;
-    if (info?.counts.due) {
-      const m = cardRunMinutes(info.counts.due, secs.dueSeconds);
-      options.push({ kind: 'revise', label: reviseDue(info.counts.due, m), minutes: m, run: { kind: 'cards', chapterKey: info.key, cardIds: info.dueIds.slice(0, LEARN_LIMITS.maxCardIds), minutes: m } });
-    }
+    // R4 server-security#4 and first-timer#6: the Revise option reads the same subject-wide, filtered due list as Learn home's row.
+    const d = dueNow(S);
+    const revise = reviseRowOf(d.list, { reviseDue: d, fallbackKey: info?.key || null });
+    if (revise) options.push({ kind: 'revise', label: revise.label, minutes: revise.minutes, run: { kind: 'cards', chapterKey: revise.run.chapterKey, cardIds: revise.run.cardIds, minutes: revise.minutes } });
     options.push({ kind: 'explore', label: WORDS.singles, minutes: null, href: info ? `/explore?${new URLSearchParams({ subject: S.subject, chapter: info.name })}` : '/explore', go: 'explore' });
     const resume = holder && holder.of > holder.done ? { ...holder, label: withMinutes(WORDS.continue, holder.minutesLeft) } : null;
     return { http: 402, body: { error: 'FREE_SESSION_USED', reason: 'learn_session', line: FREE_SESSION_DONE, options, resume } };
@@ -567,6 +597,7 @@ export function createLearn(deps) {
       chapter: {
         key: row.chapter_key, title: cleanTitle(chapter?.title || chapter?.name || row.chapter_key), ref: chapter?.ncert?.chapter ? `Ch ${chapter.ncert.chapter}` : null,
         partTitle: chapter ? partTitles[chapter.ncert?.book] || chapter.ncert?.book || null : null, number: chapter?.ncert?.chapter ? Number(chapter.ncert.chapter) || null : null,
+        place: placeOf(S, row.chapter_key), // R4 ruling N: "Chapter 5 of 14"; `ref` is for source lines only
       },
       minutes: row.minutes, asked: Number(row.asked_minutes) || row.minutes,
       items: items.map((i) => publicItem(S, row, i, qmap, limited)),
@@ -635,7 +666,8 @@ export function createLearn(deps) {
     const allowed = [...infos.values()].filter((i) => syllabus.sectionAllowed(sid, i.section, S.option));
     const isNew = !S.states.length && !S.progress.length;
     const run = unfinished(S, null);
-    const runInSubject = run && run.subject === sid ? run : null;
+    // server-security#1: on Free, a counted run that does not hold today's claimed session is never offered as "Continue".
+    const runInSubject = run && run.subject === sid && !freeBlocked(S, run) ? run : null;
     const runInfo = runInSubject ? infos.get(runInSubject.chapter_key) : null;
     const lessons = S.lessons;
     const pool = levelPool(S);
@@ -666,9 +698,10 @@ export function createLearn(deps) {
       level: { questions: levelQuestions },
     });
     // R2 rulings 1 to 3: the one start offer and the student's place in the subject (data/learn/roadmap.js), from the same rows.
-    const due = allowed.flatMap((i) => i.dueIds.map((id) => ({
-      id, chapterKey: i.key, dueAt: i.states.get(id)?.due_at || null, seconds: cardSeconds({ stage: 'due', words: cardWords(S.pub.byId.get(id)) }),
-    })));
+    // C1 and server-security#2: one due list (dueNow: the student's part, no retired chapter) for the Start key, the Revise row
+    // and the shelves' count, so the row's count is its cardIds.length and equals due.bySubject[sid].
+    const dueOne = dueNow(S);
+    const due = dueOne.list;
     const road = roadmapOf({
       subject: { id: sid, name: subjectName(sid) },
       isPro: S.isPro,
@@ -682,7 +715,7 @@ export function createLearn(deps) {
       freeDone: !S.isPro && Boolean(S.session),
       freeRun,
       // C1: the Revise row reads dueNow, the same count and minutes the shelves' due.bySubject[sid] and due.minutes carry.
-      reviseDue: dueNow(S),
+      reviseDue: dueOne,
       level: { questions: levelQuestions, chapterKey: pool[0] ? S.questionsById.get(pool[0].id)?.chapterKey || null : null },
     });
     return {
@@ -702,6 +735,9 @@ export function createLearn(deps) {
   // ---------------------------------------------------------------- POST /api/learn/runs/preview
 
   function cleanLeaveOut(list) { return Array.isArray(list) ? [...new Set(list.filter((x) => PILES.includes(x)))] : []; }
+  /** The piles a start asks to leave out, as compared for a resume: cleaned, sorted, with a feed's 'lesson' (a feed never plays one). */
+  const askedLeaveOut = (kind, list) => [...new Set([...cleanLeaveOut(list), ...(kind === 'feed' ? ['lesson'] : [])])].sort();
+  const sameSet = (a, b) => { const x = new Set(a || []); const y = new Set(b || []); return x.size === y.size && [...x].every((v) => y.has(v)); };
   const clampMinutes = (m) => Math.max(1, Math.min(240, Math.round(Number(m) || 10)));
 
   async function preview(userId, body) {
@@ -725,9 +761,9 @@ export function createLearn(deps) {
     const next = added ? null : nextChapterOf(S, info.key);
     const dry = dryRun({ run, recapRun, isPro: S.isPro, firstVisit: !info.studied, ratingsLeft: S.ratingsLeft, chapter: { total: info.counts.cards, open: info.counts.open }, nextChapter: next });
     // B7 5: the add-next row says which chapter ('Ch 3'); a pile held back on Free says so; today's unfinished run of this chapter.
-    if (dry.shrink?.addNext && next) dry.shrink.addNext = { ...dry.shrink.addNext, ref: next.ref };
+    if (dry.shrink?.addNext && next) dry.shrink.addNext = { ...dry.shrink.addNext, ref: next.ref, place: next.place };
     const held = (id) => (rule.cardsOnly && (id === 'questions' || id === 'mistakes') ? 'free' : null);
-    const open = info.run ? { runId: info.run.id, done: Number(info.run.done_count), of: Number(info.run.item_count), minutesLeft: minutesFor(Number(info.run.seconds_left) || 0), kind: info.run.kind } : null;
+    const open = info.run && !freeBlocked(S, info.run) ? { runId: info.run.id, done: Number(info.run.done_count), of: Number(info.run.item_count), minutesLeft: minutesFor(Number(info.run.seconds_left) || 0), kind: info.run.kind } : null;
     // R2 ruling 9: the chapter page's "First up" row, the fronts of the first 3 Key cards this run serves (the composer is
     // deterministic, so a start serves these first). Only cards this student may open; [] when the run starts with none.
     const firstUp = run.items.filter((item) => item.type === 'card').map((item) => cardOf(S, item.cardId))
@@ -735,7 +771,7 @@ export function createLearn(deps) {
       .map((card) => ({ id: card.id, front: card.front, kind: card.kind || null, mustKnow: card.importance === 'must' }));
     return ok({
       // The unit is left out when the title already starts with it (CRITIQUE-1 C4): the part names the place instead.
-      chapter: { key: info.key, title: info.title, ref: info.ref, partTitle: partTitleOf(info), unitTitle: unitTitleOf(info), state: info.state },
+      chapter: { key: info.key, title: info.title, ref: info.ref, place: info.place, partTitle: partTitleOf(info), unitTitle: unitTitleOf(info), state: info.state },
       ...dry,
       piles: dry.piles.map((pile) => ({ ...pile, held: held(pile.id) })),
       resume: open,
@@ -762,20 +798,25 @@ export function createLearn(deps) {
 
   async function events(runId) { return store.events(runId); }
 
-  /** What a run body needs without the student's reads: the published cards and the subject's question index. */
-  async function contentOf(subject) {
-    const [pub, index] = await Promise.all([published(), Promise.resolve(questionIndex(subject)).catch(() => ({ list: [] }))]);
-    return { pub, questionsById: new Map((index?.list || []).map((q) => [q.id, q])) };
+  /**
+   * What a run body needs without the student's snapshot: the published cards, the subject's question index, and the student's
+   * part option (R4 ruling N: the chapter's place counts the same playable chapters as the roadmap).
+   */
+  async function contentOf(subject, userId) {
+    const [pub, index, options] = await Promise.all([
+      published(), Promise.resolve(questionIndex(subject)).catch(() => ({ list: [] })), userId ? store.options(userId) : Promise.resolve(new Map()),
+    ]);
+    return { pub, questionsById: new Map((index?.list || []).map((q) => [q.id, q])), subject, option: options.get(subject) || null, cards: pub.cardsOf(subject) };
   }
 
   /** A replayed start: the run with only its items not done when it has begun, else whole. */
   async function resumeOrBody(userId, row) {
-    const [C, ev] = await Promise.all([contentOf(row.subject), events(row.id)]);
+    const [C, ev] = await Promise.all([contentOf(row.subject, userId), events(row.id)]);
     return ok(await runBody(C, row, { events: ev, resumed: ev.length > 0 }));
   }
 
   async function resumeBody(userId, row) {
-    const [C, ev] = await Promise.all([contentOf(row.subject), events(row.id)]);
+    const [C, ev] = await Promise.all([contentOf(row.subject, userId), events(row.id)]);
     return ok(await runBody(C, row, { events: ev, resumed: true }));
   }
 
@@ -801,11 +842,14 @@ export function createLearn(deps) {
     if (body?.requestKey !== undefined && body?.requestKey !== null && !(typeof body.requestKey === 'string' && LEARN_LIMITS.requestKey.test(body.requestKey))) return bad('INVALID_REQUEST_KEY');
     const requestKey = typeof body?.requestKey === 'string' ? body.requestKey : `srv_${randomBytes(12).toString('hex')}`;
     const me = await who(userId);
-    // An explicit resume of the student's own unfinished run, under 24 hours old.
+    // An explicit resume of the student's own unfinished run, under 24 hours old. On Free, never a counted run that does not hold
+    // today's claimed session (server-security#1): its first question would be refused, so the start is composed afresh instead
+    // (a feed is then refused at once, a chapter run is Key cards only).
     if (typeof body?.resume === 'string' && body.resume) {
       const row = await store.run(userId, body.resume);
       if (row && !row.ended_at && now() - Date.parse(row.created_at) < LEARN_LIMITS.resumeHours * HOUR && Number(row.done_count) < Number(row.item_count)) {
-        return resumeBody(userId, row);
+        const session = !me.isPro && isCounted(row.kind) ? (await store.allowances(userId, istDay(now()))).find((r) => r.kind === 'learn_session') || null : null;
+        if (!freeBlocked({ isPro: me.isPro, session }, row)) return resumeBody(userId, row);
       }
     }
     const cardIds = Array.isArray(body?.cardIds) ? body.cardIds.filter((x) => typeof x === 'string' && x.length <= 120).slice(0, LEARN_LIMITS.maxCardIds) : null;
@@ -826,15 +870,18 @@ export function createLearn(deps) {
     const info = chapterInfo(S, key);
     if (!info) return bad('CHAPTER_NOT_FOUND', 404);
     // Resume (BUILD-1101 1.3): the same chapter and kind on the same India day, unfinished, unless the body says fresh. R3-SPEC L5
-    // (C2-1): only a run of the same make. A mistakes-only start (cards left out) never resumes a stopped full run, and a full
-    // start never resumes a mistakes-only run.
-    const cardsOut = cleanLeaveOut(body?.leaveOut).includes('cards');
+    // (C2-1) and R4 server-security#3: only a run of the same make, the same full set of piles left out (a mistakes-only start never
+    // resumes a questions-only run, and the reverse). The start's own asked set is kept in start_state.leaveOut; an older row
+    // without it is compared by its stored leave_out. On Free, never a counted run that does not hold today's session (#1).
+    const want = askedLeaveOut(kind, body?.leaveOut);
     if (!fresh && isCounted(kind) && !cardIds?.length) {
-      const open = S.runs.find((r) => r.kind === kind && r.chapter_key === key && istDay(Date.parse(r.created_at)) === S.day && Number(r.done_count) < Number(r.item_count)
-        && (r.leave_out || []).includes('cards') === cardsOut);
-      if (open) {
+      const candidates = S.runs.filter((r) => r.kind === kind && r.chapter_key === key && istDay(Date.parse(r.created_at)) === S.day && Number(r.done_count) < Number(r.item_count)
+        && !freeBlocked(S, r));
+      for (const open of candidates) {
         const row = await store.run(userId, open.id);
-        if (row && !row.ended_at) return ok(await runBody(S, row, { events: await events(row.id), resumed: true }));
+        if (!row || row.ended_at) continue;
+        const made = Array.isArray(metaOf(row).leaveOut) ? metaOf(row).leaveOut : row.leave_out || [];
+        if (sameSet(made, want)) return ok(await runBody(S, row, { events: await events(row.id), resumed: true }));
       }
     }
     const rule = freeRule(S, { kind, minutes: asked });
@@ -887,6 +934,7 @@ export function createLearn(deps) {
       : {};
     const meta = {
       key: info.state.key, label: info.state.label, ...fromCover, ...(plan.today ? { today: plan.today } : {}),
+      leaveOut: want, // the make the student asked for (server-security#3: a resume needs the same set)
       free: rule.cardsOnly ? { text: FREE_CARDS_ONLY } : null,
       capped: rule.capped,
       shrink: plan.shrunk && plan.shrink ? plan.shrink : null,
@@ -1214,8 +1262,12 @@ export function createLearn(deps) {
     const title = recap ? `Quick recap of ${info?.title || row.chapter_key}` : `${minutesWord(length)} on ${info?.title || row.chapter_key}`;
     // R2 ruling 6: a run stopped part way (the stop sheet's "Stop here": ?stop=1) is not ended, so the student can pick it up
     // today (Learn home and the chapter page offer it; a start of the same chapter and make resumes it). A run that reached its
-    // end, or a stop with every item done, is ended once.
-    const finished = !stop || recap || Number(row.done_count) >= Number(row.item_count);
+    // end, or a stop with every item done, is ended once. R4 server-security#5: a run already ended never gets the stopped keys.
+    // R4 server-security#6: a level check stopped part way is ended (it has no Continue), so its body and keys agree.
+    const finished = Boolean(row.ended_at) || !stop || recap || row.kind === 'level' || Number(row.done_count) >= Number(row.item_count);
+    // R4 server-security#1: on Free, a stopped counted run that does not hold today's claimed session cannot be continued today (its
+    // first question would be refused). It is not ended (tomorrow it can be), but it is not drawn as stopped and gets no Continue.
+    const stoppedHere = !finished && !freeBlocked(S, row);
     // The keys (B 3.6, R3-SPEC L5): one main key and one quiet link, the same for a run and a feed. A stopped run's main key
     // resumes it ("Continue · N min"); on Free once today's session is used, none that serves questions (ruling F).
     const doneIds = new Set(ev.map((e) => e.item_id));
@@ -1238,8 +1290,8 @@ export function createLearn(deps) {
       due: { count: dueAll }, mustKnow: info ? (S.isPro ? info.counts.mustKnow : info.counts.openMust) : 0, recapSeconds: secs?.recapSeconds ?? null,
       // R2 ruling 3 (P1 request): stay in the chapter until its cards are seen once.
       unseen: Number.isFinite(info?.coverage?.unseen) ? info.coverage.unseen : null,
-      freeSessionUsed: sessionDone, hadCards: items.some((i) => i.type === 'card'),
-      stopped: finished || row.kind === 'level' ? null : { runId: row.id, kind: row.kind, minutesLeft: minutesFor(secondsLeft) },
+      freeSessionUsed: sessionDone, hadCards: items.some((i) => i.type === 'card'), isPro: S.isPro,
+      stopped: stoppedHere ? { runId: row.id, kind: row.kind, minutesLeft: minutesFor(secondsLeft) } : null,
     });
     // The level run's end names the chapter to start (R16): the lowest share right among its questions' chapters.
     let level = null;
@@ -1256,13 +1308,13 @@ export function createLearn(deps) {
         }
       }
     }
-    if (finished) await store.endRun(userId, row.id);
+    if (finished && !row.ended_at) await store.endRun(userId, row.id);
     // How far the run got and how long it took, for every run kind ("You stopped at 8 of 21." / "All 21 done in 9 min.").
     const done = runDone(row, ev);
     const progress = info ? chapterProgress(info, items, ev) : null;
     const feed = row.kind === 'feed' ? feedEnd(S, row, info, { ev, itemOf, answered: answered.length, right, fixed, mistakes: mistakesIn.length, sessionDone, length, done }) : null;
     return ok({
-      feed, title, done, stopped: !finished, progress, chapter: info ? { key: info.key, title: info.title } : null,
+      feed, title, done, stopped: stoppedHere, progress, chapter: info ? { key: info.key, title: info.title, place: info.place } : null,
       numbers: { cards: perCard.size, questions: answered.length, fixed, mistakes: mistakesTried, detail },
       lines, revisePile: groups, reviseCards, moved, free, lead: opts.lead, options: opts.options, ...(level ? { level } : {}),
     });
@@ -1318,7 +1370,7 @@ export function createLearn(deps) {
       lines,
       lead: sessionDone ? null : { label: withMinutes(WORDS.keepGoing, minutes), run: { kind: 'feed', chapterKey: row.chapter_key, minutes, fresh: true } },
       free: sessionDone ? { text: FREE_END_LINE } : null,
-      next: next ? { label: withMinutes(WORDS.nextChapter, minutes), title: next.title, key: next.key, run: sessionDone ? null : { kind: 'feed', chapterKey: next.key, minutes } } : null,
+      next: next ? { label: withMinutes(WORDS.nextChapter, minutes), title: next.title, key: next.key, place: next.place, run: sessionDone ? null : { kind: 'feed', chapterKey: next.key, minutes } } : null,
       dueOffer: due ? { count: due, minutes: dueMin, label: reviseDue(due, dueMin), run: { kind: 'cards', chapterKey: info.key, cardIds: info.dueIds.slice(0, LEARN_LIMITS.maxCardIds), minutes: dueMin } } : null,
     };
   }
@@ -1350,7 +1402,8 @@ export function createLearn(deps) {
     const history = list.some((x) => x.info.studied);
     if (!list.length) return ok({ subject: { id: sid, name: subjectName(sid) }, lengths: FEED_RULES.lengths, covers: [], free: null, history });
     // Today's unfinished feed of a chapter (the one a start of that chapter resumes, BUILD-1101 1.3).
-    const openFeedOf = (key) => S.runs.find((r) => r.kind === 'feed' && r.chapter_key === key && istDay(Date.parse(r.created_at)) === S.day && Number(r.done_count) < Number(r.item_count));
+    // server-security#1: on Free, a feed that does not hold today's claimed session is never resumed (a start is refused instead).
+    const openFeedOf = (key) => S.runs.find((r) => r.kind === 'feed' && r.chapter_key === key && istDay(Date.parse(r.created_at)) === S.day && Number(r.done_count) < Number(r.item_count) && !freeBlocked(S, r));
     // A feed ended today having got to its last quarter counts as finished (the feed's own events only record answers and keeps).
     const finishedToday = (key) => S.recentFeeds.some((r) => {
       const of = Array.isArray(r.items) ? r.items.length : 0;
@@ -1413,13 +1466,13 @@ export function createLearn(deps) {
           hook: hookOf(firstId),
         };
       }
-      const runHere = S.runs.find((r) => r.kind === 'feed' && r.chapter_key === info.key && istDay(Date.parse(r.created_at)) === S.day && Number(r.done_count) > 0 && Number(r.done_count) < Number(r.item_count));
+      const runHere = S.runs.find((r) => r.kind === 'feed' && r.chapter_key === info.key && istDay(Date.parse(r.created_at)) === S.day && Number(r.done_count) > 0 && Number(r.done_count) < Number(r.item_count) && !freeBlocked(S, r));
       const resume = runHere ? { runId: runHere.id, done: Number(runHere.done_count), of: Number(runHere.item_count), minutesLeft: minutesFor(Number(runHere.seconds_left) || 0) } : null;
       // One true line without due counts (A2 4.11): the stop, else the open mistakes, else the chapter's state, else "New to you".
       const studentLine = resume ? `You stopped at ${resume.done} of ${resume.of}`
         : info.mistakes.length ? `${plural(info.mistakes.length, 'open mistake')} to fix` : info.studied ? info.state.label : 'New to you';
       return {
-        key: info.key, title: info.title, name: info.name, ref: info.ref, refLine: refLineOf(info), number: info.chapterNo ? Number(info.chapterNo) : null, partTitle: partTitleOf(info), unitTitle: unitTitleOf(info),
+        key: info.key, title: info.title, name: info.name, ref: info.ref, place: info.place, refLine: refLineOf(info), number: info.chapterNo ? Number(info.chapterNo) : null, partTitle: partTitleOf(info), unitTitle: unitTitleOf(info),
         reason, forYou,
         hook: counts[10].hook, // the top-level hook is the 10-minute length's (counts[m].hook is each length's own)
         state: info.state, studentLine, resume, counts,
@@ -1466,7 +1519,7 @@ export function createLearn(deps) {
         if (!info || !info.counts.cards) continue;
         locked += info.counts.cards - info.counts.open;
         const { counts, keep } = cardRows(S, info, filter);
-        chapters.push({ key: info.key, title: info.title, ref: info.ref, counts, cards: keep });
+        chapters.push({ key: info.key, title: info.title, ref: info.ref, place: info.place, counts, cards: keep });
       }
       return ok({ plan: S.isPro ? 'pro' : 'free', filter, lockedCount: locked, chapters });
     }
@@ -1485,7 +1538,7 @@ export function createLearn(deps) {
     }
     const lockedCount = info.counts.cards - info.counts.open;
     return ok({
-      chapter: { key: info.key, title: info.title, ref: info.ref }, plan: S.isPro ? 'pro' : 'free', counts, sections, lockedCount,
+      chapter: { key: info.key, title: info.title, ref: info.ref, place: info.place }, plan: S.isPro ? 'pro' : 'free', counts, sections, lockedCount,
       lockedLine: !S.isPro && lockedCount > 0 ? `${lockedCount} more ${lockedCount === 1 ? 'card' : 'cards'} in this chapter. Pro opens every card in every chapter and keeps them on a schedule.` : null,
     });
   }
@@ -1499,12 +1552,37 @@ export function createLearn(deps) {
     return ok(await shelvesOf(S, sid, userId));
   }
 
-  /** This subject's due Key cards from the snapshot: { count, minutes } (the live open rows; shelves.due and the offer's Revise row). */
+  /**
+   * R4 server-security#2: a card state counts for a subject only when its chapter is live (not retired), belongs to the subject and
+   * is open to the student's part option (syllabus.sectionAllowed), the same filter as the roadmap's chapters.
+   */
+  function stateAllowed(subject, option, pub) {
+    const ok_ = new Map();
+    return (st) => {
+      const key = pub.byId.get(st.card_id)?.chapterKey || st.chapter_key;
+      if (!ok_.has(key)) {
+        const ch = key ? syllabus.chapterByKey(key) : null;
+        ok_.set(key, Boolean(ch) && !ch.retired && String(key).split('.')[0] === subject && syllabus.sectionAllowed(subject, ch.section, option || null));
+      }
+      return ok_.get(key);
+    };
+  }
+
+  /**
+   * This subject's due Key cards from the snapshot (the live open rows of the student's part; shelves.due, the offer's Start key and
+   * Revise row, and the feed refusal's Revise option). Returns { live, list, count, minutes }; `list` is
+   * [{ id, chapterKey, dueAt, seconds }] (data/learn/roadmap.js reviseRowOf), `count` is list.length.
+   */
   function dueNow(S) {
-    const live = S.states.filter((s) => !s.suspended && S.isOpen(s.card_id) && S.pub.byId.has(s.card_id));
+    const allowed = stateAllowed(S.subject, S.option, S.pub);
+    const live = S.states.filter((s) => !s.suspended && S.isOpen(s.card_id) && S.pub.byId.has(s.card_id) && allowed(s));
     const due = live.filter((s) => cardStage(s, S.now) === 'due');
-    const seconds = due.reduce((sum, st) => sum + cardSeconds({ stage: 'due', words: cardWords(S.pub.byId.get(st.card_id)) }), 0);
-    return { live, count: due.length, minutes: cardRunMinutes(due.length, seconds) };
+    const list = due.map((st) => {
+      const card = S.pub.byId.get(st.card_id);
+      return { id: st.card_id, chapterKey: card?.chapterKey || st.chapter_key, dueAt: st.due_at || null, seconds: cardSeconds({ stage: 'due', words: cardWords(card) }) };
+    });
+    const seconds = list.reduce((sum, d) => sum + d.seconds, 0);
+    return { live, list, count: list.length, minutes: cardRunMinutes(list.length, seconds) };
   }
 
   /**
@@ -1519,7 +1597,8 @@ export function createLearn(deps) {
       try {
         const rows = await store.states(userId, { subject: id });
         const taste = S.isPro ? null : tasteIds(S.pub.cardsOf(id));
-        bySubject[id] = rows.filter((s) => !s.suspended && (S.isPro || taste.has(s.card_id)) && S.pub.byId.has(s.card_id) && cardStage(s, S.now) === 'due').length;
+        const allowed = stateAllowed(id, S.options?.get?.(id) || null, S.pub); // server-security#2: that subject's own part option
+        bySubject[id] = rows.filter((s) => !s.suspended && (S.isPro || taste.has(s.card_id)) && S.pub.byId.has(s.card_id) && allowed(s) && cardStage(s, S.now) === 'due').length;
       } catch { /* left out */ }
     }));
     return { bySubject, all: Object.values(bySubject).reduce((n, x) => n + (Number(x) || 0), 0) };
