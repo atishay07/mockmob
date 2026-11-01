@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  allNotStarted, cardsText, chapterTotal, distinctKinds, effectiveChoice, filterParts, homeSuggestions, istDay, marksOrder, marksText, metaLine, nothingToPlay, optionChapterCount, pickupProgress, plural,
+  OPTION_COMING, allNotStarted, cardsText, freeEach, hasCards, optionLine, playableParts, chapterTotal, distinctKinds, effectiveChoice, filterParts, homeSuggestions, istDay, marksOrder, marksText, metaLine, nothingToPlay, optionChapterCount, pickupProgress, plural,
   findHintLine, findHints, roadmapRow, searchPlaceholder, setHead, shelfFromParam, shelfKeys, shownOptionUnits, sortRows, sortsFor, splitTitle, stateShape, subjectLine, suggestionTarget, unitHeading, unitsSignature, visibleRefs,
 } from '../homeModel.mjs';
 
@@ -25,10 +25,40 @@ test('state words get a shape of their own', () => {
   assert.equal(stateShape('something else'), 'none');
 });
 
-test('the subject line says only counts that are real', () => {
-  assert.equal(subjectLine({ cards: 868, chapters: 14, lessons: 4 }), '868 Key cards, 14 chapters, 4 lessons');
-  assert.equal(subjectLine({ cards: 1, chapters: 1, lessons: 0 }), '1 Key card, 1 chapter');
+test('the subject line says only counts that are real, chapters first, with dots, and never a due count (R3 R6)', () => {
+  assert.equal(subjectLine({ cards: 866, chapters: 14, lessons: 4 }), '14 chapters · 866 Key cards · 4 lessons');
+  assert.equal(subjectLine({ cards: 1, chapters: 1, lessons: 0 }), '1 chapter · 1 Key card');
+  assert.doesNotMatch(subjectLine({ cards: 866, chapters: 14, lessons: 4, due: 9 }), /due/);
   assert.equal(plural(2, 'card'), '2 cards');
+});
+
+test('R3 R5: the roadmap draws only chapters with cards; a part keeps its option switch even when its side is empty', () => {
+  const afs = [{ id: 'p', title: 'Part 2, Company Accounts', option: { label: 'Your part', choices: [{ id: 'a', label: 'A' }, { id: 'b', label: 'B' }], chosen: 'b' }, units: [
+    { title: 'Share capital', optionId: null, chapters: [row('x'), row('soon', { cards: 0, questions: 0 })] },
+    { title: 'Analysis', optionId: 'a', chapters: [row('y')] },
+    { title: 'Computerised', optionId: 'b', chapters: [row('z', { cards: 0, questions: 0 }), row('w', { cards: 0, questions: 4 })] },
+  ] }, { id: 'q', title: 'Part 3', option: null, units: [{ title: 'Empty', optionId: null, chapters: [row('e', { cards: 0 })] }] }];
+  assert.equal(hasCards(row('a')), true);
+  assert.equal(hasCards(row('a', { cards: 0, questions: 9 })), false, 'questions alone are not a playable chapter');
+  const out = playableParts(afs);
+  assert.deepEqual(out.map((p) => p.id), ['p'], 'a part with no chapter and no switch is dropped');
+  assert.deepEqual(out[0].units.map((u) => u.title), ['Share capital', 'Analysis'], 'the empty option unit and its coming-soon rows are gone');
+  assert.deepEqual(out[0].units[0].chapters.map((r) => r.key), ['x']);
+  assert.equal(shownOptionUnits(out[0].units.filter((u) => u.optionId), 'b').length, 0, 'the picked option has none: the page says so');
+  assert.equal(OPTION_COMING, 'Cards for this option are coming.');
+  assert.equal(optionChapterCount(out[0].units, 'b'), 0);
+  assert.deepEqual(playableParts(null), []);
+});
+
+test('R3 R5: the option line names the part and its options; Free says "5 free in each chapter" once, Pro never', () => {
+  assert.equal(optionLine({ title: 'Part 2, Company Accounts and Analysis of Financial Statements', option: { choices: [{}, {}] } }), 'Part 2 has two options. Pick the one your school teaches.');
+  assert.equal(optionLine({ title: 'Computerised', option: { choices: [{}, {}, {}] } }, 0), 'Part 1 has three options. Pick the one your school teaches.');
+  const rows = [{ progress: { of: 5 } }, { progress: { of: 3 } }, { progress: { of: 0 } }];
+  assert.equal(freeEach(rows, false), '5 free in each chapter');
+  assert.equal(freeEach(rows, true), null);
+  assert.equal(freeEach([], false), null);
+  // A row itself never says "free": the roadmap row's line is counted as cards.
+  assert.doesNotMatch(roadmapRow({ progress: { of: 5, seen: 2, questions: 4, tried: 0 } }).line, /free/i);
 });
 
 test('a chapter with no cards says so and never hides', () => {
@@ -148,7 +178,7 @@ test('the pick-up track shows only real done and total', () => {
 
 test('the shelf keys say exactly what they hold, and zero is drawn as zero', () => {
   const keys = shelfKeys({ due: { count: 9, minutes: 2, all: 27 }, missed: { count: 6, days: 14 }, revise: { count: 26, chapters: 3 }, must: { count: 229, chapters: 14 } }, 'Accountancy');
-  assert.deepEqual(keys.map((k) => [k.id, k.count, k.label]), [['due', 9, 'due'], ['missed', 6, 'missed'], ['revise', 26, 'in Revise']]);
+  assert.deepEqual(keys.map((k) => [k.id, k.count, k.title]), [['due', 9, 'Due today'], ['missed', 6, 'Missed lately'], ['revise', 26, 'In Revise']]);
   assert.equal(keys[0].name, 'Due today: 9 Accountancy cards. Show them');
   assert.equal(keys[1].name, 'Missed lately: 6 cards in the last 14 days. Show them');
   assert.equal(keys[2].name, 'In Revise: 26 cards in 3 chapters. Show them');

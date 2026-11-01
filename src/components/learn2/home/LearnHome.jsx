@@ -1,11 +1,12 @@
 'use client';
 // Learn home (R2 rulings 1 to 3, LK27, LK24, LK30; was BUILD-1101 B5, A3): one start offer first, never a line of zeros.
-//   Subjects   the student's own subjects as the Practice loop (compact on a phone)
+//   Subjects   the student's own subjects: on a phone (under 768 px) one picker row that opens a sheet (R3 ruling R1); from 768 px the
+//              Practice loop with its counts line, no due number (R6)
 //   The offer  the roadmap's headline, one line, the page's one volt key, at most two quiet "Or" rows (RoadmapHero)
-//   Find       the one search field; under it the student's own sets as text keys, each drawn only when it holds cards. A key opens
-//              that set in place; typing opens the results in place; Cancel returns. Focusing the field changes nothing (WCAG
-//              3.2.1). The query and the open set live in the address (q, shelf), so Back returns to them. /learn/find (lv=find)
-//              opens Find on its own: the offer and the roadmap step aside and the field leads.
+//   Find       the one search field. Its sets (due, missed, in Revise) open from Find (/learn/find) and from the search focused; the status
+//              line under the field is gone (R4): the offer's Revise row says the due cards. Typing opens the results in place; Cancel
+//              returns. Focusing the field changes nothing (WCAG 3.2.1). The query and the open set live in the address (q, shelf), so Back
+//              returns to them. /learn/find (lv=find) opens Find on its own: the offer and the roadmap step aside and the field leads.
 //   Roadmap    "Your roadmap": the chapters in book order with their coverage (ChapterMap)
 // Every number and line comes from ONE read, GET /api/learn/home (the /subject body plus the shelves, speed.md item 3), which the
 // shell's due badge shares (learn2/api.js); nothing is made up here.
@@ -17,11 +18,11 @@ import { useLearnLinks } from '../links';
 import { learnHome, useLearnRead } from '../api';
 import FindView from '../cards/FindView';
 import SubjectShelf from './SubjectShelf';
-import ShelfKeys, { ShelfKeysSkeleton } from './ShelfKeys';
+import SubjectPicker from './SubjectPicker';
 import RoadmapHero, { HeroSkeleton } from './RoadmapHero';
 import FindHome from './FindHome';
 import ChapterMap, { MapError, MapSkeleton } from './ChapterMap';
-import { displayTitle, findHints, flatRows, nothingToPlay, setHead, shelfFromParam, subjectLine } from './homeModel.mjs';
+import { displayTitle, findHints, setHead, shelfFromParam, subjectLine } from './homeModel.mjs';
 import './learn-home.css';
 
 const STORE_SUBJECT = 'mm:learn:subject:v1';
@@ -232,28 +233,11 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
     setShelf(null);
     requestAnimationFrame(() => { (document.querySelector(`[data-skey="${was}"]`) || field.current)?.focus({ preventScroll: true }); });
   }, [shelf]);
-  const toRoadmap = useCallback(() => {
-    const el = document.getElementById('lh-roadmap');
-    if (!el) return;
-    const top = el.getBoundingClientRect().top + window.scrollY - (TOPBAR + 8);
-    window.scrollTo({ top, behavior: reduced() ? 'auto' : 'smooth' });
-    el.focus({ preventScroll: true });
-  }, []);
-
   const ready = home.status !== 'loading' && home.status !== 'error' && data && !stale;
   const failed = home.status === 'error';
-  const hasCards = !(ready && data.subject?.cards === 0);
-  const routeRows = useMemo(() => (ready ? flatRows(data.parts || []).map(({ row }) => row).filter((row) => !nothingToPlay(row)) : []), [ready, data]);
-
-  let keys = null;
-  if (hasCards && mode === 'chapters') {
-    // A read for another subject keeps the old numbers on hand; they are never drawn under the new subject's name.
-    if (ready && shelves) keys = <ShelfKeys shelves={shelves} subjectName={subjectName} selected={shelf} onSelect={(id) => (id ? openShelf(id) : backFromSet())} />;
-    else if (!ready && !failed) keys = <ShelfKeysSkeleton />;
-  }
 
   const panelName = mode === 'results' ? 'Results' : mode === 'set' ? setHead(shelf, {}).title : mode === 'find' ? 'Find' : 'Your roadmap';
-  const offer = mode === 'chapters' ? (ready ? <RoadmapHero roadmap={data.roadmap} links={links} rows={routeRows} onRoute={toRoadmap} /> : failed ? null : <HeroSkeleton />) : null;
+  const offer = mode === 'chapters' ? (ready ? <RoadmapHero roadmap={data.roadmap} links={links} /> : failed ? null : <HeroSkeleton />) : null;
   const hint = findHints(active)[0];
   const placeholder = hint ? `Find a topic, like ${hint}` : 'Find a chapter or topic';
 
@@ -264,7 +248,10 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
       </header>
 
       {mode === 'find' || mode === 'results' ? null : (
-        <SubjectShelf subjects={subjects} current={active} onPick={pick} busy={!ready && !failed} line={ready ? subjectLine(data.subject) : ''} dues={shelves?.due?.bySubject || null} />
+        <>
+          <SubjectPicker subjects={subjects} current={active} onPick={pick} busy={!ready && !failed} />
+          <SubjectShelf subjects={subjects} current={active} onPick={pick} busy={!ready && !failed} line={ready ? subjectLine(data.subject) : ''} />
+        </>
       )}
       <h2 className="lh-sr">{subjectName}</h2>
 
@@ -276,7 +263,6 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
           onPickRecent={(q) => setText(q)} onClearRecent={() => { setRecent([]); if (active) writeRecent(active, []); }}
           onText={(v) => { setText(v); if (v && shelf) setShelf(null); }}
           onFocus={() => { setFocused(true); dock(); }} onBlur={() => setFocused(false)} onCancel={cancel} onKeyDown={onFieldKey} />
-        {keys}
       </div>
 
       {ready && data.subject?.note && mode === 'chapters' ? <p className="lh-note">{data.subject.note}</p> : null}

@@ -104,11 +104,11 @@ test('the phone bar is five slots: Today, Practice, Start in the centre, Mob, Yo
   assert.match(bar, /\{index === 2 \? <StartKey variant="bar"/, 'Start is the third child');
   assert.match(bar, /<AppIcon name="account" size=\{24\} \/><span>You<\/span>/, 'You opens the sheet');
   // The Revise count: on Practice in the bar and on Your papers in the sidebar and in Practice's row of tabs (never on the dock's Review: there is none).
-  assert.match(bar, /tab\.id === 'dashboard' && reviseBadge \? <i className="arena-badge"/);
-  assert.match(layout, /tab\.id === 'review' && reviseBadge \? <i className="arena-nav-link__count"/);
+  assert.match(bar, /tab\.id === 'dashboard' && reviseBadge \? <i className="arena-dot arena-dot--dock"/);
+  assert.match(layout, /tab\.id === 'review' && reviseBadge \? <i className="arena-dot"/);
   assert.match(read('src/components/nav/PlaceTabs.jsx'), /const badge = tab\.id === 'review' && count \? count : 0;/);
-  // Release 11 (verifier M1): drawn as "8 due" and heard as "Your papers, 8 due in Revise today" (web_fixa_1019.test.mjs).
-  assert.match(layout, /dueLabel\(tab\.label, reviseBadge\)/, 'a screen reader hears the count in words');
+  // R3 ruling Z: a dot with an aria-label, never a number (web_fixa_1019.test.mjs).
+  assert.match(layout, /dotName\(tab\.label, REVISE_DOT_LABEL\)/, 'a screen reader hears what is waiting');
   // The bar marks the place a student is in: a page inside Practice (Your papers, Learn, Explore, Saved) marks Practice.
   assert.equal(dockPlaceOf('/review'), 'practice');
   assert.equal(dockPlaceOf('/study/abc'), 'practice');

@@ -3,7 +3,7 @@
 // Night, Daylight or Match device, in the Arena menu where it is easy to find. The same three choices
 // as Account > Appearance and the same stored value, so the two always agree. A choice applies at once
 // and is remembered on this device. Arrow keys move between the three.
-import { useRef, useSyncExternalStore } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { Monitor, Moon, Sun } from 'lucide-react';
 import { setThemeMode, useDeviceThemeSync, useThemeMode } from '@/components/ThemeToggle';
 
@@ -21,6 +21,15 @@ export default function AppearanceSwitch({ className = '', compact = false }) {
   // The server cannot know the stored choice, so the first paint marks none rather than the wrong one (it used to show
   // Daylight chosen under a Night page until the page woke up); the real choice is marked as soon as it is read.
   const ready = useSyncExternalStore(noSubscribe, () => true, () => false);
+  // R3 ruling S3: the server draws a neutral switch (no choice marked); the real choice is marked after mount, and the pick slides only from
+  // the next change on (`settled`), never from the first slot to the choice on arrival.
+  const [settled, setSettled] = useState(false);
+  useEffect(() => {
+    if (!ready) return undefined;
+    let second = 0;
+    const first = requestAnimationFrame(() => { second = requestAnimationFrame(() => setSettled(true)); });
+    return () => { cancelAnimationFrame(first); cancelAnimationFrame(second); };
+  }, [ready]);
   useDeviceThemeSync();
   const refs = useRef([]);
   const current = Math.max(0, CHOICES.findIndex((c) => c.id === mode));
@@ -36,7 +45,7 @@ export default function AppearanceSwitch({ className = '', compact = false }) {
   };
 
   return (
-    <div className={`arena-appearance${compact ? ' arena-appearance--compact' : ''} ${className}`.trim()} role="radiogroup" aria-label="Appearance">
+    <div className={`arena-appearance${compact ? ' arena-appearance--compact' : ''} ${className}`.trim()} role="radiogroup" aria-label="Appearance" data-settled={settled || undefined}>
       {CHOICES.map(({ id, name, Icon }, index) => (
         <button
           key={id}

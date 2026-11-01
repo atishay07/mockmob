@@ -38,7 +38,7 @@ import PlaceTabs from '@/components/nav/PlaceTabs';
 import { useReviseBadge } from '@/lib/reviewRead';
 import { LEARN2_ENV_ON } from '@/components/learn2/flag';
 import { useLearnDue } from '@/components/learn2/api';
-import { dueBadge, dueLabel } from '@/lib/nav/dueCount.mjs';
+import { LEARN_DOT_LABEL, REVISE_DOT_LABEL, dotName } from '@/lib/nav/dueCount.mjs';
 import { shownName } from '@/lib/displayName.mjs';
 import { VIEW_TRANSITION_PROPS, isFocusPath } from '@/lib/motion/placeTransition';
 import { tourSteps } from '@/lib/appTour.mjs';
@@ -379,12 +379,11 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   // Key cards (/cards, /cards/<chapter>) live in Learn too: no tab of their own (KEYCARDS-BUILD-SPEC.md section 3).
   const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`) || (id === 'learn' && activePath.startsWith('/study/'))
     || (id === 'learn' && (activePath === '/cards' || activePath.startsWith('/cards/')));
-  // The Revise count is drawn as "8 to revise", never a bare number that reads as a paper count (verifier M1), and said in words.
-  const countLabel = (tab) => (reviseBadge && (tab.id === 'review' || tab.id === 'dashboard') ? dueLabel(tab.label, reviseBadge) : undefined);
+  // Due is a dot with an aria-label, never a number (R3 ruling Z): the number lives on the page the dot opens.
+  const countLabel = (tab) => (reviseBadge && (tab.id === 'review' || tab.id === 'dashboard') ? dotName(tab.label, REVISE_DOT_LABEL) : undefined);
   // The preview's own Find view for N1's "Key cards to revise" row (the real route is /learn/find).
   const previewFind = () => { const q = new URLSearchParams(window.location.search); q.set('view', 'learn2'); q.set('lv', 'find'); return `/preview/arena?${q.toString()}`; };
   const hrefOf = (tab) => (tab.id === 'learn-cards' && previewRoute ? previewFind() : previewLinks?.[tab.id] || tab.href || `/${tab.id}`);
-  const learnLabel = (tab) => (learnDue ? `Learn${tab.hint ? `, ${tab.hint}` : ''}, ${learnDue} ${learnDue === 1 ? 'card' : 'cards'} due today` : undefined);
   // The account's name only when it is a real name (release 11 walk; the app's rule, src/lib/displayName.mjs), else "Account".
   const accountName = shownName(user?.name, user?.email);
   const linkClass = (tab) => ['arena-nav-link', tab.place ? 'arena-nav-link--place' : '', tab.sub ? 'arena-nav-link--sub' : ''].filter(Boolean).join(' ');
@@ -396,15 +395,13 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
         className={linkClass(tab)}
         style={{ '--i': index }}
         aria-current={isActive(tab.id) ? 'page' : undefined}
-        aria-label={tab.id === 'review' ? countLabel(tab) : tab.id === 'learn' ? learnLabel(tab) : undefined}
         data-tour={`nav-${tab.id}`}
-        data-due={tab.id === 'learn' && learnDue ? '' : undefined}
         onClick={onNavigate}
       >
         <AppIcon name={tab.icon} />
         <span className="arena-nav-link__label">{tab.label}{tab.hint ? <span className="arena-nav-link__hint">, {tab.hint}</span> : null}</span>
-        {tab.id === 'review' && reviseBadge ? <i className="arena-nav-link__count" aria-hidden="true">{dueBadge(reviseBadge)}</i> : null}
-        {tab.id === 'learn' && learnDue ? <i className="arena-nav-link__count" aria-hidden="true">{dueBadge(learnDue)}</i> : null}
+        {tab.id === 'review' && reviseBadge ? <i className="arena-dot" role="img" aria-label={REVISE_DOT_LABEL} /> : null}
+        {tab.id === 'learn' && learnDue ? <i className="arena-dot" role="img" aria-label={LEARN_DOT_LABEL} /> : null}
       </Link>
     </React.Fragment>
   );
@@ -580,11 +577,10 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 onClick={() => setMobileMenuOpen(false)}
                 aria-current={isActive(tab.id) ? 'page' : undefined}
                 data-within={!isActive(tab.id) && dockPlace === tab.dock && !mobileMenuOpen ? 'true' : undefined}
-                aria-label={tab.id === 'dashboard' ? countLabel(tab) : undefined}
                 data-tour={`nav-${tab.id}`}
               >
                 <AppIcon name={tab.icon} size={24} /><span>{tab.label}</span>
-                {tab.id === 'dashboard' && reviseBadge ? <i className="arena-badge" aria-hidden="true">{dueBadge(reviseBadge)}</i> : null}
+                {tab.id === 'dashboard' && reviseBadge ? <i className="arena-dot arena-dot--dock" role="img" aria-label={REVISE_DOT_LABEL} /> : null}
               </Link>
             </React.Fragment>
           ))}

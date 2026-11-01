@@ -8,17 +8,23 @@
 //              while it still has STAY_UNSEEN or more unseen open cards; then the next chapter in book order that has unseen
 //              cards; with no Learn activity, the chapter a level check picked, else the first chapter that has cards.
 //   mode       pickup    an unfinished run in this subject (under 24 hours)           "Pick up <chapter>"      "Continue · 6 min"
-//              freeDone  Free, today's one session used by a run that is not open     "That was today's free session."  "See Pro"
+//              freeDone  Free, today's one session used by a run that is not open     FREE_DONE_HEADLINE + FREE_DONE_LINE  "See Pro"
+//                        (R3 ruling F: the same block as the feed's refusal; Or rows: Continue, Revise N due cards, single questions)
 //              new       nothing seen and no question tried in this subject           "Start learning <subject>"  "Start chapter 1 · 10 min"
 //              today     returning, otherwise                                         "Today's 10 minutes in <subject>"  "Start · 10 min"
 //   today      due cards from any chapter of the subject, at most 40 percent of the time (oldest due first), then the position
 //              chapter's new cards and questions; the server adds one open mistake. The key's run is a mix on the position chapter
 //              whose cardIds are those due cards (src/lib/server/learn.js start()).
-//   or rows    at most two quiet rows under the offer, each drawn only when it holds something.
+//   or rows    at most two quiet rows under the offer, each drawn only when it holds something (R3 ruling R3: Revise N due cards,
+//              then the open mistakes, then "Skip what you already know" while the subject has no Learn activity, then the feed).
+// R3 ruling C2: a subject's chapter count is its playable chapters, those with cards; a chapter with no cards is not a position and
+// not a number in "Chapter 1 of 14".
 // Never a zero: a count that is 0 is left out of every line (ruling 1). Never "mastered", never a %, never marks (ruling 12).
 import { budgetSeconds, LEARN_RULES } from './compose.js';
 import { SECONDS } from './seconds.js';
 import { STAY_UNSEEN, fixMinutes, levelMinutes } from './suggest.js';
+import { WORDS, fixMistakes, reviseDue as reviseDueLabel, withMinutes, wholeMinutes } from './words.js';
+import { FREE_DONE_HEADLINE, FREE_DONE_LINE } from './allowance.js';
 
 export const ROADMAP_MODES = Object.freeze(['pickup', 'freeDone', 'new', 'today']);
 export const ROADMAP_RULES = Object.freeze({
@@ -31,7 +37,9 @@ export const ROADMAP_RULES = Object.freeze({
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 const num = (v) => (Number.isFinite(Number(v)) ? Number(v) : 0);
 const time = (v) => { if (v === null || v === undefined) return null; const t = typeof v === 'number' ? v : Date.parse(v); return Number.isFinite(t) ? t : null; };
-const playable = (c) => num(c.of) > 0 || num(c.questions) > 0;
+/** A chapter is playable (counted, positioned, drawn on the roadmap) when it has cards (R3 ruling C2). */
+export const hasCards = (c) => num(c?.of) > 0 || num(c?.cards) > 0;
+const playable = hasCards;
 
 /** "31 of 46 cards seen · 4 of 10 questions tried"; a part that is 0 says the total instead ("46 cards"), never "0 of". */
 export function coverageLine(row, { isPro = true } = {}) {
@@ -97,13 +105,15 @@ export function todayDue(due, minutes = ROADMAP_RULES.minutes) {
  *   run         null | { id, chapterKey, title, done, of, minutesLeft, kind, leaveOut }   (an unfinished run in this subject)
  *   due         [{ id, chapterKey, dueAt, seconds? }]  the subject's due open cards
  *   freeDone    Free with today's session used by a run that is not the open one
+ *   freeRun     null | { id, chapterKey, minutesLeft, kind }  today's own unfinished run of a kind `run` does not carry (a feed): its Continue row
+ *   reviseDue   null | { count, minutes }  the shelves' due count for this subject (C1: the one source); else the due list's own
  *   levelPick   the chapter key a level check picked (or null)
  *   level       { questions, chapterKey }  the questions a level check would ask
  *   minutes     the offer's length (10)
  * Returns { mode, headline, line, sub, progress, key, quiet, position, chapter, or }.
  *   key / quiet / or[i]: { label, run? | href?, go? } where run is { chapterKey, minutes, kind, leaveOut, cardIds?, resume? }.
  */
-export function roadmap({ subject, chapters = [], run = null, due = [], freeDone = false, levelPick = null, level = null, minutes = ROADMAP_RULES.minutes, isPro = true } = {}) {
+export function roadmap({ subject, chapters = [], run = null, due = [], freeDone = false, freeRun = null, reviseDue = null, levelPick = null, level = null, minutes = ROADMAP_RULES.minutes, isPro = true } = {}) {
   const name = subject?.name || 'this subject';
   const list = (chapters || []).filter(playable);
   const pos = positionOf(list, { levelPick });
@@ -120,12 +130,19 @@ export function roadmap({ subject, chapters = [], run = null, due = [], freeDone
     const n = num(c.mistakes);
     const m = fixMinutes(n, c.mistakeSeconds);
     return {
-      kind: 'fix', label: n === 1 ? 'Fix your open mistake' : `Fix ${n} open mistakes`, line: `About ${m} min · ${c.title}`,
+      kind: 'fix', label: fixMistakes(n, m), line: c.title,
       run: { chapterKey: c.key, minutes: m, leaveOut: ['questions', 'cards', 'lesson'], kind: 'mix' },
     };
   })();
   const base = { position: where, chapter, progress: null, quiet: null, sub: null };
   const or = (...rows) => rows.filter(Boolean).slice(0, ROADMAP_RULES.maxOr);
+  // "Revise 9 due cards · 3 min": every due card of the subject, oldest first (a 'cards' run is never counted against Free's session).
+  const dueSorted = [...(due || [])].filter((d) => d?.id).sort((a, b) => (time(a.dueAt) ?? 0) - (time(b.dueAt) ?? 0) || String(a.id).localeCompare(String(b.id))).slice(0, LEARN_RULES.maxCardIds);
+  const dueCount = Math.max(0, Math.floor(num(reviseDue?.count ?? due?.length)));
+  const dueMinutes = wholeMinutes(reviseDue?.minutes || (dueSorted.reduce((s, d) => s + (num(d.seconds) > 0 ? num(d.seconds) : SECONDS.card.due), 0) / 60));
+  const reviseRow = dueCount > 0 && dueSorted.length
+    ? { kind: 'revise', label: reviseDueLabel(dueCount, dueMinutes), run: { chapterKey: dueSorted[0].chapterKey || pos?.key || null, minutes: dueMinutes, kind: 'cards', leaveOut: [], cardIds: dueSorted.map((d) => d.id) } }
+    : null;
 
   if (run && num(run.of) > num(run.done)) {
     const left = Math.max(1, num(run.minutesLeft) || 1);
@@ -135,18 +152,24 @@ export function roadmap({ subject, chapters = [], run = null, due = [], freeDone
       headline: `Pick up ${run.title}`,
       line: done > 0 ? `${done} of ${num(run.of)} done` : `${plural(num(run.of), 'step')} lined up`,
       progress: done > 0 ? { done, of: num(run.of) } : null,
-      key: { label: `Continue · ${left} min`, run: { chapterKey: run.chapterKey, minutes: left, kind: run.kind || 'mix', leaveOut: run.leaveOut || [], resume: run.id } },
-      or: freeDone ? [] : or(fixRow),
+      key: { label: withMinutes(WORDS.continue, left), run: { chapterKey: run.chapterKey, minutes: left, kind: run.kind || 'mix', leaveOut: run.leaveOut || [], resume: run.id } },
+      // Free after the day's session: a fix run is a counted chapter run (Key cards only), so only the Revise row is offered.
+      or: freeDone ? or(reviseRow) : or(reviseRow, fixRow),
     };
   }
   if (freeDone) {
+    // R3 ruling F: the feed refusal's block, word for word. Or rows in ruling F's order, only those that apply.
+    const left = freeRun ? Math.max(1, num(freeRun.minutesLeft) || 1) : 0;
+    const continueRow = freeRun && freeRun.id && freeRun.chapterKey
+      ? { kind: 'continue', label: withMinutes(WORDS.continue, left), run: { chapterKey: freeRun.chapterKey, minutes: left, kind: freeRun.kind || 'mix', leaveOut: [], resume: freeRun.id } }
+      : null;
     return {
       ...base, mode: 'freeDone',
-      headline: "That was today's free session.",
-      line: 'Learn opens again tomorrow.',
-      key: { label: 'See Pro', href: '/pricing', go: 'pro' },
-      quiet: { label: 'Answer single questions', href: '/explore', go: 'explore' },
-      or: [],
+      headline: FREE_DONE_HEADLINE,
+      line: FREE_DONE_LINE,
+      key: { label: WORDS.seePro, href: '/pricing', go: 'pro' },
+      quiet: null,
+      or: or(continueRow, reviseRow, { kind: 'singles', label: WORDS.singles, href: '/explore', go: 'explore' }),
     };
   }
   if (!pos) return null;
@@ -154,14 +177,14 @@ export function roadmap({ subject, chapters = [], run = null, due = [], freeDone
   if (isNew) {
     const n = Math.min(LEARN_RULES.levelQuestions, num(level?.questions));
     const levelRow = n > 0 && !levelPick
-      ? { kind: 'level', label: 'Find your level', line: `${plural(n, 'question')} · about ${levelMinutes(n)} min`, run: { chapterKey: level?.chapterKey || pos.key, minutes: n, kind: 'level', leaveOut: [] } }
+      ? { kind: 'level', label: WORDS.skipKnown, line: `${plural(n, 'question')} · about ${levelMinutes(n)} min`, run: { chapterKey: level?.chapterKey || pos.key, minutes: n, kind: 'level', leaveOut: [] } }
       : null;
     return {
       ...base, mode: 'new',
       headline: `Start learning ${name}`,
       line: `Chapter ${index} of ${list.length} · ${pos.title}`,
       key: { label: `Start chapter ${index} · ${minutes} min`, run: startRun() },
-      or: or(levelRow, feedRow),
+      or: or(reviseRow, levelRow, feedRow),
     };
   }
   const today = todayDue(due, minutes);
@@ -176,7 +199,7 @@ export function roadmap({ subject, chapters = [], run = null, due = [], freeDone
     sub,
     key: { label: `Start · ${minutes} min`, run: startRun(today.ids) },
     due: { count: today.ids.length },
-    or: or(fixRow, feedRow),
+    or: or(reviseRow, fixRow, feedRow),
   };
 }
 

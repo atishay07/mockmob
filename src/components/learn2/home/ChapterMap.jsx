@@ -1,8 +1,12 @@
 'use client';
 // Learn home's "Your roadmap" (R2 ruling 2, LK10, LK24; it was the chapter ledger, A3 3.2.6): the book in order, grouped by part and
 // unit. Every row has one anatomy at every width: the chapter's name, one coverage line ("31 of 46 cards seen · 4 of 10 questions
-// tried") and a 3 px bar of the cards seen. The only verdict word is "Needs work"; the chapter the student is in carries "Start here"
-// (a first-timer) or "Up next". No %, never "mastered", never a zero. A chapter with nothing to play yet is muted, "Coming soon".
+// tried") and, once started, a 3 px bar of the cards seen. The only verdict word is "Needs work"; the chapter the student is in carries
+// "Start here" (a first-timer) or "Up next". No %, never "mastered", never a zero.
+// R3 ruling R5: no subline under the heading (the sort control says the order); an unstarted row is its name and "45 cards · 10
+// questions", no bar; Free's "5 free in each chapter" is said once in the header and never on a row; chapters with no cards are not
+// drawn (so no "Coming soon" rows); a part with options says "Part 2 has two options. Pick the one your school teaches." above the pills,
+// and "Cards for this option are coming." when the picked option has no chapter with cards.
 // From a 960 px container the two parts face each other like an open book. The sort menu (Book order, Needs work first) is the only
 // control in its head. The part choice (LK2) is one line under the part's heading ("Your school teaches" and two chips): the tapped
 // side stays chosen at once, only the option units cross-fade inside a height animation, rows are keyed by chapter, and a failed save
@@ -13,8 +17,8 @@ import { ChevronDown, ChevronRight } from 'lucide-react';
 import { isMotionReduced } from '@/lib/motion';
 import { refreshHome, saveOption } from '@/components/keycards/api';
 import {
-  displayTitle, effectiveChoice, flatRows, metaLine, nothingToPlay, optionChapterCount, plural, roadmapRow, shownOptionUnits, sortRows, sortsFor,
-  unitHeading, unitsSignature,
+  OPTION_COMING, displayTitle, effectiveChoice, freeEach, metaLine, optionChapterCount, optionLine, playableParts, plural, roadmapRow, shownOptionUnits, sortRows, sortsFor,
+  unitHeading, unitsSignature, flatRows,
 } from './homeModel.mjs';
 
 const OUT_MS = 160;
@@ -44,37 +48,34 @@ export function StateRing({ shape }) {
   );
 }
 
-function Row({ row, href, isPro, here }) {
-  const empty = nothingToPlay(row);
-  const road = roadmapRow(row, { isPro });
-  if (empty) road.verdict = null; // a chapter with nothing to play yet carries no verdict, only "Coming soon"
-  const line = empty ? 'Coming soon' : road.line || metaLine(row);
+function Row({ row, href, here }) {
+  // The row never says "free" (the header says it once): Free's counts are its open cards, said as cards. Only chapters with cards reach
+  // here (playableParts), so there is no "Coming soon" row.
+  const road = roadmapRow(row, { isPro: true });
+  const line = road.line || metaLine(row);
   const spoken = [displayTitle(row.title), here, road.verdict, line].filter(Boolean).join('. ');
-  const inner = (
-    <>
-      <span className="lh-row__head">
-        <b className="lh-row__title">{displayTitle(row.title)}</b>
-        {here ? <span className="lh-row__here">{here}</span> : road.verdict ? <span className="lh-row__verdict">{road.verdict}</span> : null}
-      </span>
-      {line ? <span className="lh-row__meta">{line}</span> : null}
-      {road.seen > 0 ? <span className="lh-row__bar" aria-hidden="true"><span style={{ '--p': road.share }} /></span> : null}
-      {empty ? null : <ChevronRight className="lh-row__chev" size={16} strokeWidth={2} aria-hidden="true" />}
-    </>
-  );
   return (
-    <li className="lh-row" data-empty={empty || undefined} data-here={here ? '' : undefined} data-chapter={row.key}>
-      {empty ? <div className="lh-row__link" role="group" aria-label={spoken}>{inner}</div> : <Link className="lh-row__link" href={href} aria-label={spoken}>{inner}</Link>}
+    <li className="lh-row" data-here={here ? '' : undefined} data-chapter={row.key}>
+      <Link className="lh-row__link" href={href} aria-label={spoken}>
+        <span className="lh-row__head">
+          <b className="lh-row__title">{displayTitle(row.title)}</b>
+          {here ? <span className="lh-row__here">{here}</span> : road.verdict ? <span className="lh-row__verdict">{road.verdict}</span> : null}
+        </span>
+        {line ? <span className="lh-row__meta">{line}</span> : null}
+        {road.seen > 0 ? <span className="lh-row__bar" aria-hidden="true"><span style={{ '--p': road.share }} /></span> : null}
+        <ChevronRight className="lh-row__chev" size={16} strokeWidth={2} aria-hidden="true" />
+      </Link>
     </li>
   );
 }
 
-function Unit({ unit, links, isPro, here }) {
+function Unit({ unit, links, here }) {
   const heading = unitHeading(unit);
   return (
     <div className="lh-unit">
       {heading ? <h4 className="lh-unit__title">{displayTitle(heading)}</h4> : null}
       <ul className="lh-rows">
-        {unit.chapters.map((row) => <Row key={row.key} row={row} href={links.chapter(row.key)} isPro={isPro} here={here?.key === row.key ? here.label : null} />)}
+        {unit.chapters.map((row) => <Row key={row.key} row={row} href={links.chapter(row.key)} here={here?.key === row.key ? here.label : null} />)}
       </ul>
     </div>
   );
@@ -82,7 +83,7 @@ function Unit({ unit, links, isPro, here }) {
 
 /** The option units of a part, swapped as the part choice changes: the current rows fade out (160 ms), the other part's fade in
  *  (220 ms), and the box animates its height (240 ms). While the save is in flight the old rows stay in place, faded, so nothing below moves. */
-function OptionGroup({ units, choice, links, instant, isPro, here }) {
+function OptionGroup({ units, choice, links, instant, here }) {
   const target = useMemo(() => shownOptionUnits(units, choice), [units, choice]);
   const sig = unitsSignature(target);
   const [shown, setShown] = useState(target);
@@ -126,7 +127,7 @@ function OptionGroup({ units, choice, links, instant, isPro, here }) {
 
   return (
     <div className="lh-optgroup" ref={box} data-stage={stage} aria-hidden={stage === 'out' || undefined}>
-      {shown.map((unit) => <Unit key={`${unit.optionId}:${unit.title}`} unit={unit} links={links} isPro={isPro} here={here} />)}
+      {shown.map((unit) => <Unit key={`${unit.optionId}:${unit.title}`} unit={unit} links={links} here={here} />)}
     </div>
   );
 }
@@ -135,7 +136,7 @@ function OptionGroup({ units, choice, links, instant, isPro, here }) {
  * "Your part" as one line under the part's heading (phone-clarity.md item 9): "Your school teaches" and the choices as chips. Until
  * one is chosen both show (that needs no sentence); a save in flight, or a failed one, says so in one short line.
  */
-function PartSwitch({ part, choice, status, onChoose }) {
+function PartSwitch({ part, at, choice, status, onChoose }) {
   const choices = part.option.choices || [];
   const labelId = useId();
   const index = choices.findIndex((c) => c.id === choice);
@@ -148,7 +149,7 @@ function PartSwitch({ part, choice, status, onChoose }) {
   };
   return (
     <div className="lh-opt">
-      <span className="lh-opt__label" id={labelId}>Your school teaches</span>
+      <span className="lh-opt__label" id={labelId}>{optionLine(part, at)}</span>
       <div className="lh-opt__row" role="radiogroup" aria-labelledby={labelId}>
         {choices.map((c, i) => {
           const n = optionChapterCount(part.units, c.id);
@@ -226,7 +227,8 @@ export function MapError({ onRetry, busy }) {
   );
 }
 
-export default function ChapterMap({ parts, subjectId, links, refresh, isPro = true, position = null, isNew = false, id }) {
+export default function ChapterMap({ parts: allParts, subjectId, links, refresh, isPro = true, position = null, isNew = false, id }) {
+  const parts = useMemo(() => playableParts(allParts), [allParts]);
   const [sort, setSort] = useState('book');
   const [local, setLocal] = useState({});
   const [status, setStatus] = useState({});
@@ -269,8 +271,7 @@ export default function ChapterMap({ parts, subjectId, links, refresh, isPro = t
   const items = useMemo(() => sortsFor(parts).filter((s) => s.id === 'book' || s.id === 'needs'), [parts]);
   const activeSort = items.some((i) => i.id === sort) ? sort : 'book';
   const flat = useMemo(() => (activeSort === 'book' ? null : sortRows(parts, activeSort)), [activeSort, parts]);
-  const playable = flatRows(parts).map(({ row }) => row).filter((row) => !nothingToPlay(row));
-  const started = playable.filter((row) => (Number(row.progress?.seen) || 0) > 0 || (Number(row.progress?.tried) || 0) > 0).length;
+  const free = freeEach(flatRows(parts).map(({ row }) => row), isPro);
   const here = position ? { key: position, label: isNew ? 'Start here' : 'Up next' } : null;
 
   if (!parts.length) {
@@ -288,31 +289,34 @@ export default function ChapterMap({ parts, subjectId, links, refresh, isPro = t
         <h2 id={headId} className="lh-h2">Your roadmap</h2>
         {items.length > 1 ? <SortMenu value={activeSort} onChange={setSort} items={items} /> : null}
       </div>
-      <p className="lh-map__new">{started > 0 ? `${started} of ${plural(playable.length, 'chapter')} started` : `${plural(playable.length, 'chapter')}, in book order`}</p>
+      {free ? <p className="lh-map__new">{free}</p> : null}
 
       {flat ? (
         <ul className="lh-rows lh-rows--flat">
-          {flat.map(({ row }) => <Row key={row.key} row={row} href={links.chapter(row.key)} isPro={isPro} here={here?.key === row.key ? here.label : null} />)}
+          {flat.map(({ row }) => <Row key={row.key} row={row} href={links.chapter(row.key)} here={here?.key === row.key ? here.label : null} />)}
         </ul>
       ) : (
         <div className="lh-map__parts" data-parts={parts.length}>
-          {parts.map((part) => {
+          {parts.map((part, partAt) => {
             const firstOption = part.units.findIndex((u) => u.optionId);
             const choice = effectiveChoice(part, local);
+            // The picked option has no chapter with cards at all: one line says so (R5). Both showing (nothing picked) never does.
+            const optionEmpty = Boolean(part.option && choice && shownOptionUnits(part.units.filter((u) => u.optionId), choice).length === 0);
             const out = [];
             part.units.forEach((unit, i) => {
               if (unit.optionId) {
                 if (i !== firstOption) return;
                 const units = part.units.filter((u) => u.optionId);
-                out.push(<OptionGroup key={`${part.id}-opts`} units={units} choice={choice} links={links} isPro={isPro} here={here} />);
+                out.push(<OptionGroup key={`${part.id}-opts`} units={units} choice={choice} links={links} here={here} />);
                 return;
               }
-              out.push(<Unit key={`${unit.optionId}:${unit.title}:${i}`} unit={unit} links={links} isPro={isPro} here={here} />);
+              out.push(<Unit key={`${unit.optionId}:${unit.title}:${i}`} unit={unit} links={links} here={here} />);
             });
+            if (optionEmpty) out.push(<p key={`${part.id}-coming`} className="lh-opt__coming">{OPTION_COMING}</p>);
             return (
               <section className="lh-part" key={part.id} aria-label={part.title}>
                 <h3 className="lh-part__title">{part.title}</h3>
-                {part.option ? <PartSwitch part={part} choice={choice} status={status[part.id]} onChoose={(cid) => choose(part, cid)} /> : null}
+                {part.option ? <PartSwitch part={part} at={partAt} choice={choice} status={status[part.id]} onChoose={(cid) => choose(part, cid)} /> : null}
                 <div className="lh-part__units">{out}</div>
               </section>
             );

@@ -1,17 +1,13 @@
-// The Revise count in the navigation (release 11 verifier M1, 19 Oct 2026). The number beside "Your papers" (the sidebar and
-// Practice's row of tabs) and on the dock's Practice is how many mistakes Revise brings back today. A bare "8" read as
-// "8 papers", so the sidebar and the dock say "8 due" (short enough for one line in a sidebar row and for the dock's Practice slot,
-// clear of the Start key), the row of tabs has room for "8 to revise", and a screen reader hears the whole thing everywhere:
-// "Your papers, 8 questions to revise today". PURE, no imports, so the shell, the row of tabs and the tests read the same words.
+// The marks for "something is due" in the navigation (R3-SPEC rulings Z and S2, 1 Nov 2026). The sidebar and the phone dock never show a due
+// number: a bare "8" read as "8 papers" (release 11 verifier M1) and "27 due" made Learn read as a to-do list. Each mark is a small dot with an
+// aria-label that says what is waiting; the number lives on the page it opens (Learn's Revise row, the Papers page). PURE, no imports, so the
+// shell, the row of tabs and the tests read the same words.
 
-/** The visible count on the sidebar and the dock: "8 due", "99+ due". */
-export const dueBadge = (n) => `${n > 99 ? '99+' : n} due`;
+/** The dot beside Learn in the sidebar: Key cards are due. */
+export const LEARN_DOT_LABEL = 'Key cards due in Learn';
 
-/** The visible count on Practice's row of tabs, where there is room: "8 to revise", "99+ to revise". */
-export const dueTabBadge = (n) => `${n > 99 ? '99+' : n} to revise`;
+/** The dot beside Your papers (sidebar, Papers tab) and on the dock's Practice: Revise has questions waiting. */
+export const REVISE_DOT_LABEL = 'Questions to revise';
 
-/** The count in words for a screen reader: "8 questions to revise today". */
-export const dueWords = (n) => `${n} ${n === 1 ? 'question' : 'questions'} to revise today`;
-
-/** The link's whole accessible name when it carries the count: "Your papers, 8 questions to revise today". */
-export const dueLabel = (label, n) => `${label}, ${dueWords(n)}`;
+/** A link's whole accessible name when a dot is on it and the link needs its own name: "Your papers, questions to revise". */
+export const dotName = (label, dotLabel) => `${label}, ${String(dotLabel).charAt(0).toLowerCase()}${String(dotLabel).slice(1)}`;

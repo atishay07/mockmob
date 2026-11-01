@@ -9,14 +9,48 @@ export const stateShape = (key) => SHAPE[key] || 'none';
 
 export const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
-/** "868 Key cards, 14 chapters, 4 lessons". A count that is 0 is not said (lessons switched off, a subject with no lessons yet). */
+/**
+ * "14 chapters · 866 Key cards · 4 lessons" (R3 ruling R6; the chapters are the playable ones, C2). A count that is 0 is not said
+ * (lessons switched off, a subject with no lessons yet). Never a due count: due cards are the Revise row and the sidebar's dot.
+ */
 export function subjectLine(subject) {
   if (!subject) return '';
   const bits = [];
-  if (subject.cards > 0) bits.push(plural(subject.cards, 'Key card'));
   if (subject.chapters > 0) bits.push(plural(subject.chapters, 'chapter'));
+  if (subject.cards > 0) bits.push(plural(subject.cards, 'Key card'));
   if (subject.lessons > 0) bits.push(plural(subject.lessons, 'lesson'));
-  return bits.join(', ');
+  return bits.join(' · ');
+}
+
+/** A chapter is on the roadmap when it has cards (R3 rulings C2 and R5): coming-soon chapters and chapters with no cards are not drawn. */
+export const hasCards = (row) => Number(row?.cards) > 0;
+
+/**
+ * The parts as the roadmap draws them: only the chapters that have cards; a unit with none is dropped; a part with none is dropped
+ * unless it has an option switch (the student still picks a side, and the page says when that side has no cards yet).
+ */
+export function playableParts(parts) {
+  return (parts || [])
+    .map((part) => ({ ...part, units: part.units.map((unit) => ({ ...unit, chapters: unit.chapters.filter(hasCards) })).filter((unit) => unit.chapters.length) }))
+    .filter((part) => part.units.length || part.option);
+}
+
+const NUMBER_WORD = ['zero', 'one', 'two', 'three', 'four', 'five', 'six'];
+/** "Part 2 has two options. Pick the one your school teaches." (one line above the option pills, R5). `at` is the part's place (0-based). */
+export function optionLine(part, at = 0) {
+  const n = part?.option?.choices?.length || 0;
+  const number = /^Part\s+(\d+)/i.exec(String(part?.title || ''))?.[1] || String(at + 1);
+  return `Part ${number} has ${NUMBER_WORD[n] || n} options. Pick the one your school teaches.`;
+}
+
+/** The one line when the picked option has no chapters with cards at all (R5). */
+export const OPTION_COMING = 'Cards for this option are coming.';
+
+/** "5 free in each chapter" for the roadmap's header, said once; null on Pro (R5). `rows` are the roadmap rows. */
+export function freeEach(rows, isPro) {
+  if (isPro) return null;
+  const n = Math.max(0, ...(rows || []).map((r) => Number(r?.progress?.of) || 0));
+  return n > 0 ? `${n} free in each chapter` : null;
 }
 
 /** The count at the end of a row. A chapter with no cards says so in its meta line instead (B 3.1 states). */
@@ -201,7 +235,8 @@ export function pickupProgress(suggestion) {
 export const searchPlaceholder = (cards) => (!Number.isFinite(cards) ? 'Search Key cards' : cards > 0 ? `Search ${cards} Key cards` : 'Search chapters and lessons');
 
 /**
- * The shelf keys under the search field (R2 ruling 1): "9 due", "6 missed", "26 in Revise". A count that is 0 is never drawn
+ * The student's own sets (Find's rows and the search focused): Due today, Missed lately, In Revise, each with its count and its spoken name. The
+ * status line "9 due · 6 missed · 26 in Revise" under the search field is gone (R3 ruling R4); a count that is 0 is never drawn
  * (LK27: "Revise should not be 0"); with every count at 0 there are no keys at all.
  */
 export function shelfKeys(shelves, subjectName = '') {
@@ -213,9 +248,9 @@ export function shelfKeys(shelves, subjectName = '') {
   const days = Number(shelves.missed?.days) || 14;
   const chapters = Number(shelves.revise?.chapters) || 0;
   return [
-    { id: 'due', count: due, label: 'due', title: 'Due today', name: `Due today: ${due} ${sub}${due === 1 ? 'card' : 'cards'}. Show them` },
-    { id: 'missed', count: missed, label: 'missed', title: 'Missed lately', name: `Missed lately: ${missed} ${missed === 1 ? 'card' : 'cards'} in the last ${days} days. Show them` },
-    { id: 'revise', count: revise, label: 'in Revise', title: 'In Revise', name: `In Revise: ${revise} ${revise === 1 ? 'card' : 'cards'} in ${plural(Math.max(1, chapters), 'chapter')}. Show them` },
+    { id: 'due', count: due, title: 'Due today', name: `Due today: ${due} ${sub}${due === 1 ? 'card' : 'cards'}. Show them` },
+    { id: 'missed', count: missed, title: 'Missed lately', name: `Missed lately: ${missed} ${missed === 1 ? 'card' : 'cards'} in the last ${days} days. Show them` },
+    { id: 'revise', count: revise, title: 'In Revise', name: `In Revise: ${revise} ${revise === 1 ? 'card' : 'cards'} in ${plural(Math.max(1, chapters), 'chapter')}. Show them` },
   ].filter((k) => k.count > 0);
 }
 
