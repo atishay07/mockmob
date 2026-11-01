@@ -267,7 +267,6 @@ class _KcLastLookState extends State<KcLastLook> {
       );
     }
     final card = widget.cards[_at];
-    final reduced = Motion.reduced(context);
     // As in Study: the card and its Next key stay on screen as the cards change.
     return KcKeepInView(
       trigger: card.id,
@@ -283,21 +282,10 @@ class _KcLastLookState extends State<KcLastLook> {
               if (v < -200) _go(1);
               if (v > 200) _go(-1);
             },
-            child: AnimatedSwitcher(
-              duration: Motion.of(context, Motion.card),
-              switchInCurve: Motion.out,
-              switchOutCurve: Motion.out,
-              layoutBuilder: (current, previous) => Stack(alignment: Alignment.topCenter, children: [...previous, ?current]),
-              transitionBuilder: (child, animation) {
-                final incoming = child.key == ValueKey('kc-look-${card.id}');
-                final dx = (incoming ? 1 : -1) * _way * 0.08;
-                return FadeTransition(
-                  opacity: animation,
-                  child: reduced
-                      ? child
-                      : SlideTransition(position: Tween(begin: Offset(dx, 0), end: Offset.zero).animate(animation), child: child),
-                );
-              },
+            // The card slides the way the student went (MmOverlapSwitcher handles reduced motion; motion guard).
+            child: MmOverlapSwitcher.axis(
+              direction: _way,
+              duration: Motion.card,
               child: MmSurface.plain(
                 key: ValueKey('kc-look-${card.id}'),
                 child: Column(
