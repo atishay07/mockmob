@@ -116,7 +116,9 @@ export function mediaOf(c = {}, minutes = 10) {
   // R4 owner-eye#10: the line on a cover is a card a student can read cold, never a fill-in-the-blank. The server may send its
   // candidates (`hooks`, in the order the feed serves them) beside the one `hook`; the first short, non-cloze front wins.
   const own = countsOf(c, minutes).hook || c.hook;
-  const candidates = [...(Array.isArray(c.hooks) ? c.hooks : []), own].filter(Boolean);
+  const lengthHooks = countsOf(c, minutes).hooks;
+  const hooks = Array.isArray(lengthHooks) ? lengthHooks : Array.isArray(c.hooks) ? c.hooks : [];
+  const candidates = [...hooks, own].filter(Boolean);
   const readable = candidates.find((h) => h.front && isReadableHook(h.front));
   if (readable) return { kind: 'card', text: String(readable.front) };
   const h = own;

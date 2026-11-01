@@ -1478,6 +1478,7 @@ export function createLearn(deps) {
         key: info.key, title: info.title, name: info.name, ref: info.ref, place: info.place, refLine: refLineOf(info), number: info.chapterNo ? Number(info.chapterNo) : null, partTitle: partTitleOf(info), unitTitle: unitTitleOf(info),
         reason, forYou,
         hook: counts[10].hook, // the top-level hook is the 10-minute length's (counts[m].hook is each length's own)
+        hooks: counts[10].hooks, // and so are the top-level hooks (counts[m].hooks is each length's own)
         state: info.state, studentLine, resume, counts,
         kept: info.counts.kept, due: info.counts.due, mistakes: info.mistakes.length, art: null,
       };

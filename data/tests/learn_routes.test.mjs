@@ -980,6 +980,7 @@ test('R4 orchestrator: covers send up to 5 hooks in feed order (the cover skips 
     const { learn } = setup({ isPro });
     const body = (await learn.covers('u1', P({ subject: 'business_studies' }))).body;
     for (const c of body.covers) {
+      assert.deepEqual(c.hooks, c.counts[10].hooks, `${c.key}: the top-level hooks are the 10-minute ones`);
       for (const len of [5, 10, 20]) {
         const hooks = c.counts[len].hooks;
         assert.ok(Array.isArray(hooks) && hooks.length <= 5, `${c.key} ${len}: hooks is a list of at most 5`);
