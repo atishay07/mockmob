@@ -19,6 +19,9 @@ const load = (rel) => import(pathToFileURL(resolve(web, rel)).href);
 
 const text = await load('src/components/learn2/stage/stageText.mjs');
 const { stemParts } = await load('src/components/learn2/run/runMath.js');
+// The options as the server serves them (a stored string list becomes { key: 'A', text }), so the app sees what the
+// web's own Options sees.
+const { servedOptions } = await load('src/lib/server/learn.js');
 
 let commit = 'unknown';
 try { commit = execSync('git rev-parse --short=9 HEAD', { cwd: web }).toString().trim(); } catch { /* not a git folder */ }
@@ -85,7 +88,7 @@ const edgeOptions = [
   [],
 ];
 const options = [
-  ...questions.map((q) => q.options || []),
+  ...questions.map((q) => servedOptions(q.options)),
   ...edgeOptions,
 ].map((list) => {
   const texts = text.optionTexts(list);

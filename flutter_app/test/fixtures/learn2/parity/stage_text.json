@@ -1,5 +1,5 @@
 {
- "web": "wt-1031-learn-v2 106e53720",
+ "web": "wt-1031-learn-v2 978edc236",
  "note": "Written by tool/learn2_parity/stage_text.mjs from the web's own stageText.mjs and runMath.js stemParts. Do not edit by hand.",
  "counts": {
   "questions": 53,
@@ -1386,19 +1386,19 @@
    "options": [
     {
      "key": "A",
-     "text": "A Decrease in partners' capital totals by ₹40,000"
+     "text": "Decrease in partners' capital totals by ₹40,000"
     },
     {
      "key": "B",
-     "text": "B Increase in intangible assets by ₹40,000"
+     "text": "Increase in intangible assets by ₹40,000"
     },
     {
      "key": "C",
-     "text": "C No change in partners' capitals but increase in reserves"
+     "text": "No change in partners' capitals but increase in reserves"
     },
     {
      "key": "D",
-     "text": "D Decrease in liabilities by ₹40,000"
+     "text": "Decrease in liabilities by ₹40,000"
     }
    ],
    "optionTexts": [
@@ -1413,19 +1413,19 @@
    "options": [
     {
      "key": "A",
-     "text": "A Sacrifice ratio"
+     "text": "Sacrifice ratio"
     },
     {
      "key": "B",
-     "text": "B Gaining ratio"
+     "text": "Gaining ratio"
     },
     {
      "key": "C",
-     "text": "C Profit sharing ratio"
+     "text": "Profit sharing ratio"
     },
     {
      "key": "D",
-     "text": "D Capital ratio"
+     "text": "Capital ratio"
     }
    ],
    "optionTexts": [
@@ -1440,19 +1440,19 @@
    "options": [
     {
      "key": "A",
-     "text": "A. Written off by debiting partners' capital accounts in their new ratio."
+     "text": "Written off by debiting partners' capital accounts in their new ratio."
     },
     {
      "key": "B",
-     "text": "B. Written off by debiting partners' capital accounts in their old ratio."
+     "text": "Written off by debiting partners' capital accounts in their old ratio."
     },
     {
      "key": "C",
-     "text": "C. Retained at its book value."
+     "text": "Retained at its book value."
     },
     {
      "key": "D",
-     "text": "D. Credited to the Revaluation Account."
+     "text": "Credited to the Revaluation Account."
     }
    ],
    "optionTexts": [
@@ -1467,19 +1467,19 @@
    "options": [
     {
      "key": "A",
-     "text": "A Both Assertion and Reason are true and Reason explains the Assertion"
+     "text": "Both Assertion and Reason are true and Reason explains the Assertion"
     },
     {
      "key": "B",
-     "text": "B Both are true but Reason does not explain the Assertion"
+     "text": "Both are true but Reason does not explain the Assertion"
     },
     {
      "key": "C",
-     "text": "C Assertion true but Reason false"
+     "text": "Assertion true but Reason false"
     },
     {
      "key": "D",
-     "text": "D Assertion false but Reason true"
+     "text": "Assertion false but Reason true"
     }
    ],
    "optionTexts": [
@@ -1494,19 +1494,19 @@
    "options": [
     {
      "key": "A",
-     "text": "A The new partner only"
+     "text": "The new partner only"
     },
     {
      "key": "B",
-     "text": "B The old partners only for profits earned before admission"
+     "text": "The old partners only for profits earned before admission"
     },
     {
      "key": "C",
-     "text": "C The firm as retained earnings to be shared equally including new partner"
+     "text": "The firm as retained earnings to be shared equally including new partner"
     },
     {
      "key": "D",
-     "text": "D Creditors of the firm"
+     "text": "Creditors of the firm"
     }
    ],
    "optionTexts": [
@@ -1521,19 +1521,19 @@
    "options": [
     {
      "key": "A",
-     "text": "A Credited to old partners' capital accounts in old profit sharing ratio"
+     "text": "Credited to old partners' capital accounts in old profit sharing ratio"
     },
     {
      "key": "B",
-     "text": "B Transferred to new partner's capital account"
+     "text": "Transferred to new partner's capital account"
     },
     {
      "key": "C",
-     "text": "C Shown as a liability in balance sheet"
+     "text": "Shown as a liability in balance sheet"
     },
     {
      "key": "D",
-     "text": "D Transferred to general reserve only"
+     "text": "Transferred to general reserve only"
     }
    ],
    "optionTexts": [
@@ -1548,19 +1548,19 @@
    "options": [
     {
      "key": "A",
-     "text": "A 3:2"
+     "text": "3:2"
     },
     {
      "key": "B",
-     "text": "B 12:8"
+     "text": "12:8"
     },
     {
      "key": "C",
-     "text": "C 1:1"
+     "text": "1:1"
     },
     {
      "key": "D",
-     "text": "D 15:10"
+     "text": "15:10"
     }
    ],
    "optionTexts": [
@@ -1574,83 +1574,83 @@
   {
    "options": [
     {
-     "key": "undefined",
-     "text": ""
+     "key": "A",
+     "text": "₹25,200, ₹16,800 and Nil"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "B",
+     "text": "₹30,000, ₹22,500 and ₹22,500"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "C",
+     "text": "₹45,000, ₹30,000 and Nil"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "D",
+     "text": "₹37,500, ₹37,500 and Nil"
     }
    ],
    "optionTexts": [
-    "",
-    "",
-    "",
-    ""
+    "₹25,200, ₹16,800 and Nil",
+    "₹30,000, ₹22,500 and ₹22,500",
+    "₹45,000, ₹30,000 and Nil",
+    "₹37,500, ₹37,500 and Nil"
    ],
    "twoColumns": true
   },
   {
    "options": [
     {
-     "key": "undefined",
-     "text": ""
+     "key": "A",
+     "text": "Credit balance of ₹21,000; credit P’s Capital Account by ₹12,600 and Q’s by ₹8,400"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "B",
+     "text": "Credit balance of ₹17,000; credit P’s Capital Account by ₹10,200 and Q’s by ₹6,800"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "C",
+     "text": "Debit balance of ₹17,000; debit P’s Capital Account by ₹10,200 and Q’s by ₹6,800"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "D",
+     "text": "Credit balance of ₹13,000; credit P’s Capital Account by ₹6,500 and Q’s by ₹6,500"
     }
    ],
    "optionTexts": [
-    "",
-    "",
-    "",
-    ""
+    "Credit balance of ₹21,000; credit P’s Capital Account by ₹12,600 and Q’s by ₹8,400",
+    "Credit balance of ₹17,000; credit P’s Capital Account by ₹10,200 and Q’s by ₹6,800",
+    "Debit balance of ₹17,000; debit P’s Capital Account by ₹10,200 and Q’s by ₹6,800",
+    "Credit balance of ₹13,000; credit P’s Capital Account by ₹6,500 and Q’s by ₹6,500"
    ],
-   "twoColumns": true
+   "twoColumns": false
   },
   {
    "options": [
     {
-     "key": "undefined",
-     "text": ""
+     "key": "A",
+     "text": "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "B",
+     "text": "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "C",
+     "text": "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "D",
+     "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
     }
    ],
    "optionTexts": [
-    "",
-    "",
-    "",
-    ""
+    "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)",
+    "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)",
+    "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)",
+    "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
    ],
-   "twoColumns": true
+   "twoColumns": false
   },
   {
    "options": [
@@ -1736,29 +1736,29 @@
   {
    "options": [
     {
-     "key": "undefined",
-     "text": ""
+     "key": "A",
+     "text": "(A)-(I), (B)-(III), (C)-(II), (D)-(IV)"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "B",
+     "text": "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "C",
+     "text": "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "D",
+     "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
     }
    ],
    "optionTexts": [
-    "",
-    "",
-    "",
-    ""
+    "(A)-(I), (B)-(III), (C)-(II), (D)-(IV)",
+    "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)",
+    "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)",
+    "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
    ],
-   "twoColumns": true
+   "twoColumns": false
   },
   {
    "options": [
@@ -1790,29 +1790,29 @@
   {
    "options": [
     {
-     "key": "undefined",
-     "text": ""
+     "key": "A",
+     "text": "Sacrificing ratio A:B = 3:2, and gaining ratio C:D = 7:3"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "B",
+     "text": "Sacrificing ratio A:B = 2:3, and gaining ratio C:D = 3:7"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "C",
+     "text": "Sacrificing ratio A:B = 2:3, and gaining ratio C:D = 7:3"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "D",
+     "text": "Sacrificing ratio A:B = 3:2, and gaining ratio C:D = 3:7"
     }
    ],
    "optionTexts": [
-    "",
-    "",
-    "",
-    ""
+    "Sacrificing ratio A:B = 3:2, and gaining ratio C:D = 7:3",
+    "Sacrificing ratio A:B = 2:3, and gaining ratio C:D = 3:7",
+    "Sacrificing ratio A:B = 2:3, and gaining ratio C:D = 7:3",
+    "Sacrificing ratio A:B = 3:2, and gaining ratio C:D = 3:7"
    ],
-   "twoColumns": true
+   "twoColumns": false
   },
   {
    "options": [
@@ -1844,135 +1844,135 @@
   {
    "options": [
     {
-     "key": "undefined",
-     "text": ""
+     "key": "A",
+     "text": "Their partnership cannot come into existence until the oral terms are put in writing."
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "B",
+     "text": "Their oral agreement is itself a Partnership Deed."
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "C",
+     "text": "Their oral agreement can establish the partnership; a written document is not compulsory."
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "D",
+     "text": "Their partnership can come into existence without an agreement if they prepare a written deed later."
     }
    ],
    "optionTexts": [
-    "",
-    "",
-    "",
-    ""
+    "Their partnership cannot come into existence until the oral terms are put in writing.",
+    "Their oral agreement is itself a Partnership Deed.",
+    "Their oral agreement can establish the partnership; a written document is not compulsory.",
+    "Their partnership can come into existence without an agreement if they prepare a written deed later."
+   ],
+   "twoColumns": false
+  },
+  {
+   "options": [
+    {
+     "key": "A",
+     "text": "The provisions of the Indian Partnership Act, 1932"
+    },
+    {
+     "key": "B",
+     "text": "The terms of a specific agreement between the partners"
+    },
+    {
+     "key": "C",
+     "text": "The rules for calculating interest on drawings"
+    },
+    {
+     "key": "D",
+     "text": "The adjustments made when a partner is admitted or dies"
+    }
+   ],
+   "optionTexts": [
+    "The provisions of the Indian Partnership Act, 1932",
+    "The terms of a specific agreement between the partners",
+    "The rules for calculating interest on drawings",
+    "The adjustments made when a partner is admitted or dies"
+   ],
+   "twoColumns": false
+  },
+  {
+   "options": [
+    {
+     "key": "A",
+     "text": "The provisions of the Indian Partnership Act, 1932 apply."
+    },
+    {
+     "key": "B",
+     "text": "A specific term in the partners’ agreement governs the distribution."
+    },
+    {
+     "key": "C",
+     "text": "Sole-proprietorship accounting rules govern the distribution."
+    },
+    {
+     "key": "D",
+     "text": "Rules for admission, retirement, death or dissolution govern the distribution."
+    }
+   ],
+   "optionTexts": [
+    "The provisions of the Indian Partnership Act, 1932 apply.",
+    "A specific term in the partners’ agreement governs the distribution.",
+    "Sole-proprietorship accounting rules govern the distribution.",
+    "Rules for admission, retirement, death or dissolution govern the distribution."
+   ],
+   "twoColumns": false
+  },
+  {
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B), (C), (D)"
+    },
+    {
+     "key": "B",
+     "text": "(B), (A), (C), (D)"
+    },
+    {
+     "key": "C",
+     "text": "(B), (C), (A), (D)"
+    },
+    {
+     "key": "D",
+     "text": "(B), (A), (D), (C)"
+    }
+   ],
+   "optionTexts": [
+    "(A), (B), (C), (D)",
+    "(B), (A), (C), (D)",
+    "(B), (C), (A), (D)",
+    "(B), (A), (D), (C)"
    ],
    "twoColumns": true
   },
   {
    "options": [
     {
-     "key": "undefined",
-     "text": ""
+     "key": "A",
+     "text": "(C), (B), (A), (D)"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "B",
+     "text": "(C), (A), (B), (D)"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "C",
+     "text": "(B), (C), (A), (D)"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "D",
+     "text": "(C), (B), (D), (A)"
     }
    ],
    "optionTexts": [
-    "",
-    "",
-    "",
-    ""
-   ],
-   "twoColumns": true
-  },
-  {
-   "options": [
-    {
-     "key": "undefined",
-     "text": ""
-    },
-    {
-     "key": "undefined",
-     "text": ""
-    },
-    {
-     "key": "undefined",
-     "text": ""
-    },
-    {
-     "key": "undefined",
-     "text": ""
-    }
-   ],
-   "optionTexts": [
-    "",
-    "",
-    "",
-    ""
-   ],
-   "twoColumns": true
-  },
-  {
-   "options": [
-    {
-     "key": "undefined",
-     "text": ""
-    },
-    {
-     "key": "undefined",
-     "text": ""
-    },
-    {
-     "key": "undefined",
-     "text": ""
-    },
-    {
-     "key": "undefined",
-     "text": ""
-    }
-   ],
-   "optionTexts": [
-    "",
-    "",
-    "",
-    ""
-   ],
-   "twoColumns": true
-  },
-  {
-   "options": [
-    {
-     "key": "undefined",
-     "text": ""
-    },
-    {
-     "key": "undefined",
-     "text": ""
-    },
-    {
-     "key": "undefined",
-     "text": ""
-    },
-    {
-     "key": "undefined",
-     "text": ""
-    }
-   ],
-   "optionTexts": [
-    "",
-    "",
-    "",
-    ""
+    "(C), (B), (A), (D)",
+    "(C), (A), (B), (D)",
+    "(B), (C), (A), (D)",
+    "(C), (B), (D), (A)"
    ],
    "twoColumns": true
   },
@@ -2006,56 +2006,56 @@
   {
    "options": [
     {
-     "key": "undefined",
-     "text": ""
+     "key": "A",
+     "text": "(A), (C), (B), (D)"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "B",
+     "text": "(A), (B), (C), (D)"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "C",
+     "text": "(B), (A), (C), (D)"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "D",
+     "text": "(A), (B), (D), (C)"
     }
    ],
    "optionTexts": [
-    "",
-    "",
-    "",
-    ""
+    "(A), (C), (B), (D)",
+    "(A), (B), (C), (D)",
+    "(B), (A), (C), (D)",
+    "(A), (B), (D), (C)"
    ],
    "twoColumns": true
   },
   {
    "options": [
     {
-     "key": "undefined",
-     "text": ""
+     "key": "A",
+     "text": "It is increased by the share of profit allocated to R."
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "B",
+     "text": "It remains unchanged during the year."
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "C",
+     "text": "It is reduced by the ordinary drawings made by R."
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "D",
+     "text": "It is adjusted for both the share of profit and the ordinary drawings."
     }
    ],
    "optionTexts": [
-    "",
-    "",
-    "",
-    ""
+    "It is increased by the share of profit allocated to R.",
+    "It remains unchanged during the year.",
+    "It is reduced by the ordinary drawings made by R.",
+    "It is adjusted for both the share of profit and the ordinary drawings."
    ],
-   "twoColumns": true
+   "twoColumns": false
   },
   {
    "options": [
@@ -2088,19 +2088,19 @@
    "options": [
     {
      "key": "A",
-     "text": "A. Both Assertion and Reason are true, and Reason is the correct explanation of Assertion."
+     "text": "Both Assertion and Reason are true, and Reason is the correct explanation of Assertion."
     },
     {
      "key": "B",
-     "text": "B. Both Assertion and Reason are true, but Reason is NOT the correct explanation of Assertion."
+     "text": "Both Assertion and Reason are true, but Reason is NOT the correct explanation of Assertion."
     },
     {
      "key": "C",
-     "text": "C. Assertion is true, but Reason is false."
+     "text": "Assertion is true, but Reason is false."
     },
     {
      "key": "D",
-     "text": "D. Assertion is false, but Reason is true."
+     "text": "Assertion is false, but Reason is true."
     }
    ],
    "optionTexts": [
@@ -2114,47 +2114,47 @@
   {
    "options": [
     {
-     "key": "undefined",
-     "text": ""
+     "key": "A",
+     "text": "Allow interest to A only, because A contributed more capital."
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "B",
+     "text": "Allow no interest to either partner."
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "C",
+     "text": "Allow equal interest to both partners, because they share profits equally."
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "D",
+     "text": "Allow interest to both partners in the ratio 2:1, matching their capital contributions."
     }
    ],
    "optionTexts": [
-    "",
-    "",
-    "",
-    ""
+    "Allow interest to A only, because A contributed more capital.",
+    "Allow no interest to either partner.",
+    "Allow equal interest to both partners, because they share profits equally.",
+    "Allow interest to both partners in the ratio 2:1, matching their capital contributions."
    ],
-   "twoColumns": true
+   "twoColumns": false
   },
   {
    "options": [
     {
      "key": "A",
-     "text": "A detect specific DNA sequences in a mixture using a labelled probe"
+     "text": "detect specific DNA sequences in a mixture using a labelled probe"
     },
     {
      "key": "B",
-     "text": "B separate proteins by size and identify them with antibodies"
+     "text": "separate proteins by size and identify them with antibodies"
     },
     {
      "key": "C",
-     "text": "C quantify RNA expression levels directly without conversion"
+     "text": "quantify RNA expression levels directly without conversion"
     },
     {
      "key": "D",
-     "text": "D transform bacteria with recombinant plasmids"
+     "text": "transform bacteria with recombinant plasmids"
     }
    ],
    "optionTexts": [
@@ -2358,19 +2358,19 @@
    "options": [
     {
      "key": "A",
-     "text": "A show individual variation in repeat number between individuals"
+     "text": "show individual variation in repeat number between individuals"
     },
     {
      "key": "B",
-     "text": "B encode conserved housekeeping genes present identically in everyone"
+     "text": "encode conserved housekeeping genes present identically in everyone"
     },
     {
      "key": "C",
-     "text": "C are only found in mitochondrial DNA and not nuclear DNA"
+     "text": "are only found in mitochondrial DNA and not nuclear DNA"
     },
     {
      "key": "D",
-     "text": "D always code for proteins used in metabolism"
+     "text": "always code for proteins used in metabolism"
     }
    ],
    "optionTexts": [
@@ -2439,19 +2439,19 @@
    "options": [
     {
      "key": "A",
-     "text": "A Degeneracy means multiple codons code for the same amino acid; wobble refers to flexible base pairing at the third codon position allowing fewer tRNAs—degeneracy is a coding property while wobble is a mechanistic explanation"
+     "text": "Degeneracy means multiple codons code for the same amino acid; wobble refers to flexible base pairing at the third codon position allowing fewer tRNAs—degeneracy is a coding property while wobble is a mechanistic explanation"
     },
     {
      "key": "B",
-     "text": "B Degeneracy is the phenomenon that one tRNA reads multiple codons; wobble is the fact that multiple codons code for one amino acid"
+     "text": "Degeneracy is the phenomenon that one tRNA reads multiple codons; wobble is the fact that multiple codons code for one amino acid"
     },
     {
      "key": "C",
-     "text": "C Degeneracy implies stop codons are read ambiguously; wobble implies the first base of the codon pairs flexibly"
+     "text": "Degeneracy implies stop codons are read ambiguously; wobble implies the first base of the codon pairs flexibly"
     },
     {
      "key": "D",
-     "text": "D Degeneracy and wobble are synonymous terms describing the same molecular mechanism"
+     "text": "Degeneracy and wobble are synonymous terms describing the same molecular mechanism"
     }
    ],
    "optionTexts": [
@@ -2493,19 +2493,19 @@
    "options": [
     {
      "key": "A",
-     "text": "A. Quantity demanded increases"
+     "text": "Quantity demanded increases"
     },
     {
      "key": "B",
-     "text": "B. Quantity demanded decreases"
+     "text": "Quantity demanded decreases"
     },
     {
      "key": "C",
-     "text": "C. Quantity demanded remains unchanged"
+     "text": "Quantity demanded remains unchanged"
     },
     {
      "key": "D",
-     "text": "D. Demand curve shifts to the right"
+     "text": "Demand curve shifts to the right"
     }
    ],
    "optionTexts": [
@@ -2546,47 +2546,47 @@
   {
    "options": [
     {
-     "key": "undefined",
-     "text": ""
+     "key": "A",
+     "text": "Marginal utility rises from 10 to 18 utils, while total utility rises from 18 to 24 utils."
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "B",
+     "text": "Marginal utility rises from 8 to 14 utils, while total utility rises from 18 to 24 utils."
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "C",
+     "text": "Marginal utility falls from 8 to 6 utils, while total utility rises from 18 to 24 utils."
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "D",
+     "text": "Marginal utility remains at 8 utils, while total utility rises from 18 to 24 utils."
     }
    ],
    "optionTexts": [
-    "",
-    "",
-    "",
-    ""
+    "Marginal utility rises from 10 to 18 utils, while total utility rises from 18 to 24 utils.",
+    "Marginal utility rises from 8 to 14 utils, while total utility rises from 18 to 24 utils.",
+    "Marginal utility falls from 8 to 6 utils, while total utility rises from 18 to 24 utils.",
+    "Marginal utility remains at 8 utils, while total utility rises from 18 to 24 utils."
    ],
-   "twoColumns": true
+   "twoColumns": false
   },
   {
    "options": [
     {
      "key": "A",
-     "text": "A A normal good (consumption rises with income)."
+     "text": "A normal good (consumption rises with income)."
     },
     {
      "key": "B",
-     "text": "B An inferior good (consumption falls as income rises)."
+     "text": "An inferior good (consumption falls as income rises)."
     },
     {
      "key": "C",
-     "text": "C A luxury good (consumption rises more than proportionally with income)."
+     "text": "A luxury good (consumption rises more than proportionally with income)."
     },
     {
      "key": "D",
-     "text": "D A necessity good (consumption rises but share of income falls)."
+     "text": "A necessity good (consumption rises but share of income falls)."
     }
    ],
    "optionTexts": [
@@ -2600,29 +2600,29 @@
   {
    "options": [
     {
-     "key": "undefined",
-     "text": ""
+     "key": "A",
+     "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "B",
+     "text": "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "C",
+     "text": "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "D",
+     "text": "(A)-(I), (B)-(IV), (C)-(III), (D)-(II)"
     }
    ],
    "optionTexts": [
-    "",
-    "",
-    "",
-    ""
+    "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)",
+    "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)",
+    "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)",
+    "(A)-(I), (B)-(IV), (C)-(III), (D)-(II)"
    ],
-   "twoColumns": true
+   "twoColumns": false
   },
   {
    "options": [
@@ -2655,19 +2655,19 @@
    "options": [
     {
      "key": "A",
-     "text": "A A-2, B-1, C-3, D-4"
+     "text": "A-2, B-1, C-3, D-4"
     },
     {
      "key": "B",
-     "text": "B A-1, B-2, C-3, D-4"
+     "text": "A-1, B-2, C-3, D-4"
     },
     {
      "key": "C",
-     "text": "C A-2, B-4, C-1, D-3"
+     "text": "A-2, B-4, C-1, D-3"
     },
     {
      "key": "D",
-     "text": "D A-3, B-1, C-2, D-4"
+     "text": "A-3, B-1, C-2, D-4"
     }
    ],
    "optionTexts": [
@@ -2682,19 +2682,19 @@
    "options": [
     {
      "key": "A",
-     "text": "A The good must be normal and have a large substitution effect."
+     "text": "The good must be normal and have a large substitution effect."
     },
     {
      "key": "B",
-     "text": "B The good must be inferior and its income effect must outweigh the substitution effect when price changes."
+     "text": "The good must be inferior and its income effect must outweigh the substitution effect when price changes."
     },
     {
      "key": "C",
-     "text": "C The good must be a luxury with rising consumption as income rises."
+     "text": "The good must be a luxury with rising consumption as income rises."
     },
     {
      "key": "D",
-     "text": "D The good must be a necessity whose demand is independent of income."
+     "text": "The good must be a necessity whose demand is independent of income."
     }
    ],
    "optionTexts": [
@@ -2708,56 +2708,56 @@
   {
    "options": [
     {
-     "key": "undefined",
-     "text": ""
+     "key": "A",
+     "text": "How are price and quantity determined in the market for one commodity?"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "B",
+     "text": "How does an individual consumer behave in relation to one commodity?"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "C",
+     "text": "How does total output in the economy grow over time?"
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "D",
+     "text": "How does an individual producer behave in producing one commodity?"
     }
    ],
    "optionTexts": [
-    "",
-    "",
-    "",
-    ""
+    "How are price and quantity determined in the market for one commodity?",
+    "How does an individual consumer behave in relation to one commodity?",
+    "How does total output in the economy grow over time?",
+    "How does an individual producer behave in producing one commodity?"
    ],
-   "twoColumns": true
+   "twoColumns": false
   },
   {
    "options": [
     {
-     "key": "undefined",
-     "text": ""
+     "key": "A",
+     "text": "It is applicable to individuals, but not to society."
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "B",
+     "text": "It is applicable to both individuals and society."
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "C",
+     "text": "It is applicable to society, but not to individuals."
     },
     {
-     "key": "undefined",
-     "text": ""
+     "key": "D",
+     "text": "It is applicable to neither individuals nor society."
     }
    ],
    "optionTexts": [
-    "",
-    "",
-    "",
-    ""
+    "It is applicable to individuals, but not to society.",
+    "It is applicable to both individuals and society.",
+    "It is applicable to society, but not to individuals.",
+    "It is applicable to neither individuals nor society."
    ],
-   "twoColumns": true
+   "twoColumns": false
   },
   {
    "options": [
@@ -2790,19 +2790,19 @@
    "options": [
     {
      "key": "A",
-     "text": "A A-2, B-1, C-3, D-4"
+     "text": "A-2, B-1, C-3, D-4"
     },
     {
      "key": "B",
-     "text": "B A-3, B-1, C-2, D-4"
+     "text": "A-3, B-1, C-2, D-4"
     },
     {
      "key": "C",
-     "text": "C A-2, B-4, C-3, D-1"
+     "text": "A-2, B-4, C-3, D-1"
     },
     {
      "key": "D",
-     "text": "D A-1, B-2, C-4, D-3"
+     "text": "A-1, B-2, C-4, D-3"
     }
    ],
    "optionTexts": [
