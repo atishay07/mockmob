@@ -117,11 +117,10 @@ export function roadmap({ subject, chapters = [], run = null, due = [], freeDone
   const fixRow = (() => {
     const c = [...list].filter((r) => num(r.mistakes) > 0).sort((a, b) => num(b.mistakes) - num(a.mistakes))[0];
     if (!c) return null;
-    const total = list.reduce((s, r) => s + num(r.mistakes), 0);
     const n = num(c.mistakes);
     const m = fixMinutes(n, c.mistakeSeconds);
     return {
-      kind: 'fix', label: n === 1 ? 'Fix your open mistake' : `Fix ${n} open mistakes`, line: total > n ? `${c.title} · about ${m} min` : `About ${m} min`,
+      kind: 'fix', label: n === 1 ? 'Fix your open mistake' : `Fix ${n} open mistakes`, line: `About ${m} min · ${c.title}`,
       run: { chapterKey: c.key, minutes: m, leaveOut: ['questions', 'cards', 'lesson'], kind: 'mix' },
     };
   })();

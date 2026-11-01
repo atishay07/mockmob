@@ -246,7 +246,7 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
   const routeRows = useMemo(() => (ready ? flatRows(data.parts || []).map(({ row }) => row).filter((row) => !nothingToPlay(row)) : []), [ready, data]);
 
   let keys = null;
-  if (hasCards && mode !== 'find') {
+  if (hasCards && mode === 'chapters') {
     // A read for another subject keeps the old numbers on hand; they are never drawn under the new subject's name.
     if (ready && shelves) keys = <ShelfKeys shelves={shelves} subjectName={subjectName} selected={shelf} onSelect={(id) => (id ? openShelf(id) : backFromSet())} />;
     else if (!ready && !failed) keys = <ShelfKeysSkeleton />;

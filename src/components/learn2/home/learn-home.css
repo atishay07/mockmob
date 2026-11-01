@@ -100,7 +100,7 @@
    cards (R2 ruling 1). No tiles, no zeros. */
 .lh-skeys { display: flex; flex-wrap: wrap; align-items: center; gap: 0 4px; margin: -4px 0 18px; min-width: 0; }
 .lh-skey {
-  position: relative; display: inline-flex; align-items: baseline; gap: 5px; min-height: 44px; padding: 0 8px; border: 0; border-radius: 10px;
+  position: relative; display: inline-flex; align-items: center; gap: 5px; min-height: 44px; padding: 0 8px; border: 0; border-radius: 10px;
   background: transparent; color: var(--a-ink); cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background-color 160ms var(--lh-ease);
 }
 .lh-skey:first-child { margin-left: -8px; }
@@ -179,7 +179,7 @@
 .lh-map { display: grid; min-width: 0; }
 .lh-map__head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0 12px; min-height: 40px; }
 .lh-h2 { font: 750 20px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
-.lh-map__new { margin: 2px 0 4px; font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); }
+.lh .lh-map__new { margin: 2px 0 4px; font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); }
 
 .lh-sort { position: relative; justify-self: end; }
 .lh-sort__btn { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 10px; margin: -2px -10px -2px 0; border: 0; border-radius: 10px; background: transparent; color: var(--a-ink-2); font: 600 14px/1 var(--font-body); cursor: pointer; }
@@ -293,8 +293,8 @@ html[data-theme='light'] .lh-row[data-here] .lh-row__bar > span { background: #7
 /* ---------- The start offer (R2 ruling 1, LK27): type on the page, not a card among cards. One volt key; at most two quiet rows. ---------- */
 .lh-hero { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; min-width: 0; margin: 6px 0 22px; animation: lh-rise 260ms var(--lh-ease) both; }
 .lh-hero__title { font: 750 28px/1.14 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); text-wrap: balance; overflow-wrap: break-word; }
-.lh-hero__line { margin-top: 8px; font: 550 16px/1.4 var(--font-body); color: var(--a-ink); text-wrap: pretty; }
-.lh-hero__sub { margin-top: 6px; font: 500 15px/1.4 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
+.lh-hero__line { padding-top: 8px; font: 550 16px/1.4 var(--font-body); color: var(--a-ink); text-wrap: pretty; }
+.lh-hero__sub { padding-top: 4px; font: 500 15px/1.4 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
 .lh-hero__track { margin-top: 12px; width: min(100%, 280px); }
 .lh-hero__track .lh-track__fill { background: #b5d000; }
 .lh-hero__keys { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; margin-top: 16px; }
@@ -306,7 +306,7 @@ html[data-theme='light'] .lh-row[data-here] .lh-row__bar > span { background: #7
 .lh-hero--skel .lh-sk--key { height: 56px; margin-top: 20px; border-radius: 16px; }
 
 /* The route: one node per chapter, done ones filled, the one the student is in ringed in volt. Fills left to right once. */
-.lh-route { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; width: fit-content; max-width: 100%; min-height: 32px; margin: 10px 0 0 -6px; padding: 6px; border: 0; border-radius: 10px; background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.lh-route { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; width: fit-content; max-width: 100%; min-height: 24px; margin: 8px 0 0 -6px; padding: 6px; border: 0; border-radius: 10px; background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .lh-route:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 0; }
 @media (hover: hover) { .lh-route:hover { background: var(--a-hover); } }
 .lh-route__node { flex: none; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--a-ink-3); opacity: 0.7; animation: lh-node 180ms var(--lh-ease) both; animation-delay: calc(var(--i, 0) * 24ms); }
@@ -318,7 +318,7 @@ html[data-theme='light'] .lh-route__node[data-state='here'] { border-color: #8ba
 @keyframes lh-here { 50% { transform: scale(1.15); } }
 
 /* The "Or" rows: 56 px, a hairline between, no card, no key */
-.lh-or { display: grid; margin-top: 14px; border-top: 1px solid var(--a-line); }
+.lh .lh-or { display: grid; margin-top: 14px; border-top: 1px solid var(--a-line); }
 .lh-or li { border-bottom: 1px solid var(--a-line); }
 .lh-or__row {
   display: grid; grid-template-columns: minmax(0, 1fr) 18px; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 8px 4px; border: 0; background: transparent;
@@ -328,7 +328,7 @@ html[data-theme='light'] .lh-route__node[data-state='here'] { border-color: #8ba
 .lh-or__row:active { transform: scale(0.99); }
 .lh-or__text { display: grid; gap: 2px; min-width: 0; }
 .lh-or__text b { font: 650 15px/1.3 var(--font-body); color: var(--a-ink); }
-.lh-or__text span { font: 500 13.5px/1.35 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
+.lh-or__text span { font: 500 13.5px/1.35 var(--font-body); color: var(--a-ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .lh-or__chev { color: var(--a-ink-3); transition: transform 200ms var(--lh-ease), color 200ms var(--lh-ease); }
 @media (hover: hover) { .lh-or__row:hover { background: var(--a-hover); } .lh-or__row:hover .lh-or__chev { transform: translateX(2px); color: var(--a-ink); } }
 
@@ -342,12 +342,14 @@ html[data-theme='light'] .lh-route__node[data-state='here'] { border-color: #8ba
   .lh-hero > .lh-hero__sub { grid-area: sub; }
   .lh-hero > .lh-hero__keys { grid-area: keys; grid-template-columns: auto auto; justify-content: start; align-items: center; gap: 4px 16px; margin-top: 18px; }
   .lh-hero__key { width: auto; min-width: 240px; padding: 0 28px; }
-  .lh-hero > .lh-or { grid-area: or; align-self: center; margin-top: 0; }
+  .lh .lh-hero > .lh-or { grid-area: or; align-self: center; margin-top: 0; }
   .lh-hero:not(:has(.lh-or)) { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'title' 'line' 'track' 'route' 'sub' 'keys'; }
 }
 
 /* ---------- Find with nothing typed: the student's sets as rows, or a line and four words to try ---------- */
-.lh-findhome { display: grid; gap: 20px; min-width: 0; }
+.lh-findhome { display: grid; gap: 24px; min-width: 0; padding-top: 12px; }
+/* Find reads as a narrow column on a wide screen: a field and a list, not a stretched bar (LK30 is about use, not width). */
+@container lh (min-width: 760px) { .lh[data-panel='find'] :is(.lh-findband, .lh-panel) { max-width: 720px; } }
 .lh-findhome__line { font: 500 15px/1.5 var(--font-body); color: var(--a-ink-2); }
 .lh-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .lh-chip { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border: 1px solid var(--a-line-strong); border-radius: 20px; background: transparent; color: var(--a-ink); font: 600 14.5px/1 var(--font-body); cursor: pointer; -webkit-tap-highlight-color: transparent; }

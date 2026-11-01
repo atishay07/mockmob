@@ -47,6 +47,7 @@ export function StateRing({ shape }) {
 function Row({ row, href, isPro, here }) {
   const empty = nothingToPlay(row);
   const road = roadmapRow(row, { isPro });
+  if (empty) road.verdict = null; // a chapter with nothing to play yet carries no verdict, only "Coming soon"
   const line = empty ? 'Coming soon' : road.line || metaLine(row);
   const spoken = [displayTitle(row.title), here, road.verdict, line].filter(Boolean).join('. ');
   const inner = (
