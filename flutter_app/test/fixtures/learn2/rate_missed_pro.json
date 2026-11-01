@@ -6,38 +6,39 @@
   },
   "limit": null,
   "reinsert": {
-    "itemId": "lr_e3e80c8ba3e6f0aa27dcba0d-r1",
+    "itemId": "lr_a93bbe63268cd2ca045bf8d4-r1",
     "at": 3,
     "item": {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-r1",
+      "id": "lr_a93bbe63268cd2ca045bf8d4-r1",
       "type": "card",
       "stage": "again",
       "card": {
-        "id": "kc.accountancy.partnership-fundamentals.def-partnership-meaning",
+        "id": "kc.accountancy.partnership-fundamentals.def-partnership-section-4",
         "v": 1,
         "subject": "accountancy",
         "chapterKey": "accountancy.partnership-fundamentals",
         "chapter": "Partnership Fundamentals",
         "unit": "Accounting for Partnership",
         "kind": "definition",
-        "front": "What is partnership?",
-        "back": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
-        "quote": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
+        "front": "Define partnership (Section 4, Indian Partnership Act 1932).",
+        "back": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
+        "quote": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
         "blanks": [],
         "source": {
           "kind": "ncert",
           "book": "Accountancy – Partnership Accounts",
           "code": "leac101",
           "chapterNo": 1,
-          "page": 1,
+          "page": 2,
           "section": "1.1 Nature of Partnership"
         },
         "importance": "must",
         "asked": 0,
         "tags": [
-          "partnership"
+          "partnership",
+          "partnership act"
         ],
-        "order": 10,
+        "order": 20,
         "authorImportance": "must"
       },
       "look": false,

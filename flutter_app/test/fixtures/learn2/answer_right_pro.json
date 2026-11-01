@@ -1,8 +1,8 @@
 {
   "correct": true,
-  "key": "D",
-  "choice": "D",
-  "explanation": "A premium paid directly and privately to the existing partners requires no entry in the firm’s books. When the premium is received through the firm, the entries depend on whether it is credited initially to Premium for Goodwill A/c or to the new partner’s capital account. If the credited amounts are retained in the business, no additional entry is passed.",
+  "key": "A",
+  "choice": "A",
+  "explanation": "Premium (goodwill) paid by new partner is a capital receipt and is distributed to old partners' capital/accounts, so both statements and the explanatory link are true.",
   "fixed": false,
   "fixedText": null,
   "line": null,

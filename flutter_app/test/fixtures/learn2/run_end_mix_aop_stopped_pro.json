@@ -1,0 +1,78 @@
+{
+  "feed": null,
+  "title": "8 minutes on Admission of a Partner",
+  "done": {
+    "reached": 0,
+    "of": 16,
+    "minutes": 1
+  },
+  "stopped": true,
+  "progress": {
+    "of": 58,
+    "seen": 1,
+    "before": 1
+  },
+  "chapter": {
+    "key": "accountancy.admission-of-partner",
+    "title": "Admission of a Partner",
+    "place": {
+      "n": 5,
+      "of": 14
+    }
+  },
+  "numbers": {
+    "cards": 0,
+    "questions": 0,
+    "fixed": 0,
+    "mistakes": 0,
+    "detail": {
+      "cards": null,
+      "questions": null,
+      "fixed": "0 of 1, 1 still open"
+    }
+  },
+  "lines": [
+    {
+      "label": "Mistakes",
+      "text": "0 of 1 fixed, 1 still open"
+    }
+  ],
+  "revisePile": [],
+  "reviseCards": [],
+  "moved": null,
+  "free": null,
+  "lead": {
+    "kind": "continue",
+    "title": "Continue · 8 min",
+    "minutes": 8,
+    "label": "Continue · 8 min",
+    "evidence": null,
+    "run": {
+      "chapterKey": "accountancy.admission-of-partner",
+      "minutes": 8,
+      "leaveOut": [],
+      "kind": "mix",
+      "resume": "lr_4c9a70e34a1a7b054d3439f3"
+    }
+  },
+  "options": [
+    {
+      "kind": "fix",
+      "title": "Fix 2 open mistakes · 2 min",
+      "minutes": 2,
+      "label": "Fix 2 open mistakes · 2 min",
+      "evidence": "Admission of a Partner",
+      "run": {
+        "chapterKey": "accountancy.admission-of-partner",
+        "minutes": 2,
+        "leaveOut": [
+          "questions",
+          "cards",
+          "lesson"
+        ],
+        "kind": "mix",
+        "fresh": true
+      }
+    }
+  ]
+}

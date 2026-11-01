@@ -1,0 +1,710 @@
+{
+  "plan": "pro",
+  "student": {
+    "isNew": true
+  },
+  "subjects": [
+    {
+      "id": "accountancy",
+      "name": "Accountancy"
+    },
+    {
+      "id": "business_studies",
+      "name": "Business Studies"
+    },
+    {
+      "id": "economics",
+      "name": "Economics"
+    },
+    {
+      "id": "english",
+      "name": "English"
+    }
+  ],
+  "subject": {
+    "id": "accountancy",
+    "name": "Accountancy",
+    "cards": 912,
+    "chapters": 14,
+    "lessons": 4,
+    "note": null
+  },
+  "freeNote": null,
+  "free": null,
+  "suggestions": [
+    {
+      "kind": "start",
+      "chapterKey": "accountancy.partnership-fundamentals",
+      "title": "Start with Accounting for Partnership: Basic Concepts",
+      "headline": "Start with",
+      "chapterTitle": "Accounting for Partnership: Basic Concepts",
+      "evidence": "Chapter 1 of your Accountancy book. 10 minutes of its Key cards and questions.",
+      "action": {
+        "label": "Start · 10 min",
+        "run": {
+          "chapterKey": "accountancy.partnership-fundamentals",
+          "minutes": 10,
+          "leaveOut": [],
+          "kind": "mix"
+        }
+      }
+    },
+    {
+      "kind": "level",
+      "chapterKey": "accountancy.partnership-fundamentals",
+      "title": "Skip what you already know",
+      "headline": "Skip what you already know",
+      "chapterTitle": null,
+      "evidence": "6 questions · about 6 min",
+      "action": {
+        "label": "Start · 6 min",
+        "run": {
+          "chapterKey": "accountancy.partnership-fundamentals",
+          "minutes": 6,
+          "leaveOut": [],
+          "kind": "level"
+        }
+      }
+    },
+    {
+      "kind": "feed",
+      "chapterKey": "accountancy.partnership-fundamentals",
+      "title": "Chapter 1 as a feed",
+      "headline": "As a feed",
+      "chapterTitle": "Accounting for Partnership: Basic Concepts",
+      "evidence": "One card or question at a time, 10 minutes.",
+      "action": {
+        "label": "Open the feed",
+        "href": "/explore/run?chapter=accountancy.partnership-fundamentals&min=10",
+        "go": "feed"
+      }
+    }
+  ],
+  "roadmap": {
+    "position": {
+      "chapterKey": "accountancy.partnership-fundamentals",
+      "index": 1,
+      "of": 14
+    },
+    "chapter": {
+      "key": "accountancy.partnership-fundamentals",
+      "title": "Accounting for Partnership: Basic Concepts",
+      "seen": 0,
+      "of": 45,
+      "unseen": 45,
+      "place": {
+        "n": 1,
+        "of": 14
+      }
+    },
+    "progress": null,
+    "quiet": null,
+    "sub": null,
+    "mode": "new",
+    "headline": "Start learning Accountancy",
+    "line": "Chapter 1 of 14 · Accounting for Partnership: Basic Concepts",
+    "key": {
+      "label": "Start chapter 1 · 10 min",
+      "run": {
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "minutes": 10,
+        "kind": "mix",
+        "leaveOut": []
+      }
+    },
+    "or": [
+      {
+        "kind": "level",
+        "label": "Skip what you already know",
+        "line": "6 questions · about 6 min",
+        "run": {
+          "chapterKey": "accountancy.partnership-fundamentals",
+          "minutes": 6,
+          "kind": "level",
+          "leaveOut": []
+        }
+      },
+      {
+        "kind": "feed",
+        "label": "Play this chapter as a feed",
+        "line": "Scroll through the chapter, stop any time",
+        "href": "/explore/run?chapter=accountancy.partnership-fundamentals&min=10",
+        "go": "feed"
+      }
+    ]
+  },
+  "parts": [
+    {
+      "id": "p1",
+      "title": "Part 1, Partnership Accounts",
+      "option": null,
+      "units": [
+        {
+          "title": "Accounting for Partnership",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "accountancy.partnership-fundamentals",
+              "title": "Accounting for Partnership: Basic Concepts",
+              "ref": "Ch 1",
+              "place": {
+                "n": 1,
+                "of": 14
+              },
+              "cards": 45,
+              "mustKnow": 12,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 10,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 45,
+                "seen": 0,
+                "unseen": 45,
+                "questions": 10,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Accounting for Partnership",
+              "needsWorkFrom": "papers"
+            },
+            {
+              "key": "accountancy.profit-and-loss-appropriation-account",
+              "title": "Profit and Loss Appropriation Account",
+              "ref": "Ch 1",
+              "place": {
+                "n": 2,
+                "of": 14
+              },
+              "cards": 42,
+              "mustKnow": 11,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 1,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 42,
+                "seen": 0,
+                "unseen": 42,
+                "questions": 1,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Accounting for Partnership",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        },
+        {
+          "title": "Reconstitution of a Partnership firm",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "accountancy.change-in-profit-sharing-ratio",
+              "title": "Change in Profit Sharing Ratio",
+              "ref": "Ch 2",
+              "place": {
+                "n": 3,
+                "of": 14
+              },
+              "cards": 11,
+              "mustKnow": 6,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 7,
+              "lesson": {
+                "id": "accountancy-sacrificing-gaining",
+                "title": "Sacrificing and gaining ratios",
+                "minutes": 7,
+                "read": false
+              },
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": "1 lesson",
+              "marksOpen": null,
+              "progress": {
+                "of": 11,
+                "seen": 0,
+                "unseen": 11,
+                "questions": 7,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Reconstitution of a Partnership firm",
+              "needsWorkFrom": "papers"
+            },
+            {
+              "key": "accountancy.goodwill-valuation",
+              "title": "Goodwill: Nature and Valuation",
+              "ref": "Ch 2",
+              "place": {
+                "n": 4,
+                "of": 14
+              },
+              "cards": 46,
+              "mustKnow": 12,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 46,
+                "seen": 0,
+                "unseen": 46,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Reconstitution of a Partnership firm",
+              "needsWorkFrom": "papers"
+            },
+            {
+              "key": "accountancy.admission-of-partner",
+              "title": "Admission of a Partner",
+              "ref": "Ch 2",
+              "place": {
+                "n": 5,
+                "of": 14
+              },
+              "cards": 58,
+              "mustKnow": 15,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 10,
+              "lesson": {
+                "id": "accountancy-revaluation",
+                "title": "Revaluation of assets and liabilities",
+                "minutes": 7,
+                "read": false
+              },
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": "1 lesson",
+              "marksOpen": null,
+              "progress": {
+                "of": 58,
+                "seen": 0,
+                "unseen": 58,
+                "questions": 10,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Reconstitution of a Partnership firm",
+              "needsWorkFrom": "papers"
+            },
+            {
+              "key": "accountancy.retirement-and-death-of-partner",
+              "title": "Retirement and Death of a Partner",
+              "ref": "Ch 3",
+              "place": {
+                "n": 6,
+                "of": 14
+              },
+              "cards": 72,
+              "mustKnow": 18,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 72,
+                "seen": 0,
+                "unseen": 72,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Reconstitution of a Partnership firm",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        },
+        {
+          "title": "Dissolution of Partnership Firm",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "accountancy.dissolution-of-partnership-firm",
+              "title": "Dissolution of Partnership Firm",
+              "ref": "Ch 4",
+              "place": {
+                "n": 7,
+                "of": 14
+              },
+              "cards": 59,
+              "mustKnow": 15,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 59,
+                "seen": 0,
+                "unseen": 59,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Dissolution of Partnership Firm",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "title": "Part 2, Company Accounts and Analysis of Financial Statements",
+      "option": {
+        "label": "Your part",
+        "choices": [
+          {
+            "id": "AFS",
+            "label": "Analysis of Financial Statements"
+          },
+          {
+            "id": "CAS",
+            "label": "Computerised Accounting"
+          }
+        ],
+        "chosen": null,
+        "hint": "Both parts show until you choose."
+      },
+      "units": [
+        {
+          "title": "Company Accounts: Accounting for Share and Debenture Capital",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "accountancy.share-capital",
+              "title": "Accounting for Share Capital",
+              "ref": "Ch 1",
+              "place": {
+                "n": 8,
+                "of": 14
+              },
+              "cards": 106,
+              "mustKnow": 27,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": {
+                "id": "accountancy-capital-stages",
+                "title": "Authorised, issued or subscribed?",
+                "minutes": 5,
+                "read": false
+              },
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": "1 lesson",
+              "marksOpen": null,
+              "progress": {
+                "of": 106,
+                "seen": 0,
+                "unseen": 106,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+              "needsWorkFrom": "papers"
+            },
+            {
+              "key": "accountancy.debentures",
+              "title": "Issue and Redemption of Debentures",
+              "ref": "Ch 2",
+              "place": {
+                "n": 9,
+                "of": 14
+              },
+              "cards": 86,
+              "mustKnow": 22,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 86,
+                "seen": 0,
+                "unseen": 86,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        },
+        {
+          "title": "Analysis of Financial Statements",
+          "optionId": "AFS",
+          "chapters": [
+            {
+              "key": "accountancy.financial-statements-of-company",
+              "title": "Financial Statements of a Company",
+              "ref": "Ch 3",
+              "place": {
+                "n": 10,
+                "of": 14
+              },
+              "cards": 85,
+              "mustKnow": 22,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 85,
+                "seen": 0,
+                "unseen": 85,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Analysis of Financial Statements",
+              "needsWorkFrom": "papers"
+            },
+            {
+              "key": "accountancy.analysis-of-financial-statements",
+              "title": "Analysis of Financial Statements",
+              "ref": "Ch 4",
+              "place": {
+                "n": 11,
+                "of": 14
+              },
+              "cards": 32,
+              "mustKnow": 8,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 32,
+                "seen": 0,
+                "unseen": 32,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Analysis of Financial Statements",
+              "needsWorkFrom": "papers"
+            },
+            {
+              "key": "accountancy.comparative-and-common-size-statements",
+              "title": "Comparative and Common Size Statements",
+              "ref": "Ch 4",
+              "place": {
+                "n": 12,
+                "of": 14
+              },
+              "cards": 22,
+              "mustKnow": 6,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 22,
+                "seen": 0,
+                "unseen": 22,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Analysis of Financial Statements",
+              "needsWorkFrom": "papers"
+            },
+            {
+              "key": "accountancy.accounting-ratios",
+              "title": "Accounting Ratios",
+              "ref": "Ch 5",
+              "place": {
+                "n": 13,
+                "of": 14
+              },
+              "cards": 165,
+              "mustKnow": 40,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": {
+                "id": "accountancy-liquidity-ratios",
+                "title": "Current ratio and quick ratio",
+                "minutes": 5,
+                "read": false
+              },
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": "1 lesson",
+              "marksOpen": null,
+              "progress": {
+                "of": 165,
+                "seen": 0,
+                "unseen": 165,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Analysis of Financial Statements",
+              "needsWorkFrom": "papers"
+            },
+            {
+              "key": "accountancy.cash-flow-statement",
+              "title": "Cash Flow Statement",
+              "ref": "Ch 6",
+              "place": {
+                "n": 14,
+                "of": 14
+              },
+              "cards": 83,
+              "mustKnow": 21,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 83,
+                "seen": 0,
+                "unseen": 83,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Analysis of Financial Statements",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        },
+        {
+          "title": "Computerised Accounting System",
+          "optionId": "CAS",
+          "chapters": [
+            {
+              "key": "accountancy.computerized-accounting-system",
+              "title": "Computerised Accounting System",
+              "ref": null,
+              "place": null,
+              "cards": 0,
+              "mustKnow": 0,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": "No Key cards yet.",
+              "marksOpen": null,
+              "progress": {
+                "of": 0,
+                "seen": 0,
+                "unseen": 0,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Computerised Accounting System",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "shelves": {
+    "due": {
+      "bySubject": {
+        "accountancy": 0,
+        "business_studies": 0,
+        "economics": 0,
+        "english": 0
+      },
+      "count": 0,
+      "minutes": 0,
+      "all": 0,
+      "subjects": 4
+    },
+    "missed": {
+      "count": 0,
+      "days": 7
+    },
+    "revise": {
+      "count": 0,
+      "chapters": 0
+    },
+    "must": {
+      "count": 235,
+      "chapters": 14
+    }
+  }
+}

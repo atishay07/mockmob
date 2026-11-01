@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/learn2/data/learn_api.dart';
 import 'package:mockmob/features/learn2/data/learn_models.dart';
+import 'package:mockmob/features/learn2/data/learn_words.dart';
 
 import '../support/fixture_learn_api.dart';
 
@@ -49,7 +50,7 @@ void main() {
     final now = await api.getRun(run.id);
     final at = now.items.indexWhere((i) => i.id == back.itemId);
     expect(at, isNot(-1));
-    expect((back.item! as LearnCardItem).reason, 'line');
+    expect((back.item! as LearnCardItem).stage, 'again');
     expect(now.resumed!.of, run.items.length + 1);
 
     final second = await api.startRun(const RunStart(chapterKey: l2Pf, fresh: true));
@@ -108,7 +109,9 @@ void main() {
     expect((await api.subject('accountancy')).free, isNotNull);
     expect((await api.covers('accountancy')).free, isNotNull);
     expect((await api.preview(chapterKey: l2Pf, minutes: 10)).freeSession!.used, isTrue);
-    expect((await api.end(run.id)).lead!.label, 'See Pro');
+    final end = await api.end(run.id);
+    expect(end.options.single.label, 'See Pro');
+    expect(end.lead!.line, LearnFreeWords.endLine);
   });
 
   test('the switches: error, offline, not found, off, slow, a new student, one failing method', () async {
@@ -144,9 +147,15 @@ void main() {
     expect((await pro.chapterCards(l2Aop, filter: 'due')).sections, isEmpty);
     expect((await pro.search('accountancy', 'GoodWill')).cards, isNotEmpty);
     expect((await pro.search('accountancy', 'debenture')).cards, isEmpty);
-    expect((await pro.preview(chapterKey: l2Cpsr, minutes: 20, addNext: true)).added, isNotNull);
+    expect((await pro.preview(chapterKey: l2Ccss, minutes: 20, addNext: true)).added, isNotNull);
+    expect((await pro.preview(chapterKey: l2Ccss, minutes: 20)).shrink!.addNext, isNotNull);
+    expect((await pro.home('economics')).roadmap!.mode, 'today');
+    expect((await pro.home('accountancy')).roadmap!.mode, 'pickup');
+    expect((await pro.home('accountancy')).shelves, isNotNull);
+    expect((await FixtureLearnApi(newStudent: true).home('accountancy')).roadmap!.mode, 'new');
+    expect((await FixtureLearnApi(pro: false, freeUsed: true).home('accountancy')).roadmap!.mode, 'freeDone');
     final free = FixtureLearnApi(pro: false);
-    expect((await free.chapterCards(l2Aop)).lockedCount, 48);
+    expect((await free.chapterCards(l2Aop)).lockedCount, 53);
     expect((await free.preview(chapterKey: l2Aop, minutes: 20)).capped, isNotNull);
     expect((await free.saveQuestion('q1')).limit, 25);
   });

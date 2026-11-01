@@ -34,6 +34,9 @@ class LearnPrefs {
   /// The one-time nudge after the first turn of the first feed.
   static const String feedNudgeKey = 'learn2.feed.nudge.v1';
 
+  /// The one-time nudge of Explore's covers (R2 ruling 7, LK29): the row slides 24 dp toward the next cover and settles, once.
+  static const String coversNudgeKey = 'learn2.covers.nudge.v1';
+
   /// The run's coach lines already shown, once each (a set of ids).
   static const String coachKey = 'learn2.coach.v1';
 
@@ -88,6 +91,17 @@ class LearnPrefs {
   }
 
   Future<void> markFeedNudgeSeen() => _write(() => _store.setBool(feedNudgeKey, true));
+
+  /// True once Explore's covers showed their nudge (and on a failed read).
+  Future<bool> coversNudgeSeen() async {
+    try {
+      return await _store.getBool(coversNudgeKey) ?? false;
+    } on Object {
+      return true;
+    }
+  }
+
+  Future<void> markCoversNudgeSeen() => _write(() => _store.setBool(coversNudgeKey, true));
 
   /// True once the coach line [id] was shown (and on a failed read).
   Future<bool> coachSeen(String id) async {

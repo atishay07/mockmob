@@ -1,0 +1,818 @@
+{
+  "plan": "pro",
+  "student": {
+    "isNew": false
+  },
+  "subjects": [
+    {
+      "id": "accountancy",
+      "name": "Accountancy"
+    },
+    {
+      "id": "business_studies",
+      "name": "Business Studies"
+    },
+    {
+      "id": "economics",
+      "name": "Economics"
+    },
+    {
+      "id": "english",
+      "name": "English"
+    }
+  ],
+  "subject": {
+    "id": "economics",
+    "name": "Economics",
+    "cards": 1195,
+    "chapters": 17,
+    "lessons": 4,
+    "note": null
+  },
+  "freeNote": null,
+  "free": null,
+  "suggestions": [
+    {
+      "kind": "next",
+      "chapterKey": "economics.national-income-and-related-aggregates",
+      "title": "Next in the book: Introduction and National Income Accounting",
+      "headline": "Next in the book",
+      "chapterTitle": "Introduction and National Income Accounting",
+      "evidence": "Chapter 2 of Introductory Macroeconomics. 10 minutes of its Key cards.",
+      "action": {
+        "label": "Start · 10 min",
+        "run": {
+          "chapterKey": "economics.national-income-and-related-aggregates",
+          "minutes": 10,
+          "leaveOut": [],
+          "kind": "mix"
+        }
+      }
+    },
+    {
+      "kind": "due",
+      "chapterKey": "economics.introduction-and-theory-of-consumer-behaviour",
+      "title": "3 cards due in Introduction, Theory of Consumer Behaviour",
+      "headline": "3 cards due",
+      "chapterTitle": "Introduction, Theory of Consumer Behaviour",
+      "evidence": "Due today, about 1 minute.",
+      "action": {
+        "label": "Revise 3 due cards · 1 min",
+        "run": {
+          "chapterKey": "economics.introduction-and-theory-of-consumer-behaviour",
+          "minutes": 1,
+          "leaveOut": [
+            "questions",
+            "mistakes",
+            "lesson"
+          ],
+          "kind": "cards",
+          "cardIds": [
+            "kc.economics.introduction-and-theory-of-consumer-behaviour.def-goods",
+            "kc.economics.introduction-and-theory-of-consumer-behaviour.def-individual",
+            "kc.economics.introduction-and-theory-of-consumer-behaviour.def-resource"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "recap",
+      "chapterKey": "economics.production-and-costs",
+      "title": "Quick recap: Production and Costs",
+      "headline": "Quick recap",
+      "chapterTitle": "Production and Costs",
+      "evidence": "Its 20 Must-know lines, about 4 minutes.",
+      "action": {
+        "label": "Quick recap · 4 min",
+        "run": {
+          "chapterKey": "economics.production-and-costs",
+          "minutes": 4,
+          "leaveOut": [],
+          "kind": "recap"
+        }
+      }
+    }
+  ],
+  "roadmap": {
+    "position": {
+      "chapterKey": "economics.introduction-and-theory-of-consumer-behaviour",
+      "index": 1,
+      "of": 17
+    },
+    "chapter": {
+      "key": "economics.introduction-and-theory-of-consumer-behaviour",
+      "title": "Introduction, Theory of Consumer Behaviour",
+      "seen": 29,
+      "of": 116,
+      "unseen": 87,
+      "place": {
+        "n": 1,
+        "of": 17
+      }
+    },
+    "progress": null,
+    "quiet": null,
+    "sub": "6 due cards first, then new ones here",
+    "mode": "today",
+    "headline": "Today's 10 minutes in Economics",
+    "line": "Chapter 1 of 17 · Introduction, Theory of Consumer Behaviour",
+    "key": {
+      "label": "Start · 10 min",
+      "run": {
+        "chapterKey": "economics.introduction-and-theory-of-consumer-behaviour",
+        "minutes": 10,
+        "kind": "mix",
+        "leaveOut": [],
+        "cardIds": [
+          "kc.economics.introduction-and-theory-of-consumer-behaviour.def-individual",
+          "kc.economics.production-and-costs.def-average-product",
+          "kc.economics.introduction-and-theory-of-consumer-behaviour.def-resource",
+          "kc.economics.production-and-costs.frm-average-product",
+          "kc.economics.introduction-and-theory-of-consumer-behaviour.def-goods",
+          "kc.economics.production-and-costs.def-short-run"
+        ]
+      }
+    },
+    "due": {
+      "count": 6
+    },
+    "or": [
+      {
+        "kind": "feed",
+        "label": "Play this chapter as a feed",
+        "line": "Scroll through the chapter, stop any time",
+        "href": "/explore/run?chapter=economics.introduction-and-theory-of-consumer-behaviour&min=10",
+        "go": "feed"
+      }
+    ]
+  },
+  "parts": [
+    {
+      "id": "p1",
+      "title": "Introductory Microeconomics",
+      "option": null,
+      "units": [
+        {
+          "title": "Introduction, Theory of Consumer Behaviour",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "economics.introduction-and-theory-of-consumer-behaviour",
+              "title": "Introduction, Theory of Consumer Behaviour",
+              "ref": "Ch 2",
+              "place": {
+                "n": 1,
+                "of": 17
+              },
+              "cards": 116,
+              "mustKnow": 29,
+              "due": 3,
+              "mistakes": 0,
+              "questions": 12,
+              "lesson": null,
+              "state": {
+                "key": "getting_there",
+                "label": "Getting there"
+              },
+              "meta": "3 due",
+              "marksOpen": null,
+              "progress": {
+                "of": 116,
+                "seen": 29,
+                "unseen": 87,
+                "questions": 12,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Introduction, Theory of Consumer Behaviour",
+              "needsWorkFrom": "learn"
+            }
+          ]
+        },
+        {
+          "title": "Production and Costs",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "economics.production-and-costs",
+              "title": "Production and Costs",
+              "ref": "Ch 3",
+              "place": {
+                "n": 2,
+                "of": 17
+              },
+              "cards": 79,
+              "mustKnow": 20,
+              "due": 3,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "thin",
+                "label": "Too few answers"
+              },
+              "meta": "3 due",
+              "marksOpen": null,
+              "progress": {
+                "of": 79,
+                "seen": 20,
+                "unseen": 59,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Production and Costs",
+              "needsWorkFrom": "learn"
+            }
+          ]
+        },
+        {
+          "title": "The Theory of the Firm under Perfect Competition",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "economics.theory-of-firms-under-perfect-competition",
+              "title": "The Theory of the Firm under Perfect Competition",
+              "ref": "Ch 4",
+              "place": {
+                "n": 3,
+                "of": 17
+              },
+              "cards": 66,
+              "mustKnow": 17,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "needs_work",
+                "label": "Needs work"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 66,
+                "seen": 0,
+                "unseen": 66,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": "Needs work",
+              "unit": "The Theory of the Firm under Perfect Competition",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        },
+        {
+          "title": "Market Equilibrium and Simple Applications",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "economics.market-equilibrium-and-simple-applications",
+              "title": "Market Equilibrium and Simple Applications",
+              "ref": "Ch 5",
+              "place": {
+                "n": 4,
+                "of": 17
+              },
+              "cards": 24,
+              "mustKnow": 6,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "holding",
+                "label": "Holding"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 24,
+                "seen": 0,
+                "unseen": 24,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Market Equilibrium and Simple Applications",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "title": "Introductory Macroeconomics",
+      "option": null,
+      "units": [
+        {
+          "title": "Introduction and National Income Accounting",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "economics.national-income-and-related-aggregates",
+              "title": "Introduction and National Income Accounting",
+              "ref": "Ch 2",
+              "place": {
+                "n": 5,
+                "of": 17
+              },
+              "cards": 91,
+              "mustKnow": 23,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": {
+                "id": "economics-what-gdp-counts",
+                "title": "What GDP counts: final goods and value added",
+                "minutes": 7,
+                "read": false
+              },
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": "1 lesson",
+              "marksOpen": null,
+              "progress": {
+                "of": 91,
+                "seen": 0,
+                "unseen": 91,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Introduction and National Income Accounting",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        },
+        {
+          "title": "Money and Banking",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "economics.money-and-banking",
+              "title": "Money and Banking",
+              "ref": "Ch 3",
+              "place": {
+                "n": 6,
+                "of": 17
+              },
+              "cards": 70,
+              "mustKnow": 18,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": {
+                "id": "economics-money-functions",
+                "title": "Why money makes exchange easier",
+                "minutes": 5,
+                "read": false
+              },
+              "state": {
+                "key": "getting_there",
+                "label": "Getting there"
+              },
+              "meta": "1 lesson",
+              "marksOpen": null,
+              "progress": {
+                "of": 70,
+                "seen": 0,
+                "unseen": 70,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Money and Banking",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        },
+        {
+          "title": "Determination of Income and Employment",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "economics.income-determination",
+              "title": "Determination of Income and Employment",
+              "ref": "Ch 4",
+              "place": {
+                "n": 7,
+                "of": 17
+              },
+              "cards": 78,
+              "mustKnow": 20,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 78,
+                "seen": 0,
+                "unseen": 78,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Determination of Income and Employment",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        },
+        {
+          "title": "Government Budget and the Economy",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "economics.government-budget-and-the-economy",
+              "title": "Government Budget and the Economy",
+              "ref": "Ch 5",
+              "place": {
+                "n": 8,
+                "of": 17
+              },
+              "cards": 64,
+              "mustKnow": 16,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": {
+                "id": "economics-budget-deficits",
+                "title": "Which deficit are you calculating?",
+                "minutes": 5,
+                "read": false
+              },
+              "state": {
+                "key": "thin",
+                "label": "Too few answers"
+              },
+              "meta": "1 lesson",
+              "marksOpen": null,
+              "progress": {
+                "of": 64,
+                "seen": 0,
+                "unseen": 64,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Government Budget and the Economy",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        },
+        {
+          "title": "Open Economy Macroeconomics",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "economics.balance-of-payments",
+              "title": "Open Economy Macroeconomics",
+              "ref": "Ch 6",
+              "place": {
+                "n": 9,
+                "of": 17
+              },
+              "cards": 76,
+              "mustKnow": 19,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 76,
+                "seen": 0,
+                "unseen": 76,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Open Economy Macroeconomics",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p3",
+      "title": "Indian Economic Development",
+      "option": null,
+      "units": [
+        {
+          "title": "Development Policies and Experience (1947-90)",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "economics.indian-economy-on-the-eve-of-independence",
+              "title": "Indian Economy on the Eve of Independence",
+              "ref": "Ch 1",
+              "place": {
+                "n": 10,
+                "of": 17
+              },
+              "cards": 50,
+              "mustKnow": 13,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "needs_work",
+                "label": "Needs work"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 50,
+                "seen": 0,
+                "unseen": 50,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": "Needs work",
+              "unit": "Development Policies and Experience (1947-90)",
+              "needsWorkFrom": "papers"
+            },
+            {
+              "key": "economics.indian-economic-development-1950-1990",
+              "title": "Indian Economy 1950–1990",
+              "ref": "Ch 2",
+              "place": {
+                "n": 11,
+                "of": 17
+              },
+              "cards": 93,
+              "mustKnow": 24,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 93,
+                "seen": 0,
+                "unseen": 93,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Development Policies and Experience (1947-90)",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        },
+        {
+          "title": "Economic Reforms since 1991",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "economics.economic-reforms-since-1991",
+              "title": "Economic Reforms since 1991",
+              "ref": "Ch 3",
+              "place": {
+                "n": 12,
+                "of": 17
+              },
+              "cards": 89,
+              "mustKnow": 23,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "holding",
+                "label": "Holding"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 89,
+                "seen": 0,
+                "unseen": 89,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Economic Reforms since 1991",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        },
+        {
+          "title": "Current Challenges facing the Indian Economy",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "economics.human-capital-formation",
+              "title": "Human Capital Formation in India",
+              "ref": "Ch 4",
+              "place": {
+                "n": 13,
+                "of": 17
+              },
+              "cards": 51,
+              "mustKnow": 13,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "getting_there",
+                "label": "Getting there"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 51,
+                "seen": 0,
+                "unseen": 51,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Current Challenges facing the Indian Economy",
+              "needsWorkFrom": "papers"
+            },
+            {
+              "key": "economics.rural-development",
+              "title": "Rural Development",
+              "ref": "Ch 5",
+              "place": {
+                "n": 14,
+                "of": 17
+              },
+              "cards": 48,
+              "mustKnow": 12,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "thin",
+                "label": "Too few answers"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 48,
+                "seen": 0,
+                "unseen": 48,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Current Challenges facing the Indian Economy",
+              "needsWorkFrom": "papers"
+            },
+            {
+              "key": "economics.employment",
+              "title": "Employment: Growth, Informalisation and Other Issues",
+              "ref": "Ch 6",
+              "place": {
+                "n": 15,
+                "of": 17
+              },
+              "cards": 58,
+              "mustKnow": 15,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "needs_work",
+                "label": "Needs work"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 58,
+                "seen": 0,
+                "unseen": 58,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": "Needs work",
+              "unit": "Current Challenges facing the Indian Economy",
+              "needsWorkFrom": "papers"
+            },
+            {
+              "key": "economics.environment-and-sustainable-development",
+              "title": "Environment and Sustainable Development",
+              "ref": "Ch 7",
+              "place": {
+                "n": 16,
+                "of": 17
+              },
+              "cards": 59,
+              "mustKnow": 15,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "holding",
+                "label": "Holding"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 59,
+                "seen": 0,
+                "unseen": 59,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Current Challenges facing the Indian Economy",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        },
+        {
+          "title": "Development Experiences of India: A Comparison with Neighbours",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "economics.development-experiences-of-india",
+              "title": "Development Experiences of India: A Comparison with Neighbours",
+              "ref": "Ch 8",
+              "place": {
+                "n": 17,
+                "of": 17
+              },
+              "cards": 83,
+              "mustKnow": 21,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null,
+              "progress": {
+                "of": 83,
+                "seen": 0,
+                "unseen": 83,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Development Experiences of India: A Comparison with Neighbours",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "shelves": {
+    "due": {
+      "bySubject": {
+        "economics": 6,
+        "accountancy": 9,
+        "business_studies": 6,
+        "english": 6
+      },
+      "count": 6,
+      "minutes": 1,
+      "all": 27,
+      "subjects": 4
+    },
+    "missed": {
+      "count": 2,
+      "days": 7
+    },
+    "revise": {
+      "count": 49,
+      "chapters": 2
+    },
+    "must": {
+      "count": 304,
+      "chapters": 17
+    }
+  }
+}

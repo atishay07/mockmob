@@ -1,42 +1,44 @@
 {
   "error": "FREE_SESSION_USED",
   "reason": "learn_session",
-  "line": "Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like.",
+  "line": "That was today's free session. Questions come back tomorrow. Your Key cards stay open.",
   "options": [
     {
-      "label": "Revise 3 due cards",
+      "kind": "revise",
+      "label": "Revise 8 due cards · 2 min",
+      "minutes": 2,
       "run": {
         "kind": "cards",
         "chapterKey": "accountancy.partnership-fundamentals",
         "cardIds": [
-          "kc.accountancy.partnership-fundamentals.def-partnership",
-          "kc.accountancy.partnership-fundamentals.def-partnership-meaning",
-          "kc.accountancy.partnership-fundamentals.def-deed-meaning"
+          "kc.accountancy.partnership-fundamentals.def-deed-meaning",
+          "kc.accountancy.profit-and-loss-appropriation-account.fact-pl-appropriation-adjustments",
+          "kc.accountancy.accounting-ratios.def-why-do-weaknesses-in-financial-statements-li",
+          "kc.accountancy.partnership-fundamentals.kl-act-no-writing",
+          "kc.accountancy.accounting-ratios.def-financial-statement-analysis",
+          "kc.accountancy.partnership-fundamentals.def-partnership-section-4",
+          "kc.accountancy.profit-and-loss-appropriation-account.def-pl-appropriation-meaning",
+          "kc.accountancy.accounting-ratios.def-a-ratio"
         ],
-        "minutes": 1
+        "minutes": 2
       }
     },
     {
-      "label": "Quick recap of this chapter",
-      "run": {
-        "kind": "recap",
-        "chapterKey": "accountancy.partnership-fundamentals",
-        "minutes": 1
-      }
-    },
-    {
-      "label": "Questions on this chapter in Explore",
+      "kind": "explore",
+      "label": "Answer single questions",
+      "minutes": null,
       "href": "/explore?subject=accountancy&chapter=Partnership+Fundamentals",
       "go": "explore"
     }
   ],
   "resume": {
-    "id": "lr_75a9421b815fb51529aa67e6",
+    "id": "lr_32e55b9270a80189c669c455",
     "chapterKey": "accountancy.admission-of-partner",
     "title": "Admission of a Partner",
     "done": 2,
     "of": 12,
     "minutesLeft": 8,
-    "kind": "feed"
+    "kind": "feed",
+    "label": "Continue · 8 min"
   }
 }

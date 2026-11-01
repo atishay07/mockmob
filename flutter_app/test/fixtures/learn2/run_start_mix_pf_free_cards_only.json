@@ -1,54 +1,22 @@
 {
-  "id": "lr_5d687873bf0b34c00231219a",
+  "id": "lr_e139bba5d526e91ef46276ee",
   "kind": "mix",
   "chapter": {
     "key": "accountancy.partnership-fundamentals",
     "title": "Accounting for Partnership: Basic Concepts",
     "ref": "Ch 1",
     "partTitle": "Part 1, Partnership Accounts",
-    "number": 1
+    "number": 1,
+    "place": {
+      "n": 1,
+      "of": 14
+    }
   },
   "minutes": 1,
   "asked": 10,
   "items": [
     {
-      "id": "lr_5d687873bf0b34c00231219a-i1",
-      "type": "card",
-      "stage": "due",
-      "card": {
-        "id": "kc.accountancy.partnership-fundamentals.def-partnership-meaning",
-        "v": 1,
-        "subject": "accountancy",
-        "chapterKey": "accountancy.partnership-fundamentals",
-        "chapter": "Partnership Fundamentals",
-        "unit": "Accounting for Partnership",
-        "kind": "definition",
-        "front": "What is partnership?",
-        "back": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
-        "quote": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
-        "blanks": [],
-        "source": {
-          "kind": "ncert",
-          "book": "Accountancy – Partnership Accounts",
-          "code": "leac101",
-          "chapterNo": 1,
-          "page": 1,
-          "section": "1.1 Nature of Partnership"
-        },
-        "importance": "must",
-        "asked": 0,
-        "tags": [
-          "partnership"
-        ],
-        "order": 10,
-        "authorImportance": "must"
-      },
-      "look": false,
-      "recap": false,
-      "seconds": 12
-    },
-    {
-      "id": "lr_5d687873bf0b34c00231219a-i2",
+      "id": "lr_e139bba5d526e91ef46276ee-i1",
       "type": "card",
       "stage": "due",
       "card": {
@@ -84,45 +52,9 @@
       "seconds": 12
     },
     {
-      "id": "lr_5d687873bf0b34c00231219a-i3",
+      "id": "lr_e139bba5d526e91ef46276ee-i2",
       "type": "card",
       "stage": "due",
-      "card": {
-        "id": "kc.accountancy.partnership-fundamentals.def-partnership",
-        "v": 1,
-        "subject": "accountancy",
-        "chapterKey": "accountancy.partnership-fundamentals",
-        "chapter": "Partnership Fundamentals",
-        "unit": "Accounting for Partnership",
-        "kind": "definition",
-        "front": "Define partnership.",
-        "back": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
-        "quote": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
-        "blanks": [],
-        "source": {
-          "kind": "ncert",
-          "book": "Accountancy : Partnership Accounts",
-          "code": "leac102",
-          "chapterNo": 2,
-          "page": 48,
-          "section": "Introduction"
-        },
-        "importance": "must",
-        "asked": 0,
-        "tags": [
-          "partnership"
-        ],
-        "order": 10,
-        "authorImportance": "must"
-      },
-      "look": false,
-      "recap": false,
-      "seconds": 12
-    },
-    {
-      "id": "lr_5d687873bf0b34c00231219a-i4",
-      "type": "card",
-      "stage": "new",
       "card": {
         "id": "kc.accountancy.partnership-fundamentals.kl-act-no-writing",
         "v": 1,
@@ -155,10 +87,47 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 12
     },
     {
-      "id": "lr_5d687873bf0b34c00231219a-i5",
+      "id": "lr_e139bba5d526e91ef46276ee-i3",
+      "type": "card",
+      "stage": "due",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.def-partnership-section-4",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "definition",
+        "front": "Define partnership (Section 4, Indian Partnership Act 1932).",
+        "back": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
+        "quote": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 2,
+          "section": "1.1 Nature of Partnership"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "partnership",
+          "partnership act"
+        ],
+        "order": 20,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 12
+    },
+    {
+      "id": "lr_e139bba5d526e91ef46276ee-i4",
       "type": "card",
       "stage": "new",
       "card": {
@@ -194,6 +163,43 @@
       "look": false,
       "recap": false,
       "seconds": 18
+    },
+    {
+      "id": "lr_e139bba5d526e91ef46276ee-i5",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.fact-deed-silent-act-applies",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "fact",
+        "front": "Which Act's provisions apply to a partnership matter the deed has no express agreement on?",
+        "back": "However, if there is no express agreement on certain matters, the provisions of the Indian Partnership Act, 1932 shall apply.",
+        "quote": "However, if there is no express agreement on certain matters, the provisions of the Indian Partnership Act, 1932 shall apply.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 3,
+          "section": "Contents of the Partnership Deed"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "partnership deed",
+          "partnership act"
+        ],
+        "order": 250,
+        "authorImportance": "good"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
     }
   ],
   "revisePile": {
@@ -203,7 +209,7 @@
   "added": null,
   "looks": null,
   "free": {
-    "text": "Your free Learn session today is used, so this one is Key cards only. Questions come back tomorrow."
+    "text": "That was today's free session, so this one is Key cards only. Questions come back tomorrow."
   },
   "capped": null,
   "shrink": {

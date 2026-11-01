@@ -2,13 +2,17 @@
   "chapter": {
     "key": "accountancy.admission-of-partner",
     "title": "Admission of a Partner",
-    "ref": "Ch 2"
+    "ref": "Ch 2",
+    "place": {
+      "n": 5,
+      "of": 14
+    }
   },
   "plan": "pro",
   "counts": {
-    "total": 53,
-    "all": 53,
-    "must": 14,
+    "total": 58,
+    "all": 58,
+    "must": 15,
     "revise": 0,
     "missed": 2,
     "due": 0
@@ -43,6 +47,39 @@
             "reconstitution"
           ],
           "order": 20,
+          "authorImportance": "must",
+          "inRevise": false,
+          "missedLately": false,
+          "locked": false
+        },
+        {
+          "id": "kc.accountancy.admission-of-partner.types-modes-of-reconstitution",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.admission-of-partner",
+          "chapter": "Admission of Partner",
+          "unit": "Reconstitution of a Partnership firm",
+          "kind": "types",
+          "front": "Name the ways in which partners often resort to reconstitution of a firm.",
+          "back": "admission of a new partner\nchange in profit sharing ratio\nretirement of a partner\ndeath or insolvence of a partner",
+          "quote": "The partners often resort to reconstitution of the firm in various ways such as admission of a new partner, change in profit sharing ratio, retirement of a partner, death or insolvence of a partner.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 48,
+            "section": "Introduction"
+          },
+          "importance": "good",
+          "asked": 0,
+          "tags": [
+            "reconstitution"
+          ],
+          "order": 25,
+          "note": "Four modes: admission, change in profit sharing ratio, retirement, and death (or insolvency) of a partner.",
+          "addedIn": "top-1102",
           "authorImportance": "must",
           "inRevise": false,
           "missedLately": false,
@@ -152,6 +189,39 @@
           ],
           "order": 90,
           "authorImportance": "must",
+          "inRevise": false,
+          "missedLately": false,
+          "locked": false
+        },
+        {
+          "id": "kc.accountancy.admission-of-partner.fact-capital-cash-or-kind",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.admission-of-partner",
+          "chapter": "Admission of Partner",
+          "unit": "Reconstitution of a Partnership firm",
+          "kind": "fact",
+          "front": "For the right to share in the assets and profits of the firm, what does a new partner bring?",
+          "back": "For the right to acquire share in the assets and profits of the partnership firm, the partner brings an agreed amount of capital either in cash or in kind.",
+          "quote": "For the right to acquire share in the assets and profits of the partnership firm, the partner brings an agreed amount of capital either in cash or in kind.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 49,
+            "section": "2.2 Admission of a New Partner"
+          },
+          "importance": "good",
+          "asked": 0,
+          "tags": [
+            "admission",
+            "capital"
+          ],
+          "order": 95,
+          "addedIn": "top-1102",
+          "authorImportance": "good",
           "inRevise": false,
           "missedLately": false,
           "locked": false
@@ -314,6 +384,38 @@
             "new ratio"
           ],
           "order": 140,
+          "authorImportance": "must",
+          "inRevise": false,
+          "missedLately": false,
+          "locked": false
+        },
+        {
+          "id": "kc.accountancy.admission-of-partner.fact-old-partners-ratio-changes",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.admission-of-partner",
+          "chapter": "Admission of Partner",
+          "unit": "Reconstitution of a Partnership firm",
+          "kind": "fact",
+          "front": "On admission of a new partner, what happens to the profit sharing ratio among the old partners?",
+          "back": "In any case, on admission of a new partner, the profit sharing ratio among the old partners will change keeping in view their respective contribution to the profit sharing ratio of the incoming partner.",
+          "quote": "In any case, on admission of a new partner, the profit sharing ratio among the old partners will change keeping in view their respective contribution to the profit sharing ratio of the incoming partner.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 50,
+            "section": "2.3 New Profit Sharing Ratio"
+          },
+          "importance": "good",
+          "asked": 0,
+          "tags": [
+            "new profit sharing ratio"
+          ],
+          "order": 145,
+          "addedIn": "top-1102",
           "authorImportance": "must",
           "inRevise": false,
           "missedLately": false,
@@ -585,39 +687,6 @@
             "sacrificing ratio"
           ],
           "order": 580,
-          "authorImportance": "must",
-          "inRevise": false,
-          "missedLately": false,
-          "locked": false
-        },
-        {
-          "id": "kc.accountancy.admission-of-partner.kl-paid-privately-no-entry",
-          "v": 1,
-          "subject": "accountancy",
-          "chapterKey": "accountancy.admission-of-partner",
-          "chapter": "Admission of Partner",
-          "unit": "Reconstitution of a Partnership firm",
-          "kind": "key_line",
-          "front": "If this amount is paid to the old partners directly (privately) by the new partner, ____ is passed in the books of the firm.",
-          "back": "If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm.",
-          "quote": "If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm.",
-          "blanks": [
-            "no entry"
-          ],
-          "source": {
-            "kind": "ncert",
-            "book": "Accountancy : Partnership Accounts",
-            "code": "leac102",
-            "chapterNo": 2,
-            "page": 64,
-            "section": "2.5.5.1 When the new Partner brings goodwill in cash"
-          },
-          "importance": "must",
-          "asked": 0,
-          "tags": [
-            "goodwill"
-          ],
-          "order": 590,
           "authorImportance": "must",
           "inRevise": false,
           "missedLately": false,
@@ -1081,7 +1150,7 @@
             "page": 76,
             "section": "2.6 Adjustment for Accumulated Profits and Losses"
           },
-          "importance": "good",
+          "importance": "must",
           "asked": 0,
           "tags": [
             "reserves"
@@ -1227,6 +1296,38 @@
       "title": "2.7 Revaluation of Assets and Reassessment of Liabilities",
       "cards": [
         {
+          "id": "kc.accountancy.admission-of-partner.fact-why-revalue-assets",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.admission-of-partner",
+          "chapter": "Admission of Partner",
+          "unit": "Reconstitution of a Partnership firm",
+          "kind": "fact",
+          "front": "At admission of a new partner, why are assets revalued and liabilities reassessed?",
+          "back": "In case the assets are overstated or understated, these are revalued. Similarly, a reassessment of the liabilities is also done so that these are brought in the books at their correct values.",
+          "quote": "In case the assets are overstated or understated, these are revalued. Similarly, a reassessment of the liabilities is also done so that these are brought in the books at their correct values.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 77,
+            "section": "2.7 Revaluation of Assets and Reassessment of Liabilities"
+          },
+          "importance": "good",
+          "asked": 0,
+          "tags": [
+            "revaluation"
+          ],
+          "order": 895,
+          "addedIn": "top-1102",
+          "authorImportance": "must",
+          "inRevise": false,
+          "missedLately": false,
+          "locked": false
+        },
+        {
           "id": "kc.accountancy.admission-of-partner.fact-reval-balance-old-ratio",
           "v": 1,
           "subject": "accountancy",
@@ -1252,6 +1353,38 @@
             "revaluation"
           ],
           "order": 900,
+          "authorImportance": "must",
+          "inRevise": false,
+          "missedLately": false,
+          "locked": false
+        },
+        {
+          "id": "kc.accountancy.admission-of-partner.fact-reval-account-credit-debit",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.admission-of-partner",
+          "chapter": "Admission of Partner",
+          "unit": "Reconstitution of a Partnership firm",
+          "kind": "fact",
+          "front": "On revaluation, which changes are credited to the Revaluation Account and which are debited?",
+          "back": "the revaluation account is credited with increase in the value of each asset and decrease in its liabilities because it is a gain and is debited with decrease in the value of assets and increase in its liabilities is debited to revaluation account because it is a loss.",
+          "quote": "In other words, the revaluation account is credited with increase in the value of each asset and decrease in its liabilities because it is a gain and is debited with decrease in the value of assets and increase in its liabilities is debited to revaluation account because it is a loss.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 77,
+            "section": "2.7 Revaluation of Assets and Reassessment of Liabilities"
+          },
+          "importance": "good",
+          "asked": 0,
+          "tags": [
+            "revaluation"
+          ],
+          "order": 905,
+          "addedIn": "top-1102",
           "authorImportance": "must",
           "inRevise": false,
           "missedLately": false,
@@ -1612,6 +1745,38 @@
           "locked": false
         },
         {
+          "id": "kc.accountancy.admission-of-partner.fact-new-partner-capital-as-base",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.admission-of-partner",
+          "chapter": "Admission of Partner",
+          "unit": "Reconstitution of a Partnership firm",
+          "kind": "fact",
+          "front": "If the new partner's capital is given, how can the new capitals of the old partners be calculated?",
+          "back": "if the capital of the new partner is given, the same can be used as a base for calculating the new capitals of the old partners.",
+          "quote": "In such a situation, if the capital of the new partner is given, the same can be used as a base for calculating the new capitals of the old partners.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 83,
+            "section": "2.8 Adjustment of Capitals"
+          },
+          "importance": "good",
+          "asked": 0,
+          "tags": [
+            "capital adjustment"
+          ],
+          "order": 1030,
+          "addedIn": "top-1102",
+          "authorImportance": "must",
+          "inRevise": false,
+          "missedLately": false,
+          "locked": false
+        },
+        {
           "id": "kc.accountancy.admission-of-partner.fact-short-bring-surplus-withdraw",
           "v": 1,
           "subject": "accountancy",
@@ -1762,7 +1927,7 @@
             "page": 97,
             "section": "Summary"
           },
-          "importance": "good",
+          "importance": "must",
           "asked": 0,
           "tags": [
             "admission"

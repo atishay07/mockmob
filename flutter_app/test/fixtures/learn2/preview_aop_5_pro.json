@@ -3,6 +3,10 @@
     "key": "accountancy.admission-of-partner",
     "title": "Admission of a Partner",
     "ref": "Ch 2",
+    "place": {
+      "n": 5,
+      "of": 14
+    },
     "partTitle": "Part 1, Partnership Accounts",
     "unitTitle": "Reconstitution of a Partnership firm",
     "state": {
@@ -47,29 +51,50 @@
   "coach": "Tap a pile to leave it out.",
   "note": "Ratings join Revise. Questions are free.",
   "recap": {
-    "count": 14,
+    "count": 15,
     "minutes": 3,
-    "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+    "label": "Or a quick recap: the 15 Must-know lines, about 3 min"
   },
   "shrink": null,
   "free": null,
   "resume": {
-    "runId": "lr_aa19581b98132d65737b96f0",
+    "runId": "lr_4c9a70e34a1a7b054d3439f3",
     "done": 6,
     "of": 16,
     "minutesLeft": 5,
     "kind": "mix"
   },
+  "firstUp": [
+    {
+      "id": "kc.accountancy.admission-of-partner.def-reconstitution",
+      "front": "What is reconstitution of a partnership firm?",
+      "kind": "definition",
+      "mustKnow": true
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.fact-nothing-specified-old-ratio",
+      "front": "If nothing is specified, how is the new partner assumed to acquire his share from the old partners?",
+      "kind": "fact",
+      "mustKnow": true
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.formula-new-share-old-partner",
+      "front": "Formula: an old partner's new share when the share he surrenders to the new partner is given.",
+      "kind": "formula",
+      "mustKnow": true
+    }
+  ],
   "firstVisit": false,
+  "cardsSeen": 0,
   "asked": 5,
   "capped": null,
   "freeSession": null,
   "added": null,
   "shelf": {
     "cards": {
-      "count": 53,
-      "open": 53,
-      "mustKnow": 14,
+      "count": 58,
+      "open": 58,
+      "mustKnow": 15,
       "inRevise": 0
     },
     "questions": {
@@ -86,7 +111,7 @@
       "read": false
     },
     "print": {
-      "mustKnow": 14,
+      "mustKnow": 15,
       "locked": false
     }
   }

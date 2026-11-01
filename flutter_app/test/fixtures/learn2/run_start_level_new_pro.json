@@ -1,18 +1,22 @@
 {
-  "id": "lr_0866c3852e2d5b8c321059a6",
+  "id": "lr_56a621471be2958c2b569a15",
   "kind": "level",
   "chapter": {
     "key": "accountancy.partnership-fundamentals",
     "title": "Accounting for Partnership: Basic Concepts",
     "ref": "Ch 1",
     "partTitle": "Part 1, Partnership Accounts",
-    "number": 1
+    "number": 1,
+    "place": {
+      "n": 1,
+      "of": 14
+    }
   },
   "minutes": 6,
   "asked": 6,
   "items": [
     {
-      "id": "lr_0866c3852e2d5b8c321059a6-i1",
+      "id": "lr_56a621471be2958c2b569a15-i1",
       "type": "question",
       "origin": "chapter",
       "question": {
@@ -41,7 +45,7 @@
       "seconds": 55
     },
     {
-      "id": "lr_0866c3852e2d5b8c321059a6-i2",
+      "id": "lr_56a621471be2958c2b569a15-i2",
       "type": "question",
       "origin": "chapter",
       "question": {
@@ -70,7 +74,7 @@
       "seconds": 55
     },
     {
-      "id": "lr_0866c3852e2d5b8c321059a6-i3",
+      "id": "lr_56a621471be2958c2b569a15-i3",
       "type": "question",
       "origin": "chapter",
       "question": {
@@ -99,7 +103,7 @@
       "seconds": 55
     },
     {
-      "id": "lr_0866c3852e2d5b8c321059a6-i4",
+      "id": "lr_56a621471be2958c2b569a15-i4",
       "type": "question",
       "origin": "chapter",
       "question": {
@@ -128,7 +132,7 @@
       "seconds": 55
     },
     {
-      "id": "lr_0866c3852e2d5b8c321059a6-i5",
+      "id": "lr_56a621471be2958c2b569a15-i5",
       "type": "question",
       "origin": "chapter",
       "question": {
@@ -157,7 +161,7 @@
       "seconds": 55
     },
     {
-      "id": "lr_0866c3852e2d5b8c321059a6-i6",
+      "id": "lr_56a621471be2958c2b569a15-i6",
       "type": "question",
       "origin": "chapter",
       "question": {

@@ -3,6 +3,10 @@
     "key": "accountancy.admission-of-partner",
     "title": "Admission of a Partner",
     "ref": "Ch 2",
+    "place": {
+      "n": 5,
+      "of": 14
+    },
     "partTitle": "Part 1, Partnership Accounts",
     "unitTitle": "Reconstitution of a Partnership firm",
     "state": {
@@ -53,16 +57,37 @@
   },
   "shrink": null,
   "free": {
-    "text": "Free opens 5 of this chapter's 53 cards."
+    "text": "Free opens 5 of this chapter's 58 cards."
   },
   "resume": {
-    "runId": "lr_1d11c94a527acdc962fc5ff6",
+    "runId": "lr_2d0d476a552ae34e0082a36e",
     "done": 6,
     "of": 11,
     "minutesLeft": 5,
     "kind": "mix"
   },
+  "firstUp": [
+    {
+      "id": "kc.accountancy.admission-of-partner.def-reconstitution",
+      "front": "What is reconstitution of a partnership firm?",
+      "kind": "definition",
+      "mustKnow": true
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.fact-nothing-specified-old-ratio",
+      "front": "If nothing is specified, how is the new partner assumed to acquire his share from the old partners?",
+      "kind": "fact",
+      "mustKnow": true
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.def-sacrificing-ratio",
+      "front": "What is the sacrificing ratio?",
+      "kind": "definition",
+      "mustKnow": true
+    }
+  ],
   "firstVisit": false,
+  "cardsSeen": 0,
   "asked": 5,
   "capped": null,
   "freeSession": {
@@ -73,9 +98,9 @@
   "added": null,
   "shelf": {
     "cards": {
-      "count": 53,
+      "count": 58,
       "open": 5,
-      "mustKnow": 14,
+      "mustKnow": 15,
       "inRevise": 0
     },
     "questions": {
@@ -92,7 +117,7 @@
       "read": false
     },
     "print": {
-      "mustKnow": 14,
+      "mustKnow": 15,
       "locked": true
     }
   }

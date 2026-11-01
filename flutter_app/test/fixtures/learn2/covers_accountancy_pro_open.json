@@ -14,6 +14,10 @@
       "title": "Admission of a Partner",
       "name": "Admission of Partner",
       "ref": "Ch 2",
+      "place": {
+        "n": 5,
+        "of": 14
+      },
       "refLine": "Part 1, Ch 2",
       "number": 2,
       "partTitle": "Part 1, Partnership Accounts",
@@ -21,18 +25,26 @@
       "reason": "Pick up where you stopped",
       "forYou": true,
       "hook": {
-        "id": "kc.accountancy.admission-of-partner.kl-paid-privately-no-entry",
-        "front": "If this amount is paid to the old partners directly (privately) by the new partner, ____ is passed in the books of the firm.",
+        "id": "kc.accountancy.admission-of-partner.kl-premium-ratio-of-sacrifice",
+        "front": "The amount of premium brought in by the new partner is shared by the existing partners in their ____.",
         "kind": "key_line",
         "mustKnow": true
       },
+      "hooks": [
+        {
+          "id": "kc.accountancy.admission-of-partner.kl-premium-ratio-of-sacrifice",
+          "front": "The amount of premium brought in by the new partner is shared by the existing partners in their ____.",
+          "kind": "key_line",
+          "mustKnow": true
+        }
+      ],
       "state": {
         "key": "getting_there",
         "label": "Getting there"
       },
       "studentLine": "You stopped at 3 of 17",
       "resume": {
-        "runId": "lr_af9a41e08178605d8825acbd",
+        "runId": "lr_0e2bcf07502277f395b25116",
         "done": 3,
         "of": 17,
         "minutesLeft": 7
@@ -43,38 +55,62 @@
           "questions": 3,
           "minutes": 5,
           "hook": {
-            "id": "kc.accountancy.admission-of-partner.kl-paid-privately-no-entry",
-            "front": "If this amount is paid to the old partners directly (privately) by the new partner, ____ is passed in the books of the firm.",
+            "id": "kc.accountancy.admission-of-partner.kl-premium-ratio-of-sacrifice",
+            "front": "The amount of premium brought in by the new partner is shared by the existing partners in their ____.",
             "kind": "key_line",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.admission-of-partner.kl-premium-ratio-of-sacrifice",
+              "front": "The amount of premium brought in by the new partner is shared by the existing partners in their ____.",
+              "kind": "key_line",
+              "mustKnow": true
+            }
+          ]
         },
         "10": {
-          "cards": 9,
+          "cards": 10,
           "questions": 6,
           "minutes": 10,
           "hook": {
-            "id": "kc.accountancy.admission-of-partner.kl-paid-privately-no-entry",
-            "front": "If this amount is paid to the old partners directly (privately) by the new partner, ____ is passed in the books of the firm.",
+            "id": "kc.accountancy.admission-of-partner.kl-premium-ratio-of-sacrifice",
+            "front": "The amount of premium brought in by the new partner is shared by the existing partners in their ____.",
             "kind": "key_line",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.admission-of-partner.kl-premium-ratio-of-sacrifice",
+              "front": "The amount of premium brought in by the new partner is shared by the existing partners in their ____.",
+              "kind": "key_line",
+              "mustKnow": true
+            }
+          ]
         },
         "20": {
           "cards": 20,
           "questions": 10,
           "minutes": 20,
           "hook": {
-            "id": "kc.accountancy.admission-of-partner.kl-paid-privately-no-entry",
-            "front": "If this amount is paid to the old partners directly (privately) by the new partner, ____ is passed in the books of the firm.",
+            "id": "kc.accountancy.admission-of-partner.kl-premium-ratio-of-sacrifice",
+            "front": "The amount of premium brought in by the new partner is shared by the existing partners in their ____.",
             "kind": "key_line",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.admission-of-partner.kl-premium-ratio-of-sacrifice",
+              "front": "The amount of premium brought in by the new partner is shared by the existing partners in their ____.",
+              "kind": "key_line",
+              "mustKnow": true
+            }
+          ]
         }
       },
       "kept": 1,
       "due": 0,
-      "mistakes": 1,
+      "mistakes": 2,
       "art": null
     },
     {
@@ -82,6 +118,10 @@
       "title": "Retirement and Death of a Partner",
       "name": "Retirement & Death of Partner",
       "ref": "Ch 3",
+      "place": {
+        "n": 6,
+        "of": 14
+      },
       "refLine": "Part 1, Ch 3",
       "number": 3,
       "partTitle": "Part 1, Partnership Accounts",
@@ -94,6 +134,38 @@
         "kind": "definition",
         "mustKnow": true
       },
+      "hooks": [
+        {
+          "id": "kc.accountancy.retirement-and-death-of-partner.def-retirement-meaning",
+          "front": "What is retirement of an existing partner?",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-credits-1",
+          "front": "Sum due to a retiring/deceased partner includes: name items (i) to (v).",
+          "kind": "list",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-credits-2",
+          "front": "Sum due to a retiring/deceased partner: name items (vi) to (viii), after the capital, goodwill and reserve items.",
+          "kind": "list",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.retirement-and-death-of-partner.kl-deed-ends",
+          "front": "On the retirement or death of a partner, the existing partnership deed ____, and in its place, a ____ needs to be framed",
+          "kind": "key_line",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-deductions",
+          "front": "Name the deductions that may have to be made from the retiring/deceased partner's share.",
+          "kind": "list",
+          "mustKnow": true
+        }
+      ],
       "state": {
         "key": "getting_there",
         "label": "Getting there"
@@ -110,7 +182,39 @@
             "front": "What is retirement of an existing partner?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.retirement-and-death-of-partner.def-retirement-meaning",
+              "front": "What is retirement of an existing partner?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-credits-2",
+              "front": "Sum due to a retiring/deceased partner: name items (vi) to (viii), after the capital, goodwill and reserve items.",
+              "kind": "list",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-credits-1",
+              "front": "Sum due to a retiring/deceased partner includes: name items (i) to (v).",
+              "kind": "list",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-deductions",
+              "front": "Name the deductions that may have to be made from the retiring/deceased partner's share.",
+              "kind": "list",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.retirement-and-death-of-partner.list-accounting-aspects",
+              "front": "Name the 8 accounting aspects involved on retirement or death of a partner.",
+              "kind": "list",
+              "mustKnow": true
+            }
+          ]
         },
         "10": {
           "cards": 27,
@@ -121,7 +225,39 @@
             "front": "What is retirement of an existing partner?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.retirement-and-death-of-partner.def-retirement-meaning",
+              "front": "What is retirement of an existing partner?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-credits-1",
+              "front": "Sum due to a retiring/deceased partner includes: name items (i) to (v).",
+              "kind": "list",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-credits-2",
+              "front": "Sum due to a retiring/deceased partner: name items (vi) to (viii), after the capital, goodwill and reserve items.",
+              "kind": "list",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.retirement-and-death-of-partner.kl-deed-ends",
+              "front": "On the retirement or death of a partner, the existing partnership deed ____, and in its place, a ____ needs to be framed",
+              "kind": "key_line",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-deductions",
+              "front": "Name the deductions that may have to be made from the retiring/deceased partner's share.",
+              "kind": "list",
+              "mustKnow": true
+            }
+          ]
         },
         "20": {
           "cards": 40,
@@ -135,7 +271,39 @@
             "front": "What is retirement of an existing partner?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.retirement-and-death-of-partner.def-retirement-meaning",
+              "front": "What is retirement of an existing partner?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-credits-1",
+              "front": "Sum due to a retiring/deceased partner includes: name items (i) to (v).",
+              "kind": "list",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-credits-2",
+              "front": "Sum due to a retiring/deceased partner: name items (vi) to (viii), after the capital, goodwill and reserve items.",
+              "kind": "list",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.retirement-and-death-of-partner.kl-deed-ends",
+              "front": "On the retirement or death of a partner, the existing partnership deed ____, and in its place, a ____ needs to be framed",
+              "kind": "key_line",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-deductions",
+              "front": "Name the deductions that may have to be made from the retiring/deceased partner's share.",
+              "kind": "list",
+              "mustKnow": true
+            }
+          ]
         }
       },
       "kept": 0,
@@ -148,6 +316,10 @@
       "title": "Dissolution of Partnership Firm",
       "name": "Dissolution of Partnership Firm",
       "ref": "Ch 4",
+      "place": {
+        "n": 7,
+        "of": 14
+      },
       "refLine": "Part 1, Ch 4",
       "number": 4,
       "partTitle": "Part 1, Partnership Accounts",
@@ -160,6 +332,38 @@
         "kind": "definition",
         "mustKnow": true
       },
+      "hooks": [
+        {
+          "id": "kc.accountancy.dissolution-of-partnership-firm.def-firm-sec39",
+          "front": "Define the dissolution of the firm (Section 39 of the Partnership Act 1932).",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.dissolution-of-partnership-firm.fact-reconstitution-partnership-not-firm",
+          "front": "When a partnership is reconstituted by admission, retirement or death, what is dissolved and what is not?",
+          "kind": "fact",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.dissolution-of-partnership-firm.list-ways-partnership-dissolved",
+          "front": "Name the 7 ways in which dissolution of partnership may take place.",
+          "kind": "list",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.dissolution-of-partnership-firm.fact-firm-dissolution-implies-partnership",
+          "front": "Which dissolution necessarily brings the other: of the firm or of the partnership?",
+          "kind": "fact",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.dissolution-of-partnership-firm.types-ways-firm-dissolved",
+          "front": "Types: the 5 ways in which dissolution of a firm takes place.",
+          "kind": "types",
+          "mustKnow": false
+        }
+      ],
       "state": {
         "key": "none",
         "label": "Not started"
@@ -176,7 +380,39 @@
             "front": "Define the dissolution of the firm (Section 39 of the Partnership Act 1932).",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.dissolution-of-partnership-firm.def-firm-sec39",
+              "front": "Define the dissolution of the firm (Section 39 of the Partnership Act 1932).",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.dissolution-of-partnership-firm.fact-reconstitution-partnership-not-firm",
+              "front": "When a partnership is reconstituted by admission, retirement or death, what is dissolved and what is not?",
+              "kind": "fact",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.dissolution-of-partnership-firm.list-contingencies",
+              "front": "Name the 4 contingencies on which a firm is dissolved (subject to contract).",
+              "kind": "list",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.dissolution-of-partnership-firm.steps-application-of-assets",
+              "front": "Steps: the order in which the firm’s assets are applied on dissolution.",
+              "kind": "steps",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.dissolution-of-partnership-firm.def-realisation-account",
+              "front": "What is a Realisation Account?",
+              "kind": "definition",
+              "mustKnow": true
+            }
+          ]
         },
         "10": {
           "cards": 28,
@@ -187,7 +423,39 @@
             "front": "Define the dissolution of the firm (Section 39 of the Partnership Act 1932).",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.dissolution-of-partnership-firm.def-firm-sec39",
+              "front": "Define the dissolution of the firm (Section 39 of the Partnership Act 1932).",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.dissolution-of-partnership-firm.fact-reconstitution-partnership-not-firm",
+              "front": "When a partnership is reconstituted by admission, retirement or death, what is dissolved and what is not?",
+              "kind": "fact",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.dissolution-of-partnership-firm.list-ways-partnership-dissolved",
+              "front": "Name the 7 ways in which dissolution of partnership may take place.",
+              "kind": "list",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.dissolution-of-partnership-firm.fact-firm-dissolution-implies-partnership",
+              "front": "Which dissolution necessarily brings the other: of the firm or of the partnership?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.dissolution-of-partnership-firm.types-ways-firm-dissolved",
+              "front": "Types: the 5 ways in which dissolution of a firm takes place.",
+              "kind": "types",
+              "mustKnow": false
+            }
+          ]
         },
         "20": {
           "cards": 40,
@@ -201,7 +469,39 @@
             "front": "Define the dissolution of the firm (Section 39 of the Partnership Act 1932).",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.dissolution-of-partnership-firm.def-firm-sec39",
+              "front": "Define the dissolution of the firm (Section 39 of the Partnership Act 1932).",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.dissolution-of-partnership-firm.fact-reconstitution-partnership-not-firm",
+              "front": "When a partnership is reconstituted by admission, retirement or death, what is dissolved and what is not?",
+              "kind": "fact",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.dissolution-of-partnership-firm.list-ways-partnership-dissolved",
+              "front": "Name the 7 ways in which dissolution of partnership may take place.",
+              "kind": "list",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.dissolution-of-partnership-firm.fact-firm-dissolution-implies-partnership",
+              "front": "Which dissolution necessarily brings the other: of the firm or of the partnership?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.dissolution-of-partnership-firm.types-ways-firm-dissolved",
+              "front": "Types: the 5 ways in which dissolution of a firm takes place.",
+              "kind": "types",
+              "mustKnow": false
+            }
+          ]
         }
       },
       "kept": 0,
@@ -214,6 +514,10 @@
       "title": "Accounting for Share Capital",
       "name": "Share Capital",
       "ref": "Ch 1",
+      "place": {
+        "n": 8,
+        "of": 14
+      },
       "refLine": "Part 2, Ch 1",
       "number": 1,
       "partTitle": "Part 2, Company Accounts and Analysis of Financial Statements",
@@ -226,6 +530,38 @@
         "kind": "definition",
         "mustKnow": false
       },
+      "hooks": [
+        {
+          "id": "kc.accountancy.share-capital.def-company-marshal",
+          "front": "Define a company (Chief Justice Marshal).",
+          "kind": "definition",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.share-capital.def-company-act",
+          "front": "What is a company under the Companies Act, 2013?",
+          "kind": "definition",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.share-capital.def-authorised",
+          "front": "Define authorised capital.",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.share-capital.def-issued",
+          "front": "Define issued capital.",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.share-capital.def-called-up",
+          "front": "Define called up capital.",
+          "kind": "definition",
+          "mustKnow": true
+        }
+      ],
       "state": {
         "key": "thin",
         "label": "Too few answers"
@@ -242,7 +578,39 @@
             "front": "Define authorised capital.",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.share-capital.def-authorised",
+              "front": "Define authorised capital.",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.share-capital.def-issued",
+              "front": "Define issued capital.",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.share-capital.def-called-up",
+              "front": "Define called up capital.",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.share-capital.def-paid-up",
+              "front": "Define paid up capital.",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.share-capital.formula-paid-up-formula",
+              "front": "Formula: paid up capital.",
+              "kind": "formula",
+              "mustKnow": true
+            }
+          ]
         },
         "10": {
           "cards": 29,
@@ -253,7 +621,39 @@
             "front": "Define a company (Chief Justice Marshal).",
             "kind": "definition",
             "mustKnow": false
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.share-capital.def-company-marshal",
+              "front": "Define a company (Chief Justice Marshal).",
+              "kind": "definition",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.share-capital.def-company-act",
+              "front": "What is a company under the Companies Act, 2013?",
+              "kind": "definition",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.share-capital.def-authorised",
+              "front": "Define authorised capital.",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.share-capital.def-issued",
+              "front": "Define issued capital.",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.share-capital.def-called-up",
+              "front": "Define called up capital.",
+              "kind": "definition",
+              "mustKnow": true
+            }
+          ]
         },
         "20": {
           "cards": 40,
@@ -267,7 +667,39 @@
             "front": "Define a company (Chief Justice Marshal).",
             "kind": "definition",
             "mustKnow": false
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.share-capital.def-company-marshal",
+              "front": "Define a company (Chief Justice Marshal).",
+              "kind": "definition",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.share-capital.def-company-act",
+              "front": "What is a company under the Companies Act, 2013?",
+              "kind": "definition",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.share-capital.list-features-names",
+              "front": "Name the 7 features of a company.",
+              "kind": "list",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.share-capital.fact-limited-liability-extent",
+              "front": "Feature \"Limited Liability\": to what extent is the liability of the members of the company limited?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.share-capital.term-perpetual-succession",
+              "front": "____: The company being an artificial person created by law continues to exist irrespective of the changes in its membership.",
+              "kind": "term",
+              "mustKnow": false
+            }
+          ]
         }
       },
       "kept": 0,
@@ -280,6 +712,10 @@
       "title": "Issue and Redemption of Debentures",
       "name": "Debentures",
       "ref": "Ch 2",
+      "place": {
+        "n": 9,
+        "of": 14
+      },
       "refLine": "Part 2, Ch 2",
       "number": 2,
       "partTitle": "Part 2, Company Accounts and Analysis of Financial Statements",
@@ -292,6 +728,38 @@
         "kind": "definition",
         "mustKnow": true
       },
+      "hooks": [
+        {
+          "id": "kc.accountancy.debentures.def-debenture",
+          "front": "What is a debenture?",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.debentures.kl-finance-long-term-debt",
+          "front": "The finances raised through debentures are also known as ____.",
+          "kind": "key_line",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.debentures.def-debenture-companies-act",
+          "front": "What does ‘Debenture’ include under section 2(30) of The Companies Act, 2013?",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.debentures.def-bond",
+          "front": "What is a bond?",
+          "kind": "definition",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.debentures.kl-debentures-bonds-interchangeable",
+          "front": "The terms ‘debentures’ and ‘Bonds’ are now being used ____.",
+          "kind": "key_line",
+          "mustKnow": false
+        }
+      ],
       "state": {
         "key": "none",
         "label": "Not started"
@@ -308,7 +776,39 @@
             "front": "What is a debenture?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.debentures.def-debenture",
+              "front": "What is a debenture?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.debentures.def-debenture-companies-act",
+              "front": "What does ‘Debenture’ include under section 2(30) of The Companies Act, 2013?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.debentures.diff-shares-vs-debentures-ownership",
+              "front": "Shares vs debentures: the difference on ownership.",
+              "kind": "difference",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.debentures.diff-shares-vs-debentures-return",
+              "front": "Shares vs debentures: the difference on return.",
+              "kind": "difference",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.debentures.diff-shares-vs-debentures-dividend-interest",
+              "front": "Dividend vs interest: how each is treated against profits.",
+              "kind": "difference",
+              "mustKnow": true
+            }
+          ]
         },
         "10": {
           "cards": 30,
@@ -319,7 +819,39 @@
             "front": "What is a debenture?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.debentures.def-debenture",
+              "front": "What is a debenture?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.debentures.kl-finance-long-term-debt",
+              "front": "The finances raised through debentures are also known as ____.",
+              "kind": "key_line",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.debentures.def-debenture-companies-act",
+              "front": "What does ‘Debenture’ include under section 2(30) of The Companies Act, 2013?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.debentures.def-bond",
+              "front": "What is a bond?",
+              "kind": "definition",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.debentures.kl-debentures-bonds-interchangeable",
+              "front": "The terms ‘debentures’ and ‘Bonds’ are now being used ____.",
+              "kind": "key_line",
+              "mustKnow": false
+            }
+          ]
         },
         "20": {
           "cards": 40,
@@ -333,7 +865,39 @@
             "front": "What is a debenture?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.debentures.def-debenture",
+              "front": "What is a debenture?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.debentures.kl-finance-long-term-debt",
+              "front": "The finances raised through debentures are also known as ____.",
+              "kind": "key_line",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.debentures.def-debenture-companies-act",
+              "front": "What does ‘Debenture’ include under section 2(30) of The Companies Act, 2013?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.debentures.def-bond",
+              "front": "What is a bond?",
+              "kind": "definition",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.debentures.kl-debentures-bonds-interchangeable",
+              "front": "The terms ‘debentures’ and ‘Bonds’ are now being used ____.",
+              "kind": "key_line",
+              "mustKnow": false
+            }
+          ]
         }
       },
       "kept": 0,
@@ -346,6 +910,10 @@
       "title": "Financial Statements of a Company",
       "name": "Financial Statements of Company",
       "ref": "Ch 3",
+      "place": {
+        "n": 10,
+        "of": 14
+      },
       "refLine": "Part 2, Ch 3",
       "number": 3,
       "partTitle": "Part 2, Company Accounts and Analysis of Financial Statements",
@@ -358,6 +926,38 @@
         "kind": "definition",
         "mustKnow": true
       },
+      "hooks": [
+        {
+          "id": "kc.accountancy.financial-statements-of-company.def-financial-statements",
+          "front": "What are financial statements of a company?",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.financial-statements-of-company.def-nature-aicpa",
+          "front": "What is the nature of financial statements, as stated by the American Institute of Certified Public Accountants?",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.financial-statements-of-company.key-nature-inventory-convention",
+          "front": "The convention of valuing ____ at cost or market price, whichever is ____, is followed.",
+          "kind": "key_line",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.financial-statements-of-company.fact-nature-materiality",
+          "front": "Which convention is followed in dealing with small items like pencils, pens and postage stamps?",
+          "kind": "fact",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.financial-statements-of-company.key-nature-money-measurement",
+          "front": "____ postulate assumes that the value of money will ____ in different periods.",
+          "kind": "key_line",
+          "mustKnow": false
+        }
+      ],
       "state": {
         "key": "needs_work",
         "label": "Needs work"
@@ -374,7 +974,39 @@
             "front": "What are financial statements of a company?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.financial-statements-of-company.def-financial-statements",
+              "front": "What are financial statements of a company?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.financial-statements-of-company.def-nature-aicpa",
+              "front": "What is the nature of financial statements, as stated by the American Institute of Certified Public Accountants?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.financial-statements-of-company.list-objectives-six",
+              "front": "Name the six specific objectives of financial statements.",
+              "kind": "list",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.financial-statements-of-company.list-bs-non-current-liabilities",
+              "front": "Name the items under Non-current Liabilities in the balance sheet.",
+              "kind": "list",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.financial-statements-of-company.list-bs-current-liabilities",
+              "front": "Name the items under Current Liabilities in the balance sheet.",
+              "kind": "list",
+              "mustKnow": true
+            }
+          ]
         },
         "10": {
           "cards": 29,
@@ -385,7 +1017,39 @@
             "front": "What are financial statements of a company?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.financial-statements-of-company.def-financial-statements",
+              "front": "What are financial statements of a company?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.financial-statements-of-company.def-nature-aicpa",
+              "front": "What is the nature of financial statements, as stated by the American Institute of Certified Public Accountants?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.financial-statements-of-company.key-nature-inventory-convention",
+              "front": "The convention of valuing ____ at cost or market price, whichever is ____, is followed.",
+              "kind": "key_line",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.financial-statements-of-company.fact-nature-materiality",
+              "front": "Which convention is followed in dealing with small items like pencils, pens and postage stamps?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.financial-statements-of-company.key-nature-money-measurement",
+              "front": "____ postulate assumes that the value of money will ____ in different periods.",
+              "kind": "key_line",
+              "mustKnow": false
+            }
+          ]
         },
         "20": {
           "cards": 40,
@@ -399,7 +1063,39 @@
             "front": "What are financial statements of a company?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.financial-statements-of-company.def-financial-statements",
+              "front": "What are financial statements of a company?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.financial-statements-of-company.def-nature-aicpa",
+              "front": "What is the nature of financial statements, as stated by the American Institute of Certified Public Accountants?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.financial-statements-of-company.key-nature-inventory-convention",
+              "front": "The convention of valuing ____ at cost or market price, whichever is ____, is followed.",
+              "kind": "key_line",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.financial-statements-of-company.fact-nature-materiality",
+              "front": "Which convention is followed in dealing with small items like pencils, pens and postage stamps?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.financial-statements-of-company.key-nature-money-measurement",
+              "front": "____ postulate assumes that the value of money will ____ in different periods.",
+              "kind": "key_line",
+              "mustKnow": false
+            }
+          ]
         }
       },
       "kept": 0,
@@ -412,6 +1108,10 @@
       "title": "Analysis of Financial Statements",
       "name": "Analysis of Financial Statements",
       "ref": "Ch 4",
+      "place": {
+        "n": 11,
+        "of": 14
+      },
       "refLine": "Part 2, Ch 4",
       "number": 4,
       "partTitle": "Part 2, Company Accounts and Analysis of Financial Statements",
@@ -419,11 +1119,43 @@
       "reason": null,
       "forYou": false,
       "hook": {
-        "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statement-analysis",
-        "front": "What is ‘Financial Statement Analysis’?",
+        "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statements-summarised",
+        "front": "What are financial statements, basically?",
         "kind": "definition",
         "mustKnow": true
       },
+      "hooks": [
+        {
+          "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statements-summarised",
+          "front": "What are financial statements, basically?",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statement-analysis",
+          "front": "What is ‘Financial Statement Analysis’?",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.analysis-of-financial-statements.fact-fsa-study-of-relationship",
+          "front": "What is financial statement analysis basically a study of?",
+          "kind": "fact",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.analysis-of-financial-statements.fact-financial-analysis-includes",
+          "front": "What two things does the term ‘financial analysis’ include?",
+          "kind": "fact",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.analysis-of-financial-statements.def-analysis-meaning",
+          "front": "What does the term ‘analysis’ mean in financial analysis?",
+          "kind": "definition",
+          "mustKnow": true
+        }
+      ],
       "state": {
         "key": "none",
         "label": "Not started"
@@ -432,43 +1164,136 @@
       "resume": null,
       "counts": {
         "5": {
-          "cards": 14,
+          "cards": 15,
           "questions": 0,
           "minutes": 5,
           "hook": {
-            "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statement-analysis",
-            "front": "What is ‘Financial Statement Analysis’?",
+            "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statements-summarised",
+            "front": "What are financial statements, basically?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statements-summarised",
+              "front": "What are financial statements, basically?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statement-analysis",
+              "front": "What is ‘Financial Statement Analysis’?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.analysis-of-financial-statements.fact-fsa-study-of-relationship",
+              "front": "What is financial statement analysis basically a study of?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.analysis-of-financial-statements.fact-financial-analysis-includes",
+              "front": "What two things does the term ‘financial analysis’ include?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.analysis-of-financial-statements.def-analysis-meaning",
+              "front": "What does the term ‘analysis’ mean in financial analysis?",
+              "kind": "definition",
+              "mustKnow": true
+            }
+          ]
         },
         "10": {
-          "cards": 16,
+          "cards": 30,
           "questions": 0,
-          "minutes": 6,
-          "shrink": {
-            "reason": "pool"
-          },
+          "minutes": 10,
           "hook": {
-            "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statement-analysis",
-            "front": "What is ‘Financial Statement Analysis’?",
+            "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statements-summarised",
+            "front": "What are financial statements, basically?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statements-summarised",
+              "front": "What are financial statements, basically?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statement-analysis",
+              "front": "What is ‘Financial Statement Analysis’?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.analysis-of-financial-statements.fact-fsa-study-of-relationship",
+              "front": "What is financial statement analysis basically a study of?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.analysis-of-financial-statements.fact-financial-analysis-includes",
+              "front": "What two things does the term ‘financial analysis’ include?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.analysis-of-financial-statements.def-analysis-meaning",
+              "front": "What does the term ‘analysis’ mean in financial analysis?",
+              "kind": "definition",
+              "mustKnow": true
+            }
+          ]
         },
         "20": {
-          "cards": 16,
+          "cards": 32,
           "questions": 0,
-          "minutes": 6,
+          "minutes": 11,
           "shrink": {
             "reason": "pool"
           },
           "hook": {
-            "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statement-analysis",
-            "front": "What is ‘Financial Statement Analysis’?",
+            "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statements-summarised",
+            "front": "What are financial statements, basically?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statements-summarised",
+              "front": "What are financial statements, basically?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.analysis-of-financial-statements.def-financial-statement-analysis",
+              "front": "What is ‘Financial Statement Analysis’?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.analysis-of-financial-statements.fact-fsa-study-of-relationship",
+              "front": "What is financial statement analysis basically a study of?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.analysis-of-financial-statements.fact-financial-analysis-includes",
+              "front": "What two things does the term ‘financial analysis’ include?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.analysis-of-financial-statements.def-analysis-meaning",
+              "front": "What does the term ‘analysis’ mean in financial analysis?",
+              "kind": "definition",
+              "mustKnow": true
+            }
+          ]
         }
       },
       "kept": 0,
@@ -481,6 +1306,10 @@
       "title": "Comparative and Common Size Statements",
       "name": "Comparative & Common Size Statements",
       "ref": "Ch 4",
+      "place": {
+        "n": 12,
+        "of": 14
+      },
       "refLine": "Part 2, Ch 4",
       "number": 4,
       "partTitle": "Part 2, Company Accounts and Analysis of Financial Statements",
@@ -493,6 +1322,38 @@
         "kind": "definition",
         "mustKnow": false
       },
+      "hooks": [
+        {
+          "id": "kc.accountancy.comparative-and-common-size-statements.def-comparative-statements",
+          "front": "What are comparative statements?",
+          "kind": "definition",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.comparative-and-common-size-statements.fact-applies-to-two-statements",
+          "front": "Comparative statements usually apply to which two important financial statements?",
+          "kind": "fact",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.comparative-and-common-size-statements.fact-same-accounting-principles",
+          "front": "When is financial data comparative, and how is a deviation in accounting principles shown?",
+          "kind": "fact",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.comparative-and-common-size-statements.fact-horizontal-analysis",
+          "front": "Comparative statements analysis is also known as which analysis?",
+          "kind": "fact",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.comparative-and-common-size-statements.def-common-size-statements",
+          "front": "What are common size statements?",
+          "kind": "definition",
+          "mustKnow": false
+        }
+      ],
       "state": {
         "key": "holding",
         "label": "Holding"
@@ -509,12 +1370,44 @@
             "front": "What are comparative statements?",
             "kind": "definition",
             "mustKnow": false
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.comparative-and-common-size-statements.def-comparative-statements",
+              "front": "What are comparative statements?",
+              "kind": "definition",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.comparative-and-common-size-statements.fact-applies-to-two-statements",
+              "front": "Comparative statements usually apply to which two important financial statements?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.comparative-and-common-size-statements.fact-same-accounting-principles",
+              "front": "When is financial data comparative, and how is a deviation in accounting principles shown?",
+              "kind": "fact",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.comparative-and-common-size-statements.fact-horizontal-analysis",
+              "front": "Comparative statements analysis is also known as which analysis?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.comparative-and-common-size-statements.def-common-size-statements",
+              "front": "What are common size statements?",
+              "kind": "definition",
+              "mustKnow": false
+            }
+          ]
         },
         "10": {
-          "cards": 18,
+          "cards": 22,
           "questions": 0,
-          "minutes": 6,
+          "minutes": 8,
           "shrink": {
             "reason": "pool"
           },
@@ -523,12 +1416,44 @@
             "front": "What are comparative statements?",
             "kind": "definition",
             "mustKnow": false
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.comparative-and-common-size-statements.def-comparative-statements",
+              "front": "What are comparative statements?",
+              "kind": "definition",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.comparative-and-common-size-statements.fact-applies-to-two-statements",
+              "front": "Comparative statements usually apply to which two important financial statements?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.comparative-and-common-size-statements.fact-same-accounting-principles",
+              "front": "When is financial data comparative, and how is a deviation in accounting principles shown?",
+              "kind": "fact",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.comparative-and-common-size-statements.fact-horizontal-analysis",
+              "front": "Comparative statements analysis is also known as which analysis?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.comparative-and-common-size-statements.def-common-size-statements",
+              "front": "What are common size statements?",
+              "kind": "definition",
+              "mustKnow": false
+            }
+          ]
         },
         "20": {
-          "cards": 18,
+          "cards": 22,
           "questions": 0,
-          "minutes": 6,
+          "minutes": 8,
           "shrink": {
             "reason": "pool"
           },
@@ -537,7 +1462,39 @@
             "front": "What are comparative statements?",
             "kind": "definition",
             "mustKnow": false
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.comparative-and-common-size-statements.def-comparative-statements",
+              "front": "What are comparative statements?",
+              "kind": "definition",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.comparative-and-common-size-statements.fact-applies-to-two-statements",
+              "front": "Comparative statements usually apply to which two important financial statements?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.comparative-and-common-size-statements.fact-same-accounting-principles",
+              "front": "When is financial data comparative, and how is a deviation in accounting principles shown?",
+              "kind": "fact",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.comparative-and-common-size-statements.fact-horizontal-analysis",
+              "front": "Comparative statements analysis is also known as which analysis?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.comparative-and-common-size-statements.def-common-size-statements",
+              "front": "What are common size statements?",
+              "kind": "definition",
+              "mustKnow": false
+            }
+          ]
         }
       },
       "kept": 0,
@@ -550,6 +1507,10 @@
       "title": "Accounting Ratios",
       "name": "Accounting Ratios",
       "ref": "Ch 5",
+      "place": {
+        "n": 13,
+        "of": 14
+      },
       "refLine": "Part 2, Ch 5",
       "number": 5,
       "partTitle": "Part 2, Company Accounts and Analysis of Financial Statements",
@@ -562,6 +1523,38 @@
         "kind": "definition",
         "mustKnow": true
       },
+      "hooks": [
+        {
+          "id": "kc.accountancy.accounting-ratios.def-ratio-analysis",
+          "front": "What is ratio analysis?",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.accounting-ratios.def-a-statement-of-profit-and-loss-ratio",
+          "front": "What is a statement of profit and loss ratio?",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.accounting-ratios.def-balance-sheet-ratios",
+          "front": "What are balance sheet ratios?",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.accounting-ratios.def-a-composite-ratio",
+          "front": "What is a composite ratio?",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.accounting-ratios.def-liquidity-ratios",
+          "front": "What are liquidity ratios?",
+          "kind": "definition",
+          "mustKnow": true
+        }
+      ],
       "state": {
         "key": "getting_there",
         "label": "Getting there"
@@ -578,7 +1571,39 @@
             "front": "What is ratio analysis?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.accounting-ratios.def-ratio-analysis",
+              "front": "What is ratio analysis?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.accounting-ratios.def-a-statement-of-profit-and-loss-ratio",
+              "front": "What is a statement of profit and loss ratio?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.accounting-ratios.def-balance-sheet-ratios",
+              "front": "What are balance sheet ratios?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.accounting-ratios.def-a-composite-ratio",
+              "front": "What is a composite ratio?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.accounting-ratios.def-liquidity-ratios",
+              "front": "What are liquidity ratios?",
+              "kind": "definition",
+              "mustKnow": true
+            }
+          ]
         },
         "10": {
           "cards": 30,
@@ -589,7 +1614,39 @@
             "front": "What is ratio analysis?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.accounting-ratios.def-ratio-analysis",
+              "front": "What is ratio analysis?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.accounting-ratios.def-a-statement-of-profit-and-loss-ratio",
+              "front": "What is a statement of profit and loss ratio?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.accounting-ratios.def-balance-sheet-ratios",
+              "front": "What are balance sheet ratios?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.accounting-ratios.def-a-composite-ratio",
+              "front": "What is a composite ratio?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.accounting-ratios.def-liquidity-ratios",
+              "front": "What are liquidity ratios?",
+              "kind": "definition",
+              "mustKnow": true
+            }
+          ]
         },
         "20": {
           "cards": 40,
@@ -603,7 +1660,39 @@
             "front": "What is ratio analysis?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.accounting-ratios.def-ratio-analysis",
+              "front": "What is ratio analysis?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.accounting-ratios.fact-ratio-numbers-correlated",
+              "front": "What must be true of the numbers used to calculate a ratio?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.accounting-ratios.list-name-the-5-objectives-of-ratio-analysis",
+              "front": "Name the 5 objectives of ratio analysis.",
+              "kind": "list",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.accounting-ratios.ex-an-inventory-turnover-ratio-is-6-what-does-i",
+              "front": "An inventory turnover ratio is 6. What does it imply?",
+              "kind": "example",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.accounting-ratios.def-a-statement-of-profit-and-loss-ratio",
+              "front": "What is a statement of profit and loss ratio?",
+              "kind": "definition",
+              "mustKnow": true
+            }
+          ]
         }
       },
       "kept": 0,
@@ -616,6 +1705,10 @@
       "title": "Cash Flow Statement",
       "name": "Cash Flow Statement",
       "ref": "Ch 6",
+      "place": {
+        "n": 14,
+        "of": 14
+      },
       "refLine": "Part 2, Ch 6",
       "number": 6,
       "partTitle": "Part 2, Company Accounts and Analysis of Financial Statements",
@@ -628,6 +1721,38 @@
         "kind": "definition",
         "mustKnow": true
       },
+      "hooks": [
+        {
+          "id": "kc.accountancy.cash-flow-statement.def-cash-flow-statement",
+          "front": "What is a Cash flow statement?",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.cash-flow-statement.fact-intro-income-statement",
+          "front": "What does the Income Statement show?",
+          "kind": "fact",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.cash-flow-statement.term-intro-third-statement",
+          "front": "There is also a third important financial statement known as Cash flow statement, which shows ____ and outflows of the cash and cash equivalents.",
+          "kind": "term",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.cash-flow-statement.key-as-section-133",
+          "front": "Accounting Standards are notified under section ____ of the Companies Act, 2013",
+          "kind": "key_line",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.cash-flow-statement.fact-as3-governs",
+          "front": "Which Accounting Standard governs the Cash Flow Statement under the Companies Act, 2013?",
+          "kind": "fact",
+          "mustKnow": false
+        }
+      ],
       "state": {
         "key": "thin",
         "label": "Too few answers"
@@ -644,7 +1769,39 @@
             "front": "What is a Cash flow statement?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.cash-flow-statement.def-cash-flow-statement",
+              "front": "What is a Cash flow statement?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.cash-flow-statement.fact-primary-objective",
+              "front": "What is the primary objective of a cash flow statement?",
+              "kind": "fact",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.cash-flow-statement.def-cash-as3",
+              "front": "What is ‘Cash’ as per AS-3?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.cash-flow-statement.def-cash-equivalents-as3",
+              "front": "What are ‘Cash equivalents’ as per AS-3?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.cash-flow-statement.def-cash-flows",
+              "front": "What are ‘Cash Flows’?",
+              "kind": "definition",
+              "mustKnow": true
+            }
+          ]
         },
         "10": {
           "cards": 28,
@@ -655,7 +1812,39 @@
             "front": "What is a Cash flow statement?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.cash-flow-statement.def-cash-flow-statement",
+              "front": "What is a Cash flow statement?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.cash-flow-statement.fact-intro-income-statement",
+              "front": "What does the Income Statement show?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.cash-flow-statement.term-intro-third-statement",
+              "front": "There is also a third important financial statement known as Cash flow statement, which shows ____ and outflows of the cash and cash equivalents.",
+              "kind": "term",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.cash-flow-statement.key-as-section-133",
+              "front": "Accounting Standards are notified under section ____ of the Companies Act, 2013",
+              "kind": "key_line",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.cash-flow-statement.fact-as3-governs",
+              "front": "Which Accounting Standard governs the Cash Flow Statement under the Companies Act, 2013?",
+              "kind": "fact",
+              "mustKnow": false
+            }
+          ]
         },
         "20": {
           "cards": 40,
@@ -669,7 +1858,39 @@
             "front": "What is a Cash flow statement?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.cash-flow-statement.def-cash-flow-statement",
+              "front": "What is a Cash flow statement?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.cash-flow-statement.fact-intro-income-statement",
+              "front": "What does the Income Statement show?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.cash-flow-statement.term-intro-third-statement",
+              "front": "There is also a third important financial statement known as Cash flow statement, which shows ____ and outflows of the cash and cash equivalents.",
+              "kind": "term",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.cash-flow-statement.key-as-section-133",
+              "front": "Accounting Standards are notified under section ____ of the Companies Act, 2013",
+              "kind": "key_line",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.cash-flow-statement.fact-as3-governs",
+              "front": "Which Accounting Standard governs the Cash Flow Statement under the Companies Act, 2013?",
+              "kind": "fact",
+              "mustKnow": false
+            }
+          ]
         }
       },
       "kept": 0,
@@ -682,6 +1903,10 @@
       "title": "Accounting for Partnership: Basic Concepts",
       "name": "Partnership Fundamentals",
       "ref": "Ch 1",
+      "place": {
+        "n": 1,
+        "of": 14
+      },
       "refLine": "Part 1, Ch 1",
       "number": 1,
       "partTitle": "Part 1, Partnership Accounts",
@@ -694,11 +1919,43 @@
         "kind": "term",
         "mustKnow": false
       },
+      "hooks": [
+        {
+          "id": "kc.accountancy.partnership-fundamentals.term-partners-firm",
+          "front": "Persons who have entered into partnership with one another are individually called ‘____’ and collectively called ‘____’.",
+          "kind": "term",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.partnership-fundamentals.kl-no-legal-entity",
+          "front": "A partnership firm has no ____, apart from the partners constituting it.",
+          "kind": "key_line",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.partnership-fundamentals.list-features-six",
+          "front": "Name the 6 essential features of partnership.",
+          "kind": "list",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.partnership-fundamentals.fact-min-partners",
+          "front": "What is the minimum number of partners in a firm?",
+          "kind": "fact",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.partnership-fundamentals.fact-max-partners-companies-act",
+          "front": "Companies Act 2013, Section 464: the number of partners in a firm can not be more than how many?",
+          "kind": "fact",
+          "mustKnow": false
+        }
+      ],
       "state": {
         "key": "getting_there",
         "label": "Getting there"
       },
-      "studentLine": "3 old mistakes to fix",
+      "studentLine": "3 open mistakes to fix",
       "resume": null,
       "counts": {
         "5": {
@@ -710,7 +1967,39 @@
             "front": "Persons who have entered into partnership with one another are individually called ‘____’ and collectively called ‘____’.",
             "kind": "term",
             "mustKnow": false
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.partnership-fundamentals.term-partners-firm",
+              "front": "Persons who have entered into partnership with one another are individually called ‘____’ and collectively called ‘____’.",
+              "kind": "term",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.partnership-fundamentals.kl-no-legal-entity",
+              "front": "A partnership firm has no ____, apart from the partners constituting it.",
+              "kind": "key_line",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.partnership-fundamentals.list-features-six",
+              "front": "Name the 6 essential features of partnership.",
+              "kind": "list",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.partnership-fundamentals.fact-min-partners",
+              "front": "What is the minimum number of partners in a firm?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.partnership-fundamentals.fact-max-partners-companies-act",
+              "front": "Companies Act 2013, Section 464: the number of partners in a firm can not be more than how many?",
+              "kind": "fact",
+              "mustKnow": false
+            }
+          ]
         },
         "10": {
           "cards": 10,
@@ -721,7 +2010,39 @@
             "front": "Persons who have entered into partnership with one another are individually called ‘____’ and collectively called ‘____’.",
             "kind": "term",
             "mustKnow": false
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.partnership-fundamentals.term-partners-firm",
+              "front": "Persons who have entered into partnership with one another are individually called ‘____’ and collectively called ‘____’.",
+              "kind": "term",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.partnership-fundamentals.kl-no-legal-entity",
+              "front": "A partnership firm has no ____, apart from the partners constituting it.",
+              "kind": "key_line",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.partnership-fundamentals.list-features-six",
+              "front": "Name the 6 essential features of partnership.",
+              "kind": "list",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.partnership-fundamentals.fact-min-partners",
+              "front": "What is the minimum number of partners in a firm?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.partnership-fundamentals.fact-max-partners-companies-act",
+              "front": "Companies Act 2013, Section 464: the number of partners in a firm can not be more than how many?",
+              "kind": "fact",
+              "mustKnow": false
+            }
+          ]
         },
         "20": {
           "cards": 23,
@@ -732,7 +2053,39 @@
             "front": "Persons who have entered into partnership with one another are individually called ‘____’ and collectively called ‘____’.",
             "kind": "term",
             "mustKnow": false
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.partnership-fundamentals.term-partners-firm",
+              "front": "Persons who have entered into partnership with one another are individually called ‘____’ and collectively called ‘____’.",
+              "kind": "term",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.partnership-fundamentals.kl-no-legal-entity",
+              "front": "A partnership firm has no ____, apart from the partners constituting it.",
+              "kind": "key_line",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.partnership-fundamentals.list-features-six",
+              "front": "Name the 6 essential features of partnership.",
+              "kind": "list",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.partnership-fundamentals.fact-min-partners",
+              "front": "What is the minimum number of partners in a firm?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.partnership-fundamentals.fact-max-partners-companies-act",
+              "front": "Companies Act 2013, Section 464: the number of partners in a firm can not be more than how many?",
+              "kind": "fact",
+              "mustKnow": false
+            }
+          ]
         }
       },
       "kept": 0,
@@ -745,6 +2098,10 @@
       "title": "Profit and Loss Appropriation Account",
       "name": "Profit & Loss Appropriation Account",
       "ref": "Ch 1",
+      "place": {
+        "n": 2,
+        "of": 14
+      },
       "refLine": "Part 1, Ch 1",
       "number": 1,
       "partTitle": "Part 1, Partnership Accounts",
@@ -757,6 +2114,38 @@
         "kind": "fact",
         "mustKnow": false
       },
+      "hooks": [
+        {
+          "id": "kc.accountancy.profit-and-loss-appropriation-account.fact-pl-appropriation-shows",
+          "front": "What does the Profit and Loss Appropriation Account show?",
+          "kind": "fact",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.profit-and-loss-appropriation-account.fact-pl-appropriation-why",
+          "front": "Why is a Profit and Loss Appropriation Account prepared?",
+          "kind": "fact",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.profit-and-loss-appropriation-account.entry-net-loss-transfer",
+          "front": "Journal entry: transfer of the debit balance (net loss) of Profit and Loss Account to Profit and Loss Appropriation Account.",
+          "kind": "entry",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.profit-and-loss-appropriation-account.entry-interest-capital-allow",
+          "front": "Journal entry: allowing interest on capital.",
+          "kind": "entry",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.profit-and-loss-appropriation-account.entry-interest-capital-transfer",
+          "front": "Journal entry: transferring interest on capital to Profit and Loss Appropriation Account.",
+          "kind": "entry",
+          "mustKnow": false
+        }
+      ],
       "state": {
         "key": "thin",
         "label": "Too few answers"
@@ -773,7 +2162,39 @@
             "front": "What does the Profit and Loss Appropriation Account show?",
             "kind": "fact",
             "mustKnow": false
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.profit-and-loss-appropriation-account.fact-pl-appropriation-shows",
+              "front": "What does the Profit and Loss Appropriation Account show?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.profit-and-loss-appropriation-account.fact-pl-appropriation-why",
+              "front": "Why is a Profit and Loss Appropriation Account prepared?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.profit-and-loss-appropriation-account.entry-net-loss-transfer",
+              "front": "Journal entry: transfer of the debit balance (net loss) of Profit and Loss Account to Profit and Loss Appropriation Account.",
+              "kind": "entry",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.profit-and-loss-appropriation-account.entry-interest-capital-allow",
+              "front": "Journal entry: allowing interest on capital.",
+              "kind": "entry",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.profit-and-loss-appropriation-account.entry-interest-capital-transfer",
+              "front": "Journal entry: transferring interest on capital to Profit and Loss Appropriation Account.",
+              "kind": "entry",
+              "mustKnow": false
+            }
+          ]
         },
         "10": {
           "cards": 27,
@@ -784,7 +2205,39 @@
             "front": "What does the Profit and Loss Appropriation Account show?",
             "kind": "fact",
             "mustKnow": false
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.profit-and-loss-appropriation-account.fact-pl-appropriation-shows",
+              "front": "What does the Profit and Loss Appropriation Account show?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.profit-and-loss-appropriation-account.fact-pl-appropriation-why",
+              "front": "Why is a Profit and Loss Appropriation Account prepared?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.profit-and-loss-appropriation-account.entry-net-loss-transfer",
+              "front": "Journal entry: transfer of the debit balance (net loss) of Profit and Loss Account to Profit and Loss Appropriation Account.",
+              "kind": "entry",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.profit-and-loss-appropriation-account.entry-interest-capital-allow",
+              "front": "Journal entry: allowing interest on capital.",
+              "kind": "entry",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.profit-and-loss-appropriation-account.entry-interest-capital-transfer",
+              "front": "Journal entry: transferring interest on capital to Profit and Loss Appropriation Account.",
+              "kind": "entry",
+              "mustKnow": false
+            }
+          ]
         },
         "20": {
           "cards": 37,
@@ -798,7 +2251,39 @@
             "front": "What does the Profit and Loss Appropriation Account show?",
             "kind": "fact",
             "mustKnow": false
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.profit-and-loss-appropriation-account.fact-pl-appropriation-shows",
+              "front": "What does the Profit and Loss Appropriation Account show?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.profit-and-loss-appropriation-account.fact-pl-appropriation-why",
+              "front": "Why is a Profit and Loss Appropriation Account prepared?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.profit-and-loss-appropriation-account.entry-net-loss-transfer",
+              "front": "Journal entry: transfer of the debit balance (net loss) of Profit and Loss Account to Profit and Loss Appropriation Account.",
+              "kind": "entry",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.profit-and-loss-appropriation-account.entry-interest-capital-allow",
+              "front": "Journal entry: allowing interest on capital.",
+              "kind": "entry",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.profit-and-loss-appropriation-account.entry-interest-capital-transfer",
+              "front": "Journal entry: transferring interest on capital to Profit and Loss Appropriation Account.",
+              "kind": "entry",
+              "mustKnow": false
+            }
+          ]
         }
       },
       "kept": 0,
@@ -811,6 +2296,10 @@
       "title": "Change in Profit Sharing Ratio",
       "name": "Change in Profit Sharing Ratio",
       "ref": "Ch 2",
+      "place": {
+        "n": 3,
+        "of": 14
+      },
       "refLine": "Part 1, Ch 2",
       "number": 2,
       "partTitle": "Part 1, Partnership Accounts",
@@ -818,11 +2307,43 @@
       "reason": null,
       "forYou": false,
       "hook": {
-        "id": "kc.accountancy.change-in-profit-sharing-ratio.def-gaining-ratio",
-        "front": "What is the gaining ratio?",
+        "id": "kc.accountancy.change-in-profit-sharing-ratio.def-change-ratio-meaning",
+        "front": "What is a change in profit sharing ratio among the existing partners?",
         "kind": "definition",
         "mustKnow": true
       },
+      "hooks": [
+        {
+          "id": "kc.accountancy.change-in-profit-sharing-ratio.def-change-ratio-meaning",
+          "front": "What is a change in profit sharing ratio among the existing partners?",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.change-in-profit-sharing-ratio.fm-gaining-share",
+          "front": "Formula: gaining share of a continuing partner.",
+          "kind": "formula",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.change-in-profit-sharing-ratio.def-gaining-ratio",
+          "front": "What is the gaining ratio?",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.change-in-profit-sharing-ratio.fact-credit-sacrificing-debit-gaining",
+          "front": "In a change of profit sharing ratio, which partners are credited and which debited?",
+          "kind": "fact",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.change-in-profit-sharing-ratio.fact-gaining-normal",
+          "front": "Continuing partners acquire the outgoing partner's share in their old ratio. What is the gaining ratio?",
+          "kind": "fact",
+          "mustKnow": false
+        }
+      ],
       "state": {
         "key": "needs_work",
         "label": "Needs work"
@@ -839,23 +2360,81 @@
             "front": "What is a change in profit sharing ratio among the existing partners?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.change-in-profit-sharing-ratio.def-change-ratio-meaning",
+              "front": "What is a change in profit sharing ratio among the existing partners?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.change-in-profit-sharing-ratio.fm-gaining-share",
+              "front": "Formula: gaining share of a continuing partner.",
+              "kind": "formula",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.change-in-profit-sharing-ratio.fact-credit-sacrificing-debit-gaining",
+              "front": "In a change of profit sharing ratio, which partners are credited and which debited?",
+              "kind": "fact",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.change-in-profit-sharing-ratio.def-gaining-ratio",
+              "front": "What is the gaining ratio?",
+              "kind": "definition",
+              "mustKnow": true
+            }
+          ]
         },
         "10": {
-          "cards": 8,
-          "questions": 6,
+          "cards": 11,
+          "questions": 5,
           "minutes": 10,
           "hook": {
-            "id": "kc.accountancy.change-in-profit-sharing-ratio.def-gaining-ratio",
-            "front": "What is the gaining ratio?",
+            "id": "kc.accountancy.change-in-profit-sharing-ratio.def-change-ratio-meaning",
+            "front": "What is a change in profit sharing ratio among the existing partners?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.change-in-profit-sharing-ratio.def-change-ratio-meaning",
+              "front": "What is a change in profit sharing ratio among the existing partners?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.change-in-profit-sharing-ratio.fm-gaining-share",
+              "front": "Formula: gaining share of a continuing partner.",
+              "kind": "formula",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.change-in-profit-sharing-ratio.def-gaining-ratio",
+              "front": "What is the gaining ratio?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.change-in-profit-sharing-ratio.fact-credit-sacrificing-debit-gaining",
+              "front": "In a change of profit sharing ratio, which partners are credited and which debited?",
+              "kind": "fact",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.change-in-profit-sharing-ratio.fact-gaining-normal",
+              "front": "Continuing partners acquire the outgoing partner's share in their old ratio. What is the gaining ratio?",
+              "kind": "fact",
+              "mustKnow": false
+            }
+          ]
         },
         "20": {
-          "cards": 8,
+          "cards": 11,
           "questions": 7,
-          "minutes": 12,
+          "minutes": 13,
           "shrink": {
             "reason": "pool"
           },
@@ -864,7 +2443,39 @@
             "front": "What is the gaining ratio?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.change-in-profit-sharing-ratio.def-gaining-ratio",
+              "front": "What is the gaining ratio?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.change-in-profit-sharing-ratio.fact-credit-sacrificing-debit-gaining",
+              "front": "In a change of profit sharing ratio, which partners are credited and which debited?",
+              "kind": "fact",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.change-in-profit-sharing-ratio.fm-gaining-share",
+              "front": "Formula: gaining share of a continuing partner.",
+              "kind": "formula",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.change-in-profit-sharing-ratio.fact-gaining-normal",
+              "front": "Continuing partners acquire the outgoing partner's share in their old ratio. What is the gaining ratio?",
+              "kind": "fact",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.change-in-profit-sharing-ratio.kl-gaining-problem",
+              "front": "The problem of calculating gaining ratio arises primarily when the ____ of the continuing partners is specified.",
+              "kind": "key_line",
+              "mustKnow": false
+            }
+          ]
         }
       },
       "kept": 0,
@@ -877,6 +2488,10 @@
       "title": "Goodwill: Nature and Valuation",
       "name": "Goodwill Valuation",
       "ref": "Ch 2",
+      "place": {
+        "n": 4,
+        "of": 14
+      },
       "refLine": "Part 1, Ch 2",
       "number": 2,
       "partTitle": "Part 1, Partnership Accounts",
@@ -889,6 +2504,38 @@
         "kind": "definition",
         "mustKnow": true
       },
+      "hooks": [
+        {
+          "id": "kc.accountancy.goodwill-valuation.def-goodwill-meaning",
+          "front": "What is goodwill?",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.goodwill-valuation.def-goodwill-super-profits-def",
+          "front": "Define goodwill in terms of the reputation of a firm.",
+          "kind": "definition",
+          "mustKnow": true
+        },
+        {
+          "id": "kc.accountancy.goodwill-valuation.def-goodwill-simple-words",
+          "front": "Define goodwill in simple words.",
+          "kind": "definition",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.goodwill-valuation.kl-goodwill-only-super-profits",
+          "front": "Any firm that earns normal profits or is incurring losses has ____.",
+          "kind": "key_line",
+          "mustKnow": false
+        },
+        {
+          "id": "kc.accountancy.goodwill-valuation.list-five-factors",
+          "front": "Name the 5 main factors affecting the value of goodwill.",
+          "kind": "list",
+          "mustKnow": false
+        }
+      ],
       "state": {
         "key": "holding",
         "label": "Holding"
@@ -905,7 +2552,39 @@
             "front": "What is goodwill?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.goodwill-valuation.def-goodwill-meaning",
+              "front": "What is goodwill?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.goodwill-valuation.def-goodwill-super-profits-def",
+              "front": "Define goodwill in terms of the reputation of a firm.",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.goodwill-valuation.def-goodwill-simple-words",
+              "front": "Define goodwill in simple words.",
+              "kind": "definition",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.goodwill-valuation.kl-goodwill-only-super-profits",
+              "front": "Any firm that earns normal profits or is incurring losses has ____.",
+              "kind": "key_line",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.goodwill-valuation.list-five-factors",
+              "front": "Name the 5 main factors affecting the value of goodwill.",
+              "kind": "list",
+              "mustKnow": false
+            }
+          ]
         },
         "10": {
           "cards": 29,
@@ -916,21 +2595,85 @@
             "front": "What is goodwill?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.goodwill-valuation.def-goodwill-meaning",
+              "front": "What is goodwill?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.goodwill-valuation.def-goodwill-super-profits-def",
+              "front": "Define goodwill in terms of the reputation of a firm.",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.goodwill-valuation.def-goodwill-simple-words",
+              "front": "Define goodwill in simple words.",
+              "kind": "definition",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.goodwill-valuation.kl-goodwill-only-super-profits",
+              "front": "Any firm that earns normal profits or is incurring losses has ____.",
+              "kind": "key_line",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.goodwill-valuation.list-five-factors",
+              "front": "Name the 5 main factors affecting the value of goodwill.",
+              "kind": "list",
+              "mustKnow": false
+            }
+          ]
         },
         "20": {
-          "cards": 39,
+          "cards": 40,
           "questions": 0,
-          "minutes": 13,
+          "minutes": 14,
           "shrink": {
-            "reason": "pool"
+            "reason": "cap"
           },
           "hook": {
             "id": "kc.accountancy.goodwill-valuation.def-goodwill-meaning",
             "front": "What is goodwill?",
             "kind": "definition",
             "mustKnow": true
-          }
+          },
+          "hooks": [
+            {
+              "id": "kc.accountancy.goodwill-valuation.def-goodwill-meaning",
+              "front": "What is goodwill?",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.goodwill-valuation.def-goodwill-super-profits-def",
+              "front": "Define goodwill in terms of the reputation of a firm.",
+              "kind": "definition",
+              "mustKnow": true
+            },
+            {
+              "id": "kc.accountancy.goodwill-valuation.def-goodwill-simple-words",
+              "front": "Define goodwill in simple words.",
+              "kind": "definition",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.goodwill-valuation.kl-goodwill-only-super-profits",
+              "front": "Any firm that earns normal profits or is incurring losses has ____.",
+              "kind": "key_line",
+              "mustKnow": false
+            },
+            {
+              "id": "kc.accountancy.goodwill-valuation.list-five-factors",
+              "front": "Name the 5 main factors affecting the value of goodwill.",
+              "kind": "list",
+              "mustKnow": false
+            }
+          ]
         }
       },
       "kept": 0,

@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
-# Records the Learn v2 routes from the web dev preview into test/fixtures/learn2/ (APP-1101 section 3), for the data
-# models, FixtureLearnApi, the widget tests and the goldens. Source: the web build 4bba8db6f (branch web/1031-learn-v2).
+# Records the Learn v2 routes from the web dev preview into test/fixtures/learn2/ (APP-1101 section 3, APP-1102-A section 2), for
+# the data models, FixtureLearnApi, the widget tests and the goldens. Source: the live web, origin/main 31af5f9dc (rounds 2 to 4,
+# worktree wt-1102-web), whose preview dev server runs on port 3452.
 #
 # Usage, from flutter_app:   bash tool/record_learn2_fixtures.sh [tag]
 #
-# The preview must already be running (port 3451, or LEARN2_PREVIEW_PORT): this script never starts, stops or restarts it.
+# The preview must already be running (port 3452, or LEARN2_PREVIEW_PORT): this script never starts, stops or restarts it.
 # Every request goes to
-#   http://localhost:3451/preview/arena/realdeck?_to=/api/learn/<route>&<the route's own query>&_plan=&_student=&_s=
+#   http://localhost:3452/preview/arena/realdeck?_to=/api/learn/<route>&<the route's own query>&_plan=&_student=&_s=
 # which is the production service (web src/lib/server/learn.js) over the preview's in-memory student. Each run makes its
-# own students, named app-rec-<tag> (commerce and new, Pro and Free) and app-rec-<tag>-scratch (commerce, Pro: answers
+# own students, named app-rec2-<tag> (commerce and new, Pro and Free) and app-rec2-<tag>-scratch (commerce, Pro: answers
 # every question once to learn the keys), so the owner's own preview sessions are never touched. The preview keeps at most
 # 48 students, so run this rarely. tag defaults to the time (MMDDHHMM).
 #
@@ -19,21 +20,22 @@ set -euo pipefail
 export MSYS_NO_PATHCONV=1
 cd "$(dirname "$0")/.."
 
-PORT="${LEARN2_PREVIEW_PORT:-3451}"
+PORT="${LEARN2_PREVIEW_PORT:-3452}"
 BASE="http://localhost:$PORT/preview/arena/realdeck"
 TAG="${1:-$(date +%m%d%H%M)}"
 OUT="test/fixtures/learn2"
-WEB_COMMIT="4bba8db6f"
+WEB_COMMIT="31af5f9dc"
 
-PRO="_student=commerce&_plan=pro&_s=app-rec-$TAG"
-FREE="_student=commerce&_plan=free&_s=app-rec-$TAG"
-NEWPRO="_student=new&_plan=pro&_s=app-rec-$TAG"
-NEWFREE="_student=new&_plan=free&_s=app-rec-$TAG"
-SCRATCH="_student=commerce&_plan=pro&_s=app-rec-$TAG-scratch"
+PRO="_student=commerce&_plan=pro&_s=app-rec2-$TAG"
+FREE="_student=commerce&_plan=free&_s=app-rec2-$TAG"
+NEWPRO="_student=new&_plan=pro&_s=app-rec2-$TAG"
+NEWFREE="_student=new&_plan=free&_s=app-rec2-$TAG"
+SCRATCH="_student=commerce&_plan=pro&_s=app-rec2-$TAG-scratch"
 
 AOP="accountancy.admission-of-partner"
 PF="accountancy.partnership-fundamentals"
 CPSR="accountancy.change-in-profit-sharing-ratio"
+CCSS="accountancy.comparative-and-common-size-statements"
 MISSING="accountancy.no-such-chapter"
 
 TMPD="$(mktemp -d)"
@@ -73,15 +75,15 @@ if (cmd === 'pretty') {
   const readme = [
     '# Learn v2 fixtures (recorded)',
     '',
-    `Recorded from the web dev preview of the Learn v2 build, web commit ${web} (branch \`web/1031-learn-v2\`, folder`,
-    '`wt-1031-learn-v2`), by:',
+    `Recorded from the web dev preview of the live Learn v2 build (rounds 2 to 4), web commit ${web} (origin/main, folder`,
+    '`wt-1102-web`), by:',
     '',
     '```',
-    `bash tool/record_learn2_fixtures.sh ${tag}     # from flutter_app, with the preview already running on port 3451`,
+    `bash tool/record_learn2_fixtures.sh ${tag}     # from flutter_app, with the preview already running on port 3452`,
     '```',
     '',
     'Every answer is the production service (`src/lib/server/learn.js`) over the preview\'s in-memory student',
-    `(\`${base}?_to=/api/learn/<route>&...&_plan=&_student=&_s=app-rec-${tag}\`). Students: \`commerce\` (returning: due cards,`,
+    `(\`${base}?_to=/api/learn/<route>&...&_plan=&_student=&_s=app-rec2-${tag}\`). Students: \`commerce\` (returning: due cards,`,
     'open mistakes from Mock 3 and Mock 4, an unfinished Admission of a Partner run) and `new` (nothing studied), each on Pro',
     'and Free. Bodies are exactly as the server sent them, pretty-printed. `manifest.json` names the status, method, route,',
     'query and request body of every file (FixtureLearnApi reads the status of the error files from it).',
@@ -91,7 +93,7 @@ if (cmd === 'pretty') {
     'the contract (`API-CONTRACT.md`). `parity/` belongs to the stage packet and is not written by this script.',
     '',
     '`answer_keys.json` is not a response: it is the key and explanation of every Accountancy question the runs above serve,',
-    'learnt by answering each once in a scratch student (`app-rec-<tag>-scratch`), so FixtureLearnApi can grade any choice.',
+    'learnt by answering each once in a scratch student (`app-rec2-<tag>-scratch`), so FixtureLearnApi can grade any choice.',
     '',
     '| File | Status | Request | Student | What it is |',
     '|---|---|---|---|---|',
@@ -140,7 +142,7 @@ rec() {
   echo "ok   $name ($status)"
 }
 
-# The answer keys, learnt once in the scratch student: "<question id> <key> <line on a wrong answer: 1|0>" per line, and
+# The answer keys, learnt once in the scratch student: "<question id> <key> <line on a wrong answer, put back as a NEW card, not moved: 1|0>" per line, and
 # every scratch answer body (one JSON per line) for answer_keys.json.
 KEYS="$TMPW/keys.txt"
 : > "$KEYS"
@@ -152,7 +154,7 @@ learn_keys() {
     local iid="${pair%%|*}" qid="${pair##*|}"
     st="$(call "$SCRATCH" POST "/api/learn/runs/$rid/answer" "" "{\"itemId\":\"$iid\",\"choice\":\"A\"}" "$TMPW/ans.json")"
     [ "$st" = 200 ] || { echo "scratch: $iid answered $st" >&2; continue; }
-    echo "$qid $(get "$TMPW/ans.json" 'j.key') $(get "$TMPW/ans.json" 'j.correct === false && j.line && !j.line.locked && j.reinsert ? 1 : 0')" >> "$KEYS"
+    echo "$qid $(get "$TMPW/ans.json" 'j.key') $(get "$TMPW/ans.json" 'j.correct === false && j.line && !j.line.locked && j.reinsert && !j.reinsert.moved ? 1 : 0')" >> "$KEYS"
     get "$TMPW/ans.json" "({ id: '$qid', key: j.key, explanation: j.explanation || '' })" >> "$TMPW/answers.ndjson"
     echo >> "$TMPW/answers.ndjson"
   done
@@ -163,7 +165,7 @@ wrong_of() { case "$1" in A) echo B ;; *) echo A ;; esac; }
 
 curl -s -o "$TMPW/ping.json" --max-time 60 "$BASE?_to=%2Fapi%2Flearn%2Fshelves&$SCRATCH" || die "the preview is not answering on port $PORT (start the web dev server first; this script never does)"
 mkdir -p "$OUT"
-echo "Recording Learn v2 fixtures from $BASE as app-rec-$TAG into $OUT"
+echo "Recording Learn v2 fixtures from $BASE as app-rec2-$TAG into $OUT"
 
 start_body() { # kind chapter minutes [extra json]
   printf '{"kind":"%s","chapterKey":"%s","minutes":%s,"leaveOut":[],"requestKey":"%s"%s}' "$1" "$2" "$3" "$(newkey)" "${4:+,$4}"
@@ -183,6 +185,10 @@ node -e 'const fs=require("fs");const out={};for(const l of fs.readFileSync(proc
 
 # ---------------------------------------------------------------- 2. Pro, returning (commerce): reads before anything is done
 rec subject_accountancy_pro "$PRO" GET /api/learn/subject "subject=accountancy" "" 200 "Learn home, Accountancy: parts (Part 2 with its option), units, chapter rows, three suggestions (pickup, due, fix)"
+rec home_accountancy_pro "$PRO" GET /api/learn/home "subject=accountancy" "" 200 "Learn home in one read (the subject body plus the shelves), Accountancy: the roadmap offer (pick up the unfinished run), Or rows, parts with place and progress"
+rec home_economics_pro "$PRO" GET /api/learn/home "subject=economics" "" 200 "Learn home, Economics: the returning offer (Today's 10 minutes), nothing unfinished"
+rec home_business_studies_pro "$PRO" GET /api/learn/home "subject=business_studies" "" 200 "Learn home, Business Studies"
+rec home_english_pro "$PRO" GET /api/learn/home "subject=english" "" 200 "Learn home, English (the subject note)"
 rec subject_economics_pro "$PRO" GET /api/learn/subject "subject=economics" "" 200 "Learn home, Economics"
 rec subject_business_studies_pro "$PRO" GET /api/learn/subject "subject=business_studies" "" 200 "Learn home, Business Studies"
 rec subject_english_pro "$PRO" GET /api/learn/subject "subject=english" "" 200 "Learn home, English (the subject note: cards written for MockMob)"
@@ -197,8 +203,10 @@ rec preview_aop_10_pro "$PRO" POST /api/learn/runs/preview "" "$(preview_body "$
 rec preview_aop_20_pro "$PRO" POST /api/learn/runs/preview "" "$(preview_body "$AOP" 20 '[]')" 200 "Chapter page at 20 min"
 rec preview_aop_10_out_questions_pro "$PRO" POST /api/learn/runs/preview "" "$(preview_body "$AOP" 10 '["questions"]')" 200 "Chapter page, the Questions pile left out"
 rec preview_pf_10_pro "$PRO" POST /api/learn/runs/preview "" "$(preview_body "$PF" 10 '[]')" 200 "Basic Concepts at 10 min: due cards and open mistakes"
-rec preview_cpsr_20_pro "$PRO" POST /api/learn/runs/preview "" "$(preview_body "$CPSR" 20 '[]')" 200 "A short chapter at 20 min: shrink with addNext offered"
-rec preview_cpsr_20_addnext_pro "$PRO" POST /api/learn/runs/preview "" "$(preview_body "$CPSR" 20 '[]' '"addNext":true')" 200 "The same with the next chapter added (added)"
+rec preview_cpsr_20_pro "$PRO" POST /api/learn/runs/preview "" "$(preview_body "$CPSR" 20 '[]')" 200 "Change in Profit Sharing Ratio at 20 min: four piles (cards, questions, mistakes, lesson), nothing short"
+rec preview_cpsr_20_addnext_pro "$PRO" POST /api/learn/runs/preview "" "$(preview_body "$CPSR" 20 '[]' '"addNext":true')" 200 "The same asking for the next chapter too (nothing short, so none is added)"
+rec preview_ccss_20_pro "$PRO" POST /api/learn/runs/preview "" "$(preview_body "$CCSS" 20 '[]')" 200 "A short chapter at 20 min: shrink (pool) with addNext offered"
+rec preview_ccss_20_addnext_pro "$PRO" POST /api/learn/runs/preview "" "$(preview_body "$CCSS" 20 '[]' '"addNext":true')" 200 "The same with the next chapter added (added)"
 rec error_404_chapter_not_found_preview "$PRO" POST /api/learn/runs/preview "" "$(preview_body "$MISSING" 10 '[]')" 404 "A chapter that is not there (preview)"
 rec error_404_chapter_not_found_start "$PRO" POST /api/learn/runs "" "$(start_body feed "$MISSING" 10)" 404 "A chapter that is not there (feed start)"
 
@@ -250,8 +258,13 @@ if [ -n "$DUE_RUN" ]; then
   rec run_start_cards_due_pro "$PRO" POST /api/learn/runs "" "$DUE_BODY" 200 "Revise these: the due suggestion's cards as a cards run"
 fi
 
+RESUME_ID="$(get "$OUT/run_start_mix_aop_resume_pro.json" 'j.id')"
+rec run_end_mix_aop_stopped_pro "$PRO" GET "/api/learn/runs/$RESUME_ID/end" "stop=1" "" 200 "A run stopped part way (Stop here): not ended, stopped true, Continue and the fix key"
+
 # ---------------------------------------------------------------- 5. Free, returning: reads, then the day's one session
 rec subject_accountancy_free "$FREE" GET /api/learn/subject "subject=accountancy" "" 200 "Learn home on Free (freeNote)"
+rec home_accountancy_free "$FREE" GET /api/learn/home "subject=accountancy" "" 200 "Learn home on Free, Accountancy (freeNote: 5 Key cards free in each chapter)"
+rec home_economics_free "$FREE" GET /api/learn/home "subject=economics" "" 200 "Learn home on Free, Economics: the returning offer on Free"
 rec covers_accountancy_free "$FREE" GET /api/learn/covers "subject=accountancy" "" 200 "Covers on Free: 20 min composed as 10 (capped where it cuts)"
 rec shelves_free "$FREE" GET /api/learn/shelves "subject=accountancy" "" 200 "Shelves on Free"
 rec search_goodwill_free "$FREE" GET /api/learn/search "subject=accountancy&q=goodwill" "" 200 "Find on Free: locked cards"
@@ -271,6 +284,7 @@ rec keep_free "$FREE" POST "/api/learn/runs/$FREE_FEED_ID/rate" "" "{\"itemId\":
 rec answer_free_claim "$FREE" POST "/api/learn/runs/$FREE_FEED_ID/answer" "" "{\"itemId\":\"$FQ\",\"choice\":\"${FKEY:-A}\"}" 200 "The first answered question on Free: it claims today's session"
 rec error_402_free_session_used "$FREE" POST /api/learn/runs "" "$(start_body feed "$PF" 10)" 402 "A second feed on Free the same day: FREE_SESSION_USED with line, options and resume"
 rec subject_accountancy_free_used "$FREE" GET /api/learn/subject "subject=accountancy" "" 200 "Learn home on Free after the day's session (free)"
+rec home_accountancy_free_used "$FREE" GET /api/learn/home "subject=accountancy" "" 200 "Learn home on Free after the day's session: That was today's free session, See Pro, the Or rows"
 rec covers_accountancy_free_used "$FREE" GET /api/learn/covers "subject=accountancy" "" 200 "Covers on Free after the day's session (free)"
 rec preview_pf_10_free_used "$FREE" POST /api/learn/runs/preview "" "$(preview_body "$PF" 10 '[]')" 200 "Chapter page on Free after the day's session: cards only, piles held"
 rec run_start_mix_pf_free_cards_only "$FREE" POST /api/learn/runs "" "$(start_body mix "$PF" 10)" 200 "A mix on Free after the day's session: Key cards only (free)"
@@ -278,6 +292,7 @@ rec run_end_feed_aop_free "$FREE" GET "/api/learn/runs/$FREE_FEED_ID/end" "" "" 
 
 # ---------------------------------------------------------------- 6. New students (nothing studied)
 rec subject_accountancy_new_pro "$NEWPRO" GET /api/learn/subject "subject=accountancy" "" 200 "Learn home for a new student (the feed suggestion)"
+rec home_accountancy_new_pro "$NEWPRO" GET /api/learn/home "subject=accountancy" "" 200 "Learn home for a new student: Start learning Accountancy, Start chapter 1 · 10 min, Skip what you already know, the feed row"
 rec covers_accountancy_new_pro "$NEWPRO" GET /api/learn/covers "subject=accountancy" "" 200 "Covers for a new student"
 rec shelves_new_pro "$NEWPRO" GET /api/learn/shelves "subject=accountancy" "" 200 "Shelves for a new student (all zero)"
 rec preview_aop_10_new_pro "$NEWPRO" POST /api/learn/runs/preview "" "$(preview_body "$AOP" 10 '[]')" 200 "Chapter page on a first visit (firstVisit)"
@@ -285,6 +300,7 @@ rec run_start_feed_pf_new_pro "$NEWPRO" POST /api/learn/runs "" "$(start_body fe
 rec run_start_level_new_pro "$NEWPRO" POST /api/learn/runs "" "$(start_body level "$PF" 6)" 200 "Find your level: questions from the first chapters"
 rec run_start_mix_aop_20_new_pro "$NEWPRO" POST /api/learn/runs "" "$(start_body mix "$AOP" 20)" 200 "A 20-minute mix with the chapter's lesson item"
 rec subject_accountancy_new_free "$NEWFREE" GET /api/learn/subject "subject=accountancy" "" 200 "Learn home for a new student on Free"
+rec home_accountancy_new_free "$NEWFREE" GET /api/learn/home "subject=accountancy" "" 200 "Learn home for a new student on Free (5 Key cards free in each chapter, real chapter sizes)"
 rec covers_accountancy_new_free "$NEWFREE" GET /api/learn/covers "subject=accountancy" "" 200 "Covers for a new student on Free"
 rec preview_aop_10_new_free "$NEWFREE" POST /api/learn/runs/preview "" "$(preview_body "$AOP" 10 '[]')" 200 "Chapter page, first visit on Free"
 

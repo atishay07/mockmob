@@ -2,11 +2,15 @@
   "chapter": {
     "key": "accountancy.admission-of-partner",
     "title": "Admission of a Partner",
-    "ref": "Ch 2"
+    "ref": "Ch 2",
+    "place": {
+      "n": 5,
+      "of": 14
+    }
   },
   "plan": "free",
   "counts": {
-    "total": 53,
+    "total": 58,
     "all": 5,
     "must": 5,
     "revise": 0,
@@ -185,6 +189,6 @@
       ]
     }
   ],
-  "lockedCount": 48,
-  "lockedLine": "48 more cards in this chapter. Pro opens every card in every chapter and keeps them on a schedule."
+  "lockedCount": 53,
+  "lockedLine": "53 more cards in this chapter. Pro opens every card in every chapter and keeps them on a schedule."
 }

@@ -31,12 +31,17 @@ final learnSubjectIdProvider = Provider<String>((ref) => canonicalSubject(ref.wa
 /// No hidden retries: each screen's own Try again is the retry.
 Duration? _noRetry(int count, Object error) => null;
 
-/// `GET /api/learn/subject` of one subject (the Learn home). A refresh (`ref.invalidate`) keeps the previous home on screen
-/// while it runs (`value` stays, `isRefreshing`), and a failed refresh keeps it too (`value` and `error` together).
-final learnSubjectProvider = FutureProvider.autoDispose.family<LearnSubjectData, String>(
+/// `GET /api/learn/home` of one subject: Learn home in one read (the subject body plus the shelves, as the web's `learnHome()`,
+/// LK28). A refresh (`ref.invalidate`) keeps the previous home on screen while it runs (`value` stays, `isRefreshing`), and a
+/// failed refresh keeps it too (`value` and `error` together). The Learn switch, the Learn door, Practice's pull and the home all
+/// share this one read.
+final learnHomeProvider = FutureProvider.autoDispose.family<LearnSubjectData, String>(
   retry: _noRetry,
-  (ref, subject) => ref.watch(learnApiProvider).subject(canonicalSubject(subject)),
+  (ref, subject) => ref.watch(learnApiProvider).home(canonicalSubject(subject)),
 );
+
+/// The home read under its older name (what the Learn switch and Practice's pull have always read): the same provider.
+final learnSubjectProvider = learnHomeProvider;
 
 /// `GET /api/learn/covers` of one subject (Explore).
 final learnCoversProvider = FutureProvider.autoDispose.family<LearnCovers, String>(
@@ -44,7 +49,8 @@ final learnCoversProvider = FutureProvider.autoDispose.family<LearnCovers, Strin
   (ref, subject) => ref.watch(learnApiProvider).covers(canonicalSubject(subject)),
 );
 
-/// `GET /api/learn/shelves` of one subject (the three shelf tiles; [LearnShelves.dueTotal] for a badge).
+/// `GET /api/learn/shelves` of one subject (Find's sets; [LearnShelves.dueTotal] for a badge). Learn home gets the same body in
+/// its own read (`LearnSubjectData.shelves`).
 final learnShelvesProvider = FutureProvider.autoDispose.family<LearnShelves, String>(
   retry: _noRetry,
   (ref, subject) => ref.watch(learnApiProvider).shelves(canonicalSubject(subject)),

@@ -1,46 +1,50 @@
 {
-  "id": "lr_3b63021df7f59bcb2e9b7551",
+  "id": "lr_8c0135a9ffeca589c2e00c3a",
   "kind": "feed",
   "chapter": {
     "key": "accountancy.partnership-fundamentals",
     "title": "Accounting for Partnership: Basic Concepts",
     "ref": "Ch 1",
     "partTitle": "Part 1, Partnership Accounts",
-    "number": 1
+    "number": 1,
+    "place": {
+      "n": 1,
+      "of": 14
+    }
   },
   "minutes": 10,
   "asked": 10,
   "items": [
     {
-      "id": "lr_3b63021df7f59bcb2e9b7551-i1",
+      "id": "lr_8c0135a9ffeca589c2e00c3a-i1",
       "type": "card",
       "stage": "new",
       "card": {
-        "id": "kc.accountancy.partnership-fundamentals.def-partnership",
+        "id": "kc.accountancy.partnership-fundamentals.def-deed-meaning",
         "v": 1,
         "subject": "accountancy",
         "chapterKey": "accountancy.partnership-fundamentals",
         "chapter": "Partnership Fundamentals",
         "unit": "Accounting for Partnership",
         "kind": "definition",
-        "front": "Define partnership.",
-        "back": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
-        "quote": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
+        "front": "What is a Partnership Deed?",
+        "back": "But wherever it is in writing, the document, which contains terms of the agreement is called ‘Partnership Deed’.",
+        "quote": "But wherever it is in writing, the document, which contains terms of the agreement is called ‘Partnership Deed’.",
         "blanks": [],
         "source": {
           "kind": "ncert",
-          "book": "Accountancy : Partnership Accounts",
-          "code": "leac102",
-          "chapterNo": 2,
-          "page": 48,
-          "section": "Introduction"
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 3,
+          "section": "1.2 Partnership Deed"
         },
         "importance": "must",
         "asked": 0,
         "tags": [
-          "partnership"
+          "partnership deed"
         ],
-        "order": 10,
+        "order": 170,
         "authorImportance": "must"
       },
       "look": false,
@@ -48,7 +52,44 @@
       "seconds": 18
     },
     {
-      "id": "lr_3b63021df7f59bcb2e9b7551-i2",
+      "id": "lr_8c0135a9ffeca589c2e00c3a-i2",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.def-partnership-section-4",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "definition",
+        "front": "Define partnership (Section 4, Indian Partnership Act 1932).",
+        "back": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
+        "quote": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 2,
+          "section": "1.1 Nature of Partnership"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "partnership",
+          "partnership act"
+        ],
+        "order": 20,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_8c0135a9ffeca589c2e00c3a-i3",
       "type": "card",
       "stage": "new",
       "card": {
@@ -85,36 +126,36 @@
       "seconds": 18
     },
     {
-      "id": "lr_3b63021df7f59bcb2e9b7551-i3",
+      "id": "lr_8c0135a9ffeca589c2e00c3a-i4",
       "type": "question",
-      "origin": "chapter",
+      "origin": "linked",
       "question": {
-        "id": "76760959-d603-443c-aec0-d39c8c5bf67a",
-        "body": "When the partners' capital accounts are fixed, on which side of which account are the drawings recorded?",
+        "id": "472649398aea0050e35860544ec8f803",
+        "body": "Four stages in a partnership are described below. The partners first reach an agreement orally on business terms. They then record those agreed terms in a written document. At a later stage, they decide to change one clause in that document; all partners give consent before the clause is changed. Arrange the listed events in the order they occur.\n(A) All partners consent to the proposed clause change.\n(B) The written document containing the agreed terms is identified as the Partnership Deed.\n(C) The partners reach the agreement on the business terms.\n(D) The clause is changed.\nChoose the correct sequence.",
         "options": [
           {
             "key": "A",
-            "text": "Debit side of Capital A/c"
+            "text": "(C), (B), (A), (D)"
           },
           {
             "key": "B",
-            "text": "Credit side of Capital A/c"
+            "text": "(C), (A), (B), (D)"
           },
           {
             "key": "C",
-            "text": "Debit side of Current A/c"
+            "text": "(B), (C), (A), (D)"
           },
           {
             "key": "D",
-            "text": "Credit side of Current A/c"
+            "text": "(C), (B), (D), (A)"
           }
         ]
       },
       "mistake": null,
-      "seconds": 65
+      "seconds": 85
     },
     {
-      "id": "lr_3b63021df7f59bcb2e9b7551-i4",
+      "id": "lr_8c0135a9ffeca589c2e00c3a-i5",
       "type": "card",
       "stage": "new",
       "card": {
@@ -151,138 +192,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_3b63021df7f59bcb2e9b7551-i5",
-      "type": "card",
-      "stage": "new",
-      "card": {
-        "id": "kc.accountancy.partnership-fundamentals.def-partnership-meaning",
-        "v": 1,
-        "subject": "accountancy",
-        "chapterKey": "accountancy.partnership-fundamentals",
-        "chapter": "Partnership Fundamentals",
-        "unit": "Accounting for Partnership",
-        "kind": "definition",
-        "front": "What is partnership?",
-        "back": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
-        "quote": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
-        "blanks": [],
-        "source": {
-          "kind": "ncert",
-          "book": "Accountancy – Partnership Accounts",
-          "code": "leac101",
-          "chapterNo": 1,
-          "page": 1,
-          "section": "1.1 Nature of Partnership"
-        },
-        "importance": "must",
-        "asked": 0,
-        "tags": [
-          "partnership"
-        ],
-        "order": 10,
-        "authorImportance": "must"
-      },
-      "look": false,
-      "recap": false,
-      "seconds": 18
-    },
-    {
-      "id": "lr_3b63021df7f59bcb2e9b7551-i6",
-      "type": "question",
-      "origin": "linked",
-      "question": {
-        "id": "1e446d2c4fe8062640b863b9fc58c95c",
-        "body": "Partners have no specific agreement on a matter affecting the distribution of profits. Which provisions apply in this situation?",
-        "options": [
-          {
-            "key": "A",
-            "text": "The provisions of the Indian Partnership Act, 1932"
-          },
-          {
-            "key": "B",
-            "text": "The terms of a specific agreement between the partners"
-          },
-          {
-            "key": "C",
-            "text": "The rules for calculating interest on drawings"
-          },
-          {
-            "key": "D",
-            "text": "The adjustments made when a partner is admitted or dies"
-          }
-        ]
-      },
-      "mistake": null,
-      "seconds": 50
-    },
-    {
-      "id": "lr_3b63021df7f59bcb2e9b7551-i7",
-      "type": "card",
-      "stage": "new",
-      "card": {
-        "id": "kc.accountancy.partnership-fundamentals.def-fixed-capital-method",
-        "v": 1,
-        "subject": "accountancy",
-        "chapterKey": "accountancy.partnership-fundamentals",
-        "chapter": "Partnership Fundamentals",
-        "unit": "Accounting for Partnership",
-        "kind": "definition",
-        "front": "What is the fixed capital method?",
-        "back": "Under the fixed capital method, the capitals of the partners shall remain fixed unless additional capital is introduced or a part of the capital is withdrawn as per the agreement among the partners.",
-        "quote": "Under the fixed capital method, the capitals of the partners shall remain fixed unless additional capital is introduced or a part of the capital is withdrawn as per the agreement among the partners.",
-        "blanks": [],
-        "source": {
-          "kind": "ncert",
-          "book": "Accountancy – Partnership Accounts",
-          "code": "leac101",
-          "chapterNo": 1,
-          "page": 5,
-          "section": "1.4 Maintenance of Capital Accounts of Partners"
-        },
-        "importance": "must",
-        "asked": 0,
-        "tags": [
-          "capital accounts",
-          "fixed capital"
-        ],
-        "order": 400,
-        "authorImportance": "must"
-      },
-      "look": false,
-      "recap": false,
-      "seconds": 18
-    },
-    {
-      "id": "lr_3b63021df7f59bcb2e9b7551-i8",
-      "type": "question",
-      "origin": "linked",
-      "question": {
-        "id": "97bd2137-9adb-48a8-9c14-4c297f3a24c4",
-        "body": "Q1. In the absence of a partnership deed, interest on a partner's loan to the firm is paid at:",
-        "options": [
-          {
-            "key": "A",
-            "text": "6% p.a. simple interest"
-          },
-          {
-            "key": "B",
-            "text": "12% p.a. simple interest"
-          },
-          {
-            "key": "C",
-            "text": "6% per month"
-          },
-          {
-            "key": "D",
-            "text": "No interest is paid"
-          }
-        ]
-      },
-      "mistake": null,
-      "seconds": 65
-    },
-    {
-      "id": "lr_3b63021df7f59bcb2e9b7551-i9",
+      "id": "lr_8c0135a9ffeca589c2e00c3a-i6",
       "type": "card",
       "stage": "new",
       "card": {
@@ -320,35 +230,65 @@
       "seconds": 18
     },
     {
-      "id": "lr_3b63021df7f59bcb2e9b7551-i10",
+      "id": "lr_8c0135a9ffeca589c2e00c3a-i7",
+      "type": "question",
+      "origin": "linked",
+      "question": {
+        "id": "1e446d2c4fe8062640b863b9fc58c95c",
+        "body": "Partners have no specific agreement on a matter affecting the distribution of profits. Which provisions apply in this situation?",
+        "options": [
+          {
+            "key": "A",
+            "text": "The provisions of the Indian Partnership Act, 1932"
+          },
+          {
+            "key": "B",
+            "text": "The terms of a specific agreement between the partners"
+          },
+          {
+            "key": "C",
+            "text": "The rules for calculating interest on drawings"
+          },
+          {
+            "key": "D",
+            "text": "The adjustments made when a partner is admitted or dies"
+          }
+        ]
+      },
+      "mistake": null,
+      "seconds": 50
+    },
+    {
+      "id": "lr_8c0135a9ffeca589c2e00c3a-i8",
       "type": "card",
       "stage": "new",
       "card": {
-        "id": "kc.accountancy.partnership-fundamentals.def-deed-meaning",
+        "id": "kc.accountancy.partnership-fundamentals.def-fixed-capital-method",
         "v": 1,
         "subject": "accountancy",
         "chapterKey": "accountancy.partnership-fundamentals",
         "chapter": "Partnership Fundamentals",
         "unit": "Accounting for Partnership",
         "kind": "definition",
-        "front": "What is a Partnership Deed?",
-        "back": "But wherever it is in writing, the document, which contains terms of the agreement is called ‘Partnership Deed’.",
-        "quote": "But wherever it is in writing, the document, which contains terms of the agreement is called ‘Partnership Deed’.",
+        "front": "What is the fixed capital method?",
+        "back": "Under the fixed capital method, the capitals of the partners shall remain fixed unless additional capital is introduced or a part of the capital is withdrawn as per the agreement among the partners.",
+        "quote": "Under the fixed capital method, the capitals of the partners shall remain fixed unless additional capital is introduced or a part of the capital is withdrawn as per the agreement among the partners.",
         "blanks": [],
         "source": {
           "kind": "ncert",
           "book": "Accountancy – Partnership Accounts",
           "code": "leac101",
           "chapterNo": 1,
-          "page": 3,
-          "section": "1.2 Partnership Deed"
+          "page": 5,
+          "section": "1.4 Maintenance of Capital Accounts of Partners"
         },
         "importance": "must",
         "asked": 0,
         "tags": [
-          "partnership deed"
+          "capital accounts",
+          "fixed capital"
         ],
-        "order": 170,
+        "order": 400,
         "authorImportance": "must"
       },
       "look": false,
@@ -356,7 +296,110 @@
       "seconds": 18
     },
     {
-      "id": "lr_3b63021df7f59bcb2e9b7551-i11",
+      "id": "lr_8c0135a9ffeca589c2e00c3a-i9",
+      "type": "question",
+      "origin": "linked",
+      "question": {
+        "id": "97bd2137-9adb-48a8-9c14-4c297f3a24c4",
+        "body": "Q1. In the absence of a partnership deed, interest on a partner's loan to the firm is paid at:",
+        "options": [
+          {
+            "key": "A",
+            "text": "6% p.a. simple interest"
+          },
+          {
+            "key": "B",
+            "text": "12% p.a. simple interest"
+          },
+          {
+            "key": "C",
+            "text": "6% per month"
+          },
+          {
+            "key": "D",
+            "text": "No interest is paid"
+          }
+        ]
+      },
+      "mistake": null,
+      "seconds": 65
+    },
+    {
+      "id": "lr_8c0135a9ffeca589c2e00c3a-i10",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.fact-fixed-balance-sheet",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "fact",
+        "front": "Fixed capital method: where do the capital and current account balances appear in the balance sheet?",
+        "back": "While the partners’ capital accounts shall always appear on the liabilities side in the balance sheet, the partners’ current account’s balance shall be shown on the liabilities side, if they have credit balance and on the assets side, if they have debit balance.",
+        "quote": "While the partners’ capital accounts shall always appear on the liabilities side in the balance sheet, the partners’ current account’s balance shall be shown on the liabilities side, if they have credit balance and on the assets side, if they have debit balance.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 5,
+          "section": "1.4 Maintenance of Capital Accounts of Partners"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "capital accounts",
+          "balance sheet"
+        ],
+        "order": 440,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_8c0135a9ffeca589c2e00c3a-i11",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.fact-act-interest-on-capital",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "fact",
+        "front": "Can a partner claim interest on capital as a matter of right?",
+        "back": "No partner is entitled to claim any interest on the amount of capital contributed by him in the firm as a matter of right.",
+        "quote": "No partner is entitled to claim any interest on the amount of capital contributed by him in the firm as a matter of right.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 4,
+          "section": "1.2.1 Provisions of Partnership Act Relevant for Accounting"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "partnership act",
+          "interest on capital"
+        ],
+        "order": 280,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_8c0135a9ffeca589c2e00c3a-i12",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -385,7 +428,7 @@
       "seconds": 50
     },
     {
-      "id": "lr_3b63021df7f59bcb2e9b7551-i12",
+      "id": "lr_8c0135a9ffeca589c2e00c3a-i13",
       "type": "card",
       "stage": "new",
       "card": {
@@ -423,57 +466,20 @@
       "seconds": 18
     },
     {
-      "id": "lr_3b63021df7f59bcb2e9b7551-i13",
-      "type": "card",
-      "stage": "new",
-      "card": {
-        "id": "kc.accountancy.partnership-fundamentals.fact-act-interest-on-capital",
-        "v": 1,
-        "subject": "accountancy",
-        "chapterKey": "accountancy.partnership-fundamentals",
-        "chapter": "Partnership Fundamentals",
-        "unit": "Accounting for Partnership",
-        "kind": "fact",
-        "front": "Can a partner claim interest on capital as a matter of right?",
-        "back": "No partner is entitled to claim any interest on the amount of capital contributed by him in the firm as a matter of right.",
-        "quote": "No partner is entitled to claim any interest on the amount of capital contributed by him in the firm as a matter of right.",
-        "blanks": [],
-        "source": {
-          "kind": "ncert",
-          "book": "Accountancy – Partnership Accounts",
-          "code": "leac101",
-          "chapterNo": 1,
-          "page": 4,
-          "section": "1.2.1 Provisions of Partnership Act Relevant for Accounting"
-        },
-        "importance": "must",
-        "asked": 0,
-        "tags": [
-          "partnership act",
-          "interest on capital"
-        ],
-        "order": 280,
-        "authorImportance": "must"
-      },
-      "look": false,
-      "recap": false,
-      "seconds": 18
-    },
-    {
-      "id": "lr_3b63021df7f59bcb2e9b7551-i14",
+      "id": "lr_8c0135a9ffeca589c2e00c3a-i14",
       "type": "question",
       "origin": "linked",
       "question": {
-        "id": "472649398aea0050e35860544ec8f803",
-        "body": "Four stages in a partnership are described below. The partners first reach an agreement orally on business terms. They then record those agreed terms in a written document. At a later stage, they decide to change one clause in that document; all partners give consent before the clause is changed. Arrange the listed events in the order they occur.\n(A) All partners consent to the proposed clause change.\n(B) The written document containing the agreed terms is identified as the Partnership Deed.\n(C) The partners reach the agreement on the business terms.\n(D) The clause is changed.\nChoose the correct sequence.",
+        "id": "4115a8da29d5db85791e1ebac2a51510",
+        "body": "Under the fixed capital method, a partner first introduces additional capital and later receives a share of profit and makes drawings. Assume there are no other partner transactions and that, after the profit and drawings are recorded, the Partner’s Current Account has a credit balance. Arrange the following steps in the order for recording the transactions and presenting the year-end balances:\n(A) Record the share of profit and drawings in the Partner’s Current Account.\n(B) Record the additional capital in the Partner’s Capital Account.\n(C) Confirm the credit balance of the Partner’s Current Account after its items are recorded.\n(D) Show the Partner’s Capital Account and the credit-balance Current Account on the liabilities side of the balance sheet.\nChoose the correct sequence.",
         "options": [
           {
             "key": "A",
-            "text": "(C), (B), (A), (D)"
+            "text": "(A), (B), (C), (D)"
           },
           {
             "key": "B",
-            "text": "(C), (A), (B), (D)"
+            "text": "(B), (A), (C), (D)"
           },
           {
             "key": "C",
@@ -481,7 +487,7 @@
           },
           {
             "key": "D",
-            "text": "(C), (B), (D), (A)"
+            "text": "(B), (A), (D), (C)"
           }
         ]
       },
@@ -489,7 +495,7 @@
       "seconds": 85
     },
     {
-      "id": "lr_3b63021df7f59bcb2e9b7551-i15",
+      "id": "lr_8c0135a9ffeca589c2e00c3a-i15",
       "type": "card",
       "stage": "new",
       "card": {
@@ -526,7 +532,7 @@
       "seconds": 26
     },
     {
-      "id": "lr_3b63021df7f59bcb2e9b7551-i16",
+      "id": "lr_8c0135a9ffeca589c2e00c3a-i16",
       "type": "question",
       "origin": "linked",
       "question": {

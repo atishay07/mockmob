@@ -46,15 +46,15 @@
     "lines": [
       {
         "label": "Questions",
-        "text": "1 of 1 right"
+        "text": "1 of 2 right"
       },
       {
-        "label": "Old mistakes",
+        "label": "Open mistakes",
         "text": "2 still open"
       }
     ],
     "lead": {
-      "label": "Another 10 minutes",
+      "label": "Keep going · 10 min",
       "run": {
         "kind": "feed",
         "chapterKey": "accountancy.admission-of-partner",
@@ -64,8 +64,13 @@
     },
     "free": null,
     "next": {
-      "label": "Next chapter: Retirement and Death of a Partner",
+      "label": "Next chapter · 10 min",
+      "title": "Retirement and Death of a Partner",
       "key": "accountancy.retirement-and-death-of-partner",
+      "place": {
+        "n": 6,
+        "of": 14
+      },
       "run": {
         "kind": "feed",
         "chapterKey": "accountancy.retirement-and-death-of-partner",
@@ -80,21 +85,35 @@
     "of": 17,
     "minutes": 1
   },
+  "stopped": false,
+  "progress": {
+    "of": 58,
+    "seen": 1,
+    "before": 0
+  },
+  "chapter": {
+    "key": "accountancy.admission-of-partner",
+    "title": "Admission of a Partner",
+    "place": {
+      "n": 5,
+      "of": 14
+    }
+  },
   "numbers": {
     "cards": 0,
-    "questions": 1,
+    "questions": 2,
     "fixed": 0,
-    "mistakes": 1,
+    "mistakes": 0,
     "detail": {
       "cards": null,
-      "questions": "1 of 1 right",
+      "questions": "1 of 2 right",
       "fixed": "0 of 2, 2 still open"
     }
   },
   "lines": [
     {
       "label": "Questions",
-      "text": "1 of 1 right"
+      "text": "1 of 2 right"
     },
     {
       "label": "Mistakes",
@@ -106,57 +125,37 @@
   "moved": null,
   "free": null,
   "lead": {
-    "kind": "next",
-    "title": "Next: Retirement and Death of a Partner",
+    "kind": "here",
+    "title": "Keep going · 10 min",
     "minutes": 10,
-    "label": "Next: Retirement and Death of a Partner, 10 minutes",
-    "evidence": "The next chapter in your book.",
+    "label": "Keep going · 10 min",
+    "evidence": "6 Key cards and 3 questions",
     "run": {
-      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapterKey": "accountancy.admission-of-partner",
       "minutes": 10,
       "leaveOut": [],
-      "kind": "mix"
+      "kind": "feed",
+      "fresh": true
     }
   },
   "options": [
     {
-      "kind": "here",
-      "title": "Another 5 minutes here",
-      "minutes": 5,
-      "label": "Another 5 minutes here",
-      "evidence": "6 Key cards and 3 questions",
+      "kind": "fix",
+      "title": "Fix 2 open mistakes · 2 min",
+      "minutes": 2,
+      "label": "Fix 2 open mistakes · 2 min",
+      "evidence": "Admission of a Partner",
       "run": {
         "chapterKey": "accountancy.admission-of-partner",
-        "minutes": 5,
-        "leaveOut": [],
-        "kind": "mix"
-      }
-    },
-    {
-      "kind": "fix",
-      "title": "Fix 3 open mistakes",
-      "minutes": 3,
-      "label": "Fix 3 open mistakes",
-      "evidence": "Accounting for Partnership: Basic Concepts, 3 min",
-      "run": {
-        "chapterKey": "accountancy.partnership-fundamentals",
-        "minutes": 3,
+        "minutes": 2,
         "leaveOut": [
           "questions",
           "cards",
           "lesson"
         ],
-        "kind": "mix"
+        "kind": "mix",
+        "fresh": true
       }
-    },
-    {
-      "kind": "mock",
-      "title": "Test it in a full mock",
-      "minutes": null,
-      "label": "Test it in a full mock",
-      "evidence": "A timed 50-question paper of the whole subject.",
-      "href": "/test?subject=accountancy&count=50&mode=full",
-      "go": "mock"
     }
   ]
 }

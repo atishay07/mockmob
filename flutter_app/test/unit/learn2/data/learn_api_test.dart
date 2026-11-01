@@ -4,6 +4,7 @@ import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/learn2/data/learn_api.dart';
 import 'package:mockmob/features/learn2/data/learn_models.dart';
+import 'package:mockmob/features/learn2/data/learn_words.dart';
 import 'package:mockmob/features/learn2/data/learn_prefs.dart';
 
 import '../../core_data/support/fakes.dart';
@@ -49,12 +50,12 @@ void main() {
     });
 
     test('POST /api/learn/runs/preview with addNext only when asked', () async {
-      answer = (_) => recorded('preview_cpsr_20_addnext_pro');
-      final p = await api.preview(chapterKey: l2Cpsr, minutes: 20, leaveOut: ['questions'], addNext: true);
+      answer = (_) => recorded('preview_ccss_20_addnext_pro');
+      final p = await api.preview(chapterKey: l2Ccss, minutes: 20, leaveOut: ['questions'], addNext: true);
       expect(seen.single.method, 'POST');
       expect(seen.single.path, '/api/learn/runs/preview');
-      expect(seen.single.data, {'chapterKey': l2Cpsr, 'minutes': 20, 'leaveOut': ['questions'], 'addNext': true});
-      expect(p.added!.key, 'accountancy.goodwill-valuation');
+      expect(seen.single.data, {'chapterKey': l2Ccss, 'minutes': 20, 'leaveOut': ['questions'], 'addNext': true});
+      expect(p.added!.key, 'accountancy.accounting-ratios');
       await api.preview(chapterKey: l2Aop, minutes: 10);
       expect(seen.last.data, {'chapterKey': l2Aop, 'minutes': 10, 'leaveOut': <String>[]});
     });
@@ -148,8 +149,8 @@ void main() {
       expect(e.code, 'FREE_SESSION_USED');
       expect(isSessionUsed(e), isTrue);
       expect(e.isPaymentRequired, isTrue);
-      expect(e.sessionUsed.line, startsWith('Your free Learn session for today is done.'));
-      expect(e.sessionUsed.options, hasLength(3));
+      expect(e.sessionUsed.line, LearnFreeWords.sessionDone);
+      expect(e.sessionUsed.options, hasLength(2));
       expect(e.sessionUsed.resume!.title, 'Admission of a Partner');
       expect(e.cause, isA<ApiError>());
     });

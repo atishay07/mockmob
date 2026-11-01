@@ -3,6 +3,10 @@
     "key": "accountancy.change-in-profit-sharing-ratio",
     "title": "Change in Profit Sharing Ratio",
     "ref": "Ch 2",
+    "place": {
+      "n": 3,
+      "of": 14
+    },
     "partTitle": "Part 1, Partnership Accounts",
     "unitTitle": "Reconstitution of a Partnership firm",
     "state": {
@@ -11,15 +15,15 @@
     }
   },
   "minutes": 20,
-  "realMinutes": 19,
-  "startLabel": "Start 19 minutes",
+  "realMinutes": 20,
+  "startLabel": "Start 20 minutes",
   "piles": [
     {
       "id": "cards",
-      "count": 8,
-      "minutes": 3,
+      "count": 11,
+      "minutes": 4,
       "label": "Key cards",
-      "minutesLabel": "about 3 min",
+      "minutesLabel": "about 4 min",
       "left": false,
       "held": null
     },
@@ -50,28 +54,39 @@
     "minutes": 1,
     "label": "Or a quick recap: the 6 Must-know lines, about 1 min"
   },
-  "shrink": {
-    "minutes": 19,
-    "reason": "pool",
-    "text": "This chapter has about 19 minutes of new things today.",
-    "addNext": {
-      "key": "accountancy.goodwill-valuation",
-      "title": "Goodwill: Nature and Valuation",
-      "label": "Add the next chapter, Goodwill: Nature and Valuation",
-      "ref": "Ch 2"
-    }
-  },
+  "shrink": null,
   "free": null,
   "resume": null,
+  "firstUp": [
+    {
+      "id": "kc.accountancy.change-in-profit-sharing-ratio.def-gaining-ratio",
+      "front": "What is the gaining ratio?",
+      "kind": "definition",
+      "mustKnow": true
+    },
+    {
+      "id": "kc.accountancy.change-in-profit-sharing-ratio.fact-credit-sacrificing-debit-gaining",
+      "front": "In a change of profit sharing ratio, which partners are credited and which debited?",
+      "kind": "fact",
+      "mustKnow": true
+    },
+    {
+      "id": "kc.accountancy.change-in-profit-sharing-ratio.fm-gaining-share",
+      "front": "Formula: gaining share of a continuing partner.",
+      "kind": "formula",
+      "mustKnow": true
+    }
+  ],
   "firstVisit": false,
+  "cardsSeen": 0,
   "asked": 20,
   "capped": null,
   "freeSession": null,
   "added": null,
   "shelf": {
     "cards": {
-      "count": 8,
-      "open": 8,
+      "count": 11,
+      "open": 11,
       "mustKnow": 6,
       "inRevise": 0
     },

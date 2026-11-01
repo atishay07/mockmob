@@ -1,46 +1,51 @@
 {
-  "id": "lr_e3e80c8ba3e6f0aa27dcba0d",
+  "id": "lr_a93bbe63268cd2ca045bf8d4",
   "kind": "mix",
   "chapter": {
     "key": "accountancy.partnership-fundamentals",
     "title": "Accounting for Partnership: Basic Concepts",
     "ref": "Ch 1",
     "partTitle": "Part 1, Partnership Accounts",
-    "number": 1
+    "number": 1,
+    "place": {
+      "n": 1,
+      "of": 14
+    }
   },
   "minutes": 10,
   "asked": 10,
   "items": [
     {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i1",
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i1",
       "type": "card",
       "stage": "due",
       "card": {
-        "id": "kc.accountancy.partnership-fundamentals.def-partnership-meaning",
+        "id": "kc.accountancy.partnership-fundamentals.def-partnership-section-4",
         "v": 1,
         "subject": "accountancy",
         "chapterKey": "accountancy.partnership-fundamentals",
         "chapter": "Partnership Fundamentals",
         "unit": "Accounting for Partnership",
         "kind": "definition",
-        "front": "What is partnership?",
-        "back": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
-        "quote": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
+        "front": "Define partnership (Section 4, Indian Partnership Act 1932).",
+        "back": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
+        "quote": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
         "blanks": [],
         "source": {
           "kind": "ncert",
           "book": "Accountancy – Partnership Accounts",
           "code": "leac101",
           "chapterNo": 1,
-          "page": 1,
+          "page": 2,
           "section": "1.1 Nature of Partnership"
         },
         "importance": "must",
         "asked": 0,
         "tags": [
-          "partnership"
+          "partnership",
+          "partnership act"
         ],
-        "order": 10,
+        "order": 20,
         "authorImportance": "must"
       },
       "look": false,
@@ -48,79 +53,7 @@
       "seconds": 12
     },
     {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i2",
-      "type": "card",
-      "stage": "due",
-      "card": {
-        "id": "kc.accountancy.partnership-fundamentals.def-deed-meaning",
-        "v": 1,
-        "subject": "accountancy",
-        "chapterKey": "accountancy.partnership-fundamentals",
-        "chapter": "Partnership Fundamentals",
-        "unit": "Accounting for Partnership",
-        "kind": "definition",
-        "front": "What is a Partnership Deed?",
-        "back": "But wherever it is in writing, the document, which contains terms of the agreement is called ‘Partnership Deed’.",
-        "quote": "But wherever it is in writing, the document, which contains terms of the agreement is called ‘Partnership Deed’.",
-        "blanks": [],
-        "source": {
-          "kind": "ncert",
-          "book": "Accountancy – Partnership Accounts",
-          "code": "leac101",
-          "chapterNo": 1,
-          "page": 3,
-          "section": "1.2 Partnership Deed"
-        },
-        "importance": "must",
-        "asked": 0,
-        "tags": [
-          "partnership deed"
-        ],
-        "order": 170,
-        "authorImportance": "must"
-      },
-      "look": false,
-      "recap": false,
-      "seconds": 12
-    },
-    {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i3",
-      "type": "card",
-      "stage": "due",
-      "card": {
-        "id": "kc.accountancy.partnership-fundamentals.def-partnership",
-        "v": 1,
-        "subject": "accountancy",
-        "chapterKey": "accountancy.partnership-fundamentals",
-        "chapter": "Partnership Fundamentals",
-        "unit": "Accounting for Partnership",
-        "kind": "definition",
-        "front": "Define partnership.",
-        "back": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
-        "quote": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
-        "blanks": [],
-        "source": {
-          "kind": "ncert",
-          "book": "Accountancy : Partnership Accounts",
-          "code": "leac102",
-          "chapterNo": 2,
-          "page": 48,
-          "section": "Introduction"
-        },
-        "importance": "must",
-        "asked": 0,
-        "tags": [
-          "partnership"
-        ],
-        "order": 10,
-        "authorImportance": "must"
-      },
-      "look": false,
-      "recap": false,
-      "seconds": 12
-    },
-    {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i4",
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i2",
       "type": "card",
       "stage": "new",
       "card": {
@@ -159,40 +92,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i5",
-      "type": "question",
-      "origin": "mistake",
-      "question": {
-        "id": "76760959-d603-443c-aec0-d39c8c5bf67a",
-        "body": "When the partners' capital accounts are fixed, on which side of which account are the drawings recorded?",
-        "options": [
-          {
-            "key": "A",
-            "text": "Debit side of Capital A/c"
-          },
-          {
-            "key": "B",
-            "text": "Credit side of Capital A/c"
-          },
-          {
-            "key": "C",
-            "text": "Debit side of Current A/c"
-          },
-          {
-            "key": "D",
-            "text": "Credit side of Current A/c"
-          }
-        ]
-      },
-      "mistake": {
-        "where": "Mock 3",
-        "when": "16 Oct",
-        "label": "You missed this in Mock 3 on 16 Oct"
-      },
-      "seconds": 60
-    },
-    {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i6",
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i3",
       "type": "card",
       "stage": "new",
       "card": {
@@ -230,7 +130,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i7",
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i4",
       "type": "card",
       "stage": "new",
       "card": {
@@ -267,7 +167,40 @@
       "seconds": 26
     },
     {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i8",
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i5",
+      "type": "question",
+      "origin": "mistake",
+      "question": {
+        "id": "76760959-d603-443c-aec0-d39c8c5bf67a",
+        "body": "When the partners' capital accounts are fixed, on which side of which account are the drawings recorded?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Debit side of Capital A/c"
+          },
+          {
+            "key": "B",
+            "text": "Credit side of Capital A/c"
+          },
+          {
+            "key": "C",
+            "text": "Debit side of Current A/c"
+          },
+          {
+            "key": "D",
+            "text": "Credit side of Current A/c"
+          }
+        ]
+      },
+      "mistake": {
+        "where": "Mock 3",
+        "when": "16 Oct",
+        "label": "You missed this in Mock 3 on 16 Oct"
+      },
+      "seconds": 60
+    },
+    {
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i6",
       "type": "card",
       "stage": "new",
       "card": {
@@ -303,7 +236,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i9",
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i7",
       "type": "card",
       "stage": "new",
       "card": {
@@ -340,77 +273,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i10",
-      "type": "question",
-      "origin": "mistake",
-      "question": {
-        "id": "cc60f0fc-32b9-46b0-9b7e-645b57149a63",
-        "body": "Assertion: A partnership firm must have a partnership deed. Reason: The partnership deed outlines the terms and conditions of the partnership, including profit-sharing ratio and partners' duties.",
-        "options": [
-          {
-            "key": "A",
-            "text": "Both Assertion and Reason are true, and Reason is the correct explanation of Assertion."
-          },
-          {
-            "key": "B",
-            "text": "Both Assertion and Reason are true, but Reason is NOT the correct explanation of Assertion."
-          },
-          {
-            "key": "C",
-            "text": "Assertion is true, but Reason is false."
-          },
-          {
-            "key": "D",
-            "text": "Assertion is false, but Reason is true."
-          }
-        ]
-      },
-      "mistake": {
-        "where": "Mock 3",
-        "when": "16 Oct",
-        "label": "You missed this in Mock 3 on 16 Oct"
-      },
-      "seconds": 60
-    },
-    {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i11",
-      "type": "card",
-      "stage": "new",
-      "card": {
-        "id": "kc.accountancy.partnership-fundamentals.fact-fixed-balance-sheet",
-        "v": 1,
-        "subject": "accountancy",
-        "chapterKey": "accountancy.partnership-fundamentals",
-        "chapter": "Partnership Fundamentals",
-        "unit": "Accounting for Partnership",
-        "kind": "fact",
-        "front": "Fixed capital method: where do the capital and current account balances appear in the balance sheet?",
-        "back": "While the partners’ capital accounts shall always appear on the liabilities side in the balance sheet, the partners’ current account’s balance shall be shown on the liabilities side, if they have credit balance and on the assets side, if they have debit balance.",
-        "quote": "While the partners’ capital accounts shall always appear on the liabilities side in the balance sheet, the partners’ current account’s balance shall be shown on the liabilities side, if they have credit balance and on the assets side, if they have debit balance.",
-        "blanks": [],
-        "source": {
-          "kind": "ncert",
-          "book": "Accountancy – Partnership Accounts",
-          "code": "leac101",
-          "chapterNo": 1,
-          "page": 5,
-          "section": "1.4 Maintenance of Capital Accounts of Partners"
-        },
-        "importance": "must",
-        "asked": 0,
-        "tags": [
-          "capital accounts",
-          "balance sheet"
-        ],
-        "order": 440,
-        "authorImportance": "must"
-      },
-      "look": false,
-      "recap": false,
-      "seconds": 18
-    },
-    {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i12",
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i8",
       "type": "card",
       "stage": "new",
       "card": {
@@ -448,7 +311,115 @@
       "seconds": 18
     },
     {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i13",
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i9",
+      "type": "question",
+      "origin": "mistake",
+      "question": {
+        "id": "cc60f0fc-32b9-46b0-9b7e-645b57149a63",
+        "body": "Assertion: A partnership firm must have a partnership deed. Reason: The partnership deed outlines the terms and conditions of the partnership, including profit-sharing ratio and partners' duties.",
+        "options": [
+          {
+            "key": "A",
+            "text": "Both Assertion and Reason are true, and Reason is the correct explanation of Assertion."
+          },
+          {
+            "key": "B",
+            "text": "Both Assertion and Reason are true, but Reason is NOT the correct explanation of Assertion."
+          },
+          {
+            "key": "C",
+            "text": "Assertion is true, but Reason is false."
+          },
+          {
+            "key": "D",
+            "text": "Assertion is false, but Reason is true."
+          }
+        ]
+      },
+      "mistake": {
+        "where": "Mock 3",
+        "when": "16 Oct",
+        "label": "You missed this in Mock 3 on 16 Oct"
+      },
+      "seconds": 60
+    },
+    {
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i10",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.fact-fixed-balance-sheet",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "fact",
+        "front": "Fixed capital method: where do the capital and current account balances appear in the balance sheet?",
+        "back": "While the partners’ capital accounts shall always appear on the liabilities side in the balance sheet, the partners’ current account’s balance shall be shown on the liabilities side, if they have credit balance and on the assets side, if they have debit balance.",
+        "quote": "While the partners’ capital accounts shall always appear on the liabilities side in the balance sheet, the partners’ current account’s balance shall be shown on the liabilities side, if they have credit balance and on the assets side, if they have debit balance.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 5,
+          "section": "1.4 Maintenance of Capital Accounts of Partners"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "capital accounts",
+          "balance sheet"
+        ],
+        "order": 440,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i11",
+      "type": "card",
+      "stage": "due",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.kl-act-no-writing",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "key_line",
+        "front": "The Partnership Act does not require that the agreement must be in ____.",
+        "back": "The Partnership Act does not require that the agreement must be in writing.",
+        "quote": "The Partnership Act does not require that the agreement must be in writing.",
+        "blanks": [
+          "writing"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 3,
+          "section": "1.2 Partnership Deed"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "partnership deed"
+        ],
+        "order": 190,
+        "authorImportance": "good"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 12
+    },
+    {
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i12",
       "type": "card",
       "stage": "new",
       "card": {
@@ -485,7 +456,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i14",
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i13",
       "type": "card",
       "stage": "new",
       "card": {
@@ -525,7 +496,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i15",
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i14",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -554,113 +525,72 @@
       "seconds": 85
     },
     {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i16",
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i15",
       "type": "card",
-      "stage": "new",
+      "stage": "due",
       "card": {
-        "id": "kc.accountancy.partnership-fundamentals.def-fixed-capital-method",
+        "id": "kc.accountancy.partnership-fundamentals.def-deed-meaning",
         "v": 1,
         "subject": "accountancy",
         "chapterKey": "accountancy.partnership-fundamentals",
         "chapter": "Partnership Fundamentals",
         "unit": "Accounting for Partnership",
         "kind": "definition",
-        "front": "What is the fixed capital method?",
-        "back": "Under the fixed capital method, the capitals of the partners shall remain fixed unless additional capital is introduced or a part of the capital is withdrawn as per the agreement among the partners.",
-        "quote": "Under the fixed capital method, the capitals of the partners shall remain fixed unless additional capital is introduced or a part of the capital is withdrawn as per the agreement among the partners.",
+        "front": "What is a Partnership Deed?",
+        "back": "But wherever it is in writing, the document, which contains terms of the agreement is called ‘Partnership Deed’.",
+        "quote": "But wherever it is in writing, the document, which contains terms of the agreement is called ‘Partnership Deed’.",
         "blanks": [],
-        "source": {
-          "kind": "ncert",
-          "book": "Accountancy – Partnership Accounts",
-          "code": "leac101",
-          "chapterNo": 1,
-          "page": 5,
-          "section": "1.4 Maintenance of Capital Accounts of Partners"
-        },
-        "importance": "must",
-        "asked": 0,
-        "tags": [
-          "capital accounts",
-          "fixed capital"
-        ],
-        "order": 400,
-        "authorImportance": "must"
-      },
-      "look": false,
-      "recap": false,
-      "seconds": 18
-    },
-    {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i17",
-      "type": "card",
-      "stage": "new",
-      "card": {
-        "id": "kc.accountancy.partnership-fundamentals.fact-loss-sharing-implied",
-        "v": 1,
-        "subject": "accountancy",
-        "chapterKey": "accountancy.partnership-fundamentals",
-        "chapter": "Partnership Fundamentals",
-        "unit": "Accounting for Partnership",
-        "kind": "fact",
-        "front": "The Partnership Act speaks of sharing of profits. What does it imply about sharing of loss?",
-        "back": "Though the definition contained in the Partnership Act describes partnership as relation between people who agree to share the profits of a business, the sharing of loss is implied.",
-        "quote": "Though the definition contained in the Partnership Act describes partnership as relation between people who agree to share the profits of a business, the sharing of loss is implied.",
-        "blanks": [],
-        "source": {
-          "kind": "ncert",
-          "book": "Accountancy – Partnership Accounts",
-          "code": "leac101",
-          "chapterNo": 1,
-          "page": 2,
-          "section": "1.1 Nature of Partnership"
-        },
-        "importance": "good",
-        "asked": 0,
-        "tags": [
-          "partnership",
-          "sharing of profit"
-        ],
-        "order": 130,
-        "authorImportance": "good"
-      },
-      "look": false,
-      "recap": false,
-      "seconds": 18
-    },
-    {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i18",
-      "type": "card",
-      "stage": "new",
-      "card": {
-        "id": "kc.accountancy.partnership-fundamentals.kl-liability-joint-several",
-        "v": 1,
-        "subject": "accountancy",
-        "chapterKey": "accountancy.partnership-fundamentals",
-        "chapter": "Partnership Fundamentals",
-        "unit": "Accounting for Partnership",
-        "kind": "key_line",
-        "front": "Each partner is liable ____ with all the other partners and also ____ to the third party for all the acts of the firm done while he is a partner.",
-        "back": "Each partner is liable jointly with all the other partners and also severally to the third party for all the acts of the firm done while he is a partner.",
-        "quote": "Each partner is liable jointly with all the other partners and also severally to the third party for all the acts of the firm done while he is a partner.",
-        "blanks": [
-          "jointly",
-          "severally"
-        ],
         "source": {
           "kind": "ncert",
           "book": "Accountancy – Partnership Accounts",
           "code": "leac101",
           "chapterNo": 1,
           "page": 3,
-          "section": "1.1 Nature of Partnership"
+          "section": "1.2 Partnership Deed"
         },
-        "importance": "good",
+        "importance": "must",
         "asked": 0,
         "tags": [
-          "partnership",
-          "liability"
+          "partnership deed"
         ],
-        "order": 140,
+        "order": 170,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 12
+    },
+    {
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i16",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.def-fluctuating-capital-method",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "definition",
+        "front": "What is the fluctuating capital method?",
+        "back": "Under the fluctuating capital method, only one account, i.e. capital account is maintained for each partner.",
+        "quote": "Under the fluctuating capital method, only one account, i.e. capital account is maintained for each partner.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 6,
+          "section": "1.4 Maintenance of Capital Accounts of Partners"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "capital accounts",
+          "fluctuating capital"
+        ],
+        "order": 450,
         "authorImportance": "must"
       },
       "look": false,
@@ -668,7 +598,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i19",
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i17",
       "type": "card",
       "stage": "new",
       "card": {
@@ -706,33 +636,33 @@
       "seconds": 26
     },
     {
-      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i20",
+      "id": "lr_a93bbe63268cd2ca045bf8d4-i18",
       "type": "question",
       "origin": "linked",
       "question": {
-        "id": "8efd0113e531609d22cd8d0ed84efab6",
-        "body": "A firm maintains partners’ accounts under the fixed capital method. During the year, partner R is allocated a share of profit and makes ordinary drawings. No additional capital is introduced, and no part of R’s capital is withdrawn under the partnership agreement. What happens to R’s Capital Account during the year?",
+        "id": "472649398aea0050e35860544ec8f803",
+        "body": "Four stages in a partnership are described below. The partners first reach an agreement orally on business terms. They then record those agreed terms in a written document. At a later stage, they decide to change one clause in that document; all partners give consent before the clause is changed. Arrange the listed events in the order they occur.\n(A) All partners consent to the proposed clause change.\n(B) The written document containing the agreed terms is identified as the Partnership Deed.\n(C) The partners reach the agreement on the business terms.\n(D) The clause is changed.\nChoose the correct sequence.",
         "options": [
           {
             "key": "A",
-            "text": "It is increased by the share of profit allocated to R."
+            "text": "(C), (B), (A), (D)"
           },
           {
             "key": "B",
-            "text": "It remains unchanged during the year."
+            "text": "(C), (A), (B), (D)"
           },
           {
             "key": "C",
-            "text": "It is reduced by the ordinary drawings made by R."
+            "text": "(B), (C), (A), (D)"
           },
           {
             "key": "D",
-            "text": "It is adjusted for both the share of profit and the ordinary drawings."
+            "text": "(C), (B), (D), (A)"
           }
         ]
       },
       "mistake": null,
-      "seconds": 50
+      "seconds": 85
     }
   ],
   "revisePile": {

@@ -1,0 +1,409 @@
+{
+  "plan": "pro",
+  "student": {
+    "isNew": false
+  },
+  "subjects": [
+    {
+      "id": "accountancy",
+      "name": "Accountancy"
+    },
+    {
+      "id": "business_studies",
+      "name": "Business Studies"
+    },
+    {
+      "id": "economics",
+      "name": "Economics"
+    },
+    {
+      "id": "english",
+      "name": "English"
+    }
+  ],
+  "subject": {
+    "id": "english",
+    "name": "English",
+    "cards": 650,
+    "chapters": 2,
+    "lessons": 8,
+    "note": "English cards are written for MockMob, not taken from an NCERT book."
+  },
+  "freeNote": null,
+  "free": null,
+  "suggestions": [
+    {
+      "kind": "due",
+      "chapterKey": "english.correct-word-usage",
+      "title": "3 cards due in Choosing the Correct Word",
+      "headline": "3 cards due",
+      "chapterTitle": "Choosing the Correct Word",
+      "evidence": "Due today, about 1 minute.",
+      "action": {
+        "label": "Revise 3 due cards · 1 min",
+        "run": {
+          "chapterKey": "english.correct-word-usage",
+          "minutes": 1,
+          "leaveOut": [
+            "questions",
+            "mistakes",
+            "lesson"
+          ],
+          "kind": "cards",
+          "cardIds": [
+            "kc.english.correct-word-usage.usage-affect-effect",
+            "kc.english.correct-word-usage.usage-accept-except",
+            "kc.english.correct-word-usage.usage-principal-principle"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "recap",
+      "chapterKey": "english.vocabulary",
+      "title": "Quick recap: Synonyms and Antonyms",
+      "headline": "Quick recap",
+      "chapterTitle": "Synonyms and Antonyms",
+      "evidence": "Its 40 Must-know lines, about 7 minutes.",
+      "action": {
+        "label": "Quick recap · 7 min",
+        "run": {
+          "chapterKey": "english.vocabulary",
+          "minutes": 7,
+          "leaveOut": [],
+          "kind": "recap"
+        }
+      }
+    },
+    {
+      "kind": "search",
+      "chapterKey": null,
+      "title": "Search any card",
+      "headline": "Search any card",
+      "chapterTitle": null,
+      "evidence": "650 English cards, by term or line.",
+      "action": {
+        "label": "Search cards",
+        "href": "/learn/find?subject=english",
+        "go": "find"
+      }
+    }
+  ],
+  "roadmap": {
+    "position": {
+      "chapterKey": "english.correct-word-usage",
+      "index": 1,
+      "of": 2
+    },
+    "chapter": {
+      "key": "english.correct-word-usage",
+      "title": "Choosing the Correct Word",
+      "seen": 32,
+      "of": 127,
+      "unseen": 95,
+      "place": {
+        "n": 1,
+        "of": 2
+      }
+    },
+    "progress": null,
+    "quiet": null,
+    "sub": "6 due cards first, then new ones here",
+    "mode": "today",
+    "headline": "Today's 10 minutes in English",
+    "line": "Chapter 1 of 2 · Choosing the Correct Word",
+    "key": {
+      "label": "Start · 10 min",
+      "run": {
+        "chapterKey": "english.correct-word-usage",
+        "minutes": 10,
+        "kind": "mix",
+        "leaveOut": [],
+        "cardIds": [
+          "kc.english.correct-word-usage.usage-accept-except",
+          "kc.english.vocabulary.word-coherent",
+          "kc.english.correct-word-usage.usage-principal-principle",
+          "kc.english.vocabulary.word-ambiguous",
+          "kc.english.correct-word-usage.usage-affect-effect",
+          "kc.english.vocabulary.word-concise"
+        ]
+      }
+    },
+    "due": {
+      "count": 6
+    },
+    "or": [
+      {
+        "kind": "feed",
+        "label": "Play this chapter as a feed",
+        "line": "Scroll through the chapter, stop any time",
+        "href": "/explore/run?chapter=english.correct-word-usage&min=10",
+        "go": "feed"
+      }
+    ]
+  },
+  "parts": [
+    {
+      "id": "p1",
+      "title": "CUET English",
+      "option": null,
+      "units": [
+        {
+          "title": "Reading Comprehension",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "english.factual-passage",
+              "title": "Factual Passage",
+              "ref": null,
+              "place": null,
+              "cards": 0,
+              "mustKnow": 0,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": {
+                "id": "english-main-idea",
+                "title": "Main idea and supporting detail",
+                "minutes": 6,
+                "read": false
+              },
+              "state": {
+                "key": "getting_there",
+                "label": "Getting there"
+              },
+              "meta": "No Key cards yet.",
+              "marksOpen": null,
+              "progress": {
+                "of": 0,
+                "seen": 0,
+                "unseen": 0,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Reading Comprehension",
+              "needsWorkFrom": "papers"
+            },
+            {
+              "key": "english.narrative-passage",
+              "title": "Narrative Passage",
+              "ref": null,
+              "place": null,
+              "cards": 0,
+              "mustKnow": 0,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": {
+                "id": "english-explicit-inference",
+                "title": "Stated, inferred or not supported",
+                "minutes": 6,
+                "read": false
+              },
+              "state": {
+                "key": "thin",
+                "label": "Too few answers"
+              },
+              "meta": "No Key cards yet.",
+              "marksOpen": null,
+              "progress": {
+                "of": 0,
+                "seen": 0,
+                "unseen": 0,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Reading Comprehension",
+              "needsWorkFrom": "papers"
+            },
+            {
+              "key": "english.literary-passage",
+              "title": "Literary Passage",
+              "ref": null,
+              "place": null,
+              "cards": 0,
+              "mustKnow": 0,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "needs_work",
+                "label": "Needs work"
+              },
+              "meta": "No Key cards yet.",
+              "marksOpen": null,
+              "progress": {
+                "of": 0,
+                "seen": 0,
+                "unseen": 0,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": "Needs work",
+              "unit": "Reading Comprehension",
+              "needsWorkFrom": "papers"
+            }
+          ]
+        },
+        {
+          "title": "Verbal Ability",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "english.para-jumbles",
+              "title": "Rearranging the Parts",
+              "ref": null,
+              "place": null,
+              "cards": 0,
+              "mustKnow": 0,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "holding",
+                "label": "Holding"
+              },
+              "meta": "No Key cards yet.",
+              "marksOpen": null,
+              "progress": {
+                "of": 0,
+                "seen": 0,
+                "unseen": 0,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Verbal Ability",
+              "needsWorkFrom": "papers"
+            },
+            {
+              "key": "english.match-the-following",
+              "title": "Match the Following",
+              "ref": null,
+              "place": null,
+              "cards": 0,
+              "mustKnow": 0,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": "No Key cards yet.",
+              "marksOpen": null,
+              "progress": {
+                "of": 0,
+                "seen": 0,
+                "unseen": 0,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Verbal Ability",
+              "needsWorkFrom": "papers"
+            },
+            {
+              "key": "english.correct-word-usage",
+              "title": "Choosing the Correct Word",
+              "ref": null,
+              "place": {
+                "n": 1,
+                "of": 2
+              },
+              "cards": 127,
+              "mustKnow": 32,
+              "due": 3,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "getting_there",
+                "label": "Getting there"
+              },
+              "meta": "3 due",
+              "marksOpen": null,
+              "progress": {
+                "of": 127,
+                "seen": 32,
+                "unseen": 95,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Verbal Ability",
+              "needsWorkFrom": "learn"
+            },
+            {
+              "key": "english.vocabulary",
+              "title": "Synonyms and Antonyms",
+              "ref": null,
+              "place": {
+                "n": 2,
+                "of": 2
+              },
+              "cards": 523,
+              "mustKnow": 40,
+              "due": 3,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": {
+                "id": "english-vocabulary-01",
+                "title": "Clear or unclear: words about expression",
+                "minutes": 5,
+                "read": false
+              },
+              "state": {
+                "key": "thin",
+                "label": "Too few answers"
+              },
+              "meta": "3 due, 1 lesson",
+              "marksOpen": null,
+              "progress": {
+                "of": 523,
+                "seen": 40,
+                "unseen": 483,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Verbal Ability",
+              "needsWorkFrom": "learn"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "shelves": {
+    "due": {
+      "bySubject": {
+        "english": 6,
+        "accountancy": 9,
+        "business_studies": 6,
+        "economics": 6
+      },
+      "count": 6,
+      "minutes": 1,
+      "all": 27,
+      "subjects": 4
+    },
+    "missed": {
+      "count": 2,
+      "days": 7
+    },
+    "revise": {
+      "count": 72,
+      "chapters": 2
+    },
+    "must": {
+      "count": 72,
+      "chapters": 2
+    }
+  }
+}

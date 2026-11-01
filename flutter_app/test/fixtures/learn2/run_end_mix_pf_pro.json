@@ -3,8 +3,22 @@
   "title": "10 minutes on Accounting for Partnership: Basic Concepts",
   "done": {
     "reached": 6,
-    "of": 21,
+    "of": 19,
     "minutes": 1
+  },
+  "stopped": false,
+  "progress": {
+    "of": 45,
+    "seen": 14,
+    "before": 12
+  },
+  "chapter": {
+    "key": "accountancy.partnership-fundamentals",
+    "title": "Accounting for Partnership: Basic Concepts",
+    "place": {
+      "n": 1,
+      "of": 14
+    }
   },
   "numbers": {
     "cards": 3,
@@ -33,82 +47,62 @@
       "count": 1
     },
     {
-      "label": "back in 20 days",
+      "label": "back on Thu",
       "count": 1
     },
     {
-      "label": "back in 35 days",
+      "label": "back in 8 days",
       "count": 1
     }
   ],
   "reviseCards": [
     {
-      "id": "kc.accountancy.partnership-fundamentals.def-deed-meaning",
-      "kind": "definition",
-      "front": "What is a Partnership Deed?",
-      "mustKnow": true
+      "id": "kc.accountancy.partnership-fundamentals.term-partners-firm",
+      "kind": "term",
+      "front": "Persons who have entered into partnership with one another are individually called ‘____’ and collectively called ‘____’.",
+      "mustKnow": false
     },
     {
-      "id": "kc.accountancy.partnership-fundamentals.def-partnership",
-      "kind": "definition",
-      "front": "Define partnership.",
-      "mustKnow": true
+      "id": "kc.accountancy.partnership-fundamentals.kl-no-legal-entity",
+      "kind": "key_line",
+      "front": "A partnership firm has no ____, apart from the partners constituting it.",
+      "mustKnow": false
     }
   ],
   "moved": null,
   "free": null,
   "lead": {
-    "kind": "next",
-    "title": "Next: Profit and Loss Appropriation Account",
+    "kind": "here",
+    "title": "Keep going · 10 min",
     "minutes": 10,
-    "label": "Next: Profit and Loss Appropriation Account, 10 minutes",
-    "evidence": "The next chapter in your book.",
+    "label": "Keep going · 10 min",
+    "evidence": "9 Key cards and 2 questions",
     "run": {
-      "chapterKey": "accountancy.profit-and-loss-appropriation-account",
+      "chapterKey": "accountancy.partnership-fundamentals",
       "minutes": 10,
       "leaveOut": [],
-      "kind": "mix"
+      "kind": "mix",
+      "fresh": true
     }
   },
   "options": [
     {
-      "kind": "here",
-      "title": "Another 5 minutes here",
-      "minutes": 5,
-      "label": "Another 5 minutes here",
-      "evidence": "8 Key cards and 2 questions",
+      "kind": "fix",
+      "title": "Fix 2 open mistakes · 2 min",
+      "minutes": 2,
+      "label": "Fix 2 open mistakes · 2 min",
+      "evidence": "Accounting for Partnership: Basic Concepts",
       "run": {
         "chapterKey": "accountancy.partnership-fundamentals",
-        "minutes": 5,
-        "leaveOut": [],
-        "kind": "mix"
-      }
-    },
-    {
-      "kind": "fix",
-      "title": "Fix your last open mistake",
-      "minutes": 1,
-      "label": "Fix your last open mistake",
-      "evidence": "Admission of a Partner, 1 min",
-      "run": {
-        "chapterKey": "accountancy.admission-of-partner",
-        "minutes": 1,
+        "minutes": 2,
         "leaveOut": [
           "questions",
           "cards",
           "lesson"
         ],
-        "kind": "mix"
+        "kind": "mix",
+        "fresh": true
       }
-    },
-    {
-      "kind": "mock",
-      "title": "Test it in a full mock",
-      "minutes": null,
-      "label": "Test it in a full mock",
-      "evidence": "A timed 50-question paper of the whole subject.",
-      "href": "/test?subject=accountancy&count=50&mode=full",
-      "go": "mock"
     }
   ]
 }

@@ -1,82 +1,51 @@
 {
-  "id": "lr_18140a64f16d28c46f62cb11",
+  "id": "lr_4374294eee61b5f2fe10728d",
   "kind": "recap",
   "chapter": {
     "key": "accountancy.partnership-fundamentals",
     "title": "Accounting for Partnership: Basic Concepts",
     "ref": "Ch 1",
     "partTitle": "Part 1, Partnership Accounts",
-    "number": 1
+    "number": 1,
+    "place": {
+      "n": 1,
+      "of": 14
+    }
   },
   "minutes": 5,
   "asked": 5,
   "items": [
     {
-      "id": "lr_18140a64f16d28c46f62cb11-i1",
+      "id": "lr_4374294eee61b5f2fe10728d-i1",
       "type": "card",
       "stage": "recap",
       "card": {
-        "id": "kc.accountancy.partnership-fundamentals.def-partnership",
+        "id": "kc.accountancy.partnership-fundamentals.def-partnership-section-4",
         "v": 1,
         "subject": "accountancy",
         "chapterKey": "accountancy.partnership-fundamentals",
         "chapter": "Partnership Fundamentals",
         "unit": "Accounting for Partnership",
         "kind": "definition",
-        "front": "Define partnership.",
-        "back": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
-        "quote": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
-        "blanks": [],
-        "source": {
-          "kind": "ncert",
-          "book": "Accountancy : Partnership Accounts",
-          "code": "leac102",
-          "chapterNo": 2,
-          "page": 48,
-          "section": "Introduction"
-        },
-        "importance": "must",
-        "asked": 0,
-        "tags": [
-          "partnership"
-        ],
-        "order": 10,
-        "authorImportance": "must"
-      },
-      "look": true,
-      "recap": true,
-      "seconds": 10
-    },
-    {
-      "id": "lr_18140a64f16d28c46f62cb11-i2",
-      "type": "card",
-      "stage": "recap",
-      "card": {
-        "id": "kc.accountancy.partnership-fundamentals.def-partnership-meaning",
-        "v": 1,
-        "subject": "accountancy",
-        "chapterKey": "accountancy.partnership-fundamentals",
-        "chapter": "Partnership Fundamentals",
-        "unit": "Accounting for Partnership",
-        "kind": "definition",
-        "front": "What is partnership?",
-        "back": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
-        "quote": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
+        "front": "Define partnership (Section 4, Indian Partnership Act 1932).",
+        "back": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
+        "quote": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
         "blanks": [],
         "source": {
           "kind": "ncert",
           "book": "Accountancy – Partnership Accounts",
           "code": "leac101",
           "chapterNo": 1,
-          "page": 1,
+          "page": 2,
           "section": "1.1 Nature of Partnership"
         },
         "importance": "must",
         "asked": 0,
         "tags": [
-          "partnership"
+          "partnership",
+          "partnership act"
         ],
-        "order": 10,
+        "order": 20,
         "authorImportance": "must"
       },
       "look": true,
@@ -84,7 +53,7 @@
       "seconds": 10
     },
     {
-      "id": "lr_18140a64f16d28c46f62cb11-i3",
+      "id": "lr_4374294eee61b5f2fe10728d-i2",
       "type": "card",
       "stage": "recap",
       "card": {
@@ -120,7 +89,7 @@
       "seconds": 10
     },
     {
-      "id": "lr_18140a64f16d28c46f62cb11-i4",
+      "id": "lr_4374294eee61b5f2fe10728d-i3",
       "type": "card",
       "stage": "recap",
       "card": {
@@ -158,7 +127,7 @@
       "seconds": 10
     },
     {
-      "id": "lr_18140a64f16d28c46f62cb11-i5",
+      "id": "lr_4374294eee61b5f2fe10728d-i4",
       "type": "card",
       "stage": "recap",
       "card": {
@@ -196,7 +165,7 @@
       "seconds": 10
     },
     {
-      "id": "lr_18140a64f16d28c46f62cb11-i6",
+      "id": "lr_4374294eee61b5f2fe10728d-i5",
       "type": "card",
       "stage": "recap",
       "card": {
@@ -233,7 +202,7 @@
       "seconds": 10
     },
     {
-      "id": "lr_18140a64f16d28c46f62cb11-i7",
+      "id": "lr_4374294eee61b5f2fe10728d-i6",
       "type": "card",
       "stage": "recap",
       "card": {
@@ -270,7 +239,7 @@
       "seconds": 10
     },
     {
-      "id": "lr_18140a64f16d28c46f62cb11-i8",
+      "id": "lr_4374294eee61b5f2fe10728d-i7",
       "type": "card",
       "stage": "recap",
       "card": {
@@ -307,7 +276,7 @@
       "seconds": 10
     },
     {
-      "id": "lr_18140a64f16d28c46f62cb11-i9",
+      "id": "lr_4374294eee61b5f2fe10728d-i8",
       "type": "card",
       "stage": "recap",
       "card": {
@@ -344,7 +313,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_18140a64f16d28c46f62cb11-i10",
+      "id": "lr_4374294eee61b5f2fe10728d-i9",
       "type": "card",
       "stage": "recap",
       "card": {
@@ -381,7 +350,7 @@
       "seconds": 10
     },
     {
-      "id": "lr_18140a64f16d28c46f62cb11-i11",
+      "id": "lr_4374294eee61b5f2fe10728d-i10",
       "type": "card",
       "stage": "recap",
       "card": {
@@ -418,7 +387,44 @@
       "seconds": 10
     },
     {
-      "id": "lr_18140a64f16d28c46f62cb11-i12",
+      "id": "lr_4374294eee61b5f2fe10728d-i11",
+      "type": "card",
+      "stage": "recap",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.def-fluctuating-capital-method",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "definition",
+        "front": "What is the fluctuating capital method?",
+        "back": "Under the fluctuating capital method, only one account, i.e. capital account is maintained for each partner.",
+        "quote": "Under the fluctuating capital method, only one account, i.e. capital account is maintained for each partner.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 6,
+          "section": "1.4 Maintenance of Capital Accounts of Partners"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "capital accounts",
+          "fluctuating capital"
+        ],
+        "order": 450,
+        "authorImportance": "must"
+      },
+      "look": true,
+      "recap": true,
+      "seconds": 10
+    },
+    {
+      "id": "lr_4374294eee61b5f2fe10728d-i12",
       "type": "card",
       "stage": "recap",
       "card": {

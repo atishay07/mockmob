@@ -1,18 +1,22 @@
 {
-  "id": "lr_75a9421b815fb51529aa67e6",
+  "id": "lr_32e55b9270a80189c669c455",
   "kind": "feed",
   "chapter": {
     "key": "accountancy.admission-of-partner",
     "title": "Admission of a Partner",
     "ref": "Ch 2",
     "partTitle": "Part 1, Partnership Accounts",
-    "number": 2
+    "number": 2,
+    "place": {
+      "n": 5,
+      "of": 14
+    }
   },
   "minutes": 10,
   "asked": 10,
   "items": [
     {
-      "id": "lr_75a9421b815fb51529aa67e6-i1",
+      "id": "lr_32e55b9270a80189c669c455-i1",
       "type": "card",
       "stage": "new",
       "card": {
@@ -48,7 +52,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_75a9421b815fb51529aa67e6-i2",
+      "id": "lr_32e55b9270a80189c669c455-i2",
       "type": "question",
       "origin": "mistake",
       "question": {
@@ -81,7 +85,7 @@
       "seconds": 60
     },
     {
-      "id": "lr_75a9421b815fb51529aa67e6-i3",
+      "id": "lr_32e55b9270a80189c669c455-i3",
       "type": "card",
       "stage": "new",
       "card": {
@@ -117,7 +121,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_75a9421b815fb51529aa67e6-i4",
+      "id": "lr_32e55b9270a80189c669c455-i4",
       "type": "question",
       "origin": "mistake",
       "question": {
@@ -150,7 +154,7 @@
       "seconds": 60
     },
     {
-      "id": "lr_75a9421b815fb51529aa67e6-i5",
+      "id": "lr_32e55b9270a80189c669c455-i5",
       "type": "card",
       "stage": "new",
       "card": {
@@ -186,7 +190,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_75a9421b815fb51529aa67e6-i6",
+      "id": "lr_32e55b9270a80189c669c455-i6",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -215,7 +219,7 @@
       "seconds": 50
     },
     {
-      "id": "lr_75a9421b815fb51529aa67e6-i7",
+      "id": "lr_32e55b9270a80189c669c455-i7",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -244,7 +248,7 @@
       "seconds": 50
     },
     {
-      "id": "lr_75a9421b815fb51529aa67e6-i8",
+      "id": "lr_32e55b9270a80189c669c455-i8",
       "type": "card",
       "stage": "new",
       "card": {
@@ -280,7 +284,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_75a9421b815fb51529aa67e6-i9",
+      "id": "lr_32e55b9270a80189c669c455-i9",
       "type": "question",
       "origin": "chapter",
       "question": {
@@ -309,7 +313,7 @@
       "seconds": 85
     },
     {
-      "id": "lr_75a9421b815fb51529aa67e6-i10",
+      "id": "lr_32e55b9270a80189c669c455-i10",
       "type": "card",
       "stage": "new",
       "card": {
@@ -345,7 +349,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_75a9421b815fb51529aa67e6-i11",
+      "id": "lr_32e55b9270a80189c669c455-i11",
       "type": "question",
       "origin": "chapter",
       "question": {
@@ -374,7 +378,7 @@
       "seconds": 90
     },
     {
-      "id": "lr_75a9421b815fb51529aa67e6-i12",
+      "id": "lr_32e55b9270a80189c669c455-i12",
       "type": "question",
       "origin": "chapter",
       "question": {

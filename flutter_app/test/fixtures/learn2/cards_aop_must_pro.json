@@ -2,13 +2,17 @@
   "chapter": {
     "key": "accountancy.admission-of-partner",
     "title": "Admission of a Partner",
-    "ref": "Ch 2"
+    "ref": "Ch 2",
+    "place": {
+      "n": 5,
+      "of": 14
+    }
   },
   "plan": "pro",
   "counts": {
-    "total": 53,
-    "all": 53,
-    "must": 14,
+    "total": 58,
+    "all": 58,
+    "must": 15,
     "revise": 0,
     "missed": 2,
     "due": 0
@@ -259,39 +263,6 @@
           "locked": false
         },
         {
-          "id": "kc.accountancy.admission-of-partner.kl-paid-privately-no-entry",
-          "v": 1,
-          "subject": "accountancy",
-          "chapterKey": "accountancy.admission-of-partner",
-          "chapter": "Admission of Partner",
-          "unit": "Reconstitution of a Partnership firm",
-          "kind": "key_line",
-          "front": "If this amount is paid to the old partners directly (privately) by the new partner, ____ is passed in the books of the firm.",
-          "back": "If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm.",
-          "quote": "If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm.",
-          "blanks": [
-            "no entry"
-          ],
-          "source": {
-            "kind": "ncert",
-            "book": "Accountancy : Partnership Accounts",
-            "code": "leac102",
-            "chapterNo": 2,
-            "page": 64,
-            "section": "2.5.5.1 When the new Partner brings goodwill in cash"
-          },
-          "importance": "must",
-          "asked": 0,
-          "tags": [
-            "goodwill"
-          ],
-          "order": 590,
-          "authorImportance": "must",
-          "inRevise": false,
-          "missedLately": false,
-          "locked": false
-        },
-        {
           "id": "kc.accountancy.admission-of-partner.entry-e-premium-received",
           "v": 1,
           "subject": "accountancy",
@@ -436,6 +407,39 @@
       "title": "2.6 Adjustment for Accumulated Profits and Losses",
       "cards": [
         {
+          "id": "kc.accountancy.admission-of-partner.kl-new-partner-not-entitled",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.admission-of-partner",
+          "chapter": "Admission of Partner",
+          "unit": "Reconstitution of a Partnership firm",
+          "kind": "key_line",
+          "front": "The new partner is ____ to have any share in such accumulated profits.",
+          "back": "The new partner is not entitled to have any share in such accumulated profits.",
+          "quote": "The new partner is not entitled to have any share in such accumulated profits.",
+          "blanks": [
+            "not entitled"
+          ],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 76,
+            "section": "2.6 Adjustment for Accumulated Profits and Losses"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "reserves"
+          ],
+          "order": 840,
+          "authorImportance": "must",
+          "inRevise": false,
+          "missedLately": false,
+          "locked": false
+        },
+        {
           "id": "kc.accountancy.admission-of-partner.fact-accumulated-profits-distributed",
           "v": 1,
           "subject": "accountancy",
@@ -497,6 +501,42 @@
             "revaluation"
           ],
           "order": 900,
+          "authorImportance": "must",
+          "inRevise": false,
+          "missedLately": false,
+          "locked": false
+        }
+      ]
+    },
+    {
+      "title": "Summary",
+      "cards": [
+        {
+          "id": "kc.accountancy.admission-of-partner.list-summary-matters-adjusted",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.admission-of-partner",
+          "chapter": "Admission of Partner",
+          "unit": "Reconstitution of a Partnership firm",
+          "kind": "list",
+          "front": "Summary: matters needing adjustment in the firm's books when a new partner is admitted.",
+          "back": "goodwill\nrevaluation of assets and liabilities\nreserves and other accumulated profits and losses\nthe capitals of the old partners' (if agreed)",
+          "quote": "Various matters which need adjustments in the books of firm at the time of admission of a new partner are : goodwill, revaluation of assets and liabilities, reserves and other accumulated profits and losses and the capitals of the old partners' (if agreed).",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 97,
+            "section": "Summary"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "admission"
+          ],
+          "order": 1130,
           "authorImportance": "must",
           "inRevise": false,
           "missedLately": false,

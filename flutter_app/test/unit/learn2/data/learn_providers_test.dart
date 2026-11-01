@@ -56,11 +56,13 @@ void main() {
     expect((await held(c, learnSubjectProvider('accountancy'))).suggestions, hasLength(3));
     expect((await held(c, learnCoversProvider('accountancy'))).covers, isNotEmpty);
     expect((await held(c, learnShelvesProvider('accountancy'))).dueTotal, 27);
-    expect((await held(c, learnChapterCardsProvider((chapterKey: l2Aop, filter: 'must')))).counts.must, 14);
+    expect((await held(c, learnChapterCardsProvider((chapterKey: l2Aop, filter: 'must')))).counts.must, 15);
     expect((await held(c, learnSubjectCardsProvider((subject: 'accountancy', filter: 'due')))).filter, 'due');
     expect((await held(c, learnPreviewProvider(LearnPreviewKey(chapterKey: l2Aop, minutes: 20)))).minutes, 20);
     await held(c, learnSubjectProvider('business'));
-    expect(api.calls, contains('subject business_studies'));
+    // Learn home is ONE read (the web's /api/learn/home): the subject body and the shelves come together.
+    expect(api.calls, contains('home business_studies'));
+    expect(api.calls, isNot(contains('subject business_studies')));
   });
 
   test("Practice's subject is Learn's, as a public id", () {

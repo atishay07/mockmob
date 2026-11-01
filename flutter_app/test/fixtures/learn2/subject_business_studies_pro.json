@@ -24,8 +24,8 @@
   "subject": {
     "id": "business_studies",
     "name": "Business Studies",
-    "cards": 900,
-    "chapters": 12,
+    "cards": 901,
+    "chapters": 11,
     "lessons": 5,
     "note": null
   },
@@ -40,7 +40,7 @@
       "chapterTitle": "Organising",
       "evidence": "Chapter 5 of Business Studies Part 1. 10 minutes of its Key cards.",
       "action": {
-        "label": "Start 10 minutes",
+        "label": "Start · 10 min",
         "run": {
           "chapterKey": "business_studies.organising",
           "minutes": 10,
@@ -57,7 +57,7 @@
       "chapterTitle": "Nature and Significance of Management",
       "evidence": "Due today, about 1 minute.",
       "action": {
-        "label": "Revise these",
+        "label": "Revise 3 due cards · 1 min",
         "run": {
           "chapterKey": "business_studies.nature-and-significance-of-management",
           "minutes": 1,
@@ -83,7 +83,7 @@
       "chapterTitle": "Principles of Management",
       "evidence": "Its 24 Must-know lines, about 4 minutes.",
       "action": {
-        "label": "Start the recap",
+        "label": "Quick recap · 4 min",
         "run": {
           "chapterKey": "business_studies.principles-of-management",
           "minutes": 4,
@@ -93,6 +93,59 @@
       }
     }
   ],
+  "roadmap": {
+    "position": {
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "index": 1,
+      "of": 11
+    },
+    "chapter": {
+      "key": "business_studies.nature-and-significance-of-management",
+      "title": "Nature and Significance of Management",
+      "seen": 17,
+      "of": 67,
+      "unseen": 50,
+      "place": {
+        "n": 1,
+        "of": 11
+      }
+    },
+    "progress": null,
+    "quiet": null,
+    "sub": "6 due cards first, then new ones here",
+    "mode": "today",
+    "headline": "Today's 10 minutes in Business Studies",
+    "line": "Chapter 1 of 11 · Nature and Significance of Management",
+    "key": {
+      "label": "Start · 10 min",
+      "run": {
+        "chapterKey": "business_studies.nature-and-significance-of-management",
+        "minutes": 10,
+        "kind": "mix",
+        "leaveOut": [],
+        "cardIds": [
+          "kc.business_studies.nature-and-significance-of-management.def-process-meaning",
+          "kc.business_studies.principles-of-management.def-techniques-of-management",
+          "kc.business_studies.nature-and-significance-of-management.def-effectiveness",
+          "kc.business_studies.principles-of-management.def-values",
+          "kc.business_studies.nature-and-significance-of-management.def-management-process",
+          "kc.business_studies.principles-of-management.def-managerial-principle"
+        ]
+      }
+    },
+    "due": {
+      "count": 6
+    },
+    "or": [
+      {
+        "kind": "feed",
+        "label": "Play this chapter as a feed",
+        "line": "Scroll through the chapter, stop any time",
+        "href": "/explore/run?chapter=business_studies.nature-and-significance-of-management&min=10",
+        "go": "feed"
+      }
+    ]
+  },
   "parts": [
     {
       "id": "p1",
@@ -107,6 +160,10 @@
               "key": "business_studies.nature-and-significance-of-management",
               "title": "Nature and Significance of Management",
               "ref": "Ch 1",
+              "place": {
+                "n": 1,
+                "of": 11
+              },
               "cards": 67,
               "mustKnow": 17,
               "due": 3,
@@ -118,7 +175,17 @@
                 "label": "Getting there"
               },
               "meta": "3 due",
-              "marksOpen": null
+              "marksOpen": null,
+              "progress": {
+                "of": 67,
+                "seen": 17,
+                "unseen": 50,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Nature and Significance of Management",
+              "needsWorkFrom": "learn"
             }
           ]
         },
@@ -130,6 +197,10 @@
               "key": "business_studies.principles-of-management",
               "title": "Principles of Management",
               "ref": "Ch 2",
+              "place": {
+                "n": 2,
+                "of": 11
+              },
               "cards": 96,
               "mustKnow": 24,
               "due": 3,
@@ -141,7 +212,17 @@
                 "label": "Too few answers"
               },
               "meta": "3 due",
-              "marksOpen": null
+              "marksOpen": null,
+              "progress": {
+                "of": 96,
+                "seen": 24,
+                "unseen": 72,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Principles of Management",
+              "needsWorkFrom": "learn"
             }
           ]
         },
@@ -153,6 +234,10 @@
               "key": "business_studies.business-environment",
               "title": "Business Environment",
               "ref": "Ch 3",
+              "place": {
+                "n": 3,
+                "of": 11
+              },
               "cards": 38,
               "mustKnow": 10,
               "due": 0,
@@ -164,7 +249,17 @@
                 "label": "Needs work"
               },
               "meta": null,
-              "marksOpen": null
+              "marksOpen": null,
+              "progress": {
+                "of": 38,
+                "seen": 0,
+                "unseen": 38,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": "Needs work",
+              "unit": "Business Environment",
+              "needsWorkFrom": "papers"
             }
           ]
         },
@@ -176,6 +271,10 @@
               "key": "business_studies.planning",
               "title": "Planning",
               "ref": "Ch 4",
+              "place": {
+                "n": 4,
+                "of": 11
+              },
               "cards": 51,
               "mustKnow": 13,
               "due": 0,
@@ -192,7 +291,17 @@
                 "label": "Holding"
               },
               "meta": "1 lesson",
-              "marksOpen": null
+              "marksOpen": null,
+              "progress": {
+                "of": 51,
+                "seen": 0,
+                "unseen": 51,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Planning",
+              "needsWorkFrom": "papers"
             }
           ]
         },
@@ -204,6 +313,10 @@
               "key": "business_studies.organising",
               "title": "Organising",
               "ref": "Ch 5",
+              "place": {
+                "n": 5,
+                "of": 11
+              },
               "cards": 69,
               "mustKnow": 18,
               "due": 0,
@@ -220,7 +333,17 @@
                 "label": "Not started"
               },
               "meta": "1 lesson",
-              "marksOpen": null
+              "marksOpen": null,
+              "progress": {
+                "of": 69,
+                "seen": 0,
+                "unseen": 69,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Organising",
+              "needsWorkFrom": "papers"
             }
           ]
         },
@@ -232,6 +355,10 @@
               "key": "business_studies.staffing",
               "title": "Staffing",
               "ref": "Ch 6",
+              "place": {
+                "n": 6,
+                "of": 11
+              },
               "cards": 98,
               "mustKnow": 25,
               "due": 0,
@@ -248,7 +375,17 @@
                 "label": "Getting there"
               },
               "meta": "1 lesson",
-              "marksOpen": null
+              "marksOpen": null,
+              "progress": {
+                "of": 98,
+                "seen": 0,
+                "unseen": 98,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Staffing",
+              "needsWorkFrom": "papers"
             }
           ]
         },
@@ -260,6 +397,10 @@
               "key": "business_studies.directing",
               "title": "Directing",
               "ref": "Ch 7",
+              "place": {
+                "n": 7,
+                "of": 11
+              },
               "cards": 112,
               "mustKnow": 28,
               "due": 0,
@@ -276,7 +417,17 @@
                 "label": "Not started"
               },
               "meta": "1 lesson",
-              "marksOpen": null
+              "marksOpen": null,
+              "progress": {
+                "of": 112,
+                "seen": 0,
+                "unseen": 112,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Directing",
+              "needsWorkFrom": "papers"
             }
           ]
         },
@@ -288,6 +439,10 @@
               "key": "business_studies.controlling",
               "title": "Controlling",
               "ref": "Ch 8",
+              "place": {
+                "n": 8,
+                "of": 11
+              },
               "cards": 48,
               "mustKnow": 12,
               "due": 0,
@@ -304,7 +459,17 @@
                 "label": "Too few answers"
               },
               "meta": "1 lesson",
-              "marksOpen": null
+              "marksOpen": null,
+              "progress": {
+                "of": 48,
+                "seen": 0,
+                "unseen": 48,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Controlling",
+              "needsWorkFrom": "papers"
             }
           ]
         }
@@ -323,6 +488,10 @@
               "key": "business_studies.financial-management",
               "title": "Financial Management",
               "ref": "Ch 9",
+              "place": {
+                "n": 9,
+                "of": 11
+              },
               "cards": 127,
               "mustKnow": 32,
               "due": 0,
@@ -334,7 +503,17 @@
                 "label": "Not started"
               },
               "meta": null,
-              "marksOpen": null
+              "marksOpen": null,
+              "progress": {
+                "of": 127,
+                "seen": 0,
+                "unseen": 127,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Business Finance",
+              "needsWorkFrom": "papers"
             }
           ]
         }
@@ -353,6 +532,7 @@
               "key": "business_studies.financial-markets",
               "title": "Financial Markets",
               "ref": null,
+              "place": null,
               "cards": 0,
               "mustKnow": 0,
               "due": 0,
@@ -364,7 +544,17 @@
                 "label": "Needs work"
               },
               "meta": "No Key cards yet.",
-              "marksOpen": null
+              "marksOpen": null,
+              "progress": {
+                "of": 0,
+                "seen": 0,
+                "unseen": 0,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": "Needs work",
+              "unit": "Financial Markets",
+              "needsWorkFrom": "papers"
             }
           ]
         }
@@ -383,6 +573,10 @@
               "key": "business_studies.marketing-management",
               "title": "Marketing",
               "ref": "Ch 10",
+              "place": {
+                "n": 10,
+                "of": 11
+              },
               "cards": 134,
               "mustKnow": 34,
               "due": 0,
@@ -394,7 +588,17 @@
                 "label": "Not started"
               },
               "meta": null,
-              "marksOpen": null
+              "marksOpen": null,
+              "progress": {
+                "of": 134,
+                "seen": 0,
+                "unseen": 134,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Marketing",
+              "needsWorkFrom": "papers"
             }
           ]
         },
@@ -406,8 +610,12 @@
               "key": "business_studies.consumer-protection",
               "title": "Consumer Protection",
               "ref": "Ch 11",
-              "cards": 60,
-              "mustKnow": 15,
+              "place": {
+                "n": 11,
+                "of": 11
+              },
+              "cards": 61,
+              "mustKnow": 16,
               "due": 0,
               "mistakes": 0,
               "questions": 0,
@@ -417,7 +625,17 @@
                 "label": "Holding"
               },
               "meta": null,
-              "marksOpen": null
+              "marksOpen": null,
+              "progress": {
+                "of": 61,
+                "seen": 0,
+                "unseen": 61,
+                "questions": 0,
+                "tried": 0
+              },
+              "verdict": null,
+              "unit": "Consumer Protection",
+              "needsWorkFrom": "papers"
             }
           ]
         }

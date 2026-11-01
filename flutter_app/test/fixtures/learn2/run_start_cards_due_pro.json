@@ -1,18 +1,22 @@
 {
-  "id": "lr_f8e3868b1d51759f264e01ee",
+  "id": "lr_f70fd935822e6dbbfc9d3306",
   "kind": "cards",
   "chapter": {
     "key": "accountancy.profit-and-loss-appropriation-account",
     "title": "Profit and Loss Appropriation Account",
     "ref": "Ch 1",
     "partTitle": "Part 1, Partnership Accounts",
-    "number": 1
+    "number": 1,
+    "place": {
+      "n": 2,
+      "of": 14
+    }
   },
   "minutes": 1,
   "asked": 1,
   "items": [
     {
-      "id": "lr_f8e3868b1d51759f264e01ee-i1",
+      "id": "lr_f70fd935822e6dbbfc9d3306-i1",
       "type": "card",
       "stage": "due",
       "card": {
@@ -48,7 +52,7 @@
       "seconds": 12
     },
     {
-      "id": "lr_f8e3868b1d51759f264e01ee-i2",
+      "id": "lr_f70fd935822e6dbbfc9d3306-i2",
       "type": "card",
       "stage": "due",
       "card": {
@@ -84,7 +88,7 @@
       "seconds": 12
     },
     {
-      "id": "lr_f8e3868b1d51759f264e01ee-i3",
+      "id": "lr_f70fd935822e6dbbfc9d3306-i3",
       "type": "card",
       "stage": "due",
       "card": {

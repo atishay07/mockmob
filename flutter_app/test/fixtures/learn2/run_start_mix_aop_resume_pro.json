@@ -1,18 +1,22 @@
 {
-  "id": "lr_aa19581b98132d65737b96f0",
+  "id": "lr_4c9a70e34a1a7b054d3439f3",
   "kind": "mix",
   "chapter": {
     "key": "accountancy.admission-of-partner",
     "title": "Admission of a Partner",
     "ref": "Ch 2",
     "partTitle": "Part 1, Partnership Accounts",
-    "number": 2
+    "number": 2,
+    "place": {
+      "n": 5,
+      "of": 14
+    }
   },
   "minutes": 8,
   "asked": 8,
   "items": [
     {
-      "id": "lr_aa19581b98132d65737b96f0-i7",
+      "id": "lr_4c9a70e34a1a7b054d3439f3-i7",
       "type": "card",
       "stage": "new",
       "card": {
@@ -48,7 +52,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_aa19581b98132d65737b96f0-i8",
+      "id": "lr_4c9a70e34a1a7b054d3439f3-i8",
       "type": "card",
       "stage": "new",
       "card": {
@@ -87,45 +91,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_aa19581b98132d65737b96f0-i9",
-      "type": "card",
-      "stage": "new",
-      "card": {
-        "id": "kc.accountancy.admission-of-partner.kl-paid-privately-no-entry",
-        "v": 1,
-        "subject": "accountancy",
-        "chapterKey": "accountancy.admission-of-partner",
-        "chapter": "Admission of Partner",
-        "unit": "Reconstitution of a Partnership firm",
-        "kind": "key_line",
-        "front": "If this amount is paid to the old partners directly (privately) by the new partner, ____ is passed in the books of the firm.",
-        "back": "If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm.",
-        "quote": "If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm.",
-        "blanks": [
-          "no entry"
-        ],
-        "source": {
-          "kind": "ncert",
-          "book": "Accountancy : Partnership Accounts",
-          "code": "leac102",
-          "chapterNo": 2,
-          "page": 64,
-          "section": "2.5.5.1 When the new Partner brings goodwill in cash"
-        },
-        "importance": "must",
-        "asked": 0,
-        "tags": [
-          "goodwill"
-        ],
-        "order": 590,
-        "authorImportance": "must"
-      },
-      "look": false,
-      "recap": false,
-      "seconds": 18
-    },
-    {
-      "id": "lr_aa19581b98132d65737b96f0-i10",
+      "id": "lr_4c9a70e34a1a7b054d3439f3-i9",
       "type": "card",
       "stage": "new",
       "card": {
@@ -161,72 +127,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_aa19581b98132d65737b96f0-i11",
-      "type": "question",
-      "origin": "linked",
-      "question": {
-        "id": "2ca403e13da61d66ebcb9dc2870cf3df",
-        "body": "At the admission of T, X and Y are the existing partners, sharing profits in the ratio 3:2. The agreed profit-sharing ratio after T’s admission is X:Y:T = 4:3:3. The firm has an untransferred reserve of ₹24,000, a general reserve of ₹18,000 and a credit balance of ₹33,000 in the Profit and Loss Account. All three balances are accumulated profits from before T’s admission. What amounts should be allocated to X, Y and T, respectively, from these accumulated profits?",
-        "options": [
-          {
-            "key": "A",
-            "text": "₹25,200, ₹16,800 and Nil"
-          },
-          {
-            "key": "B",
-            "text": "₹30,000, ₹22,500 and ₹22,500"
-          },
-          {
-            "key": "C",
-            "text": "₹45,000, ₹30,000 and Nil"
-          },
-          {
-            "key": "D",
-            "text": "₹37,500, ₹37,500 and Nil"
-          }
-        ]
-      },
-      "mistake": null,
-      "seconds": 85
-    },
-    {
-      "id": "lr_aa19581b98132d65737b96f0-i12",
-      "type": "card",
-      "stage": "new",
-      "card": {
-        "id": "kc.accountancy.admission-of-partner.def-sacrificing-ratio",
-        "v": 1,
-        "subject": "accountancy",
-        "chapterKey": "accountancy.admission-of-partner",
-        "chapter": "Admission of Partner",
-        "unit": "Reconstitution of a Partnership firm",
-        "kind": "definition",
-        "front": "What is the sacrificing ratio?",
-        "back": "The ratio in which the old partners agree to sacrifice their share of profit in favour of the incoming partner is called sacrificing ratio.",
-        "quote": "The ratio in which the old partners agree to sacrifice their share of profit in favour of the incoming partner is called sacrificing ratio.",
-        "blanks": [],
-        "source": {
-          "kind": "ncert",
-          "book": "Accountancy : Partnership Accounts",
-          "code": "leac102",
-          "chapterNo": 2,
-          "page": 52,
-          "section": "2.4 Sacrificing Ratio"
-        },
-        "importance": "must",
-        "asked": 0,
-        "tags": [
-          "sacrificing ratio"
-        ],
-        "order": 160,
-        "authorImportance": "must"
-      },
-      "look": false,
-      "recap": false,
-      "seconds": 18
-    },
-    {
-      "id": "lr_aa19581b98132d65737b96f0-i13",
+      "id": "lr_4c9a70e34a1a7b054d3439f3-i10",
       "type": "card",
       "stage": "new",
       "card": {
@@ -262,7 +163,72 @@
       "seconds": 18
     },
     {
-      "id": "lr_aa19581b98132d65737b96f0-i14",
+      "id": "lr_4c9a70e34a1a7b054d3439f3-i11",
+      "type": "question",
+      "origin": "linked",
+      "question": {
+        "id": "2ca403e13da61d66ebcb9dc2870cf3df",
+        "body": "At the admission of T, X and Y are the existing partners, sharing profits in the ratio 3:2. The agreed profit-sharing ratio after T’s admission is X:Y:T = 4:3:3. The firm has an untransferred reserve of ₹24,000, a general reserve of ₹18,000 and a credit balance of ₹33,000 in the Profit and Loss Account. All three balances are accumulated profits from before T’s admission. What amounts should be allocated to X, Y and T, respectively, from these accumulated profits?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹25,200, ₹16,800 and Nil"
+          },
+          {
+            "key": "B",
+            "text": "₹30,000, ₹22,500 and ₹22,500"
+          },
+          {
+            "key": "C",
+            "text": "₹45,000, ₹30,000 and Nil"
+          },
+          {
+            "key": "D",
+            "text": "₹37,500, ₹37,500 and Nil"
+          }
+        ]
+      },
+      "mistake": null,
+      "seconds": 85
+    },
+    {
+      "id": "lr_4c9a70e34a1a7b054d3439f3-i12",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.def-sacrificing-ratio",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "definition",
+        "front": "What is the sacrificing ratio?",
+        "back": "The ratio in which the old partners agree to sacrifice their share of profit in favour of the incoming partner is called sacrificing ratio.",
+        "quote": "The ratio in which the old partners agree to sacrifice their share of profit in favour of the incoming partner is called sacrificing ratio.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 52,
+          "section": "2.4 Sacrificing Ratio"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "sacrificing ratio"
+        ],
+        "order": 160,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_4c9a70e34a1a7b054d3439f3-i13",
       "type": "card",
       "stage": "new",
       "card": {
@@ -300,7 +266,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_aa19581b98132d65737b96f0-i15",
+      "id": "lr_4c9a70e34a1a7b054d3439f3-i14",
       "type": "card",
       "stage": "new",
       "card": {
@@ -339,7 +305,45 @@
       "seconds": 18
     },
     {
-      "id": "lr_aa19581b98132d65737b96f0-i16",
+      "id": "lr_4c9a70e34a1a7b054d3439f3-i15",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.kl-new-partner-not-entitled",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "key_line",
+        "front": "The new partner is ____ to have any share in such accumulated profits.",
+        "back": "The new partner is not entitled to have any share in such accumulated profits.",
+        "quote": "The new partner is not entitled to have any share in such accumulated profits.",
+        "blanks": [
+          "not entitled"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 76,
+          "section": "2.6 Adjustment for Accumulated Profits and Losses"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "reserves"
+        ],
+        "order": 840,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_4c9a70e34a1a7b054d3439f3-i16",
       "type": "question",
       "origin": "linked",
       "question": {

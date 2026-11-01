@@ -3,6 +3,10 @@
     "key": "accountancy.change-in-profit-sharing-ratio",
     "title": "Change in Profit Sharing Ratio",
     "ref": "Ch 2",
+    "place": {
+      "n": 3,
+      "of": 14
+    },
     "partTitle": "Part 1, Partnership Accounts",
     "unitTitle": "Reconstitution of a Partnership firm",
     "state": {
@@ -53,19 +57,36 @@
   "shrink": null,
   "free": null,
   "resume": null,
+  "firstUp": [
+    {
+      "id": "kc.accountancy.change-in-profit-sharing-ratio.def-gaining-ratio",
+      "front": "What is the gaining ratio?",
+      "kind": "definition",
+      "mustKnow": true
+    },
+    {
+      "id": "kc.accountancy.change-in-profit-sharing-ratio.fact-credit-sacrificing-debit-gaining",
+      "front": "In a change of profit sharing ratio, which partners are credited and which debited?",
+      "kind": "fact",
+      "mustKnow": true
+    },
+    {
+      "id": "kc.accountancy.change-in-profit-sharing-ratio.fm-gaining-share",
+      "front": "Formula: gaining share of a continuing partner.",
+      "kind": "formula",
+      "mustKnow": true
+    }
+  ],
   "firstVisit": false,
+  "cardsSeen": 0,
   "asked": 20,
   "capped": null,
   "freeSession": null,
-  "added": {
-    "key": "accountancy.goodwill-valuation",
-    "title": "Goodwill: Nature and Valuation",
-    "ref": "Ch 2"
-  },
+  "added": null,
   "shelf": {
     "cards": {
-      "count": 8,
-      "open": 8,
+      "count": 11,
+      "open": 11,
       "mustKnow": 6,
       "inRevise": 0
     },

@@ -45,16 +45,21 @@
     "lines": [
       {
         "label": "Fixed",
-        "text": "1 of 2 old mistakes"
+        "text": "1 of 2 open mistakes"
       }
     ],
     "lead": null,
     "free": {
-      "text": "Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like."
+      "text": "That was today's free session. Questions come back tomorrow."
     },
     "next": {
-      "label": "Next chapter: Retirement and Death of a Partner",
+      "label": "Next chapter · 10 min",
+      "title": "Retirement and Death of a Partner",
       "key": "accountancy.retirement-and-death-of-partner",
+      "place": {
+        "n": 6,
+        "of": 14
+      },
       "run": null
     },
     "dueOffer": null
@@ -64,6 +69,21 @@
     "reached": 2,
     "of": 12,
     "minutes": 1
+  },
+  "stopped": false,
+  "progress": {
+    "of": 58,
+    "seen": 1,
+    "before": 0,
+    "open": 5
+  },
+  "chapter": {
+    "key": "accountancy.admission-of-partner",
+    "title": "Admission of a Partner",
+    "place": {
+      "n": 5,
+      "of": 14
+    }
   },
   "numbers": {
     "cards": 0,
@@ -87,33 +107,27 @@
   "moved": null,
   "free": null,
   "lead": {
-    "line": "Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like.",
-    "label": "See Pro",
-    "href": "/pricing",
-    "go": "pro"
+    "kind": "recap",
+    "title": "Quick recap · 1 min",
+    "minutes": 1,
+    "label": "Quick recap · 1 min",
+    "evidence": "Its 5 Must-know lines, answers showing.",
+    "run": {
+      "chapterKey": "accountancy.admission-of-partner",
+      "minutes": 1,
+      "leaveOut": [],
+      "kind": "recap"
+    },
+    "line": "That was today's free session. Questions come back tomorrow."
   },
   "options": [
     {
-      "kind": "recap",
-      "title": "Quick recap of this chapter",
-      "minutes": 1,
-      "label": "Quick recap of this chapter",
-      "evidence": "Its 5 Must-know lines, answers showing.",
-      "run": {
-        "chapterKey": "accountancy.admission-of-partner",
-        "minutes": 1,
-        "leaveOut": [],
-        "kind": "recap"
-      }
-    },
-    {
-      "kind": "explore",
-      "title": "Questions on this chapter in Explore",
+      "kind": "pro",
+      "title": "See Pro",
       "minutes": null,
-      "label": "Questions on this chapter in Explore",
-      "evidence": "Explore questions stay free.",
-      "href": "/explore?subject=accountancy&chapter=Admission+of+Partner",
-      "go": "explore"
+      "label": "See Pro",
+      "href": "/pricing",
+      "go": "pro"
     }
   ]
 }

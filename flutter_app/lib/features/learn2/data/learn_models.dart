@@ -103,6 +103,29 @@ class LearnCapped {
   final Json raw;
 }
 
+/// A chapter's place among the student's playable chapters, in roadmap order: `{ n, of }` (R4 ruling N). It is what names a
+/// chapter on screen ("Chapter 5 of 14"); the NCERT number (`ref`) is only for a card's source line.
+class LearnPlace {
+  const LearnPlace({required this.n, required this.of});
+
+  static LearnPlace? tryParse(Object? raw) {
+    if (raw is! Map) return null;
+    final j = asJson(raw);
+    final n = _int(j['n']);
+    if (n <= 0) return null;
+    return LearnPlace(n: n, of: _int(j['of']));
+  }
+
+  final int n;
+  final int of;
+
+  /// "Chapter 5 of 14"; empty without both numbers (the web's `chapterPlace`).
+  String get label => n > 0 && of > 0 ? 'Chapter $n of $of' : '';
+
+  /// "Chapter 5": the short form for tight spots (the web's `chapterShort`).
+  String get short => n > 0 ? 'Chapter $n' : '';
+}
+
 /// A run the server names for a key: `{ kind, chapterKey, minutes, leaveOut, cardIds?, resume?, fresh? }` (a suggestion's
 /// action, an end option, a 402 option, the feed end's lead, next and dueOffer). [toStart] makes the start body.
 class LearnRunSpec {
@@ -239,13 +262,13 @@ class LearnLesson {
 
 /// A chapter the server points at: `{ key, title, label?, ref? }` (the preview's shrink.addNext, a run's `added`).
 class LearnChapterLink {
-  const LearnChapterLink({required this.key, required this.title, this.label, this.ref, this.raw = const {}});
+  const LearnChapterLink({required this.key, required this.title, this.label, this.ref, this.place, this.raw = const {}});
 
   static LearnChapterLink? tryParse(Object? raw) {
     final j = asJson(raw);
     final key = _text(j['key']);
     if (key == null) return null;
-    return LearnChapterLink(key: key, title: _text(j['title']) ?? key, label: _text(j['label']), ref: _text(j['ref']), raw: j);
+    return LearnChapterLink(key: key, title: _text(j['title']) ?? key, label: _text(j['label']), ref: _text(j['ref']), place: LearnPlace.tryParse(j['place']), raw: j);
   }
 
   final String key;
@@ -254,8 +277,11 @@ class LearnChapterLink {
   /// "Add the next chapter, Goodwill: Nature and Valuation".
   final String? label;
 
-  /// "Ch 2".
+  /// "Ch 2" (a source line only).
   final String? ref;
+
+  /// "Chapter 6": how the next chapter is named (R4 ruling N).
+  final LearnPlace? place;
   final Json raw;
 }
 
@@ -434,6 +460,11 @@ class LearnChapterRow {
     this.state = const LearnState(),
     this.meta,
     this.marksOpen,
+    this.place,
+    this.progress,
+    this.verdict,
+    this.needsWorkFrom,
+    this.unit,
     this.raw = const {},
   });
 
@@ -454,6 +485,11 @@ class LearnChapterRow {
       state: LearnState.parse(j['state']),
       meta: _text(j['meta']),
       marksOpen: asDouble(j['marksOpen']),
+      place: LearnPlace.tryParse(j['place']),
+      progress: LearnRowProgress.tryParse(j['progress']),
+      verdict: _text(j['verdict']),
+      needsWorkFrom: _text(j['needsWorkFrom']),
+      unit: _text(j['unit']),
       raw: j,
     );
   }
@@ -461,7 +497,7 @@ class LearnChapterRow {
   final String key;
   final String title;
 
-  /// "Ch 1"; null for a chapter without a number.
+  /// "Ch 1" (the NCERT number, for source lines only); null for a chapter without a number.
   final String? ref;
   final int cards;
   final int mustKnow;
@@ -476,6 +512,40 @@ class LearnChapterRow {
 
   /// Marks open in the chapter, only when the server sends them (the "Needs work first" sort uses the state).
   final double? marksOpen;
+
+  /// "Chapter 5 of 14" (R4 ruling N).
+  final LearnPlace? place;
+
+  /// Coverage through the chapter (R2 ruling 2): the cards open and seen, the questions and those tried. Never mastery.
+  final LearnRowProgress? progress;
+
+  /// The one verdict word a roadmap row may carry: "Needs work", or null.
+  final String? verdict;
+
+  /// Where the verdict comes from: `learn` | `papers` (R4 ruling V).
+  final String? needsWorkFrom;
+
+  /// The unit's name.
+  final String? unit;
+  final Json raw;
+}
+
+/// A roadmap row's coverage: `{ of, seen, unseen, questions, tried }`.
+class LearnRowProgress {
+  const LearnRowProgress({this.of = 0, this.seen = 0, this.unseen = 0, this.questions = 0, this.tried = 0, this.raw = const {}});
+
+  static LearnRowProgress? tryParse(Object? raw) {
+    if (raw is! Map) return null;
+    final j = asJson(raw);
+    return LearnRowProgress(of: _int(j['of']), seen: _int(j['seen']), unseen: _int(j['unseen']), questions: _int(j['questions']), tried: _int(j['tried']), raw: j);
+  }
+
+  /// The cards open to this student (Free: its free count).
+  final int of;
+  final int seen;
+  final int unseen;
+  final int questions;
+  final int tried;
   final Json raw;
 }
 
@@ -566,7 +636,9 @@ class LearnSubjectData {
     this.freeNote,
     this.free,
     this.suggestions = const [],
+    this.roadmap,
     this.parts = const [],
+    this.shelves,
     this.raw = const {},
   });
 
@@ -580,7 +652,9 @@ class LearnSubjectData {
       freeNote: _text(j['freeNote']),
       free: LearnNote.tryParse(j['free']),
       suggestions: [for (final s in asJsonList(j['suggestions'])) ?LearnSuggestion.tryParse(s)],
+      roadmap: LearnRoadmap.tryParse(j['roadmap']),
       parts: [for (final p in asJsonList(j['parts'])) ?LearnPart.tryParse(p)],
+      shelves: j['shelves'] is Map ? LearnShelves.parse(j['shelves']) : null,
       raw: j,
     );
   }
@@ -598,8 +672,16 @@ class LearnSubjectData {
 
   /// Free once today's session is used: `{ text, maxMinutes: 10 }`.
   final LearnNote? free;
+
+  /// The older three suggestions (the app's Learn home no longer draws them: the [roadmap] is the offer).
   final List<LearnSuggestion> suggestions;
+
+  /// The one start offer Learn home leads with (R2 rulings 1 to 3).
+  final LearnRoadmap? roadmap;
   final List<LearnPart> parts;
+
+  /// Find's shelves, only on the combined read (`GET /api/learn/home`).
+  final LearnShelves? shelves;
   final Json raw;
 
   bool get isPro => plan == 'pro';
@@ -615,11 +697,112 @@ class LearnSubjectData {
   }
 }
 
+/// The chapter the student is in, as the roadmap names it: `{ key, title, seen, of, unseen, place }`.
+class LearnRoadmapChapter {
+  const LearnRoadmapChapter({required this.key, required this.title, this.seen = 0, this.of = 0, this.unseen = 0, this.place, this.raw = const {}});
+
+  static LearnRoadmapChapter? tryParse(Object? raw) {
+    if (raw is! Map) return null;
+    final j = asJson(raw);
+    final key = _text(j['key']);
+    if (key == null) return null;
+    return LearnRoadmapChapter(key: key, title: _text(j['title']) ?? key, seen: _int(j['seen']), of: _int(j['of']), unseen: _int(j['unseen']), place: LearnPlace.tryParse(j['place']), raw: j);
+  }
+
+  final String key;
+  final String title;
+  final int seen;
+  final int of;
+  final int unseen;
+  final LearnPlace? place;
+  final Json raw;
+}
+
+/// Learn home's one start offer (data/learn/roadmap.js): `{ mode, headline, line, sub, progress, key, quiet, or, position,
+/// chapter, due? }`. Modes: `pickup` (an unfinished run), `freeDone` (Free, today's session used), `new`, `today`. Every word is
+/// the server's; a zero is never in one. [key] and [quiet] are `{ label, run? | href?, go? }`, [or] at most two quiet rows.
+class LearnRoadmap {
+  const LearnRoadmap({
+    required this.mode,
+    required this.headline,
+    this.line,
+    this.sub,
+    this.progress,
+    this.key,
+    this.quiet,
+    this.or = const [],
+    this.position,
+    this.chapter,
+    this.dueCount = 0,
+    this.raw = const {},
+  });
+
+  static LearnRoadmap? tryParse(Object? raw) {
+    if (raw is! Map) return null;
+    final j = asJson(raw);
+    final headline = _text(j['headline']);
+    if (headline == null) return null;
+    final p = asJson(j['progress']);
+    final done = asInt(p['done']);
+    final of = asInt(p['of']);
+    final at = asJson(j['position']);
+    final atKey = _text(at['chapterKey']);
+    return LearnRoadmap(
+      mode: _text(j['mode']) ?? 'today',
+      headline: headline,
+      line: _text(j['line']),
+      sub: _text(j['sub']),
+      progress: done != null && of != null && of > 0 ? (done: done, of: of) : null,
+      key: LearnOption.tryParse(j['key']),
+      quiet: LearnOption.tryParse(j['quiet']),
+      or: [for (final o in asJsonList(j['or'])) ?LearnOption.tryParse(o)],
+      position: atKey == null ? null : (chapterKey: atKey, index: _int(at['index']), of: _int(at['of'])),
+      chapter: LearnRoadmapChapter.tryParse(j['chapter']),
+      dueCount: _int(asJson(j['due'])['count']),
+      raw: j,
+    );
+  }
+
+  /// `pickup` | `freeDone` | `new` | `today`.
+  final String mode;
+
+  /// "Start learning Accountancy" | "Pick up Admission of a Partner" | "Today's 10 minutes in Accountancy" | "That was today's free session."
+  final String headline;
+
+  /// "Chapter 1 of 14 · Accounting for Partnership: Basic Concepts" | "6 of 16 done" | Free's line.
+  final String? line;
+
+  /// "9 due cards first, then new ones here".
+  final String? sub;
+
+  /// A pick-up's real "6 of 16".
+  final ({int done, int of})? progress;
+
+  /// The one volt key: a run it starts, or (Free after the session) "See Pro" with `go: 'pro'`.
+  final LearnOption? key;
+  final LearnOption? quiet;
+
+  /// At most two quiet rows, each `{ kind, label, line?, run? | href?, go? }`.
+  final List<LearnOption> or;
+
+  /// The chapter the student is in: its key, its 1-based index and the playable count.
+  final ({String chapterKey, int index, int of})? position;
+  final LearnRoadmapChapter? chapter;
+
+  /// How many due cards today's Start key plays (the `today` mode).
+  final int dueCount;
+  final Json raw;
+
+  bool get isNew => mode == 'new';
+  bool get isPickup => mode == 'pickup';
+  bool get isFreeDone => mode == 'freeDone';
+}
+
 // ---------------------------------------------------------------- POST /api/learn/runs/preview
 
 /// The chapter a preview is of: `{ key, title, ref, partTitle, unitTitle, state }`.
 class LearnChapterHead {
-  const LearnChapterHead({required this.key, required this.title, this.ref, this.partTitle, this.unitTitle, this.state = const LearnState(), this.raw = const {}});
+  const LearnChapterHead({required this.key, required this.title, this.ref, this.place, this.partTitle, this.unitTitle, this.state = const LearnState(), this.raw = const {}});
 
   static LearnChapterHead parse(Object? raw) {
     final j = asJson(raw);
@@ -628,6 +811,7 @@ class LearnChapterHead {
       key: key,
       title: _text(j['title']) ?? key,
       ref: _text(j['ref']),
+      place: LearnPlace.tryParse(j['place']),
       partTitle: _text(j['partTitle']),
       unitTitle: _text(j['unitTitle']),
       state: LearnState.parse(j['state']),
@@ -638,6 +822,9 @@ class LearnChapterHead {
   final String key;
   final String title;
   final String? ref;
+
+  /// "Chapter 5 of 14": the label the page draws (R4 ruling N); none without it.
+  final LearnPlace? place;
   final String? partTitle;
   final String? unitTitle;
   final LearnState state;
@@ -770,6 +957,8 @@ class LearnPreview {
     this.freeSession,
     this.added,
     this.shelf = const LearnShelf(),
+    this.firstUp = const [],
+    this.cardsSeen,
     this.raw = const {},
   });
 
@@ -795,6 +984,8 @@ class LearnPreview {
       freeSession: LearnFreeSession.tryParse(j['freeSession']),
       added: LearnChapterLink.tryParse(j['added']),
       shelf: LearnShelf.parse(j['shelf']),
+      firstUp: [for (final c in asJsonList(j['firstUp'])) ?LearnCardFace.tryParse(c)],
+      cardsSeen: asInt(j['cardsSeen']),
       raw: j,
     );
   }
@@ -835,6 +1026,12 @@ class LearnPreview {
   /// The next chapter, once added (`addNext: true`).
   final LearnChapterLink? added;
   final LearnShelf shelf;
+
+  /// "First up" (R2 ruling 9): the first three Key cards this run opens with, as small cards; empty when it starts with none.
+  final List<LearnCardFace> firstUp;
+
+  /// The chapter's cards this student has seen; null from an older server (then "not a first visit" stands in).
+  final int? cardsSeen;
   final Json raw;
 
   LearnPile? pile(String id) {
@@ -849,19 +1046,24 @@ class LearnPreview {
 
 /// A run's chapter: `{ key, title, ref, partTitle, number }`.
 class LearnRunChapter {
-  const LearnRunChapter({required this.key, required this.title, this.ref, this.partTitle, this.number, this.raw = const {}});
+  const LearnRunChapter({required this.key, required this.title, this.ref, this.partTitle, this.number, this.place, this.raw = const {}});
 
   static LearnRunChapter parse(Object? raw) {
     final j = asJson(raw);
     final key = _text(j['key']) ?? '';
-    return LearnRunChapter(key: key, title: _text(j['title']) ?? key, ref: _text(j['ref']), partTitle: _text(j['partTitle']), number: asInt(j['number']), raw: j);
+    return LearnRunChapter(key: key, title: _text(j['title']) ?? key, ref: _text(j['ref']), partTitle: _text(j['partTitle']), number: asInt(j['number']), place: LearnPlace.tryParse(j['place']), raw: j);
   }
 
   final String key;
   final String title;
+
+  /// "Ch 2": the NCERT number, for source lines only.
   final String? ref;
   final String? partTitle;
   final int? number;
+
+  /// "Chapter 5 of 14": how the rails name the chapter (R4 ruling N); none without it.
+  final LearnPlace? place;
   final Json raw;
 }
 
@@ -1359,18 +1561,23 @@ class LearnKept {
 
 /// The feed end's next chapter: `{ label: 'Next chapter: ...', key, run }` (run null on Free after the day's session).
 class LearnFeedNext {
-  const LearnFeedNext({required this.label, required this.key, this.run, this.raw = const {}});
+  const LearnFeedNext({required this.label, required this.key, this.title, this.place, this.run, this.raw = const {}});
 
   static LearnFeedNext? tryParse(Object? raw) {
     final j = asJson(raw);
     final label = _text(j['label']);
     final key = _text(j['key']);
     if (label == null || key == null) return null;
-    return LearnFeedNext(label: label, key: key, run: LearnRunSpec.tryParse(j['run']), raw: j);
+    return LearnFeedNext(label: label, key: key, title: _text(j['title']), place: LearnPlace.tryParse(j['place']), run: LearnRunSpec.tryParse(j['run']), raw: j);
   }
 
+  /// "Next chapter · 10 min".
   final String label;
   final String key;
+
+  /// The chapter's own title (the label no longer carries it).
+  final String? title;
+  final LearnPlace? place;
   final LearnRunSpec? run;
   final Json raw;
 }
@@ -1469,6 +1676,9 @@ class LearnEnd {
     this.options = const [],
     this.feed,
     this.level,
+    this.stopped = false,
+    this.progress,
+    this.chapter,
     this.raw = const {},
   });
 
@@ -1487,6 +1697,9 @@ class LearnEnd {
       options: [for (final o in asJsonList(j['options'])) ?LearnOption.tryParse(o)],
       feed: LearnFeedEnd.tryParse(j['feed']),
       level: LearnLevel.tryParse(j['level']),
+      stopped: _bool(j['stopped']),
+      progress: LearnEndProgress.tryParse(j['progress']),
+      chapter: LearnEndChapter.tryParse(j['chapter']),
       raw: j,
     );
   }
@@ -1518,6 +1731,50 @@ class LearnEnd {
 
   /// Only for a level run.
   final LearnLevel? level;
+
+  /// The run was stopped part way (`GET /end?stop=1`) and is still open: Continue resumes it (R2 ruling 6).
+  final bool stopped;
+
+  /// The chapter's cards seen, before this run and now: the end's bar grows from [LearnEndProgress.before] to `seen`.
+  final LearnEndProgress? progress;
+
+  /// The chapter this run was in: `{ key, title, place }`.
+  final LearnEndChapter? chapter;
+  final Json raw;
+}
+
+/// The end's bar: `{ of, seen, before, open? }` (`open`: Free's open cards in the chapter, so the bar can say the rest open with Pro).
+class LearnEndProgress {
+  const LearnEndProgress({this.of = 0, this.seen = 0, this.before = 0, this.open, this.raw = const {}});
+
+  static LearnEndProgress? tryParse(Object? raw) {
+    if (raw is! Map) return null;
+    final j = asJson(raw);
+    return LearnEndProgress(of: _int(j['of']), seen: _int(j['seen']), before: _int(j['before']), open: asInt(j['open']), raw: j);
+  }
+
+  final int of;
+  final int seen;
+  final int before;
+  final int? open;
+  final Json raw;
+}
+
+/// The end's chapter: `{ key, title, place }`.
+class LearnEndChapter {
+  const LearnEndChapter({required this.key, required this.title, this.place, this.raw = const {}});
+
+  static LearnEndChapter? tryParse(Object? raw) {
+    if (raw is! Map) return null;
+    final j = asJson(raw);
+    final key = _text(j['key']);
+    if (key == null) return null;
+    return LearnEndChapter(key: key, title: _text(j['title']) ?? key, place: LearnPlace.tryParse(j['place']), raw: j);
+  }
+
+  final String key;
+  final String title;
+  final LearnPlace? place;
   final Json raw;
 }
 
@@ -1597,17 +1854,18 @@ class LearnCardSection {
 
 /// `{ key, title, ref }`.
 class LearnChapterRef {
-  const LearnChapterRef({required this.key, required this.title, this.ref, this.raw = const {}});
+  const LearnChapterRef({required this.key, required this.title, this.ref, this.place, this.raw = const {}});
 
   static LearnChapterRef parse(Object? raw) {
     final j = asJson(raw);
     final key = _text(j['key']) ?? '';
-    return LearnChapterRef(key: key, title: _text(j['title']) ?? key, ref: _text(j['ref']), raw: j);
+    return LearnChapterRef(key: key, title: _text(j['title']) ?? key, ref: _text(j['ref']), place: LearnPlace.tryParse(j['place']), raw: j);
   }
 
   final String key;
   final String title;
   final String? ref;
+  final LearnPlace? place;
   final Json raw;
 }
 
@@ -1655,7 +1913,7 @@ class LearnChapterCards {
 
 /// One chapter of Find's shelf: `{ key, title, ref, counts, cards }`.
 class LearnCardsChapter {
-  const LearnCardsChapter({required this.key, required this.title, this.ref, this.counts = const LearnCardCounts(), this.cards = const [], this.raw = const {}});
+  const LearnCardsChapter({required this.key, required this.title, this.ref, this.place, this.counts = const LearnCardCounts(), this.cards = const [], this.raw = const {}});
 
   static LearnCardsChapter? tryParse(Object? raw) {
     final j = asJson(raw);
@@ -1665,6 +1923,7 @@ class LearnCardsChapter {
       key: key,
       title: _text(j['title']) ?? key,
       ref: _text(j['ref']),
+      place: LearnPlace.tryParse(j['place']),
       counts: LearnCardCounts.parse(j['counts']),
       cards: [for (final c in asJsonList(j['cards'])) ?LearnCardRow.tryParse(c)],
       raw: j,
@@ -1674,6 +1933,7 @@ class LearnCardsChapter {
   final String key;
   final String title;
   final String? ref;
+  final LearnPlace? place;
   final LearnCardCounts counts;
   final List<LearnCardRow> cards;
   final Json raw;
@@ -1749,9 +2009,14 @@ class LearnShelves {
   final ({int count, int chapters}) must;
   final Json raw;
 
-  /// The Key cards due today over every subject: the sum of each subject's own count, so a badge and the subject rows add
-  /// up (the web's `dueTotal`, M5); `due.all` when the server sent no per-subject counts.
-  int get dueTotal => due.bySubject.isNotEmpty ? due.bySubject.values.fold(0, (s, n) => s + n) : due.all;
+  /// The Key cards due today over every subject: the server's own `due.all` (R3 ruling C1: one function behind the home and
+  /// the shelves, the sum of `due.bySubject`), so a badge, the subject rows and the Revise row agree; the sum of the subjects
+  /// only when a body carries no `all` (the web's `dueTotal`).
+  int get dueTotal {
+    final d = asJson(raw['due']);
+    if (asInt(d['all']) != null) return due.all;
+    return due.bySubject.isNotEmpty ? due.bySubject.values.fold(0, (s, n) => s + n) : due.all;
+  }
 }
 
 // ---------------------------------------------------------------- GET /api/learn/search
@@ -1926,7 +2191,7 @@ class LearnSearch {
 
 /// One length of a cover: `{ cards, questions, minutes, hook, shrink?: { reason }, capped? }`.
 class LearnCoverCount {
-  const LearnCoverCount({this.cards = 0, this.questions = 0, this.minutes = 0, this.hook, this.shrinkReason, this.capped = false, this.raw = const {}});
+  const LearnCoverCount({this.cards = 0, this.questions = 0, this.minutes = 0, this.hook, this.hooks = const [], this.shrinkReason, this.capped = false, this.raw = const {}});
 
   static LearnCoverCount parse(Object? raw) {
     final j = asJson(raw);
@@ -1935,6 +2200,7 @@ class LearnCoverCount {
       questions: _int(j['questions']),
       minutes: _int(j['minutes']),
       hook: LearnCardFace.tryParse(j['hook']),
+      hooks: [for (final h in asJsonList(j['hooks'])) ?LearnCardFace.tryParse(h)],
       shrinkReason: _text(asJson(j['shrink'])['reason']),
       capped: _bool(j['capped']),
       raw: j,
@@ -1947,6 +2213,9 @@ class LearnCoverCount {
 
   /// The first card of the feed a start at this length serves; null: no card, the cover shows its questions.
   final LearnCardFace? hook;
+
+  /// Up to 5 fronts in feed order (R4 owner-eye#10): the cover shows the first readable one, never a fill-in-the-blank.
+  final List<LearnCardFace> hooks;
 
   /// pool | cap | mistakes, only when this length was cut.
   final String? shrinkReason;
@@ -1969,9 +2238,11 @@ class LearnCover {
     this.number,
     this.partTitle,
     this.unitTitle,
+    this.place,
     this.reason,
     this.forYou = false,
     this.hook,
+    this.hooks = const [],
     this.state = const LearnState(),
     this.studentLine,
     this.resume,
@@ -1999,9 +2270,11 @@ class LearnCover {
       number: asInt(j['number']),
       partTitle: _text(j['partTitle']),
       unitTitle: _text(j['unitTitle']),
+      place: LearnPlace.tryParse(j['place']),
       reason: _text(j['reason']),
       forYou: _bool(j['forYou']),
       hook: LearnCardFace.tryParse(j['hook']),
+      hooks: [for (final h in asJsonList(j['hooks'])) ?LearnCardFace.tryParse(h)],
       state: LearnState.parse(j['state']),
       studentLine: _text(j['studentLine']),
       resume: LearnOpenRun.tryParse(j['resume']),
@@ -2026,12 +2299,18 @@ class LearnCover {
   final String? partTitle;
   final String? unitTitle;
 
-  /// For you only: "Pick up where you stopped" | "2 old mistakes to fix" | "Next after Goodwill" | "First in the syllabus".
+  /// "Chapter 5" on the cover (R4 ruling N); the NCERT `refLine` is no longer a label.
+  final LearnPlace? place;
+
+  /// For you only: "Pick up where you stopped" | "2 open mistakes to fix" | "Next after Goodwill" | "First in the syllabus".
   final String? reason;
   final bool forYou;
 
   /// `counts[10].hook`.
   final LearnCardFace? hook;
+
+  /// `counts[10].hooks`: up to 5 fronts in feed order.
+  final List<LearnCardFace> hooks;
   final LearnState state;
 
   /// One true line: "You stopped at 6 of 16" | "2 old mistakes to fix" | the state label | "New to you".
@@ -2088,7 +2367,7 @@ class LearnCovers {
 
 /// The run that holds Free's day: `{ id, chapterKey, title, done, of, minutesLeft, kind }`.
 class LearnSessionHolder {
-  const LearnSessionHolder({required this.id, this.chapterKey, this.title, this.done = 0, this.of = 0, this.minutesLeft = 0, this.kind, this.raw = const {}});
+  const LearnSessionHolder({required this.id, this.chapterKey, this.title, this.done = 0, this.of = 0, this.minutesLeft = 0, this.kind, this.label, this.raw = const {}});
 
   static LearnSessionHolder? tryParse(Object? raw) {
     final j = asJson(raw);
@@ -2102,6 +2381,7 @@ class LearnSessionHolder {
       of: _int(j['of']),
       minutesLeft: _int(j['minutesLeft']),
       kind: _text(j['kind']),
+      label: _text(j['label']),
       raw: j,
     );
   }
@@ -2113,6 +2393,9 @@ class LearnSessionHolder {
   final int of;
   final int minutesLeft;
   final String? kind;
+
+  /// "Continue · 6 min" (R3 ruling W).
+  final String? label;
   final Json raw;
 }
 

@@ -7,9 +7,13 @@
       "key": "accountancy.partnership-fundamentals",
       "title": "Accounting for Partnership: Basic Concepts",
       "ref": "Ch 1",
+      "place": {
+        "n": 1,
+        "of": 14
+      },
       "counts": {
-        "total": 46,
-        "all": 46,
+        "total": 45,
+        "all": 45,
         "must": 12,
         "revise": 12,
         "missed": 3,
@@ -17,65 +21,35 @@
       },
       "cards": [
         {
-          "id": "kc.accountancy.partnership-fundamentals.def-partnership",
+          "id": "kc.accountancy.partnership-fundamentals.def-partnership-section-4",
           "v": 1,
           "subject": "accountancy",
           "chapterKey": "accountancy.partnership-fundamentals",
           "chapter": "Partnership Fundamentals",
           "unit": "Accounting for Partnership",
           "kind": "definition",
-          "front": "Define partnership.",
-          "back": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
-          "quote": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
-          "blanks": [],
-          "source": {
-            "kind": "ncert",
-            "book": "Accountancy : Partnership Accounts",
-            "code": "leac102",
-            "chapterNo": 2,
-            "page": 48,
-            "section": "Introduction"
-          },
-          "importance": "must",
-          "asked": 0,
-          "tags": [
-            "partnership"
-          ],
-          "order": 10,
-          "authorImportance": "must",
-          "inRevise": true,
-          "missedLately": false,
-          "locked": false
-        },
-        {
-          "id": "kc.accountancy.partnership-fundamentals.def-partnership-meaning",
-          "v": 1,
-          "subject": "accountancy",
-          "chapterKey": "accountancy.partnership-fundamentals",
-          "chapter": "Partnership Fundamentals",
-          "unit": "Accounting for Partnership",
-          "kind": "definition",
-          "front": "What is partnership?",
-          "back": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
-          "quote": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
+          "front": "Define partnership (Section 4, Indian Partnership Act 1932).",
+          "back": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
+          "quote": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
           "blanks": [],
           "source": {
             "kind": "ncert",
             "book": "Accountancy – Partnership Accounts",
             "code": "leac101",
             "chapterNo": 1,
-            "page": 1,
+            "page": 2,
             "section": "1.1 Nature of Partnership"
           },
           "importance": "must",
           "asked": 0,
           "tags": [
-            "partnership"
+            "partnership",
+            "partnership act"
           ],
-          "order": 10,
+          "order": 20,
           "authorImportance": "must",
           "inRevise": true,
-          "missedLately": true,
+          "missedLately": false,
           "locked": false
         },
         {
@@ -106,7 +80,40 @@
           "order": 170,
           "authorImportance": "must",
           "inRevise": true,
-          "missedLately": false,
+          "missedLately": true,
+          "locked": false
+        },
+        {
+          "id": "kc.accountancy.partnership-fundamentals.kl-act-no-writing",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.partnership-fundamentals",
+          "chapter": "Partnership Fundamentals",
+          "unit": "Accounting for Partnership",
+          "kind": "key_line",
+          "front": "The Partnership Act does not require that the agreement must be in ____.",
+          "back": "The Partnership Act does not require that the agreement must be in writing.",
+          "quote": "The Partnership Act does not require that the agreement must be in writing.",
+          "blanks": [
+            "writing"
+          ],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy – Partnership Accounts",
+            "code": "leac101",
+            "chapterNo": 1,
+            "page": 3,
+            "section": "1.2 Partnership Deed"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "partnership deed"
+          ],
+          "order": 190,
+          "authorImportance": "good",
+          "inRevise": true,
+          "missedLately": true,
           "locked": false
         }
       ]
@@ -115,6 +122,10 @@
       "key": "accountancy.profit-and-loss-appropriation-account",
       "title": "Profit and Loss Appropriation Account",
       "ref": "Ch 1",
+      "place": {
+        "n": 2,
+        "of": 14
+      },
       "counts": {
         "total": 42,
         "all": 42,
@@ -223,9 +234,13 @@
       "key": "accountancy.change-in-profit-sharing-ratio",
       "title": "Change in Profit Sharing Ratio",
       "ref": "Ch 2",
+      "place": {
+        "n": 3,
+        "of": 14
+      },
       "counts": {
-        "total": 8,
-        "all": 8,
+        "total": 11,
+        "all": 11,
         "must": 6,
         "revise": 0,
         "missed": 0,
@@ -237,10 +252,14 @@
       "key": "accountancy.goodwill-valuation",
       "title": "Goodwill: Nature and Valuation",
       "ref": "Ch 2",
+      "place": {
+        "n": 4,
+        "of": 14
+      },
       "counts": {
-        "total": 39,
-        "all": 39,
-        "must": 10,
+        "total": 46,
+        "all": 46,
+        "must": 12,
         "revise": 0,
         "missed": 0,
         "due": 0
@@ -251,10 +270,14 @@
       "key": "accountancy.admission-of-partner",
       "title": "Admission of a Partner",
       "ref": "Ch 2",
+      "place": {
+        "n": 5,
+        "of": 14
+      },
       "counts": {
-        "total": 53,
-        "all": 53,
-        "must": 14,
+        "total": 58,
+        "all": 58,
+        "must": 15,
         "revise": 0,
         "missed": 2,
         "due": 0
@@ -265,10 +288,14 @@
       "key": "accountancy.retirement-and-death-of-partner",
       "title": "Retirement and Death of a Partner",
       "ref": "Ch 3",
+      "place": {
+        "n": 6,
+        "of": 14
+      },
       "counts": {
-        "total": 65,
-        "all": 65,
-        "must": 17,
+        "total": 72,
+        "all": 72,
+        "must": 18,
         "revise": 0,
         "missed": 0,
         "due": 0
@@ -279,6 +306,10 @@
       "key": "accountancy.dissolution-of-partnership-firm",
       "title": "Dissolution of Partnership Firm",
       "ref": "Ch 4",
+      "place": {
+        "n": 7,
+        "of": 14
+      },
       "counts": {
         "total": 59,
         "all": 59,
@@ -293,6 +324,10 @@
       "key": "accountancy.share-capital",
       "title": "Accounting for Share Capital",
       "ref": "Ch 1",
+      "place": {
+        "n": 8,
+        "of": 14
+      },
       "counts": {
         "total": 106,
         "all": 106,
@@ -307,6 +342,10 @@
       "key": "accountancy.debentures",
       "title": "Issue and Redemption of Debentures",
       "ref": "Ch 2",
+      "place": {
+        "n": 9,
+        "of": 14
+      },
       "counts": {
         "total": 86,
         "all": 86,
@@ -321,6 +360,10 @@
       "key": "accountancy.financial-statements-of-company",
       "title": "Financial Statements of a Company",
       "ref": "Ch 3",
+      "place": {
+        "n": 10,
+        "of": 14
+      },
       "counts": {
         "total": 85,
         "all": 85,
@@ -335,10 +378,14 @@
       "key": "accountancy.analysis-of-financial-statements",
       "title": "Analysis of Financial Statements",
       "ref": "Ch 4",
+      "place": {
+        "n": 11,
+        "of": 14
+      },
       "counts": {
-        "total": 16,
-        "all": 16,
-        "must": 6,
+        "total": 32,
+        "all": 32,
+        "must": 8,
         "revise": 0,
         "missed": 0,
         "due": 0
@@ -349,9 +396,13 @@
       "key": "accountancy.comparative-and-common-size-statements",
       "title": "Comparative and Common Size Statements",
       "ref": "Ch 4",
+      "place": {
+        "n": 12,
+        "of": 14
+      },
       "counts": {
-        "total": 18,
-        "all": 18,
+        "total": 22,
+        "all": 22,
         "must": 6,
         "revise": 0,
         "missed": 0,
@@ -363,9 +414,13 @@
       "key": "accountancy.accounting-ratios",
       "title": "Accounting Ratios",
       "ref": "Ch 5",
+      "place": {
+        "n": 13,
+        "of": 14
+      },
       "counts": {
-        "total": 164,
-        "all": 164,
+        "total": 165,
+        "all": 165,
         "must": 40,
         "revise": 3,
         "missed": 0,
@@ -471,9 +526,13 @@
       "key": "accountancy.cash-flow-statement",
       "title": "Cash Flow Statement",
       "ref": "Ch 6",
+      "place": {
+        "n": 14,
+        "of": 14
+      },
       "counts": {
-        "total": 81,
-        "all": 81,
+        "total": 83,
+        "all": 83,
         "must": 21,
         "revise": 0,
         "missed": 0,

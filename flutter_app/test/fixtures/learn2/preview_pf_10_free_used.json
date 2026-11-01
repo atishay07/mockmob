@@ -3,6 +3,10 @@
     "key": "accountancy.partnership-fundamentals",
     "title": "Accounting for Partnership: Basic Concepts",
     "ref": "Ch 1",
+    "place": {
+      "n": 1,
+      "of": 14
+    },
     "partTitle": "Part 1, Partnership Accounts",
     "unitTitle": null,
     "state": {
@@ -61,25 +65,50 @@
       "key": "accountancy.profit-and-loss-appropriation-account",
       "title": "Profit and Loss Appropriation Account",
       "label": "Add the next chapter, Profit and Loss Appropriation Account",
-      "ref": "Ch 1"
+      "ref": "Ch 1",
+      "place": {
+        "n": 2,
+        "of": 14
+      }
     }
   },
   "free": {
-    "text": "Your free Learn session today is used, so this one is Key cards only. Questions come back tomorrow."
+    "text": "That was today's free session, so this one is Key cards only. Questions come back tomorrow."
   },
   "resume": null,
+  "firstUp": [
+    {
+      "id": "kc.accountancy.partnership-fundamentals.def-deed-meaning",
+      "front": "What is a Partnership Deed?",
+      "kind": "definition",
+      "mustKnow": true
+    },
+    {
+      "id": "kc.accountancy.partnership-fundamentals.kl-act-no-writing",
+      "front": "The Partnership Act does not require that the agreement must be in ____.",
+      "kind": "key_line",
+      "mustKnow": true
+    },
+    {
+      "id": "kc.accountancy.partnership-fundamentals.def-partnership-section-4",
+      "front": "Define partnership (Section 4, Indian Partnership Act 1932).",
+      "kind": "definition",
+      "mustKnow": true
+    }
+  ],
   "firstVisit": false,
+  "cardsSeen": 5,
   "asked": 10,
   "capped": null,
   "freeSession": {
     "used": true,
     "maxMinutes": 10,
-    "line": "Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like."
+    "line": "That was today's free session. Questions come back tomorrow. Your Key cards stay open."
   },
   "added": null,
   "shelf": {
     "cards": {
-      "count": 46,
+      "count": 45,
       "open": 5,
       "mustKnow": 12,
       "inRevise": 5

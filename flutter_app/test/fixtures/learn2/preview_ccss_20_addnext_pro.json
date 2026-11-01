@@ -1,0 +1,96 @@
+{
+  "chapter": {
+    "key": "accountancy.comparative-and-common-size-statements",
+    "title": "Comparative and Common Size Statements",
+    "ref": "Ch 4",
+    "place": {
+      "n": 12,
+      "of": 14
+    },
+    "partTitle": "Part 2, Company Accounts and Analysis of Financial Statements",
+    "unitTitle": "Analysis of Financial Statements",
+    "state": {
+      "key": "holding",
+      "label": "Holding"
+    }
+  },
+  "minutes": 20,
+  "realMinutes": 19,
+  "startLabel": "Start 20 minutes",
+  "piles": [
+    {
+      "id": "cards",
+      "count": 59,
+      "minutes": 20,
+      "label": "Key cards",
+      "minutesLabel": "about 20 min",
+      "left": false,
+      "held": null
+    }
+  ],
+  "leaveOut": [],
+  "coach": null,
+  "note": "Ratings join Revise. Questions are free.",
+  "recap": {
+    "count": 6,
+    "minutes": 1,
+    "label": "Or a quick recap: the 6 Must-know lines, about 1 min"
+  },
+  "shrink": null,
+  "free": null,
+  "resume": null,
+  "firstUp": [
+    {
+      "id": "kc.accountancy.comparative-and-common-size-statements.def-comparative-statements",
+      "front": "What are comparative statements?",
+      "kind": "definition",
+      "mustKnow": false
+    },
+    {
+      "id": "kc.accountancy.comparative-and-common-size-statements.fact-applies-to-two-statements",
+      "front": "Comparative statements usually apply to which two important financial statements?",
+      "kind": "fact",
+      "mustKnow": false
+    },
+    {
+      "id": "kc.accountancy.comparative-and-common-size-statements.fact-same-accounting-principles",
+      "front": "When is financial data comparative, and how is a deviation in accounting principles shown?",
+      "kind": "fact",
+      "mustKnow": true
+    }
+  ],
+  "firstVisit": false,
+  "cardsSeen": 0,
+  "asked": 20,
+  "capped": null,
+  "freeSession": null,
+  "added": {
+    "key": "accountancy.accounting-ratios",
+    "title": "Accounting Ratios",
+    "ref": "Ch 5",
+    "place": {
+      "n": 13,
+      "of": 14
+    }
+  },
+  "shelf": {
+    "cards": {
+      "count": 22,
+      "open": 22,
+      "mustKnow": 6,
+      "inRevise": 0
+    },
+    "questions": {
+      "linked": 0,
+      "total": 0
+    },
+    "mistakes": {
+      "open": 0
+    },
+    "lesson": null,
+    "print": {
+      "mustKnow": 6,
+      "locked": false
+    }
+  }
+}

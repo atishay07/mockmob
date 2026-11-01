@@ -159,6 +159,10 @@ abstract interface class LearnApi {
   /// `GET /api/learn/subject?subject=`.
   Future<LearnSubjectData> subject(String subject);
 
+  /// `GET /api/learn/home?subject=`: Learn home in one read, the subject body plus `shelves` (LK28, speed). What the Learn
+  /// door, the shelves and the Learn switch read; [subject] stays for the plain body.
+  Future<LearnSubjectData> home(String subject);
+
   /// `POST /api/learn/runs/preview` `{ chapterKey, minutes, leaveOut, addNext? }`.
   Future<LearnPreview> preview({required String chapterKey, required int minutes, List<String> leaveOut = const [], bool addNext = false});
 
@@ -178,8 +182,9 @@ abstract interface class LearnApi {
   /// The feed's Keep: `POST /api/learn/runs/:id/rate` `{ itemId, keep: true }`.
   Future<LearnRateResult> keep(String runId, String itemId);
 
-  /// `GET /api/learn/runs/:id/end`; lets the run's request key go.
-  Future<LearnEnd> end(String runId);
+  /// `GET /api/learn/runs/:id/end`; lets the run's request key go. [stop] is the stop sheet's "Stop here" (`?stop=1`): the
+  /// server keeps the run open to continue today (R2 ruling 6) and the body says `stopped: true`.
+  Future<LearnEnd> end(String runId, {bool stop = false});
 
   /// `GET /api/learn/cards?chapter=&filter=all|must|revise|missed|due`.
   Future<LearnChapterCards> chapterCards(String chapter, {String filter = 'all'});
@@ -203,6 +208,7 @@ abstract interface class LearnApi {
 /// The paths.
 abstract final class LearnPaths {
   static const String subject = '/api/learn/subject';
+  static const String home = '/api/learn/home';
   static const String preview = '/api/learn/runs/preview';
   static const String runs = '/api/learn/runs';
   static const String cards = '/api/learn/cards';
@@ -246,6 +252,9 @@ abstract class LearnRoutes implements LearnApi {
       LearnSubjectData.parse(await send('GET', LearnPaths.subject, query: clean({'subject': subject})));
 
   @override
+  Future<LearnSubjectData> home(String subject) async => LearnSubjectData.parse(await send('GET', LearnPaths.home, query: clean({'subject': subject})));
+
+  @override
   Future<LearnPreview> preview({required String chapterKey, required int minutes, List<String> leaveOut = const [], bool addNext = false}) async =>
       LearnPreview.parse(await send('POST', LearnPaths.preview, body: LearnPreviewKey(chapterKey: chapterKey, minutes: minutes, leaveOut: leaveOut, addNext: addNext).toJson(), write: true));
 
@@ -274,8 +283,8 @@ abstract class LearnRoutes implements LearnApi {
       LearnRateResult.parse(await send('POST', LearnPaths.rate(runId), body: {'itemId': itemId, 'keep': true}, write: true));
 
   @override
-  Future<LearnEnd> end(String runId) async {
-    final end = LearnEnd.parse(await send('GET', LearnPaths.end(runId)));
+  Future<LearnEnd> end(String runId, {bool stop = false}) async {
+    final end = LearnEnd.parse(await send('GET', LearnPaths.end(runId), query: stop ? const {'stop': '1'} : null));
     await keys.forget(runId);
     return end;
   }
@@ -363,6 +372,8 @@ class OffLearnApi implements LearnApi {
   @override
   Future<LearnSubjectData> subject(String subject) async => _off();
   @override
+  Future<LearnSubjectData> home(String subject) async => _off();
+  @override
   Future<LearnPreview> preview({required String chapterKey, required int minutes, List<String> leaveOut = const [], bool addNext = false}) async => _off();
   @override
   Future<LearnRun> startRun(RunStart start) async => _off();
@@ -375,7 +386,7 @@ class OffLearnApi implements LearnApi {
   @override
   Future<LearnRateResult> keep(String runId, String itemId) async => _off();
   @override
-  Future<LearnEnd> end(String runId) async => _off();
+  Future<LearnEnd> end(String runId, {bool stop = false}) async => _off();
   @override
   Future<LearnChapterCards> chapterCards(String chapter, {String filter = 'all'}) async => _off();
   @override

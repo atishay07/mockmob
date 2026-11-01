@@ -1,0 +1,956 @@
+{
+ "web": "wt-1102-web 31af5f9dc",
+ "note": "Written by tool/learn2_parity/words.mjs from the web's own words.js and allowance.js. Do not edit by hand.",
+ "words": {
+  "turnOver": "Turn over",
+  "turnCue": "Tap the card to turn it over",
+  "pickHint": "Pick the answer you think is right.",
+  "continue": "Continue",
+  "keepGoing": "Keep going",
+  "nextChapter": "Next chapter",
+  "reviseLater": "Revise later",
+  "inRevise": "In Revise",
+  "save": "Save",
+  "saved": "Saved",
+  "skipKnown": "Skip what you already know",
+  "quickRecap": "Quick recap",
+  "seePro": "See Pro",
+  "singles": "Answer single questions"
+ },
+ "free": {
+  "doneHeadline": "That was today's free session.",
+  "doneLine": "Questions come back tomorrow. Your Key cards stay open.",
+  "sessionDone": "That was today's free session. Questions come back tomorrow. Your Key cards stay open.",
+  "endLine": "That was today's free session. Questions come back tomorrow.",
+  "capped": "Free sessions are up to 10 minutes. Pro has any length.",
+  "cardsOnly": "That was today's free session, so this one is Key cards only. Questions come back tomorrow."
+ },
+ "whole": [
+  {
+   "n": 0,
+   "out": 1
+  },
+  {
+   "n": 1,
+   "out": 1
+  },
+  {
+   "n": 2,
+   "out": 2
+  },
+  {
+   "n": 3,
+   "out": 3
+  },
+  {
+   "n": 5,
+   "out": 5
+  },
+  {
+   "n": 9,
+   "out": 9
+  },
+  {
+   "n": 10,
+   "out": 10
+  },
+  {
+   "n": 12,
+   "out": 12
+  },
+  {
+   "n": 46,
+   "out": 46
+  },
+  {
+   "n": 100,
+   "out": 100
+  },
+  {
+   "n": 0.2,
+   "out": 1
+  },
+  {
+   "n": 0.5,
+   "out": 1
+  },
+  {
+   "n": 1.2,
+   "out": 2
+  },
+  {
+   "n": 2.7,
+   "out": 3
+  },
+  {
+   "n": 6.2,
+   "out": 7
+  },
+  {
+   "n": 59.9,
+   "out": 60
+  },
+  {
+   "n": -3,
+   "out": 1
+  },
+  {
+   "n": -0.5,
+   "out": 1
+  },
+  {
+   "n": "NaN",
+   "out": 1
+  },
+  {
+   "n": null,
+   "out": 1
+  },
+  {
+   "n": null,
+   "out": 1
+  },
+  {
+   "n": "4",
+   "out": 4
+  },
+  {
+   "n": "x",
+   "out": 1
+  }
+ ],
+ "withMinutes": [
+  {
+   "n": 0,
+   "out": "Continue · 1 min"
+  },
+  {
+   "n": 1,
+   "out": "Continue · 1 min"
+  },
+  {
+   "n": 2,
+   "out": "Continue · 2 min"
+  },
+  {
+   "n": 3,
+   "out": "Continue · 3 min"
+  },
+  {
+   "n": 5,
+   "out": "Continue · 5 min"
+  },
+  {
+   "n": 9,
+   "out": "Continue · 9 min"
+  },
+  {
+   "n": 10,
+   "out": "Continue · 10 min"
+  },
+  {
+   "n": 12,
+   "out": "Continue · 12 min"
+  },
+  {
+   "n": 46,
+   "out": "Continue · 46 min"
+  },
+  {
+   "n": 100,
+   "out": "Continue · 100 min"
+  },
+  {
+   "n": 0.2,
+   "out": "Continue · 1 min"
+  },
+  {
+   "n": 0.5,
+   "out": "Continue · 1 min"
+  },
+  {
+   "n": 1.2,
+   "out": "Continue · 2 min"
+  },
+  {
+   "n": 2.7,
+   "out": "Continue · 3 min"
+  },
+  {
+   "n": 6.2,
+   "out": "Continue · 7 min"
+  },
+  {
+   "n": 59.9,
+   "out": "Continue · 60 min"
+  },
+  {
+   "n": -3,
+   "out": "Continue · 1 min"
+  },
+  {
+   "n": -0.5,
+   "out": "Continue · 1 min"
+  },
+  {
+   "n": "NaN",
+   "out": "Continue · 1 min"
+  },
+  {
+   "n": null,
+   "out": "Continue · 1 min"
+  },
+  {
+   "n": null,
+   "out": "Continue · 1 min"
+  },
+  {
+   "n": "4",
+   "out": "Continue · 4 min"
+  },
+  {
+   "n": "x",
+   "out": "Continue · 1 min"
+  }
+ ],
+ "fixMistakes": [
+  {
+   "n": 0,
+   "minutes": 3,
+   "out": "Fix 0 open mistakes · 3 min"
+  },
+  {
+   "n": 0,
+   "minutes": 0.4,
+   "out": "Fix 0 open mistakes · 1 min"
+  },
+  {
+   "n": 1,
+   "minutes": 3,
+   "out": "Fix 1 open mistake · 3 min"
+  },
+  {
+   "n": 1,
+   "minutes": 0.4,
+   "out": "Fix 1 open mistake · 1 min"
+  },
+  {
+   "n": 2,
+   "minutes": 3,
+   "out": "Fix 2 open mistakes · 3 min"
+  },
+  {
+   "n": 2,
+   "minutes": 0.4,
+   "out": "Fix 2 open mistakes · 1 min"
+  },
+  {
+   "n": 3,
+   "minutes": 3,
+   "out": "Fix 3 open mistakes · 3 min"
+  },
+  {
+   "n": 3,
+   "minutes": 0.4,
+   "out": "Fix 3 open mistakes · 1 min"
+  },
+  {
+   "n": 5,
+   "minutes": 3,
+   "out": "Fix 5 open mistakes · 3 min"
+  },
+  {
+   "n": 5,
+   "minutes": 0.4,
+   "out": "Fix 5 open mistakes · 1 min"
+  },
+  {
+   "n": 9,
+   "minutes": 3,
+   "out": "Fix 9 open mistakes · 3 min"
+  },
+  {
+   "n": 9,
+   "minutes": 0.4,
+   "out": "Fix 9 open mistakes · 1 min"
+  },
+  {
+   "n": 10,
+   "minutes": 3,
+   "out": "Fix 10 open mistakes · 3 min"
+  },
+  {
+   "n": 10,
+   "minutes": 0.4,
+   "out": "Fix 10 open mistakes · 1 min"
+  },
+  {
+   "n": 12,
+   "minutes": 3,
+   "out": "Fix 12 open mistakes · 3 min"
+  },
+  {
+   "n": 12,
+   "minutes": 0.4,
+   "out": "Fix 12 open mistakes · 1 min"
+  },
+  {
+   "n": 46,
+   "minutes": 3,
+   "out": "Fix 46 open mistakes · 3 min"
+  },
+  {
+   "n": 46,
+   "minutes": 0.4,
+   "out": "Fix 46 open mistakes · 1 min"
+  },
+  {
+   "n": 100,
+   "minutes": 3,
+   "out": "Fix 100 open mistakes · 3 min"
+  },
+  {
+   "n": 100,
+   "minutes": 0.4,
+   "out": "Fix 100 open mistakes · 1 min"
+  },
+  {
+   "n": 0.2,
+   "minutes": 3,
+   "out": "Fix 0 open mistakes · 3 min"
+  },
+  {
+   "n": 0.2,
+   "minutes": 0.4,
+   "out": "Fix 0 open mistakes · 1 min"
+  },
+  {
+   "n": 0.5,
+   "minutes": 3,
+   "out": "Fix 0 open mistakes · 3 min"
+  },
+  {
+   "n": 0.5,
+   "minutes": 0.4,
+   "out": "Fix 0 open mistakes · 1 min"
+  },
+  {
+   "n": 1.2,
+   "minutes": 3,
+   "out": "Fix 1 open mistake · 3 min"
+  },
+  {
+   "n": 1.2,
+   "minutes": 0.4,
+   "out": "Fix 1 open mistake · 1 min"
+  },
+  {
+   "n": 2.7,
+   "minutes": 3,
+   "out": "Fix 2 open mistakes · 3 min"
+  },
+  {
+   "n": 2.7,
+   "minutes": 0.4,
+   "out": "Fix 2 open mistakes · 1 min"
+  },
+  {
+   "n": 6.2,
+   "minutes": 3,
+   "out": "Fix 6 open mistakes · 3 min"
+  },
+  {
+   "n": 6.2,
+   "minutes": 0.4,
+   "out": "Fix 6 open mistakes · 1 min"
+  },
+  {
+   "n": 59.9,
+   "minutes": 3,
+   "out": "Fix 59 open mistakes · 3 min"
+  },
+  {
+   "n": 59.9,
+   "minutes": 0.4,
+   "out": "Fix 59 open mistakes · 1 min"
+  },
+  {
+   "n": -3,
+   "minutes": 3,
+   "out": "Fix 0 open mistakes · 3 min"
+  },
+  {
+   "n": -3,
+   "minutes": 0.4,
+   "out": "Fix 0 open mistakes · 1 min"
+  },
+  {
+   "n": -0.5,
+   "minutes": 3,
+   "out": "Fix 0 open mistakes · 3 min"
+  },
+  {
+   "n": -0.5,
+   "minutes": 0.4,
+   "out": "Fix 0 open mistakes · 1 min"
+  },
+  {
+   "n": "NaN",
+   "minutes": 3,
+   "out": "Fix 0 open mistakes · 3 min"
+  },
+  {
+   "n": "NaN",
+   "minutes": 0.4,
+   "out": "Fix 0 open mistakes · 1 min"
+  },
+  {
+   "n": null,
+   "minutes": 3,
+   "out": "Fix 0 open mistakes · 3 min"
+  },
+  {
+   "n": null,
+   "minutes": 0.4,
+   "out": "Fix 0 open mistakes · 1 min"
+  },
+  {
+   "n": null,
+   "minutes": 3,
+   "out": "Fix 0 open mistakes · 3 min"
+  },
+  {
+   "n": null,
+   "minutes": 0.4,
+   "out": "Fix 0 open mistakes · 1 min"
+  },
+  {
+   "n": "4",
+   "minutes": 3,
+   "out": "Fix 4 open mistakes · 3 min"
+  },
+  {
+   "n": "4",
+   "minutes": 0.4,
+   "out": "Fix 4 open mistakes · 1 min"
+  },
+  {
+   "n": "x",
+   "minutes": 3,
+   "out": "Fix 0 open mistakes · 3 min"
+  },
+  {
+   "n": "x",
+   "minutes": 0.4,
+   "out": "Fix 0 open mistakes · 1 min"
+  }
+ ],
+ "reviseDue": [
+  {
+   "n": 0,
+   "minutes": 3,
+   "out": "Revise 0 due cards · 3 min"
+  },
+  {
+   "n": 0,
+   "minutes": 1,
+   "out": "Revise 0 due cards · 1 min"
+  },
+  {
+   "n": 1,
+   "minutes": 3,
+   "out": "Revise 1 due card · 3 min"
+  },
+  {
+   "n": 1,
+   "minutes": 1,
+   "out": "Revise 1 due card · 1 min"
+  },
+  {
+   "n": 2,
+   "minutes": 3,
+   "out": "Revise 2 due cards · 3 min"
+  },
+  {
+   "n": 2,
+   "minutes": 1,
+   "out": "Revise 2 due cards · 1 min"
+  },
+  {
+   "n": 3,
+   "minutes": 3,
+   "out": "Revise 3 due cards · 3 min"
+  },
+  {
+   "n": 3,
+   "minutes": 1,
+   "out": "Revise 3 due cards · 1 min"
+  },
+  {
+   "n": 5,
+   "minutes": 3,
+   "out": "Revise 5 due cards · 3 min"
+  },
+  {
+   "n": 5,
+   "minutes": 1,
+   "out": "Revise 5 due cards · 1 min"
+  },
+  {
+   "n": 9,
+   "minutes": 3,
+   "out": "Revise 9 due cards · 3 min"
+  },
+  {
+   "n": 9,
+   "minutes": 1,
+   "out": "Revise 9 due cards · 1 min"
+  },
+  {
+   "n": 10,
+   "minutes": 3,
+   "out": "Revise 10 due cards · 3 min"
+  },
+  {
+   "n": 10,
+   "minutes": 1,
+   "out": "Revise 10 due cards · 1 min"
+  },
+  {
+   "n": 12,
+   "minutes": 3,
+   "out": "Revise 12 due cards · 3 min"
+  },
+  {
+   "n": 12,
+   "minutes": 1,
+   "out": "Revise 12 due cards · 1 min"
+  },
+  {
+   "n": 46,
+   "minutes": 3,
+   "out": "Revise 46 due cards · 3 min"
+  },
+  {
+   "n": 46,
+   "minutes": 1,
+   "out": "Revise 46 due cards · 1 min"
+  },
+  {
+   "n": 100,
+   "minutes": 3,
+   "out": "Revise 100 due cards · 3 min"
+  },
+  {
+   "n": 100,
+   "minutes": 1,
+   "out": "Revise 100 due cards · 1 min"
+  },
+  {
+   "n": 0.2,
+   "minutes": 3,
+   "out": "Revise 0 due cards · 3 min"
+  },
+  {
+   "n": 0.2,
+   "minutes": 1,
+   "out": "Revise 0 due cards · 1 min"
+  },
+  {
+   "n": 0.5,
+   "minutes": 3,
+   "out": "Revise 0 due cards · 3 min"
+  },
+  {
+   "n": 0.5,
+   "minutes": 1,
+   "out": "Revise 0 due cards · 1 min"
+  },
+  {
+   "n": 1.2,
+   "minutes": 3,
+   "out": "Revise 1 due card · 3 min"
+  },
+  {
+   "n": 1.2,
+   "minutes": 1,
+   "out": "Revise 1 due card · 1 min"
+  },
+  {
+   "n": 2.7,
+   "minutes": 3,
+   "out": "Revise 2 due cards · 3 min"
+  },
+  {
+   "n": 2.7,
+   "minutes": 1,
+   "out": "Revise 2 due cards · 1 min"
+  },
+  {
+   "n": 6.2,
+   "minutes": 3,
+   "out": "Revise 6 due cards · 3 min"
+  },
+  {
+   "n": 6.2,
+   "minutes": 1,
+   "out": "Revise 6 due cards · 1 min"
+  },
+  {
+   "n": 59.9,
+   "minutes": 3,
+   "out": "Revise 59 due cards · 3 min"
+  },
+  {
+   "n": 59.9,
+   "minutes": 1,
+   "out": "Revise 59 due cards · 1 min"
+  },
+  {
+   "n": -3,
+   "minutes": 3,
+   "out": "Revise 0 due cards · 3 min"
+  },
+  {
+   "n": -3,
+   "minutes": 1,
+   "out": "Revise 0 due cards · 1 min"
+  },
+  {
+   "n": -0.5,
+   "minutes": 3,
+   "out": "Revise 0 due cards · 3 min"
+  },
+  {
+   "n": -0.5,
+   "minutes": 1,
+   "out": "Revise 0 due cards · 1 min"
+  },
+  {
+   "n": "NaN",
+   "minutes": 3,
+   "out": "Revise 0 due cards · 3 min"
+  },
+  {
+   "n": "NaN",
+   "minutes": 1,
+   "out": "Revise 0 due cards · 1 min"
+  },
+  {
+   "n": null,
+   "minutes": 3,
+   "out": "Revise 0 due cards · 3 min"
+  },
+  {
+   "n": null,
+   "minutes": 1,
+   "out": "Revise 0 due cards · 1 min"
+  },
+  {
+   "n": null,
+   "minutes": 3,
+   "out": "Revise 0 due cards · 3 min"
+  },
+  {
+   "n": null,
+   "minutes": 1,
+   "out": "Revise 0 due cards · 1 min"
+  },
+  {
+   "n": "4",
+   "minutes": 3,
+   "out": "Revise 4 due cards · 3 min"
+  },
+  {
+   "n": "4",
+   "minutes": 1,
+   "out": "Revise 4 due cards · 1 min"
+  },
+  {
+   "n": "x",
+   "minutes": 3,
+   "out": "Revise 0 due cards · 3 min"
+  },
+  {
+   "n": "x",
+   "minutes": 1,
+   "out": "Revise 0 due cards · 1 min"
+  }
+ ],
+ "reviseQuestions": [
+  {
+   "n": 0,
+   "out": "Revise · 0 questions"
+  },
+  {
+   "n": 1,
+   "out": "Revise · 1 question"
+  },
+  {
+   "n": 2,
+   "out": "Revise · 2 questions"
+  },
+  {
+   "n": 3,
+   "out": "Revise · 3 questions"
+  },
+  {
+   "n": 5,
+   "out": "Revise · 5 questions"
+  },
+  {
+   "n": 9,
+   "out": "Revise · 9 questions"
+  },
+  {
+   "n": 10,
+   "out": "Revise · 10 questions"
+  },
+  {
+   "n": 12,
+   "out": "Revise · 12 questions"
+  },
+  {
+   "n": 46,
+   "out": "Revise · 46 questions"
+  },
+  {
+   "n": 100,
+   "out": "Revise · 100 questions"
+  },
+  {
+   "n": 0.2,
+   "out": "Revise · 0 questions"
+  },
+  {
+   "n": 0.5,
+   "out": "Revise · 0 questions"
+  },
+  {
+   "n": 1.2,
+   "out": "Revise · 1 question"
+  },
+  {
+   "n": 2.7,
+   "out": "Revise · 2 questions"
+  },
+  {
+   "n": 6.2,
+   "out": "Revise · 6 questions"
+  },
+  {
+   "n": 59.9,
+   "out": "Revise · 59 questions"
+  },
+  {
+   "n": -3,
+   "out": "Revise · 0 questions"
+  },
+  {
+   "n": -0.5,
+   "out": "Revise · 0 questions"
+  },
+  {
+   "n": "NaN",
+   "out": "Revise · 0 questions"
+  },
+  {
+   "n": null,
+   "out": "Revise · 0 questions"
+  },
+  {
+   "n": null,
+   "out": "Revise · 0 questions"
+  },
+  {
+   "n": "4",
+   "out": "Revise · 4 questions"
+  },
+  {
+   "n": "x",
+   "out": "Revise · 0 questions"
+  }
+ ],
+ "pileLabel": [
+  {
+   "n": 0,
+   "out": "0 to revise"
+  },
+  {
+   "n": 1,
+   "out": "1 to revise"
+  },
+  {
+   "n": 2,
+   "out": "2 to revise"
+  },
+  {
+   "n": 3,
+   "out": "3 to revise"
+  },
+  {
+   "n": 5,
+   "out": "5 to revise"
+  },
+  {
+   "n": 9,
+   "out": "9 to revise"
+  },
+  {
+   "n": 10,
+   "out": "10 to revise"
+  },
+  {
+   "n": 12,
+   "out": "12 to revise"
+  },
+  {
+   "n": 46,
+   "out": "46 to revise"
+  },
+  {
+   "n": 100,
+   "out": "100 to revise"
+  },
+  {
+   "n": 0.2,
+   "out": "0 to revise"
+  },
+  {
+   "n": 0.5,
+   "out": "0 to revise"
+  },
+  {
+   "n": 1.2,
+   "out": "1 to revise"
+  },
+  {
+   "n": 2.7,
+   "out": "2 to revise"
+  },
+  {
+   "n": 6.2,
+   "out": "6 to revise"
+  },
+  {
+   "n": 59.9,
+   "out": "59 to revise"
+  },
+  {
+   "n": -3,
+   "out": "0 to revise"
+  },
+  {
+   "n": -0.5,
+   "out": "0 to revise"
+  },
+  {
+   "n": "NaN",
+   "out": "0 to revise"
+  },
+  {
+   "n": null,
+   "out": "0 to revise"
+  },
+  {
+   "n": null,
+   "out": "0 to revise"
+  },
+  {
+   "n": "4",
+   "out": "4 to revise"
+  },
+  {
+   "n": "x",
+   "out": "0 to revise"
+  }
+ ],
+ "places": [
+  {
+   "place": null,
+   "place_label": "",
+   "short": ""
+  },
+  {
+   "place": null,
+   "place_label": "",
+   "short": ""
+  },
+  {
+   "place": {},
+   "place_label": "",
+   "short": ""
+  },
+  {
+   "place": {
+    "n": 0,
+    "of": 14
+   },
+   "place_label": "",
+   "short": ""
+  },
+  {
+   "place": {
+    "n": 5
+   },
+   "place_label": "",
+   "short": "Chapter 5"
+  },
+  {
+   "place": {
+    "n": 5,
+    "of": 0
+   },
+   "place_label": "",
+   "short": "Chapter 5"
+  },
+  {
+   "place": {
+    "n": 5,
+    "of": 14
+   },
+   "place_label": "Chapter 5 of 14",
+   "short": "Chapter 5"
+  },
+  {
+   "place": {
+    "n": 1,
+    "of": 1
+   },
+   "place_label": "Chapter 1 of 1",
+   "short": "Chapter 1"
+  },
+  {
+   "place": {
+    "n": 14,
+    "of": 14
+   },
+   "place_label": "Chapter 14 of 14",
+   "short": "Chapter 14"
+  },
+  {
+   "place": {
+    "n": "3",
+    "of": "7"
+   },
+   "place_label": "Chapter 3 of 7",
+   "short": "Chapter 3"
+  },
+  {
+   "place": {
+    "n": -2,
+    "of": 14
+   },
+   "place_label": "",
+   "short": ""
+  },
+  {
+   "place": {
+    "n": 2.9,
+    "of": 14.4
+   },
+   "place_label": "Chapter 2 of 14",
+   "short": "Chapter 2"
+  }
+ ]
+}

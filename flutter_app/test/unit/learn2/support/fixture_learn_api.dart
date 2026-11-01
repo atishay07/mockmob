@@ -19,10 +19,12 @@ import 'package:mockmob/features/learn2/data/learn_prefs.dart';
 import 'package:mockmob/features/learn2/data/learn_providers.dart';
 
 /// The recorded chapters: Admission of a Partner (the feed, covers, cards view, previews), Accounting for Partnership:
-/// Basic Concepts (the mix, recap, a new student's feed), Change in Profit Sharing Ratio (a short chapter, addNext).
+/// Basic Concepts (the mix, recap, a new student's feed), Change in Profit Sharing Ratio (four piles at 20 minutes) and
+/// Comparative and Common Size Statements (a short chapter at 20 minutes: shrink, addNext).
 const String l2Aop = 'accountancy.admission-of-partner';
 const String l2Pf = 'accountancy.partnership-fundamentals';
 const String l2Cpsr = 'accountancy.change-in-profit-sharing-ratio';
+const String l2Ccss = 'accountancy.comparative-and-common-size-statements';
 
 /// A chapter that is not there (404 CHAPTER_NOT_FOUND).
 const String l2Missing = 'accountancy.no-such-chapter';
@@ -146,7 +148,7 @@ class FixtureLearnApi implements LearnApi {
   /// and student; e.g. `{'mix': 'run_start_mix_aop_resume_pro'}` for a picked-up run.
   final Map<String, String> startFixtures;
 
-  /// One method's failure, by its name (`startRun`, `answer`, `keep`, `rate`, `end`, `getRun`, `preview`, `subject`,
+  /// One method's failure, by its name (`startRun`, `answer`, `keep`, `rate`, `end`, `getRun`, `preview`, `subject`, `home`,
   /// `covers`, `shelves`, `search`, `chapterCards`, `subjectCards`, `saveQuestion`).
   final Map<String, LearnError> failOn;
 
@@ -167,6 +169,9 @@ class FixtureLearnApi implements LearnApi {
   final List<({String runId, String itemId, int rating})> ratings = [];
   final List<({String runId, String itemId})> keeps = [];
   final List<String> ended = [];
+
+  /// Whether each [end] call was a stop (`?stop=1`), in the order of [ended].
+  final List<bool> stops = [];
   final List<String> saved = [];
 
   final Map<String, _FakeRun> _runs = {};
@@ -196,6 +201,23 @@ class FixtureLearnApi implements LearnApi {
       name = freeUsed ? 'subject_accountancy_free_used' : 'subject_accountancy_free';
     } else {
       name = const {'economics', 'business_studies', 'english'}.contains(subject) ? 'subject_${subject}_pro' : 'subject_accountancy_pro';
+    }
+    return LearnSubjectData.parse(LearnFixtures.json(name));
+  }
+
+  /// The combined read Learn home makes (`GET /api/learn/home`): the subject body with its roadmap offer and the shelves. A
+  /// returning student's Accountancy has an unfinished run (the pick-up offer); Economics, Business Studies and English are
+  /// the returning offer (Today's 10 minutes); a new student starts at chapter 1; Free after the claim is the Free-done block.
+  @override
+  Future<LearnSubjectData> home(String subject) async {
+    await _enter('home', subject);
+    final String name;
+    if (newStudent) {
+      name = 'home_accountancy_new_$_plan';
+    } else if (!pro) {
+      name = subject == 'economics' ? 'home_economics_free' : (freeUsed ? 'home_accountancy_free_used' : 'home_accountancy_free');
+    } else {
+      name = const {'economics', 'business_studies', 'english'}.contains(subject) ? 'home_${subject}_pro' : 'home_accountancy_pro';
     }
     return LearnSubjectData.parse(LearnFixtures.json(name));
   }
@@ -270,6 +292,8 @@ class FixtureLearnApi implements LearnApi {
       name = 'preview_aop_10_new_$_plan';
     } else if (!pro) {
       name = freeUsed ? 'preview_pf_10_free_used' : 'preview_aop_${length}_free';
+    } else if (chapterKey == l2Ccss) {
+      name = addNext ? 'preview_ccss_20_addnext_pro' : 'preview_ccss_20_pro';
     } else if (chapterKey == l2Cpsr) {
       name = addNext ? 'preview_cpsr_20_addnext_pro' : 'preview_cpsr_20_pro';
     } else if (chapterKey == l2Pf) {
@@ -432,12 +456,15 @@ class FixtureLearnApi implements LearnApi {
     return LearnRateResult.parse(body);
   }
 
-  /// The recorded end of the run's kind (a feed's on Pro, or Free's after the claim; a mix's for every other kind).
+  /// The recorded end of the run's kind (a feed's on Pro, or Free's after the claim; a mix's for every other kind). [stop] (the
+  /// stop sheet) answers the recorded stopped end of a picked-up run and leaves the run open.
   @override
-  Future<LearnEnd> end(String runId) async {
+  Future<LearnEnd> end(String runId, {bool stop = false}) async {
+    stops.add(stop);
     ended.add(runId);
     await _enter('end', runId);
     final run = _run(runId);
+    if (stop && run.kind != LearnKinds.feed) return LearnEnd.parse(LearnFixtures.json('run_end_mix_aop_stopped_pro'));
     final body = run.endBody ??= LearnFixtures.json(
       run.kind == LearnKinds.feed ? (!pro && freeUsed ? 'run_end_feed_aop_free' : 'run_end_feed_aop_pro') : 'run_end_mix_pf_pro',
     );

@@ -1,88 +1,81 @@
 {
   "correct": false,
-  "key": "B",
+  "key": "D",
   "choice": "A",
-  "explanation": "Existing goodwill is considered an accumulated profit/loss of the old partnership and is therefore written off by debiting the old partners' capital accounts in their old profit-sharing ratio.",
+  "explanation": "A premium paid directly and privately to the existing partners requires no entry in the firm’s books. When the premium is received through the firm, the entries depend on whether it is credited initially to Premium for Goodwill A/c or to the new partner’s capital account. If the credited amounts are retained in the business, no additional entry is passed.",
   "fixed": false,
   "fixedText": null,
-  "retired": false,
   "line": {
     "card": {
-      "id": "kc.accountancy.admission-of-partner.kl-exists-written-off-old-ratio",
+      "id": "kc.accountancy.admission-of-partner.entry-e-premium-received",
       "v": 1,
       "subject": "accountancy",
       "chapterKey": "accountancy.admission-of-partner",
       "chapter": "Admission of Partner",
       "unit": "Reconstitution of a Partnership firm",
-      "kind": "key_line",
-      "front": "Goodwill appearing in the books will be ____ by debiting old partners' capital accounts in their ____.",
-      "back": "Goodwill appearing in the books will be written-off by debiting old partners' capital accounts in their old profit sharing ratio.",
-      "quote": "Goodwill appearing in the books will be written-off by debiting old partners' capital accounts in their old profit sharing ratio.",
-      "blanks": [
-        "written-off",
-        "old profit sharing ratio"
-      ],
+      "kind": "entry",
+      "front": "Journal entry: new partner brings premium for goodwill in cash through the firm (first entry).",
+      "back": "Bank A/c Dr.\nTo Premium for Goodwill A/c\n(Amount brought by new partner as premium)",
+      "quote": "Bank A/c Dr. To Premium for Goodwill A/c (Amount brought by new partner as premium)",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Accountancy : Partnership Accounts",
         "code": "leac102",
         "chapterNo": 2,
-        "page": 70,
-        "section": "When goodwill exists in the books"
+        "page": 64,
+        "section": "2.5.5.1 When the new Partner brings goodwill in cash"
       },
       "importance": "must",
       "asked": 0,
       "tags": [
         "goodwill"
       ],
-      "order": 720,
+      "order": 600,
       "authorImportance": "must"
     },
     "source": "linked",
     "collapsed": false
   },
   "reinsert": {
-    "itemId": "lr_af9a41e08178605d8825acbd-r1",
+    "itemId": "lr_0e2bcf07502277f395b25116-r1",
     "at": 15,
     "item": {
-      "id": "lr_af9a41e08178605d8825acbd-r1",
+      "id": "lr_0e2bcf07502277f395b25116-r1",
       "type": "card",
       "stage": "again",
       "card": {
-        "id": "kc.accountancy.admission-of-partner.kl-exists-written-off-old-ratio",
+        "id": "kc.accountancy.admission-of-partner.entry-e-premium-received",
         "v": 1,
         "subject": "accountancy",
         "chapterKey": "accountancy.admission-of-partner",
         "chapter": "Admission of Partner",
         "unit": "Reconstitution of a Partnership firm",
-        "kind": "key_line",
-        "front": "Goodwill appearing in the books will be ____ by debiting old partners' capital accounts in their ____.",
-        "back": "Goodwill appearing in the books will be written-off by debiting old partners' capital accounts in their old profit sharing ratio.",
-        "quote": "Goodwill appearing in the books will be written-off by debiting old partners' capital accounts in their old profit sharing ratio.",
-        "blanks": [
-          "written-off",
-          "old profit sharing ratio"
-        ],
+        "kind": "entry",
+        "front": "Journal entry: new partner brings premium for goodwill in cash through the firm (first entry).",
+        "back": "Bank A/c Dr.\nTo Premium for Goodwill A/c\n(Amount brought by new partner as premium)",
+        "quote": "Bank A/c Dr. To Premium for Goodwill A/c (Amount brought by new partner as premium)",
+        "blanks": [],
         "source": {
           "kind": "ncert",
           "book": "Accountancy : Partnership Accounts",
           "code": "leac102",
           "chapterNo": 2,
-          "page": 70,
-          "section": "When goodwill exists in the books"
+          "page": 64,
+          "section": "2.5.5.1 When the new Partner brings goodwill in cash"
         },
         "importance": "must",
         "asked": 0,
         "tags": [
           "goodwill"
         ],
-        "order": 720,
+        "order": 600,
         "authorImportance": "must"
       },
       "look": false,
       "recap": false,
       "seconds": 12,
-      "reason": "line"
+      "reason": "earlier"
     }
   }
 }
