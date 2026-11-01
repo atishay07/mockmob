@@ -2,32 +2,6 @@
   "subject": "english",
   "cards": [
     {
-      "id": "kc.english.vocabulary.oneword-omnivorous",
-      "v": 2,
-      "subject": "english",
-      "chapterKey": "english.vocabulary",
-      "chapter": "Vocabulary",
-      "unit": "One-Word Substitution",
-      "kind": "one_word",
-      "front": "One word (adjective) for: eating both plants and flesh",
-      "back": "Omnivorous",
-      "blanks": [],
-      "source": {
-        "kind": "authored"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "one-word",
-        "omnivorous"
-      ],
-      "order": 2340,
-      "reasons": [
-        "review:not_importanceRight",
-        "review:Correct and unambiguous, but inconsistent: sibling herbivorous/carnivorous cards are good while this is must. Make it good."
-      ]
-    },
-    {
       "id": "kc.english.vocabulary.oneword-insolvent",
       "v": 2,
       "subject": "english",

@@ -61,7 +61,6 @@
       "addedIn": "gap-1031",
       "reasons": [
         "review:not_important",
-        "review:not_importanceRight",
         "review:Bare count 'three' without naming the dimensions; a student cannot use it. Weak, no testable point beyond a number."
       ]
     },
@@ -127,7 +126,6 @@
       "reasons": [
         "review:not_important",
         "review:not_unambiguous",
-        "review:not_importanceRight",
         "review:Illustrative examples of environmental change, not a definition or headed list; four-part answer is not one answer."
       ]
     },
@@ -518,39 +516,7 @@
       "reasons": [
         "review:not_important",
         "review:not_unambiguous",
-        "review:not_importanceRight",
         "review:Open-ended front with a multi-item answer, headline only restates the topic; descriptive filler under the place element."
-      ]
-    },
-    {
-      "id": "kc.business_studies.consumer-protection.fact-ways-business-associations",
-      "v": 2,
-      "subject": "business_studies",
-      "chapterKey": "business_studies.consumer-protection",
-      "chapter": "Consumer Protection",
-      "unit": "Consumer Protection",
-      "kind": "fact",
-      "front": "Name the two business associations NCERT gives as examples that have laid down a code of conduct for their members.",
-      "back": "The associations of trade, commerce and business like Federation of Indian Chambers of Commerce of India (FICCI) and Confederation of Indian Industries (CII) have laid down their code of conduct which lay down for their members the guidelines in their dealings with the customers.",
-      "quote": "The associations of trade, commerce and business like Federation of Indian Chambers of Commerce of India (FICCI) and Confederation of Indian Industries (CII) have laid down their code of conduct which lay down for their members the guidelines in their dealings with the customers.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Business Studies Part 2",
-        "code": "lebs203",
-        "chapterNo": 11,
-        "page": 298,
-        "section": "Ways and Means of Consumer Protection"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "ways and means"
-      ],
-      "order": 510,
-      "reasons": [
-        "review:not_importanceRight",
-        "review:Two named example associations from a list of ways, not a definition or headed list; should be good, not must."
       ]
     },
     {

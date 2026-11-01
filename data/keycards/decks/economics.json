@@ -1,6 +1,6 @@
 {
   "subject": "economics",
-  "version": 5,
+  "version": 6,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -17739,6 +17739,33 @@
       "order": 1060
     },
     {
+      "id": "kc.economics.indian-economic-development-1950-1990.fact-no-public-private-distinction",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.indian-economic-development-1950-1990",
+      "chapter": "Indian Economic Development 1950–1990",
+      "unit": "Development Policies and Experience (1947-90)",
+      "kind": "fact",
+      "front": "After four decades of planning, what did NCERT say was not distinguished between the public and private sectors?",
+      "back": "No distinction was made between (i) what the public sector alone can do and (ii) what the private sector can also do",
+      "quote": "No distinction was made between (i) what the public sector alone can do and (ii) what the private sector can also do",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec102",
+        "chapterNo": 2,
+        "page": 32,
+        "section": "2.5 Trade Policy: Import Substitution"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "public-sector"
+      ],
+      "order": 1070
+    },
+    {
       "id": "kc.economics.indian-economic-development-1950-1990.fact-nationalised-jobs",
       "v": 1,
       "subject": "economics",
@@ -26365,6 +26392,34 @@
         "income method"
       ],
       "order": 420
+    },
+    {
+      "id": "kc.economics.national-income-and-related-aggregates.fact-income-method-symbols",
+      "v": 2,
+      "subject": "economics",
+      "chapterKey": "economics.national-income-and-related-aggregates",
+      "chapter": "National Income & Related Aggregates",
+      "unit": "Introduction and National Income Accounting",
+      "kind": "fact",
+      "front": "Income method: with M households, what are Wi, Pi, Ini and Ri for the i-th household?",
+      "back": "Let Wi be the wages and salaries received by the i-th household in a particular year. Similarly, Pi, Ini, Ri be the gross profits, interest payments and rents received by the i-th household in a particular year.",
+      "quote": "Let Wi be the wages and salaries received by the i-th household in a particular year. Similarly, Pi, Ini, Ri be the gross profits, interest payments and rents received by the i-th household in a particular year.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec102",
+        "chapterNo": 2,
+        "page": 22,
+        "section": "Income Method"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "income method"
+      ],
+      "order": 430,
+      "note": "W wages and salaries, P gross profits, In interest payments, R rents."
     },
     {
       "id": "kc.economics.national-income-and-related-aggregates.formula-three-methods-identity",

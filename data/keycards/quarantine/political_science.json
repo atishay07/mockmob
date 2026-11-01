@@ -444,7 +444,6 @@
       "addedIn": "gap-1031",
       "reasons": [
         "review:not_important",
-        "review:not_importanceRight",
         "review:Single statistic tied to one year (15 per cent literate in the first election); trivia, not a line to hold."
       ]
     },
@@ -570,7 +569,6 @@
       "reasons": [
         "review:not_important",
         "review:not_unambiguous",
-        "review:not_importanceRight",
         "review:Closing flourish, not a mark-carrying fact; blank has obvious synonyms (wisdom, foresight, vision), so no single right fill; 'must/good' is moot as the card is not worth memory."
       ]
     },

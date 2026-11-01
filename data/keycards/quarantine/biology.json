@@ -208,7 +208,6 @@
       "order": 800,
       "reasons": [
         "review:not_important",
-        "review:not_importanceRight",
         "review:Generic chapter-opening list of application areas; CUET lists specific applications (agriculture, medicine), not this overview. Also not headed text."
       ]
     },

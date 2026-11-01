@@ -2,6 +2,37 @@
   "subject": "accountancy",
   "cards": [
     {
+      "id": "kc.accountancy.partnership-fundamentals.def-partnership-meaning",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.partnership-fundamentals",
+      "chapter": "Partnership Fundamentals",
+      "unit": "Partnership Fundamentals",
+      "kind": "definition",
+      "front": "What is partnership?",
+      "back": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
+      "quote": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac101",
+        "chapterNo": 1,
+        "page": 1,
+        "section": "1.1 Nature of Partnership"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "partnership"
+      ],
+      "order": 10,
+      "reasons": [
+        "review:not_important",
+        "review:Owner content call, 1 Nov 2026: near-duplicate of Define partnership (kept)."
+      ]
+    },
+    {
       "id": "kc.accountancy.partnership-fundamentals.def-partnership-section-4",
       "v": 1,
       "subject": "accountancy",
@@ -159,6 +190,39 @@
       "reasons": [
         "review:not_important",
         "review:DUPLICATE: same fact as kc.accountancy.admission-of-partner.def-sacrificing-ratio. Same definition; kept is linked (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.kl-paid-privately-no-entry",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Admission of Partner",
+      "kind": "key_line",
+      "front": "If this amount is paid to the old partners directly (privately) by the new partner, ____ is passed in the books of the firm.",
+      "back": "If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm.",
+      "quote": "If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm.",
+      "blanks": [
+        "no entry"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 64,
+        "section": "2.5.5.1 When the new Partner brings goodwill in cash"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "goodwill"
+      ],
+      "order": 590,
+      "reasons": [
+        "review:not_important",
+        "review:Owner content call, 1 Nov 2026: reads oddly without its context."
       ]
     },
     {
@@ -380,7 +444,6 @@
       "addedIn": "gap-1031",
       "reasons": [
         "review:not_unambiguous",
-        "review:not_importanceRight",
         "review:CONFLICT: the Summary line (with the Companies Act 2013 'only sweat equity shares' sentence) disagrees with section 1.6.6 and 1.7.1, which also allow a discount on reissue of forfeited shares. Back also opens with a dangling 'Apart from such compliance' and the front is a yes/no that omits the condi"
       ]
     },
@@ -826,68 +889,6 @@
       "addedIn": "gap-1031",
       "reasons": [
         "review:missing"
-      ]
-    },
-    {
-      "id": "kc.accountancy.admission-of-partner.kl-paid-privately-no-entry",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.admission-of-partner",
-      "chapter": "Admission of Partner",
-      "unit": "Reconstitution of a Partnership firm",
-      "kind": "key_line",
-      "front": "If this amount is paid to the old partners directly (privately) by the new partner, ____ is passed in the books of the firm.",
-      "back": "If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm.",
-      "quote": "If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm.",
-      "blanks": [
-        "no entry"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy : Partnership Accounts",
-        "code": "leac102",
-        "chapterNo": 2,
-        "page": 64,
-        "section": "2.5.5.1 When the new Partner brings goodwill in cash"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "goodwill"
-      ],
-      "order": 590,
-      "reasons": [
-        "Owner content call, 1 Nov 2026: reads oddly without its context."
-      ]
-    },
-    {
-      "id": "kc.accountancy.partnership-fundamentals.def-partnership-meaning",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.partnership-fundamentals",
-      "chapter": "Partnership Fundamentals",
-      "unit": "Accounting for Partnership",
-      "kind": "definition",
-      "front": "What is partnership?",
-      "back": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
-      "quote": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy – Partnership Accounts",
-        "code": "leac101",
-        "chapterNo": 1,
-        "page": 1,
-        "section": "1.1 Nature of Partnership"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "partnership"
-      ],
-      "order": 10,
-      "reasons": [
-        "Owner content call, 1 Nov 2026: near-duplicate of \"Define partnership.\" (kept)."
       ]
     }
   ]

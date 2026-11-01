@@ -17,19 +17,19 @@
       "belowMinimum": false
     },
     "english.vocabulary": {
-      "published": 283,
-      "quarantined": 3,
+      "published": 284,
+      "quarantined": 2,
       "byKind": {
         "word": 178,
         "idiom": 56,
-        "one_word": 49
+        "one_word": 50
       },
       "byImportance": {
-        "must": 154,
+        "must": 155,
         "good": 129
       },
       "coverage_note": null,
-      "mustShare": 0.54,
+      "mustShare": 0.55,
       "belowMinimum": false
     }
   }

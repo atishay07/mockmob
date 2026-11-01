@@ -8,7 +8,7 @@
 // Output  data/keycards/review-verdicts.json   { <cardId>: { ok, hash, reasons, code, at } }, read by validate.mjs
 //         and, at once, any published card with a "no" moves from data/keycards/decks/<subject>.json to the quarantine
 //         (deck version, coverage and manifest rewritten). Then run validate.mjs again (the pipeline's stage 4).
-// Any `false` (or a missing answer) is a "no". A verdict for an id no draft has is reported and ignored.
+// Any `false` (or a missing answer) to exact, important or unambiguous is a "no"; importanceRight is advice only. A verdict for an id no draft has is reported and ignored.
 // Malformed input (a review file that is not a JSON array of objects with a string id) exits 1 before anything is written.
 import { existsSync, readdirSync } from 'node:fs';
 import path from 'node:path';
@@ -16,7 +16,11 @@ import { pathToFileURL } from 'node:url';
 import { VERDICTS_FILE, cardHash, draftsDir as defaultDrafts, outDir, reviewsDir as defaultReviews, readJSON, writeJSON, writeManifest, writeSubject } from './lib.mjs';
 import { DRAFT_NAME, readDrafts } from './validate.mjs';
 
-const QUESTIONS = Object.freeze(['exact', 'important', 'unambiguous', 'importanceRight']);
+// The three answers that decide publication. importanceRight is advice only since 1 Nov 2026: the author's importance no
+// longer reaches students (tier.mjs re-tiers Must-know per chapter and loadDecks applies tiers.json), so a card the
+// reviewer found exact, important and unambiguous is published even when the reviewer would label its importance otherwise.
+const QUESTIONS = Object.freeze(['exact', 'important', 'unambiguous']);
+const ADVICE = Object.freeze(['importanceRight']);
 
 /** Read every review file. Throws on malformed input. */
 export function readReviews(dir = defaultReviews()) {
@@ -34,11 +38,19 @@ export function readReviews(dir = defaultReviews()) {
   return out;
 }
 
-/** One verdict -> { ok, reasons }. Every one of the four answers must be literally true. */
+/**
+ * One verdict -> { ok, reasons, advice }. exact, important and unambiguous must each be literally true; importanceRight is
+ * advice (kept in `advice` with the reviewer's reason) and never blocks.
+ */
 export function judge(v) {
   const no = QUESTIONS.filter((q) => v[q] !== true);
+  const soft = ADVICE.filter((q) => v[q] !== true);
   const why = typeof v.reason === 'string' && v.reason.trim() ? v.reason.trim().slice(0, 300) : null;
-  return { ok: no.length === 0, reasons: no.length ? [...no.map((q) => `not_${q}`), ...(why ? [why] : [])] : [] };
+  return {
+    ok: no.length === 0,
+    reasons: no.length ? [...no.map((q) => `not_${q}`), ...(why ? [why] : [])] : [],
+    advice: soft.length ? [...soft.map((q) => `not_${q}`), ...(why && !no.length ? [why] : [])] : [],
+  };
 }
 
 export function runReviewMerge({ draftsDir = defaultDrafts(), reviewsDir = defaultReviews(), now = new Date(), log = console.log } = {}) {
@@ -55,7 +67,7 @@ export function runReviewMerge({ draftsDir = defaultDrafts(), reviewsDir = defau
       const card = cardById.get(v.id);
       if (!card) { unknown.push(v.id); continue; }
       const j = judge(v);
-      verdicts[v.id] = { ok: j.ok, hash: cardHash(card), reasons: j.reasons, code, at: now.toISOString() };
+      verdicts[v.id] = { ok: j.ok, hash: cardHash(card), reasons: j.reasons, ...(j.advice.length ? { advice: j.advice } : {}), code, at: now.toISOString() };
       if (j.ok) ok += 1; else no += 1;
     }
   }

@@ -23,18 +23,18 @@
       "belowMinimum": false
     },
     "business_studies.consumer-protection": {
-      "published": 60,
-      "quarantined": 3,
+      "published": 61,
+      "quarantined": 2,
       "byKind": {
         "key_line": 14,
         "term": 1,
-        "fact": 13,
+        "fact": 14,
         "definition": 22,
         "list": 9,
         "types": 1
       },
       "byImportance": {
-        "must": 46,
+        "must": 47,
         "good": 14
       },
       "coverage_note": null,

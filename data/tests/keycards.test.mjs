@@ -511,3 +511,17 @@ test('a student sees NCERT\'s printed quotes, not the extraction\'s backtick; ev
   const decks = loadDecks({ dir: path.join(ROOT, 'data/keycards'), log: () => {} });
   for (const [, { cards }] of decks.bySubject) for (const c of cards) assert.ok(![c.front, c.back, c.quote, c.note].some((t) => typeof t === 'string' && /`[^`'\n]{1,120}'/.test(t)), c.id);
 });
+
+test('review verdicts: exact, important and unambiguous decide publication; importanceRight is advice only (1 Nov 2026)', async () => {
+  const { judge } = await import('../../scripts/keycards/review-merge.mjs');
+  const yes = { exact: true, important: true, unambiguous: true, importanceRight: true };
+  assert.deepEqual(judge(yes), { ok: true, reasons: [], advice: [] });
+  const label = judge({ ...yes, importanceRight: false, reason: 'a definition: must' });
+  assert.equal(label.ok, true, 'a wrong importance label alone never holds a card back (tiers.json decides Must-know)');
+  assert.deepEqual(label.advice, ['not_importanceRight', 'a definition: must']);
+  const both = judge({ ...yes, important: false, importanceRight: false, reason: 'trivia' });
+  assert.equal(both.ok, false);
+  assert.deepEqual(both.reasons, ['not_important', 'trivia']);
+  assert.deepEqual(both.advice, ['not_importanceRight']);
+  assert.equal(judge({ ...yes, exact: undefined }).ok, false, 'a missing blocking answer is a no');
+});

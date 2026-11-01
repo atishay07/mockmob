@@ -10,19 +10,24 @@
     "cards": 1394
   },
   "business_studies": {
-    "version": 5,
-    "sha256": "f88695fc1c7d1b2917b72fc09ae049d3a509e77d9eacd98403482d9c4a8db903",
-    "cards": 900
+    "version": 6,
+    "sha256": "c99773a0a20b7da438ddfe9b21d7890c0c1ae533b94331a951071496632176a4",
+    "cards": 901
+  },
+  "chemistry": {
+    "version": 1,
+    "sha256": "301c529e157a1724d8b9347bd1c20558a7c1af0298263700ba90ffd5910a015c",
+    "cards": 1257
   },
   "economics": {
-    "version": 5,
-    "sha256": "60eeb03f8537171ebfd3cb732fcb19e5b7e624a7a54bf7efc83ac6537f9c6ce4",
-    "cards": 1193
+    "version": 6,
+    "sha256": "56b1f51e3adca689a4c2403f9d1886498abb7d76b6187884ccfdfbf054e9347e",
+    "cards": 1195
   },
   "english": {
-    "version": 2,
-    "sha256": "97ab6f6557eb20f8d0e27401ee38d04dd99e569b820cb8677c6af607f68fb499",
-    "cards": 349
+    "version": 3,
+    "sha256": "5650e107f90c2dff377a63d3a1569435e51ab8c8255edee465248b131e7a7a06",
+    "cards": 350
   },
   "political_science": {
     "version": 5,

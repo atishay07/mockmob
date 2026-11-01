@@ -23,11 +23,11 @@
       "belowMinimum": false
     },
     "accountancy.admission-of-partner": {
-      "published": 53,
-      "quarantined": 2,
+      "published": 52,
+      "quarantined": 3,
       "byKind": {
         "definition": 3,
-        "key_line": 14,
+        "key_line": 13,
         "list": 4,
         "fact": 13,
         "formula": 2,
@@ -35,7 +35,7 @@
         "entry": 16
       },
       "byImportance": {
-        "must": 41,
+        "must": 40,
         "good": 12
       },
       "coverage_note": null,
@@ -207,10 +207,10 @@
       "belowMinimum": false
     },
     "accountancy.partnership-fundamentals": {
-      "published": 46,
-      "quarantined": 3,
+      "published": 45,
+      "quarantined": 4,
       "byKind": {
-        "definition": 5,
+        "definition": 4,
         "term": 2,
         "key_line": 8,
         "list": 5,
@@ -219,11 +219,11 @@
         "difference": 4
       },
       "byImportance": {
-        "must": 33,
+        "must": 32,
         "good": 13
       },
       "coverage_note": null,
-      "mustShare": 0.72,
+      "mustShare": 0.71,
       "belowMinimum": false
     },
     "accountancy.profit-and-loss-appropriation-account": {

@@ -1,6 +1,6 @@
 {
   "subject": "business_studies",
-  "version": 5,
+  "version": 6,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -2249,6 +2249,33 @@
         "ways and means"
       ],
       "order": 490
+    },
+    {
+      "id": "kc.business_studies.consumer-protection.fact-ways-business-associations",
+      "v": 2,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.consumer-protection",
+      "chapter": "Consumer Protection",
+      "unit": "Consumer Protection",
+      "kind": "fact",
+      "front": "Name the two business associations NCERT gives as examples that have laid down a code of conduct for their members.",
+      "back": "The associations of trade, commerce and business like Federation of Indian Chambers of Commerce of India (FICCI) and Confederation of Indian Industries (CII) have laid down their code of conduct which lay down for their members the guidelines in their dealings with the customers.",
+      "quote": "The associations of trade, commerce and business like Federation of Indian Chambers of Commerce of India (FICCI) and Confederation of Indian Industries (CII) have laid down their code of conduct which lay down for their members the guidelines in their dealings with the customers.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs203",
+        "chapterNo": 11,
+        "page": 298,
+        "section": "Ways and Means of Consumer Protection"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "ways and means"
+      ],
+      "order": 510
     },
     {
       "id": "kc.business_studies.consumer-protection.kl-ways-jago-grahak",

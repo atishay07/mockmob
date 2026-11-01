@@ -263,37 +263,6 @@
       ]
     },
     {
-      "id": "kc.economics.indian-economic-development-1950-1990.fact-no-public-private-distinction",
-      "v": 1,
-      "subject": "economics",
-      "chapterKey": "economics.indian-economic-development-1950-1990",
-      "chapter": "Indian Economic Development 1950–1990",
-      "unit": "Indian Economic Development 1950–1990",
-      "kind": "fact",
-      "front": "After four decades of planning, what did NCERT say was not distinguished between the public and private sectors?",
-      "back": "No distinction was made between (i) what the public sector alone can do and (ii) what the private sector can also do",
-      "quote": "No distinction was made between (i) what the public sector alone can do and (ii) what the private sector can also do",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Indian Economic Development",
-        "code": "keec102",
-        "chapterNo": 2,
-        "page": 32,
-        "section": "2.5 Trade Policy: Import Substitution"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "public-sector"
-      ],
-      "order": 1070,
-      "reasons": [
-        "review:not_importanceRight",
-        "review:Policy critique, not a definition or list; should be 'good'."
-      ]
-    },
-    {
       "id": "kc.economics.indian-economic-development-1950-1990.fact-defence-hotels",
       "v": 1,
       "subject": "economics",
@@ -680,7 +649,6 @@
       "addedIn": "gap-1031",
       "reasons": [
         "review:not_important",
-        "review:not_importanceRight",
         "review:Cluster of statistics tied to one survey year (NSSO 2011-12); time-bound, and not must."
       ]
     },
@@ -746,7 +714,6 @@
       "reasons": [
         "review:not_important",
         "review:not_unambiguous",
-        "review:not_importanceRight",
         "review:Descriptive trivia about fishing communities; two-part front; not must."
       ]
     },
@@ -1044,7 +1011,6 @@
       "addedIn": "gap-1031",
       "reasons": [
         "review:not_important",
-        "review:not_importanceRight",
         "review:Chapter's own table of contents; not important."
       ]
     },
@@ -1110,7 +1076,6 @@
       "addedIn": "gap-1031",
       "reasons": [
         "review:not_important",
-        "review:not_importanceRight",
         "review:Chapter rationale for comparing neighbours; framing sentence, not must."
       ]
     },
@@ -1145,38 +1110,6 @@
       "reasons": [
         "review:not_important",
         "review:Chapter rationale sentence; filler."
-      ]
-    },
-    {
-      "id": "kc.economics.national-income-and-related-aggregates.fact-income-method-symbols",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.national-income-and-related-aggregates",
-      "chapter": "National Income & Related Aggregates",
-      "unit": "National Income & Related Aggregates",
-      "kind": "fact",
-      "front": "Income method: with M households, what are Wi, Pi, Ini and Ri for the i-th household?",
-      "back": "Let Wi be the wages and salaries received by the i-th household in a particular year. Similarly, Pi, Ini, Ri be the gross profits, interest payments and rents received by the i-th household in a particular year.",
-      "quote": "Let Wi be the wages and salaries received by the i-th household in a particular year. Similarly, Pi, Ini, Ri be the gross profits, interest payments and rents received by the i-th household in a particular year.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Macroeconomics",
-        "code": "leec102",
-        "chapterNo": 2,
-        "page": 22,
-        "section": "Income Method"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "income method"
-      ],
-      "order": 430,
-      "note": "W wages and salaries, P gross profits, In interest payments, R rents.",
-      "reasons": [
-        "review:not_importanceRight",
-        "review:Notation for Wi, Pi, Ini, Ri is supporting detail; should be 'good'."
       ]
     },
     {

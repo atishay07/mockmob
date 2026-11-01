@@ -1,6 +1,6 @@
 {
   "subject": "english",
-  "version": 2,
+  "version": 3,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -6951,6 +6951,28 @@
         "carnivorous"
       ],
       "order": 2330
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-omnivorous",
+      "v": 2,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word (adjective) for: eating both plants and flesh",
+      "back": "Omnivorous",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "omnivorous"
+      ],
+      "order": 2340
     },
     {
       "id": "kc.english.vocabulary.oneword-fatalist",

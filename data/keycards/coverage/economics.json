@@ -164,10 +164,10 @@
       "belowMinimum": false
     },
     "economics.indian-economic-development-1950-1990": {
-      "published": 92,
-      "quarantined": 8,
+      "published": 93,
+      "quarantined": 7,
       "byKind": {
-        "fact": 37,
+        "fact": 38,
         "key_line": 27,
         "definition": 14,
         "list": 11,
@@ -175,11 +175,11 @@
         "difference": 1
       },
       "byImportance": {
-        "must": 59,
+        "must": 60,
         "good": 33
       },
       "coverage_note": null,
-      "mustShare": 0.64,
+      "mustShare": 0.65,
       "belowMinimum": false
     },
     "economics.indian-economy-on-the-eve-of-independence": {
@@ -264,11 +264,11 @@
       "belowMinimum": false
     },
     "economics.national-income-and-related-aggregates": {
-      "published": 90,
-      "quarantined": 9,
+      "published": 91,
+      "quarantined": 8,
       "byKind": {
         "definition": 30,
-        "fact": 15,
+        "fact": 16,
         "difference": 4,
         "formula": 27,
         "list": 2,
@@ -277,7 +277,7 @@
         "types": 2
       },
       "byImportance": {
-        "must": 64,
+        "must": 65,
         "good": 26
       },
       "coverage_note": null,
