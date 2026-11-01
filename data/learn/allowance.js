@@ -10,6 +10,11 @@
 
 export const LEARN_FREE = Object.freeze({ sessionsPerDay: 1, maxMinutes: 10, counted: Object.freeze(['mix', 'feed']) });
 
+// R3-SPEC ruling F: Free after the day's session says one thing everywhere (Learn home, the feed refusal, the ends). True to
+// freeSession below: a new feed is refused and a new chapter run is Key cards only; Revise, recap, the level check and
+// picking up today's own run stay open; Explore's single questions stay free.
+export const FREE_DONE_HEADLINE = "That was today's free session.";
+export const FREE_DONE_LINE = 'Questions come back tomorrow. Your Key cards stay open.';
 export const FREE_SESSION_DONE = 'Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like.';
 export const FREE_CAPPED = 'Free sessions are up to 10 minutes. Pro has any length.';
 export const FREE_CARDS_ONLY = 'Your free Learn session today is used, so this one is Key cards only. Questions come back tomorrow.';
