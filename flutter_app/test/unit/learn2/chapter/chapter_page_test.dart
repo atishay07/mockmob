@@ -686,6 +686,26 @@ void main() {
       });
     }
 
+
+    for (final scale in [1.0, 1.3]) {
+      for (final (name, api, chapter, minutes) in [
+        ('Basic Concepts', null, l2Pf, null),
+        ('four papers', null, l2Cpsr, 20),
+        ('a run to pick up on Free', ChapterApi(pro: false), l2Aop, 20),
+        ('Free, the day used', ChapterApi(pro: false, freeUsed: true), l2Pf, null),
+      ].cast<_Case>()) {
+        testWidgets('a 320 dp phone at text $scale: $name draws without overflow', (tester) async {
+          await pumpChapter(tester, api: api, chapter: chapter, minutes: minutes, size: const Size(320, 640), textScale: scale, nudges: true);
+          expect(tester.takeException(), isNull);
+          for (final k in tester.widgetList(find.byType(KeyButton))) {
+            final rect = tester.getRect(find.byWidget(k));
+            expect(rect.left, greaterThanOrEqualTo(0));
+            expect(rect.right, lessThanOrEqualTo(320));
+          }
+        });
+      }
+    }
+
     testWidgets('text at 2.0 still draws without overflow', (tester) async {
       await pumpChapter(tester, textScale: 2);
       expect(tester.takeException(), isNull);
