@@ -1,5 +1,11 @@
 # NOW: MockMob current state
 
+## 1 Nov 2026, about 1 pm IST: Learn v2 and the Explore feed are LIVE (switches on)
+- Owner applied the migration (dry run OK, then apply); verified by read: both tables, both functions, flow_context learn, no anon read.
+- LEARN2_ENABLED=true, NEXT_PUBLIC_LEARN2=on (Vercel production); main 978edc236 READY (dpl_DoGHp6AAWaCKngaFxKAckyhq7vAy).
+  /api/learn/* now answers 401 signed out (on); /learn/c/<key> renders; no runtime errors. Off = set both off and redeploy.
+- Next: the owner tests live and gives feedback (he saw bugs on the local server); fix round after his list.
+
 ## 1 Nov 2026, about 12:30 pm IST: Learn v2 code is LIVE with its switches off; the owner applies the migration next
 - **Owner:** "Ship it", then: he wants it live to test everything properly; "mostly loved the direction"; refinement and fixes after
   deploy. He still has feedback from the local server (it was a bit buggy there).
