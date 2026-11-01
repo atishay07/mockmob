@@ -1,3 +1,4 @@
+import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only where it is drawn
 import Link from 'next/link';
 import { CAPABILITIES, recoveryReleased, newOfferReleased } from '@/../data/capabilities';
 import { priceLine, publicOffer } from '@/lib/payments/offer';

@@ -7,6 +7,7 @@ import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { isRetiredSubject } from '@/../data/subject_claim';
 import { checkRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit';
+import { hasSupabaseSessionCookie } from '@/lib/supabase-auth-errors';
 import {
   failRequestDiagnostics,
   finishRequestDiagnostics,
@@ -15,6 +16,15 @@ import {
 
 const ROUTE = '/api/questions/feed';
 const FEED_RATE_LIMIT = 180;
+// A reader with no session cookie and no bearer token gets no per-user field (userVote null, saved false), so the CDN may keep
+// that answer for 5 minutes (speed.md item 7). Signed-in answers are never marked cacheable, and Vary keeps them apart.
+const SIGNED_OUT_CACHE = { 'CDN-Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600', Vary: 'Cookie, Authorization' };
+
+function signedOutReader(request) {
+  if (request.headers.get('authorization')) return false;
+  const cookies = typeof request.cookies?.getAll === 'function' ? request.cookies.getAll() : [];
+  return !hasSupabaseSessionCookie(cookies);
+}
 
 export const dynamic = 'force-dynamic';
 
@@ -54,6 +64,8 @@ export async function GET(request) {
       );
     }
 
+    // Who is reading starts at once and runs beside the question read (speed.md item 7); it was the fourth step in a row.
+    const sessionRead = auth(request).catch(() => null);
     const { searchParams } = new URL(request.url);
     const subject = searchParams.get('subject');
     if (!subject) {
@@ -104,22 +116,22 @@ export async function GET(request) {
     const rawCount = (data || []).length;
     data = await readablePracticeQuestions(await attachBankPassages(supabaseAdmin(),data || []), supabaseAdmin());
     count = null; // Legacy raw row counts are not eligible-content counts.
-    const session = await auth(request).catch(() => null);
+    const session = await sessionRead;
+    const userId = session?.user?.id || null;
     const questionIds = (data || []).map((r) => r.id);
-    const voteMap = session?.user?.id
-      ? await Database.getUserVotes(session.user.id, questionIds)
-      : new Map();
-    let savedSet = new Set();
-    if (session?.user?.id && questionIds.length > 0) {
-      const { data: savedRows, error: savedError } = await supabaseAdmin()
-        .from('question_bookmarks')
-        .select('question_id')
-        .eq('user_id', session.user.id)
-        .in('question_id', questionIds);
-      if (!savedError) {
-        savedSet = new Set((savedRows || []).map((row) => row.question_id));
-      }
-    }
+    // Votes and bookmarks together: neither needs the other.
+    const [voteMap, savedSet] = userId ? await Promise.all([
+      Database.getUserVotes(userId, questionIds),
+      questionIds.length > 0
+        ? supabaseAdmin()
+          .from('question_bookmarks')
+          .select('question_id')
+          .eq('user_id', userId)
+          .in('question_id', questionIds)
+          .then(({ data: savedRows, error: savedError }) => (savedError ? new Set() : new Set((savedRows || []).map((row) => row.question_id))))
+        : new Set(),
+    ]) : [new Map(), new Set()];
+    const cacheable = !userId && signedOutReader(request);
 
     return jsonWithDiagnostics(diagnostics, {
       questions: (data || []).map((r) => ({
@@ -148,7 +160,7 @@ export async function GET(request) {
       })),
       total: null,
       ...advanceFeedPage(offset, limit, rawCount),
-    }, undefined, { subject, count: data?.length || 0 });
+    }, cacheable ? { headers: SIGNED_OUT_CACHE } : undefined, { subject, count: data?.length || 0 });
   } catch (e) {
     failRequestDiagnostics(diagnostics, e);
     console.error('[api/questions/feed] GET failed:', e);

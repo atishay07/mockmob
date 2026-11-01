@@ -140,17 +140,25 @@ export function createKeycards(deps) {
     return reports.set;
   }
 
-  /** The published cards a student may see now: in a served deck and not suspended for everyone. */
+  /**
+   * The published cards a student may see now: in a served deck and not suspended for everyone. Built once per suspended set
+   * (speed.md item 17): the set is re-read at most every REPORT_TTL_MS and is a new Set only when it was re-read, so between
+   * refreshes every request shares one map of the 5,800 cards instead of copying it two to four times per request.
+   */
+  let publishedMemo = { off: null, value: null };
   async function published() {
     const off = await suspendedForAll();
+    if (publishedMemo.off === off && publishedMemo.value) return publishedMemo.value;
     const byId = new Map([...decks.byId].filter(([id]) => !off.has(id)));
     let taste = null;
-    return {
+    const value = {
       byId,
       cardsOf: (subject) => (decks.bySubject.get(subject)?.cards || []).filter((c) => byId.has(c.id)),
-      /** The Free taste cards of every published chapter (data/keycards.js tasteIds), computed once per request. */
+      /** The Free taste cards of every published chapter (data/keycards.js tasteIds), computed once per suspended set. */
       taste: () => taste || (taste = tasteIds([...byId.values()])),
     };
+    publishedMemo = { off, value };
+    return value;
   }
 
   /**

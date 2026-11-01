@@ -67,7 +67,9 @@ const err = (code) => ({ body: errorsV1[code].body, status: errorsV1[code].statu
 export function previewMob(url, method, init, fixture, json) {
   // A day-one student has not sat this week's paper (release 10: the fixture agrees with itself), so ?firstweek=1 and ?data=empty
   // default to notsat; ?mob= still picks any state.
-  const kind = fixture.get('mob') || (fixture.get('firstweek') === '1' || fixture.get('data') === 'empty' ? 'notsat' : 'ready');
+  // A brand-new student on Today (&student=new) has not sat a Mob paper either (phone-clarity.md item 19).
+  const newOnToday = fixture.get('student') === 'new' && fixture.get('view') === 'today';
+  const kind = fixture.get('mob') || (newOnToday ? 'notsat' : null) || (fixture.get('firstweek') === '1' || fixture.get('data') === 'empty' ? 'notsat' : 'ready');
   if (!window.__previewMob || window.__previewMobKind !== kind) { window.__previewMob = initial(kind); window.__previewMobKind = kind; }
   const state = window.__previewMob;
   const body = (() => { try { return JSON.parse(init.body || '{}'); } catch { return {}; } })();

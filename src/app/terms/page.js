@@ -1,3 +1,4 @@
+import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only where it is drawn
 import React from 'react';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';

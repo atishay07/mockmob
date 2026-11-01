@@ -10,28 +10,68 @@
 //   facts    GET /api/me/timed-mock          sessions and mocks saved
 //   repaired GET /api/me/repair-record       repairs per paper (F17: a repaired mistake is never offered again)
 //   attempt  GET /api/attempts/{id}          lazy, cached per visit: the biggest leak on Last paper and the weak-chapter stems
-import { useCallback, useEffect, useRef, useState } from 'react';
+// The first eight arrive together from GET /api/today (speed.md item 4): one call, one auth check, the reads in parallel on the
+// server, each part with its own status. A part's later refresh (another length, a retry, a saved week) calls its own route as
+// before; if /api/today itself fails, every part falls back to its own route, so nothing is lost but the speed.
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { apiGet } from '@/lib/fetcher';
 import { reviseRecalled } from '@/lib/today/firstWeek.mjs';
 
 const idle = { status: 'loading', data: null };
 
-function useRead(path, userId, { map = (x) => x, key = 0 } = {}) {
-  const [state, setState] = useState({ path: null, key: 0, ...idle });
+// The one /api/today answer per visit: { userId, status: 'loading' | 'ready' | 'error', parts }.
+function useTodayBundle(userId) {
+  const [state, setState] = useState({ userId: null, status: 'loading', parts: null });
   useEffect(() => {
-    if (!userId || !path) return undefined;
+    if (!userId) return undefined;
+    let alive = true;
+    apiGet('/api/today')
+      .then((body) => { if (alive) setState({ userId, status: body && typeof body === 'object' ? 'ready' : 'error', parts: body }); })
+      .catch(() => { if (alive) setState({ userId, status: 'error', parts: null }); });
+    return () => { alive = false; };
+  }, [userId]);
+  return state.userId === userId ? state : { userId, status: 'loading', parts: null };
+}
+
+// What the bundle holds for one read: 'wait' while it loads, the part { status, body } when it came, or null (fetch on your own).
+function seedFor(bundle, name) {
+  if (!bundle || bundle.status === 'loading') return 'wait';
+  const part = bundle.status === 'ready' ? bundle.parts?.[name] : null;
+  return part && Number.isInteger(part.status) ? part : null;
+}
+
+// `seed` (from the bundle) answers the read's first ask, at its first path and key 0; anything later fetches its own route.
+function useRead(path, userId, { map = (x) => x, key = 0, seed = null, seedPath = null } = {}) {
+  const [state, setState] = useState({ path: null, key: 0, ...idle });
+  const seeded = seed !== null && key === 0 && path === seedPath && !state.own;
+  const part = seed && seed !== 'wait' ? seed : null;
+  // The part as this read's state, mapped once per answer. A 2xx is ready; anything else is an error with its code, as a fetch would be.
+  const fromSeed = useMemo(() => {
+    if (!part) return null;
+    if (part.status >= 200 && part.status < 300) return { path: seedPath, key: 0, status: 'ready', data: map(part.body) };
+    return { path: seedPath, key: 0, status: 'error', data: null, code: part.status || 0 };
+    // `map` is a pure shape function chosen by the caller; it never changes between renders.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [part, seedPath]);
+  useEffect(() => {
+    if (!userId || !path || seeded) return undefined;
     let alive = true;
     apiGet(path)
-      .then((body) => { if (alive) setState({ path, key, status: 'ready', data: map(body) }); })
-      .catch((error) => { if (alive) setState({ path, key, status: 'error', data: null, code: error?.status || 0 }); });
+      .then((body) => { if (alive) setState({ path, key, own: true, status: 'ready', data: map(body) }); })
+      .catch((error) => { if (alive) setState({ path, key, own: true, status: 'error', data: null, code: error?.status || 0 }); });
     return () => { alive = false; };
     // `map` is a pure shape function chosen by the caller; it never changes between renders.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [path, userId, key]);
+  }, [path, userId, key, seeded]);
+  if (seeded) return fromSeed || { path, status: 'loading', data: null };
   // A new path (another length) keeps the last answer on screen while it loads, so the card never collapses.
-  return state.path === path && state.key === key ? state : { path, status: 'loading', data: state.data, stale: Boolean(state.data) };
+  if (state.path === path && state.key === key) return state;
+  const last = state.data ?? fromSeed?.data ?? null;
+  return { path, status: 'loading', data: last, stale: Boolean(last) };
 }
 
+const papersOf = (b) => (Array.isArray(b?.items) ? b.items : []);
+const recordOf = (b) => ({ byAttempt: repairedMap(b), rows: Array.isArray(b?.repairs) ? b.repairs : [] });
 const repairedMap = (body) => {
   const out = new Map();
   for (const r of body?.repairs || []) if (r?.attemptId) out.set(r.attemptId, (out.get(r.attemptId) || 0) + 1);
@@ -75,15 +115,17 @@ export function useToday(userId) {
   const [minutes, setMinutes] = useState(null);
   const [rhythmKey, setRhythmKey] = useState(0);
   const [all, setAll] = useState(0); // a retry of the failed card reads everything again
-  const plan = useRead(`/api/learning/plan${minutes ? `?minutes=${minutes}` : ''}`, userId, { key: planKey * 1000 + all });
-  const papers = useRead('/api/attempts/summary?limit=20', userId, { map: (b) => (Array.isArray(b?.items) ? b.items : []), key: all });
-  const rhythm = useRead('/api/me/rhythm', userId, { key: rhythmKey * 1000 + all });
-  const goal = useRead('/api/me/goal', userId, { key: rhythmKey });
-  const road = useRead('/api/me/road', userId);
-  const revise = useRead('/api/me/revise', userId, { map: reviseDue });
-  const facts = useRead('/api/me/timed-mock', userId, { key: all });
+  const bundle = useTodayBundle(userId);
+  const from = (name, seedPath) => ({ seed: seedFor(bundle, name), seedPath });
+  const plan = useRead(`/api/learning/plan${minutes ? `?minutes=${minutes}` : ''}`, userId, { key: planKey * 1000 + all, ...from('plan', '/api/learning/plan') });
+  const papers = useRead('/api/attempts/summary?limit=20', userId, { map: papersOf, key: all, ...from('papers', '/api/attempts/summary?limit=20') });
+  const rhythm = useRead('/api/me/rhythm', userId, { key: rhythmKey * 1000 + all, ...from('rhythm', '/api/me/rhythm') });
+  const goal = useRead('/api/me/goal', userId, { key: rhythmKey, ...from('goal', '/api/me/goal') });
+  const road = useRead('/api/me/road', userId, from('road', '/api/me/road'));
+  const revise = useRead('/api/me/revise', userId, { map: reviseDue, ...from('revise', '/api/me/revise') });
+  const facts = useRead('/api/me/timed-mock', userId, { key: all, ...from('facts', '/api/me/timed-mock') });
   // One read: repairs per paper for the move (F17), and the rows with their times for the weekly receipt.
-  const record = useRead('/api/me/repair-record?limit=100', userId, { map: (b) => ({ byAttempt: repairedMap(b), rows: Array.isArray(b?.repairs) ? b.repairs : [] }) });
+  const record = useRead('/api/me/repair-record?limit=100', userId, { map: recordOf, ...from('record', '/api/me/repair-record?limit=100') });
   const repaired = { ...record, data: record.data?.byAttempt ?? null };
   const repairRows = record.status === 'ready' ? record.data.rows : null;
   const retryPlan = useCallback(() => setPlanKey((n) => n + 1), []);

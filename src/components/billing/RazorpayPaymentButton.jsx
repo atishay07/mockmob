@@ -1,4 +1,5 @@
 'use client';
+import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only where it is drawn
 
 import { useEffect, useState } from 'react';
 import { AlertCircle, BadgeCheck, CheckCircle2, Loader2, ShieldCheck, Tag } from 'lucide-react';

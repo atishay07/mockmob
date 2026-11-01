@@ -28,7 +28,8 @@ import './explore/explore.css';
 import './arena-support.css';
 import './nav-badge.css';
 import './signout.css';
-import '@/components/study/study.css';
+// study.css (26 KB) loads with the study components that draw it (StudyWorkspace, StudyRun, StudyChapterSummary, StudyProgress,
+// ReviseRun), not on every app page (speed.md item 8).
 import { arenaNavigation, ASK_MOBI_NAV, dockPlaceOf, mobileNavigation, placeTabs, youSheetGroups } from '@/lib/arenaNavigation';
 import './nav-places.css';
 import Image from 'next/image';

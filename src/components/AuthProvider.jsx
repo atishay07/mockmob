@@ -4,6 +4,7 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useR
 import { claimPendingInvite, rememberInviteFromUrl } from '@/lib/referrals/claimPendingInvite';
 import { hasSupabaseSessionCookie, isDeadSessionError, isTransientAuthError } from '@/lib/supabase-auth-errors';
 import {clearStudyDrafts} from '@/../data/session_draft';
+import { clearCachedMe, readCachedMe, sessionUserIdFromCookies, writeCachedMe } from '@/lib/auth/meCache.mjs';
 
 // Exported for the development-only Arena preview (/preview/arena); app code uses useAuth().
 export const AuthContext = createContext(null);
@@ -26,15 +27,28 @@ const RETRYABLE_AUTH_ME_STATUSES = [429, 500, 502, 503, 504];
 // verifyEmailOtp below, or Google's redirect, which arrives on a fresh page with the cookie set.
 // One shared import; a failed one (a dropped chunk on a patchy network) is forgotten so the next check
 // tries again, and it reports as a retryable error, which keeps the student signed in.
+function documentCookies() {
+  return document.cookie.split(';').map((part) => {
+    const at = part.indexOf('=');
+    return at < 0 ? { name: part.trim(), value: '' } : { name: part.slice(0, at).trim(), value: part.slice(at + 1).trim() };
+  });
+}
+
 function hasSessionCookie() {
   try {
-    return hasSupabaseSessionCookie(document.cookie.split(';').map((part) => {
-      const at = part.indexOf('=');
-      return at < 0 ? { name: part.trim(), value: '' } : { name: part.slice(0, at).trim(), value: part.slice(at + 1).trim() };
-    }));
+    return hasSupabaseSessionCookie(documentCookies());
   } catch {
     return true;
   }
+}
+
+// The last good profile on this device (src/lib/auth/meCache.mjs): drawn at once on a hard load while the live check runs,
+// only while the session cookie names the same student. Storage may be missing (private mode); then nothing is kept.
+function deviceStorage() {
+  try { return window.localStorage; } catch { return null; }
+}
+function cookieUserId() {
+  try { return sessionUserIdFromCookies(documentCookies()); } catch { return null; }
 }
 
 let authClientModule = null;
@@ -146,6 +160,7 @@ export function AuthProvider({ children }) {
 
   const applyUnauthenticated = useCallback(() => {
     if (!mountedRef.current) return;
+    clearCachedMe(deviceStorage());
     supabaseUserIdRef.current = null;
     userRef.current = null;
     setUser(null);
@@ -153,9 +168,10 @@ export function AuthProvider({ children }) {
     setStatus('unauthenticated');
   }, []);
 
-  const applyAuthenticated = useCallback((me, supabaseUserId) => {
+  const applyAuthenticated = useCallback((me, supabaseUserId, { keep = true } = {}) => {
     if (!mountedRef.current) return;
-    supabaseUserIdRef.current = supabaseUserId || null;
+    if (keep) writeCachedMe(deviceStorage(), me);
+    supabaseUserIdRef.current = supabaseUserId || supabaseUserIdRef.current || null;
     userRef.current = me.user;
     setUser(me.user);
     setNeedsOnboarding(Boolean(me.needsOnboarding));
@@ -191,15 +207,37 @@ export function AuthProvider({ children }) {
           if (isCurrent()) applyUnauthenticated();
           return null;
         }
-        supabase = await getSupabaseBrowserClient();
-        listenRef.current?.();
-        let session = await readSession(supabase);
+        // A hard load with a kept profile for the student the cookie names draws the app at once; the live answer below
+        // replaces it (speed.md item 1). Never for another student: the cookie must name the same id.
+        if (!userRef.current) {
+          const cookieId = cookieUserId();
+          const kept = cookieId ? readCachedMe(deviceStorage(), cookieId) : null;
+          if (kept && isCurrent()) applyAuthenticated(kept, cookieId, { keep: false });
+        }
+        // The server reads the session cookie itself, so /api/auth/me starts at once; the Supabase client loads beside it
+        // and is only needed when the server refuses the cookie (refresh, then ask again) or to sign out.
+        const clientRead = (async () => {
+          supabase = await getSupabaseBrowserClient();
+          listenRef.current?.();
+          return readSession(supabase);
+        })();
+        clientRead.catch(() => {}); // read below only when needed; never an unhandled rejection
+        let result = await fetchMe();
+        if (result.kind === 'ok') {
+          if (!isCurrent()) return null;
+          // The cookie names the Supabase user now; the client's own session confirms it when it lands (it never holds the page).
+          applyAuthenticated(result.me, cookieUserId());
+          clientRead.then((session) => {
+            if (isCurrent() && session?.user?.id) supabaseUserIdRef.current = session.user.id;
+          }, () => {});
+          return result.me;
+        }
+
+        let session = await clientRead;
         if (!session) {
           if (isCurrent()) applyUnauthenticated();
           return null;
         }
-
-        let result = await fetchMe();
         if (result.kind === 'unauthorized') {
           // The server refused the cookie it was sent. Rotate once and ask again before
           // deciding the session is over.
@@ -374,6 +412,7 @@ export function AuthProvider({ children }) {
     requestIdRef.current += 1;
     await signOutLocally(supabase);
     try{clearStudyDrafts(window.localStorage,userId);}catch{/* Storage is optional. */}
+    clearCachedMe(deviceStorage());
     applyUnauthenticated();
   }, [applyUnauthenticated]);
 

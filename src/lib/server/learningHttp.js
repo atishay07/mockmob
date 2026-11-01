@@ -11,8 +11,13 @@ export async function learningHttp(request, fn, write = false) {
     if (write) { const text = await request.text(); if (text.length > 8000) return Response.json({ error: 'Response too large' }, { status: 413, headers }); body = JSON.parse(text); if (!body || typeof body!=='object' || Array.isArray(body)) throw new Error('INVALID_RESPONSE'); }
     return Response.json(await fn(session.user.id, body), { headers });
   } catch (error) {
-    const message = error.message || 'LEARNING_UNAVAILABLE';
-    const status = /NOT_FOUND/.test(message) ? 404 : /UNAVAILABLE|FAILED|AWAITING|CHANGED/.test(message) ? 503 : /CONFLICT/.test(message) ? 409 : 422;
-    return Response.json({ error: message, message: /AWAITING|CONTENT|STORAGE/.test(message) ? 'This activity is temporarily unavailable. Your credits have not been used. Review your mistakes or choose ordinary practice.' : message.replaceAll('_', ' ') }, { status, headers });
+    const { status, body } = learningFailure(error);
+    return Response.json(body, { status, headers });
   }
+}
+// The status and body a learning read answers with when it throws; /api/today answers its plan part the same way.
+export function learningFailure(error) {
+  const message = error?.message || 'LEARNING_UNAVAILABLE';
+  const status = /NOT_FOUND/.test(message) ? 404 : /UNAVAILABLE|FAILED|AWAITING|CHANGED/.test(message) ? 503 : /CONFLICT/.test(message) ? 409 : 422;
+  return { status, body: { error: message, message: /AWAITING|CONTENT|STORAGE/.test(message) ? 'This activity is temporarily unavailable. Your credits have not been used. Review your mistakes or choose ordinary practice.' : message.replaceAll('_', ' ') } };
 }

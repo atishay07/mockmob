@@ -1,3 +1,4 @@
+import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only where it is drawn
 export const dynamic = 'force-dynamic';
 
 // credits: what a student's credits are, what they have, and how they spend. A plain page on the

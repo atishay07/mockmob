@@ -1,3 +1,4 @@
+import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only where it is drawn
 export const dynamic = "force-dynamic";
 import React from 'react';
 import { newOfferReleased, RECOVERY_PACKAGING_ROWS } from '@/../data/capabilities';
