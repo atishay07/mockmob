@@ -34,7 +34,7 @@ test('subject: the seeded returning Pro student (A7 suggestions, parts, true row
   assert.equal(http, 200);
   assert.equal(body.plan, 'pro');
   assert.equal(body.student.isNew, false);
-  assert.equal(body.subject.cards, 868);
+  assert.equal(body.subject.cards, 866);
   assert.equal(body.freeNote, null);
   assert.equal(body.suggestions.length, 3);
   assert.equal(new Set(body.suggestions.map((s) => s.kind)).size, 3);
@@ -58,7 +58,7 @@ test('subject: a new Free student gets the first-run set and the Free line', asy
   const call = student('free', 'new');
   const { body } = await call('/api/learn/subject', { query: { subject: 'accountancy' } });
   assert.equal(body.student.isNew, true);
-  assert.equal(body.freeNote, 'Free opens 5 cards in every chapter. Pro opens all 868.');
+  assert.equal(body.freeNote, 'Free opens 5 cards in every chapter. Pro opens all 866.');
   assert.deepEqual(body.suggestions.map((s) => s.kind), ['start', 'level', 'feed']);
   assert.equal(body.suggestions[0].title, 'Start with Accounting for Partnership: Basic Concepts');
   const rows = body.parts.flatMap((p) => p.units.flatMap((u) => u.chapters));
@@ -83,7 +83,7 @@ test('runs/preview: the piles of A1 for both plans, the lesson pile at 20 minute
   assert.ok(f20.shrink && f20.shrink.minutes < 20);
   assert.equal(f20.startLabel, `Start ${f20.shrink.minutes} minutes`);
   assert.equal(f20.shrink.addNext.key, 'accountancy.profit-and-loss-appropriation-account');
-  assert.equal(f20.free.text, "Free opens 5 of this chapter's 46 cards.");
+  assert.equal(f20.free.text, "Free opens 5 of this chapter's 45 cards.");
   assert.equal(f20.shelf.print.locked, true);
 });
 
@@ -193,14 +193,14 @@ test('cards, shelves and search answer the contract for both plans', async () =>
     const call = student(plan);
     const cards = (await call('/api/learn/cards', { query: { chapter: PF, filter: 'all' } })).body;
     assert.deepEqual(Object.keys(cards.counts), ['total', 'all', 'must', 'revise', 'missed', 'due']);
-    assert.equal(cards.counts.total, 46);
+    assert.equal(cards.counts.total, 45);
     assert.ok(cards.sections.length >= 2 && cards.sections.every((s) => s.title && s.cards.length));
     for (const c of cards.sections.flatMap((s) => s.cards)) assert.deepEqual([typeof c.inRevise, typeof c.missedLately, c.locked], ['boolean', 'boolean', false]);
     if (plan === 'free') {
       assert.equal(cards.counts.all, 5);
-      assert.equal(cards.lockedLine, '41 more cards in this chapter. Pro opens every card in every chapter and keeps them on a schedule.');
+      assert.equal(cards.lockedLine, '40 more cards in this chapter. Pro opens every card in every chapter and keeps them on a schedule.');
     } else {
-      assert.equal(cards.counts.all, 46);
+      assert.equal(cards.counts.all, 45);
       assert.equal(cards.lockedLine, null);
     }
     const shelves = (await call('/api/learn/shelves', { query: { subject: 'accountancy' } })).body;
@@ -260,9 +260,9 @@ test('E2: one due count: the sidebar badge (Key cards overview) equals Find\'s d
 test('E1: Learn shows the re-tiered Must-know (about one card in four)', async () => {
   const call = student('pro');
   const cards = (await call('/api/learn/cards', { query: { chapter: PF, filter: 'all' } })).body;
-  assert.deepEqual([cards.counts.total, cards.counts.must], [46, 12]);
+  assert.deepEqual([cards.counts.total, cards.counts.must], [45, 12]);
   const shelves = (await call('/api/learn/shelves', { query: { subject: 'accountancy' } })).body;
-  assert.deepEqual([shelves.must.count, shelves.must.chapters], [229, 14]); // data/keycards/tiers.json, as live
+  assert.deepEqual([shelves.must.count, shelves.must.chapters], [228, 14]); // data/keycards/tiers.json, as live
   const preview = (await call('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 10, leaveOut: [] } })).body;
   assert.match(preview.recap.label, /^Or a quick recap: the 12 Must-know lines, about \d min$/);
   assert.equal(preview.shelf.cards.mustKnow, 12);
