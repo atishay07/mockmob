@@ -205,7 +205,7 @@ test('the sideways cue (G27): the cut tab, a 24 px nudge once per device, the ed
   assert.ok(NUDGE_DELAY_MS >= 420, 'it waits for the page’s own entrance (about 420 ms)');
   assert.equal(NUDGE_KEY, 'mm:cue:place-tabs:v1');
   const row = read('src/components/nav/PlaceTabs.jsx');
-  assert.match(row, /if \(!el \|\| fit \|\| seen\(\) \|\| reducedMotion\(\)\) return undefined;/, 'seen before, a row that fits, or reduced motion: no nudge');
+  assert.match(row, /if \(!el \|\| fits \|\| seen\(\) \|\| reducedMotion\(\)\) return undefined;/, 'seen before, a row that fits, or reduced motion: no nudge');
   assert.match(row, /markSeen\(\);[\s\S]{0,400}node\.animate\(/, 'it is marked seen as it plays, so it is once');
   assert.match(row, /document\.documentElement\.dataset\.motion === 'reduced' \|\| window\.matchMedia\('\(prefers-reduced-motion: reduce\)'\)\.matches/);
   for (const event of ['pointerdown', 'wheel', 'touchstart', 'scroll']) assert.match(row, new RegExp(`addEventListener\\('${event}', stop`), `a ${event} cancels it`);

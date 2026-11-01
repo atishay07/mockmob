@@ -356,8 +356,7 @@ function FirstUp({ cards }) {
       <h3 className="lc-first__h" id={id}>First up</h3>
       <ol className="lc-first__row">
         {cards.map((c, i) => (
-          <li key={c.id || i} className="lc-first__card" style={{ '--i': i }} lang="en">
-            {c.mustKnow ? <span className="lc-first__tag">Must-know</span> : null}
+          <li key={c.id || i} className="lc-first__card" style={{ '--i': i }} lang="en" data-must={c.mustKnow || undefined}>
             <span className="lc-first__front">{c.front}</span>
           </li>
         ))}

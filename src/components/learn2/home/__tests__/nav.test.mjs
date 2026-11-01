@@ -61,8 +61,8 @@ test('R2 ruling 10 (LK26): the phone row is four equal tabs; Saved moved into Ex
 
 test('R2 ruling 10: the row draws a dot for the Revise count, never a number, and no scroll chevron when it fits', () => {
   const row = readFileSync(new URL('../../../nav/PlaceTabs.jsx', import.meta.url), 'utf8');
-  assert.match(row, /fit \? <i className="arena-tab__dot" aria-hidden="true" \/>/);
-  assert.match(row, /\{fit \? null : \(\s*<span ref=\{hint\} className="arena-tabs__hint"/);
+  assert.match(row, /fits \? <i className="arena-tab__dot" aria-hidden="true" \/>/);
+  assert.match(row, /\{fits \? null : \(\s*<span ref=\{hint\} className="arena-tabs__hint"/);
   assert.match(row, /const current = \(tab\) => isActive\(tab\.id\) \|\| \(tab\.within \|\| \[\]\)\.some/);
   const css = readFileSync(new URL('../../../../app/(app)/nav-places.css', import.meta.url), 'utf8');
   assert.match(css, /\.arena-tabs\[data-fit\] \.arena-tab \{[^}]*flex: 1 1 0/, 'equal widths');

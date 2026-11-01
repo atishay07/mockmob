@@ -39,7 +39,7 @@ export default function PlaceTabs({ group, hrefOf, isActive, count = 0, countLab
   const hint = useRef(null);
   const [edges, setEdges] = useState({ overflow: false, start: true, end: true });
   const tabs = group.tabs;
-  const fit = Boolean(group.fit);
+  const fits = Boolean(group.fit);
   const current = (tab) => isActive(tab.id) || (tab.within || []).some((id) => isActive(id));
 
   const measure = useCallback(() => {
@@ -53,7 +53,7 @@ export default function PlaceTabs({ group, hrefOf, isActive, count = 0, countLab
   // The peek, before paint and again whenever the row's width changes; then the current tab is brought into view.
   useLayoutEffect(() => {
     const el = row.current;
-    if (!el || fit) return undefined;
+    if (!el || fits) return undefined;
     let width = -1;
     const fit = () => {
       if (Math.abs(el.clientWidth - width) < 1) return;
@@ -73,7 +73,7 @@ export default function PlaceTabs({ group, hrefOf, isActive, count = 0, countLab
     const resize = typeof ResizeObserver === 'function' ? new ResizeObserver(fit) : null;
     resize?.observe(el);
     return () => resize?.disconnect();
-  }, [group.id, tabs.length, count, measure, fit]);
+  }, [group.id, tabs.length, count, measure, fits]);
 
   // The current tab is in view on arrival (Saved sits past the edge at 390 px), with no movement. The Revise count arrives a moment
   // after the page and widens "Your papers", so the row is placed again when the count lands (the peek above is refitted then too);
@@ -113,7 +113,7 @@ export default function PlaceTabs({ group, hrefOf, isActive, count = 0, countLab
   // The nudge: once per device, after the page has landed, only while tabs wait past the right edge and the row is untouched.
   useEffect(() => {
     const el = row.current;
-    if (!el || fit || seen() || reducedMotion()) return undefined;
+    if (!el || fits || seen() || reducedMotion()) return undefined;
     let runs = [];
     let done = false;
     const timer = window.setTimeout(() => {
@@ -143,10 +143,10 @@ export default function PlaceTabs({ group, hrefOf, isActive, count = 0, countLab
       el.removeEventListener('touchstart', stop);
       el.removeEventListener('scroll', stop);
     };
-  }, [group.id, fit]);
+  }, [group.id, fits]);
 
   return (
-    <nav className="arena-tabs" aria-label={group.label} data-place={group.id} data-fit={fit || undefined}
+    <nav className="arena-tabs" aria-label={group.label} data-place={group.id} data-fit={fits || undefined}
       data-overflow={edges.overflow || undefined} data-at-start={edges.start || undefined} data-at-end={edges.end || undefined}>
       <div className="arena-tabs__row" ref={row}>
         {tabs.map((tab) => {
@@ -156,14 +156,14 @@ export default function PlaceTabs({ group, hrefOf, isActive, count = 0, countLab
             <Link key={tab.id} href={hrefOf(tab)} className="arena-tab" aria-current={here ? 'page' : undefined}
               aria-label={badge ? countLabel?.(tab) : tab.short ? tab.label : undefined} onClick={onNavigate}>
               <span>{tab.short || tab.label}</span>
-              {badge ? (fit ? <i className="arena-tab__dot" aria-hidden="true" /> : <i className="arena-tab__count" aria-hidden="true">{dueTabBadge(badge)}</i>) : null}
+              {badge ? (fits ? <i className="arena-tab__dot" aria-hidden="true" /> : <i className="arena-tab__count" aria-hidden="true">{dueTabBadge(badge)}</i>) : null}
             </Link>
           );
         })}
       </div>
       {/* The chevron hint is a picture, never a target (R11 G27): a tap on the cut tab under it opens that tab. A finger
           swipes the row; keyboard users tab through the tabs themselves. */}
-      {fit ? null : (
+      {fits ? null : (
         <span ref={hint} className="arena-tabs__hint" aria-hidden="true">
           <span className="arena-tabs__disc"><ChevronRight size={18} strokeWidth={2.2} aria-hidden="true" /></span>
         </span>
