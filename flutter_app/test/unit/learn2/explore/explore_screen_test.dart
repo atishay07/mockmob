@@ -16,6 +16,19 @@ import 'package:mockmob/features/learn2/explore/explore_copy.dart';
 import '../../../helpers/fonts.dart';
 import 'explore_support.dart';
 
+/// A phone whose kept values come back only when [gate] completes.
+class _SlowPrefs extends MemoryPrefsStore {
+  _SlowPrefs(this.gate);
+
+  final Future<void> gate;
+
+  @override
+  Future<int?> getInt(String key) async {
+    await gate;
+    return super.getInt(key);
+  }
+}
+
 final _next = find.byWidgetPredicate((w) => w is MmPressable && w.semanticsLabel == ExploreCopy.next);
 final _previous = find.byWidgetPredicate((w) => w is MmPressable && w.semanticsLabel == ExploreCopy.previous);
 
@@ -73,6 +86,18 @@ void main() {
       await settleExplore(tester);
       expect(prefs.values[LearnPrefs.feedMinutesKey], 5);
       expect(find.text('Play 5 minutes'), findsWidgets);
+    });
+
+    testWidgets('waits for the kept length before it draws the control, so it never opens on 10 and slides to 20', (tester) async {
+      final gate = Completer<void>();
+      final prefs = _SlowPrefs(gate.future)..values[LearnPrefs.feedMinutesKey] = 20;
+      await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro), prefs: prefs));
+      expect(find.byType(MmSegmented<int>), findsNothing);
+      expect(find.text('Chapter feeds'), findsOneWidget);
+      gate.complete();
+      await settleExplore(tester);
+      expect(tester.widget<MmSegmented<int>>(find.byType(MmSegmented<int>)).value, 20);
+      expect(find.text('Play 20 minutes'), findsWidgets);
     });
 
     testWidgets('a length that was never picked is 10', (tester) async {
@@ -565,6 +590,27 @@ void main() {
         await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
         await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
         await expectLater(tester, meetsGuideline(textContrastGuideline));
+        handle.dispose();
+      });
+    }
+
+    for (final brightness in [Brightness.dark, Brightness.light]) {
+      final tag = brightness == Brightness.dark ? 'night' : 'day';
+      testWidgets('the error line with Try again, $tag', (tester) async {
+        final handle = tester.ensureSemantics();
+        final api = CoversApi.of(CoversFixture.pro, fail: const LearnError(kind: LearnErrorKind.error, status: 500));
+        await pumpExplore(tester, exploreOverrides(api), brightness: brightness);
+        await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
+        await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+        await expectLater(tester, meetsGuideline(textContrastGuideline));
+        handle.dispose();
+      });
+
+      testWidgets('while the covers load, $tag', (tester) async {
+        final handle = tester.ensureSemantics();
+        await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro, hold: Completer<void>())), brightness: brightness);
+        await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
+        await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
         handle.dispose();
       });
     }

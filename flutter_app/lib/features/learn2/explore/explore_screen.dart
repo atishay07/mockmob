@@ -25,6 +25,7 @@ import '../../practice/data/practice_catalog.dart';
 import '../../practice/data/practice_prefs.dart' show storedSubjectId;
 import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
 import '../../today/logic/subjects.dart' show canonicalSubject;
+import '../data/learn_prefs.dart' show learnPrefsProvider;
 import '../data/learn_providers.dart';
 import '../learn2_links.dart';
 import 'cover_card.dart';
@@ -49,9 +50,16 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
   /// The subject a link named, shown until the student picks another.
   String? _linked;
 
+  /// The length kept on this phone has been read: until then the control waits, so it never opens on 10 and slides to the
+  /// 20 the student chose last time.
+  bool _lengthRead = false;
+
   @override
   void initState() {
     super.initState();
+    unawaited(ref.read(learnPrefsProvider).feedMinutes().whenComplete(() {
+      if (mounted) setState(() => _lengthRead = true);
+    }));
     final want = widget.subject?.trim();
     if (want != null && storedSubjectId.hasMatch(want)) {
       final linked = _linked = canonicalSubject(want);
@@ -166,7 +174,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                           ],
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-                            child: _FeedsHead(count: ready ? data!.covers.length : null, minutes: minutes, onMinutes: _pickLength),
+                            child: _FeedsHead(count: ready ? data!.covers.length : null, minutes: minutes, onMinutes: _pickLength, lengthRead: _lengthRead),
                           ),
                           if (phase == _Phase.loading || ready)
                             Padding(
@@ -211,12 +219,15 @@ TextStyle _heading(BuildContext context) => context.mmType.title.copyWith(fontSi
 /// "Chapter feeds" with its count under it, and the length control: on one row where they fit (the web's row), else the
 /// control under the heading at the row's width with its words spelled out.
 class _FeedsHead extends StatelessWidget {
-  const _FeedsHead({required this.count, required this.minutes, required this.onMinutes});
+  const _FeedsHead({required this.count, required this.minutes, required this.onMinutes, required this.lengthRead});
 
   /// The number of covers, once they are in.
   final int? count;
   final int minutes;
   final ValueChanged<int> onMinutes;
+
+  /// False until the length kept on this phone is known: the control's place is kept, its words are not drawn yet.
+  final bool lengthRead;
 
   /// The row is wide enough to spell "5 min" and "10 min" out from here (the web's 420 dp row).
   static const double wideRow = 420;
@@ -244,13 +255,9 @@ class _FeedsHead extends StatelessWidget {
       final segments = <MmSegment<int>>[
         for (var i = 0; i < CoverModel.lengths.length; i++) MmSegment<int>(CoverModel.lengths[i], labels[i]),
       ];
-      final bar = MmSegmented<int>(
-        segments: segments,
-        value: minutes,
-        onChanged: onMinutes,
-        semanticsLabel: ExploreCopy.lengthLabel,
-        showBubbles: false,
-      );
+      final bar = lengthRead
+          ? MmSegmented<int>(segments: segments, value: minutes, onChanged: onMinutes, semanticsLabel: ExploreCopy.lengthLabel, showBubbles: false)
+          : const SizedBox(height: MmSegmented.height);
       return at == null ? bar : SizedBox(width: at, child: bar);
     }
 
