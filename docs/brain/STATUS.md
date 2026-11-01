@@ -1,3 +1,19 @@
+## 2 Nov 2026, about 6:45 am IST: Key cards +911 to production (owner LK34): wording recovery, English top-up, Accountancy thin chapters
+
+**What shipped (14,801 cards, from 13,890):**
+- **Recovery round:** 778 cards were held back only for front wording (a front opening with It/This/These, a front over 140 characters, a back that is not the quote). Fixers re-cut them under ncert-books/FIX-BRIEF-2026-10-31.md, and an independent reviewer judged every edited or new card. Published gain: Chemistry +97, Geography +76, History +79, Mathematics +30, Physics +112, Psychology +52, Sociology +119.
+- **English:** 350 to 650. 322 new authored cards (word, idiom, one-word substitution, commonly confused words, grammar rules); 300 passed review.
+- **Accountancy:** 866 to 912. 80 new NCERT cards for Change in Profit Sharing Ratio, Retirement & Death, Analysis of Financial Statements and Comparative & Common Size Statements; 46 passed.
+- **Safety:** no published card was removed or changed (deck-by-deck comparison with HEAD). handoff-1102/check-drafts-1102.mjs confirmed that the fixers touched only their fix-list cards. merge-reviews3-1102.mjs removes the old verdict of any card edited in place without a fresh one; there were none.
+- **Tiers:** 3,659 of 14,801 cards are Must-know. learn_preview now pins Accountancy at 912 cards and 235 Must-know.
+
+**Verified:**
+- Suites: keycards 82, learn 381, keycards-ui 40, today 146, app 984, learning 357, recovery 637, subjects 62, syllabus 24, auth 141, egress 101, health-egress 56, dock 55, billing 453, du 42, community 11. All pass, with 0 failures.
+- `eslint .` is clean, and `next build --webpack` exits 0.
+- Looked at in the local preview: recovered History, Physics and Sociology cards (390 Night); English word and usage cards and the new Accountancy definition (390 Day); the Change in Profit Sharing Ratio card list (11 cards, new ones in their sections); English Vocabulary (523 cards, new idioms in place). No console errors.
+
+**Rollback:** the previous production deployment (main feb30935e).
+
 ## 2 Nov 2026, about 5:30 am IST: Key cards for Computer Science to production (owner LK34); a blank keeps its punctuation on its line
 
 **What shipped:**
