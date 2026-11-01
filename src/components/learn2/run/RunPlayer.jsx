@@ -16,7 +16,7 @@ import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { LoaderCircle } from 'lucide-react';
+import { LoaderCircle, X } from 'lucide-react';
 import { ReportForm } from '@/components/keycards/KeyCard';
 import { RATINGS } from '@/components/keycards/kinds';
 import { openUpgrade } from '@/components/pro/proNudgeStore';
@@ -25,7 +25,8 @@ import { answerItem, getRun, isQuestionSkipped, isRunClosed, isSessionUsed, rate
 import { isChapterMissing, partShort } from '../chapter/chapterModel.mjs';
 import { useLearnLinks } from '../links';
 import RunEnd from './RunEnd';
-import { BelowChip, StopSheet, goToOptions, scrollToRow, watchBelow, watchMore } from '../stage';
+import { BelowChip, EndKey, EndScreen, StopSheet, goToOptions, scrollToStemEnd, watchBelow, watchMore } from '../stage';
+import FreeUsed from '../stage/FreeUsed';
 import { CardItem, LessonItem, QuestionItem, SaveKey, SessionPanel, TopBar } from './RunParts';
 import { FLIGHT, minutesLeftLine, upNextLine } from './runMath';
 import { answerTally, itemsFinished, placeReinsert, positionWords, runPiles } from './runView.mjs';
@@ -209,10 +210,11 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const isRecap = run?.kind === 'recap' || params.kind === 'recap';
   const closeHref = links.chapter(params.chapterKey || run?.chapter?.key, params.minutes);
 
-  const loadEnd = useCallback(async (id) => {
+  const loadEnd = useCallback(async (id, { stop = false } = {}) => {
     setPhase('end');
     setEnd({ status: 'loading', data: null });
-    try { setEnd({ status: 'ready', data: await runEnd(id) }); } catch (e) { setEnd({ status: 'error', data: null, error: e }); }
+    // A stop part way keeps the run open on the server, so it can be picked up today (R2 ruling 6).
+    try { setEnd({ status: 'ready', data: await runEnd(id, { stop }) }); } catch (e) { setEnd({ status: 'error', data: null, error: e }); }
   }, []);
 
   const begin = useCallback(async (p) => {
@@ -270,8 +272,11 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const firstCard = items.findIndex((x) => x.type === 'card' && !x.look);
   const firstQuestion = items.findIndex((x) => x.type === 'question');
   const onFirstCard = phase === 'play' && !isRecap && offset === 0 && at === firstCard;
-  const coachFront = useCoach('front', onFirstCard && !isTurned);
-  const coachRate = useCoach('rate', onFirstCard && isTurned);
+  const coachFront = useCoach('front2', onFirstCard && !isTurned);
+  // "Got it: it comes back when it's due." on the first two cards of the first run, then never (R2 screens 20).
+  const cardPlace = items.slice(0, at + 1).filter((x) => x.type === 'card' && !x.look).length;
+  const onEarlyCard = phase === 'play' && !isRecap && offset === 0 && item?.type === 'card' && !item.look && cardPlace <= 2;
+  const coachRate = useCoach(cardPlace === 2 ? 'rate2b' : 'rate2', onEarlyCard && isTurned);
   const coachPick = useCoach('pick', phase === 'play' && offset === 0 && at === firstQuestion && !answered);
   const coachRecap = useCoach('recap', phase === 'play' && isRecap);
 
@@ -300,7 +305,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
     setSheet(false);
     if (isRecap) { setPhase('recapEnd'); return; }
     setStoppedAt(stopAt);
-    if (run?.id) loadEnd(run.id);
+    if (run?.id) loadEnd(run.id, { stop: stopAt !== null });
   }, [isRecap, run, loadEnd]);
 
   // The list as last rendered: an advance that follows an await sees a card re-inserted meanwhile.
@@ -338,8 +343,8 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   useEffect(() => {
     if (!answerState?.result || answerState.result.correct) return undefined;
     const t = setTimeout(() => {
-      const row = document.querySelector('.lr-q .lr-opt[aria-pressed="true"]') || document.querySelector('.lr-q .lr-line');
-      scrollToRow(row, isMotionReduced() ? 'auto' : 'smooth');
+      // R2 screens 6: the stem's last line stays in view (56 px under the top), with the pick, the verdict and the line under it.
+      scrollToStemEnd(document.querySelector('.lr-q .lr-stemwrap'), isMotionReduced() ? 'auto' : 'smooth');
     }, 300);
     return () => clearTimeout(t);
   }, [answerState?.result]);
@@ -549,8 +554,8 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const status = error ? { text: error, tone: 'bad' }
     : note ? { text: note }
       : stamp ? { text: stamp.text, stamp: true, key: stamp.n }
-        : coachFront && item?.type === 'card' && !isTurned ? { text: 'Say the answer in your head, then show it.' }
-          : coachRate && item?.type === 'card' && isTurned && !look ? { text: 'Got it sends the card to Revise. It comes back when it is due.' }
+        : coachFront && item?.type === 'card' && !isTurned ? { text: 'Tap the card to turn it', cue: true }
+          : coachRate && item?.type === 'card' && isTurned && !look ? { text: 'Got it: it comes back when it\u2019s due.' }
             : coachPick && item?.type === 'question' && !answered ? { text: 'Tap the answer you think is right.' }
               : coachRecap ? { text: 'Answers are showing. Nothing is scheduled.' }
                 : look && isTurned && lookLine && item?.look ? { text: lookLine } : null;
@@ -568,7 +573,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
     const missing = isChapterMissing(load.error);
     const used = isSessionUsed(load.error);
     return frame(
-      <div className="lr-body"><div className="lr-state" role="alert">
+      <div className="lr-body"><div className={`lr-state${used ? ' lr-state--free' : ''}`} role="alert">
         {missing ? (
           <>
             <h1 className="lr-state__title">This chapter is not in your book list.</h1>
@@ -576,12 +581,8 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
           </>
         ) : used ? (
           <>
-            <h1 className="lr-state__title">{String(load.error.data?.line || '').split('. ')[0] || 'Your free Learn session for today is done'}.</h1>
-            <p>{String(load.error.data?.line || '').split('. ').slice(1).join('. ')}</p>
-            <div className="lr-state__keys">
-              <Link className="kc-btn kc-btn--line" href={closeHref}>Back to the chapter</Link>
-              <button type="button" className="lr-textkey" onClick={(e) => openUpgrade({ trigger: 'learn', opener: e.currentTarget })}>See Pro</button>
-            </div>
+            <div className="st-endx__top"><Link href={closeHref} className="lr-close lr-close--end" aria-label="Close"><X size={22} strokeWidth={2.2} aria-hidden="true" /><span className="lr-close__word">Close</span></Link></div>
+            <FreeUsed data={load.error.data || {}} links={links} chapterKey={params.chapterKey} />
           </>
         ) : (
           <>
@@ -610,7 +611,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
     return frame(
       <div className="lr-body lr-body--end">
         <RunEnd state={end} tally={tally} kind={run.kind} chapter={chapter} refLine={refLine} closeHref={closeHref} links={links}
-          stoppedAt={stoppedAt} total={total} onRetry={() => loadEnd(run.id)} />
+          stoppedAt={stoppedAt} total={total} onRetry={() => loadEnd(run.id, { stop: stoppedAt !== null })} />
       </div>,
     );
   }
@@ -619,21 +620,10 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
     const ids = [...new Set(items.map((x) => x.card?.id).filter(Boolean))];
     return frame(
       <div className="lr-body lr-body--end">
-        <section className="lr-endform lr-recapend" aria-labelledby="lr-recapend-h">
-          <div className="lr-endform__left">
-            <p className="lr-endform__lead">Quick recap of</p>
-            <h1 id="lr-recapend-h" className="lr-endform__name" tabIndex={-1}>{chapter.title || 'this chapter'}</h1>
-            <dl className="lr-lines">
-              <div><dt>Must-know</dt><dd>That was all {ids.length} Must-know {ids.length === 1 ? 'line' : 'lines'}.</dd></div>
-              <div><dt>Revise</dt><dd>Nothing was scheduled.</dd></div>
-            </dl>
-          </div>
-          <div className="lr-endform__right">
-            <button type="button" className="kc-btn kc-btn--volt lr-lead__key" data-page-primary="" onClick={() => setParams({ chapterKey: params.chapterKey || chapter.key, cardIds: ids, minutes: Math.max(5, Math.ceil((ids.length * 15 * 1.1) / 60)), leaveOut: [], kind: 'cards' })}>Study these {ids.length}</button>
-            <button type="button" className="kc-btn kc-btn--line lr-endform__key" onClick={() => { setAt(0); setPhase('play'); }}>Quick recap again</button>
-            <Link className="lr-textkey lr-endform__back" href={closeHref}>Back to the chapter</Link>
-          </div>
-        </section>
+        <EndScreen close={<Link href={closeHref} className="lr-close lr-close--end" aria-label="Close"><X size={22} strokeWidth={2.2} aria-hidden="true" /><span className="lr-close__word">Close</span></Link>}
+          chapter={chapter.title || null} headline={`That was all ${ids.length} Must-know ${ids.length === 1 ? 'line' : 'lines'}`} mobi="nod"
+          main={<EndKey onClick={() => setParams({ chapterKey: params.chapterKey || chapter.key, cardIds: ids, minutes: Math.max(5, Math.ceil((ids.length * 15 * 1.1) / 60)), leaveOut: [], kind: 'cards' })}>{`Study these ${ids.length}`}</EndKey>}
+          quiet={<button type="button" className="lr-textkey" onClick={() => { setAt(0); setPhase('play'); }}>Quick recap again</button>} />
       </div>,
     );
   }
@@ -715,12 +705,6 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   })();
 
   const recapCard = isRecap && item.type === 'card';
-  const asked = tally.right + tally.wrong;
-  const toRevise = tally.got + tally.easy;
-  const stopDetail = [
-    asked ? `${tally.right} of ${asked} ${asked === 1 ? 'question' : 'questions'} right.` : null,
-    toRevise ? `${toRevise} sent to Revise.` : null,
-  ].filter(Boolean).join(' ') || null;
   return frame(
     <>
       <TopBar title={chapter.title} position={position} total={total} done={finished} current={at} offset={offset} left={left} pile={pile} pop={pop}
@@ -749,7 +733,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
               {optBelow && item.type === 'question' && !answered ? <BelowChip show onClick={() => goToOptions(document.querySelector('.lr-q .lr-opt'))} /> : null}
               <div className="lr-bar__in" data-keys={item.type === 'card' && isTurned && !look && !isRecap ? 'rate' : item.type}>
                 {keys}
-                <p className="lr-status" data-tone={status?.tone} data-stamp={status?.stamp || undefined} role={status?.tone === 'bad' ? 'alert' : undefined}>
+                <p className="lr-status" data-tone={status?.tone} data-stamp={status?.stamp || undefined} data-cue={status?.cue || undefined} role={status?.tone === 'bad' ? 'alert' : undefined}>
                   {status ? <span key={status.key || status.text}>{status.text}</span> : null}
                 </p>
               </div>
@@ -760,7 +744,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
           </div>
         </div>
       </div>
-      {sheet ? <StopSheet done={doneCount} of={total} detail={stopDetail} onEnd={() => finish(doneCount)} onKeepGoing={() => setSheet(false)} onLeave={() => router.push(closeHref)} /> : null}
+      {sheet ? <StopSheet done={doneCount} of={total} onEnd={() => finish(doneCount)} onKeepGoing={() => setSheet(false)} /> : null}
     </>,
   );
 }

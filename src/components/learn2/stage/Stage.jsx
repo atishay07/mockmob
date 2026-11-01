@@ -104,6 +104,22 @@ export function scrollToRow(row, behavior = 'auto') {
   box.scrollTo({ top: Math.max(0, top), behavior });
 }
 
+/**
+ * After a wrong pick (R2 screens 6): scroll the nearest box so the stem's last line stays in view, 56 px under the box's top,
+ * and the verdict and the line you needed come up under it. Never scrolls up.
+ */
+export function scrollToStemEnd(stem, behavior = 'auto') {
+  let box = stem?.parentElement;
+  while (box && box !== document.body) {
+    const oy = getComputedStyle(box).overflowY;
+    if ((oy === 'auto' || oy === 'scroll') && box.scrollHeight > box.clientHeight + 1) break;
+    box = box.parentElement;
+  }
+  if (!stem || !box || box === document.body) return;
+  const top = box.scrollTop + stem.getBoundingClientRect().bottom - box.getBoundingClientRect().top - 56;
+  if (top > box.scrollTop) box.scrollTo({ top, behavior });
+}
+
 /** Option A to the top of its scroll box (smooth unless motion is reduced). */
 export const goToOptions = (a) => { try { scrollToRow(a, still() ? 'auto' : 'smooth'); } catch { /* old browser */ } };
 

@@ -10,7 +10,7 @@ import MobiReact from '@/components/brand/MobiReact';
 import { CardHead, InShort, NcertText, Prompt } from '@/components/keycards/KeyCard';
 import { cardFace, isNcert, sourceLine } from '@/components/keycards/kinds';
 import { ncertFont } from '@/components/keycards/ncertFont';
-import { Stem } from '../stage';
+import { ClampLine, Stem } from '../stage';
 import { firstLine, optionText } from './runMath';
 import { frontStep, rightLine, stageTag } from './runView.mjs';
 
@@ -52,7 +52,21 @@ export function Ticks({ total, done, current, offset = 0 }) {
 
 // ---------------------------------------------------------------- the top bar (phone and tablet; on desktop Close and the ticks)
 
+/**
+ * The phone's one row (R2 screens 13): X, the ticks, "5 of 20", the Revise pile with its count. The chapter and the time left
+ * show from 768 px. The first time the pile goes from 0 to 1 a 1.6 s tip names it: "Sent to Revise".
+ */
 export function TopBar({ title, position, total, done, current, offset, left, pile, pop, pileRef, onClose, closeHref, showPile = true }) {
+  const [tip, setTip] = useState(false);
+  const was = useRef(pile);
+  useEffect(() => {
+    const before = was.current;
+    was.current = pile;
+    if (!(before === 0 && pile === 1)) return undefined;
+    setTip(true);
+    const t = setTimeout(() => setTip(false), 1600);
+    return () => clearTimeout(t);
+  }, [pile]);
   return (
     <header className="lr-top">
       <Link href={closeHref} className="lr-close" aria-label="Close" onClick={onClose}>
@@ -60,12 +74,13 @@ export function TopBar({ title, position, total, done, current, offset, left, pi
       </Link>
       <p className="lr-top__title">{title}</p>
       {showPile ? (
-        <p className="lr-top__pile" aria-label={`In Revise ${pile}`}>
+        <p className="lr-top__pile" aria-label={pile ? `${pile} sent to Revise` : 'Revise'}>
           <PileGlyph pileRef={pileRef} />
-          <b key={pop} data-pop={pop ? '' : undefined} data-zero={pile ? undefined : ''}>{pile}</b>
+          <b key={pop} data-pop={pop ? '' : undefined} data-zero={pile ? undefined : ''}>{pile || ''}</b>
+          {tip ? <span className="lr-top__tip" role="status">Sent to Revise</span> : null}
         </p>
       ) : <span className="lr-top__pile" />}
-      <p className="lr-top__pos">{position ? <><b>{position}</b> of {total}</> : null}</p>
+      <p className="lr-top__pos" aria-label={position ? `${position} of ${total}` : undefined}>{position ? <><b>{position}</b> of {total}</> : null}</p>
       <div className="lr-top__ticks"><Ticks total={total - offset} done={done} current={current} offset={offset} /></div>
       <p className="lr-top__left">{left || ''}</p>
     </header>
@@ -107,7 +122,7 @@ export function SessionPanel({ chapter, refLine, position, total, left, upNext, 
               </li>
             ))}
           </ul>
-          <div className="lr-panel__revise">
+          <div className="lr-panel__revise" data-zero={pile ? undefined : ''}>
             <PileGlyph size="big" pileRef={pileRef} />
             <div>
               <p className="lr-panel__rl">In Revise</p>
@@ -211,7 +226,7 @@ function LinePanel({ line, back }) {
         <h3 className="lr-line__title">The line you needed</h3>
         <span className="lr-line__kind">{cardFace(line).label}</span>
       </div>
-      <NcertText card={line} className="lr-ncert lr-ncert--line" />
+      <ClampLine><NcertText card={line} className="lr-ncert lr-ncert--line" /></ClampLine>
       {sourceText(line) ? <p className="lr-src">{sourceText(line)}</p> : null}
       {back ? <p className="lr-line__back">You&apos;ll see this card again later in this run.</p> : null}
     </section>
@@ -265,7 +280,7 @@ export function QuestionItem({ item, state, streak, cardRef, onPick, onSeePro, p
           {fixedText ? <FixedVerdict text={fixedText} /> : result.correct ? (
             <p className="lr-verdict__line"><Check size={18} strokeWidth={2.6} aria-hidden="true" /><span><b>{rightLine(streak)}</b>{firstLine(explanation) ? ` ${firstLine(explanation)}` : ''}</span></p>
           ) : (
-            <p className="lr-verdict__line"><X size={18} strokeWidth={2.6} aria-hidden="true" /><span><b>Not quite. The answer is {result.key}.</b></span></p>
+            <p className="lr-verdict__line"><X size={18} strokeWidth={2.6} aria-hidden="true" /><span><b>Not quite. It&rsquo;s {result.key}.</b></span></p>
           )}
           {!result.correct && locked ? (
             <p className="lr-locked">{locked} <button type="button" className="lr-textkey" onClick={onSeePro}>See Pro</button></p>

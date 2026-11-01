@@ -13,14 +13,17 @@ test('questions count plain questions only; old mistakes have their own numbers 
   assert.deepEqual(feedNumbers(items, states), { answered: 2, right: 1, mistakes: 1, fixed: 1, kept: 1, seen: 2 });
 });
 
-test('the checkpoint: right of answered, else cards seen and kept; the line only names keeping when something was kept', () => {
+test('the checkpoint: one headline that never leads with a zero, and one line (R2 screens 12)', () => {
   const a = checkpointText({ answered: 3, right: 2, seen: 5, kept: 2 }, { done: 8, of: 21, seconds: 330 });
   assert.equal(a.big, '2 of 3 right');
-  assert.equal(a.status, '8 of 21 done. About 6 min left.');
-  assert.match(a.line, /already in Revise/);
+  assert.equal(a.status, '8 of 21 done, about 6 min left.');
+  assert.equal(a.line, null);
   const b = checkpointText({ answered: 0, right: 0, seen: 6, kept: 0 }, { done: 8, of: 21, seconds: 0 });
-  assert.equal(b.big, '6 cards seen, 0 kept');
-  assert.equal(b.line, 'Keep going, or end here.');
+  assert.equal(b.big, '6 cards seen');
+  assert.equal(b.status, '8 of 21 done.');
+  assert.equal(checkpointText({ answered: 2, right: 0 }, { done: 4, of: 9, seconds: 0 }).big, '2 questions tried');
+  assert.equal(checkpointText({ answered: 0, seen: 3, kept: 1 }, { done: 4, of: 9, seconds: 0 }).big, '1 for Revise');
+  for (const x of [a, b]) assert.doesNotMatch(`${x.big} ${x.status}`, /(^|\s)0 /);
 });
 
 test('Up next names the next slot', () => {

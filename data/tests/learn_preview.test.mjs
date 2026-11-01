@@ -133,7 +133,8 @@ test('a run end to end: no keys before an answer, a fixed mistake, the line you 
   assert.ok(end.lines.every((l) => !l.text.endsWith('.')), 'no row ends with a full stop');
   assert.ok(end.revisePile.length >= 1);
   assert.ok(end.lead.run || end.lead.href);
-  assert.equal(end.options.length, 3);
+  // R2 ruling 5: one main key and at most one quiet link.
+  assert.equal(end.options.length, 1);
   // The fixed mistake is no longer open on the subject map.
   const subject = (await call('/api/learn/subject', { query: { subject: 'accountancy' } })).body;
   const pf = subject.parts.flatMap((p) => p.units.flatMap((u) => u.chapters)).find((r) => r.key === PF);

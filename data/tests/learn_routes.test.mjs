@@ -444,6 +444,25 @@ test('end: numbers, ended_at once, and Free after the claim leads with the line 
   assert.equal((await learn.end('u1', 'lr_nope')).http, 404);
 });
 
+test('R2 ruling 6: a run stopped part way stays open to pick up today; its end still reads, and a later full end closes it', async () => {
+  const { learn, tables } = setup({ isPro: true });
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'stop-0000001' })).body;
+  const first = run.items.find((i) => i.type === 'card');
+  await learn.rate('u1', run.id, { itemId: first.id, rating: 3 });
+  const stopped = await learn.end('u1', run.id, { stop: true });
+  assert.equal(stopped.http, 200);
+  assert.equal(stopped.body.stopped, true);
+  assert.equal(runOf(tables, run.id).ended_at ?? null, null, 'not ended');
+  assert.ok(stopped.body.options.length <= 1, 'one quiet key at most');
+  assert.ok(stopped.body.progress && stopped.body.progress.seen >= 1 && stopped.body.progress.before <= stopped.body.progress.seen);
+  const again = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'stop-0000002' })).body;
+  assert.equal(again.id, run.id, 'a start of the same chapter today picks it up');
+  assert.ok(again.resumed && again.resumed.done >= 1);
+  const ended = await learn.end('u1', run.id);
+  assert.equal(ended.body.stopped, false);
+  assert.ok(runOf(tables, run.id).ended_at, 'a full end closes it');
+});
+
 // ---------------------------------------------------------------- cards, shelves, search, covers
 
 test('cards: the four filters, the locked line on Free, and the subject-wide read equals the per-chapter reads', async () => {

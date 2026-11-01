@@ -5,6 +5,8 @@
 
 .lr.st.kc { display: flex; flex-direction: column; overflow: hidden; }
 .lr.kc {
+  /* R2 screens 18: a flat card surface (the grain stays), no tinted radial on top of the card. */
+  --kc-surface: var(--kc-grain), var(--a-raised);
   --lr-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --lr-flight: cubic-bezier(0.32, 0.72, 0, 1);
   --lr-top-h: 88px;
@@ -15,12 +17,15 @@
 .lr .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
 /* ---------- The top bar: phone and tablet (A4 3.3.2) ---------- */
+/* Phone: one row, 56 px (R2 screens 13): X, the ticks, "5 of 20", the Revise pile. The chapter and the time left from 768. */
 .lr-top {
   position: relative; z-index: 5; flex: none; display: grid; align-items: center;
-  grid-template-columns: 44px minmax(0, 1fr) auto auto; grid-template-rows: 44px 20px;
-  grid-template-areas: 'close title pile pos' 'ticks ticks ticks left';
-  column-gap: 10px; row-gap: 4px; width: 100%; margin-inline: auto; padding: max(8px, env(safe-area-inset-top)) 16px 10px; background: var(--a-bg);
+  grid-template-columns: 44px minmax(0, 1fr) auto auto; grid-template-rows: 48px;
+  grid-template-areas: 'close ticks pos pile';
+  column-gap: 12px; width: 100%; margin-inline: auto; padding: max(4px, env(safe-area-inset-top)) 16px 4px; background: var(--a-bg);
 }
+.lr-top .lr-top__title, .lr-top .lr-top__left { display: none; }
+.lr-top__tip { position: absolute; top: calc(100% + 2px); right: -6px; z-index: 6; padding: 6px 10px; border-radius: 9px; border: 1px solid var(--a-line-strong); background: var(--a-sheet, var(--a-raised)); box-shadow: var(--a-shadow-2); font: 600 12.5px/1 var(--font-body); color: var(--a-ink); white-space: nowrap; animation: lr-tip 1600ms var(--lr-ease) both; }
 .lr-close {
   grid-area: close; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 44px; min-height: 44px; margin-left: -10px;
   border-radius: 12px; color: var(--a-ink-2); font: 650 15px/1 var(--font-body); text-decoration: none;
@@ -39,7 +44,8 @@
 .lr-top__ticks { grid-area: ticks; display: flex; align-items: center; min-width: 0; height: 20px; }
 .lr-top__left { grid-area: left; min-width: 10ch; text-align: right; font: 500 12.5px/1 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
 @media (min-width: 768px) {
-  .lr-top { width: min(100%, 632px); }
+  .lr-top { width: min(100%, 632px); grid-template-rows: 44px 20px; grid-template-areas: 'close title pile pos' 'ticks ticks ticks left'; row-gap: 4px; column-gap: 10px; padding: max(8px, env(safe-area-inset-top)) 16px 10px; }
+  .lr-top .lr-top__title, .lr-top .lr-top__left { display: block; }
   .lr-close { margin-left: -10px; padding: 0 14px 0 10px; }
   .lr-close__word { display: inline; }
   .lr-top { grid-template-columns: auto minmax(0, 1fr) auto auto; }
@@ -71,10 +77,13 @@
 .lr-frame { display: flex; flex-direction: column; min-height: 100%; }
 .lr-panel, .lr-side { display: none; }
 .lr-stagecol { display: flex; flex-direction: column; flex: 1 1 auto; min-width: 0; }
-/* Phone: the item between the bars; a card centred with a slight upward bias, a question from the top (B7 F). */
-.lr-area { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; padding: 12px 16px calc(12px + 4dvh); min-width: 0; }
-.lr-area[data-type='question'] { justify-content: flex-start; padding-bottom: 24px; }
-.lr-enter { position: relative; animation: lr-rise 240ms var(--lr-ease) 60ms both; touch-action: pan-y; }
+/* Phone (R2 ruling 8, LK30): a card fills the height from the progress bar to the action row, its words at the top; a
+   question starts at the top and its keys (Skip) sit right under the last option. */
+.lr-area { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: flex-start; padding: 8px 16px 8px; min-width: 0; }
+.lr-area[data-type='question'], .lr-area[data-type='lesson'] { flex: 0 0 auto; padding-bottom: 8px; }
+.lr-area[data-type='question'] + .lr-bar { margin-top: 8px; }
+.lr-enter { position: relative; display: flex; flex-direction: column; flex: 1 1 auto; animation: lr-rise 240ms var(--lr-ease) 60ms both; touch-action: pan-y; }
+.lr-enter > .lr-card:not(.lr-card--lesson) { flex: 1 1 auto; }
 .lr-bar { position: sticky; bottom: 0; z-index: 4; flex: none; background: var(--a-bg); }
 .lr-bar::before { content: ''; position: absolute; left: 0; right: 0; bottom: 100%; height: 16px; background: linear-gradient(to bottom, transparent, var(--a-bg)); pointer-events: none; }
 .lr-bar__in { display: grid; gap: 6px; padding: 10px 16px max(12px, env(safe-area-inset-bottom)); }
@@ -86,6 +95,8 @@
   .lr-frame { width: min(100% - 32px, 600px); margin-inline: auto; justify-content: flex-start; padding: max(16px, calc((100dvh - var(--lr-top-h) - clamp(300px, 46dvh, 380px) - 120px) / 2)) 0 24px; }
   .lr-stagecol { flex: none; }
   .lr-area { flex: none; padding: 0; max-height: calc(100dvh - var(--lr-top-h) - var(--lr-bar-h) - 56px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+  .lr-enter { flex: none; }
+  .lr-area[data-type='question'] + .lr-bar { margin-top: 0; }
   .lr-area[data-type='question'] { padding: 4px 2px 8px; }
   .lr-bar { position: relative; background: transparent; }
   .lr-bar::before { content: none; }
@@ -103,7 +114,7 @@
   .lr-close { justify-self: start; }
   .lr-frame {
     display: grid; width: auto; grid-template-columns: 240px 640px 72px; column-gap: 40px; justify-content: center; align-content: start; align-items: start;
-    padding: max(24px, calc((100vh - 64px - clamp(300px, 40vh, 360px) - 140px) / 2)) 0 32px; min-height: 100%;
+    padding: 56px 0 32px; min-height: 100%;
   }
   .lr-panel, .lr-side { display: flex; }
   .lr-area { max-height: calc(100vh - 64px - var(--lr-bar-h) - 72px); }
@@ -122,6 +133,7 @@
 .lr-panel__must { font: 600 14px/1.4 var(--font-body); color: var(--a-ink-2); }
 .lr-panel__piles { list-style: none; margin: 0; padding: 0 0 14px; display: grid; border-bottom: 1px solid var(--a-line); }
 .lr-panel__piles li { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; align-items: center; column-gap: 10px; min-height: 36px; }
+.lr-panel__pv:empty { display: none; }
 .lr-panel__pl { font: 600 14px/1.25 var(--font-body); color: var(--a-ink-2); }
 .lr-panel__pv { font: 600 14px/1 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
 .lr-panel__piles li[data-current] :is(.lr-panel__pl, .lr-panel__pv) { color: var(--a-ink); font-weight: 700; }
@@ -135,7 +147,9 @@
 .lr-mini i[data-top] s { position: absolute; left: 4px; bottom: 3px; width: 3px; height: 3px; border-radius: 50%; border: 1px solid var(--a-ink-3); opacity: 0.7; box-shadow: 5px 0 0 -1px var(--a-ink-3); }
 .lr-mini[data-kind='mistakes'] i[data-top] { border-left: 2px solid color-mix(in oklab, var(--a-bad-text) 70%, transparent); }
 .lr-mini[data-kind='lesson'] i[data-top] { border-left: 3px solid var(--a-line-strong); }
-.lr-panel__revise { display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 12px; align-items: center; }
+.lr-panel__revise { display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 12px; align-items: center; transition: opacity 220ms var(--lr-ease); }
+/* R2 screens 10: In Revise shows from 1 (it stays laid out, so the first card still has a pile to fly to). */
+.lr-panel__revise[data-zero] { visibility: hidden; opacity: 0; }
 .lr-panel__rl { font: 500 13px/1.3 var(--font-body); color: var(--a-ink-2); }
 .lr-panel__rn b { display: inline-block; font: 800 24px/1.1 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .lr-panel__stamp { min-height: 18px; font: 700 13px/1.4 var(--font-body); color: var(--a-ink-2); opacity: 0; transition: opacity 200ms var(--lr-ease); }
@@ -174,7 +188,8 @@
 @media (min-width: 1200px) { .lr-rail--bar { display: none; } }
 
 /* ---------- The Key card: fits its content, both faces in one cell (A4 3.3.6, B1, B7) ---------- */
-.lr-card { position: relative; display: grid; min-height: clamp(300px, 46dvh, 380px); perspective: 1200px; cursor: default; will-change: transform; }
+.lr-card { position: relative; display: grid; min-height: 420px; perspective: 1200px; cursor: default; will-change: transform; }
+.lr-card--lesson { min-height: clamp(300px, 46dvh, 380px); }
 .lr-card:not([data-turned]):not(.lr-card--lesson) { cursor: pointer; }
 .lr-card__in { position: relative; display: grid; transform-style: preserve-3d; transition: transform 340ms var(--lr-flight); }
 .lr-card[data-turned] .lr-card__in { transform: rotateY(180deg); }
@@ -188,7 +203,7 @@
 .lr-face .kc-head { min-height: 28px; align-items: center; }
 .lr-stage-tag { margin-left: auto; font: 600 12.5px/1.2 var(--font-body); color: var(--a-ink-3); }
 .lr .kc-tag { min-height: 0; padding: 0; border: 0; border-radius: 0; background: none; color: var(--a-accent-text); font-weight: 700; }
-.lr-face__body { display: flex; flex-direction: column; justify-content: center; min-width: 0; padding-bottom: 8%; }
+.lr-face__body { display: flex; flex-direction: column; justify-content: flex-start; min-width: 0; padding-top: 14px; }
 .lr-front {
   margin: 0; max-width: 22ch; font: 650 34px/1.12 var(--font-display); letter-spacing: -0.025em; color: var(--a-ink); text-wrap: balance; overflow-wrap: anywhere;
 }
@@ -215,6 +230,7 @@
 .lr-report { margin-top: 12px; }
 @media (min-width: 768px) {
   .lr-card { min-height: clamp(300px, 46dvh, 380px); perspective: 1600px; }
+  .lr-face__body { justify-content: center; padding: 0 0 8%; }
   .lr-face { padding: 26px 28px 22px; }
   .lr-front { font-size: 40px; }
   .lr-card[data-size='m'] .lr-front { font-size: 32px; }
@@ -222,7 +238,7 @@
   .lr-ncert.kc-ncert { font-size: 19px; }
 }
 @media (min-width: 1200px) {
-  .lr-card { min-height: clamp(300px, 40vh, 360px); }
+  .lr-card { min-height: 440px; }
   .lr-face { padding: 32px 36px 28px; }
   .lr-front { font-size: 44px; letter-spacing: -0.03em; }
   .lr-card[data-size='m'] .lr-front { font-size: 36px; letter-spacing: -0.025em; }
@@ -328,6 +344,7 @@
 .lr-status { min-height: 20px; display: flex; align-items: center; justify-content: center; text-align: center; font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-2); text-wrap: balance; }
 .lr-status > span { animation: lr-fade 160ms var(--lr-ease) both; }
 .lr-status[data-tone='bad'] { color: var(--a-bad-text); font-weight: 600; }
+.lr-status[data-cue] { color: var(--a-ink); font-weight: 600; }
 .lr-status[data-stamp] > span {
   display: inline-flex; align-items: center; min-height: 24px; padding: 0 10px; border-radius: 7px; border: 1.5px solid currentColor; color: var(--a-ink-2);
   font: 700 13px/1 var(--font-body); font-variant-numeric: tabular-nums; animation: lr-stamp 1120ms var(--lr-ease) both;
@@ -373,7 +390,7 @@
 .lr-round__keys .kc-btn { min-height: 52px; }
 
 /* ---------- The end (A4 3.4): one form with the feed's end ---------- */
-.lr-body--end { display: block; }
+.lr-body--end { display: block; padding: 0 16px 40px; }
 .lr-endform { display: grid; gap: 28px; width: 100%; padding: 16px 16px 48px; align-content: start; }
 .lr-endform__left, .lr-endform__right { display: grid; gap: 22px; align-content: start; min-width: 0; }
 .lr-close--end { grid-area: auto; justify-self: start; margin-bottom: -10px; }
@@ -407,7 +424,7 @@
 }
 .lr-rpile__kind { font: 650 11.5px/1.2 var(--font-body); color: var(--a-ink-3); }
 .lr-rpile__kind b { color: var(--a-accent-text); font-weight: 700; }
-.lr-rpile__front { font: 650 13px/1.28 var(--font-display); color: var(--a-ink); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; overflow: hidden; overflow-wrap: break-word; hyphens: manual; }
+.lr-rpile__front { font: 650 13px/1.28 var(--font-display); color: var(--a-ink); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; overflow: hidden; overflow-wrap: normal; word-break: normal; hyphens: auto; }
 .lr-rpile__lines { display: grid; gap: 7px; padding-top: 8px; }
 .lr-rpile__lines i { display: block; height: 2px; border-radius: 1px; background: var(--a-line-strong); }
 .lr-rpile__lines i:nth-child(2) { width: 70%; }
@@ -466,13 +483,14 @@
 @keyframes lr-sheet-up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 @keyframes lr-pop-in { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
 @keyframes lr-fan { from { opacity: 0; transform: rotate(0deg) translateX(calc(var(--i) * -26px)); } to { opacity: 1; transform: rotate(var(--r)); } }
+@keyframes lr-tip { 0% { opacity: 0; transform: translateY(-4px); } 12%, 85% { opacity: 1; transform: none; } 100% { opacity: 0; } }
 @keyframes lr-ring { from { stroke-dashoffset: var(--from); } to { stroke-dashoffset: var(--to); } }
 
 /* Reduced motion: no turn (a cross-fade), no shake, no flight; the next item fades in 120 ms. */
 @media (prefers-reduced-motion: reduce) {
   .lr *, .lr *::before, .lr *::after { animation-duration: 120ms !important; animation-delay: 0ms !important; transition-duration: 0ms !important; }
   .lr :is(.lr-enter, .lr-verdict, .lr-endform__name) { animation-name: lr-fade !important; }
-  .lr :is(.lr-opt, .lr-rpile__card, .lr-status > span, .lr-top__pile b, .lr-panel__rn b, .lr-rail svg, .lr-moved__fill, .lr-ticks i::after) { animation: none !important; }
+  .lr :is(.lr-opt, .lr-rpile__card, .lr-status > span, .lr-top__pile b, .lr-panel__rn b, .lr-rail svg, .lr-moved__fill, .lr-ticks i::after, .lr-top__tip) { animation: none !important; }
   .lr .lr-fixed__check path { animation: none !important; stroke-dashoffset: 0; }
   .lr .lr-card__in, .lr .lr-card[data-turned] .lr-card__in { transform: none; }
   .lr .lr-face--back { transform: none; opacity: 0; visibility: hidden; }

@@ -190,7 +190,7 @@ export async function learnAnswer({ entry, to, method, params, body, isPro, user
     if (m === 'GET' && !run[2]) return svc.getRun(user, id);
     if (m === 'POST' && run[2] === 'answer') return svc.answer(user, id, body);
     if (m === 'POST' && run[2] === 'rate') return svc.rate(user, id, body);
-    if (m === 'GET' && run[2] === 'end') return svc.end(user, id);
+    if (m === 'GET' && run[2] === 'end') return svc.end(user, id, { stop: params?.get?.('stop') === '1' });
   }
   if (m === 'GET' && to === '/api/learn/cards') return svc.cards(user, params);
   if (m === 'GET' && to === '/api/learn/covers') return svc.covers(user, params);

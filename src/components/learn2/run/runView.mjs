@@ -20,7 +20,9 @@ export function stageTag(item, { recap = false } = {}) {
 }
 
 const pileOf = (item) => (item?.type === 'question' ? (item.origin === 'mistake' ? 'mistakes' : 'questions') : item?.type === 'lesson' ? 'lesson' : 'cards');
-export const PILE_NAMES = Object.freeze({ cards: 'Key cards', questions: 'Questions', mistakes: 'Your mistakes', lesson: 'Lesson' });
+export const PILE_NAMES = Object.freeze({ cards: 'Key cards', questions: 'Questions', mistakes: 'Old mistakes', lesson: 'Lesson' });
+/** "16 Key cards", "2 questions", "1 old mistake", "1 lesson": a pile's total before any of it is done. */
+export const pileTotal = (id, n) => (id === 'cards' ? `${n} Key ${n === 1 ? 'card' : 'cards'}` : id === 'questions' ? plural(n, 'question') : id === 'mistakes' ? plural(n, 'old mistake') : plural(n, 'lesson'));
 
 /**
  * The piles of this run worked down (A4 3.3.3): one row per pile the run holds, `done` of `of` counted by distinct cards
@@ -42,10 +44,14 @@ export function runPiles(items, finished, { at = -1, resumed = false } = {}) {
     rows.set(id, row);
   });
   const order = ['lesson', 'cards', 'questions', 'mistakes'];
-  return [...rows.values()].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id)).map((r) => ({
-    ...r,
-    value: resumed ? `${Math.max(0, r.of - r.done)} left` : `${r.done} of ${r.of}`,
-  }));
+  // R2 screens 10: no column of zeros. Before an item of a pile is done the row reads its total ("16 Key cards"), after
+  // that "4 of 16"; a resumed run's row reads what is left, and "Done" when nothing is.
+  return [...rows.values()].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id)).map((r) => {
+    const left = Math.max(0, r.of - r.done);
+    if (resumed) return { ...r, value: left ? `${left} left` : 'Done' };
+    if (!r.done) return { ...r, label: pileTotal(r.id, r.of), value: '' };
+    return { ...r, value: `${r.done} of ${r.of}` };
+  });
 }
 
 /** Plain questions answered and right, the old mistakes tried and fixed, and the current streak of right answers (B7 G). */
@@ -69,8 +75,8 @@ export function positionWords(item, position, total) {
   return `${noun} ${position} of ${total}`;
 }
 
-/** The stop sheet's line (A4 3.3.10). */
-export const stopLine = (done, total) => `${done} of ${total} done. Everything you did is saved.`;
+/** The stop sheet's line (A4 3.3.10, R2 ruling 6). */
+export { stopSheetLine as stopLine } from '../stage/endModel.mjs';
 
 /**
  * How many items the student has finished, for the stop sheet's "N of M done". It counts the items before the one on screen,
