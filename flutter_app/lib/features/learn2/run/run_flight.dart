@@ -100,15 +100,17 @@ abstract final class RunFlight {
             top: a.top,
             width: a.width,
             height: a.height,
-            child: IgnorePointer(
-              child: Opacity(
-                opacity: pose.opacity.clamp(0.0, 1.0),
-                child: Transform(
-                  alignment: Alignment.center,
-                  transform: Matrix4.translationValues(pose.dx, pose.dy, 0)
-                    ..rotateZ(pose.angle)
-                    ..scaleByDouble(pose.scale, pose.scale, 1, 1),
-                  child: _Ghost(key: ghostKey, label: label, words: words, colors: colors, type: type),
+            child: ExcludeSemantics(
+              child: IgnorePointer(
+                child: Opacity(
+                  opacity: pose.opacity.clamp(0.0, 1.0),
+                  child: Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.translationValues(pose.dx, pose.dy, 0)
+                      ..rotateZ(pose.angle)
+                      ..scaleByDouble(pose.scale, pose.scale, 1, 1),
+                    child: _Ghost(key: ghostKey, label: label, words: words, colors: colors, type: type),
+                  ),
                 ),
               ),
             ),
@@ -147,35 +149,38 @@ class _Ghost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final r = BorderRadius.circular(24);
-    return DecoratedBox(
-      decoration: ShapeDecoration(
-        color: colors.raised,
-        shape: mmShapeBorder(r, side: BorderSide(color: colors.lineStrong)),
-        shadows: colors.cardShadow,
-      ),
-      child: ClipRRect(
-        borderRadius: r,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (label.isNotEmpty)
-                Text(
-                  label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: type.label.copyWith(fontSize: 13, height: 1.3, color: colors.ink3),
+    return Material(
+      type: MaterialType.transparency,
+      child: DecoratedBox(
+        decoration: ShapeDecoration(
+          color: colors.raised,
+          shape: mmShapeBorder(r, side: BorderSide(color: colors.lineStrong)),
+          shadows: colors.cardShadow,
+        ),
+        child: ClipRRect(
+          borderRadius: r,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (label.isNotEmpty)
+                  Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: type.label.copyWith(fontSize: 13, height: 1.3, color: colors.ink3),
+                  ),
+                const SizedBox(height: 14),
+                Expanded(
+                  child: Text(
+                    words,
+                    overflow: TextOverflow.fade,
+                    style: type.body.copyWith(fontSize: 17, height: 1.5, fontWeight: FontWeight.w500, color: colors.ink),
+                  ),
                 ),
-              const SizedBox(height: 14),
-              Expanded(
-                child: Text(
-                  words,
-                  overflow: TextOverflow.fade,
-                  style: type.body.copyWith(fontSize: 17, height: 1.5, fontWeight: FontWeight.w500, color: colors.ink),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

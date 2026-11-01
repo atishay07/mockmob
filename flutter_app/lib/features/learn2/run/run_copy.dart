@@ -7,7 +7,6 @@ abstract final class RunCopy {
   // ---------------------------------------------------------------- the stage
   static const String closeLabel = 'Close';
   static const String loadingLabel = 'Lining up your run';
-  static const String endLoadingLabel = 'Adding up your run';
 
   /// The stage's name for a screen reader ("Admission of a Partner run").
   static String stageLabel(String title) => '${title.isEmpty ? 'Chapter' : title} run';
@@ -69,7 +68,6 @@ abstract final class RunCopy {
   static const String questionNotSaved = 'That question was not saved. Try again.';
   static const String questionChanged = 'This question was updated, so it was skipped.';
   static const String questionHeld = 'This question is in a paper that is still open, so it was skipped.';
-  static const String freeDoneShort = 'Your free Learn session for today is done';
 
   // ---------------------------------------------------------------- the round, the recap's end
   static const String roundTitle = 'cards rated';
@@ -94,7 +92,6 @@ abstract final class RunCopy {
   static const String freeTitle = "Today's free session is used";
   static const String freeLine = 'Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like.';
   static String pickUp(int done, int of) => 'Pick up where you stopped, $done of $of';
-  static String aboutMinutes(int minutes) => 'About $minutes min.';
 
   // ---------------------------------------------------------------- the end
   static const String endErrorTitle = 'Your run is saved';
@@ -106,5 +103,4 @@ abstract final class RunCopy {
   static String movedLabel(String from, String to) => 'This chapter moved from $from to $to.';
   static String movedWas(String from) => 'was $from';
   static const String endSaid = 'How it went';
-  static const String thisChapterTitle = 'Your run';
 }

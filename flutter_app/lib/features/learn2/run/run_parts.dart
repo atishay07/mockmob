@@ -317,7 +317,7 @@ class RunTopBar extends StatelessWidget {
   }
 }
 
-/// The run's frame: the top bar, the item area (12 dp above and below), the action bar. [end] is a layer over the whole
+/// The run's frame: the top bar, the item area (12 dp above the action bar), the action bar. [end] is a layer over the whole
 /// frame; the frame fades out under it in 200 ms and takes no taps.
 class RunFrame extends StatelessWidget {
   const RunFrame({super.key, required this.label, required this.topBar, this.child, this.bar, this.end});
@@ -338,8 +338,9 @@ class RunFrame extends StatelessWidget {
       children: [
         topBar,
         Expanded(
+          // The top bar's own 10 dp and a page's 16 dp give a question the web's 22 dp under the ticks; a card is centred.
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
+            padding: const EdgeInsets.only(bottom: MmSpace.s12),
             child: Semantics(container: true, label: label, child: child ?? const SizedBox.expand()),
           ),
         ),

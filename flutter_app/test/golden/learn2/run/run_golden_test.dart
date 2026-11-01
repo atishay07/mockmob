@@ -87,6 +87,9 @@ void main() {
       }
       await kcSettle(tester);
       await kcSettle(tester);
+      // The third question is a long one: bring its verdict into view, as the student's thumb would.
+      await tester.ensureVisible(find.textContaining('in a row'));
+      await kcSettle(tester);
     },
   );
 

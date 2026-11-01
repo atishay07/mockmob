@@ -129,6 +129,16 @@ void main() {
       expect(api.ended.single, first.id);
     });
 
+    test('the screen reader hears where the student is on each move: "Card 1 of 20", "Card 2 of 20", "Question 5 of 20"', () async {
+      final events = RunEvents();
+      final c = await started(FixtureLearnApi(), events: events);
+      expect(events.said, ['Card 1 of 20']);
+      c.advance();
+      expect(events.said.last, 'Card 2 of 20');
+      goTo(c, 4);
+      expect(events.said.last, 'Question 5 of 20');
+    });
+
     test('a resumed run with nothing left is already done: its end', () async {
       final api = ScriptedRunApi(scriptedRun([], resumed: {'done': 5, 'of': 5}, kind: 'mix'));
       final c = await started(api);

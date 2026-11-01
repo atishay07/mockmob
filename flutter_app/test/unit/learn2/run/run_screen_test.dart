@@ -506,6 +506,37 @@ void main() {
       await finish(tester);
     });
 
+    testWidgets("a level run's end has no pile (it rates no cards) and names the lowest score", (tester) async {
+      await pumpRun(
+        tester,
+        _LevelEnd(),
+        launch: const RunLaunch(chapterKey: l2Pf, kind: 'level', minutes: 6),
+      );
+      expect(find.text('Skip'), findsOneWidget);
+      expect(find.text('Question'), findsOneWidget);
+      ctl(tester).finish(ctl(tester).doneCount);
+      await runSettle(tester);
+      await runSettle(tester);
+      expect(find.textContaining('in Revise'), findsNothing);
+      expect(find.text('No cards went to Revise this time.'), findsNothing);
+      expect(find.text('Your lowest score was in Goodwill: Nature and Valuation: 2 of 6 right.'), findsOneWidget);
+      expect(voltKeys(tester), 1);
+      await finish(tester);
+    });
+
+    testWidgets('Pro, when the chapter moved: the new state, "was Getting there" and the words of the ring for a screen reader', (tester) async {
+      final handle = tester.ensureSemantics();
+      await pumpRun(tester, _MovedEnd());
+      ctl(tester).finish(0);
+      await runSettle(tester);
+      await runSettle(tester);
+      expect(find.text('Holding'), findsOneWidget);
+      expect(find.text('was Getting there'), findsOneWidget);
+      expect(find.bySemanticsLabel('This chapter moved from Getting there to Holding.'), findsOneWidget);
+      handle.dispose();
+      await finish(tester);
+    });
+
     testWidgets('the end of a run that closed (RUN_ENDED) is read, not started again', (tester) async {
       final api = FixtureLearnApi();
       final first = await api.startRun(const RunStart(chapterKey: l2Pf));
@@ -523,6 +554,19 @@ void main() {
   });
 
   group('states without items', () {
+    testWidgets("Learn home's Pick up (a run id) opens the run where it stopped", (tester) async {
+      final api = FixtureLearnApi();
+      final first = await api.startRun(const RunStart(chapterKey: l2Pf));
+      await api.rate(first.id, first.items[0].id, 3);
+      await api.rate(first.id, first.items[1].id, 3);
+      await pumpRun(tester, api, launch: RunLaunch(runId: first.id));
+      expect(api.calls, contains('getRun ${first.id}'));
+      expect(find.text('3 of 20'), findsOneWidget);
+      expect(tester.widget<RunPileCount>(find.byType(RunPileCount)).count, 2);
+      expect(find.text('Show answer'), findsOneWidget);
+      await finish(tester);
+    });
+
     testWidgets('the run did not start: its line and Try again (volt); Try again starts it', (tester) async {
       final api = FixtureLearnApi(error: true);
       await pumpRun(tester, api);
@@ -659,6 +703,33 @@ void main() {
       await finish(tester);
     });
 
+    testWidgets('a 320 dp phone, text 1.0 and 1.3: the card, its ratings, a question, the end and the states draw without overflow', (tester) async {
+      for (final scale in [1.0, 1.3]) {
+        await pumpRun(tester, FixtureLearnApi(), size: const Size(320, 640), textScale: scale);
+        expect(tester.takeException(), isNull, reason: 'card at $scale');
+        await tap(tester, find.text('Show answer'));
+        expect(tester.takeException(), isNull, reason: 'ratings at $scale');
+        await tap(tester, find.text('Got it'));
+        await goTo(tester, 4);
+        expect(tester.takeException(), isNull, reason: 'question at $scale');
+        ctl(tester).finish(ctl(tester).doneCount);
+        await runSettle(tester);
+        await runSettle(tester);
+        expect(tester.takeException(), isNull, reason: 'end at $scale');
+        await finish(tester);
+        await pumpRun(
+          tester,
+          FixtureLearnApi(pro: false, freeUsed: true),
+          launch: const RunLaunch(chapterKey: l2Pf, kind: 'feed'),
+          size: const Size(320, 640),
+          textScale: scale,
+          proNudges: true,
+        );
+        expect(tester.takeException(), isNull, reason: 'Free used at $scale');
+        await finish(tester);
+      }
+    });
+
     testWidgets('48 dp targets on the card, its ratings, a question, an answered question and the end', (tester) async {
       final handle = tester.ensureSemantics();
       await pumpRun(tester, FixtureLearnApi());
@@ -760,4 +831,22 @@ class _Many extends FixtureLearnApi {
     'stamp': 'Back Wed',
     'revisePile': {'count': ++_piled},
   });
+}
+
+/// A level run's end: its lowest chapter and no cards sent to Revise.
+class _LevelEnd extends FixtureLearnApi {
+  @override
+  Future<LearnEnd> end(String runId) async => LearnEnd.parse({
+    ...LearnFixtures.json('run_end_mix_pf_pro'),
+    'revisePile': <Object>[],
+    'reviseCards': <Object>[],
+    'level': {'chapterKey': l2Pf, 'title': 'Goodwill: Nature and Valuation', 'right': 2, 'of': 6},
+  });
+}
+
+/// An end where the chapter's state moved (Pro).
+class _MovedEnd extends FixtureLearnApi {
+  @override
+  Future<LearnEnd> end(String runId) async =>
+      LearnEnd.parse({...LearnFixtures.json('run_end_mix_pf_pro'), 'moved': 'Admission of a Partner moved from Getting there to Holding.'});
 }

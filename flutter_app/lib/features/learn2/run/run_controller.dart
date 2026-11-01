@@ -207,6 +207,7 @@ class RunController extends ChangeNotifier {
   bool _started = false;
   bool _disposed = false;
   bool _flying = false;
+  bool _lessonOpen = false;
   int _gen = 0;
   int _stamps = 0;
   int _endGen = 0;
@@ -717,9 +718,14 @@ class RunController extends ChangeNotifier {
   /// The lesson opens on its own page; it counts as read when the student comes back, and the run goes on.
   Future<void> readLesson() async {
     final it = item;
-    if (it is! LearnLessonItem) return;
-    final open = openLesson;
-    if (open != null) await open(it.lesson.id);
+    if (it is! LearnLessonItem || _lessonOpen) return;
+    _lessonOpen = true;
+    try {
+      final open = openLesson;
+      if (open != null) await open(it.lesson.id);
+    } finally {
+      _lessonOpen = false;
+    }
     if (_disposed || item?.id != it.id) return;
     _logLook(it);
     advance();
