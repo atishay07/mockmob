@@ -4,7 +4,7 @@
 //                overflow menu with "Report this card"
 //   Prompt       the front; blanks drawn as short ruled gaps, never as underscores; a front that repeats the kind ("Formula:
 //                Current ratio" under "Formula") drops the repeat (kinds.js cardFace)
-//   NcertText    the back: NCERT's exact words in the reading face, the blanked words marked by weight and a fine rule.
+//   NcertText    the back (a typeset back, card.texHtml, drawn in the same wrappers through TexHtml): NCERT's exact words in the reading face, the blanked words marked by weight and a fine rule.
 //                Set as the book sets them: a list keeps NCERT's own numbers instead of adding bullets, a formula breaks before
 //                its "=", a journal entry is drawn as one (Dr. lines, To lines set in, the narration below), and any other
 //                line break in the book's words is kept.
@@ -19,13 +19,16 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Check, CheckCheck, LoaderCircle, MoreHorizontal, RotateCcw } from 'lucide-react';
 import { openUpgrade } from '@/components/pro/proNudgeStore';
-import { BLANK_KINDS, LIST_KINDS, PRO_LINE, RATINGS, backLines, blankRuns, gapClass, cardFace, entryRows, formulaLines, isNcert, limitKind, markBlanks, ownMarker, plural, sourceLine, startsMidSentence, stampFor, withLead } from './kinds';
+import { BLANK_KINDS, LIST_KINDS, PRO_LINE, RATINGS, backLines, blankRuns, gapClass, cardFace, entryRows, formulaLines, isNcert, limitKind, markBlanks, ownMarker, plural, sourceLine, startsMidSentence, stampFor, texBackRows, withLead } from './kinds';
+import { TexHtml } from './TexHtml';
 import { isProRequired, proReason, sendReport, sendReview } from './api';
 import { badgeFor, leaveMs } from './studyMotion';
 
 const typing = (el) => el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
 
 export function Prompt({ card, as: Tag = 'p', className = 'kc-prompt', id }) {
+  // Typeset formulas (mathematics, physics): the server's HTML in the same element and class.
+  if (card?.texHtml?.front) return <TexHtml as={Tag} className={className} id={id} html={card.texHtml.front} />;
   const parts = blankRuns(cardFace(card).front);
   return (
     <Tag className={className} id={id}>
@@ -57,7 +60,35 @@ function EntryText({ rows, className }) {
   );
 }
 
+// A typeset back (card.texHtml.back): drawn with the plain path's wrappers and classes for its kind (kinds.js texBackRows).
+function TexText({ tex, className }) {
+  const ell = (r) => (r.lead ? '…' : null);
+  if (tex.shape === 'list') {
+    const Tag = tex.tag;
+    return (
+      <Tag className={`${className} kc-ncert--list`}>
+        {tex.rows.map((r, i) => (r.marker
+          ? <li key={i} data-own=""><span className="kc-lm">{r.marker}</span><TexHtml html={r.html} /></li>
+          : <li key={i} data-bare={tex.bare || undefined}>{ell(r)}<TexHtml html={r.html} /></li>))}
+      </Tag>
+    );
+  }
+  if (tex.shape === 'formula') {
+    const [first, ...rest] = tex.rows;
+    return (
+      <div className={`${className} kc-ncert--formula`}>
+        <p className="kc-formula">{ell(first)}<TexHtml html={first.html} /></p>
+        {rest.map((r, i) => <p key={i}><TexHtml html={r.html} /></p>)}
+      </div>
+    );
+  }
+  if (tex.rows.length < 2) return <p className={className}>{ell(tex.rows[0])}<TexHtml html={tex.rows[0].html} /></p>;
+  return <div className={`${className} kc-ncert--paras`}>{tex.rows.map((r, i) => <p key={i}>{ell(r)}<TexHtml html={r.html} /></p>)}</div>;
+}
+
 export function NcertText({ card, className = '' }) {
+  const tex = texBackRows(card);
+  if (tex) return <TexText tex={tex} className={`kc-ncert ${className}`.trim()} />;
   const lines = LIST_KINDS.includes(card?.kind) ? backLines(card.back) : [];
   const cls = `kc-ncert ${className}`.trim();
   if (lines.length > 1) {

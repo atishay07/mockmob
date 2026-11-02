@@ -1,6 +1,6 @@
 'use client';
 // A Key card on the study stage (BUILD-1101 B1, A1 3.4, A8 3.2): it fits its words.
-//   <CardFace card turned onTurn mustKnow refEl stamp extraKind />
+//   <CardFace card turned onTurn mustKnow refEl stamp extraKind html />
 //   - Both faces sit in one grid cell, so the card takes the taller face's height and the turn never jumps; at least the
 //     band's min-height (phone clamp(300px, 46dvh, 380px), tablet 340, desktop 360/340/300 by height), at most the item area
 //     minus the stamp line. A face taller than that scrolls inside, with a fade at its foot while more is below (A8 F5).
@@ -14,15 +14,19 @@
 //   - The card's content stays readable to a screen reader (no role=button over it, A8 F1); a transparent button over the
 //     front turns it, and the action bar's "Turn over" does the same. The turn is 340 ms; reduced motion cross-fades.
 //   - stamp: null | { text, bad } for the line under the card ("In Revise" with a check, once the server has it).
+//   - html: a typeset front (card.texHtml.front, mathematics and physics), drawn in the same element; the size and the spoken
+//     label still come from the plain front.
 //   - sci: a chemistry card draws its front and back with real subscripts and superscripts (Sci.jsx; display only, R4).
 import { useEffect, useId, useRef, useState } from 'react';
 import { BookOpen, Check } from 'lucide-react';
 import { CardSource, NcertText } from '@/components/keycards/KeyCard';
+import { TexHtml } from '@/components/keycards/TexHtml';
 import { blankRuns, gapClass, cardFace, sourceLine } from '@/components/keycards/kinds';
 import { backSize, frontSize, speakable } from './stageText.mjs';
 import { SciFront, SciNcert } from './Sci';
 
-function Front({ text }) {
+function Front({ text, html = null }) {
+  if (html) return <TexHtml html={html} />;
   return blankRuns(text).map((p, i) => (p.blank
     ? <span key={i} className="kc-gaprun">{p.lead}<span className={gapClass(p)} role="img" aria-label="blank" />{p.tail}</span>
     : <span key={i} style={{ display: 'inline' }}>{p.text}</span>));
@@ -44,7 +48,7 @@ function useMore(ref, on) {
   return on && more;
 }
 
-export function CardFace({ card, turned = false, onTurn, refEl, stamp = null, extraKind = null, sci = false }) {
+export function CardFace({ card, turned = false, onTurn, refEl, stamp = null, extraKind = null, sci = false, html = null }) {
   const FrontText = sci ? SciFront : Front;
   const { label, front } = cardFace(card);
   const source = sourceLine(card?.source);
@@ -64,7 +68,7 @@ export function CardFace({ card, turned = false, onTurn, refEl, stamp = null, ex
       <div className="st-card" data-turned={turned || undefined} ref={refEl}>
         <div className="st-face st-face--front" ref={frontRef} aria-hidden={turned || undefined} inert={turned || undefined} data-more={frontMore || undefined}>
           {kind}
-          <h2 className="st-front" data-size={frontSize(front)} id={`${id}-f`}><span><FrontText text={front} /></span></h2>
+          <h2 className="st-front" data-size={frontSize(front)} id={`${id}-f`}><span><FrontText text={front} html={html} /></span></h2>
           {source ? <p className="st-foot"><BookOpen size={14} strokeWidth={2} aria-hidden="true" />{source}</p> : null}
           <span className="st-fade" aria-hidden="true" />
           <button type="button" className="st-card__hit" onClick={onTurn} aria-label={`Turn over: ${speakable(front)}`} aria-describedby={`${id}-f`} />
@@ -74,7 +78,7 @@ export function CardFace({ card, turned = false, onTurn, refEl, stamp = null, ex
           onClick={(e) => { if (e.target.closest('a, button')) return; if (window.getSelection?.()?.toString()) return; onTurn?.(); }}>
           {kind}
           <div className="st-backblock">
-            <p className="st-asked">{speakable(front).length ? <FrontText text={front} /> : null}</p>
+            <p className="st-asked">{speakable(front).length ? <FrontText text={front} html={html} /> : null}</p>
             <div className="st-back" data-size={backSize(card?.back)}>
               {sci ? <SciNcert card={card} /> : <NcertText card={card} />}
               <CardSource card={card} />

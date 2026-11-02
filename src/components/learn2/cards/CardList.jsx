@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { Check, Lock } from 'lucide-react';
 import { CardSource, InShort, NcertText, ReportForm } from '@/components/keycards/KeyCard';
 import { blankRuns, gapClass, cardFace } from '@/components/keycards/kinds';
+import { TexHtml } from '@/components/keycards/TexHtml';
 import { openUpgrade } from '@/components/pro/proNudgeStore';
 import { hitParts, snippet } from './cardsShared';
 
@@ -23,6 +24,8 @@ function Marked({ text, query }) {
 }
 
 function Front({ card, query }) {
+  // A typeset front (mathematics, physics) is drawn as the server sent it; with a search query the plain front keeps its highlights.
+  if (!query && card.texHtml?.front) return <TexHtml html={card.texHtml.front} />;
   const parts = blankRuns(cardFace(card).front);
   return parts.map((p, i) => (p.blank
     ? <span key={i} className="kc-gaprun">{p.lead}<span className={gapClass(p)} role="img" aria-label={`blank ${p.n}`} />{p.tail}</span>

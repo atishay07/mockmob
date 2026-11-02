@@ -242,6 +242,11 @@ ol.kc-ncert--list li::before { content: counter(kc) '.'; width: auto; height: au
 .kc-formula { font-size: 1.1em; font-weight: 500; font-variant-numeric: lining-nums tabular-nums; letter-spacing: 0.01em; }
 /* A formula breaks before its "=", never inside a term, when it does not fit one line. */
 .kc-formula__rhs { display: inline-block; }
+/* Typeset formulas (mathematics, physics; TexHtml.jsx): KaTeX at a size that sits with the reading face (its own 1.21em is
+   too large beside the card's words), colour inherited. A wide display formula scrolls inside the card at 390 px and never
+   widens the page; inline math keeps KaTeX's own line breaks at relations and operators. */
+.kc-tex .katex { font-size: 1.05em; color: inherit; }
+.kc-tex .katex-display { margin: 0.4em 0; overflow-x: auto; overflow-y: hidden; padding: 2px 0; }
 /* A journal entry as the book sets one: the Dr. lines, the To lines set in, the narration below in a smaller size. One grid,
    so the Dr. and the amounts line up down the entry. */
 .kc-ncert--entry { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; column-gap: 14px; row-gap: 3px; align-items: baseline; font-variant-numeric: lining-nums tabular-nums; }

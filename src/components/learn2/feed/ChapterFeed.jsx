@@ -704,7 +704,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
           return (
             <article key={it.id} className="st-page st-page--card" {...common} aria-posinset={n} aria-setsize={of} aria-label={`Card ${n} of ${of}`} tabIndex={-1}>
               {cap}
-              <CardFace card={it.card} turned={Boolean(s2.turned)} onTurn={() => turn(it)} refEl={(el) => { cardEls.current[it.id] = el; }} stamp={stamp} extraKind={extra} sci={isChemistry(it.card, key)} />
+              <CardFace card={it.card} turned={Boolean(s2.turned)} onTurn={() => turn(it)} refEl={(el) => { cardEls.current[it.id] = el; }} stamp={stamp} extraKind={extra} sci={isChemistry(it.card, key)} html={it.card?.texHtml?.front} />
             </article>
           );
         }
