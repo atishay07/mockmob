@@ -1,3 +1,24 @@
+## 2 Nov 2026, about 11:20 am IST: Maths formula cards to production (owner LK34, his "Yes, start it"): typeset formulas on Key cards; Mathematics 310 to 349; Geist Mono self-hosted
+
+**What shipped:**
+- **Typeset formulas on Key cards** (handoff-1102/MATHTEX-SPEC.md). A mathematics or physics card may carry `tex`, the LaTeX of its front and back, transcribed from the NCERT page image.
+  - The server draws it with KaTeX 0.19.0 (pinned; MIT) into `texHtml`, with prose escaped, trust off and a forbidden-command check. Only KaTeX's CSS and fonts reach the browser, never its JS (`grep "KaTeX parse error" .next/static`: none).
+  - Every plain client (the app, search, screen-reader lines) gets a readable Unicode form instead of the PDF text ("tan⁻¹((x + y)/(1 − xy))", "A⁻¹ = (1/|A|) adj A", "[x + 1, 2; 3, y − 1]").
+  - New checks in scripts/keycards/lib.mjs (shape:tex_*): KaTeX parses in strict mode; each tex line has the same letters and digits as the PDF-checked back line (so a wrong digit or a missing term fails); the prose is NCERT's; no long inline math; no capitalised function name opening a front.
+  - Drawing: Prompt, NcertText, the feed's CardFace and the Cards list. A display formula wider than its line is set smaller (down to 60%) and then scrolls inside its own line; the card never widens.
+- **Mathematics: 310 to 349 cards.** Inverse Trigonometric Functions 7 to 21, Probability 9 to 29, Application of Integrals 6 to 11. Every new or reworked card passed two independent reviewers: an Opus formula reviewer comparing each symbol with the page image, and a Sonnet content reviewer. Coverage notes: Application of Integrals (NCERT 2026-27 keeps 8 pages) and Probability Distributions (NCERT 2026-27 removed it; one paragraph remains).
+- **Geist Mono is served from the repo** (src/app/fonts, OFL, from geist 1.8.1), so production builds no longer fetch it from Google Fonts (2 of 4 builds failed on that fetch on 2 Nov).
+- **Safety:** no published card was removed or changed (deck comparison with HEAD; handoff-1102/check-drafts-mtex-1102.mjs OK).
+
+**Verified:**
+- Suites on the merged tree (with main dc6e45561, Learn v2 round 5): keycards 124, keycards-ui 40, learn 403, option-order 7, today 146, app 987, learning 357, recovery 637, egress 101, dock 55 pass. Before the merge also syllabus, subjects, billing, auth, du, community, nta and the rest pass; the known failures (authored-publish 13, factory 5, mob 7, study 1) are unchanged.
+- `eslint .` is clean, and `next build --webpack` exits 0.
+- Looked at in the local preview: formula cards in the feed (390 Night and Day, 1440 Night and Day), the Cards list, and the Read view at 1440 Night; the wide conditional-probability formula fits its line; journal entries and lists unchanged (no card back overflows).
+
+**Next:** the other 10 Maths chapters after the 1:20 pm usage reset (handoff-1102/mtex-wave-1102.js, mtex-args-b-1102.json).
+
+**Rollback:** the previous production deployment (main dc6e45561).
+
 ## 2 Nov 2026, about 11 am IST: Learn v2 round 5, first wave (owner LK38, LK40, LK44-LK47): every answer was A; the three keys say what they do
 
 **Owner, ~10 am** (verbatim in mockmob-next docs/brain/OWNER-FEEDBACK-2026-10-31-LEARN.md, "2 Nov 2026, about 10 am"): every answer in the Explore feed seems to be A; nobody can tell what Missed it / Got it / Easy do; a scroll over the question does not scroll the page; do fixes 2, 3 and 4; tabs Practice, Papers, Learn, Explore; the landing's first section scrolls too fast.
