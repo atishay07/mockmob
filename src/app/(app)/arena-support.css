@@ -117,7 +117,6 @@
 .app-shell .arena-chip { min-height: 44px; }
 .app-shell :is(button, input, select, summary) { min-height: 44px; min-width: 44px; }
 .app-shell a { min-height: 44px; }
-.app-shell .arena-profile { min-height: 44px; }
 .app-shell .ex-note a { display: inline-flex; min-height: 44px; align-items: center; }
 .app-shell .ex-action { min-width: 44px; }
 .app-shell .cmp-sources summary { min-height: 44px; }

@@ -223,7 +223,7 @@ test('wiring: Pro renders nothing; every Pro tap opens the sheet; onboarding nev
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
   assert.match(shell, /<ProNudgeHost offer=\{offer\}/);
   // The credits chip is the student's own balance (D76, D78): it opens the balance and history, never a Pro pitch.
-  const chip = shell.match(/<Link [^>]*arena-chip--credits[^>]*>/)[0];
+  const chip = shell.match(/<Link [^>]*arena-acct__credits[^>]*>/)[0];
   assert.match(chip, /href=\{previewLinks\?\.wallet \|\| '\/wallet'\}/, 'release 10: the balance and its history live on /wallet');
   assert.doesNotMatch(chip, /data-pro-feature|\/pricing/);
   assert.match(read('src/app/(app)/layout.js'), /offer=\{publicOffer\(\)\}/);

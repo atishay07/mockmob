@@ -364,52 +364,10 @@ body:has(.app-shell) { overflow-x: clip; }
   width: 14px;
   height: 14px;
 }
-.app-shell .arena-chip--credits {
-  color: var(--a-ink);
-  font-variant-numeric: tabular-nums;
-}
-.app-shell .arena-chip--credits .icon {
-  color: var(--a-accent-text);
-}
-.app-shell .arena-chip--credits b {
-  font-family: var(--font-mono);
-  font-weight: 600;
-}
-/* Pro is a volt outline with ink text, not a fill: the page's volt belongs to its primary action. */
-.app-shell .arena-chip--pro {
-  border-color: var(--a-accent-text);
-  background: transparent;
-  color: var(--a-ink);
-}
-.app-shell .arena-chip--pro .icon { color: var(--a-accent-text); }
-.app-shell .arena-chip--pro:hover {
-  color: var(--a-ink);
-  border-color: var(--a-accent-text);
-}
 .app-shell .arena-chip--mod {
   border-color: var(--a-volt-line);
   background: var(--a-volt-wash);
   color: var(--a-accent-text);
-}
-.app-shell .arena-profile {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 40px;
-  max-width: 180px;
-  padding: 3px 12px 3px 4px;
-  border: 1px solid var(--a-line);
-  border-radius: 999px;
-  background: var(--a-raised);
-  color: var(--a-ink);
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-}
-.app-shell .arena-profile span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .app-shell .arena-iconbtn {
   display: inline-flex;
@@ -552,22 +510,59 @@ html[data-theme='light'] .app-shell .arena-sheet { box-shadow: inset 0 1px 0 var
 html[data-motion='reduced'] .app-shell :is(.arena-sheet, .arena-sheet-scrim, .arena-sheet .arena-nav-link) { animation: none; }
 @media (prefers-reduced-motion: reduce) { .app-shell :is(.arena-sheet, .arena-sheet-scrim, .arena-sheet .arena-nav-link) { animation: none; } }
 
-/* The account on phones: the avatar alone, a full 44px target, ringed when you are on Account. */
-.app-shell .arena-you {
-  display: inline-grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
+
+/* The account, as one piece (owner LK42, 2 Nov 2026). One hairline capsule on the bar's own ground, two doors inside it: the balance
+   in words ("108 credits", Wallet) and the person (avatar, the name from 1024 px, "Pro" when it is Pro; Account). No coin glyph and no
+   separate badges, so the bar's end reads as one calm object in both themes. Each door is a full 44 px target with its own hover and
+   press; a hairline separates them. The number is display type with tabular figures (never monospace as costume). */
+.app-shell .arena-acct {
+  display: inline-flex;
+  align-items: stretch;
   flex-shrink: 0;
+  height: 44px;
+  border: 1px solid var(--a-line);
   border-radius: 999px;
-  text-decoration: none;
-  transition: transform var(--mk-spring-dur) var(--mk-spring);
+  background: var(--a-raised);
+  overflow: hidden;
 }
-.app-shell .arena-you .avatar { width: 36px; height: 36px; font-size: 14px; box-shadow: 0 0 0 1px var(--a-line-strong); }
-.app-shell .arena-you[aria-current='page'] .avatar { box-shadow: 0 0 0 2px var(--a-bg), 0 0 0 4px var(--a-select); }
-.app-shell .arena-you:active { transform: scale(0.92); transition-duration: 90ms; }
-.app-shell .arena-you:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-html[data-motion='reduced'] .app-shell .arena-you { transition: none; }
+.app-shell .arena-acct > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 0;
+  color: var(--a-ink);
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: background-color 160ms var(--mm-ease-out, ease-out);
+}
+.app-shell .arena-acct > a:active { background: var(--a-sunken); transition-duration: 60ms; }
+.app-shell .arena-acct > a:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -3px; border-radius: 999px; }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .arena-acct > a:hover { background: var(--a-hover); }
+}
+.app-shell .arena-acct__credits { gap: 5px; padding: 0 12px 0 16px; font-family: var(--font-display); }
+.app-shell .arena-acct__credits b { font-size: 15px; font-weight: 750; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.app-shell .arena-acct__credits span { font-size: 13px; font-weight: 600; color: var(--a-ink-3); }
+.app-shell .arena-acct__rule { align-self: center; width: 1px; height: 20px; background: var(--a-line); flex: none; }
+.app-shell .arena-acct__you { gap: 8px; padding: 0 5px 0 5px; font-family: var(--font-display); font-size: 13.5px; font-weight: 650; }
+.app-shell .arena-acct__you .avatar { width: 32px; height: 32px; font-size: 13px; flex: none; }
+.app-shell .arena-acct__you[aria-current='page'] .avatar { box-shadow: 0 0 0 2px var(--a-raised), 0 0 0 3.5px var(--a-select); }
+.app-shell .arena-acct__name { max-width: 168px; overflow: hidden; text-overflow: ellipsis; }
+/* Pro: a small word in the accent, on its own faint wash; the page's filled volt stays for its primary action. */
+.app-shell .arena-acct__plan {
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: var(--a-volt-wash);
+  color: var(--a-accent-text);
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.1;
+}
+/* The far padding of the person's door: room after the avatar alone (Free, phones), after the name or the Pro word otherwise. */
+.app-shell .arena-acct__you:has(.arena-acct__plan) { padding-right: 10px; }
+@media (min-width: 1024px) { .app-shell .arena-acct__you { padding-right: 14px; } }
+html[data-motion='reduced'] .app-shell .arena-acct > a { transition: none; }
 .app-shell .arena-modbar {
   display: flex;
   align-items: center;
