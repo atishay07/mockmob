@@ -6,8 +6,11 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { previewAnswer } from '../../src/lib/server/keycardsPreview.js';
+import { learnServed } from '../../src/lib/server/learn.js';
 
-const KEYS = Object.fromEntries(JSON.parse(readFileSync(path.join(process.cwd(), 'data/fixtures/learn-preview-questions.json'), 'utf8')).questions.map((q) => [q.id, q.correct_answer]));
+// The key letter as served (R5 Packet A: the stable option order of data/option_order.js), from the fixture's stored rows.
+const KEYS = Object.fromEntries(JSON.parse(readFileSync(path.join(process.cwd(), 'data/fixtures/learn-preview-questions.json'), 'utf8')).questions
+  .map((q) => [q.id, learnServed({ id: q.id, question: q.body, options: q.options, correct_answer: q.correct_answer, explanation: q.explanation || '' }).key]));
 let n = 0;
 function student(plan, who = 'commerce') {
   const session = `learn-test-${plan}-${who}-${(n += 1)}`;

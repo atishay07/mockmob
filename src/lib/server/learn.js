@@ -36,6 +36,7 @@ import { WORDS, reviseDue, withMinutes } from '../../../data/learn/words.js';
 import { cardSeconds, cardWords, itemSeconds, questionSeconds } from '../../../data/learn/seconds.js';
 import { gradeCard, istDate, planSeeds } from '../../../data/revise.js';
 import { createLearnStore } from './learnStore.js';
+import { servedRow, storedIndexOf, storedKeyAt } from '../../../data/option_order.js';
 
 const HOUR = 3_600_000;
 const DAY = 24 * HOUR;
@@ -120,6 +121,23 @@ export function keyLetter(row, options = servedOptions(row?.options)) {
   return options.find((o) => o.text.trim().toLowerCase() === text)?.key || null;
 }
 const explanationOf = (row) => (typeof row?.explanation === 'string' ? row.explanation : row?.explanation?.text || '');
+
+/**
+ * A live row as Learn serves it (R5 Packet A): the stable option order of data/option_order.js, the same order Explore,
+ * Saved and practice papers serve. options and key are served letters; order[i] is the stored index shown at i;
+ * explanation has its option letters remapped. Needs the full row (options, stem, key, explanation).
+ */
+export function learnServed(row) {
+  const s = servedRow(row);
+  const options = servedOptions(s.row?.options);
+  return { options, key: keyLetter(s.row, options), order: s.order, explanation: explanationOf(s.row) };
+}
+
+/** The stored letter of the option served under `letter` (what Learn persists: option identity, never a served letter). */
+export function storedLetter(row, order, letter) {
+  const at = 'ABCDE'.indexOf(String(letter ?? '').trim().toUpperCase());
+  return at < 0 ? null : storedKeyAt(row?.options, storedIndexOf(order, at));
+}
 const changeStamp = (row) => String(row?.content_hash || row?.updated_at || '');
 const liveRow = (row) => Boolean(row) && !row.is_deleted && (row.status === undefined || row.status === 'live') && row.verification_state !== 'disputed';
 
@@ -565,7 +583,7 @@ export function createLearn(deps) {
     if (!missing.length) return out;
     let rows = [];
     try { rows = await store.questionContent(missing); } catch { rows = []; }
-    for (const r of rows) out.set(r.id, { id: r.id, body: String(r.question || r.body || ''), options: servedOptions(r.options) });
+    for (const r of rows) out.set(r.id, { id: r.id, body: String(r.question || r.body || ''), options: learnServed(r).options });
     return out;
   }
 
@@ -988,6 +1006,7 @@ export function createLearn(deps) {
   /** A stored event body as the client sees it: the line's card rebuilt from the decks, the re-insert with its item. */
   async function hydrateAnswer(S, row, body) {
     const out = { ...body };
+    delete out.order; // kept with the event (served letter -> stored option), not part of the answer's wire shape
     if (body?.line?.cardId) {
       const card = cardOf(S, body.line.cardId);
       out.line = body.line.locked
@@ -1043,11 +1062,13 @@ export function createLearn(deps) {
     if (row.ended_at) return bad('RUN_ENDED', 409, { endHref: endHrefOf(row) });
     if (expired(row)) return bad('RUN_EXPIRED', 409, { endHref: endHrefOf(row) });
     const [q, A] = await Promise.all([store.question(item.questionId), answerContext(userId, row, item.questionId)]);
-    const options = servedOptions(q?.options);
+    // Served letters (the stable order of learnServed); what other surfaces read below is the stored option's own letter.
+    const served = q ? learnServed(q) : { options: [], key: null, order: [], explanation: '' };
+    const options = served.options;
     const choice = String(body?.choice ?? '').trim().toUpperCase();
     if (q && !options.some((o) => o.key === choice)) return bad('INVALID_CHOICE');
     // Only a current, unchanged key is used (sessionCheck.resolveKey's rule): otherwise nothing is written.
-    const key = q ? keyLetter(q, options) : null;
+    const key = q ? served.key : null;
     if (!q || !liveRow(q) || !key || (item.chash && changeStamp(q) && item.chash !== changeStamp(q))) return bad('QUESTION_CHANGED', 409);
     // A question of a Mob paper still open is never graded here; an unread hold refuses every question (fail closed).
     if (A.held.failed || A.held.qids.has(q.id)) return bad('QUESTION_HELD', 409);
@@ -1086,12 +1107,15 @@ export function createLearn(deps) {
         if (!correct && open) reinsert = reinsertFor(row, at, lineCard.id);
       }
     }
-    const stored = { correct, key, choice, explanation: explanationOf(q), fixed, fixedText, ...(isMistake ? { retired: graded.state === 'retired' } : {}), line };
+    // The event body is the answer as the student saw it (served letters, remapped explanation) with the order that maps
+    // them back; every column another surface reads (the event's choice, progress, interaction) holds the stored letter.
+    const storedChoice = storedLetter(q, served.order, choice);
+    const stored = { correct, key, choice, explanation: served.explanation, fixed, fixedText, ...(isMistake ? { retired: graded.state === 'retired' } : {}), line, order: served.order };
     const res = await store.recordEvent({
       userId, runId: row.id, itemId: item.id,
-      event: { kind: 'answer', question_id: q.id, choice, correct, fixed, origin: item.origin || 'chapter', seconds: secondsOf(item), body: stored },
-      progress: isMistake ? null : { question_id: q.id, subject: q.subject, chapter: q.chapter, selected_key: choice, correct },
-      interaction: { question_id: q.id, metadata: { selected_key: choice, is_correct: correct, item_id: item.id, run_kind: row.kind } },
+      event: { kind: 'answer', question_id: q.id, choice: storedChoice, correct, fixed, origin: item.origin || 'chapter', seconds: secondsOf(item), body: stored },
+      progress: isMistake ? null : { question_id: q.id, subject: q.subject, chapter: q.chapter, selected_key: storedChoice, correct },
+      interaction: { question_id: q.id, metadata: { selected_key: storedChoice, served_key: choice, is_correct: correct, item_id: item.id, run_kind: row.kind } },
       reinsert,
       quota: counted ? { kind: 'learn_session', day: A.day, limit: LEARN_FREE.sessionsPerDay } : null,
     });

@@ -19,7 +19,7 @@ import { keycardsService } from '@/lib/server/keycardsHttp';
 import { loadKeycardsSyllabus } from '@/lib/server/keycardsSyllabus';
 import { readHeldMobPapers } from '@/lib/server/answerHold';
 import { lessonsFor as studyLessons } from '@/lib/server/study';
-import { createLearn, servedOptions } from '@/lib/server/learn';
+import { createLearn, learnServed } from '@/lib/server/learn';
 import { createPracticeSource } from '@/../data/practice_source';
 import { filterServable } from '@/../data/cuet_syllabus';
 import { isPassageLinkedQuestion } from '@/../data/nta_question_selector';
@@ -54,7 +54,8 @@ async function buildIndex(db, subject, syllabus, decks) {
     if (!managed(row) && !legacy.has(row.id)) continue;
     const resolved = syllabus.resolveChapter(subject, row.chapter);
     if (!resolved || resolved.retired) continue;
-    const options = servedOptions(row.options);
+    // The stable option order (data/option_order.js): the light pool row carries the stem, key and explanation it needs.
+    const options = learnServed(row).options;
     if (options.length < 2) continue;
     const family = row.family_id || row.ev_family || null;
     if (family && families.has(`${resolved.key}|${family}`)) continue;

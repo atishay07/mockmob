@@ -26,8 +26,12 @@ export const RUN_COLUMNS = 'id,user_id,request_key,kind,subject,chapter_key,aske
 export const EVENT_COLUMNS = 'item_id,kind,question_id,card_id,choice,correct,fixed,origin,rating,due_at,body,created_at';
 /** The one question read at answer time: the live row's key, never every column. */
 export const ANSWER_COLUMNS = 'id,subject,chapter,question,body,options,correct_index,correct_answer,explanation,status,is_deleted,verification_state,content_hash,updated_at';
-/** A question's served content (a run reloaded after the pool moved on): no key, no explanation. */
-export const CONTENT_COLUMNS = 'id,subject,chapter,question,body,options,status,is_deleted,verification_state,content_hash,updated_at';
+/**
+ * A question's served content (a run reloaded after the pool moved on). The key and the explanation are read only to put
+ * the options in their stable order (data/option_order.js needs them to decide whether the order may move); neither
+ * leaves the server here.
+ */
+export const CONTENT_COLUMNS = 'id,subject,chapter,question,body,options,correct_index,correct_answer,explanation,status,is_deleted,verification_state,content_hash,updated_at';
 export const REVISE_COLUMNS = 'question_id,box,due_day,state,right_total,updated_at';
 
 const fail = (cause, what) => Object.assign(new Error('LEARN_UNAVAILABLE'), { code: 'LEARN_UNAVAILABLE', cause, what });
