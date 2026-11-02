@@ -282,3 +282,20 @@ test('science notation, round 4 follow-up: complex-ion charges, NCERT en-dash mi
   assert.equal(t('(CH3)2NH and (C2H5)2NH'), '(CH₃)₂NH and (C₂H₅)₂NH', 'a formula that starts with a bracket keeps it');
 });
 
+
+// ---------------------------------------------------------------- R5 LK40: nothing traps the wheel
+
+test('R5 LK40: the run item scrollers chain to the stage (a question that fits must not trap the wheel); only the stage body contains', () => {
+  const run = readText(new URL('../run/run.css', import.meta.url));
+  const lines = run.split('\n');
+  const areaRules = lines.filter((l) => /^\s*\.lr-area \{.*max-height/.test(l) && /overflow-y: auto/.test(l));
+  assert.ok(areaRules.length >= 1, 'the item area that scrolls from tablet up');
+  for (const r of areaRules) {
+    assert.match(r, /overscroll-behavior: auto/, 'the item area chains to the stage body');
+    assert.doesNotMatch(r, /overscroll-behavior: contain/);
+  }
+  assert.match(run, /\.lr-face \{[^}]*overscroll-behavior: auto/, 'a card face that cannot scroll lets the wheel through');
+  assert.ok(lines.some((l) => l.startsWith('.lr-body {') && /overscroll-behavior: contain/.test(l)), 'the stage body keeps the page behind from moving');
+  const stage = readText(new URL('./stage.css', import.meta.url));
+  assert.match(stage, /html:has\(\.st\.kc\) \{ overscroll-behavior: none; \}/);
+});
