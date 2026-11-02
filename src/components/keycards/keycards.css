@@ -249,8 +249,8 @@ ol.kc-ncert--list li::before { content: counter(kc) '.'; width: auto; height: au
 /* A back with a formula may shrink to its card (a grid or flex item otherwise grows to the formula's width); a display
    formula too wide even at its fitted size (TexHtml MIN_FIT) scrolls inside its own line. */
 .kc-ncert, .kc-ncert > *, .kc-tex { min-width: 0; max-width: 100%; }
-.kc-tex .katex-display { max-width: 100%; margin: 0.4em 0; overflow-x: auto; overflow-y: hidden; padding: 2px 0; scrollbar-width: thin; }
 .kc-tex .katex-display > .katex { font-size: calc(1.05em * var(--kc-fit, 1)); }
+.kc-tex .katex-display { max-width: 100%; margin: 0.4em 0; overflow-x: auto; overflow-y: hidden; padding: 2px 0; scrollbar-width: thin; }
 /* Inline math and the punctuation touching it (keycards_tex.js texHtml) never part: no line starts with the full stop after
    a formula or ends with the bracket before one. */
 .kc-tex .kc-texrun { white-space: nowrap; }
