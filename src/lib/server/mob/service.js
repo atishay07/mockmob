@@ -19,10 +19,11 @@ import { createHmac } from 'node:crypto';
 import {
   EXTRA_LENGTHS, EXTRA_MAX_PER_WEEK, EXTRA_OPEN_DAYS, FREE_MAX_MOBS, INVITE_DAYS, MAX_MEMBERSHIPS, MobError, PAPER_COUNT, PRO_MAX_MOBS,
   REPORT_REASONS, SECONDS_PER_QUESTION, UUID_RE, buildView, checkColour, checkName, closesAt, codeFromBytes, computeTogether, computeTrap,
-  displayCode, finishedInWindow, mobWeek, normalizeCode, picksFromAttempt, tooLateToStart, trapPayload,
+  displayCode, finishedInWindow, mobWeek, normalizeCode, picksFromAttempt, stableOrderWeek, tooLateToStart, trapPayload,
 } from '../../mob/model.mjs';
 import { mobName, validNameKey } from '../../mob/names.mjs';
 import { buildCompare, compareSummary, sharingSet } from '../../mob/compare.mjs';
+import { outOrder, servedOut } from '../../../../data/option_order.js';
 import { detailFromAttempt } from './detail.js';
 import { memberIdFor } from './memberId.js';
 import { createMobV3Service } from './games.js';
@@ -124,6 +125,10 @@ export function createMobService(deps) {
     return { ...state, week };
   }
 
+  // A paper of a week from STABLE_ORDER_FROM_WEEK is served in the stable option order (R5 Packet A): the snapshot carries each
+  // question's optionOrder and the finish stores picks as stored indices (picksFromAttempt); older weeks keep the stored order.
+  const servedFor = (week, questions) => (Array.isArray(questions) && stableOrderWeek(week) ? questions.map(servedOut) : questions);
+
   const sittingParams = (userId, mobId, week, questionIds, attempt) => ({
     p_user_id: userId, p_mob_id: mobId, p_week: week, p_session_id: String(attempt.id),
     p_score: Number(attempt.correct) || 0, p_max_score: Math.max(1, Number(attempt.total) || questionIds.length),
@@ -195,7 +200,7 @@ export function createMobService(deps) {
       if (!raw) return { trap: null, together };
       const question = byId.get(ids[raw.questionIndex]);
       const trapName = deps.trapNameFor ? await Promise.resolve(deps.trapNameFor(question, raw.optionIndex)).catch(() => null) : null;
-      return { trap: trapPayload(raw, { questionId: ids[raw.questionIndex], trapName, youPicked: mine.picks?.[raw.questionIndex], key: keys[raw.questionIndex] }), together };
+      return { trap: trapPayload(raw, { questionId: ids[raw.questionIndex], trapName, youPicked: mine.picks?.[raw.questionIndex], key: keys[raw.questionIndex], order: question && stableOrderWeek(state.week) ? outOrder(question) : null }), together };
     } catch { return none; }
   }
 
@@ -544,7 +549,7 @@ export function createMobService(deps) {
         const input = { experience: 'practice', mode: 'quick', count: questions.length, subject: state.mob.subject, generationKey };
         if (typeof body.startReceipt === 'string' && body.startReceipt.length <= 2000) input.startReceipt = body.startReceipt;
         // holdUntil: the answers stay on the server until the paper closes (src/lib/mob/paperHold.mjs).
-        return await runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: state.week, holdUntil: holdStamp({ weekStart: state.week }), questions } });
+        return await runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: state.week, holdUntil: holdStamp({ weekStart: state.week }), questions: servedFor(state.week, questions) } });
       } catch (error) {
         await release();
         throw error;
@@ -594,7 +599,7 @@ export function createMobService(deps) {
       const raw = sittings.length >= 3 ? computeTrap(sittings, keys) : null;
       const trapName = raw && deps.trapNameFor ? await Promise.resolve(deps.trapNameFor(byId.get(ids[raw.questionIndex]), raw.optionIndex)).catch(() => null) : null;
       const out = buildCompare({
-        members: state.members, sittings, ids, questions: questions.map((x) => ({ id: x.id, stem: x.stem ?? x.question ?? x.body ?? '', correctIndex: x.correctIndex })),
+        members: state.members, sittings, ids, questions: questions.map((x) => ({ id: x.id, stem: x.stem ?? x.question ?? x.body ?? '', correctIndex: x.correctIndex, order: stableOrderWeek(week) ? outOrder(x) : null })),
         userId, memberIdFor: idFor(state.mob.id), access, kind, week, extra, trapName, nameOf: nameIn(state),
       });
       const mine = sittings.find((s) => s.user_id === userId);
@@ -709,7 +714,7 @@ export function createMobService(deps) {
     const generationKey = `mob_${createHmac('sha256', String(deps.secret || 'mob')).update(`extra:${extra.id}:${userId}`).digest('hex').slice(0, 40)}`;
     const input = { experience: 'practice', mode: 'quick', count: questions.length, subject: state.mob.subject, generationKey };
     if (typeof body.startReceipt === 'string' && body.startReceipt.length <= 2000) input.startReceipt = body.startReceipt;
-    return runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: String(extra.week_start).slice(0, 10), extraId: extra.id, holdUntil: holdStamp({ extraClosesAt: extra.closes_at }), questions } }, { extra: true });
+    return runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: String(extra.week_start).slice(0, 10), extraId: extra.id, holdUntil: holdStamp({ extraClosesAt: extra.closes_at }), questions: servedFor(extra.week_start, questions) } }, { extra: true });
   }
 
   /**

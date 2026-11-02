@@ -89,7 +89,7 @@ export function compareSummary({ pro, sample, mobId, week, sittings, userId, mem
 /**
  * The side-by-side payload (GET /api/mob/compare). Only built for a student who sat and for a plan that may open it.
  *   state     mob_state's answer for the week (members and sittings, rows as the database returns them)
- *   ids       the paper's question ids in order; questions: [{ id, stem, correctIndex }] in the same order (missing ones
+ *   ids       the paper's question ids in order; questions: [{ id, stem, correctIndex, order? }] in the same order (missing ones
  *             are left out of the payload, never guessed)
  *   memberIdFor(userId) -> memberId (user ids never leave the server)
  *   trapName  the trap atlas name for the shared trap, when known
@@ -110,12 +110,18 @@ export function buildCompare({ members, sittings, ids, questions, userId, member
   const qs = new Map((questions || []).map((q) => [q.id, q]));
   const keys = (ids || []).map((id) => (Number.isInteger(qs.get(id)?.correctIndex) ? qs.get(id).correctIndex : -1));
   const trapRaw = list.length >= TRAP_MIN_SITTERS ? computeTrap(list, keys) : null;
+  // Picks and keys are stored option indices; a letter is shown as the paper serves it (questions[].order: served position i
+  // shows stored option order[i], R5 Packet A). No order: the stored order.
+  const letterIn = (q, p) => {
+    const order = qs.get(ids[q])?.order;
+    return letterFor(Array.isArray(order) && order.includes(p) ? order.indexOf(p) : p);
+  };
   const row = (s, q, key) => {
     const given = picksOf(s, q);
     const t = Array.isArray(s?.detail?.t) ? s.detail.t[q] : null;
     const c = Array.isArray(s?.detail?.c) ? s.detail.c[q] : null;
     return {
-      picked: given >= 0 ? letterFor(given) : null,
+      picked: given >= 0 ? letterIn(q, given) : null,
       right: key >= 0 ? given === key : null,
       changed: Number.isInteger(c) && c >= 0 ? c : null,
       seconds: Number.isInteger(t) && t >= 0 ? t : null,
@@ -135,15 +141,15 @@ export function buildCompare({ members, sittings, ids, questions, userId, member
       number: q + 1,
       id,
       stem: clip(info.stem),
-      key: key >= 0 ? letterFor(key) : null,
+      key: key >= 0 ? letterIn(q, key) : null,
       you: mine ? row(mine, q, key) : null,
       others: shown.map((m) => ({ memberId: memberIdFor(m.user_id), name: m.display_name, colour: m.colour, ...row(byUser.get(m.user_id), q, key) })),
       // How the readable members picked: counts per option, no names, only with 3 or more of them (P7).
       picks: readable.length >= TRAP_MIN_SITTERS
-        ? [...counts].filter(([p]) => p >= 0).sort((a, b) => a[0] - b[0]).map(([p, n]) => ({ option: letterFor(p), count: n })).concat(counts.get(-1) ? [{ option: null, count: counts.get(-1) }] : [])
+        ? [...counts].filter(([p]) => p >= 0).map(([p, n]) => ({ option: letterIn(q, p), count: n })).sort((a, b) => a.option.localeCompare(b.option)).concat(counts.get(-1) ? [{ option: null, count: counts.get(-1) }] : [])
         : null,
       split,
-      trap: trapRaw && trapRaw.questionIndex === q ? { option: letterFor(trapRaw.optionIndex), count: trapRaw.count, of: trapRaw.of, trapName } : null,
+      trap: trapRaw && trapRaw.questionIndex === q ? { option: letterIn(q, trapRaw.optionIndex), count: trapRaw.count, of: trapRaw.of, trapName } : null,
     });
   });
   const teaser = computeTeaser(list, { userId, share, nameOf, count: ids?.length || 0 });
