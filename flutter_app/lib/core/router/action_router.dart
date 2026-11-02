@@ -197,10 +197,19 @@ abstract final class ActionRouter {
         if (s.length == 2) return _id.hasMatch(s[1]) ? AppRoutes.learnRun(s[1]) : _reject;
       case 'result':
         if (s.length == 2) return _id.hasMatch(s[1]) ? _result(s[1], q) : _reject;
+      // The web's Explore is the chapter feed covers over the question stream. With no question filter it is the covers
+      // here (the router sends them to the stream while Learn v2 is off); a chapter, a difficulty or Saved is the stream.
       case 'explore':
-        if (s.length == 1) return _stream(q);
+        if (s.length == 1) return _questionsOnly(q) ? _stream(q) : _explore(q);
         // Learn v2 (APP-1101 6): a chapter feed.
         if (s.length == 2 && s[1] == 'run') return _feed(q);
+      // Key cards and a chapter's deck (Study, Last look); while Learn v2 is on the router opens their Learn v2 places.
+      case 'cards':
+        if (s.length == 1) return _withParams(AppRoutes.keyCards, {if (_subject.hasMatch(q['subject'] ?? '')) 'subject': q['subject']!});
+        if (s.length == 2) {
+          if (!_chapterKey.hasMatch(s[1])) return _reject;
+          return _withParams(AppRoutes.keyCardsChapter(s[1]), {if (_deckModes.contains(q['mode'])) 'mode': q['mode']!});
+        }
       // Learn v2's web places (APP-1101 6). A run is /learn/session here (the lesson engine owns /learn/run/:runId), and
       // Find is the Learn door with its search open; the chapter page and its Cards view keep their paths. Lessons
       // (/learn/:unitId, /learn/run/:runId) fall through to the native table as before.
@@ -300,6 +309,7 @@ abstract final class ActionRouter {
   /// A Key card id: `kc.accountancy.partnership-fundamentals.term-partners-firm`.
   static final RegExp _cardId = RegExp(r'^[A-Za-z0-9_.-]{1,160}$');
   static const Set<String> _cardFilters = {'must', 'revise', 'missed'};
+  static const Set<String> _deckModes = {'study', 'last-look'};
   static const Set<String> _runKinds = {'mix', 'cards', 'recap', 'level', 'feed'};
   static const Set<String> _leaveOut = {'cards', 'questions', 'mistakes', 'lesson'};
 
@@ -361,6 +371,15 @@ abstract final class ActionRouter {
   static String _result(String attemptId, Map<String, String> q) {
     final number = q['q'];
     return _withParams(AppRoutes.result(attemptId), {if (number != null && _positive.hasMatch(number)) 'q': number});
+  }
+
+  /// An Explore link that asks for questions: a chapter or difficulty filter, or the saved questions.
+  static bool _questionsOnly(Map<String, String> q) => q.containsKey('chapter') || q.containsKey('difficulty') || q['source'] == 'saved';
+
+  /// Explore's chapter feed covers, on a well-formed subject.
+  static String _explore(Map<String, String> q) {
+    final subject = q['subject'];
+    return _withParams(AppRoutes.explore, {if (subject != null && _subject.hasMatch(subject)) 'subject': subject});
   }
 
   /// The question stream, keeping a well-formed subject, chapter and difficulty, or the saved

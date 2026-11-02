@@ -224,8 +224,13 @@ void main() {
 
   group('website features with a native home (WEB-PARITY 2.3)', () {
     test('explore, saved, analytics and the mentor', () {
-      expect(_go('/explore'), const NativeTarget('/practice/stream'));
+      // A bare Explore is the chapter feed covers (the router sends them to the stream while Learn v2 is off); a
+      // question filter or Saved is the stream.
+      expect(_go('/explore'), const NativeTarget('/explore'));
+      expect(_go('/explore?subject=economics'), const NativeTarget('/explore?subject=economics'));
       expect(_go('/explore?subject=economics&difficulty=hard'), const NativeTarget('/practice/stream?subject=economics&difficulty=hard'));
+      expect(_go('/explore?subject=accountancy&chapter=Goodwill'), const NativeTarget('/practice/stream?subject=accountancy&chapter=Goodwill'));
+      expect(_go('/explore?source=saved&start=q_1'), const NativeTarget('/practice/stream?source=saved&start=q_1'));
       expect(_go('/saved'), const NativeTarget('/review/saved'));
       expect(_go('/analytics'), const NativeTarget('/review/insights'));
       expect(_go('/mentor'), const NativeTarget('/review/insights'));
@@ -246,6 +251,12 @@ void main() {
       expect(_go('/learn/c/accountancy.admission-of-partner/cards?f=must'), const NativeTarget('/learn/c/accountancy.admission-of-partner/cards?f=must'));
       expect(_go('/learn/c/accountancy.admission-of-partner/cards?f=all-of-it'), const NativeTarget('/learn/c/accountancy.admission-of-partner/cards'));
       expect(_go('/learn/c/NOT A KEY'), const UnsupportedTarget());
+      // Key cards links open the Key cards places, which the router turns into Learn v2's while it is on.
+      expect(_go('/cards'), const NativeTarget('/cards'));
+      expect(_go('/cards?subject=economics'), const NativeTarget('/cards?subject=economics'));
+      expect(_go('/cards/accountancy.goodwill-valuation?mode=last-look'), const NativeTarget('/cards/accountancy.goodwill-valuation?mode=last-look'));
+      expect(_go('/cards/accountancy.goodwill-valuation?mode=print'), const NativeTarget('/cards/accountancy.goodwill-valuation'));
+      expect(_go('/cards/NOT A KEY'), const UnsupportedTarget());
       // The lesson paths are unchanged.
       expect(_go('/learn/unit-3'), const NativeTarget('/learn/unit-3'));
       expect(_go('/study/run-7'), const NativeTarget('/learn/run/run-7'));

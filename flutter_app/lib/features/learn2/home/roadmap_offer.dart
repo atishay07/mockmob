@@ -72,7 +72,12 @@ class RoadmapOffer extends StatelessWidget {
               if (progress != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 12),
-                  child: _Track(done: progress.done, of: progress.of),
+                  child: _Track(
+                    done: progress.done,
+                    of: progress.of,
+                    // The line above already says "6 of 16 done": the track then reads nothing more.
+                    speak: line == null || HomeModel.displayTitle(line) != HomeCopy.progressDone(progress.done, progress.of),
+                  ),
                 ),
               if (sub != null)
                 Padding(
@@ -177,10 +182,13 @@ class _OrRow extends StatelessWidget {
 
 /// The pick-up's thin track: only steps that are done (the real "6 of 16"), filled once per visit (420 ms).
 class _Track extends StatelessWidget {
-  const _Track({required this.done, required this.of});
+  const _Track({required this.done, required this.of, this.speak = true});
 
   final int done;
   final int of;
+
+  /// Whether the track says "6 of 16 done" to a screen reader (not when the words are already on the screen).
+  final bool speak;
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +196,7 @@ class _Track extends StatelessWidget {
     final share = of <= 0 ? 0.0 : (done / of).clamp(0.0, 1.0);
     final play = HomeEntrance.playingIn(context);
     return Semantics(
-      label: HomeCopy.progressDone(done, of),
+      label: speak ? HomeCopy.progressDone(done, of) : null,
       child: ExcludeSemantics(
         child: Align(
           alignment: Alignment.centerLeft,

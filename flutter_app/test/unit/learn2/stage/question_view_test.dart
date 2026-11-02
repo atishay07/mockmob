@@ -308,6 +308,11 @@ void main() {
     expect(find.textContaining('Public debt', skipOffstage: false), findsWidgets);
   });
 
+  test('the clamp grows with the text size, as the web\'s em clamp does (the 1.3 walk cut the line after two lines)', () {
+    expect(StageClampLine.heightFor(TextScaler.noScaling), StageClampLine.maxHeight);
+    expect(StageClampLine.heightFor(const TextScaler.linear(1.3)), closeTo(126.8, 0.01));
+  });
+
   testWidgets('a long question says "Options below" while option A waits under the fold; a tap brings it up', (tester) async {
     await pumpStage(tester, _QHost(stem: _plain.stem, options: _plain.options));
     await tester.pumpAndSettle();

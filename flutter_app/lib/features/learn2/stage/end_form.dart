@@ -404,10 +404,8 @@ class _BarState extends State<_Bar> with SingleTickerProviderStateMixin {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Semantics(
-          label: p.label,
-          image: true,
-          excludeSemantics: true,
+        // The label is drawn under the bar, so a screen reader reads it once, from the words.
+        ExcludeSemantics(
           child: ClipRRect(
             borderRadius: BorderRadius.circular(2),
             child: SizedBox(

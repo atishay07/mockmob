@@ -293,6 +293,14 @@ String? _keyCardsToLearn2(BuildContext context, GoRouterState state) {
   return on ? Learn2Links.fromKeyCards(state.uri) : null;
 }
 
+/// Explore's covers are Learn v2's (APP-1101 6): while it is off, /explore is the question stream it was before.
+String? _exploreWhileLearn2Off(BuildContext context, GoRouterState state) {
+  if (state.uri.path != AppRoutes.explore) return null;
+  if (ProviderScope.containerOf(context, listen: false).read(learnOnProvider)) return null;
+  final subject = state.uri.queryParameters['subject'];
+  return Uri(path: AppRoutes.practiceStream, queryParameters: subject == null ? null : {'subject': subject}).toString();
+}
+
 /// A page over the bar that was opened with nothing under it (`go` from a screen outside the shell):
 /// system Back goes to Today instead of closing the app (L04). With a page under it, Back pops as
 /// usual.
@@ -525,7 +533,7 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey, Set<RouteBase> sheets
 
     // Explore (APP-1101): the chapter feed covers, pushed over the shell from Practise's More ways in; a feed is a
     // full-screen page over it that fades in like the runner.
-    page(AppRoutes.explore, learn2ExploreScreen, root: true, routes: [
+    page(AppRoutes.explore, learn2ExploreScreen, root: true, redirect: _exploreWhileLearn2Off, routes: [
       page('feed', learn2FeedScreen, transition: MmTransition.fade, root: true),
     ]),
 

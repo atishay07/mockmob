@@ -860,8 +860,12 @@ class StageClampLine extends StatefulWidget {
 
   final Widget child;
 
-  /// The height of the clamp: four lines at 1.5 of 16 dp, and 2.
+  /// The height of the clamp at text size 1: four lines at 1.5 of 16 dp, and 2.
   static const double maxHeight = 98;
+
+  /// The web's clamp is `calc(4 * 1.5em + 2px)`, so it grows with the text size; on the phone it grows with the text scale
+  /// the same way, or a large text size would cut the line after two lines.
+  static double heightFor(TextScaler scaler) => scaler.scale(16) * 1.5 * 4 + 2;
 
   @override
   State<StageClampLine> createState() => _StageClampLineState();
@@ -887,7 +891,7 @@ class _StageClampLineState extends State<StageClampLine> {
     final clipped = NotificationListener<ScrollMetricsNotification>(
       onNotification: (n) => _read(n.metrics),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxHeight: StageClampLine.maxHeight),
+        constraints: BoxConstraints(maxHeight: StageClampLine.heightFor(MediaQuery.textScalerOf(context))),
         child: SingleChildScrollView(physics: const NeverScrollableScrollPhysics(), child: widget.child),
       ),
     );
