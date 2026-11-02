@@ -1,7 +1,7 @@
 # Learn v2 emulator walk helpers (APP-1101 section 7). Git Bash, from flutter_app:
 #   source tool/walk_learn2.sh
 #   l2_build pro returning      # builds and installs the demo for one variant (pro|free, returning|new)
-#   l2_prep                     # adb reverse to the web dev preview on port 3451 (the demo's Learn v2 engine)
+#   l2_prep                     # adb reverse to the web dev preview on port 3452 (the demo's Learn v2 engine)
 #   l2_theme day|night          # the phone's dark mode (the app follows Appearance; see l2_app_theme)
 #   l2_launch                   # opens the demo app fresh
 #   shot <name>; rec_start <name> <seconds>; rec_stop <name>; tapd "label regex"; sw ...; t x y s   (from emu_rec.sh)
@@ -24,8 +24,8 @@ l2_build() {
   adb install -r build/app/outputs/flutter-apk/app-debug.apk
 }
 
-# The demo's Learn v2 calls go to http://localhost:3451 on the phone, which adb reverse carries to this PC's dev preview.
-l2_prep() { adb reverse tcp:3451 tcp:3451; adb shell settings put global animator_duration_scale 1; }
+# The demo's Learn v2 calls go to http://localhost:3452 on the phone, which adb reverse carries to this PC's dev preview.
+l2_prep() { adb reverse tcp:3452 tcp:3452; adb shell settings put global animator_duration_scale 1; }
 
 # The phone's dark mode (for a demo set to follow the system).
 l2_theme() { if [ "$1" = day ]; then adb shell cmd uimode night no; else adb shell cmd uimode night yes; fi; sleep 1; }
