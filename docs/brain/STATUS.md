@@ -1,3 +1,18 @@
+## 2 Nov 2026, about 9:45 am IST: Key cards +668 to production (owner LK34): recovery round 2 (cards held as ambiguous, and Computer Science front wording)
+
+**What shipped (15,469 cards, from 14,801):**
+- **Recovery round 2:** 1,003 held cards went through a fixer and an independent re-reviewer (handoff-1102/recovery2-1102.js, 56 groups, 112 Sonnet agents, 0 errors). 876 had passed review on exact and important but were held as not unambiguous; 127 Computer Science cards were held only for front wording. A fixer either gave the front the context that leaves one right answer, changed the blank or the kind, or dropped the card when no honest fix existed.
+- **Published gain:** Computer Science +194 (1,544), History +90, Sociology +88, Geography +107, Chemistry +57, Psychology +48, Physics +46, Mathematics +20 (310), Accountancy +8 (920), Economics +5, Biology +2, Political Science +2, Business Studies +1. English unchanged (650).
+- **Safety:** no published card was removed or changed (deck-by-deck comparison with HEAD). handoff-1102/check-drafts-r2-1102.mjs confirmed the fixers touched only their fix-list cards. One fixer (lebs108) reported edits that never reached the draft; its two cards stay held, and the reviewer's verdict for the missing id is ignored by review-merge.
+- **Tiers:** 3,803 of 15,469 cards are Must-know (25%). learn_preview now pins Accountancy at 920 cards and 236 Must-know.
+
+**Verified:**
+- Suites: keycards 82, keycards-ui 40, learn 381, syllabus 24, subjects 62, today 146, recovery 637, billing 453, auth 141, app 984, du 42, dock 55, community 11, learning 357, nta 229, question-reorder 25, goal-minutes 23, attempt-reads 12, health-auth-board 10, least-privilege 12, egress 101, answer-integrity 11, health-egress 56: all pass. Known failures, also on main 978edc236: authored-publish 13, factory 5, mob 7, study 1.
+- `eslint .` is clean, and `next build --webpack` exits 0.
+- Looked at in the local preview: feed cards in Computer Networks, Mass Media and Communications, Vijayanagara and Attitude and Social Cognition (390 Night, face and back), Amines and Planning and Sustainable Development (1440 Day), and the Computer Networks card list (390 Day, 84 cards). No page errors.
+
+**Rollback:** the previous production deployment (main 31af5f9dc, dpl_CxXNLxRhN454H9K32NJJpqVL8xFb).
+
 ## 2 Nov 2026, about 4:35 am IST: Key cards +911 to production (owner LK34): wording recovery, English top-up, Accountancy thin chapters
 
 **What shipped (14,801 cards, from 13,890):**
