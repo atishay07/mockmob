@@ -86,7 +86,8 @@ const SPACES = new Set([',', ';', ':', '>', ' ', 'quad', 'qquad', 'enspace', 'th
 const DROPPED = new Set(['!', 'displaystyle', 'textstyle', 'scriptstyle', 'limits', 'nolimits', 'nonumber', 'hline', 'middle',
   'big', 'Big', 'bigg', 'Bigg', 'bigl', 'bigr', 'Bigl', 'Bigr', 'biggl', 'biggr', 'Biggl', 'Biggr']);
 // Commands whose one argument is shown as it is (fonts and words in math).
-const CONTENT = new Set(['mathbf', 'mathbb', 'mathrm', 'mathit', 'mathsf', 'mathcal', 'boldsymbol', 'bm', 'operatorname']);
+// (\operatorname is read as a function name: mathPlain's FUNCTIONS branch.)
+const CONTENT = new Set(['mathbf', 'mathbb', 'mathrm', 'mathit', 'mathsf', 'mathcal', 'boldsymbol', 'bm']);
 const TEXT = new Set(['text', 'textrm', 'textit', 'textbf', 'textsf', 'mbox']);
 // Accents: the argument followed by one combining mark (on every character for an over- or underline).
 const ACCENT = { vec: '⃗', overrightarrow: '⃗', hat: '̂', widehat: '̂', bar: '̄', tilde: '̃', widetilde: '̃', dot: '̇', ddot: '̈' };
@@ -137,11 +138,39 @@ function script(body, mark) {
   const chars = [...s];
   return chars.every((c) => map[c]) ? chars.map((c) => map[c]).join('') : `${mark}(${s})`;
 }
-// A numerator, a denominator or a matrix cell stays bare only when it is one number (−1), one letter or Greek letter (with an
-// accent, a subscript or a prime: a₁, θ′), or a differential (d, dy, d²y, dx²); anything else is bracketed: 1/(2a),
-// (sin x)/x, [(x + 1), 2; 3, (y − 1)].
-const BARE = new RegExp(`^(?:−?\\d+(?:\\.\\d+)?|\\p{L}\\p{M}*(?:[${Object.values(SUB).join('')}]+|_\\([^()]*\\))?′*|[d∂][²³ⁿ]?(?:\\p{L}[²³ⁿ]?)?)$`, 'u');
-const bare = (s) => (!s || BARE.test(s) ? s : `(${s})`);
+// A numerator or a denominator stays bare only when it is one term: one number (−1), one letter or Greek letter (with an
+// accent, a subscript or a prime: a₁, θ′), a differential (d, dy, d²y, dx²), one function-call form (a letter or a function
+// name directly followed by one bracket group: f(x), P(E ∩ F), sin⁻¹(x)), one absolute value (|A|) or one root (√x,
+// √(1 − x²)); anything else is bracketed: 1/(2a), (sin x)/x.
+const SUBS = Object.values(SUB).join('');
+const SUPS = Object.values(SUP).join('');
+const BARE = new RegExp(`^(?:−?\\d+(?:\\.\\d+)?|\\p{L}\\p{M}*(?:[${SUBS}]+|_\\([^()]*\\))?′*|[d∂][²³ⁿ]?(?:\\p{L}[²³ⁿ]?)?)$`, 'u');
+const CALL_HEAD = new RegExp(`^(?:\\p{L}\\p{M}*[${SUBS}]*′*|(?:${[...FUNCTIONS, 'adj'].join('|')})[${SUPS}]*)(?=[([])`, 'u');
+const ROOT_HEAD = new RegExp(`^(?:[${SUPS}]+|\\([^()]*\\))?√`, 'u');
+const PAIRS = { '(': ')', '[': ']', '{': '}' };
+// Does the bracket group opening at s[0] close exactly at the end of s?
+const oneGroup = (s) => {
+  if (!PAIRS[s[0]]) return false;
+  const stack = [];
+  for (let k = 0; k < s.length; k += 1) {
+    if (PAIRS[s[k]]) stack.push(PAIRS[s[k]]);
+    else if (')]}'.includes(s[k]) && (stack.pop() !== s[k] || (!stack.length && k < s.length - 1))) return false;
+  }
+  return !stack.length;
+};
+const oneTerm = (s) => {
+  if (BARE.test(s)) return true;
+  if (/^\|[^|]+\|$/.test(s) || /^‖[^‖]+‖$/.test(s)) return true;
+  const call = CALL_HEAD.exec(s);
+  if (call) return oneGroup(s.slice(call[0].length));
+  const root = ROOT_HEAD.exec(s);
+  if (root) { const body = s.slice(root[0].length); return /^(?:\d+|\p{L}\p{M}*)$/u.test(body) || oneGroup(body); }
+  return false;
+};
+const bare = (s) => (!s || oneTerm(s) ? s : `(${s})`);
+// A matrix cell: cells are joined by ", " and rows by "; ", so a cell is bracketed only when it holds one of those itself
+// (and is not one bracket group already).
+const cell = (s) => (/[,;] /.test(s) && !oneGroup(s) ? `(${s})` : s);
 // Row spacing after a row break ("\\[2pt]") is layout, never read.
 const ROW_SPACING = /^\s*\[\s*-?[\d.]+\s*[a-z]{2}\s*\]/;
 
@@ -228,7 +257,7 @@ function mathPlain(src, { text = false } = {}) {
     const rows = splitTop(body, '\\\\').map((row, k) => (k ? row.replace(ROW_SPACING, '') : row))
       .map((row) => splitTop(row, '&').map((cell) => sub(cell))).filter((cells) => cells.some(Boolean));
     if (name === 'cases' || name === 'dcases') return `{ ${rows.map(caseRow).join('; ')}`;
-    if (MATRICES[name]) return `${MATRICES[name][0]}${rows.map((cells) => cells.map(bare).join(', ')).join('; ')}${MATRICES[name][1]}`;
+    if (MATRICES[name]) return `${MATRICES[name][0]}${rows.map((cells) => cells.map(cell).join(', ')).join('; ')}${MATRICES[name][1]}`;
     return rows.map((cells) => cells.filter(Boolean).join(ALIGNED.has(name) ? ' ' : '')).join('; ');
   };
   // One token of the source, written to `out`.
@@ -257,10 +286,13 @@ function mathPlain(src, { text = false } = {}) {
     if (name === 'left' || name === 'right') { skipSpaces(); if (peek() === '.') i += 1; return; }
     if (GREEK[name]) { out += GREEK[name]; return; }
     if (SYMBOLS[name]) { out += SYMBOLS[name]; return; }
-    if (FUNCTIONS.has(name)) {
-      // "2 sin x", "(1/2) log |x|": a space between a function and what it follows; "sin x", "sin x" for \sin{x}.
-      if (/[\p{L}\p{N})′]$/u.test(out)) out += ' ';
-      out += name;
+    if (FUNCTIONS.has(name) || name === 'operatorname') {
+      // "2 sin x", "(1/2) log |x|", "(1/|A|) adj A": a space between a function and what it follows (a letter, digit, ")",
+      // prime or closing bar); "sin x", "sin x" for \sin{x}. \operatorname{adj} is a function name the same way.
+      let word = name;
+      if (name === 'operatorname') { if (peek() === '*') i += 1; word = sub(arg()); }
+      if (/[\p{L}\p{N})′]$/u.test(out) || (out.endsWith('|') && !barOpen('|'))) out += ' ';
+      out += word;
       spaceAfterFunction();
       after = 'func';
       return;
@@ -363,16 +395,39 @@ const escapeHtml = (s) => s.replace(/[&<>"']/g, (c) => ESCAPES[c]);
 // served.
 const ANNOTATION = /<annotation\b[^>]*>[\s\S]*?<\/annotation>/g;
 
+// Punctuation that belongs to the inline math it touches: a stop, comma or closing bracket or quote right after it, an
+// opening bracket or quote right before it. The math and that punctuation are one unbreakable run (.kc-texrun in
+// keycards.css), so a line never starts with the full stop after a formula.
+const RUN_TAIL = /^[.,;:!?)\]}’”]+/;
+const RUN_LEAD = /[([{‘“]+$/;
+
 /**
  * A tex string as HTML: prose escaped (its `quotes' printed as the plain back prints them), math through KaTeX without the
- * TeX source annotation. Throws on bad delimiters or a forbidden command.
+ * TeX source annotation, inline math and its touching punctuation wrapped in <span class="kc-texrun">. Throws on bad
+ * delimiters or a forbidden command.
  */
 export function texHtml(str) {
   const split = splitTex(str);
   if (!split.ok) throw new Error('tex delimiters');
   if (FORBIDDEN_TEX.test(String(str))) throw new Error('tex command not allowed');
-  return split.parts.map((p) => (p.type === 'text' ? escapeHtml(printQuotes(p.value))
-    : katex.renderToString(p.value, { ...KATEX_OPTIONS, throwOnError: false, displayMode: p.display }).replace(ANNOTATION, ''))).join('');
+  const parts = split.parts.map((p) => (p.type === 'text' ? { ...p, value: printQuotes(p.value) } : p));
+  const inline = (k) => parts[k]?.type === 'math' && !parts[k].display;
+  // Each prose part: the punctuation the math before it takes, the middle, the punctuation the math after it takes.
+  const prose = parts.map((p, k) => {
+    if (p.type !== 'text') return null;
+    const tail = inline(k - 1) ? (RUN_TAIL.exec(p.value)?.[0] || '') : '';
+    const rest = p.value.slice(tail.length);
+    const lead = inline(k + 1) ? (RUN_LEAD.exec(rest)?.[0] || '') : '';
+    return { tail, mid: rest.slice(0, rest.length - lead.length), lead };
+  });
+  return parts.map((p, k) => {
+    if (p.type === 'text') return escapeHtml(prose[k].mid);
+    const html = katex.renderToString(p.value, { ...KATEX_OPTIONS, throwOnError: false, displayMode: p.display }).replace(ANNOTATION, '');
+    if (p.display) return html;
+    const lead = prose[k - 1]?.lead || '';
+    const tail = prose[k + 1]?.tail || '';
+    return lead || tail ? `<span class="kc-texrun">${escapeHtml(lead)}${html}${escapeHtml(tail)}</span>` : html;
+  }).join('');
 }
 
 const warned = new Set();

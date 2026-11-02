@@ -13,7 +13,7 @@ import { FORBIDDEN_TEX, KATEX_OPTIONS, TEX_SUBJECTS, alnumBag, servedTex, splitT
 import { shapeCheck, texCheck } from '../../scripts/keycards/lib.mjs';
 import { bagMinus, showCard } from '../../scripts/keycards/tex-show.mjs';
 import { loadDecks } from '../../src/lib/server/keycards.js';
-import { cardFace, texBackRows } from '../../src/components/keycards/kinds.js';
+import { cardFace, stripKindPrefix, texBackRows } from '../../src/components/keycards/kinds.js';
 
 // A Mathematics formula card that passes every check: its back is the quote (as pdftotext reads the page), its tex the
 // typeset form of the same text.
@@ -133,8 +133,9 @@ test('texToPlain: one row per mapping, with NCERT-shaped inputs', () => {
     ['$\\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix}$', '[a, b; c, d]'], ['$\\begin{vmatrix} 1 & 2 \\\\ 3 & 4 \\end{vmatrix}$', '|1, 2; 3, 4|'],
     ['$\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$', '[1, 0; 0, 1]'], ['$\\begin{matrix} x & y \\end{matrix}$', '[x, y]'],
     ['$\\begin{bmatrix} 1 & 2 \\\\ 3 & 4 \\end{bmatrix}$', '[1, 2; 3, 4]'],
-    // a cell with an operator is bracketed, as a fraction part is; an array adds no brackets of its own; row spacing never leaks
-    ['$\\begin{bmatrix} x + 1 & 2 \\\\ 3 & y - 1 \\end{bmatrix}$', '[(x + 1), 2; 3, (y − 1)]'],
+    // cells joined by ", ", rows by "; ", a cell bare unless it holds ", " or "; "; an array adds no brackets of its own; row
+    // spacing never leaks
+    ['$\\begin{bmatrix} x + 1 & 2 \\\\ 3 & y - 1 \\end{bmatrix}$', '[x + 1, 2; 3, y − 1]'],
     ['$\\begin{array}{cc} 1 & -1 \\\\ 2 & 3 \\end{array}$', '1, −1; 2, 3'], ['$\\left[\\begin{array}{cc} 1 & 2 \\\\ 3 & 4 \\end{array}\\right]$', '[1, 2; 3, 4]'],
     ['$\\left|\\begin{array}{cc} a & b \\\\ c & d \\end{array}\\right|$', '|a, b; c, d|'],
     ['$\\begin{bmatrix} 1 & 2 \\\\[2pt] 3 & 4 \\end{bmatrix}$', '[1, 2; 3, 4]'], ['$\\begin{vmatrix} a_{11} & a_{12} \\\\[1em] a_{21} & a_{22} \\end{vmatrix}$', '|a₁₁, a₁₂; a₂₁, a₂₂|'],
@@ -182,6 +183,55 @@ test('texToPlain: smaller readings (\\sin{x}, capital superscripts, aligned, bar
   // \binom is no longer read: an author writes NCERT's own {}^{n}C_{r}, and \binom falls to shape:tex_plain.
   assert.ok(texToPlain('$\\binom{n}{r}$').includes('\\binom'));
   assert.equal(texToPlain('${}^{n}C_{r}$'), 'ⁿCᵣ');
+});
+
+test('texToPlain: matrix rows are kept apart by "; ", cells by ", ", and a cell is bracketed only when it holds ", " or "; "', () => {
+  const rows = [
+    ['$\\begin{bmatrix} x + 1 & 2 \\\\ 3 & y - 1 \\end{bmatrix}$', '[x + 1, 2; 3, y − 1]'],
+    ['$\\begin{pmatrix} x + 1 & 2 \\\\ 3 & y - 1 \\end{pmatrix}$', '[x + 1, 2; 3, y − 1]'],
+    ['$\\begin{vmatrix} a & b \\\\ c & d \\end{vmatrix}$', '|a, b; c, d|'],
+    ['$\\begin{matrix} a + b & c \\\\ d & e \\end{matrix}$', '[a + b, c; d, e]'],
+    ['$\\left[\\begin{array}{cc} x + 1 & 2 \\\\ 3 & y - 1 \\end{array}\\right]$', '[x + 1, 2; 3, y − 1]'],
+    // a 3×3 with fractions in its cells: each fraction read on its own rule, no cell brackets
+    ['$\\begin{bmatrix} \\frac{1}{2} & 0 & \\frac{a + b}{2} \\\\ -1 & \\frac{x}{y} & 3 \\\\ 0 & 1 & \\frac{1}{2a} \\end{bmatrix}$',
+      '[1/2, 0, (a + b)/2; −1, x/y, 3; 0, 1, 1/(2a)]'],
+    // a cell that holds ", " is bracketed once (and not again when it is one bracket group already)
+    ['$\\begin{bmatrix} 1, 2 & 3 \\\\ (4, 5) & 6 \\end{bmatrix}$', '[(1, 2), 3; (4, 5), 6]'],
+    // cases, with \\ and with \\[2pt]
+    ['$f(x) = \\begin{cases} x + 1, & \\text{if } x \\ge 0 \\\\ 1 - x, & \\text{if } x < 0 \\end{cases}$', 'f(x) = { x + 1, if x ≥ 0; 1 − x, if x < 0'],
+    ['$f(x) = \\begin{cases} x + 1, & \\text{if } x \\ge 0 \\\\[2pt] 1 - x, & \\text{if } x < 0 \\end{cases}$', 'f(x) = { x + 1, if x ≥ 0; 1 − x, if x < 0'],
+  ];
+  for (const [tex, plain] of rows) assert.equal(texToPlain(tex), plain, tex);
+  // The JSON form: a card file stores the row separator as four backslashes, which JSON reads as the two TeX writes.
+  const card = JSON.parse(String.raw`{"back": "$\\begin{bmatrix} x + 1 & 2 \\\\ 3 & y - 1 \\end{bmatrix}$"}`);
+  assert.equal(card.back, '$\\begin{bmatrix} x + 1 & 2 \\\\ 3 & y - 1 \\end{bmatrix}$');
+  assert.equal(texToPlain(card.back), '[x + 1, 2; 3, y − 1]');
+  // One backslash is TeX's control space, not a row break: one row of three cells, as KaTeX draws it.
+  assert.equal(texToPlain('$\\begin{bmatrix} x + 1 & 2 \\ 3 & y - 1 \\end{bmatrix}$'), '[x + 1, 2 3, y − 1]');
+});
+
+test('texToPlain: a single term stays bare in a fraction (a function call, an absolute value, a root, a signed number)', () => {
+  const rows = [
+    ['$P(E|F) = \\frac{P(E \\cap F)}{P(F)}$', 'P(E|F) = P(E ∩ F)/P(F)'],
+    ['$\\frac{1}{\\sqrt{1 - x^2}}$', '1/√(1 − x²)'],
+    ['$A^{-1} = \\frac{1}{|A|}\\operatorname{adj} A$', 'A⁻¹ = (1/|A|) adj A'],
+    ['$\\frac{f(x)}{g(x)}$', 'f(x)/g(x)'], ['$\\frac{\\sin(x)}{x}$', 'sin(x)/x'], ['$\\frac{-3}{\\sqrt{2}}$', '−3/√2'],
+    ['$\\frac{\\sqrt{x}}{2}$', '√x/2'], ['$\\frac{\\left|x\\right|}{x}$', '|x|/x'], ['$\\frac{f_1(x)}{2}$', 'f₁(x)/2'],
+    // more than one term is still bracketed
+    ['$\\frac{f(x) + 1}{2}$', '(f(x) + 1)/2'], ['$\\frac{f(x)g(x)}{2}$', '(f(x)g(x))/2'], ['$\\frac{\\sin x}{x}$', '(sin x)/x'],
+    ['$\\frac{|a| + 1}{2}$', '(|a| + 1)/2'], ['$\\frac{2\\sqrt{x}}{3}$', '(2√x)/3'],
+  ];
+  for (const [tex, plain] of rows) assert.equal(texToPlain(tex), plain, tex);
+});
+
+test('texToPlain: \\operatorname{name} is a function name for spacing', () => {
+  const rows = [
+    ['$\\operatorname{adj} A$', 'adj A'], ['$x\\operatorname{adj} A$', 'x adj A'], ['$2\\operatorname{adj} A$', '2 adj A'],
+    ['$(A)\\operatorname{adj} A$', '(A) adj A'], ['$|A|\\operatorname{adj} A$', '|A| adj A'], ['$\\operatorname{adj}(A)$', 'adj(A)'],
+    ['$\\operatorname*{adj}A$', 'adj A'], ['$|x|\\sin x$', '|x| sin x'], ['$\\left|\\sin x\\right|$', '|sin x|'],
+    ['$\\operatorname{adj} \\frac{1}{2}A$', 'adj(1/2)A'],
+  ];
+  for (const [tex, plain] of rows) assert.equal(texToPlain(tex), plain, tex);
 });
 
 test('texToPlain: deterministic, no backslash for supported input, an unknown command kept with its backslash', () => {
@@ -419,6 +469,69 @@ test('servedTex: prose is escaped', () => {
   const out = servedTex(math({ kind: 'fact', back, quote: back, tex: { back: 'If <script>alert(1)</script> & "x" then $y$' } }));
   assert.ok(!out.texHtml.back[0].html.includes('<script>'));
   assert.ok(out.texHtml.back[0].html.startsWith('If &lt;script&gt;alert(1)&lt;/script&gt; &amp; &quot;x&quot; then '));
+});
+
+test('texHtml: inline math and the punctuation touching it are one unbreakable run', () => {
+  const k = (v) => texHtml(`$${v}$`);
+  const run = (inner) => `<span class="kc-texrun">${inner}</span>`;
+  assert.equal(texHtml('Then $x = 1$. So'), `Then ${run(`${k('x = 1')}.`)} So`);
+  for (const p of ['.', ',', ';', ':', '!', '?', ')', '’', '),', '.)']) {
+    assert.equal(texHtml(`a $x$${p} b`), `a ${run(`${k('x')}${p}`)} b`, p);
+  }
+  // an opening bracket or quote right before the math; both sides at once
+  assert.equal(texHtml('so ($y$), and'), `so ${run(`(${k('y')}),`)} and`);
+  assert.equal(texHtml('the ‘$z$’ term'), `the ${run(`‘${k('z')}’`)} term`, 'curly quotes');
+  assert.equal(texHtml('“$w$”'), run(`“${k('w')}”`));
+  // nothing touching: no run; a space between: no run; display math: no run
+  assert.equal(texHtml('a $x$ b'), `a ${k('x')} b`);
+  assert.equal(texHtml('$x$'), k('x'));
+  assert.equal(texHtml('a $x$ . b'), `a ${k('x')} . b`);
+  const display = texHtml('So\n$$x = 1$$\n.');
+  assert.ok(!display.includes('kc-texrun'), 'display math is a line of its own');
+  // two formulas around one comma: the comma goes with the first, the second keeps its own run free
+  assert.equal(texHtml('$a$, $b$.'), `${run(`${k('a')},`)} ${run(`${k('b')}.`)}`);
+  // the punctuation is escaped like any prose
+  assert.ok(!texHtml('a $x$) & b').includes(') &'), 'escaped');
+  // the stylesheet keeps the run on one line, next to the other .kc-tex rules
+  const css = readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), '../../src/components/keycards/keycards.css'), 'utf8');
+  assert.match(css, /\.kc-tex \.katex-display \{[^}]*\}\r?\n(?:\/\*[\s\S]*?\*\/\r?\n)?\.kc-tex \.kc-texrun \{ white-space: nowrap; \}/);
+});
+
+test('cardFace and stripKindPrefix: no capital on a function name or a variable after the kind prefix', () => {
+  const face = (front) => cardFace({ kind: 'formula', front }).front;
+  for (const [front, shown] of [
+    ['Formula: sin(sin⁻¹ x) = x', 'sin(sin⁻¹ x) = x'], ['Formula: tan⁻¹ x + tan⁻¹ y', 'tan⁻¹ x + tan⁻¹ y'], ['Formula: sin² x + cos² x = 1', 'sin² x + cos² x = 1'],
+    ['Formula: log x', 'log x'], ['Formula: ln(xy)', 'ln(xy)'], ['Formula: cosec x', 'cosec x'], ['Formula: lim(x→0) (sin x)/x', 'lim(x→0) (sin x)/x'],
+    ['Formula: det(AB)', 'det(AB)'], ['Formula: adj A', 'adj A'], ['Formula: exp x', 'exp x'],
+    ['Formula: x = 2', 'x = 2'], ['Formula: f(x) = 2x', 'f(x) = 2x'], ['Formula: a² + b²', 'a² + b²'], ['Formula: xⁿ', 'xⁿ'],
+    // prose is still raised
+    ['Formula: current ratio', 'Current ratio'], ['Formula: sine rule', 'Sine rule'], ['Formula: logarithm of x', 'Logarithm of x'],
+    ['Formula: second derivative', 'Second derivative'], ['Formula: a function f', 'A function f'], ['Formula: limit of f', 'Limit of f'],
+  ]) assert.equal(face(front), shown, front);
+  // the tex front path (servedTex's texHtml.front) uses the same rule
+  assert.equal(stripKindPrefix('formula', 'Formula: sin(sin⁻¹ x) = x'), 'sin(sin⁻¹ x) = x');
+  assert.equal(stripKindPrefix('formula', 'Formula: x = $\\frac{1}{2}$'), 'x = $\\frac{1}{2}$');
+  assert.equal(stripKindPrefix('formula', 'Formula: principal value of $\\sin^{-1} x$'), 'Principal value of $\\sin^{-1} x$');
+  const front = 'Formula: sin(sin-1 x) = x';
+  const out = servedTex(math({ front, tex: { front: 'Formula: sin$(\\sin^{-1} x) = x$' } }));
+  assert.ok(out.texHtml.front.startsWith('sin'), out.texHtml.front.slice(0, 20));
+});
+
+test('shape:front_capital_function (mathematics and physics only)', () => {
+  const plain = (front, over = {}) => { const { tex: _tex, ...c } = math({ front, ...over }); return c; };
+  for (const front of ['Formula: Sin(sin⁻¹ x) = x', 'Sin x + cos x', 'Tan⁻¹ x', 'Cos² x + sin² x', 'Log x', 'Ln(xy)', 'Exp x', 'Formula: Cosec x', 'Csc x', 'Sec²x', 'Cot θ']) {
+    assert.ok(shapeCheck(plain(front), 'mathematics').includes('shape:front_capital_function'), front);
+  }
+  assert.ok(shapeCheck({ ...plain('Sin x'), subject: 'physics', chapterKey: 'physics.inverse-trigonometric-functions', id: 'kc.physics.inverse-trigonometric-functions.formula-sin-inverse' }, 'physics')
+    .includes('shape:front_capital_function'), 'physics');
+  for (const front of ['Formula: sin(sin⁻¹ x) = x', 'Formula: Principal value branch of sin-1 x', 'Sine rule', 'Log of a product', 'Second derivative', 'Lines and planes', 'Exponential growth']) {
+    assert.ok(!shapeCheck(plain(front), 'mathematics').includes('shape:front_capital_function'), front);
+  }
+  // other subjects never: "Sin" and "Log" are words there
+  const eco = { ...plain('Log x'), subject: 'economics' };
+  assert.ok(!shapeCheck(eco, 'economics').includes('shape:front_capital_function'));
+  // a tex front read the same way
+  assert.ok(shapeCheck(math({ front: 'Formula: Sin(sin-1 x) = x', tex: { front: 'Formula: Sin$(\\sin^{-1} x) = x$' } }), 'mathematics').includes('shape:front_capital_function'));
 });
 
 test('servedTex: anything wrong serves the plain stored card, logged once, and a forbidden command never reaches KaTeX', () => {

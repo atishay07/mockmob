@@ -205,13 +205,19 @@ export function cardFace(card) {
   return { label, front: stripKindPrefix(card?.kind, front) };
 }
 
-/** A front without the kind prefix cardFace drops, its first letter raised (the server applies it to tex.front too). */
+// A front that starts with maths keeps its case: a function name ("sin(sin⁻¹ x) = x", "log x", "tan⁻¹ x", "sin² x") or a
+// single letter that is a variable ("x = …", "f(x) …"); the article "a" before a word ("a function …") is prose.
+const MATH_START = /^(?:(?:sin|cos|tan|cot|sec|cosec|csc|log|ln|exp|lim|det|adj)(?![a-z])|(?!a [a-z]{2})\p{L}(?![\p{Ll}\p{Lu}\p{Lo}]))/u;
+/**
+ * A front without the kind prefix cardFace drops, its first letter raised unless it starts with maths (the server applies
+ * it to tex.front too).
+ */
 export function stripKindPrefix(kind, text) {
   const front = String(text || '');
   const re = KIND_PREFIX[kind];
   if (!re || !re.test(front)) return front;
   const rest = front.replace(re, '');
-  return /^\p{Ll}/u.test(rest) ? rest.charAt(0).toUpperCase() + rest.slice(1) : rest;
+  return /^\p{Ll}/u.test(rest) && !MATH_START.test(rest) ? rest.charAt(0).toUpperCase() + rest.slice(1) : rest;
 }
 
 /**

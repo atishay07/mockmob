@@ -9,6 +9,7 @@ import { canonicalJSON } from '../../data/canonical_json.mjs';
 import { ENGLISH_KINDS, NCERT_KINDS, chapterSlug, isStopword } from '../../data/keycards.js';
 import katex from 'katex';
 import { FORBIDDEN_TEX, KATEX_OPTIONS, TEX_SUBJECTS, alnumBag, splitTex, texLines, texToPlain } from '../../data/keycards_tex.js';
+import { stripKindPrefix } from '../../src/components/keycards/kinds.js';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 // Paths are read from the environment on every call (tests and the pipeline point them at their own folders).
@@ -213,6 +214,7 @@ export function shapeCheck(card, subject) {
   if (card.front.length > LIMITS.front) r.push('shape:front_too_long');
   if (danglingStart(card.front)) r.push('shape:front_dangling');
   if (card.back.length > (LONG_BACK.has(card.kind) ? LIMITS.backLong : LIMITS.back)) r.push('shape:back_too_long');
+  if (TEX_SUBJECTS.includes(subject) && frontCapitalFunction(card)) r.push('shape:front_capital_function');
   if (card.tex !== undefined) r.push(...texCheck(card, subject));
   const src = card.source;
   if (!src || typeof src !== 'object') { r.push('shape:source'); return r; }
@@ -231,6 +233,13 @@ export function shapeCheck(card, subject) {
   }
   return r;
 }
+
+// "Sin(sin⁻¹ x) = x" is wrong maths: a function name is never capitalised. The front as the card shows it (after the kind
+// prefix) starts with a capitalised function name followed by "(", a superscript (⁻¹, ²) or a space and a formula (not a
+// word: "Log of a product" is prose).
+const CAPITAL_FUNCTION = /^(?:Sin|Cos|Tan|Cot|Sec|Cosec|Csc|Log|Ln|Exp)(?:[(⁻⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ]| (?![a-z]{2,}\b))/;
+export const frontCapitalFunction = (card) => [card.front, card.tex?.front === undefined ? null : texToPlain(card.tex.front)]
+  .some((f) => typeof f === 'string' && CAPITAL_FUNCTION.test(stripKindPrefix(card.kind, f).trimStart()));
 
 // Typeset formulas (handoff-1102/MATHTEX-SPEC.md section 3): tex is a faithful rendering of the plain front and back, so
 // its letters and digits must be theirs, line by line. Signs and operators cannot be checked by machine (the image

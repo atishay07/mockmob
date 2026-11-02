@@ -247,6 +247,9 @@ ol.kc-ncert--list li::before { content: counter(kc) '.'; width: auto; height: au
    widens the page; inline math keeps KaTeX's own line breaks at relations and operators. */
 .kc-tex .katex { font-size: 1.05em; color: inherit; }
 .kc-tex .katex-display { margin: 0.4em 0; overflow-x: auto; overflow-y: hidden; padding: 2px 0; }
+/* Inline math and the punctuation touching it (keycards_tex.js texHtml) never part: no line starts with the full stop after
+   a formula or ends with the bracket before one. */
+.kc-tex .kc-texrun { white-space: nowrap; }
 /* A journal entry as the book sets one: the Dr. lines, the To lines set in, the narration below in a smaller size. One grid,
    so the Dr. and the amounts line up down the entry. */
 .kc-ncert--entry { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; column-gap: 14px; row-gap: 3px; align-items: baseline; font-variant-numeric: lining-nums tabular-nums; }
