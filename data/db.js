@@ -24,6 +24,7 @@ import { voteOnLiveQuestion } from './question_votes';
 import { publicationEligibility, sharedEligibilitySnapshot } from './evidence_registry';
 import { assertFullBankRead } from './full_bank_guard';
 import { selectPracticeQuestions } from './practice_pick';
+import { servedOut, storedIndexOf } from './option_order';
 import { createPracticeSource, isMissingPhase1VoteSchema } from './practice_source';
 import { attemptMemoKeyFor, attemptMemoTake, memoisedAttempts, readAttemptRows } from './attempt_reads';
 import { readAttemptQuestionIds, readExposedIds } from './attempt_question_ids';
@@ -165,6 +166,15 @@ function optionKeyAt(question, index) {
   const option = Array.isArray(question?.options) ? question.options[index] : null;
   if (option && typeof option === 'object' && option.key != null) return String(option.key);
   return OPTION_KEYS[index] || String(index);
+}
+
+/** The stored letter of the option a snapshot served at servedIndex (through the question's optionOrder when it has one). */
+function storedKeyOf(question, servedIndex) {
+  const order = question?.optionOrder ?? question?.nta_option_order ?? question?.option_order;
+  const n = Array.isArray(question?.options) ? question.options.length : 0;
+  if (!Array.isArray(order) || order.length !== n || !n) return optionKeyAt(question, servedIndex);
+  const stored = storedIndexOf(order, servedIndex);
+  return stored >= 0 ? OPTION_KEYS[stored] || String(stored) : optionKeyAt(question, servedIndex);
 }
 
 function resolveCorrectIndex(r) {
@@ -329,6 +339,16 @@ const attemptOut = (r) => r && ({
 export { SEED_QUESTIONS };
 // The session snapshot shape of one question row: the Mob paper (src/lib/server/mob/deps.js) serves frozen ids in it.
 export { questionOut };
+
+/**
+ * A question as a non-NTA paper serves it (R5 Packet A): questionOut over the row in the stable option order of
+ * data/option_order.js (options relabelled A-D in served order, key and explanation remapped), with the order kept on
+ * the snapshot as NTA papers keep theirs: served position i shows stored option optionOrder[i]. Scoring reads the
+ * snapshot; readers that compare with the live bank go through optionOrder or the option text (data/option_compare.js).
+ */
+export function servedQuestionOut(row) {
+  return row ? servedOut(questionOut(row)) : row;
+}
 
 // The claim used before the lease column existed. Kept for the window between deploying this code and applying
 // migration 20261016170100 (and for a schema where it is missing): same behaviour as before, no in-flight check.
@@ -1302,7 +1322,7 @@ export const Database = {
         const voteMap = await this.getUserVotes(opts.userId, selectedRows.map((row) => row.id));
         rowsWithVotes = selectedRows.map((row) => ({ ...row, user_vote: voteMap.get(row.id) || null }));
       }
-      const questions = rowsWithVotes.map(questionOut);
+      const questions = rowsWithVotes.map(servedQuestionOut);
       if (!returnMeta) return questions;
       return {
         questions,
@@ -1710,7 +1730,8 @@ export const Database = {
         attempt_count: Number(existing.attempt_count || 0) + (answered ? 1 : 0),
         correct_count: Number(existing.correct_count || 0) + (detail?.isCorrect === true ? 1 : 0),
         skip_count: Number(existing.skip_count || 0) + (answered ? 0 : 1),
-        last_selected_key: answered ? optionKeyAt(question, detail.givenIndex) : existing.last_selected_key || null,
+        // The stored option's letter (option identity): a shuffled paper's served letter goes back through its optionOrder.
+        last_selected_key: answered ? storedKeyOf(question, detail.givenIndex) : existing.last_selected_key || null,
         last_correct: answered ? detail?.isCorrect === true : existing.last_correct ?? null,
         best_dwell_ms: existing.best_dwell_ms || null,
         last_seen_at: nowIso,
