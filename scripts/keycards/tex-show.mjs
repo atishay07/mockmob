@@ -4,13 +4,14 @@
 //   node scripts/keycards/tex-show.mjs <draft.json> [cardId ...]
 //
 // For each card with tex (or each card named): its id, the plain form of tex.front and of every tex.back line (what the app,
-// search and screen readers read), the texCheck reasons, and for a shape:tex_mismatch line the letters and digits missing
-// on each side. Plain output, no colours. Reads only; writes nothing.
+// search and screen readers read), the texCheck reasons, for a shape:tex_mismatch line the letters and digits missing on
+// each side, and an advisory "order differs" line when a back line's letters and digits match in another order. Plain
+// output, no colours. Reads only; writes nothing.
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { alnumBag, texLines, texToPlain } from '../../data/keycards_tex.js';
-import { texCheck } from './lib.mjs';
+import { norm, texCheck } from './lib.mjs';
 
 /** What `a` has that `b` lacks, as a multiset of letters and digits (both sorted bags, alnumBag). */
 export function bagMinus(a, b) {
@@ -47,6 +48,8 @@ export function showCard(card, subject) {
       out.push(`  back ${i + 1}: ${plain}`);
       const d = i < backRows.length ? differ(plain, backRows[i]) : '      (no back line to match)';
       if (d) out.push(d);
+      // Same letters and digits in another order: advisory only (pdftotext scrambles limits and fractions), for the image reviewer.
+      else if (norm(plain) !== norm(backRows[i])) out.push(`      order differs: back reads "${backRows[i]}"`);
     });
   }
   const reasons = card.tex === undefined ? [] : texCheck(card, subject);

@@ -4,11 +4,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import katex from 'katex';
-import { FORBIDDEN_TEX, KATEX_OPTIONS, TEX_SUBJECTS, alnumBag, servedTex, splitTex, texLines, texToPlain } from '../keycards_tex.js';
+import { FORBIDDEN_TEX, KATEX_OPTIONS, TEX_SUBJECTS, alnumBag, servedTex, splitTex, texHtml, texLines, texToPlain } from '../keycards_tex.js';
 import { shapeCheck, texCheck } from '../../scripts/keycards/lib.mjs';
 import { bagMinus, showCard } from '../../scripts/keycards/tex-show.mjs';
 import { loadDecks } from '../../src/lib/server/keycards.js';
@@ -32,11 +33,27 @@ const withTex = (tex, over = {}) => math({ ...over, tex });
 test('the tex subjects, the KaTeX options and the forbidden commands', () => {
   assert.deepEqual([...TEX_SUBJECTS], ['mathematics', 'physics']);
   assert.deepEqual({ ...KATEX_OPTIONS }, { throwOnError: true, strict: 'error', trust: false, maxExpand: 200, maxSize: 20, output: 'htmlAndMathml' });
-  for (const cmd of ['href', 'url', 'includegraphics', 'htmlClass', 'htmlData', 'def', 'gdef', 'edef', 'xdef', 'let', 'newcommand', 'renewcommand',
-    'providecommand', 'color', 'textcolor', 'colorbox', 'fcolorbox', 'raisebox', 'rule', 'class', 'style', 'data']) {
+  for (const cmd of ['href', 'url', 'includegraphics', 'htmlClass', 'htmlData', 'def', 'gdef', 'edef', 'xdef', 'let', 'futurelet', 'newcommand', 'renewcommand',
+    'providecommand', 'char', 'color', 'textcolor', 'colorbox', 'fcolorbox', 'raisebox', 'rule', 'class', 'style', 'data']) {
     assert.ok(FORBIDDEN_TEX.test(`$\\${cmd}{x}$`), cmd);
   }
-  for (const ok of ['\\left(', '\\leq', '\\le', '\\lambda', '\\cdot', '\\dagger', '\\colon', '\\urcorner']) assert.ok(!FORBIDDEN_TEX.test(`$${ok}$`), ok);
+  assert.ok(FORBIDDEN_TEX.test('$\\char65$'), '\\char with a number');
+  for (const ok of ['\\left(', '\\leq', '\\le', '\\lambda', '\\cdot', '\\dagger', '\\colon', '\\urcorner', '\\chi', '\\leftarrow']) assert.ok(!FORBIDDEN_TEX.test(`$${ok}$`), ok);
+});
+
+test('texHtml: FORBIDDEN_TEX itself refuses every forbidden command, before KaTeX sees it', () => {
+  const real = katex.renderToString;
+  const seen = [];
+  katex.renderToString = (src, opts) => { seen.push(src); return real(src, opts); };
+  try {
+    for (const cmd of ['\\href{javascript:alert(1)}{x}', '\\url{x}', '\\htmlClass{a}{x}', '\\def\\a{b}', '\\futurelet\\a\\b', '\\char65', '\\color{red}{x}']) {
+      assert.throws(() => texHtml(`$x + ${cmd}$`), /not allowed/, cmd);
+    }
+    assert.deepEqual(seen, [], 'nothing reached renderToString');
+  } finally {
+    katex.renderToString = real;
+  }
+  assert.throws(() => texHtml('$x'), /delimiters/);
 });
 
 // ---------------------------------------------------------------- splitTex
@@ -83,7 +100,7 @@ test('texToPlain: one row per mapping, with NCERT-shaped inputs', () => {
     ['$\\pm 1, \\mp 1$', '± 1, ∓ 1'], ['$a \\times b$', 'a × b'], ['$\\vec{a} \\cdot \\vec{b}$', 'a\u20D7 · b\u20D7'], ['$a \\div b$', 'a ÷ b'], ['$(-\\infty, \\infty)$', '(−∞, ∞)'],
     ['$f \\circ g$', 'f ∘ g'], ['$90^\\circ$', '90°'], ['$\\angle ABC$', '∠ ABC'], ['$l \\perp m, l \\parallel n$', 'l ⊥ m, l ∥ n'],
     ['$1, 2, \\ldots, n$', '1, 2, …, n'], ['$a_1, \\dots, a_n$', 'a₁, …, aₙ'], ['$1 + 2 + \\cdots$', '1 + 2 + …'],
-    ['$\\forall x \\exists y$', '∀ x ∃ y'], ['$\\emptyset = \\varnothing$', '∅ = ∅'], ['$\\{x \\mid x > 0\\}$', '{x | x > 0}'], ['$\\vert x \\vert$', '| x |'],
+    ['$\\forall x \\exists y$', '∀ x ∃ y'], ['$\\emptyset = \\varnothing$', '∅ = ∅'], ['$\\{x \\mid x > 0\\}$', '{x | x > 0}'], ['$\\vert x \\vert$', '|x|'],
     ['$\\|\\vec{a}\\|$', '‖a\u20D7‖'], ['$x - y$', 'x − y'], ['$A \\setminus B$', 'A ∖ B'], ['$a \\equiv b$', 'a ≡ b'],
     // functions
     ['$\\sin x + \\cos x$', 'sin x + cos x'], ['$\\tan x, \\cot x, \\sec x, \\csc x$', 'tan x, cot x, sec x, csc x'], ['$\\cosec x$', 'cosec x'],
@@ -99,7 +116,7 @@ test('texToPlain: one row per mapping, with NCERT-shaped inputs', () => {
     ['$\\sqrt{x}$', '√x'], ['$\\sqrt{x^2 + 1}$', '√(x² + 1)'], ['$\\sqrt[n]{x}$', 'ⁿ√x'], ['$\\sqrt[3]{8}$', '³√8'], ['$\\sqrt{2}$', '√2'],
     // integrals, sums, products, limits
     ['$\\int_a^b f(x)\\,dx$', '∫ₐᵇ f(x) dx'], ['$\\int_0^{\\pi/2} \\sin x\\,dx$', '∫₀^(π/2) sin x dx'], ['$\\int f(x)\\,dx$', '∫ f(x) dx'],
-    ['$\\iint$', '∬'], ['$\\sum_{i=1}^{n} x_i$', 'Σᵢ₌₁ⁿ xᵢ'], ['$\\prod_{i=1}^{n} a_i$', 'Πᵢ₌₁ⁿ aᵢ'],
+    ['$\\iint$', '∬'], ['$\\sum_{i=1}^{n} x_i$', '∑ᵢ₌₁ⁿ xᵢ'], ['$\\prod_{i=1}^{n} a_i$', '∏ᵢ₌₁ⁿ aᵢ'],
     ['$\\lim_{x \\to a} f(x)$', 'lim(x→a) f(x)'], ['$\\lim_{x \\to 0} \\frac{\\sin x}{x} = 1$', 'lim(x→0) (sin x)/x = 1'],
     ['$\\lim\\limits_{h \\to 0}$', 'lim(h→0)'],
     // fonts, words and accents
@@ -108,19 +125,63 @@ test('texToPlain: one row per mapping, with NCERT-shaped inputs', () => {
     ['$\\vec{a}$', 'a\u20D7'], ['$\\overrightarrow{AB}$', 'AB\u20D7'], ['$\\hat{i} + \\hat{j}$', 'i\u0302 + j\u0302'], ['$\\bar{x}$', 'x\u0304'],
     ['$\\overline{AB}$', 'A\u0305B\u0305'],
     // brackets and spacing
-    ['$\\left( \\frac{a}{b} \\right)$', '(a/b)'], ['$\\left| x \\right|$', '| x |'], ['$\\left. f \\right|_a$', 'f |ₐ'], ['$\\big( x \\big)$', '(x)'],
+    ['$\\left( \\frac{a}{b} \\right)$', '(a/b)'], ['$\\left| x \\right|$', '|x|'], ['$\\left. f \\right|_a$', 'f |ₐ'], ['$\\big( x \\big)$', '(x)'],
     ['$\\displaystyle \\frac{1}{x}$', '1/x'], ['$a\\,b\\;c\\:d\\!e\\quad f\\qquad g~h$', 'a b c de f g h'], ['$\\{1, 2\\}$', '{1, 2}'],
-    ['$\\lbrace a \\rbrace$', '{ a }'], ['$\\langle a, b \\rangle$', '⟨ a, b ⟩'], ['$\\lvert x \\rvert$', '| x |'],
+    ['$\\lbrace a \\rbrace$', '{a}'], ['$\\langle a, b \\rangle$', '⟨ a, b ⟩'], ['$\\lvert x \\rvert$', '|x|'],
+    ['$\\{ a, b \\}$', '{a, b}'], ['$\\left| \\frac{a}{b} \\right|$', '|a/b|'], ['$|x| - 1$', '|x| − 1'],
     // matrices and cases
-    ['$\\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix}$', '[a b; c d]'], ['$\\begin{vmatrix} 1 & 2 \\\\ 3 & 4 \\end{vmatrix}$', '|1 2; 3 4|'],
-    ['$\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$', '[1 0; 0 1]'], ['$\\begin{matrix} x & y \\end{matrix}$', '[x y]'],
-    ['$\\begin{array}{cc} 1 & -1 \\\\ 2 & 3 \\end{array}$', '[1 −1; 2 3]'],
+    ['$\\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix}$', '[a, b; c, d]'], ['$\\begin{vmatrix} 1 & 2 \\\\ 3 & 4 \\end{vmatrix}$', '|1, 2; 3, 4|'],
+    ['$\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$', '[1, 0; 0, 1]'], ['$\\begin{matrix} x & y \\end{matrix}$', '[x, y]'],
+    ['$\\begin{bmatrix} 1 & 2 \\\\ 3 & 4 \\end{bmatrix}$', '[1, 2; 3, 4]'],
+    // a cell with an operator is bracketed, as a fraction part is; an array adds no brackets of its own; row spacing never leaks
+    ['$\\begin{bmatrix} x + 1 & 2 \\\\ 3 & y - 1 \\end{bmatrix}$', '[(x + 1), 2; 3, (y − 1)]'],
+    ['$\\begin{array}{cc} 1 & -1 \\\\ 2 & 3 \\end{array}$', '1, −1; 2, 3'], ['$\\left[\\begin{array}{cc} 1 & 2 \\\\ 3 & 4 \\end{array}\\right]$', '[1, 2; 3, 4]'],
+    ['$\\left|\\begin{array}{cc} a & b \\\\ c & d \\end{array}\\right|$', '|a, b; c, d|'],
+    ['$\\begin{bmatrix} 1 & 2 \\\\[2pt] 3 & 4 \\end{bmatrix}$', '[1, 2; 3, 4]'], ['$\\begin{vmatrix} a_{11} & a_{12} \\\\[1em] a_{21} & a_{22} \\end{vmatrix}$', '|a₁₁, a₁₂; a₂₁, a₂₂|'],
+    ['$\\begin{aligned} a &= b \\\\ &= c \\end{aligned}$', 'a = b; = c'],
     ['$f(x) = \\begin{cases} x, & \\text{if } x \\ge 0 \\\\ -x, & \\text{if } x < 0 \\end{cases}$', 'f(x) = { x, if x ≥ 0; −x, if x < 0'],
     ['$\\begin{cases} 1 & x > 0 \\\\ 0 & x \\le 0 \\end{cases}$', '{ 1, x > 0; 0, x ≤ 0'],
     // negation
     ['$x \\not\\in A$', 'x ∉ A'], ['$a \\not= b$', 'a ≠ b'],
   ];
   for (const [tex, plain] of rows) assert.equal(texToPlain(tex), plain, tex);
+});
+
+test('texToPlain: a fraction part stays bare only when it is one number, one letter or a differential; the whole fraction is bracketed beside a factor', () => {
+  const rows = [
+    // the parts
+    ['$\\frac{-1}{2}$', '−1/2'], ['$\\frac{1}{2a}$', '1/(2a)'], ['$\\frac{\\sin x}{x}$', '(sin x)/x'], ['$\\frac{x^2}{2}$', '(x²)/2'],
+    ['$\\frac{a_1}{\\theta\'}$', 'a₁/θ′'], ['$\\frac{\\vec{a}}{2}$', 'a⃗/2'], ['$\\frac{1.5}{x}$', '1.5/x'], ['$\\frac{dy}{dx} = 2$', 'dy/dx = 2'],
+    ['$\\frac{x-a}{x+a}$', '(x − a)/(x + a)'], ['$(2n + 1)\\frac{\\pi}{2}, n$', '(2n + 1)π/2, n'],
+    // the whole fraction: after a function (and its ^{-1} or power form), after a script, before a factor
+    ['$\\tan^{-1} \\frac{x + y}{1 - xy}$', 'tan⁻¹((x + y)/(1 − xy))'], ['$\\tan\\frac{x}{2}$', 'tan(x/2)'], ['$\\sin^2\\frac{x}{2}$', 'sin²(x/2)'],
+    ['$\\log_e \\frac{1}{x}$', 'logₑ(1/x)'], ['$\\int_0^1 \\frac{1}{x}\\,dx$', '∫₀¹ (1/x) dx'], ['$\\frac{1}{2}x$', '(1/2)x'], ['$\\frac{1}{2} x$', '(1/2) x'],
+    ['$\\frac{1}{2}(x + 1)$', '(1/2)(x + 1)'], ['$\\frac{1}{2}\\left(x + 1\\right)$', '(1/2)(x + 1)'], ['$\\frac{1}{2}|x|$', '(1/2)|x|'],
+    ['$\\frac{1}{2}\\sqrt{x}$', '(1/2)√x'], ['$\\frac{1}{2}\\pi$', '(1/2)π'], ['$\\frac{a}{b}^2$', '(a/b)²'],
+    ['$\\frac{1}{2a}\\log\\left|\\frac{x-a}{x+a}\\right| + C$', '(1/(2a)) log |(x − a)/(x + a)| + C'],
+    // not before an operator, a relation, a closer or the end
+    ['$\\frac{1}{2} + x$', '1/2 + x'], ['$\\frac{1}{2} \\cdot x$', '1/2 · x'], ['$\\frac{1}{2} \\le x$', '1/2 ≤ x'], ['$\\left[0, \\frac{\\pi}{2}\\right]$', '[0, π/2]'],
+    ['$|\\frac{a}{b}|$', '|a/b|'], ['$x = \\frac{\\pi}{2}$', 'x = π/2'],
+    // a digit before a fraction is a mixed number
+    ['$2\\frac{3}{4}$', '2 3/4'],
+  ];
+  for (const [tex, plain] of rows) assert.equal(texToPlain(tex), plain, tex);
+});
+
+test('texToPlain: smaller readings (\\sin{x}, capital superscripts, aligned, bars and braces, ∑ and ∏)', () => {
+  const rows = [
+    ['$\\sin{x}$', 'sin x'], ['$\\cos{\\theta}$', 'cos θ'], ['$2\\sin x$', '2 sin x'],
+    ['$A^T$', 'Aᵀ'], ['$A^{T}B$', 'AᵀB'], ['$X^{ABDEGHIJKLMNOPRTUVW}$', 'Xᴬᴮᴰᴱᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾᴿᵀᵁⱽᵂ'], ['$A^{C}$', 'A^(C)'],
+    ['$\\begin{aligned} a &= b \\end{aligned}$', 'a = b'],
+    ['$\\{a, b\\}$', '{a, b}'], ['$\\left\\{ \\frac{\\pi}{2} \\right\\}$', '{π/2}'], ['$\\left| x - 1 \\right|$', '|x − 1|'],
+    ['$\\sum x$', '∑ x'], ['$\\prod a$', '∏ a'],
+    ['$f(x) = \\begin{cases} a, & \\text{if } x \\ge 0 \\\\ b, & \\text{if } x < 0 \\end{cases}$', 'f(x) = { a, if x ≥ 0; b, if x < 0'],
+    ['$\\begin{cases} 1, & x \\in \\{0\\} \\\\[2pt] 0, & x \\ne 0 \\end{cases}$', '{ 1, x ∈ {0}; 0, x ≠ 0'],
+  ];
+  for (const [tex, plain] of rows) assert.equal(texToPlain(tex), plain, tex);
+  // \binom is no longer read: an author writes NCERT's own {}^{n}C_{r}, and \binom falls to shape:tex_plain.
+  assert.ok(texToPlain('$\\binom{n}{r}$').includes('\\binom'));
+  assert.equal(texToPlain('${}^{n}C_{r}$'), 'ⁿCᵣ');
 });
 
 test('texToPlain: deterministic, no backslash for supported input, an unknown command kept with its backslash', () => {
@@ -141,6 +202,21 @@ test('alnumBag: diacritics and combining arrows dropped, order ignored, superscr
   assert.equal(alnumBag('sin⁻¹ x'), alnumBag('x sin-1'));
   assert.equal(alnumBag('x² + 1 = y'), '12xy');
   assert.equal(alnumBag(''), '');
+});
+
+test('alnumBag: real pdftotext strings match their tex (spacing hat, ∆, Symbol-font ∈ and prime)', () => {
+  const rows = [
+    ['xiˆ + yˆj + zkˆ', '$x\\hat{i} + y\\hat{j} + z\\hat{k}$'],
+    ['∆ = 0', '$\\Delta = 0$'],
+    ['x Î (a, b)', '$x \\in (a, b)$'],
+    ['f ¢(x) > 0', "$f'(x) > 0$"],
+    ['p Þ q', '$p \\Rightarrow q$'],
+    ['∑ xi', '$\\sum x_i$'],
+  ];
+  for (const [pdf, tex] of rows) assert.equal(alnumBag(texToPlain(tex)), alnumBag(pdf), pdf);
+  assert.equal(alnumBag('xiˆ'), 'ix');
+  assert.equal(alnumBag('∆'), alnumBag('Δ'));
+  assert.notEqual(alnumBag('x Î A'), alnumBag('x ∈ B'), 'a real letter still counts');
 });
 
 // ---------------------------------------------------------------- texCheck
@@ -211,8 +287,53 @@ test('texCheck: shape:tex_too_long', () => {
   assert.ok(texCheck(withTex({ front: long }), 'mathematics').includes('shape:tex_too_long'), 'tex.front over 400');
   const many = Array.from({ length: 160 }, () => 'x').join(' + ');
   const back = many.replace(/ \+ /g, '+');
-  assert.ok(texCheck(math({ back, quote: back, tex: { back: `$${many}$` } }), 'mathematics').includes('shape:tex_too_long'), 'plain back over 450');
+  assert.ok(texCheck(math({ back, quote: back, tex: { back: `$$${many}$$` } }), 'mathematics').includes('shape:tex_too_long'), 'plain back over 450');
   assert.ok(!texCheck(math(), 'mathematics').includes('shape:tex_too_long'));
+  // tex.back over 1,500 although its plain form is short (spacing is not read).
+  const padded = `$$x${'\\,'.repeat(760)}$$`;
+  assert.ok(padded.length > 1500 && texToPlain(padded).length < 450);
+  assert.ok(texCheck(math({ back: 'x', quote: 'x', tex: { back: padded } }), 'mathematics').includes('shape:tex_too_long'), 'tex.back over 1,500');
+  assert.ok(!texCheck(math({ back: 'x', quote: 'x', tex: { back: `$$x${'\\,'.repeat(700)}$$` } }), 'mathematics').includes('shape:tex_too_long'), 'tex.back at 1,406');
+  // The plain front over 150 although tex.front is under 400.
+  const words = Array.from({ length: 40 }, (_, k) => `a_${k % 10}`).join(' + ');
+  const front = `Sum $${words}$`;
+  assert.ok(front.length <= 400 && texToPlain(front).length > 150);
+  assert.ok(texCheck(withTex({ front }, { front: texToPlain(front) }), 'mathematics').includes('shape:tex_too_long'), 'plain front over 150');
+  // A list's plain back may run to 750; a formula's stops at 450.
+  const listOf = (n, kind = 'list') => {
+    const tex = Array.from({ length: n }, (_, k) => `(${k + 1}) $x_${k % 10} + y_${k % 10} + z_${k % 10}$`);
+    const backText = tex.map(texToPlain).join('\n');
+    return math({ kind, front: 'The rows', back: backText, quote: backText, tex: { back: tex.join('\n') } });
+  };
+  const mid = listOf(30);
+  assert.ok(mid.back.length > 450 && mid.back.length <= 750, String(mid.back.length));
+  assert.ok(!texCheck(mid, 'mathematics').includes('shape:tex_too_long'), 'a list between 450 and 750');
+  assert.ok(texCheck(listOf(30, 'formula'), 'mathematics').includes('shape:tex_too_long'), 'a formula over 450');
+  const over = listOf(45);
+  assert.ok(over.back.length > 750, String(over.back.length));
+  assert.ok(texCheck(over, 'mathematics').includes('shape:tex_too_long'), 'a list over 750');
+});
+
+test('texCheck: shape:tex_inline_long (a long inline formula, or an inline matrix, array, cases or aligned)', () => {
+  const long = '$a_1 + a_2 + a_3 + a_4 + a_5 + a_6 + a_7 + a_8 + a_9 + a_0 + b$';
+  assert.ok([...texToPlain(long)].length > 40);
+  const back = texToPlain(long);
+  assert.ok(texCheck(math({ back, quote: back, tex: { back: long } }), 'mathematics').includes('shape:tex_inline_long'), 'inline over 40');
+  assert.ok(!texCheck(math({ back, quote: back, tex: { back: `$${long}$` } }), 'mathematics').includes('shape:tex_inline_long'), 'the same on a display line');
+  const short = '$a_1 + a_2 + a_3 + a_4 + a_5 + a_6 + a_7 + a_8xyz$'; // 40 characters plain
+  assert.equal([...texToPlain(short)].length, 40);
+  assert.ok(!texCheck(math({ back: texToPlain(short), quote: texToPlain(short), tex: { back: short } }), 'mathematics').includes('shape:tex_inline_long'));
+  for (const grid of ['\\begin{bmatrix} 1 & 2 \\end{bmatrix}', '\\begin{vmatrix} 1 & 2 \\end{vmatrix}', '\\left[\\begin{array}{cc} 1 & 2 \\end{array}\\right]',
+    '\\begin{cases} 1, & x > 0 \\\\ 2, & x \\le 0 \\end{cases}', '\\begin{aligned} a &= 1 \\end{aligned}']) {
+    const t = `So $${grid}$`;
+    const b = texToPlain(t);
+    assert.ok(texCheck(math({ kind: 'fact', back: b, quote: b, tex: { back: t } }), 'mathematics').includes('shape:tex_inline_long'), grid);
+    const d = `So\n$$${grid}$$`;
+    const db = `So\n${texToPlain(`$${grid}$`)}`;
+    assert.ok(!texCheck(math({ kind: 'fact', back: db, quote: db, tex: { back: d } }), 'mathematics').includes('shape:tex_inline_long'), `${grid} on its own line`);
+  }
+  assert.ok(texCheck(withTex({ front: `Formula: Principal value branch of ${long}` }, { front: `Formula: Principal value branch of ${back}` }), 'mathematics').includes('shape:tex_inline_long'), 'in tex.front too');
+  assert.ok(!texCheck(math(), 'mathematics').includes('shape:tex_inline_long'));
 });
 
 test('texCheck: shape:tex_plain', () => {
@@ -265,6 +386,24 @@ test('servedTex: plain back line by line, the front kept, the HTML with its Math
   assert.equal(cardFace(out).front, 'Principal value branch of sin-1 x');
 });
 
+test('servedTex: the payload is texHtml and the plain back only (no raw tex, no TeX source annotation; quotes printed)', () => {
+  const out = servedTex(math());
+  assert.equal(out.tex, undefined, 'the raw tex is not served');
+  assert.ok(!('tex' in out));
+  const html = [out.texHtml.front, ...out.texHtml.back.map((r) => r.html)].join('');
+  assert.ok(!/<annotation\b/.test(html), 'no <annotation>');
+  assert.ok(!html.includes('\\sin'), 'no TeX source anywhere');
+  assert.match(html, /<math\b[\s\S]*<semantics>[\s\S]*<\/semantics><\/math>/, 'the rest of the MathML stays for screen readers');
+  assert.match(html, /katex-html/);
+  assert.equal(texHtml('$x$').match(/<annotation/g), null);
+  // printQuotes (data/keycards.js) on the plain back and in the drawn prose, as printedCard prints a plain card.
+  const back = 'the `principal value branch\' of sin-1 x';
+  const q = servedTex(math({ kind: 'fact', back, quote: back, tex: { back: 'the `principal value branch\' of $\\sin^{-1} x$' } }));
+  assert.equal(q.back, 'the ‘principal value branch’ of sin⁻¹ x');
+  assert.equal(q.texHtml.back[0].text, q.back);
+  assert.ok(q.texHtml.back[0].html.startsWith('the ‘principal value branch’ of '));
+});
+
 test('servedTex: list lines keep their count and their own NCERT marker', () => {
   const out = servedTex(listCard());
   assert.equal(out.back.split('\n').length, 2);
@@ -306,6 +445,25 @@ test('servedTex: anything wrong serves the plain stored card, logged once, and a
   assert.equal(subject.texHtml, undefined, 'not a tex subject');
 });
 
+test('servedTex: a forbidden command in tex.front serves the plain card and never reaches KaTeX', () => {
+  const real = katex.renderToString;
+  const seen = [];
+  katex.renderToString = (src, opts) => { seen.push(src); return real(src, opts); };
+  try {
+    for (const [k, cmd] of ['\\href{javascript:alert(1)}{x}', '\\htmlData{a=b}{x}', '\\char65'].entries()) {
+      const bad = math({ id: `kc.mathematics.inverse-trigonometric-functions.formula-front-${k}`, tex: { front: `Formula: Principal value branch of $${cmd}$`, back: math().tex.back } });
+      const out = servedTex(bad, { log: () => {} });
+      assert.equal(out.texHtml, undefined, cmd);
+      assert.equal(out.tex, undefined, cmd);
+      assert.equal(out.back, BACK, `${cmd}: the plain stored back`);
+      assert.equal(out.front, math().front);
+    }
+    assert.ok(!seen.some((s) => /\\(?:href|htmlData|char)/.test(s)), 'not rendered');
+  } finally {
+    katex.renderToString = real;
+  }
+});
+
 test('loadDecks serves typeset cards through servedTex', () => {
   const dir = mkdtempSync(path.join(tmpdir(), 'kc-tex-'));
   try {
@@ -335,8 +493,12 @@ test('texBackRows: list, formula and paras shapes, as the plain path draws each 
   const steps = texBackRows(servedTex(listCard({ kind: 'steps' })));
   assert.equal(steps.tag, 'ol');
   const formula = texBackRows(servedTex(math()));
-  // "sin⁻¹ x …" starts with a lowercase letter: the ellipsis the plain path's withLead gives the same back.
-  assert.deepEqual([formula.shape, formula.rows.length, formula.rows[0].lead], ['formula', 1, true]);
+  // "sin⁻¹ x …" starts with a lowercase letter, but with math: a formula, not a cut sentence, so no ellipsis.
+  assert.deepEqual([formula.shape, formula.rows.length, formula.rows[0].lead], ['formula', 1, false]);
+  const prose = texBackRows(servedTex(math({ back: `thus ${BACK}`, quote: `thus ${BACK}`, tex: { back: `thus ${math().tex.back}` } })));
+  assert.equal(prose.rows[0].lead, true, 'a row that starts with prose mid-sentence keeps the ellipsis');
+  const mathFirst = texBackRows(servedTex(math({ kind: 'fact', back: 'x is real', quote: 'x is real', tex: { back: '$x$ is real' } })));
+  assert.equal(mathFirst.rows[0].lead, false, 'a paragraph that starts with math never gets it');
   const upper = texBackRows(servedTex(math({ back: 'A = πr2', quote: 'A = πr2', tex: { back: '$A = \\pi r^2$' } })));
   assert.equal(upper.rows[0].lead, false);
   const back = 'where x is real\nso y = 2';
@@ -358,4 +520,37 @@ test('tex-show: bag difference and the report lines', () => {
   assert.ok(lines.some((l) => l.includes('mismatch: tex lacks "x", tex adds "y"')), lines.join('\n'));
   assert.ok(lines.at(-1).includes('shape:tex_mismatch'));
   assert.deepEqual(texLines('a\n\n b \n'), ['a', 'b']);
+});
+
+test('tex-show: "order differs" when the letters and digits match in another order (advisory, for the image reviewer)', () => {
+  // pdftotext reads a fraction's denominator under its numerator: "π 2" for π/2, "2 π" in the PDF's own order here.
+  const back = 'x : [-1, 1] → [-2 π, 2 π]';
+  const card = math({ back, quote: back, tex: { back: '$x : [-1, 1] \\to \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$' } });
+  const lines = showCard(card, 'mathematics');
+  assert.ok(lines.some((l) => l.includes('order differs: back reads "x : [-1, 1] → [-2 π, 2 π]"')), lines.join('\n'));
+  assert.ok(!lines.at(-1).includes('shape:tex_mismatch'), 'the bags match: advisory only');
+  assert.ok(!showCard(math(), 'mathematics').some((l) => l.includes('order differs')), 'same order: no line');
+  assert.ok(!lines.some((l) => l.includes('mismatch:')));
+});
+
+// ---------------------------------------------------------------- the web reads texHtml
+
+test('Prompt, NcertText, CardFace and CardList read the served texHtml', () => {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+  const read = (rel) => readFileSync(path.join(root, rel), 'utf8');
+  const body = (src, name) => {
+    const at = src.indexOf(`export function ${name}(`);
+    assert.ok(at >= 0, name);
+    return src.slice(at, src.indexOf('\n}\n', at));
+  };
+  const keyCard = read('src/components/keycards/KeyCard.jsx');
+  assert.match(body(keyCard, 'Prompt'), /card\?\.texHtml\?\.front/);
+  assert.match(body(keyCard, 'NcertText'), /texBackRows\(card\)/);
+  assert.match(read('src/components/keycards/kinds.js'), /card\?\.texHtml\?\.back/);
+  const face = read('src/components/learn2/stage/CardFace.jsx');
+  assert.match(face, /<TexHtml html=\{html\} \/>/);
+  assert.match(read('src/components/learn2/feed/ChapterFeed.jsx'), /<CardFace [^\n]*html=\{it\.card\?\.texHtml\?\.front\}/);
+  const list = read('src/components/learn2/cards/CardList.jsx');
+  assert.match(list, /card\.texHtml\?\.front/);
+  assert.match(list, /!card\.texHtml && query && card\.quote/, 'the search line of a typeset card is its plain back, never the quote');
 });

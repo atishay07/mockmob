@@ -235,7 +235,8 @@ export function shapeCheck(card, subject) {
 // Typeset formulas (handoff-1102/MATHTEX-SPEC.md section 3): tex is a faithful rendering of the plain front and back, so
 // its letters and digits must be theirs, line by line. Signs and operators cannot be checked by machine (the image
 // reviewer checks them).
-const TEX_LIMITS = Object.freeze({ front: 400, back: 1500 });
+const TEX_LIMITS = Object.freeze({ front: 400, back: 1500, inline: 40 });
+const INLINE_GRID = /\\begin\{(?:[a-zA-Z]*matrix|array|d?cases|aligned)\}/;
 const plainBack = (tex) => texLines(tex).map(texToPlain).join('\n');
 
 /** The tex field's checks (called from shapeCheck when the card has one). Returns reasons[]. */
@@ -256,6 +257,8 @@ export function texCheck(card, subject) {
     if (FORBIDDEN_TEX.test(text)) { add('shape:tex_command'); continue; }
     for (const p of maths) {
       try { katex.renderToString(p.value, { ...KATEX_OPTIONS, displayMode: p.display }); } catch { add('shape:tex_parse'); }
+      // Inline math wraps inside a line of prose: a long formula or a grid of rows belongs on a $$…$$ line of its own.
+      if (!p.display && ([...texToPlain(`$${p.value}$`)].length > TEX_LIMITS.inline || INLINE_GRID.test(p.value))) add('shape:tex_inline_long');
     }
   }
   const plainFront = tex.front === undefined ? null : texToPlain(tex.front);

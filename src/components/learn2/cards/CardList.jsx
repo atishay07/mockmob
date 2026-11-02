@@ -42,7 +42,8 @@ function Row({ card, isPro, showAnswers, pickMode, picked, onPick, open, onToggl
   const backHit = Boolean(query) && [card.back, card.quote].some((t) => t && hitParts(t, query).some((p) => p.hit));
   // A match that sits only in NCERT's words is shown where it is; a match in the front needs no line.
   const lineOn = showAnswers || shown || open || (backHit && !frontHit);
-  const source = query && card.quote && !hitParts(card.back, query).some((p) => p.hit) ? card.quote : card.back;
+  // A typeset card's line is its served plain back (the formula read out), never the pdftotext quote.
+  const source = !card.texHtml && query && card.quote && !hitParts(card.back, query).some((p) => p.hit) ? card.quote : card.back;
   const line = source ? snippet(source, query, 210) : '';
   const must = card.importance === 'must';
   return (

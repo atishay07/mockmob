@@ -217,12 +217,14 @@ export function stripKindPrefix(kind, text) {
 /**
  * How NcertText draws a card's typeset back (card.texHtml.back, from the server's servedTex): the same structure the plain
  * path gives that kind. { shape: 'list' | 'formula' | 'paras', tag?, bare?, rows: [{ html, marker?, lead }] }, or null when
- * the card has no typeset back. `lead`: the row starts mid-sentence, so it reads with a leading ellipsis (as withLead).
+ * the card has no typeset back. `lead`: the row starts with prose that starts mid-sentence, so it reads with a leading
+ * ellipsis (as withLead); a row that starts with math never does ("sin⁻¹ x …" is a formula, not a cut sentence). Prose is
+ * escaped in the html, so a row whose html starts with a tag starts with math.
  */
 export function texBackRows(card) {
   const rows = Array.isArray(card?.texHtml?.back) ? card.texHtml.back : [];
   if (!rows.length) return null;
-  const lead = (r) => startsMidSentence(r.text, card);
+  const lead = (r) => !String(r.html || '').startsWith('<') && startsMidSentence(r.text, card);
   if (LIST_KINDS.includes(card.kind) && rows.length > 1) {
     return {
       shape: 'list',

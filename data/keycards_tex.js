@@ -6,13 +6,14 @@
 // Imported by the server (src/lib/server/keycards.js), the content scripts and node:test only, never by a client component:
 // the KaTeX JS stays on the server, and the web draws the HTML it sends (src/components/keycards/TexHtml.jsx).
 import katex from 'katex';
+import { printQuotes } from './keycards.js';
 import { LIST_KINDS, ownMarker, stripKindPrefix } from '../src/components/keycards/kinds.js';
 
 export const TEX_SUBJECTS = Object.freeze(['mathematics', 'physics']);
 export const KATEX_OPTIONS = Object.freeze({ throwOnError: true, strict: 'error', trust: false, maxExpand: 200, maxSize: 20, output: 'htmlAndMathml' });
 
-/** Commands never allowed in a tex string: links, images, raw HTML, macro definitions, colour and boxes. */
-export const FORBIDDEN_TEX = /\\(?:href|url|includegraphics|html[A-Za-z]*|def|gdef|edef|xdef|let|newcommand|renewcommand|providecommand|color|textcolor|colorbox|fcolorbox|raisebox|rule|class|style|data)(?![A-Za-z])/;
+/** Commands never allowed in a tex string: links, images, raw HTML, macro definitions, raw characters, colour and boxes. */
+export const FORBIDDEN_TEX = /\\(?:href|url|includegraphics|html[A-Za-z]*|def|gdef|edef|xdef|let|futurelet|newcommand|renewcommand|providecommand|char|color|textcolor|colorbox|fcolorbox|raisebox|rule|class|style|data)(?![A-Za-z])/;
 
 /** The lines of a tex.back or a back: split on line breaks, blank lines ignored. */
 export const texLines = (text) => String(text ?? '').split(/\n+/).map((l) => l.trim()).filter(Boolean);
@@ -61,6 +62,8 @@ const GREEK = {
   varsigma: 'ς', tau: 'τ', upsilon: 'υ', phi: 'φ', varphi: 'φ', chi: 'χ', psi: 'ψ', omega: 'ω',
   Gamma: 'Γ', Delta: 'Δ', Theta: 'Θ', Lambda: 'Λ', Xi: 'Ξ', Pi: 'Π', Sigma: 'Σ', Upsilon: 'Υ', Phi: 'Φ', Psi: 'Ψ', Omega: 'Ω',
 };
+// \mid stands as a private-use character until texToPlain's end, so squash never pairs it as an absolute-value bar.
+const MID = '\uE000';
 const SYMBOLS = {
   to: '→', rightarrow: '→', longrightarrow: '→', Rightarrow: '⇒', Longrightarrow: '⇒', implies: '⇒', leftarrow: '←', Leftarrow: '⇐',
   leftrightarrow: '↔', Leftrightarrow: '⇔', iff: '⇔', mapsto: '↦', uparrow: '↑', downarrow: '↓',
@@ -70,11 +73,14 @@ const SYMBOLS = {
   infty: '∞', circ: '∘', angle: '∠', perp: '⊥', parallel: '∥', triangle: '△', square: '□', partial: '∂', nabla: '∇',
   ldots: '…', dots: '…', cdots: '…', vdots: '⋮', ddots: '⋱', forall: '∀', exists: '∃', emptyset: '∅', varnothing: '∅',
   neg: '¬', lnot: '¬', land: '∧', wedge: '∧', lor: '∨', vee: '∨', therefore: '∴', because: '∵', prime: '′', degree: '°',
-  mid: '|', vert: '|', lvert: '|', rvert: '|', Vert: '‖', lVert: '‖', rVert: '‖', '|': '‖',
+  mid: MID, vert: '|', lvert: '|', rvert: '|', Vert: '‖', lVert: '‖', rVert: '‖', '|': '‖',
   langle: '⟨', rangle: '⟩', lbrace: '{', rbrace: '}', '{': '{', '}': '}', lbrack: '[', rbrack: ']', lfloor: '⌊', rfloor: '⌋',
   lceil: '⌈', rceil: '⌉', backslash: '∖', colon: ':', '%': '%', '&': '&', '#': '#', _: '_', imath: 'i', jmath: 'j',
-  int: '∫', iint: '∬', iiint: '∭', oint: '∮', sum: 'Σ', prod: 'Π',
+  int: '∫', iint: '∬', iiint: '∭', oint: '∮', sum: '∑', prod: '∏',
 };
+// After a fraction, these commands are not a factor that follows it (relations, operators, closers, dots), so the
+// fraction is not bracketed as a whole; every other command is.
+const NOT_FACTOR = new Set(['right', 'end', '\\', 'not', ...Object.keys(SYMBOLS).filter((k) => /^[→⇒⇔←⇐↔↦↑↓∈∉∋⊂⊆⊃⊇∪∩∖≤≥≠<>≪≫≈≡∼≃≅∝±∓×·÷∗⋆∘∧∨¬∴∵′°…⋮⋱:%&#_}\]⟩⌋⌉\uE000]$/.test(SYMBOLS[k]))]);
 const FUNCTIONS = new Set(['sin', 'cos', 'tan', 'cot', 'sec', 'csc', 'cosec', 'log', 'ln', 'exp', 'max', 'min', 'det', 'arcsin', 'arccos', 'arctan', 'sinh', 'cosh', 'tanh', 'gcd']);
 const SPACES = new Set([',', ';', ':', '>', ' ', 'quad', 'qquad', 'enspace', 'thinspace', 'medspace', 'thickspace']);
 const DROPPED = new Set(['!', 'displaystyle', 'textstyle', 'scriptstyle', 'limits', 'nolimits', 'nonumber', 'hline', 'middle',
@@ -86,17 +92,39 @@ const TEXT = new Set(['text', 'textrm', 'textit', 'textbf', 'textsf', 'mbox']);
 const ACCENT = { vec: '⃗', overrightarrow: '⃗', hat: '̂', widehat: '̂', bar: '̄', tilde: '̃', widetilde: '̃', dot: '̇', ddot: '̈' };
 const EVERY_CHAR = { overline: '̅', underline: '̲' };
 const FRACS = new Set(['frac', 'dfrac', 'tfrac', 'cfrac']);
-const MATRICES = { matrix: ['[', ']'], bmatrix: ['[', ']'], pmatrix: ['[', ']'], Bmatrix: ['[', ']'], smallmatrix: ['[', ']'], array: ['[', ']'], vmatrix: ['|', '|'], Vmatrix: ['‖', '‖'] };
+const MATRICES = { matrix: ['[', ']'], bmatrix: ['[', ']'], pmatrix: ['[', ']'], Bmatrix: ['[', ']'], smallmatrix: ['[', ']'], array: ['', ''], vmatrix: ['|', '|'], Vmatrix: ['‖', '‖'] };
+// An array is bare: the \left[ \right] or | | around it give the brackets. Aligned rows keep a space around their "=".
+const ALIGNED = new Set(['aligned', 'alignedat', 'gathered', 'split']);
 const NEGATED = { '=': '≠', '∈': '∉', '⊂': '⊄', '⊆': '⊈', '<': '≮', '>': '≯', '≤': '≰', '≥': '≱', '≡': '≢' };
 
 const SUP = { 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹', '+': '⁺', '−': '⁻', '=': '⁼', '(': '⁽', ')': '⁾',
   a: 'ᵃ', b: 'ᵇ', c: 'ᶜ', d: 'ᵈ', e: 'ᵉ', f: 'ᶠ', g: 'ᵍ', h: 'ʰ', i: 'ⁱ', j: 'ʲ', k: 'ᵏ', l: 'ˡ', m: 'ᵐ', n: 'ⁿ', o: 'ᵒ', p: 'ᵖ',
-  r: 'ʳ', s: 'ˢ', t: 'ᵗ', u: 'ᵘ', v: 'ᵛ', w: 'ʷ', x: 'ˣ', y: 'ʸ', z: 'ᶻ' };
+  r: 'ʳ', s: 'ˢ', t: 'ᵗ', u: 'ᵘ', v: 'ᵛ', w: 'ʷ', x: 'ˣ', y: 'ʸ', z: 'ᶻ',
+  A: 'ᴬ', B: 'ᴮ', D: 'ᴰ', E: 'ᴱ', G: 'ᴳ', H: 'ᴴ', I: 'ᴵ', J: 'ᴶ', K: 'ᴷ', L: 'ᴸ', M: 'ᴹ', N: 'ᴺ', O: 'ᴼ', P: 'ᴾ', R: 'ᴿ', T: 'ᵀ',
+  U: 'ᵁ', V: 'ⱽ', W: 'ᵂ' };
 const SUB = { 0: '₀', 1: '₁', 2: '₂', 3: '₃', 4: '₄', 5: '₅', 6: '₆', 7: '₇', 8: '₈', 9: '₉', '+': '₊', '−': '₋', '=': '₌', '(': '₍', ')': '₎',
   a: 'ₐ', e: 'ₑ', h: 'ₕ', i: 'ᵢ', j: 'ⱼ', k: 'ₖ', l: 'ₗ', m: 'ₘ', n: 'ₙ', o: 'ₒ', p: 'ₚ', r: 'ᵣ', s: 'ₛ', t: 'ₜ', u: 'ᵤ', v: 'ᵥ', x: 'ₓ' };
 
-// Spaces collapsed, and none just inside a round or square bracket ("\left( x \right)" reads "(x)").
-const squash = (s) => s.replace(/[ \t]+/g, ' ').replace(/([([]) /g, '$1').replace(/ ([)\]])/g, '$1').trim();
+// Spaces collapsed, and none just inside a bracket, a pair of bars or a pair of braces ("\left( x \right)" reads "(x)",
+// "\left| x \right|" reads "|x|"). A bar or brace without its partner (the open brace of cases) keeps its space.
+const squash = (s) => {
+  const bars = s.replace(/[ \t]+/g, ' ').replace(/([([]) /g, '$1').replace(/ ([)\]])/g, '$1').split('|');
+  for (let close = 1; close < bars.length - 1; close += 2) {
+    bars[close] = bars[close].replace(/^ /, '').replace(/ $/, '');
+  }
+  const chars = [...bars.join('|')];
+  const open = [];
+  const drop = new Set();
+  chars.forEach((c, k) => {
+    if (c === '{') open.push(k);
+    else if (c === '}' && open.length) {
+      const o = open.pop();
+      if (chars[o + 1] === ' ') drop.add(o + 1);
+      if (chars[k - 1] === ' ' && k - 1 > o) drop.add(k - 1);
+    }
+  });
+  return chars.filter((_, k) => !drop.has(k)).join('').trim();
+};
 // A cases row's cells joined with a comma, unless the cell already ends with one ("x, & \text{if } x \ge 0").
 const caseRow = (cells) => cells.filter(Boolean).reduce((row, cell) => (!row ? cell : /[,;]$/.test(row) ? `${row} ${cell}` : `${row}, ${cell}`), '');
 /** A superscript or subscript: Unicode script characters when every character has one, else ^(…) / _(…). */
@@ -109,13 +137,22 @@ function script(body, mark) {
   const chars = [...s];
   return chars.every((c) => map[c]) ? chars.map((c) => map[c]).join('') : `${mark}(${s})`;
 }
-// A numerator or denominator of more than one term is bracketed: (a + b)/(c − d).
-const term = (s) => (/[\s+−=<>≤≥×·÷/,±∓]/.test(s) ? `(${s})` : s);
+// A numerator, a denominator or a matrix cell stays bare only when it is one number (−1), one letter or Greek letter (with an
+// accent, a subscript or a prime: a₁, θ′), or a differential (d, dy, d²y, dx²); anything else is bracketed: 1/(2a),
+// (sin x)/x, [(x + 1), 2; 3, (y − 1)].
+const BARE = new RegExp(`^(?:−?\\d+(?:\\.\\d+)?|\\p{L}\\p{M}*(?:[${Object.values(SUB).join('')}]+|_\\([^()]*\\))?′*|[d∂][²³ⁿ]?(?:\\p{L}[²³ⁿ]?)?)$`, 'u');
+const bare = (s) => (!s || BARE.test(s) ? s : `(${s})`);
+// Row spacing after a row break ("\\[2pt]") is layout, never read.
+const ROW_SPACING = /^\s*\[\s*-?[\d.]+\s*[a-z]{2}\s*\]/;
 
 /** One math part as linear Unicode. Unknown commands keep their backslash (texCheck's shape:tex_plain catches them). */
 function mathPlain(src, { text = false } = {}) {
   let i = 0;
   let out = '';
+  // What the output ends with, for a fraction that comes next: 'func' after a function name (and its ^{-1} or power form),
+  // 'script' after a superscript or subscript, else null. Spaces keep it.
+  let after = null;
+  let before = null;
   const peek = () => src[i];
   const skipSpaces = () => { while (i < src.length && /\s/.test(src[i])) i += 1; };
   // A command name after its backslash: a run of letters, or one other character.
@@ -154,6 +191,29 @@ function mathPlain(src, { text = false } = {}) {
     return v;
   };
   const sub = (raw, opts) => squash(mathPlain(raw, opts));
+  // An open absolute-value bar in the output so far (an odd count): the next bar closes it.
+  const barOpen = (bar) => (out.split(bar).length - 1) % 2 === 1;
+  // Does a factor follow (a letter, digit, bracket, bar, root or any command that is not a relation, operator or closer)?
+  // Then a fraction before it is bracketed as a whole: \frac{1}{2}x reads (1/2)x.
+  const factorFollows = () => {
+    let j = i;
+    for (;;) {
+      while (j < src.length && /\s/.test(src[j])) j += 1;
+      const c = src[j];
+      if (c === undefined) return false;
+      if (c === '~') { j += 1; continue; }
+      if (/[\p{L}\p{N}(√^]/u.test(c)) return true;
+      if (c === '|') return !barOpen('|');
+      if (c !== '\\') return false;
+      const m = /^[A-Za-z]+/.exec(src.slice(j + 1));
+      const name = m ? m[0] : src[j + 1] || '';
+      j += 1 + name.length;
+      if (SPACES.has(name) || DROPPED.has(name)) continue;
+      if (name === 'vert') return !barOpen('|');
+      if (name === '|' || name === 'Vert') return !barOpen('‖');
+      return !NOT_FACTOR.has(name);
+    }
+  };
   const env = (name) => {
     if (name === 'array') arg(); // the column spec
     const endTag = `\\end{${name}}`;
@@ -165,59 +225,95 @@ function mathPlain(src, { text = false } = {}) {
     }
     const body = src.slice(i, j);
     i = Math.min(src.length, j + endTag.length);
-    const rows = splitTop(body, '\\\\').map((row) => splitTop(row, '&').map((cell) => sub(cell))).filter((cells) => cells.some(Boolean));
+    const rows = splitTop(body, '\\\\').map((row, k) => (k ? row.replace(ROW_SPACING, '') : row))
+      .map((row) => splitTop(row, '&').map((cell) => sub(cell))).filter((cells) => cells.some(Boolean));
     if (name === 'cases' || name === 'dcases') return `{ ${rows.map(caseRow).join('; ')}`;
-    if (MATRICES[name]) return `${MATRICES[name][0]}${rows.map((cells) => cells.join(' ')).join('; ')}${MATRICES[name][1]}`;
-    return rows.map((cells) => cells.join('')).join('; ');
+    if (MATRICES[name]) return `${MATRICES[name][0]}${rows.map((cells) => cells.map(bare).join(', ')).join('; ')}${MATRICES[name][1]}`;
+    return rows.map((cells) => cells.filter(Boolean).join(ALIGNED.has(name) ? ' ' : '')).join('; ');
   };
-  while (i < src.length) {
+  // One token of the source, written to `out`.
+  const step = () => {
     const c = src[i];
-    if (c === '{') { out += mathPlain(group(), { text }); continue; }
-    if (c === '}') { i += 1; continue; }
-    if (!text && (c === '^' || c === '_')) { i += 1; out += script(sub(arg()), c); continue; }
-    if (!text && c === "'") { out += '′'; i += 1; continue; }
-    if (!text && c === '-') { out += '−'; i += 1; continue; }
-    if (c === '~') { out += ' '; i += 1; continue; }
-    if (c !== '\\') { out += c; i += 1; continue; }
+    if (c === '{') { out += mathPlain(group(), { text }); return; }
+    if (c === '}') { i += 1; return; }
+    if (!text && (c === '^' || c === '_')) { i += 1; out += script(sub(arg()), c); after = before === 'func' ? 'func' : 'script'; return; }
+    if (!text && c === "'") { out += '′'; i += 1; return; }
+    if (!text && (c === '-' || c === '+')) {
+      // A binary plus or minus (after an operand) is spaced, "x − a"; a sign is not, "[−1, 1]", "(−x)".
+      const sign = c === '-' ? '−' : '+';
+      const end = out.trimEnd();
+      const operand = /[\p{L}\p{N}\p{M})\]}′°∞…]$/u.test(end) || (end.endsWith('|') && !barOpen('|'));
+      out += operand ? ` ${sign} ` : sign;
+      i += 1;
+      return;
+    }
+    if (c === '~') { out += ' '; i += 1; return; }
+    if (c !== '\\') { out += c; i += 1; return; }
     i += 1;
     const name = commandName();
-    if (name === '\\') { out += ' '; continue; }
-    if (SPACES.has(name)) { out += ' '; continue; }
-    if (DROPPED.has(name)) continue;
-    if (name === 'left' || name === 'right') { skipSpaces(); if (peek() === '.') i += 1; continue; }
-    if (GREEK[name]) { out += GREEK[name]; continue; }
-    if (SYMBOLS[name]) { out += SYMBOLS[name]; continue; }
+    if (name === '\\') { out += ' '; return; }
+    if (SPACES.has(name)) { out += ' '; return; }
+    if (DROPPED.has(name)) return;
+    if (name === 'left' || name === 'right') { skipSpaces(); if (peek() === '.') i += 1; return; }
+    if (GREEK[name]) { out += GREEK[name]; return; }
+    if (SYMBOLS[name]) { out += SYMBOLS[name]; return; }
     if (FUNCTIONS.has(name)) {
+      // "2 sin x", "(1/2) log |x|": a space between a function and what it follows; "sin x", "sin x" for \sin{x}.
+      if (/[\p{L}\p{N})′]$/u.test(out)) out += ' ';
       out += name;
-      if (/[\\A-Za-z0-9]/.test(peek() || '')) out += ' ';
-      continue;
+      spaceAfterFunction();
+      after = 'func';
+      return;
     }
     if (name === 'lim') {
       skipSpaces();
       if (src.startsWith('\\limits', i)) { i += 7; skipSpaces(); }
       if (peek() === '_') { i += 1; out += `lim(${sub(arg()).replace(/\s+/g, '')})`; } else out += 'lim';
-      continue;
+      return;
     }
     if (name === 'not') {
       const next = mathPlain(arg());
       out += NEGATED[next] || `${next}̸`;
-      continue;
+      return;
     }
-    if (FRACS.has(name)) { const a = sub(arg()); const b = sub(arg()); out += `${term(a)}/${term(b)}`; continue; }
-    if (name === 'binom') { const a = sub(arg()); const b = sub(arg()); out += `C(${a}, ${b})`; continue; }
+    if (FRACS.has(name)) {
+      let frac = `${bare(sub(arg()))}/${bare(sub(arg()))}`;
+      // The whole fraction is bracketed after a function or a script, or before a factor: tan(x/2), tan⁻¹((x + y)/(1 − xy)),
+      // (1/2)x. A digit before it is a mixed number, kept apart: 2 3/4.
+      if (before === 'func' || before === 'script' || factorFollows()) {
+        frac = `(${frac})`;
+        if (before === 'func') out = out.trimEnd();
+      }
+      if (/\d$/.test(out)) out += ' ';
+      out += frac;
+      return;
+    }
     if (name === 'sqrt') {
       const n = optional();
       const body = sub(arg());
       const index = n === null ? '' : script(sub(n), '^').replace(/^\^\((.*)\)$/, '($1)');
       out += `${index}√${[...body].length === 1 || /^\d+$/.test(body) ? body : `(${body})`}`;
-      continue;
+      return;
     }
-    if (CONTENT.has(name)) { if (peek() === '*') i += 1; out += mathPlain(arg(), { text }); continue; }
-    if (TEXT.has(name)) { out += mathPlain(arg(), { text: true }); continue; }
-    if (ACCENT[name]) { out += `${sub(arg())}${ACCENT[name]}`; continue; }
-    if (EVERY_CHAR[name]) { out += [...sub(arg())].map((ch) => `${ch}${EVERY_CHAR[name]}`).join(''); continue; }
-    if (name === 'begin') { out += env(arg()); continue; }
+    if (CONTENT.has(name)) { if (peek() === '*') i += 1; out += mathPlain(arg(), { text }); return; }
+    if (TEXT.has(name)) { out += mathPlain(arg(), { text: true }); return; }
+    if (ACCENT[name]) { out += `${sub(arg())}${ACCENT[name]}`; return; }
+    if (EVERY_CHAR[name]) { out += [...sub(arg())].map((ch) => `${ch}${EVERY_CHAR[name]}`).join(''); return; }
+    if (name === 'begin') { out += env(arg()); return; }
     out += `\\${name}`;
+  };
+  // After a function name: a space before a letter, digit, command or a group that starts with one (\sin x, \sin{x}).
+  function spaceAfterFunction() {
+    const next = peek() === '{' ? src.slice(i + 1).trimStart()[0] : peek();
+    if (/[\\A-Za-z0-9]/.test(next || '')) out += ' ';
+  }
+  while (i < src.length) {
+    const len = out.length;
+    before = after;
+    after = null;
+    step();
+    // A token that wrote only space (or nothing) keeps what the output ended with.
+    if (after === null && !out.slice(len).trim()) after = before;
   }
   return out;
 }
@@ -244,35 +340,48 @@ function splitTop(text, sep) {
  * part converted, the delimiters removed. Deterministic; no backslash is left for supported input.
  */
 export function texToPlain(str) {
-  return splitTex(str).parts.map((p) => (p.type === 'math' ? squash(mathPlain(p.value)) : p.value)).join('');
+  return splitTex(str).parts.map((p) => (p.type === 'math' ? squash(mathPlain(p.value)).replaceAll(MID, '|') : p.value)).join('');
 }
+
+// pdftotext reads the book's Symbol-font glyphs as Latin-1 stand-ins: Î for ∈, Þ for ⇒, ¢ for a prime. They are not letters.
+const SYMBOL_FONT = /[ÎÞ¢]/g;
 
 /**
  * The letters and digits of a text as a sorted string (a multiset; order ignored, since pdftotext scrambles the order of
- * limits, fractions and superscripts): NFKD, combining marks dropped, lowercase.
+ * limits, fractions and superscripts): Symbol-font stand-ins dropped, NFKD, combining marks and modifier letters (the
+ * spacing hat ˆ of "xiˆ") dropped, ∆ read as Δ, lowercase.
  */
-export const alnumBag = (text) => [...String(text ?? '').normalize('NFKD').replace(/\p{M}/gu, '').toLowerCase()].filter((c) => /[\p{L}\p{N}]/u.test(c)).sort().join('');
+export const alnumBag = (text) => [...String(text ?? '').replace(SYMBOL_FONT, '').normalize('NFKD').replace(/[\p{M}\p{Lm}]/gu, '').replace(/\u2206/g, 'Δ').toLowerCase()]
+  .filter((c) => /[\p{L}\p{N}]/u.test(c)).sort().join('');
 
 // ---------------------------------------------------------------- serving
 
 const ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
 const escapeHtml = (s) => s.replace(/[&<>"']/g, (c) => ESCAPES[c]);
 
-/** A tex string as HTML: prose escaped, math through KaTeX. Throws on bad delimiters or a forbidden command. */
+// KaTeX's MathML keeps the TeX source in an <annotation>: a screen reader reads the MathML around it, so the source is not
+// served.
+const ANNOTATION = /<annotation\b[^>]*>[\s\S]*?<\/annotation>/g;
+
+/**
+ * A tex string as HTML: prose escaped (its `quotes' printed as the plain back prints them), math through KaTeX without the
+ * TeX source annotation. Throws on bad delimiters or a forbidden command.
+ */
 export function texHtml(str) {
   const split = splitTex(str);
   if (!split.ok) throw new Error('tex delimiters');
   if (FORBIDDEN_TEX.test(String(str))) throw new Error('tex command not allowed');
-  return split.parts.map((p) => (p.type === 'text' ? escapeHtml(p.value)
-    : katex.renderToString(p.value, { ...KATEX_OPTIONS, throwOnError: false, displayMode: p.display }))).join('');
+  return split.parts.map((p) => (p.type === 'text' ? escapeHtml(printQuotes(p.value))
+    : katex.renderToString(p.value, { ...KATEX_OPTIONS, throwOnError: false, displayMode: p.display }).replace(ANNOTATION, ''))).join('');
 }
 
 const warned = new Set();
 /**
  * A card as the server sends it. Without `tex`: unchanged. With it: `back` becomes the plain form of tex.back, line by line
- * (so every plain client reads the formula, not the pdftotext text), and `texHtml = { front?, back?: [{ text, marker?, html }] }`
- * carries the drawn form (front after cardFace's kind-prefix strip; a list line's own NCERT marker split off as the plain
- * path draws it). Anything wrong: the card without tex and texHtml (the plain stored text), logged once.
+ * (so every plain client reads the formula, not the pdftotext text; `quotes' printed as printedCard prints them), and
+ * `texHtml = { front?, back?: [{ text, marker?, html }] }` carries the drawn form (front after cardFace's kind-prefix strip; a
+ * list line's own NCERT marker split off as the plain path draws it). The raw `tex` is not sent: clients read texHtml and the
+ * plain back. Anything wrong: the card without tex and texHtml (the plain stored text), logged once.
  */
 export function servedTex(card, { log = console.warn } = {}) {
   if (!card || card.tex === undefined) return card;
@@ -280,13 +389,14 @@ export function servedTex(card, { log = console.warn } = {}) {
     const { tex } = card;
     if (!TEX_SUBJECTS.includes(card.subject)) throw new Error('subject');
     if (!tex || typeof tex !== 'object' || (tex.front === undefined && tex.back === undefined)) throw new Error('form');
-    const out = { ...card, texHtml: {} };
+    const { tex: _raw, ...rest } = card;
+    const out = { ...rest, texHtml: {} };
     if (tex.back !== undefined) {
       const lines = texLines(tex.back);
       if (lines.length !== texLines(card.back).length) throw new Error('line count');
       const listed = LIST_KINDS.includes(card.kind) && lines.length > 1;
       out.texHtml.back = lines.map((line) => {
-        const text = texToPlain(line);
+        const text = printQuotes(texToPlain(line));
         if (text.includes('\\')) throw new Error('unknown command');
         const own = listed ? ownMarker(text) : null;
         if (own && line.startsWith(own[0])) return { text, marker: own[0], html: texHtml(line.slice(own[0].length).trimStart()) };
