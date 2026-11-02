@@ -643,3 +643,23 @@ His frame: "Keep going. You have a bit of a direction and a taste of what I have
 | IN PROGRESS: LIVE 2 Nov: Chemistry, History (~2:15 am), Geography, Psychology, Sociology (~3:10 am), Physics, Mathematics (~3:15 am), Computer Science (~4:15 am), +911 (~4:35 am), +668 recovery round 2 (~9:45 am, main a16fbd62e): 15,469 cards. Short of 3 h: Mathematics only (310). His answer to "Start the Maths formula card pipeline?", verbatim: "Yes, start it" (2 Nov morning). Formula pipeline started: typeset formulas from the page images, pilot Inverse Trigonometric Functions first, then the other 12 chapters; target Maths 450+ | **LK34** Populate every subject and chapter: at least 3 hours of study per subject, more is fine. |
 | STANDING GOAL | **LK35** Keep going; double down on this direction. |
 | DECIDED 1 Nov ~5:45 pm | **LK34 route:** asked for an Anthropic API key (about $500) for card batches, he chose "Use subscription". Cards are written by subscription agents, paced across the 5-hour windows. The API pipeline (scripts/keycards/api-batch.mjs, web/1101-content-api 3b0feaa05) stays ready, unused. |
+
+## Learn v2 on the web, 2 Nov about 10 am (LK36-LK49; verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md, section "2 Nov 2026, about 10 am")
+Owner of this round: the app port session (c4dbd3b5), coordinating with the Key cards session for main pushes.
+
+| Status | Item |
+|---|---|
+| IN PROGRESS | **LK44** Every answer is A. Keys in the verified bank are skewed to A; options must be shuffled wherever they are served unshuffled, the key moving with them. |
+| IN PROGRESS | **LK45** Do fixes 2, 3 and 4 (one count on the stop sheet and the end; the app's Print sheet row named for what it opens; a Revise run's head line says Revise). |
+| IN PROGRESS | **LK38** Missed it / Got it / Easy: nobody can tell what they do; Missed it seems to do nothing; Got it and Easy look the same. |
+| IN PROGRESS | **LK37** "Start 10 min" cannot be changed; let the student choose how many Key cards, questions and mistakes a run holds. |
+| IN PROGRESS | **LK40** Scrolling over the question area does not scroll the page. |
+| IN PROGRESS | **LK41** Desktop is scaled down with too much blank space. |
+| IN PROGRESS | **LK39** Cards look boring in Light and Dark; make them more interesting. |
+| IN PROGRESS | **LK43** Dark mode: the neon glow around every card is too much; make it subtle. |
+| IN PROGRESS | **LK42** Top bar: the Pro, credits and wallet marks look low quality; rethink the top bar (web and app). |
+| IN PROGRESS | **LK46** Web tabs: four equal tabs are fine; order Practice, Papers, Learn, Explore. App tabs: he will look on the phone first. |
+| IN PROGRESS | **LK47** The website's scroll feels too fast in its first section; slow it down. |
+| TO ANSWER | **LK48** Has copying the app's UI to the web hidden options or made some unreachable? Confirm. |
+| TO ANSWER | **LK36** English seems to list only Verbal Ability; are all subjects' chapters listed? |
+| STANDING | **LK49** The small UI/UX fixes he gave long ago still have to be done. |

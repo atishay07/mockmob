@@ -131,3 +131,36 @@ Right now your task is to build this feature completely and test out everything,
 | LK35 | Keep going, and double down on this direction. |
 
 **Content calls still open:** the near-duplicate pair "Define partnership." / "What is partnership?", and the card "If this amount is paid to the old partners...". He did not answer them; the CTO decides in round 2 (LK35: keep going).
+
+## 2 Nov 2026, about 10 am IST: his look at the live Learn v2 on the web, Light and Dark, phone and desktop, while 1.0.19+17 waits in Play review (verbatim, two messages)
+
+> Coming on to the UI: the overall UI and everything, when I go to the account section, it looks good. It's quite detailed. All chapters are properly listed but I don't think that's true for all the subjects. Especially I feel like English: it's just the verbal ability. I don't know, either maybe it's not populated or something.
+>
+> If I click on "Directly Start 10 Minutes," it's not letting me alter it. If I click on any chapter then I can choose the key cards question but there should be a toggle allowing me to choose the number of key cards and questions and other stuff which I want to do. According to that it can adapt to something like your mistakes and all those kinds of stuff.
+>
+> Overall I'll start it and see how it is. When I click "Missed It," it's showing "To Revise" and "Open Mistakes 1" only. When I click "Missed It," nothing really happens. Can you explain to me what the "Missed It" button is doing? "Got It" and "Easy" both, I think, are doing the same. Both are adding cards to the "To Revise" section, like 3 to revise, 4 to revise. Those are also, I think, overall the same only, not doing anything. What's the purpose of any of this?
+>
+> I just feel like the UI of the cards can be a bit better. Right now I'm in light mode. I'll see it one time in dark mode also. The scroll and other small things, like in the section when I'm scrolling: in the question section it's not scrolling the page. I have to scroll outside the question section. Small UI things like this.
+>
+> Overall everything is very scaled down. There is so much white space, blank space on the desktop, overall everywhere in this thing. Now if I start a 5-minute... Even in dark mode the look of the cards can be improved somehow. They are very boring right now and can be made a bit interesting somehow.
+>
+> Genuinely people should be able to understand what these three options do. Misstate got it easy. Even I have attempted so many and I am unable to understand. Stuff like this you have to take care of and think about. Overall small UI/UX fixes which I told you about long back have to be done.
+>
+> In the top bar where it shows Pro, and I think it's credits, wallet symbol, all that is very low-quality, lower UI, which has to be fixed. In dark mode there is this neon light around every card, which is looking a bit too much and can be made a bit more subtle to give it less of a very extreme neon AI slop look.
+>
+> Going on to the Explore feed, the UI and overall direction that you have taken with this Explore feed is actually better. I just randomly noticed it while attempting many questions: how is the answer to every question just A? I'm randomly clicking, and every answer seems to be A to me. These are not shuffled, or this has to be some major glitch. Just C to me. This is a unique experience just to me. Literally, I have attempted many questions in different sections, different chapters. Every answer seems to be A
+
+> Perform these changes you told me about. You can fix whatever fixes you told me about, like 2, 3, and 4.
+>
+> For the first one, 4 equal tabs seem okay to me on the web. No specific change but I'll just see it on the mobile app once, if there is anything.
+>
+> Overall I don't know why the scroll speed on the entire website feels like a lot. Is there any way we can slow it down? It's the issue in the first section of the website only. I don't know, this is a very small thing but I just thought I should mention it.
+>
+> I think you have copied the exact app UI to the web only. It's not an issue, overall it looks good but it's making the website even less dense, which I think enhances the overall experience. I think many options now are hidden or you are unable to access them. Let me just confirm if that's the case or not.
+>
+> I think the order maybe can be suggested as practice, then paper, then learn, then explore, rather than the current order. It's a minor thing but it's worth mentioning. The overall UI looks honestly fine only to me. Just the top nav bar can be redesigned and rethought, especially this wallet logo, which looks a bit weird, not as much on the web but still. Apart from that, no specific feedback from my side if anything else is required later.
+>
+> For the app, it's still in review by Google Play. I don't know how much time it will take. Most probably, I won't be able to give the review right now. Let me know if you need anything right now from my side.
+
+"Fixes 2, 3 and 4" are the app port session's proposals of 2 Nov ~9:40 am: (2) the stop sheet and the end count the same thing; (3) the app's "Print sheet" row is named for what it opens; (4) a Revise run's head line says Revise, not the first card's chapter.
+Found at once: the verified bank's keys are skewed to A (Accountancy 1,206 of 1,405; most older subjects alike; the Claude-authored waves are balanced). NTA papers shuffle options; quick papers, Learn v2, the Explore stream and Mob papers serve the stored order.
