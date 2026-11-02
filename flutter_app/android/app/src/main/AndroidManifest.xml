@@ -74,6 +74,8 @@
                 <data android:pathPrefix="/progress" />
                 <data android:pathPrefix="/study" />
                 <data android:pathPrefix="/explore" />
+                <!-- Key cards; while Learn v2 is on the app opens them as its Learn v2 places. -->
+                <data android:pathPrefix="/cards" />
                 <data android:pathPrefix="/saved" />
                 <data android:pathPrefix="/analytics" />
                 <data android:pathPrefix="/join" />
