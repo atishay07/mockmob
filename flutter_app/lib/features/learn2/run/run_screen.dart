@@ -1,21 +1,26 @@
-/// The Learn run (the web's `src/components/learn2/run/RunPlayer.jsx`, BUILD-1101 B2 with B7, A4 3.3 to 3.5): one chapter's
+/// The Learn run (the web's `src/components/learn2/run/RunPlayer.jsx`, BUILD-1101 B2 with B7, A4 3.3 to 3.5, rounds 2 to 4): one chapter's
 /// Key cards, questions and lesson as a session, one item at a time, on the shared study stage (`../stage/`). A full screen over
 /// the app (no dock), the phone band of the web exactly:
 ///
-///   top bar     Close, the chapter's title, the In Revise pile with its count and "3 of 21"; under them the ticks and "about
-///               6 min left"
-///   the item    a Key card (it fits its words, turns over in 3D) or a question (graded by the server, NCERT's line opening in
-///               place under a wrong answer) or a lesson; it comes up 8 dp from below, one at a time (the run moves by its keys,
-///               never by a swipe, except a recap's cards, which follow a sideways swipe)
-///   action bar  Show answer; then Missed, Got it (the volt key) and Easy; a question: a quiet Skip, then Save and Next; a
-///               look past Free's ratings: Next; a lesson: Skip it and Read the lesson; a recap: Previous and Next; one status
-///               line under the keys (the stamp, a coach line, an error, Free's look line)
-///   Got it, Easy the card flies into the pile in the top bar (the count pops, the stamp says the server's real day); Missed
-///               tilts and drops away: "Back later in this run"
-///   stop rule   before any item is done, Close and the system Back leave; after one, they ask "Stop for now?"
-///   end         the chapter's title and the done line, the Revise pile, Key cards, Questions and Old mistakes, the lead and its
-///               volt key, the options; Free after its day: the server's line and See Pro
+///   top bar     one row: Close (the X and the word), the ticks, "3 of 21"; under it the chapter's name. No pile and no time
+///               left in a phone's bar
+///   the item    a Key card (a flashcard that fills its page, turns over in 3D) or a question (graded by the server, its options
+///               at the foot in the thumb zone, NCERT's line opening in place under a wrong answer) or a lesson; it comes up 8 dp
+///               from below, one at a time (the run moves by its keys, never by a swipe, except a recap's cards, which follow a
+///               sideways swipe)
+///   action bar  Turn over; then Missed, Got it (the volt key) and Easy; a question: a quiet Skip, then Save and Next; a look
+///               past Free's ratings: Next; a lesson: Skip it and Read the lesson; a recap: Previous and Next; one status line
+///               under the keys (the stamp, a coach line, an error, Free's look line)
+///   first run   once per student: "Tap the card to turn it over", "Got it: it comes back when it’s due." and "Pick the answer
+///               you think is right." above the first question's options
+///   Got it, Easy the card flies into the counter "3 of 21" (the stamp says the server's real day); Missed tilts and drops away:
+///               "Back later in this run"
+///   stop rule   before any item is done, Close and the system Back leave; after one, they ask "Stop for now?" ("5 of 20 done.
+///               It’s all saved.", Stop here, Back to it); Stop here shows the end and the server keeps the run open
+///   end         one end screen (`EndScreen`): the chapter, a headline with Mobi, the small fan of the cards sent to Revise, up to
+///               three numbers, the chapter's bar, then the server's one key and one link; Free after its day: its one line
 ///   states      the skeleton, the run did not start, a chapter not in the book list, nothing to line up, Free's day used
+///               (`StageFreeUsed`)
 ///
 /// Every server href goes through `Learn2Links.resolve`; the state lives in [RunController].
 library;
@@ -30,6 +35,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/repositories/local_scope.dart' show userIdProvider;
 import '../../../core/router/action_router.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -42,7 +48,10 @@ import '../data/learn_providers.dart';
 import '../learn2_links.dart';
 import '../stage/card_face.dart';
 import '../stage/question_view.dart';
+import '../stage/sci_text.dart';
+import '../stage/stage_end_model.dart';
 import '../stage/stage_frame.dart' show StageFrame;
+import '../stage/stage_free_used.dart';
 import '../stage/stage_keys.dart';
 import '../stage/stage_motion.dart';
 import '../stage/stage_pager.dart';
@@ -53,7 +62,6 @@ import 'run_controller.dart';
 import 'run_copy.dart';
 import 'run_end.dart';
 import 'run_flight.dart';
-import 'run_math.dart';
 import 'run_parts.dart';
 import 'run_view.dart';
 
@@ -69,7 +77,7 @@ class LearnRunScreen extends ConsumerStatefulWidget {
 
 class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
   late final RunController _c;
-  final GlobalKey _pileKey = GlobalKey(debugLabel: 'run-pile');
+  final GlobalKey _posKey = GlobalKey(debugLabel: 'run-counter');
   final GlobalKey _endTitleKey = GlobalKey(debugLabel: 'run-end-title');
   final Map<String, GlobalKey> _cardKeys = {};
   ProviderContainer? _container;
@@ -86,6 +94,7 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
       api: ref.read(learnApiProvider),
       launch: widget.launch,
       prefs: _prefs(),
+      studentId: _student(),
       onSay: _say,
       onRated: _rated,
       onSeePro: _seePro,
@@ -98,6 +107,14 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
   LearnPrefs? _prefs() {
     try {
       return ref.read(learnPrefsProvider);
+    } on Object {
+      return null;
+    }
+  }
+
+  String? _student() {
+    try {
+      return ref.read(userIdProvider);
     } on Object {
       return null;
     }
@@ -149,7 +166,7 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
     if (from == null) return;
     final item = _c.items.where((i) => i.id == e.itemId).firstOrNull;
     final face = item is LearnCardItem ? cardFace(item.card) : null;
-    unawaited(RunFlight.fly(context, from: from, to: _pileKey, kind: e.kind, label: face?.label ?? '', words: item is LearnCardItem ? item.card.back : ''));
+    unawaited(RunFlight.fly(context, from: from, to: _posKey, kind: e.kind, label: face?.label ?? '', words: item is LearnCardItem ? item.card.back : ''));
   }
 
   /// After a save: the app's Saved list reads again, so it agrees with this run.
@@ -255,27 +272,49 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
     return target is NativeTarget ? target.location : null;
   }
 
-  /// Where a key of the end leads: its href, or the run or feed it names (the web's `hrefOf`).
-  String? _locationOf(LearnOption o) {
+  /// What a key of the end does with its option (the web's `keyTarget`): See Pro, an href to open, a run to start, or nothing.
+  RunKeyKind _keyKind(LearnOption o) {
+    if (o.go == 'pro') return ref.read(proNudgesOnProvider) ? RunKeyKind.pro : RunKeyKind.none;
     final href = o.href;
-    if (href != null) return _hrefLocation(href);
-    final spec = o.run;
-    if (spec == null) return null;
-    final minutes = (spec.minutes ?? 0) > 0 ? spec.minutes! : 10;
-    if (spec.kind == LearnKinds.feed) return Learn2Links.feed(FeedLaunch(chapterKey: spec.chapterKey, minutes: minutes));
-    return Learn2Links.run(RunLaunch(chapterKey: spec.chapterKey, minutes: minutes, kind: spec.kind, leaveOut: spec.leaveOut, cardIds: spec.cardIds));
+    if (href != null) return _hrefLocation(href) != null ? RunKeyKind.href : RunKeyKind.none;
+    return o.run != null ? RunKeyKind.run : RunKeyKind.none;
   }
 
-  void _open(LearnOption o) {
-    final location = _locationOf(o);
-    if (location == null) return;
-    if (o.href == null) {
-      _replace(location);
-    } else {
-      _push(location);
+  /// A key of the end was pressed. A feed or a page opens; a chapter run starts here, in this player: a stopped run's "Continue"
+  /// picks it up by its id, every other key starts a new run (`fresh`) (R3-SPEC L5).
+  void _onKey(LearnOption o) {
+    if (o.go == 'pro') {
+      _seePro('learn');
+      return;
     }
+    final href = o.href;
+    if (href != null) {
+      final to = _hrefLocation(href);
+      if (to != null) _push(to);
+      return;
+    }
+    final r = o.run;
+    if (r == null) return;
+    if (r.kind == LearnKinds.feed) {
+      _replace(Learn2Links.feed(FeedLaunch(chapterKey: r.chapterKey, minutes: (r.minutes ?? 0) > 0 ? r.minutes! : 10, runId: r.resume)));
+      return;
+    }
+    unawaited(
+      _c.restart(
+        RunLaunch(
+          chapterKey: r.chapterKey ?? _c.chapterKey,
+          minutes: (r.minutes ?? 0) > 0 ? r.minutes! : 10,
+          kind: r.kind,
+          leaveOut: r.leaveOut,
+          cardIds: r.cardIds,
+          runId: r.resume,
+          fresh: r.fresh,
+        ),
+      ),
+    );
   }
 
+  /// Today's own run, picked up from Free's refusal.
   void _pickUp(LearnSessionHolder r) {
     if (r.kind == LearnKinds.feed) {
       _replace(Learn2Links.feed(FeedLaunch(chapterKey: r.chapterKey, minutes: widget.launch.minutes, runId: r.id)));
@@ -295,18 +334,10 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
     }
     if (_stopOpen) return;
     _stopOpen = true;
-    final choice = await showStopSheet(context, done: math.min(c.doneCount, c.total), of: c.total, detail: c.stopDetail);
+    final choice = await showStopSheet(context, done: math.min(c.doneCount, c.total), of: c.total);
     _stopOpen = false;
     if (!mounted) return;
-    switch (choice) {
-      case StageStopChoice.end:
-        c.finish(c.doneCount);
-      case StageStopChoice.leave:
-        _leave();
-      case StageStopChoice.keepGoing:
-      case null:
-        break;
-    }
+    if (choice == StageStopChoice.end) c.finish(c.doneCount);
   }
 
   // ---------------------------------------------------------------- the frame
@@ -341,7 +372,7 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
           keys: [StageStepKey(label: RunCopy.backToChapter, onTap: _toChapter)],
         ),
       ),
-      RunStatus.free => _centre(_freeState()),
+      RunStatus.free => _freeState(),
       RunStatus.ready => _ready(),
     };
     return PopScope(
@@ -356,25 +387,50 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
   /// A state without items: the top bar's Close and the title, the state centred in the item area, no action bar.
   Widget _centre(Widget body) => RunFrame(
     label: RunCopy.stageLabel(_c.title),
-    topBar: RunTopBar(onClose: () => unawaited(_askClose()), title: _c.title, reserveRight: false),
+    topBar: RunTopBar(onClose: () => unawaited(_askClose()), title: _c.title),
     child: RunCentreArea(child: body),
   );
 
-  /// Free's day is used: the server's line, the run that holds the day, its options, See Pro.
+  StageCloseKey _closeKey() => StageCloseKey(onTap: _leave, semanticsLabel: RunCopy.closeLabel);
+
+  /// Free's day is used (a second tab's 402): "That was today's free session.", the line, See Pro, then up to two quiet rows the
+  /// server accepts today: "Continue · N min", "Revise N due cards · M min", "Answer single questions".
   Widget _freeState() {
     final f = _c.free ?? const LearnSessionUsed(line: '');
-    final r = f.resume;
     final proOn = ref.watch(proNudgesOnProvider);
-    return StageCentre(
-      title: RunCopy.freeTitle,
-      line: f.line.isNotEmpty ? f.line : RunCopy.freeLine,
-      keys: [
-        if (r != null) StageStepKey(label: RunCopy.pickUp(r.done, r.of), onTap: () => _pickUp(r)),
-        for (final o in f.options)
-          if (_locationOf(o) != null) StageStepKey(label: o.label, tone: StageTone.line, onTap: () => _open(o)),
-        StageStepKey(label: RunCopy.backToChapter, tone: r == null ? StageTone.volt : StageTone.line, onTap: _toChapter),
-        if (proOn) StageTextKey(label: RunCopy.seePro, onTap: () => _seePro('learn')),
-      ],
+    LearnOption? option(bool Function(LearnOption o) test) {
+      for (final o in f.options) {
+        if (test(o)) return o;
+      }
+      return null;
+    }
+
+    final revise = option((o) => o.run?.kind == LearnKinds.cards);
+    final explore = option((o) => o.href != null && o.go == 'explore');
+    final rows = [
+      for (final row in StageEndModel.freeUsedRows(f.raw))
+        if (row.id != 'continue' || f.resume != null)
+          if (row.id != 'revise' || revise != null) row,
+    ];
+    return StageFreeUsedScreen(
+      close: _closeKey(),
+      topGap: 48,
+      rows: rows,
+      onSeePro: proOn ? () => _seePro('learn') : null,
+      onRow: (id) {
+        switch (id) {
+          case 'continue':
+            final r = f.resume;
+            if (r != null) _pickUp(r);
+          case 'revise':
+            final spec = revise?.run;
+            if (spec != null) {
+              _push(Learn2Links.run(RunLaunch(chapterKey: spec.chapterKey ?? _c.chapterKey, minutes: spec.minutes ?? 10, kind: LearnKinds.cards, cardIds: spec.cardIds)));
+            }
+          case 'singles':
+            _push(_hrefLocation(explore?.href) ?? Learn2Links.explore());
+        }
+      },
     );
   }
 
@@ -382,17 +438,9 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
     final c = _c;
     switch (c.phase) {
       case RunPhase.end:
-        return RunFrame(
-          label: RunCopy.stageLabel(c.title),
-          topBar: RunTopBar(onClose: _leave),
-          end: _end(),
-        );
+        return RunFrame(label: RunCopy.stageLabel(c.title), topBar: RunTopBar(onClose: _leave), end: _end());
       case RunPhase.recapEnd:
-        return RunFrame(
-          label: RunCopy.stageLabel(c.title),
-          topBar: RunTopBar(onClose: _leave),
-          end: _recapEnd(),
-        );
+        return RunFrame(label: RunCopy.stageLabel(c.title), topBar: RunTopBar(onClose: _leave), end: _recapEnd());
       case RunPhase.round:
         final left = c.items.skip(c.at).whereType<LearnCardItem>().length;
         return RunFrame(
@@ -422,18 +470,16 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
       onClose: () => unawaited(_askClose()),
       title: c.title,
       ticks: all > 0 ? StageTicks(total: all, done: round ? at : c.offset + c.finished, current: at) : null,
-      pile: c.isRecap ? null : c.pile,
-      pileKey: _pileKey,
-      pop: c.pop,
       position: round || all <= 0 ? null : c.position,
       of: round || all <= 0 ? null : all,
-      left: round ? RunMath.minutesLeftLine(c.items, c.at, c.kind) : c.left,
+      posKey: _posKey,
     );
   }
 
   // ---------------------------------------------------------------- the item
 
-  Widget _track() => StagePager(count: 1, index: 0, onGo: (_) {}, enabled: false, pageBuilder: _page);
+  /// The item is one page of a pager that never moves by a drag and shows no peek: the run moves by its keys.
+  Widget _track() => StagePager(count: 1, index: 0, onGo: (_) {}, enabled: false, peek: 0, pageBuilder: _page);
 
   GlobalKey _cardKey(String id) => _cardKeys.putIfAbsent(id, () => GlobalKey(debugLabel: 'run-card-$id'));
 
@@ -448,15 +494,19 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
     final pos = c.position;
     final of = c.total;
     final announce = c.announceOf(it);
+    final sci = SciText.isChemistry(chapterKey: c.chapterKey);
     switch (it) {
       case LearnCardItem():
         final turned = c.isTurned(it);
         Widget face = CardFace.of(
           it.card,
           extraKind: RunView.stageTag(it, recap: c.isRecap),
+          tagRight: true,
           turned: turned,
           onTurn: () => c.turn(it),
           cardKey: _cardKey(it.id),
+          sci: sci,
+          stampLine: false,
         );
         // The card leaves after its rating: the ghost takes over, so the real one is hidden (a fade under reduced motion).
         face = AnimatedOpacity(opacity: c.leaving ? 0 : 1, duration: c.reduced ? Motion.reducedFade : Duration.zero, child: face);
@@ -490,6 +540,7 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
             QuestionView(
               head: head,
               mistake: it.isMistake,
+              headIcon: it.isMistake ? LucideIcons.history : null,
               stem: it.question.body,
               options: [for (final o in it.question.options) (key: o.key, text: o.text)],
               answer: _stageAnswer(st.answer),
@@ -498,6 +549,8 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
               error: st.error,
               onChoose: (k) => unawaited(c.pick(k)),
               onSeePro: proOn ? () => _seePro('keycards') : null,
+              hint: c.questionHint,
+              sci: sci,
             ),
           ),
         );
@@ -539,7 +592,7 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
             ],
           );
         } else if (!c.isTurned(it)) {
-          keys = StageStepKey(key: ValueKey('show-${it.id}'), label: RunCopy.showAnswer, haptic: false, onTap: c.leaving ? null : () => c.turn(it));
+          keys = StageStepKey(key: ValueKey('show-${it.id}'), label: RunCopy.turnOver, haptic: false, onTap: c.leaving ? null : () => c.turn(it));
         } else if (c.isLook(it)) {
           keys = StageStepKey(key: ValueKey('look-${it.id}'), label: nextLabel, onTap: c.leaving ? null : () => unawaited(c.lookNext()));
         } else {
@@ -559,8 +612,18 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
           keys = Row(
             children: [
               const SizedBox(width: StageSideKey.slot + MmSpace.s12),
+              // A quiet underlined word, as the web's run has it (the feed's Skip is a line key).
               Expanded(
-                child: StageSkipKey(key: ValueKey('skip-${it.id}'), onTap: c.skip, disabled: st.answer?.pending ?? false, label: RunCopy.skip),
+                child: Center(
+                  child: StageTextKey(
+                    key: ValueKey('skip-${it.id}'),
+                    label: RunCopy.skip,
+                    quiet: true,
+                    size: 15,
+                    minHeight: 52,
+                    onTap: (st.answer?.pending ?? false) ? null : c.skip,
+                  ),
+                ),
               ),
               const SizedBox(width: StageSideKey.slot + MmSpace.s12),
             ],
@@ -594,8 +657,8 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
 
   Widget _end() {
     final c = _c;
-    final proOn = ref.watch(proNudgesOnProvider);
-    return RunEndLayer(
+    ref.watch(proNudgesOnProvider);
+    return RunEndScreen(
       status: c.endStatus,
       data: c.endData,
       kind: c.kind,
@@ -604,12 +667,10 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
       stoppedAt: c.stoppedAt,
       total: c.total,
       titleKey: _endTitleKey,
-      onClose: _leave,
+      close: _closeKey(),
       onRetry: c.retryEnd,
-      onBack: _toChapter,
-      canOpen: (o) => _locationOf(o) != null,
-      onOpen: _open,
-      onSeePro: proOn ? () => _seePro('learn') : null,
+      keyKind: _keyKind,
+      onKey: _onKey,
     );
   }
 
@@ -623,13 +684,12 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
       titleKey: _endTitleKey,
       chapterTitle: c.title,
       cards: cards,
-      onClose: _leave,
+      close: _closeKey(),
       onStudy: () {
         final next = c.studyThese();
         if (next != null) unawaited(c.restart(next));
       },
       onAgain: c.recapAgain,
-      onBack: _toChapter,
     );
   }
 }

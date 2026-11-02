@@ -28,33 +28,37 @@ void stageGolden(String name, Widget Function() build, {Future<void> Function(Wi
   }
 }
 
-/// One item of a feed on the phone stage, the way the feed composes it: the top bar (ticks, Close, the chapter's title,
-/// the kept count, "n of N" with its chevron), the item on a pager page, and the action bar for that item.
-class StageScene extends StatefulWidget {
+/// The page under the one in view: only its card edge (its label) shows, in the 40 dp peek above the action bar.
+StagePage peekOf(String cap) => StagePage.card(label: 'Next', cap: cap, child: const SizedBox.shrink());
+
+/// One item of a feed on the phone stage, the way the feed composes it: the top bar (Close, the ticks, "n of N" with its
+/// chevron) over the chapter's name, the item on a pager page with the next one peeking, and the action bar for that item.
+class StageScene extends StatelessWidget {
   const StageScene({
     super.key,
     required this.page,
     required this.position,
     this.of = 16,
-    this.kept = 0,
     this.keyFor = const [],
     this.left,
     this.wide = false,
+    this.next,
+    this.chip,
   });
 
   final StagePage page;
   final int position;
   final int of;
-  final int kept;
   final List<Widget> keyFor;
   final Widget? left;
   final bool wide;
 
-  @override
-  State<StageScene> createState() => StageSceneState();
-}
+  /// What peeks under the page (`peekOf`).
+  final StagePage? next;
 
-class StageSceneState extends State<StageScene> {
+  /// The first visit's cue in the peek strip.
+  final Widget? chip;
+
   @override
   Widget build(BuildContext context) {
     return StageFrame(
@@ -62,17 +66,16 @@ class StageSceneState extends State<StageScene> {
       onClose: () {},
       closeLabel: 'Close the feed',
       title: 'Admission of a Partner',
-      ticks: StageTicks(total: widget.of, done: widget.position - 1, current: widget.wide ? -1 : widget.position - 1),
-      kept: widget.kept,
-      position: widget.position,
-      of: widget.of,
+      ticks: StageTicks(total: of, done: position - 1, current: wide ? -1 : position - 1),
+      position: position,
+      of: of,
       onCounter: () {},
-      counterLabel: '${widget.position} of ${widget.of}. Open the list of this feed',
-      left: widget.wide ? null : widget.left,
-      right: widget.wide ? null : StageSideKey(icon: LucideIcons.bookOpen, label: 'Chapter', onTap: () {}),
-      wide: widget.wide,
-      main: widget.keyFor,
-      child: StagePager(count: 1, index: 0, onGo: (_) {}, pageBuilder: (context, i) => widget.page),
+      counterLabel: '$position of $of. Open the list of this feed',
+      left: wide ? null : left,
+      right: wide ? null : StageSideKey(icon: LucideIcons.bookOpen, label: 'Chapter', onTap: () {}),
+      wide: wide,
+      main: keyFor,
+      child: StagePager(count: next == null ? 1 : 2, index: 0, onGo: (_) {}, chip: chip, pageBuilder: (context, i) => i == 0 ? page : next!),
     );
   }
 }
@@ -80,7 +83,7 @@ class StageSceneState extends State<StageScene> {
 /// A question that is answered after it is drawn (so it reacts as on the phone: the verdict, the line opening, the
 /// scroll to the pick).
 class AnsweredQuestion extends StatefulWidget {
-  const AnsweredQuestion({super.key, required this.stem, required this.options, this.head = 'Question 1 of 3', this.streak = 0});
+  const AnsweredQuestion({super.key, required this.stem, required this.options, this.head = 'Question', this.streak = 0});
 
   final String stem;
   final List<StageOption> options;
@@ -108,8 +111,10 @@ class AnsweredQuestionState extends State<AnsweredQuestion> {
   );
 }
 
-/// The keep key as the feed draws it: Keep, or Kept once kept.
-Widget keepKey({bool kept = false}) => StageSideKey(icon: LucideIcons.bookmark, label: kept ? 'Kept' : 'Keep', on: kept, onTap: () {});
+/// The card's side key as the feed draws it: Revise later (the card stack), or a check and In Revise once it is added.
+Widget reviseKey({bool added = false}) => added
+    ? StageSideKey(icon: LucideIcons.check, label: 'In Revise', on: true, onTap: () {})
+    : StageSideKey(mark: (color) => StageCardStack(color: color), label: 'Revise later', onTap: () {});
 
 /// The save key on a question.
 Widget saveKey() => StageSideKey(icon: LucideIcons.bookmark, label: 'Save', onTap: () {});

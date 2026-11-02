@@ -32,7 +32,6 @@ class FeedEvents {
   final List<String> said = [];
   final List<String> kept = [];
   final List<String> seePro = [];
-  int nudges = 0;
   int saved = 0;
 }
 
@@ -43,6 +42,7 @@ FeedController feedController(
   FeedLaunch launch = const FeedLaunch(chapterKey: l2Aop),
   FeedEvents? events,
   LearnPrefs? prefs,
+  String? studentId,
   bool reduced = true,
 }) {
   final e = events ?? FeedEvents();
@@ -50,9 +50,9 @@ FeedController feedController(
     api: api,
     launch: launch,
     prefs: prefs,
+    studentId: studentId,
     onSay: e.said.add,
     onKept: e.kept.add,
-    onNudge: () => e.nudges += 1,
     onSaved: () => e.saved += 1,
     onSeePro: e.seePro.add,
   )..reduced = reduced;

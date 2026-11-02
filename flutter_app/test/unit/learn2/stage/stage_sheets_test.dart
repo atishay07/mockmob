@@ -1,6 +1,7 @@
-// The stage's sheets: "Stop for now?" says what was done and answers with the student's choice (End here, Keep going,
-// Leave for now, or a dismissal), and "This feed" lists the items with their states (Now, right, not right, kept,
-// seen), each row going to its item, with End here at the foot. 52 dp rows, labelled for a screen reader.
+// The stage's sheets: "Stop for now?" says what was done ("8 of 17 done. It’s all saved.") and answers with the student's
+// choice (Stop here, Back to it, or a dismissal), and "This feed" lists the items with their states (Now, right, not right,
+// In Revise as the card stack, seen), each row going to its item, with Stop here at the foot. 52 dp rows, labelled for a
+// screen reader.
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -24,8 +25,8 @@ class _OpenerState extends State<_Opener> {
   int? picked;
   int ends = 0;
 
-  Future<void> stop({bool canLeave = true}) async {
-    final c = await showStopSheet(context, done: 8, of: 17, detail: '1 of 1 question right. 1 kept in Revise.', canLeave: canLeave);
+  Future<void> stop() async {
+    final c = await showStopSheet(context, done: 8, of: 17);
     setState(() {
       answered = true;
       choice = c;
@@ -64,48 +65,48 @@ _OpenerState _opener(WidgetTester tester) => tester.state<_OpenerState>(find.byT
 void main() {
   setUpAll(loadAppFonts);
 
-  testWidgets('Stop for now? says what was done and answers with the choice', (tester) async {
+  testWidgets('Stop for now? says what was done and answers with the choice: Stop here, or Back to it', (tester) async {
     await pumpStage(tester, const _Opener());
-    for (final (label, want) in [
-      ('End here, see how it went', StageStopChoice.end),
-      ('Keep going', StageStopChoice.keepGoing),
-      ('Leave for now, pick up later today', StageStopChoice.leave),
-    ]) {
+    for (final (label, want) in [('Stop here', StageStopChoice.end), ('Back to it', StageStopChoice.keepGoing)]) {
       _opener(tester).answered = false;
       unawaited(_opener(tester).stop());
       await tester.pumpAndSettle();
       expect(find.text('Stop for now?'), findsOneWidget);
-      expect(find.text('8 of 17 done. 1 of 1 question right. 1 kept in Revise. Everything you did is saved.'), findsOneWidget);
+      expect(find.text('8 of 17 done. It\u2019s all saved.'), findsOneWidget);
       expect(find.byWidgetPredicate((w) => w is StageStepKey && w.tone == StageTone.volt), findsOneWidget, reason: 'one volt key');
+      for (final gone in ['End here, see how it went', 'Leave for now, pick up later today', 'Keep going']) {
+        expect(find.text(gone), findsNothing, reason: '"$gone" is not on the sheet');
+      }
       await tester.tap(find.text(label).last);
       await tester.pumpAndSettle();
       expect(_opener(tester).answered, isTrue);
       expect(_opener(tester).choice, want);
       expect(find.text('Stop for now?'), findsNothing);
     }
-    // The Close in the head keeps going.
+    // The X in the head goes back to it, as the scrim does.
     _opener(tester).answered = false;
-    unawaited(_opener(tester).stop(canLeave: false));
+    unawaited(_opener(tester).stop());
     await tester.pumpAndSettle();
-    expect(find.text('Leave for now, pick up later today'), findsNothing);
-    await tester.tap(find.bySemanticsLabel('Keep going').first);
+    await tester.tap(find.bySemanticsLabel('Back to it').first);
     await tester.pumpAndSettle();
     expect(_opener(tester).answered, isTrue);
+    expect(_opener(tester).choice, isNull);
   });
 
   test('the stop line', () {
-    expect(StopSheet.lineFor(done: 8, of: 17, detail: '1 kept in Revise.'), '8 of 17 done. 1 kept in Revise. Everything you did is saved.');
-    expect(StopSheet.lineFor(done: 0, of: 0), 'Everything you did is saved.');
+    expect(StopSheet.lineFor(done: 8, of: 17), '8 of 17 done. It\u2019s all saved.');
+    expect(StopSheet.lineFor(done: 0, of: 0), 'It\u2019s all saved.');
   });
 
-  testWidgets('This feed: the rows with their states, a row goes to its item, End here at the foot', (tester) async {
+  testWidgets('This feed: the rows with their states, a row goes to its item, Stop here at the foot', (tester) async {
     final handle = tester.ensureSemantics();
     await pumpStage(tester, const _Opener());
     unawaited(_opener(tester).list());
     await tester.pumpAndSettle();
     expect(find.text('This feed'), findsOneWidget);
     expect(find.text('Now'), findsOneWidget);
-    expect(find.byType(StageBookmark), findsOneWidget);
+    expect(find.byType(StageCardStack), findsOneWidget, reason: 'a card in Revise shows the card stack');
+    expect(find.bySemanticsLabel('1. Card. What is the new partner\'s share of goodwill?, In Revise'), findsOneWidget);
     expect(find.bySemanticsLabel('4. Question. Case: the firm writes off goodwill, not right'), findsOneWidget);
     expect(find.bySemanticsLabel('5. Card. Goodwill, if existing in the books, now'), findsOneWidget);
     final rows = find.byType(StageFeedRowView);
@@ -120,7 +121,7 @@ void main() {
 
     unawaited(_opener(tester).list());
     await tester.pumpAndSettle();
-    await tester.tap(find.text('End here, see how it went'));
+    await tester.tap(find.text('Stop here'));
     await tester.pumpAndSettle();
     expect(_opener(tester).ends, 1);
     handle.dispose();
@@ -131,7 +132,7 @@ void main() {
     unawaited(_opener(tester).stop());
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
-    await tester.tap(find.text('Keep going').last);
+    await tester.tap(find.text('Back to it').last);
     await tester.pumpAndSettle();
     unawaited(_opener(tester).list());
     await tester.pumpAndSettle();

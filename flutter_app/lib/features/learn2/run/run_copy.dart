@@ -1,6 +1,6 @@
 /// Every word the Learn run says on the phone, as the web's `RunPlayer.jsx`, `RunParts.jsx`, `RunEnd.jsx` and `runView.mjs`
-/// say it (A4 3.6: sentence case, no middle dots, no exclamation marks, nothing appended to a key's words, never
-/// "mastered").
+/// say it (A4 3.6, R3 ruling W: sentence case, no exclamation marks, nothing appended to a key's words, never "mastered"; a
+/// label's length is the server's " · N min"). The words shared with Learn home and the ends are `LearnWords`.
 library;
 
 abstract final class RunCopy {
@@ -18,7 +18,7 @@ abstract final class RunCopy {
   static String counterLabel(int position, int of) => '$position of $of';
 
   // ---------------------------------------------------------------- keys
-  static const String showAnswer = 'Show answer';
+  static const String turnOver = 'Turn over';
   static const String missed = 'Missed';
   static const String gotIt = 'Got it';
   static const String easy = 'Easy';
@@ -59,9 +59,9 @@ abstract final class RunCopy {
       : '$missedBefore${where != null && where.isNotEmpty ? ' in $where' : ''}${when != null && when.isNotEmpty ? ' on $when' : ''}';
 
   // ---------------------------------------------------------------- what the status line says
-  static const String coachFront = 'Say the answer in your head, then show it.';
-  static const String coachRate = 'Got it sends the card to Revise. It comes back when it is due.';
-  static const String coachPick = 'Tap the answer you think is right.';
+  static const String coachFront = 'Tap the card to turn it over';
+  static const String coachRate = 'Got it: it comes back when it\u2019s due.';
+  static const String coachPick = 'Pick the answer you think is right.';
   static const String coachRecap = 'Answers are showing. Nothing is scheduled.';
   static const String ratingNotSaved = 'That rating was not saved. Try again.';
   static const String answerNotSaved = 'That answer was not saved. Try again.';
@@ -72,16 +72,8 @@ abstract final class RunCopy {
   // ---------------------------------------------------------------- the round, the recap's end
   static const String roundTitle = 'cards rated';
   static String roundLine(int left) => '$left more ${left == 1 ? 'is' : 'are'} lined up.';
-  static const String recapLead = 'Quick recap of';
-  static const String thisChapter = 'this chapter';
-  static String recapAll(int n) => 'That was all $n Must-know ${n == 1 ? 'line' : 'lines'}.';
-  static const String recapNothing = 'Nothing was scheduled.';
-  static const String mustKnow = 'Must-know';
-  static const String revise = 'Revise';
-
-  // ---------------------------------------------------------------- the stop sheet
-  static String questionsRight(int right, int asked) => '$right of $asked ${asked == 1 ? 'question' : 'questions'} right.';
-  static String sentToRevise(int n) => '$n sent to Revise.';
+  static const String recapDone = 'Quick recap done';
+  static String recapAll(int n) => 'That was all $n Must-know ${n == 1 ? 'line' : 'lines'}';
 
   // ---------------------------------------------------------------- states without items
   static const String errorTitle = 'This run did not start';
@@ -89,18 +81,10 @@ abstract final class RunCopy {
   static const String notFoundTitle = 'This chapter is not in your book list.';
   static const String emptyTitle = 'Nothing to line up here yet';
   static const String emptyLine = 'This chapter has no cards or questions for this run.';
-  static const String freeTitle = "Today's free session is used";
-  static const String freeLine = 'Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like.';
-  static String pickUp(int done, int of) => 'Pick up where you stopped, $done of $of';
 
   // ---------------------------------------------------------------- the end
   static const String endErrorTitle = 'Your run is saved';
   static const String endErrorLine = 'Its summary did not load. Every rating and answer is already in.';
-  static const String nothingSent = 'No cards went to Revise this time.';
-  static String inRevise(int n) => '$n in Revise';
-  static String reviseLabelOf(int n) => '$n in Revise from this run';
-  static String levelLine(String title, int right, int of) => 'Your lowest score was in $title: $right of $of right.';
-  static String movedLabel(String from, String to) => 'This chapter moved from $from to $to.';
-  static String movedWas(String from) => 'was $from';
+  static String levelSub(int right, int of) => 'Your lowest score: $right of $of right';
   static const String endSaid = 'How it went';
 }

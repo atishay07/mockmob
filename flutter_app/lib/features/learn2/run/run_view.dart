@@ -1,4 +1,4 @@
-/// The Learn run's screen rules, a port of the website's `src/components/learn2/run/runView.mjs` (web commit 978edc236):
+/// The Learn run's screen rules, a port of the website's `src/components/learn2/run/runView.mjs` (web origin/main, rounds 2 to 4):
 /// what the piles count, what a card's tag says, how a re-insert lands, the streak, and how the end reads (its lines, its
 /// lead, Free's line, its title). Pure, so tests hold them: `test/unit/learn2/run/run_math_parity_test.dart` checks every
 /// function against what the web's own code returns (`tool/learn2_parity/run_math.mjs`).
@@ -7,6 +7,7 @@ library;
 import 'dart:math' as math;
 
 import '../data/learn_models.dart';
+import '../stage/stage_end_model.dart';
 import '../stage/stage_text.dart';
 
 /// One pile of the run worked down: "Key cards 3 of 12".
@@ -21,11 +22,12 @@ class RunPile {
   /// The item on screen belongs to this pile.
   final bool current;
 
-  /// "3 of 12", or "9 left" on a picked-up run.
+  /// "4 of 16" once an item of the pile is done; "" before any is (the label then reads its total, "16 Key cards"); "3 left" or
+  /// "Done" on a picked-up run.
   final String value;
 }
 
-/// Plain questions answered and right, old mistakes tried and fixed, and the streak of right answers.
+/// Plain questions answered and right, open mistakes tried and fixed, and the streak of right answers.
 class RunAnswerTally {
   const RunAnswerTally({this.answered = 0, this.right = 0, this.tried = 0, this.fixed = 0, this.streak = 0});
 
@@ -49,7 +51,7 @@ class RunLead {
 typedef RunEndLine = ({String label, String value});
 
 abstract final class RunView {
-  /// The front's size step by its length in characters: 's' up to 60, 'm' up to 120, 'l' longer.
+  /// The front's size step by its length in characters (R3 L1): 's' up to 60, 'm' up to 140, 'l' longer.
   static String frontStep(String? text) => StageText.frontSize(text);
 
   /// The tag at the card's head: why this card is here (a recap shows none).
@@ -61,7 +63,16 @@ abstract final class RunView {
     return null;
   }
 
-  static const Map<String, String> pileNames = {'cards': 'Key cards', 'questions': 'Questions', 'mistakes': 'Your mistakes', 'lesson': 'Lesson'};
+  /// R3 ruling W: question mistakes are "open mistakes" everywhere (never "old mistakes").
+  static const Map<String, String> pileNames = {'cards': 'Key cards', 'questions': 'Questions', 'mistakes': 'Open mistakes', 'lesson': 'Lesson'};
+
+  /// "16 Key cards", "2 questions", "1 open mistake", "1 lesson": a pile's total before any of it is done.
+  static String pileTotal(String id, int n) => switch (id) {
+    'cards' => '$n Key ${n == 1 ? 'card' : 'cards'}',
+    'questions' => plural(n, 'question'),
+    'mistakes' => plural(n, 'open mistake'),
+    _ => plural(n, 'lesson'),
+  };
 
   static String _pileOf(LearnItem item) => switch (item) {
     LearnQuestionItem(:final origin) => origin == 'mistake' ? 'mistakes' : 'questions',
@@ -70,8 +81,9 @@ abstract final class RunView {
   };
 
   /// The piles of this run worked down: one row per pile the run holds, `done` of `of` counted by distinct cards (a card
-  /// back from earlier is the same card), the row of the item on screen marked. A resumed run only holds what was left, so
-  /// its rows read "N left" instead of a count that would start again at 0.
+  /// back from earlier is the same card), the row of the item on screen marked. No column of zeros (R2 screens 10): before an
+  /// item of a pile is done its row reads its total ("16 Key cards"), after that "4 of 16"; a resumed run only holds what was
+  /// left, so its rows read "N left", and "Done" when nothing is.
   static List<RunPile> runPiles(List<LearnItem> items, int finished, {int at = -1, bool resumed = false}) {
     final rows = <String, ({int done, int of, bool current})>{};
     final seen = <String>{};
@@ -86,18 +98,27 @@ abstract final class RunView {
     final ids = rows.keys.toList()..sort((a, b) => order.indexOf(a) - order.indexOf(b));
     return [
       for (final id in ids)
-        RunPile(
-          id: id,
-          label: pileNames[id]!,
-          done: rows[id]!.done,
-          of: rows[id]!.of,
-          current: rows[id]!.current,
-          value: resumed ? '${math.max(0, rows[id]!.of - rows[id]!.done)} left' : '${rows[id]!.done} of ${rows[id]!.of}',
-        ),
+        () {
+          final r = rows[id]!;
+          final left = math.max(0, r.of - r.done);
+          final String label;
+          final String value;
+          if (resumed) {
+            label = pileNames[id]!;
+            value = left > 0 ? '$left left' : 'Done';
+          } else if (r.done == 0) {
+            label = pileTotal(id, r.of);
+            value = '';
+          } else {
+            label = pileNames[id]!;
+            value = '${r.done} of ${r.of}';
+          }
+          return RunPile(id: id, label: label, done: r.done, of: r.of, current: r.current, value: value);
+        }(),
     ];
   }
 
-  /// Plain questions answered and right, the old mistakes tried and fixed, and the current streak of right answers.
+  /// Plain questions answered and right, the open mistakes tried and fixed, and the current streak of right answers.
   /// [graded] holds each answered question's id with whether the server called it right.
   static RunAnswerTally answerTally(List<LearnItem> items, Map<String, bool> graded) {
     var answered = 0;
@@ -129,8 +150,16 @@ abstract final class RunView {
     return '$noun $position of $total';
   }
 
-  /// The stop sheet's line.
-  static String stopLine(int done, int total) => '$done of $total done. Everything you did is saved.';
+  /// The stop sheet's line (R2 ruling 6): "5 of 20 done. It’s all saved."
+  static String stopLine(int done, int total) => StageEndModel.stopSheetLine(done, total);
+
+  /// How many items the student has finished, for the stop sheet's "N of M done": the items before the one on screen, plus the
+  /// one on screen once the server has it: an answered question, or a card whose rating or look the server already holds while
+  /// the card is still flying away. Counting that flying card keeps the sheet equal to the end screen.
+  static int itemsFinished({required bool playing, required int at, required int length, LearnItem? item, bool answered = false, bool acted = false}) {
+    if (!playing) return length;
+    return at + (item != null && ((item is LearnQuestionItem && answered) || acted) ? 1 : 0);
+  }
 
   /// A copy of [item] under another id (a put-back item).
   static LearnItem withId(LearnItem item, String id) => switch (item) {
@@ -252,13 +281,13 @@ abstract final class RunView {
     final lineQuestions = lineOf('questions');
     final q = lineQuestions.isNotEmpty ? lineQuestions : (detailQuestions ?? '');
     if (q.isNotEmpty) out.add((label: 'Questions', value: q));
-    // Old mistakes the run never reached (a stop before them) are not a line: nothing was tried.
+    // Open mistakes the run never reached (a stop before them) are not a line: nothing was tried.
     final mistakesRaw = n.raw['mistakes'];
     final noMistakes = mistakesRaw is num && mistakesRaw == 0;
     final lineMistakes = lineOf('mistakes');
     final detailFixed = n.detail.fixed;
     final m = noMistakes ? '' : (lineMistakes.isNotEmpty ? lineMistakes : (detailFixed ?? ''));
-    if (m.isNotEmpty) out.add((label: 'Old mistakes', value: RegExp('fixed').hasMatch(m) ? m : '$m fixed'));
+    if (m.isNotEmpty) out.add((label: 'Open mistakes', value: RegExp('fixed').hasMatch(m) ? m : '$m fixed'));
     return out;
   }
 

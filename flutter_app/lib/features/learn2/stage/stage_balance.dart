@@ -5,6 +5,8 @@ library;
 
 import 'package:flutter/widgets.dart';
 
+import 'stage_sci.dart' show StageSciSpan;
+
 class StageBalancedText extends StatelessWidget {
   const StageBalancedText(this.span, {super.key, this.textAlign = TextAlign.start, this.semanticsLabel});
 
@@ -16,7 +18,21 @@ class StageBalancedText extends StatelessWidget {
   /// The narrowest width at or under [maxWidth] that keeps [span] in as many lines as it takes at [maxWidth].
   static double balancedWidth(InlineSpan span, double maxWidth, {required TextScaler scaler, required TextDirection direction}) {
     if (!maxWidth.isFinite || maxWidth <= 0) return maxWidth;
-    final tp = TextPainter(text: span, textDirection: direction, textScaler: scaler)..layout(maxWidth: maxWidth);
+    final tp = TextPainter(text: span, textDirection: direction, textScaler: scaler);
+    // A subscript or superscript is an inline box: the painter needs its size to lay the line out.
+    final boxes = <PlaceholderDimensions>[];
+    span.visitChildren((s) {
+      if (s is PlaceholderSpan) {
+        boxes.add(
+          s is StageSciSpan
+              ? s.measure(scaler: scaler, direction: direction)
+              : const PlaceholderDimensions(size: Size.zero, alignment: PlaceholderAlignment.baseline, baseline: TextBaseline.alphabetic),
+        );
+      }
+      return true;
+    });
+    if (boxes.isNotEmpty) tp.setPlaceholderDimensions(boxes);
+    tp.layout(maxWidth: maxWidth);
     try {
       final lines = tp.computeLineMetrics().length;
       if (lines <= 1) return maxWidth;

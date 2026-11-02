@@ -7,8 +7,14 @@
 ///   touch     under 8 dp of movement a touch is a tap; a sideways gesture is not the pager's
 ///   scroll    a page's content that can still move in the drag's direction owns the gesture (the edge rule)
 ///
-/// The web's wheel and key rules are not needed on a phone and are not ported.
+/// The web's wheel and key rules are not needed on a phone and are not ported. Two rules joined in round 4:
+///
+///   verdict   where a page scrolls after a wrong answer: as far as it takes to bring the verdict and the start of the line you
+///             needed into view, never so far that the question's head line goes under the top (`verdictScrollTop`)
+///   below     whether option A waits below the fold (`optionsBelow`)
 library;
+
+import 'dart:math' as math;
 
 /// One finger sample: [t] in milliseconds, [y] in logical pixels.
 typedef PagerSample = ({double t, double y});
@@ -86,4 +92,35 @@ abstract final class PagerModel {
     if (dir < 0) return pixels > min + 1;
     return false;
   }
+
+  /// `verdictScrollTop` (R4 ui-correctness#7): where a scroll box goes after a wrong answer, from rects measured in one frame
+  /// (dp, all in one space). [boxTop], [boxBottom] (it already stops at the action bar when the bar covers it) and
+  /// [scrollTop] are the box's; [headTop] is the question's head line (null: none); [targetTop] and [targetBottom] are the
+  /// verdict, or the line you needed under it; [fade] is the box's head fade (the head line stays below it). It scrolls only as
+  /// far as needed to bring up to [show] dp of the target into view, [clear] dp clear of the foot, and never so far that the head
+  /// line goes under the top. Returns the new scroll position, or null to stay.
+  static int? verdictScrollTop({
+    required double boxTop,
+    required double boxBottom,
+    required double scrollTop,
+    double? headTop,
+    required double targetTop,
+    required double targetBottom,
+    double fade = 24,
+    double show = 200,
+    double clear = 16,
+  }) {
+    final want = scrollTop + math.min(targetBottom, targetTop + show) + clear - boxBottom;
+    final cap = headTop == null ? double.infinity : scrollTop + headTop - boxTop - fade;
+    final top = math.max(0.0, math.min(want, cap));
+    return top > scrollTop + 1 ? _round(top) : null;
+  }
+
+  /// `optionsBelow` (M10, R4 ui-correctness#5): whether option A waits below the fold, with less than [peek] dp of it above
+  /// [edge] (the page's own foot). False for a measure that is not a number.
+  static bool optionsBelow({required double optionTop, required double edge, double peek = 28}) =>
+      optionTop.isFinite && edge.isFinite && optionTop + peek > edge;
+
+  /// JavaScript's `Math.round` for the positive numbers here (halves go up).
+  static int _round(double x) => (x + 0.5).floor();
 }

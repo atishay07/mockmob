@@ -1,21 +1,25 @@
 /// The Explore feed (the web's `src/components/learn2/feed/ChapterFeed.jsx`, BUILD-1101 B3 with B7, A1 3.1-3.18, A8
-/// F1-F18): one chapter's Key cards and questions, one item at a time, on the shared study stage (`../stage/`). A full
-/// screen over the app (no dock), the phone band of the web exactly:
+/// F1-F18, rounds 2 to 4): one chapter's Key cards and questions, one item at a time, on the shared study stage
+/// (`../stage/`). A full screen over the app (no dock), the phone band of the web exactly:
 ///
-///   top bar     the ticks, Close, the chapter title ("Picked up at 7 of 21" for 2.4 s on a pick-up), the kept count (the
-///               Keep flight lands there) and the counter "3 of 21", which opens "This feed"
-///   the item    a real vertical pager: a Key card centred (it turns over in 3D), a question from the top (graded by the
-///               server, NCERT's line opening in place under a wrong answer), a checkpoint after every 8 items when 4 or
-///               more follow, and the end past the last item
-///   action bar  Keep (a card) or Save (a question) on the left, the one volt step key in the middle (Turn over, Next,
-///               See how it went; Skip as a line key on an unanswered question; End here and Keep going on a
-///               checkpoint), Chapter on the right
-///   stop rule   before any item is done, Close and the system Back leave; after one, they ask "Stop for now?"
-///   end         the chapter title and the done line, the kept fan, Cards, Questions and Old mistakes, then "Another 10
-///               minutes" (volt), the server's next chapter and due offer, "Back to Explore"; Free after its claim: the
-///               server's line and See Pro
+///   top bar     one row: Close (the X and the word), the ticks, the counter "3 of 21" (it opens "This feed"); under it the
+///               chapter's name ("Picked up at 7 of 21" for 2.4 s on a pick-up). No kept count in a phone's bar
+///   the item    a real vertical pager, each page the area less a 40 dp peek: a Key card that fills its page (it turns over
+///               in 3D), a question with its options at the foot in the thumb zone (graded by the server, NCERT's line
+///               opening in place under a wrong answer), a checkpoint after every 8 items when 4 or more follow, and the end
+///               past the last item. The next item peeks as a real card edge with its type label; on a student's first feed
+///               a Mobi chip says "Swipe up for the next one" until the first move
+///   action bar  Revise later (a card; "In Revise" with a check once the server has it) or Save (a question) on the left,
+///               the one volt step key in the middle (Turn over, Next, See how it went; Skip as a line key on an unanswered
+///               question; Stop here and Keep going on a checkpoint), Chapter on the right
+///   stop rule   before any item is done, Close and the system Back leave; after one, they ask "Stop for now?" ("5 of 20
+///               done. It's all saved.", Stop here, Back to it)
+///   end         one end screen (`EndScreen`): the chapter, a headline with Mobi, the small fan of the cards sent to Revise,
+///               up to three numbers, the chapter's bar, then the server's one key and one link ("Keep going · 10 min",
+///               "Next chapter · 10 min", "Continue · 6 min", "Fix 3 open mistakes · 3 min", "Quick recap · 1 min"); Free after
+///               its claim adds its one line above them
 ///   states      the stage skeleton ("Taking longer than usual" after 8 s), the feed did not start, a chapter not in the
-///               book list, nothing to play yet, and Free's day used (the line, the pick-up, the options, See Pro)
+///               book list, nothing to play yet, and Free's day used (`StageFreeUsed`)
 ///
 /// Every server href goes through `Learn2Links.resolve`; the state lives in [FeedController].
 library;
@@ -31,9 +35,11 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/models/json_helpers.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/repositories/local_scope.dart' show userIdProvider;
 import '../../../core/router/action_router.dart';
 import '../../../core/theme/theme.dart';
 import '../../insights/data/saved_repository.dart' show savedRepositoryProvider;
+import '../../keycards/data/keycards_lines.dart' show cardFace;
 import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
 import '../data/learn_models.dart';
 import '../data/learn_prefs.dart';
@@ -42,13 +48,15 @@ import '../learn2_links.dart';
 import '../stage/card_face.dart';
 import '../stage/end_form.dart';
 import '../stage/question_view.dart';
-import '../stage/stage_flight.dart';
+import '../stage/sci_text.dart';
+import '../stage/stage_cue.dart';
+import '../stage/stage_end_model.dart';
 import '../stage/stage_frame.dart';
+import '../stage/stage_free_used.dart';
 import '../stage/stage_keys.dart';
 import '../stage/stage_pager.dart';
 import '../stage/stage_sheets.dart';
 import '../stage/stage_states.dart';
-import '../stage/stage_text.dart';
 import '../stage/stage_ticks.dart';
 import 'feed_controller.dart';
 import 'feed_copy.dart';
@@ -67,10 +75,7 @@ class FeedScreen extends ConsumerStatefulWidget {
 
 class FeedScreenState extends ConsumerState<FeedScreen> {
   late final FeedController _c;
-  final GlobalKey<StagePagerState> _pagerKey = GlobalKey<StagePagerState>();
-  final GlobalKey _keptKey = GlobalKey(debugLabel: 'feed-kept');
   final GlobalKey _endTitleKey = GlobalKey(debugLabel: 'feed-end-title');
-  final Map<String, GlobalKey> _cardKeys = {};
   ProviderContainer? _container;
   bool _stopOpen = false;
   bool _listOpen = false;
@@ -86,9 +91,9 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
       api: ref.read(learnApiProvider),
       launch: widget.launch,
       prefs: _prefs(),
+      studentId: _student(),
       onSay: _say,
       onKept: _kept,
-      onNudge: () => _pagerKey.currentState?.nudge(),
       onSaved: _saved,
       onSeePro: _seePro,
     )..addListener(_changed);
@@ -103,6 +108,14 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
     }
   }
 
+  String? _student() {
+    try {
+      return ref.read(userIdProvider);
+    } on Object {
+      return null;
+    }
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -111,7 +124,7 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
 
   @override
   void dispose() {
-    // What the feed changed (kept cards, answers) shows on Explore, the chapter page and Learn home once it is left.
+    // What the feed changed (revised cards, answers) shows on Explore, the chapter page and Learn home once it is left.
     final container = _container;
     if (_c.changed && container != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -138,12 +151,10 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
     if (mounted) StageFrame.say(context, text);
   }
 
-  /// After the server kept the card: the confirm haptic and the flight to the kept count.
+  /// After the server added the card to Revise: the confirm haptic. A phone's bar has no pile for a card to fly to (the web's
+  /// target is drawn from 1024 px), so the key turns to "In Revise" with a pop and the stamp says it under the card.
   void _kept(String itemId) {
-    if (!mounted) return;
-    unawaited(hapticsOf(context)?.confirm());
-    final from = _cardKeys[itemId];
-    if (from != null) unawaited(StageFlight.fly(context, from: from, to: _keptKey));
+    if (mounted) unawaited(hapticsOf(context)?.confirm());
   }
 
   /// After a save: the app's Saved list reads again, so it agrees with this feed.
@@ -176,7 +187,7 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
     if (router != null) unawaited(router.pushReplacement<void>(location));
   }
 
-  /// Close, "Leave for now": back where the feed was opened from, else Explore.
+  /// Close: back where the feed was opened from, else Explore.
   void _leave() {
     final router = _router;
     if (router == null) {
@@ -223,41 +234,13 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
     _push(key != null ? Learn2Links.chapter(key) : Learn2Links.explore());
   }
 
-  void _openNext(LearnFeedNext next) {
-    if (next.run != null) {
-      _replace(Learn2Links.feed(FeedLaunch(chapterKey: next.key, minutes: widget.launch.minutes)));
-    } else {
-      _push(Learn2Links.chapter(next.key));
-    }
-  }
-
-  void _openDue(LearnDueOffer due) {
-    final spec = due.run;
-    final minutes = (spec?.minutes ?? 0) > 0 ? spec!.minutes! : due.minutes;
-    _push(Learn2Links.run(RunLaunch(chapterKey: spec?.chapterKey ?? _c.chapterKey, minutes: minutes, kind: LearnKinds.cards, cardIds: spec?.cardIds ?? const [])));
-  }
-
+  /// Today's own run, picked up from Free's refusal.
   void _openResume(LearnSessionHolder r) {
     if (r.kind == LearnKinds.feed) {
       _replace(Learn2Links.feed(FeedLaunch(chapterKey: r.chapterKey, minutes: widget.launch.minutes, runId: r.id)));
     } else {
       _push(Learn2Links.run(RunLaunch(chapterKey: r.chapterKey, runId: r.id)));
     }
-  }
-
-  void _openOption(LearnOption o) {
-    final href = o.href;
-    if (href != null) {
-      final location = _hrefLocation(href);
-      if (location != null) _push(location);
-      return;
-    }
-    final spec = o.run;
-    if (spec != null) {
-      _push(Learn2Links.run(RunLaunch(chapterKey: spec.chapterKey, minutes: spec.minutes ?? 10, kind: spec.kind, cardIds: spec.cardIds)));
-      return;
-    }
-    _push(Learn2Links.explore());
   }
 
   // ---------------------------------------------------------------- moving and asking
@@ -273,21 +256,13 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
     }
     if (_stopOpen) return;
     _stopOpen = true;
-    final choice = await showStopSheet(context, done: math.min(c.itemsDone, c.of), of: c.of, detail: c.stopDetail);
+    final choice = await showStopSheet(context, done: math.min(c.itemsDone, c.of), of: c.of);
     _stopOpen = false;
     if (!mounted) return;
-    switch (choice) {
-      case StageStopChoice.end:
-        _go(_c.endAt);
-      case StageStopChoice.leave:
-        _leave();
-      case StageStopChoice.keepGoing:
-      case null:
-        break;
-    }
+    if (choice == StageStopChoice.end) c.stopHere();
   }
 
-  /// "This feed": every item with its mark; a row goes there, the foot ends here.
+  /// "This feed": every item with its mark; a row goes there, the foot stops here.
   Future<void> _openList() async {
     if (_listOpen) return;
     final c = _c;
@@ -308,7 +283,7 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
         },
         onEnd: () {
           Navigator.of(sheet).pop();
-          _go(_c.endAt);
+          _c.stopHere();
         },
       ),
     );
@@ -364,7 +339,7 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
           ],
         ),
       ),
-      FeedStatus.free => _centre(_freeState()),
+      FeedStatus.free => _freeState(),
       FeedStatus.ready => _stage(),
     };
     return PopScope(
@@ -386,31 +361,46 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
     child: FeedCentreArea(child: body),
   );
 
-  /// Free's day is used: the server's line, the run that holds the day (volt), its options with their minutes, See Pro.
+  StageCloseKey _closeKey() => StageCloseKey(onTap: _leave, semanticsLabel: FeedCopy.closeLabel);
+
+  /// Free's day is used (402 FREE_SESSION_USED): "That was today's free session.", the line, See Pro, then up to two quiet
+  /// rows that the server accepts today: "Continue · N min", "Revise N due cards · M min", "Answer single questions".
   Widget _freeState() {
     final f = _c.free ?? const LearnSessionUsed(line: '');
-    final r = f.resume;
-    final key = _c.chapterKey;
     final proOn = ref.watch(proNudgesOnProvider);
-    return StageCentre(
-      title: FeedCopy.freeTitle,
-      line: f.line.isNotEmpty ? f.line : FeedCopy.freeLine,
-      keys: [
-        if (r != null)
-          FeedOptionKey(
-            tone: StageTone.volt,
-            label: FeedCopy.pickUp(r.done, r.of),
-            sub: r.title != null && r.chapterKey != key ? r.title : null,
-            onTap: () => _openResume(r),
-          ),
-        for (final o in f.options)
-          FeedOptionKey(
-            label: o.label,
-            sub: o.evidence ?? ((o.run?.minutes ?? 0) > 0 ? FeedCopy.aboutMinutes(o.run!.minutes!) : null),
-            onTap: () => _openOption(o),
-          ),
-        if (proOn) StageTextKey(label: FeedCopy.seePro, onTap: () => _seePro('learn_feed')),
-      ],
+    final key = _c.chapterKey;
+    LearnOption? option(bool Function(LearnOption o) test) {
+      for (final o in f.options) {
+        if (test(o)) return o;
+      }
+      return null;
+    }
+
+    final revise = option((o) => o.run?.kind == LearnKinds.cards);
+    final explore = option((o) => o.href != null && o.go == 'explore');
+    final rows = [
+      for (final row in StageEndModel.freeUsedRows(f.raw))
+        if (row.id != 'continue' || f.resume != null)
+          if (row.id != 'revise' || revise != null) row,
+    ];
+    return StageFreeUsedScreen(
+      close: _closeKey(),
+      rows: rows,
+      onSeePro: proOn ? () => _seePro('learn_feed') : null,
+      onRow: (id) {
+        switch (id) {
+          case 'continue':
+            final r = f.resume;
+            if (r != null) _openResume(r);
+          case 'revise':
+            final spec = revise?.run;
+            if (spec != null) {
+              _push(Learn2Links.run(RunLaunch(chapterKey: spec.chapterKey ?? key, minutes: spec.minutes ?? 10, kind: LearnKinds.cards, cardIds: spec.cardIds)));
+            }
+          case 'singles':
+            _push(_hrefLocation(explore?.href) ?? Learn2Links.explore());
+        }
+      },
     );
   }
 
@@ -434,7 +424,7 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
           main.add(StageStepKey(key: ValueKey('step-${s.id}'), label: FeedCopy.seeHow, onTap: () => _go(c.endAt)));
         } else {
           main
-            ..add(StageStepKey(key: ValueKey('end-${s.id}'), label: FeedCopy.endHere, tone: StageTone.line, onTap: () => _go(c.endAt)))
+            ..add(StageStepKey(key: ValueKey('end-${s.id}'), label: FeedCopy.stopHere, tone: StageTone.line, onTap: c.stopHere))
             ..add(StageStepKey(key: ValueKey('step-${s.id}'), label: FeedCopy.keepGoing, onTap: () => _go(c.active + 1)));
         }
       } else if (item is LearnCardItem) {
@@ -443,7 +433,7 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
               ? StageStepKey(key: ValueKey('step-${item.id}'), label: nextLabel, onTap: () => _go(c.active + 1))
               : StageStepKey(key: ValueKey('step-${item.id}'), label: FeedCopy.turnOver, haptic: false, onTap: () => c.turn(item)),
         );
-        left = _keepKey(item, st);
+        left = _reviseKey(item, st);
       } else if (item is LearnQuestionItem) {
         if (st.res != null || st.skipped != null || c.closed) {
           main.add(StageStepKey(key: ValueKey('next-${item.id}'), label: nextLabel, later: st.res != null, onTap: () => _go(c.active + 1)));
@@ -461,8 +451,6 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
       title: c.title,
       titleNote: c.note,
       ticks: of > 0 ? StageTicks(total: of, done: c.doneCount, current: c.current) : null,
-      kept: c.numbers.kept,
-      keptKey: _keptKey,
       position: of > 0 ? c.position : null,
       of: of > 0 ? of : null,
       onCounter: of > 0 ? () => unawaited(_openList()) : null,
@@ -478,16 +466,21 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
     );
   }
 
-  Widget _keepKey(LearnCardItem item, FeedItemState st) => StageSideKey(
-    key: ValueKey('keep-${item.id}'),
-    icon: LucideIcons.bookmark,
-    label: item.look ? FeedCopy.inRevise : (st.kept ? FeedCopy.kept : (st.keepPro ? FeedCopy.pro : FeedCopy.keep)),
-    on: st.kept || item.look,
-    busy: st.keeping,
-    pop: st.kept,
-    disabled: _c.closed && !st.kept,
-    onTap: () => unawaited(_c.keep(item)),
-  );
+  /// A card's side key: "Revise later" with the card-stack glyph; once the server has the card, a check and "In Revise". Locked: "Pro".
+  Widget _reviseKey(LearnCardItem item, FeedItemState st) {
+    final inRevise = item.look || st.kept;
+    return StageSideKey(
+      key: ValueKey('keep-${item.id}'),
+      icon: inRevise ? LucideIcons.check : null,
+      mark: inRevise ? null : (color) => StageCardStack(color: color),
+      label: inRevise ? FeedCopy.inRevise : (st.keepPro ? FeedCopy.pro : FeedCopy.reviseLater),
+      on: inRevise,
+      busy: st.keeping,
+      pop: st.kept,
+      disabled: _c.closed && !st.kept,
+      onTap: () => unawaited(_c.keep(item)),
+    );
+  }
 
   Widget _saveKey(LearnQuestionItem item, FeedItemState st) => StageSideKey(
     key: ValueKey('save-${item.id}'),
@@ -499,64 +492,77 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
     onTap: () => unawaited(_c.save(item)),
   );
 
-  /// The pager over the items and checkpoints, and the end as its last page (the end's layer covers it). A long
-  /// question's "Options below" chip is the pager's own.
+  /// The pager over the items and checkpoints, and the end as its last page (the end's layer covers it). The first visit's cue
+  /// chip sits in the peek strip while a next item peeks; a long question's "Options below" chip is the pager's own.
   Widget _track() {
     final c = _c;
+    final cue = c.cueDue && c.mode == FeedMode.items && c.active + 1 < c.endAt;
     return StagePager(
-      key: _pagerKey,
       count: c.endAt + 1,
       index: c.active.clamp(0, c.endAt),
       onGo: _go,
       pageBuilder: _page,
       enabled: c.mode == FeedMode.items,
       feedLabel: FeedCopy.feedLabel(c.title, c.of),
+      chip: cue ? StageCue(label: FeedCopy.cue, leaving: c.cueLeaving) : null,
     );
   }
 
-  GlobalKey _cardKey(String id) => _cardKeys.putIfAbsent(id, () => GlobalKey(debugLabel: 'feed-card-$id'));
+  /// The label on the card edge a page shows in the peek: a card's kind, a mistake's own line else "Question", "So far".
+  static String _capOf(FeedSlot slot) => switch (slot) {
+    FeedCheckpointSlot() => 'So far',
+    FeedItemSlot(:final item) =>
+      item is LearnCardItem ? cardFace(item.card).label : (item is LearnQuestionItem && item.isMistake ? (item.mistake?.label ?? FeedCopy.question) : FeedCopy.question),
+    FeedEndSlot() => FeedCopy.question,
+  };
 
   StagePage _page(BuildContext context, int i) {
     final c = _c;
     if (i >= c.endAt) return const StagePage.centre(id: 'feed-end', label: FeedCopy.endLabel, announce: FeedCopy.endSaid, child: SizedBox.shrink());
     final of = c.of;
     final slot = c.slots[i];
+    final sci = SciText.isChemistry(chapterKey: c.chapterKey);
     switch (slot) {
       case FeedCheckpointSlot(:final id, :final after):
         final n = c.numbers;
         final cp = FeedModel.checkpointText(n, done: c.base + after, of: of, seconds: FeedModel.secondsFrom(c.items, after));
+        final revised = [
+          for (final x in c.items)
+            if (x is LearnCardItem && c.stateOf(x.id).kept) StagePileCard.of(kind: x.card.kind, front: x.card.front, id: x.id),
+        ];
         return StagePage.centre(
           id: id,
+          cap: _capOf(slot),
           label: FeedCopy.checkpointLabel(c.base + after, of),
           announce: c.announceOf(i),
-          child: StageCheckpoint(big: cp.big, status: cp.status, line: cp.line, kept: n.kept > 0),
+          child: StageCheckpoint(big: cp.big, status: cp.status, keptCards: revised),
         );
       case FeedItemSlot(:final item, :final n):
         final pos = c.base + n;
         final st = c.stateOf(item.id);
         if (item is LearnQuestionItem) {
-          final place = c.placeOf(item.id);
-          final head = item.isMistake
-              ? (item.mistake?.label ?? FeedCopy.missedBefore)
-              : (place != null && c.base == 0 ? FeedCopy.questionOf(place.n, place.of) : FeedCopy.question);
+          // One counter only (the top bar's "5 of 16"): a question's head is its kind, like a card's.
+          final head = item.isMistake ? (item.mistake?.label ?? FeedCopy.missedBefore) : FeedCopy.question;
           final proOn = ref.read(proNudgesOnProvider);
           return StagePage.question(
             id: item.id,
+            cap: _capOf(slot),
             label: FeedCopy.questionLabel(pos, of),
             announce: c.announceOf(i),
             child: QuestionView(
-                head: head,
-                mistake: item.isMistake,
-                stem: item.question.body,
-                options: [for (final o in item.question.options) (key: o.key, text: o.text)],
-                answer: _stageAnswer(st.answer),
-                streak: c.streak,
-                skipped: st.skipped,
-                locked: c.closed && st.answer == null ? FeedCopy.closedLine : null,
-                error: st.error,
-                onChoose: (k) => unawaited(c.choose(item, k)),
-                onSeePro: proOn ? () => _seePro('keycards') : null,
-              ),
+              head: head,
+              mistake: item.isMistake,
+              stem: item.question.body,
+              options: [for (final o in item.question.options) (key: o.key, text: o.text)],
+              answer: _stageAnswer(st.answer),
+              streak: c.streak,
+              skipped: st.skipped,
+              locked: c.closed && st.answer == null ? FeedCopy.closedLine : null,
+              error: st.error,
+              onChoose: (k) => unawaited(c.choose(item, k)),
+              onSeePro: proOn ? () => _seePro('keycards') : null,
+              sci: sci,
+            ),
           );
         }
         final card = item as LearnCardItem;
@@ -568,6 +574,7 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
         final stamp = st.stamp ?? (card.look ? const FeedStamp(FeedCopy.inRevise) : null);
         return StagePage.card(
           id: card.id,
+          cap: _capOf(slot),
           label: FeedCopy.cardLabel(pos, of),
           announce: c.announceOf(i),
           child: CardFace.of(
@@ -576,7 +583,7 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
             turned: st.turned,
             onTurn: () => c.turn(card),
             stamp: stamp == null ? null : StageStamp(stamp.text, bad: stamp.bad),
-            cardKey: _cardKey(card.id),
+            sci: sci,
           ),
         );
       case FeedEndSlot():
@@ -603,77 +610,170 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
 
   // ---------------------------------------------------------------- the end
 
+  /// What an end key does, as data (the web's `specOf`): [act] `pro`, `again` (a new feed of this chapter, here), `resume` (this
+  /// feed, by its id), or a [location] to open.
+  _EndKey? _specOf(LearnOption? o, {required bool main}) {
+    if (o == null) return null;
+    final label = o.label;
+    final r = o.run;
+    final sub = main && o.kind == 'next' ? asString(o.raw['chapterTitle']) : null;
+    if (o.go == 'pro') return _EndKey(label, act: _EndAct.pro);
+    final href = o.href;
+    if (href != null) {
+      final to = _hrefLocation(href);
+      return to == null ? null : _EndKey(label, sub: sub, location: to);
+    }
+    if (r != null && r.kind == LearnKinds.feed && r.resume != null) return _EndKey(label, act: _EndAct.resume, id: r.resume);
+    if (r != null && r.kind == LearnKinds.feed && r.chapterKey == _c.chapterKey && r.fresh) return _EndKey(label, act: _EndAct.again);
+    if (r != null && r.kind == LearnKinds.feed) {
+      return _EndKey(label, sub: sub, location: Learn2Links.feed(FeedLaunch(chapterKey: r.chapterKey, minutes: r.minutes ?? widget.launch.minutes)), replace: true);
+    }
+    if (r != null) {
+      return _EndKey(
+        label,
+        sub: sub,
+        location: Learn2Links.run(
+          RunLaunch(chapterKey: r.chapterKey ?? _c.chapterKey, minutes: r.minutes ?? 10, kind: r.kind, cardIds: r.cardIds, leaveOut: r.leaveOut, fresh: r.fresh),
+        ),
+      );
+    }
+    return null;
+  }
+
+  void _doKey(_EndKey key) {
+    switch (key.act) {
+      case _EndAct.pro:
+        _seePro('learn_feed');
+      case _EndAct.resume:
+        unawaited(_c.resumeFeed(key.id ?? ''));
+      case _EndAct.again:
+        unawaited(_c.againFeed());
+      case null:
+        final to = key.location;
+        if (to == null) return;
+        if (key.replace) {
+          _replace(to);
+        } else {
+          _push(to);
+        }
+    }
+  }
+
   Widget _end() {
     final c = _c;
+    final close = _closeKey();
+    if (c.endStatus == FeedEndStatus.loading || c.endStatus == FeedEndStatus.idle) {
+      return EndScreen(close: close, loading: true);
+    }
+    if (c.endStatus == FeedEndStatus.error) {
+      return EndScreen(
+        close: close,
+        titleKey: _endTitleKey,
+        error: (title: FeedCopy.endErrorTitle, line: FeedCopy.endErrorLine),
+        onRetry: () {
+          final r = c.run;
+          if (r != null && r.id.isNotEmpty) unawaited(c.readEnd(r.id, c.dirty, stop: c.stoppedHere));
+        },
+        retryKeys: [StageTextKey(label: FeedCopy.backToExplore, quiet: true, onTap: _toExplore)],
+      );
+    }
     final data = c.endData;
     final f = data?.feed;
+    final raw = asJson(data?.raw);
     final of = c.of;
+    final onlyEnd = c.onlyEnd;
+    final stopped = c.stoppedHere || raw['stopped'] == true;
     final hasDone = f != null && f.raw['done'] is Map;
-    final position = of > 0 && !c.onlyEnd ? math.min(of, hasDone ? f.done.reached : c.base + c.furthest) : null;
-    final title = FeedModel.endTitle(
-      endChapterTitle: asString(asJson(data?.raw['chapter'])['title']),
-      runTitle: c.title,
-      feedTitle: f?.title,
-      endTitle: data?.title,
-    );
-    final done = hasDone
-        ? StageText.doneLine(reached: f.done.reached, of: f.done.of, minutes: asJson(f.raw['done'])['minutes'] == null ? null : f.done.minutes)
-        : StageText.doneLine(reached: c.onlyEnd ? 0 : math.min(of, c.base + c.furthest), of: c.onlyEnd ? 0 : of);
+    final doneJson = asJson(f?.raw['done']);
+    final reached = onlyEnd ? (hasDone ? f.done.reached : 0) : (stopped ? math.min(of, c.base + c.furthest) : of);
+    final doneOf = onlyEnd ? (hasDone ? f.done.of : 0) : of;
+    final minutes = doneJson['minutes'];
+    // The numbers: this feed's own, or (an end opened on its own) what the server's lines say.
+    final qLine = f?.lines.where((l) => l.label == 'Questions').map((l) => l.text).firstOrNull ?? '';
+    final nums = asJson(raw['numbers']);
+    final FeedNumbers n = onlyEnd
+        ? FeedNumbers(
+            answered: int.tryParse(RegExp(r'of (\d+)').firstMatch(qLine)?.group(1) ?? '') ?? 0,
+            right: int.tryParse(RegExp(r'^(\d+) of').firstMatch(qLine)?.group(1) ?? '') ?? 0,
+            mistakes: asInt(nums['mistakes']) ?? 0,
+            fixed: asInt(nums['fixed']) ?? 0,
+          )
+        : c.numbers;
+    final kept = f?.kept.count ?? 0;
+    // Cards this feed showed for the first time count as seen on the chapter's bar (turned feed cards are seen).
+    final freshSeen = onlyEnd
+        ? 0
+        : c.items.where((i) {
+            final st = c.stateOf(i.id);
+            return i is LearnCardItem && i.stage == 'new' && st.seen && !st.kept;
+          }).length;
+    final progress = asJson(raw['progress']);
+    final bar = raw['progress'] is Map
+        ? StageEndModel.endProgress({
+            ...progress,
+            'seen': math.min(StageEndModel.whole(progress['of']), StageEndModel.whole(progress['seen']) + freshSeen),
+          })
+        : null;
+    final lead = data?.lead;
+    LearnOption? quietOption;
+    for (final o in data?.options ?? const <LearnOption>[]) {
+      if (!identical(o, lead)) {
+        quietOption = o;
+        break;
+      }
+    }
     final proOn = ref.watch(proNudgesOnProvider);
-    final free = f?.free;
-    final lead = f?.lead;
-    final next = f?.next;
-    final due = f?.dueOffer;
+    final mainKey = _specOf(lead, main: true);
+    final quietKey = _specOf(quietOption, main: false);
+    final holding = c.again;
+    Widget? mainWidget;
+    if (mainKey != null && (mainKey.act != _EndAct.pro || proOn)) {
+      final busy = holding && mainKey.act != _EndAct.pro;
+      mainWidget = StageEndKey(label: busy ? FeedCopy.startingAgain : mainKey.label, sub: busy ? null : mainKey.sub, onTap: busy ? null : () => _doKey(mainKey));
+    }
+    Widget? quietWidget;
+    if (quietKey != null && (quietKey.act != _EndAct.pro || proOn)) {
+      final busy = holding && quietKey.act != _EndAct.pro;
+      quietWidget = StageTextKey(label: quietKey.label, onTap: busy ? null : () => _doKey(quietKey));
+    }
+    final revise = StageEndModel.reviseLabel(asJson(f?.raw['kept'])['groups']);
     return FeedEndSwipe(
-      enabled: !c.onlyEnd && c.endAt > 0,
+      enabled: !onlyEnd && c.endAt > 0,
       onBack: () => _go(c.endAt - 1),
-      child: StageEnd(
-        onClose: _leave,
-        closeLabel: FeedCopy.closeLabel,
-        position: position,
-        of: position != null ? of : null,
-        child: EndForm(
-          titleKey: _endTitleKey,
-          loading: c.endStatus == FeedEndStatus.loading || c.endStatus == FeedEndStatus.idle,
-          error: c.endStatus == FeedEndStatus.error ? (title: FeedCopy.endErrorTitle, line: FeedCopy.endErrorLine) : null,
-          onRetry: () {
-            final r = c.run;
-            if (r != null && r.id.isNotEmpty) unawaited(c.readEnd(r.id, c.dirty));
-          },
-          retryKeys: [StageTextKey(label: FeedCopy.backToExplore, quiet: true, onTap: _toExplore)],
-          title: title,
-          done: done,
-          pile: f == null
-              ? null
-              : StagePile(
-                  count: f.kept.count,
-                  cards: [for (final k in f.kept.cards) StagePileCard.of(kind: k.kind, front: k.front, id: k.id)],
-                  line: FeedModel.pileLine(f.kept.line),
-                  none: c.hasCards || c.onlyEnd ? FeedCopy.nothingKept : null,
-                ),
-          lines: f == null
-              ? const []
-              : [
-                  for (final l in FeedModel.endLines(
-                    [for (final l in f.lines) (label: l.label, text: l.text)],
-                    seen: c.numbers.seen,
-                    kept: f.kept.count,
-                    hasCards: c.hasCards && !c.onlyEnd,
-                  ))
-                    (label: l.label, text: l.text),
-                ],
-          note: free == null ? null : FeedFreeNote(text: free.text, onSeePro: proOn ? () => _seePro('learn_feed') : null),
-          keys: f == null
-              ? const []
-              : [
-                  if (free == null && lead != null)
-                    StageStepKey(label: c.again ? FeedCopy.startingAgain : lead.label, onTap: c.again ? null : () => unawaited(c.againFeed())),
-                  if (next != null) StageStepKey(label: next.label, tone: StageTone.line, onTap: () => _openNext(next)),
-                  if (due != null) StageStepKey(label: due.label, tone: StageTone.line, onTap: () => _openDue(due)),
-                  StageTextKey(label: FeedCopy.backToExplore, quiet: true, onTap: _toExplore),
-                ],
+      child: EndScreen(
+        close: close,
+        titleKey: _endTitleKey,
+        chapter: FeedModel.endTitle(
+          endChapterTitle: asString(asJson(raw['chapter'])['title']),
+          runTitle: c.title,
+          feedTitle: f?.title,
+          endTitle: data?.title,
         ),
+        headline: StageEndModel.endHeadline(reached: reached, of: doneOf, minutes: minutes, stopped: stopped),
+        mobi: 'nod',
+        pile: kept > 0 && f != null ? [for (final k in f.kept.cards) StagePileCard.of(kind: k.kind, front: k.front, id: k.id)] : null,
+        numbers: StageEndModel.endNumbers(revise: kept, reviseText: revise, answered: n.answered, right: n.right, mistakes: n.mistakes, fixed: n.fixed),
+        progress: bar,
+        free: lead?.line,
+        main: mainWidget,
+        quiet: quietWidget,
       ),
     );
   }
+}
+
+/// What an end key does (the web's `specOf` result).
+enum _EndAct { pro, again, resume }
+
+class _EndKey {
+  const _EndKey(this.label, {this.sub, this.act, this.id, this.location, this.replace = false});
+
+  final String label;
+  final String? sub;
+  final _EndAct? act;
+  final String? id;
+  final String? location;
+
+  /// A feed of another chapter takes this feed's place (it never stacks under it).
+  final bool replace;
 }

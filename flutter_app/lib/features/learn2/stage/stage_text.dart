@@ -31,10 +31,10 @@ abstract final class StageText {
   /// `plural`: "1 card", "3 cards".
   static String plural(int n, String one, [String? many]) => '$n ${n == 1 ? one : (many ?? '${one}s')}';
 
-  /// `frontSize`: the front's size step by its length in characters: 's' up to 60, 'm' up to 120, 'l' longer.
+  /// `frontSize`: the front's size step by its length in characters (R3 L1): 's' up to 60, 'm' up to 140, 'l' longer.
   static String frontSize(String? text) {
     final n = (text ?? '').replaceAll(_spaces, ' ').trim().length;
-    return n <= 60 ? 's' : (n <= 120 ? 'm' : 'l');
+    return n <= 60 ? 's' : (n <= 140 ? 'm' : 'l');
   }
 
   /// `backSize`: the back's size step: its characters plus 12 per line break; 's' to 110, 'm' to 200, 'l' to

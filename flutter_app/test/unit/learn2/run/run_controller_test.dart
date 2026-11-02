@@ -14,20 +14,40 @@ import 'package:mockmob/features/learn2/run/run_view.dart';
 
 import 'support/run_harness.dart';
 
-Future<RunController> started(LearnApi api, {RunLaunch launch = const RunLaunch(chapterKey: l2Pf), RunEvents? events, LearnPrefs? prefs}) async {
-  final c = runController(api, launch: launch, events: events, prefs: prefs);
+Future<RunController> started(
+  LearnApi api, {
+  RunLaunch launch = const RunLaunch(chapterKey: l2Pf),
+  RunEvents? events,
+  LearnPrefs? prefs,
+  String? studentId,
+}) async {
+  final c = runController(api, launch: launch, events: events, prefs: prefs, studentId: studentId);
   addTearDown(c.dispose);
   await c.start();
   await settle();
   return c;
 }
 
-/// Moves to the question at [i] of the recorded mix (4, 9, 14, 19: two old mistakes, then two linked questions).
+/// Moves to the question at [i] of the recorded mix.
 void goTo(RunController c, int i) {
   while (c.at < i) {
     c.advance();
   }
 }
+
+/// The recorded mix: its items, and where its open mistakes and its plain questions sit.
+final List<Object?> _mix = LearnFixtures.json('run_start_mix_pf_pro')['items'] as List<Object?>;
+final int mixLength = _mix.length;
+bool _isQuestion(Object? x, {required bool mistake}) => x is Map && x['type'] == 'question' && (x['origin'] == 'mistake') == mistake;
+
+final List<int> mixMistakes = [
+  for (final (i, x) in _mix.indexed)
+    if (_isQuestion(x, mistake: true)) i,
+];
+final List<int> mixPlain = [
+  for (final (i, x) in _mix.indexed)
+    if (_isQuestion(x, mistake: false)) i,
+];
 
 void main() {
   group('starting', () {
@@ -36,8 +56,9 @@ void main() {
       final c = await started(api);
       expect(c.status, RunStatus.ready);
       expect(c.phase, RunPhase.play);
-      expect(c.items.length, 20);
-      expect(c.total, 20);
+      expect(c.items.length, mixLength);
+      expect(c.total, mixLength);
+      expect(mixLength, greaterThan(10));
       expect(c.position, 1);
       expect(c.pile, 0);
       expect(c.title, 'Accounting for Partnership: Basic Concepts');
@@ -91,7 +112,7 @@ void main() {
       expect(api.calls, contains('getRun ${first.id}'));
       expect(c.run?.id, first.id);
       expect(c.offset, 2);
-      expect(c.items.length, 18);
+      expect(c.items.length, mixLength - 2);
       expect(c.position, 3);
       expect(c.pile, 2);
     });
@@ -129,14 +150,14 @@ void main() {
       expect(api.ended.single, first.id);
     });
 
-    test('the screen reader hears where the student is on each move: "Card 1 of 20", "Card 2 of 20", "Question 5 of 20"', () async {
+    test('the screen reader hears where the student is on each move: "Card 1 of 18", "Card 2 of 18", "Question 5 of 18"', () async {
       final events = RunEvents();
       final c = await started(FixtureLearnApi(), events: events);
-      expect(events.said, ['Card 1 of 20']);
+      expect(events.said, ['Card 1 of $mixLength']);
       c.advance();
-      expect(events.said.last, 'Card 2 of 20');
-      goTo(c, 4);
-      expect(events.said.last, 'Question 5 of 20');
+      expect(events.said.last, 'Card 2 of $mixLength');
+      goTo(c, mixMistakes.first);
+      expect(events.said.last, startsWith('Question ${mixMistakes.first + 1} of $mixLength'));
     });
 
     test('a resumed run with nothing left is already done: its end', () async {
@@ -164,7 +185,7 @@ void main() {
         launch: const RunLaunch(chapterKey: l2Pf, kind: 'feed'),
       );
       expect(c.status, RunStatus.free);
-      expect(c.free?.line, startsWith('Your free Learn session for today is done'));
+      expect(c.free?.line, startsWith("That was today's free session."));
       expect(c.free?.options, isNotEmpty);
       expect(c.free?.resume?.done, 2);
     });
@@ -193,7 +214,7 @@ void main() {
       expect(api.ratings.single.rating, 3);
       expect(api.ratings.single.itemId, first.id);
       expect(c.tally.got, 1);
-      expect(c.stamp?.text, 'Back in 20 days');
+      expect(c.stamp?.text, LearnFixtures.json('rate_got_it_pro')['stamp'], reason: 'the server\'s real day, as recorded');
       expect(c.statusLine?.stamp, isTrue);
       expect(events.rated.single.kind, 'got');
       expect(events.rated.single.flies, isTrue);
@@ -210,7 +231,7 @@ void main() {
       final events = RunEvents();
       final c = await started(api, events: events);
       await c.rate(4);
-      expect(c.stamp?.text, 'Back in 35 days');
+      expect(c.stamp?.text, LearnFixtures.json('rate_easy_pro')['stamp']);
       expect(events.rated.last.kind, 'easy');
       expect(c.tally.easy, 1);
       expect(c.pile, 1);
@@ -220,8 +241,8 @@ void main() {
       expect(events.rated.last.flies, isFalse);
       expect(c.tally.missed, 1);
       expect(c.pile, 1, reason: 'a missed card does not go to Revise');
-      expect(c.items.length, 21);
-      expect(c.total, 21);
+      expect(c.items.length, mixLength + 1);
+      expect(c.total, mixLength + 1);
       final back = c.items[4];
       expect(back.id, endsWith('-r1'));
       expect(RunView.stageTag(back), 'Back from earlier');
@@ -273,10 +294,13 @@ void main() {
     test('a Back from earlier card and a card that is the line you needed carry their tags', () async {
       final api = FixtureLearnApi();
       final c = await started(api);
-      goTo(c, 4);
+      goTo(c, mixPlain.first);
       final q = c.item! as LearnQuestionItem;
       await c.pick(wrongKey(q));
-      final line = c.items.firstWhere((i) => i.id.endsWith('-r1'));
+      // The recorded wrong answer's re-insert is a card from earlier in the chapter.
+      expect(RunView.stageTag(c.items.firstWhere((i) => i.id.endsWith('-r1'))), 'Back from earlier');
+      // A card the server tags as the line the student needed.
+      final line = scriptedRun([scriptedCard(1, reason: 'line')]).items.single;
       expect(RunView.stageTag(line), 'The line you needed');
     });
   });
@@ -349,9 +373,9 @@ void main() {
       final api = FixtureLearnApi();
       final events = RunEvents();
       final c = await started(api, events: events);
-      goTo(c, 4);
+      goTo(c, mixPlain.first);
       final q = c.item! as LearnQuestionItem;
-      expect(c.statusLine?.text, RunCopy.coachPick);
+      expect(c.questionHint, isNull, reason: 'a run that serves an open mistake is not a student\'s first question');
       final wrong = wrongKey(q);
       await c.pick(wrong);
       final st = c.stateOf(q.id);
@@ -360,16 +384,17 @@ void main() {
       expect(c.isAnswered(q), isTrue);
       expect(c.tally.wrong, 1);
       expect(c.answers.streak, 0);
-      expect(c.items.length, 21);
+      expect(c.items.length, mixLength + 1);
       expect(events.said.last, startsWith('Not quite. The answer is ${rightKey(q)}.'));
       expect(events.said.last, endsWith('The line you needed is shown below.'));
-      expect(c.finished, 5, reason: 'an answered question counts as done');
+      expect(c.finished, mixPlain.first + 1, reason: 'an answered question counts as done');
     });
 
     test('three right answers in a row make a streak, and every one is sent once', () async {
       final api = FixtureLearnApi();
       final c = await started(api);
-      for (final i in [4, 9, 14]) {
+      // Two open mistakes and a plain question, answered right one after the other.
+      for (final i in [mixMistakes[0], mixMistakes[1], mixPlain.first]) {
         goTo(c, i);
         final q = c.item! as LearnQuestionItem;
         final a = c.pick(rightKey(q));
@@ -589,15 +614,46 @@ void main() {
       final api = FixtureLearnApi();
       final c = await started(api);
       expect(c.asksToStop, isFalse);
-      expect(c.stopDetail, isNull);
       await c.rate(3);
       expect(c.asksToStop, isTrue);
       expect(c.doneCount, 1);
-      expect(c.stopDetail, '1 sent to Revise.');
       goTo(c, 4);
       await c.pick(rightKey(c.item! as LearnQuestionItem));
-      expect(c.stopDetail, '1 of 1 question right. 1 sent to Revise.');
-      expect(RunView.stopLine(c.doneCount, c.total), '5 of 20 done. Everything you did is saved.');
+      expect(c.doneCount, 5);
+      expect(RunView.stopLine(c.doneCount, c.total), '5 of $mixLength done. It’s all saved.');
+    });
+
+    test('Stop here reads the end with the stop flag (the server keeps the run open); a run that ran to its end reads it without', () async {
+      final api = FixtureLearnApi();
+      final c = await started(api);
+      await c.rate(3);
+      c.finish(c.doneCount);
+      await settle();
+      expect(api.stops, [true]);
+      expect(c.stoppedAt, 1);
+      expect(c.endStatus, RunEndStatus.ready);
+
+      final api2 = FixtureLearnApi();
+      final d = await started(api2);
+      await d.rate(3);
+      d.finish();
+      await settle();
+      expect(api2.stops, [false]);
+      expect(d.stoppedAt, isNull);
+    });
+
+    test('the end\'s Try again reads it again with the same flag', () async {
+      final api = FixtureLearnApi(failOn: {'end': FixtureLearnApi.offlineError});
+      final c = await started(api);
+      await c.rate(3);
+      c.finish(c.doneCount);
+      await settle();
+      expect(c.endStatus, RunEndStatus.error);
+      api.failOn.clear();
+      c.retryEnd();
+      await settle();
+      expect(api.stops, [true, true]);
+      expect(c.endStatus, RunEndStatus.ready);
     });
 
     test('the end is read from the server and read again on Try again, never invented', () async {
@@ -615,8 +671,7 @@ void main() {
       await settle();
       expect(c.endStatus, RunEndStatus.ready);
       expect(c.stoppedAt, 1);
-      final lines = RunView.endLines(c.endData!);
-      expect(lines.first.label, 'Key cards');
+      expect(c.endData!.lead!.label, startsWith('Continue \u00B7 '), reason: 'a stop part way is offered its own run back, in the server\'s words');
       expect(c.asksToStop, isFalse);
     });
 
@@ -636,24 +691,54 @@ void main() {
   });
 
   group('the first-run coach lines show once, each, and are kept', () {
-    test('the front\'s, the rating\'s and the first question\'s lines, then never again', () async {
+    test('the front\'s, the rating\'s and the first question\'s lines, then never again for that student', () async {
       final store = MemoryPrefsStore();
       final prefs = LearnPrefs(store);
       final api = FixtureLearnApi();
-      final c = await started(api, prefs: prefs);
+      final c = await started(api, prefs: prefs, studentId: 'ana');
       expect(c.statusLine?.text, RunCopy.coachFront);
+      expect(c.statusLine?.cue, isTrue, reason: 'the turn cue is ink and semibold so a first-time student sees how a flashcard works');
       c.turn(c.item! as LearnCardItem);
       expect(c.statusLine?.text, RunCopy.coachRate);
-      goTo(c, 4);
-      expect(c.statusLine?.text, RunCopy.coachPick);
       await settle();
-      expect(await prefs.coachSeen('front'), isTrue);
-      expect(await prefs.coachSeen('rate'), isTrue);
-      expect(await prefs.coachSeen('pick'), isTrue);
-      final again = await started(FixtureLearnApi(), prefs: LearnPrefs(store));
+      expect(await prefs.coachSeen('run.coach.v2:ana:front2'), isTrue);
+      expect(await prefs.coachSeen('run.coach.v2:ana:rate2'), isTrue);
+      final again = await started(FixtureLearnApi(), prefs: LearnPrefs(store), studentId: 'ana');
       expect(again.statusLine, isNull, reason: 'seen already');
       again.turn(again.item! as LearnCardItem);
       expect(again.statusLine, isNull);
+      // Another student on the same phone sees them (they are once per student, not once per phone).
+      final other = await started(FixtureLearnApi(), prefs: LearnPrefs(store), studentId: 'ben');
+      expect(other.statusLine?.text, RunCopy.coachFront);
+    });
+
+    test('the hint is for a student\'s first question: it reads above the options until the question is answered, then never again for that student', () async {
+      final store = MemoryPrefsStore();
+      final prefs = LearnPrefs(store);
+      // A new student's run has no open mistakes, so its first question is a first.
+      FixtureLearnApi api() => FixtureLearnApi(startFixtures: {'mix': 'run_start_mix_aop_20_new_pro'});
+      const launch = RunLaunch(chapterKey: l2Aop, minutes: 20);
+      final c = await started(api(), launch: launch, prefs: prefs, studentId: 'ana');
+      final first = c.items.indexWhere((i) => i is LearnQuestionItem);
+      goTo(c, first);
+      expect(c.questionHint, RunCopy.coachPick);
+      expect(c.statusLine, isNull, reason: 'it is above the options, not in the line under the keys');
+      await settle();
+      expect(await prefs.coachSeen('run.coach.v2:ana:pick'), isTrue, reason: 'kept the first time it shows');
+      await c.pick(rightKey(c.item! as LearnQuestionItem));
+      expect(c.questionHint, isNull);
+      final again = await started(api(), launch: launch, prefs: LearnPrefs(store), studentId: 'ana');
+      goTo(again, again.items.indexWhere((i) => i is LearnQuestionItem));
+      expect(again.questionHint, isNull, reason: 'seen already');
+      final other = await started(api(), launch: launch, prefs: LearnPrefs(store), studentId: 'ben');
+      goTo(other, other.items.indexWhere((i) => i is LearnQuestionItem));
+      expect(other.questionHint, RunCopy.coachPick, reason: 'once per student, not once per phone');
+    });
+
+    test('a run that serves an open mistake is not a first question: no hint', () async {
+      final c = await started(FixtureLearnApi(), prefs: LearnPrefs(MemoryPrefsStore()), studentId: 'ana');
+      goTo(c, mixMistakes.first);
+      expect(c.questionHint, isNull);
     });
   });
 }

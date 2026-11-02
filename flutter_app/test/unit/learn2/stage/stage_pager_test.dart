@@ -13,14 +13,20 @@ const double _area = 600;
 
 /// A pager host that owns the index, as a screen does.
 class _Host extends StatefulWidget {
-  const _Host({required this.count, this.start = 0, this.tall = const {}, this.log});
+  const _Host({required this.count, this.start = 0, this.tall = const {}, this.cards = const {}, this.log, this.taps});
 
   final int count;
   final int start;
 
   /// Pages whose content is taller than the area (a long question).
   final Set<int> tall;
+
+  /// Key card pages: a flashcard that fills its page and has no scroll view of its own (its front).
+  final Set<int> cards;
   final List<int>? log;
+
+  /// The cards' taps (the turn), by page.
+  final List<int>? taps;
 
   @override
   State<_Host> createState() => _HostState();
@@ -46,7 +52,16 @@ class _HostState extends State<_Host> {
           index: index,
           onGo: go,
           feedLabel: 'Test feed, ${widget.count} items',
-          pageBuilder: (context, i) => widget.tall.contains(i)
+          pageBuilder: (context, i) => widget.cards.contains(i)
+              ? StagePage.card(
+                  label: 'Card ${i + 1} of ${widget.count}',
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => widget.taps?.add(i),
+                    child: SizedBox.expand(key: ValueKey('page-$i'), child: Center(child: Text('card $i'))),
+                  ),
+                )
+              : widget.tall.contains(i)
               ? StagePage.question(
                   label: 'Question ${i + 1} of ${widget.count}',
                   child: SizedBox(
@@ -81,6 +96,29 @@ double _trackOpacity(WidgetTester tester, int i) =>
 Finder get _pager => find.byType(StagePager);
 
 void main() {
+  testWidgets('a drag that starts on a Key card\'s front moves the pager; a tap on it is still the card\'s', (tester) async {
+    // The card has no scroll view of its own: the scroll view around its page must claim the swipe, or nothing would (the first
+    // R4 build of the card page had none, and a swipe that began on a card did nothing).
+    final log = <int>[];
+    final taps = <int>[];
+    await pumpStage(tester, _Host(count: 4, cards: const {0, 1, 2, 3}, log: log, taps: taps));
+    await tester.timedDrag(find.text('card 0'), const Offset(0, -0.3 * _area), const Duration(milliseconds: 400));
+    await tester.pumpAndSettle();
+    expect(_index(tester), 1);
+    expect(log, [1]);
+    await tester.fling(find.text('card 1'), const Offset(0, -40), 1000);
+    await tester.pumpAndSettle();
+    expect(_index(tester), 2);
+    await tester.timedDrag(find.text('card 2'), const Offset(0, 0.3 * _area), const Duration(milliseconds: 400));
+    await tester.pumpAndSettle();
+    expect(_index(tester), 1);
+    expect(taps, isEmpty, reason: 'a drag is never a tap');
+    await tester.tap(find.text('card 1'));
+    await tester.pumpAndSettle();
+    expect(taps, [1]);
+    expect(_index(tester), 1);
+  });
+
   testWidgets('a slow drag of 17% of the area springs back; 19% moves one item', (tester) async {
     final log = <int>[];
     await pumpStage(tester, _Host(count: 5, log: log));
@@ -298,33 +336,64 @@ void main() {
     handle.dispose();
   });
 
-  testWidgets('the nudge rises 24 dp and settles in 360 ms, once asked; nothing under reduced motion', (tester) async {
-    final key = GlobalKey<StagePagerState>();
-    Widget host() => SizedBox(
-      height: _area,
-      child: StagePager(
-        key: key,
-        count: 3,
-        index: 0,
-        onGo: (_) {},
-        pageBuilder: (context, i) => StagePage.centre(label: 'Card ${i + 1} of 3', child: SizedBox(key: ValueKey('page-$i'), height: 100, width: 100)),
+  group('the peek (R2 ruling 7, R3 L3)', () {
+    Widget host({int index = 0, Widget? chip, double peek = StagePager.peekHeight, List<String?> caps = const ['Definition', 'Question', 'So far', null]}) => Align(
+      alignment: Alignment.topCenter,
+      child: SizedBox(
+        height: _area,
+        width: 360,
+        child: StagePager(
+          count: caps.length,
+          index: index,
+          onGo: (_) {},
+          peek: peek,
+          chip: chip,
+          pageBuilder: (context, i) => StagePage.centre(
+            label: 'Card ${i + 1} of ${caps.length}',
+            cap: caps[i],
+            child: SizedBox(key: ValueKey('page-$i'), height: 100, width: 100, child: Text('page $i')),
+          ),
+        ),
       ),
     );
-    await pumpStage(tester, Align(alignment: Alignment.topCenter, child: host()));
-    key.currentState!.nudge();
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 180));
-    final top = tester.getTopLeft(find.byKey(const ValueKey('page-0'))).dy;
-    await tester.pump(const Duration(milliseconds: 200));
-    final rest = tester.getTopLeft(find.byKey(const ValueKey('page-0'))).dy;
-    expect(rest - top, moreOrLessEquals(24, epsilon: 1));
 
-    await tester.pumpWidget(const SizedBox());
-    await pumpStage(tester, Align(alignment: Alignment.topCenter, child: host()), reduced: true);
-    final still = tester.getTopLeft(find.byKey(const ValueKey('page-0'))).dy;
-    key.currentState!.nudge();
-    await tester.pump(const Duration(milliseconds: 180));
-    expect(tester.getTopLeft(find.byKey(const ValueKey('page-0'))).dy, still);
+    testWidgets('a page is the area less 40 dp; the next page shows its top 40 dp as a card edge with its label', (tester) async {
+      await pumpStage(tester, host());
+      await tester.pumpAndSettle();
+      expect(_pageTop(tester, 0), 0);
+      expect(_pageTop(tester, 1), _area - 40, reason: 'one page (area less peek) below, so its top 40 dp is in the area');
+      expect(tester.getSize(find.byKey(ValueKey<Object>(0), skipOffstage: false)).height, _area - 40);
+      expect(find.text('Question'), findsOneWidget, reason: 'the next page label sits on its edge');
+      Opacity edge(String label) => tester.widget<Opacity>(find.ancestor(of: find.text(label, skipOffstage: false), matching: find.byType(Opacity)).first);
+      expect(edge('Question').opacity, 1);
+      expect(find.text('So far', skipOffstage: false), findsOneWidget, reason: 'built, but not yet the next one');
+      expect(find.byType(AnimatedOpacity), findsWidgets);
+    });
+
+    testWidgets('the label is hidden while the first visit chip covers the strip; the chip sits in the strip, centred', (tester) async {
+      await pumpStage(tester, host(chip: const SizedBox(key: ValueKey('chip'), width: 200, height: 36)));
+      await tester.pumpAndSettle();
+      final chip = tester.getRect(find.byKey(const ValueKey('chip')));
+      final pager = tester.getRect(_pager);
+      expect(chip.bottom, pager.bottom - 2, reason: 'the chip foot is 2 dp above the area foot');
+      expect(chip.height, 36);
+      expect(chip.center.dx, moreOrLessEquals(pager.center.dx, epsilon: 0.5));
+      final label = tester.widgetList<AnimatedOpacity>(find.ancestor(of: find.text('Question'), matching: find.byType(AnimatedOpacity)));
+      expect(label.any((o) => o.opacity == 0), isTrue, reason: 'the type label hides while the chip shows');
+    });
+
+    testWidgets('a move slides one page (area less peek): the next page comes to the top, the one after peeks', (tester) async {
+      await pumpStage(tester, host(index: 1));
+      expect(_pageTop(tester, 1), 0);
+      expect(_pageTop(tester, 2), _area - 40);
+      expect(_pageTop(tester, 0), -(_area - 40));
+    });
+
+    testWidgets('a pager without a peek (the run one page) puts a whole area per page and draws no edge', (tester) async {
+      await pumpStage(tester, host(peek: 0));
+      expect(_pageTop(tester, 1), _area);
+      expect(tester.getSize(find.byKey(ValueKey<Object>(0), skipOffstage: false)).height, _area);
+      expect(find.text('Question', skipOffstage: false), findsNothing, reason: 'no edge, no label');
+    });
   });
-
 }

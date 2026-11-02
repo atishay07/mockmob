@@ -7,14 +7,19 @@
 ///             `GET /api/learn/runs/:id` for a feed being picked up ("Picked up at 7 of 21" in the title for 2.4 s);
 ///             `end` opens on the end only
 ///   moving    [go] to a slot or the end (a slot index; the end is [endAt]); a card is "seen" once it is on screen
-///   actions   [turn], [keep] (the server's "In Revise" line, 402: "This card is on Pro."), [save], [choose] (one send
-///             per item, the re-insert, the streak, 409 left-out lines, Free's day claimed elsewhere ends calmly)
-///   end       read on arrival and again when something changed since (never invented numbers); [again] starts a
-///             fresh feed of the chapter ("Another 10 minutes")
+///   actions   [turn], [keep] (the stamp "In Revise" once the server has it, 402: "This card is on Pro."), [save], [choose]
+///             (one send per item, the re-insert, the streak, 409 left-out lines, Free's day claimed elsewhere ends calmly)
+///   end       read on arrival and again when something changed since (never invented numbers); [stopHere] shows it and
+///             tells the server the feed stays open to pick up today; [againFeed] starts a fresh feed of the chapter
+///             ("Keep going · 10 min"), [resumeFeed] picks a stopped one up by its id ("Continue · 6 min"). Every start or
+///             resume takes a token: an answer for an older one is dropped, and the end's keys wait while one is on its way
 ///
-/// Side effects the screen draws are callbacks: [onSay] (a polite announcement), [onKept] (the flight and the confirm
-/// haptic after the server's 200), [onNudge] (the first feed's nudge), [onSaved] (the app's Saved list reads again),
-/// [onSeePro] (`keycards` for a locked card, `saved` for Free's save limit).
+/// Side effects the screen draws are callbacks: [onSay] (a polite announcement), [onKept] (the confirm haptic after the
+/// server's 200; a phone's bar has no pile to fly to), [onSaved] (the app's Saved list reads again), [onSeePro] (`keycards`
+/// for a locked card, `saved` for Free's save limit).
+///
+/// The first visit's cue (R2 ruling 7): [cueDue] is true on a student's first feed until the student moves once, by any means;
+/// only that first move marks it seen (once per student, in Learn's prefs), never its showing.
 library;
 
 import 'dart:async';
@@ -48,7 +53,7 @@ class FeedController extends ChangeNotifier {
     this.prefs,
     this.onSay,
     this.onKept,
-    this.onNudge,
+    this.studentId,
     this.onSaved,
     this.onSeePro,
     this.slowAfter = const Duration(seconds: 8),
@@ -59,15 +64,20 @@ class FeedController extends ChangeNotifier {
   final LearnPrefs? prefs;
   final ValueChanged<String>? onSay;
   final ValueChanged<String>? onKept;
-  final VoidCallback? onNudge;
+
+  /// The student's id, so the first visit's cue and the run's coach lines are once per student, not once per phone.
+  final String? studentId;
   final VoidCallback? onSaved;
   final ValueChanged<String>? onSeePro;
 
   /// "Taking longer than usual" comes after this.
   final Duration slowAfter;
 
-  /// The first feed's nudge waits this long after the first turn (the turn lands first).
-  static const Duration nudgeAfter = Duration(milliseconds: 700);
+  /// The cue chip's id in Learn's prefs (v2: the earlier track nudge is gone).
+  static String cueId(String? studentId) => 'feed.nudge.v2:${studentId ?? 'anon'}';
+
+  /// The cue leaves over this long once the student moves.
+  static const Duration cueLeave = Duration(milliseconds: 160);
 
   /// The step key's label changes to Next this far into the turn (the faces swap at 90 degrees).
   static const Duration backAfter = Duration(milliseconds: 170);
@@ -116,22 +126,29 @@ class FeedController extends ChangeNotifier {
   /// The start is taking longer than [slowAfter].
   bool slow = false;
 
-  /// "Another 10 minutes" is starting.
+  /// A new feed or a pick-up is starting ("Keep going", "Continue"): the end's keys wait.
   bool again = false;
 
-  /// Reduced motion (the screen keeps it current): the turn's Next comes at once and there is no nudge.
+  /// The student stopped part way ("Stop here"): the end reads with `?stop=1` and says "5 of 20 done".
+  bool stoppedHere = false;
+
+  /// The first visit's cue shows (until the first move) and is leaving (the 160 ms fade).
+  bool cueDue = false;
+  bool cueLeaving = false;
+
+  /// Reduced motion (the screen keeps it current): the turn's Next comes at once.
   bool reduced = false;
 
   /// Something the server holds changed in this feed (the Learn reads are stale once the feed is left).
   bool changed = false;
 
-  bool _nudgeDue = false;
+  bool _stopping = false;
   bool _started = false;
   bool _disposed = false;
   int _gen = 0;
   final Set<String> _sent = {};
   Timer? _slowTimer;
-  Timer? _nudgeTimer;
+  Timer? _cueTimer;
   final Map<String, Timer> _backTimers = {};
 
   // ---------------------------------------------------------------- reads
@@ -202,9 +219,6 @@ class FeedController extends ChangeNotifier {
   /// Items done, for the stop rule (before any, Close leaves; after one, it asks).
   int get itemsDone => FeedModel.itemsDone(_items, _states, base: base);
 
-  /// The stop sheet's detail.
-  String? get stopDetail => FeedModel.stopDetail(numbers);
-
   /// The stop rule applies: the items are on screen and one is done.
   bool get asksToStop => status == FeedStatus.ready && mode == FeedMode.items && itemsDone > 0;
 
@@ -228,7 +242,7 @@ class FeedController extends ChangeNotifier {
           return '${FeedCopy.cardLabel(pos, of)}. ${f.label}. ${StageText.speakable(f.front)}';
         }
         if (item is LearnQuestionItem) {
-          final head = item.isMistake ? '${item.mistake?.label ?? FeedCopy.oldMistake}. ' : '';
+          final head = item.isMistake ? '${item.mistake?.label ?? FeedCopy.openMistake}. ' : '';
           final body = item.question.body;
           return '${FeedCopy.questionLabel(pos, of)}. $head${body.length > 160 ? body.substring(0, 160) : body}';
         }
@@ -244,7 +258,7 @@ class FeedController extends ChangeNotifier {
   Future<void> start() async {
     if (_started) return;
     _started = true;
-    unawaited(_readNudge());
+    unawaited(_readCue());
     final id = launch.runId;
     if (launch.end && id != null) {
       _openOnEnd(id);
@@ -253,14 +267,27 @@ class FeedController extends ChangeNotifier {
     await begin();
   }
 
-  Future<void> _readNudge() async {
+  Future<void> _readCue() async {
     final p = prefs;
     if (p == null) return;
     try {
-      _nudgeDue = !await p.feedNudgeSeen();
+      cueDue = !await p.coachSeen(cueId(studentId));
     } on Object {
-      _nudgeDue = false;
+      cueDue = false;
     }
+    _notify();
+  }
+
+  /// The first move of a student's first feed: the cue fades out (160 ms) and only now is it marked seen.
+  void _cueMoved() {
+    unawaited(prefs?.markCoachSeen(cueId(studentId)));
+    cueLeaving = true;
+    _cueTimer?.cancel();
+    _cueTimer = Timer(reduced ? Duration.zero : cueLeave, () {
+      cueDue = false;
+      cueLeaving = false;
+      _notify();
+    });
   }
 
   /// A run that is only an end: its id and the link's chapter.
@@ -344,6 +371,8 @@ class FeedController extends ChangeNotifier {
     ];
     final done = r.resumed?.done ?? 0;
     _sent.clear();
+    _stopping = false;
+    stoppedHere = false;
     for (final t in _backTimers.values) {
       t.cancel();
     }
@@ -373,13 +402,14 @@ class FeedController extends ChangeNotifier {
     _places = FeedModel.questionPlaces(_items);
   }
 
-  /// Reads the end (`GET /end`). The previous end stays on screen while the same version is read again; a newer
-  /// version shows the end's skeleton until the new numbers come. A failure keeps what was there.
-  Future<void> readEnd(String runId, int version) async {
+  /// Reads the end (`GET /end`; `?stop=1` after "Stop here", so the server keeps the feed open to pick up today). The previous
+  /// end stays on screen while the same version is read again; a newer version shows the end's skeleton until the new
+  /// numbers come. A failure keeps what was there.
+  Future<void> readEnd(String runId, int version, {bool stop = false}) async {
     endStatus = endData != null && endVersion == version ? FeedEndStatus.ready : FeedEndStatus.loading;
     _notify();
     try {
-      final data = await api.end(runId);
+      final data = await api.end(runId, stop: stop);
       if (_disposed || run?.id != runId) return;
       endData = data;
       endVersion = version;
@@ -392,7 +422,33 @@ class FeedController extends ChangeNotifier {
     _notify();
   }
 
-  /// "Another 10 minutes": a fresh feed of the chapter (never the one that ended).
+  /// "Continue · 6 min" on a stopped feed's end: the same feed by its id, picked up where it stopped. A closed run goes to its end.
+  Future<void> resumeFeed(String runId) async {
+    if (again) return;
+    again = true;
+    final gen = ++_gen;
+    _notify();
+    try {
+      final r = await api.getRun(runId);
+      if (_disposed || gen != _gen) return;
+      _adopt(r);
+    } on Object catch (e) {
+      if (_disposed || gen != _gen) return;
+      if (isRunClosed(e)) {
+        unawaited(readEnd(runId, dirty));
+      } else {
+        run = null;
+        status = FeedStatus.error;
+      }
+    } finally {
+      if (!_disposed && gen == _gen) {
+        again = false;
+        _notify();
+      }
+    }
+  }
+
+  /// "Keep going · 10 min": a fresh feed of the chapter (never the one that ended).
   Future<void> againFeed() async {
     if (again) return;
     again = true;
@@ -408,7 +464,7 @@ class FeedController extends ChangeNotifier {
       if (_disposed || gen != _gen) return;
       if (isSessionUsed(e)) _freeUsed(e as LearnError);
     } finally {
-      if (!_disposed) {
+      if (!_disposed && gen == _gen) {
         again = false;
         _notify();
       }
@@ -421,6 +477,7 @@ class FeedController extends ChangeNotifier {
   /// comes into view and something changed since the last read.
   void go(int i) {
     final n = i.clamp(0, endAt);
+    final moved = n != active;
     active = n;
     if (note != null && note!.startsWith('Picked up')) note = null;
     final s = n < endAt ? _slots[n] : null;
@@ -431,10 +488,19 @@ class FeedController extends ChangeNotifier {
     if (s is FeedCheckpointSlot) furthest = math.max(furthest, s.after);
     final r = run;
     if (n >= endAt && r != null && r.id.isNotEmpty) {
-      furthest = _items.length;
-      if (endStatus != FeedEndStatus.ready || endVersion != dirty) unawaited(readEnd(r.id, dirty));
+      // A stop part way keeps the furthest item it reached: the end says "5 of 20 done".
+      if (!_stopping) furthest = _items.length;
+      if (endStatus != FeedEndStatus.ready || endVersion != dirty) unawaited(readEnd(r.id, dirty, stop: _stopping));
     }
+    if (moved && cueDue && !cueLeaving) _cueMoved();
     _notify();
+  }
+
+  /// "Stop here": shows the end and tells the server the feed stays open to pick up today.
+  void stopHere() {
+    _stopping = true;
+    stoppedHere = true;
+    go(endAt);
   }
 
   // ---------------------------------------------------------------- actions
@@ -456,15 +522,6 @@ class FeedController extends ChangeNotifier {
       }
       final back = item.card.back;
       _say(FeedCopy.ncertLine(back.length > 600 ? back.substring(0, 600) : back));
-      // The first feed's nudge (P2): the track shows once that the next item waits below.
-      if (_nudgeDue && !reduced) {
-        _nudgeDue = false;
-        unawaited(prefs?.markFeedNudgeSeen());
-        _nudgeTimer?.cancel();
-        _nudgeTimer = Timer(nudgeAfter, () {
-          if (!_disposed) onNudge?.call();
-        });
-      }
     } else {
       _say(FeedCopy.cardSide);
     }
@@ -485,11 +542,11 @@ class FeedController extends ChangeNotifier {
     try {
       final res = await api.keep(r.id, item.id);
       if (_disposed || run?.id != r.id) return;
-      final line = res.line ?? FeedCopy.inRevise;
-      _patch(item.id, (s) => s.copyWith(kept: true, keeping: false, stamp: FeedStamp(line)));
+      // "In Revise" with a check, once the server has it (never before); the server's own line (when the card comes back) is spoken.
+      _patch(item.id, (s) => s.copyWith(kept: true, keeping: false, stamp: const FeedStamp(FeedCopy.inRevise)));
       dirty += 1;
       changed = true;
-      _say(FeedCopy.keptSaid(line));
+      _say(FeedCopy.keptSaid(res.line ?? ''));
       onKept?.call(item.id);
     } on Object catch (e) {
       if (_disposed || run?.id != r.id) return;
@@ -502,9 +559,9 @@ class FeedController extends ChangeNotifier {
       final pro = e is LearnError && e.status == 402;
       _patch(
         item.id,
-        (s) => s.copyWith(keeping: false, keepPro: pro, stamp: pro ? const FeedStamp(FeedCopy.keepProStamp) : const FeedStamp(FeedCopy.notKept, bad: true)),
+        (s) => s.copyWith(keeping: false, keepPro: pro, stamp: pro ? const FeedStamp(FeedCopy.keepProStamp) : const FeedStamp(FeedCopy.notAdded, bad: true)),
       );
-      _say(pro ? FeedCopy.keepProStamp : FeedCopy.couldNotKeep);
+      _say(pro ? FeedCopy.keepProStamp : FeedCopy.couldNotAdd);
     }
     _notify();
   }
@@ -629,7 +686,7 @@ class FeedController extends ChangeNotifier {
     _disposed = true;
     _gen += 1;
     _slowTimer?.cancel();
-    _nudgeTimer?.cancel();
+    _cueTimer?.cancel();
     for (final t in _backTimers.values) {
       t.cancel();
     }

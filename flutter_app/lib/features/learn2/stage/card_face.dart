@@ -1,19 +1,21 @@
-/// A Key card on the study stage (the web's `CardFace`, BUILD-1101 B1/B7, A1 3.4, A8 3.2): it fits its words.
+/// A Key card on the study stage (the web's `CardFace`, BUILD-1101 B1/B7, A1 3.4, A8 3.2, R3 L1): a flashcard.
 ///
-///   size     both faces are laid out and the card takes the taller one's height, at least
-///            clamp(300, 0.46 x screen height, 380) dp and at most the item area minus 28 dp (the stamp line) minus 4% of
-///            the screen height; a face taller than that scrolls inside, with a 44 dp fade at its foot while more is
-///            below (the pager's edge rule applies to that scroll too)
-///   front    the kind line (13 semibold ink-3, and an extra kind such as "Back from earlier"), the prompt in Bricolage
-///            sized by its length (s 34/1.12, m 28/1.16, l 22/1.3; 32/26/21 under 380 dp wide), blanks drawn as gaps,
-///            centred between the kind line and the source foot (a book glyph and "Accountancy Part 1, Ch 2, p. 64").
-///            The whole front is a tap target ("Turn over: " and the front); its words stay readable to a screen reader.
-///   back     the kind line, the prompt small (two lines), NCERT's line at the web's back size, its source, and a
-///            "Turn back" text key; a tap on the back turns it back
+///   size     the card fills its page: all the height it is given less the 28 dp stamp line (8 dp gap, 20 dp line). A face
+///            taller than that scrolls inside, top-aligned, with a 44 dp fade at its foot while more is below (the pager's
+///            edge rule applies to that scroll too). Given no height (outside a pager) it takes the taller face's height,
+///            at least clamp(300, 0.46 x screen height, 380) dp
+///   front    the kind line top-left (13 semibold ink-3, and an extra kind such as "Back from earlier"), the source foot
+///            pinned to the bottom (a book glyph and "Accountancy Part 1, Ch 2, p. 64"), the prompt centred between them in
+///            Bricolage by its length (34 / 28 / 22 up to 60 / 140 / longer characters; 32 / 26 / 21 under 380 dp wide; line
+///            height 1.15), blanks drawn as gaps with the punctuation that touches them on the gap's own line
+///            (`blankRuns`). The whole front is a tap target ("Turn over: " and the front); its words stay readable
+///   back     the kind line, then, centred, the prompt small (two lines), NCERT's line at the web's back size and its
+///            source, and "Turn back" at the foot; a tap on the back turns it back
 ///   turn     rotateY 0 to 180 in 340 ms on `Motion.drawer` with perspective (1200), the faces swapping at 90 degrees,
 ///            a light haptic; under reduced motion a 120 ms cross-fade
-///   stamp    the line under the card (20 dp, 8 dp below): a filled bookmark and "In Revise", or the bad colour for
-///            "Not kept. Try again."; it fades in over 200 ms
+///   stamp    the line under the card (20 dp, 8 dp below): a check and "In Revise" (once the server has it), or the bad
+///            colour for "Not added. Try again."; it fades in over 200 ms
+///   sci      a chemistry card draws its front, back and quote with real subscripts and superscripts (`stage_sci.dart`)
 ///   No Must-know tag: every card in a feed or a run is Must-know (LK13); the tag stays in the Cards view.
 library;
 
@@ -28,7 +30,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/materials/edge_light.dart';
 import '../../../core/widgets/materials/shape.dart';
-import '../../keycards/data/keycards_lines.dart' show cardFace, sourceLine;
+import '../../keycards/data/keycards_lines.dart' show blankRuns, cardFace, sourceLine;
 import '../../keycards/data/keycards_models.dart';
 import '../../keycards/data/keycards_rules.dart' show BlankedLine;
 import 'stage_balance.dart';
@@ -36,11 +38,12 @@ import 'stage_keys.dart';
 import 'stage_motion.dart';
 import 'stage_ncert.dart';
 import 'stage_pager.dart';
+import 'stage_sci.dart';
 import 'stage_sizes.dart';
 import 'stage_text.dart';
 
-/// The line under a card: "In Revise", "In Revise, back Wed", "This card is on Pro.", or [bad] for "Not kept. Try
-/// again." (no bookmark then, and it is announced).
+/// The line under a card: "In Revise", "In Revise, back Wed", "This card is on Pro.", or [bad] for "Not added. Try
+/// again." (no check then, and it is announced).
 @immutable
 class StageStamp {
   const StageStamp(this.text, {this.bad = false});
@@ -62,12 +65,15 @@ class CardFace extends StatefulWidget {
     required this.front,
     required this.back,
     this.extraKind,
+    this.tagRight = false,
     this.source,
     this.turned = false,
     this.onTurn,
     this.stamp,
     this.cardKey,
     this.area,
+    this.sci = false,
+    this.stampLine = true,
   });
 
   /// The card as the stage shows it: its kind label and front by the Key cards' rules (`cardFace`), its book line
@@ -76,11 +82,14 @@ class CardFace extends StatefulWidget {
     KeyCard card, {
     Key? key,
     String? extraKind,
+    bool tagRight = false,
     bool turned = false,
     VoidCallback? onTurn,
     StageStamp? stamp,
     GlobalKey? cardKey,
     double? area,
+    bool sci = false,
+    bool stampLine = true,
   }) {
     final face = cardFace(card);
     return CardFace(
@@ -89,12 +98,15 @@ class CardFace extends StatefulWidget {
       front: face.front,
       back: card,
       extraKind: extraKind,
+      tagRight: tagRight,
       source: sourceLine(card.source),
       turned: turned,
       onTurn: onTurn,
       stamp: stamp,
       cardKey: cardKey,
       area: area,
+      sci: sci,
+      stampLine: stampLine,
     );
   }
 
@@ -103,6 +115,10 @@ class CardFace extends StatefulWidget {
 
   /// Beside the kind: "Back from earlier", "The line you needed".
   final String? extraKind;
+
+  /// The extra kind sits at the card's right edge on the kind line (the run's stage tag, "Due today"), not beside the kind (the
+  /// feed's).
+  final bool tagRight;
 
   /// The prompt, with `____` for a blank.
   final String front;
@@ -119,8 +135,15 @@ class CardFace extends StatefulWidget {
   /// On the card: where the Keep flight starts.
   final GlobalKey? cardKey;
 
-  /// The item area's height; null reads it from the pager (or estimates it from the screen outside one).
+  /// The height to use when the card is given none (outside a pager); null reads the pager's or estimates it from the screen.
   final double? area;
+
+  /// A chemistry card: its words draw with subscripts and superscripts.
+  final bool sci;
+
+  /// The 28 dp line under the card (8 dp gap, the stamp): the feed has it; the run puts its stamp under its keys and gives the
+  /// height back to the card.
+  final bool stampLine;
 
   static const double radius = StageSizes.cardRadius;
 
@@ -172,26 +195,23 @@ class _CardFaceState extends State<CardFace> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.sizeOf(context);
-    final area = widget.area ?? StagePager.areaOf(context) ?? (media.height - 166);
-    final minH = CardFace.minHeightFor(media.height);
-    final maxH = CardFace.maxHeightFor(area, media.height);
     final reduced = Motion.reduced(context);
     final front = _Face(
       key: const ValueKey('front'),
-      child: _FrontBody(kindLabel: widget.kindLabel, extraKind: widget.extraKind, front: widget.front, source: widget.source, width: media.width),
+      child: _FrontBody(kindLabel: widget.kindLabel, extraKind: widget.extraKind, tagRight: widget.tagRight, front: widget.front, source: widget.source, width: media.width, sci: widget.sci),
     );
     final back = _Face(
       key: const ValueKey('back'),
       scrollable: true,
       onTap: widget.onTurn,
-      child: _BackBody(kindLabel: widget.kindLabel, extraKind: widget.extraKind, front: widget.front, card: widget.back, onTurn: widget.onTurn),
+      child: _BackBody(kindLabel: widget.kindLabel, extraKind: widget.extraKind, tagRight: widget.tagRight, front: widget.front, card: widget.back, onTurn: widget.onTurn, sci: widget.sci),
     );
     final speak = 'Turn over: ${StageText.speakable(widget.front)}';
-    final pair = AnimatedBuilder(
+    Widget pair(double minH, double maxH) => AnimatedBuilder(
       animation: _turn,
       builder: (context, _) {
         final v = _turn.value;
-        final showBack = reduced ? v >= 0.5 : v >= 0.5;
+        final showBack = v >= 0.5;
         Widget side(Widget face, {required bool isBack}) {
           final active = isBack == showBack;
           Widget out;
@@ -243,16 +263,37 @@ class _CardFaceState extends State<CardFace> with SingleTickerProviderStateMixin
         );
       },
     );
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        KeyedSubtree(key: widget.cardKey, child: pair),
-        const SizedBox(height: MmSpace.s8),
-        SizedBox(height: 20, child: _Stamp(stamp: widget.stamp)),
-      ],
+    final stamp = SizedBox(height: 20, child: _Stamp(stamp: widget.stamp));
+    return LayoutBuilder(
+      builder: (context, c) {
+        if (c.hasBoundedHeight && c.maxHeight.isFinite) {
+          // A flashcard: the card fills its page, the stamp line under it.
+          final fill = math.max(0.0, c.maxHeight - (widget.stampLine ? _stampLine : 0));
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: fill, child: KeyedSubtree(key: widget.cardKey, child: pair(fill, fill))),
+              if (widget.stampLine) ...[const SizedBox(height: MmSpace.s8), stamp],
+            ],
+          );
+        }
+        // No height given: it fits its words, at least clamp(300, 46%, 380) dp and at most the area less the stamp line.
+        final area = widget.area ?? StagePager.areaOf(context) ?? (media.height - 166);
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            KeyedSubtree(key: widget.cardKey, child: pair(CardFace.minHeightFor(media.height), CardFace.maxHeightFor(area, media.height))),
+            const SizedBox(height: MmSpace.s8),
+            stamp,
+          ],
+        );
+      },
     );
   }
+
+  /// The stamp line under the card: 8 dp gap and a 20 dp line.
+  static const double _stampLine = 28;
 }
 
 /// The card's surface (the Key cards' lit card: raised, a 1 dp strong line, the edge light along the top, the card
@@ -351,17 +392,35 @@ class _FaceState extends State<_Face> {
   }
 }
 
-/// The kind line: 13 semibold ink-3, the extra kind 12 dp after it (wrapping under it when it does not fit).
+/// The kind line: 13 semibold ink-3, the extra kind 12 dp after it (wrapping under it when it does not fit); the run's stage tag
+/// (12.5, [tagRight]) sits at the right edge instead.
 class _KindLine extends StatelessWidget {
-  const _KindLine({required this.kindLabel, this.extraKind});
+  const _KindLine({required this.kindLabel, this.extraKind, this.tagRight = false});
 
   final String kindLabel;
   final String? extraKind;
+  final bool tagRight;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final style = context.mmType.label.copyWith(fontSize: 13, height: 1.3, color: colors.ink3);
+    final extra = extraKind;
+    if (tagRight && extra != null && extra.isNotEmpty) {
+      return ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 18),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(kindLabel, style: style),
+            const SizedBox(width: MmSpace.s12),
+            Expanded(
+              child: Text(extra, textAlign: TextAlign.end, style: style.copyWith(fontSize: 12.5, height: 1.2)),
+            ),
+          ],
+        ),
+      );
+    }
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: 18),
       child: Wrap(
@@ -376,15 +435,18 @@ class _KindLine extends StatelessWidget {
   }
 }
 
-/// The front: the kind line at the top, the source at the foot, the prompt centred between them.
+//// The front: the kind line top-left, the source pinned to the foot, the prompt centred between them (a face that does not fit
+/// is top-aligned and scrolls inside the card). Blanks are gaps with the punctuation that touches them on the gap's own run.
 class _FrontBody extends StatelessWidget {
-  const _FrontBody({required this.kindLabel, required this.front, required this.width, this.extraKind, this.source});
+  const _FrontBody({required this.kindLabel, required this.front, required this.width, this.extraKind, this.tagRight = false, this.source, this.sci = false});
 
   final String kindLabel;
   final String? extraKind;
+  final bool tagRight;
   final String front;
   final String? source;
   final double width;
+  final bool sci;
 
   @override
   Widget build(BuildContext context) {
@@ -392,29 +454,15 @@ class _FrontBody extends StatelessWidget {
     final type = context.mmType;
     final p = CardFace.promptStyle(StageText.frontSize(front), width);
     final style = type.title.copyWith(fontSize: p.size, height: p.height, letterSpacing: p.size * p.tracking, wordSpacing: 0, color: colors.ink);
-    final line = BlankedLine.front(front);
-    final span = TextSpan(
-      style: style,
-      children: [
-        for (final part in line.parts)
-          if (!part.blank)
-            TextSpan(text: part.text)
-          else
-            TextSpan(
-              text: ' ' * 10,
-              semanticsLabel: 'blank',
-              style: TextStyle(decoration: TextDecoration.underline, decorationColor: colors.ink3, decorationThickness: 1.5),
-            ),
-      ],
-    );
+    final span = TextSpan(style: style, children: stageFrontSpans(front, style, colors, sci: sci));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _KindLine(kindLabel: kindLabel, extraKind: extraKind),
+        _KindLine(kindLabel: kindLabel, extraKind: extraKind, tagRight: tagRight),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 14),
-          child: Semantics(header: true, child: StageBalancedText(span)),
+          child: Semantics(header: true, child: StageBalancedText(span, semanticsLabel: sci ? StageText.speakable(front) : null)),
         ),
         if (source != null)
           ConstrainedBox(
@@ -436,15 +484,37 @@ class _FrontBody extends StatelessWidget {
   }
 }
 
-/// The back: the kind line, the prompt small, NCERT's line and its source, and "Turn back" at the foot.
+/// A front's spans: its words (with the notation drawn when [sci]), and each blank as one unbreakable run: an opening bracket
+/// or quote that touches it, the gap (non-breaking spaces, underlined, read as "blank"), then the comma, stop or closing bracket
+/// that touches it. A line never starts with ", and" or ends with "(" (the web's `blankRuns`, Key cards' blank rule).
+List<InlineSpan> stageFrontSpans(String front, TextStyle style, MmColors colors, {bool sci = false}) {
+  return [
+    for (final part in blankRuns(front))
+      if (!part.blank)
+        ...(sci ? StageSci.spans(part.text, style) : [TextSpan(text: part.text)])
+      else ...[
+        if (part.lead.isNotEmpty) TextSpan(text: part.lead),
+        TextSpan(
+          text: ' ' * 10,
+          semanticsLabel: 'blank',
+          style: TextStyle(decoration: TextDecoration.underline, decorationColor: colors.ink3, decorationThickness: 1.5),
+        ),
+        if (part.tail.isNotEmpty) TextSpan(text: part.tail),
+      ],
+  ];
+}
+
+/// The back: the kind line, then (centred) the prompt small, NCERT's line and its source, and "Turn back" at the foot.
 class _BackBody extends StatelessWidget {
-  const _BackBody({required this.kindLabel, required this.front, required this.card, this.extraKind, this.onTurn});
+  const _BackBody({required this.kindLabel, required this.front, required this.card, this.extraKind, this.tagRight = false, this.onTurn, this.sci = false});
 
   final String kindLabel;
   final String? extraKind;
+  final bool tagRight;
   final String front;
   final KeyCard card;
   final VoidCallback? onTurn;
+  final bool sci;
 
   @override
   Widget build(BuildContext context) {
@@ -452,24 +522,35 @@ class _BackBody extends StatelessWidget {
     final type = context.mmType;
     final size = stageBackSize(StageText.backSize(card.back));
     final asked = type.label.copyWith(fontSize: 13, height: 1.4, color: colors.ink3);
+    final askedLine = StageText.speakable(front).isEmpty
+        ? null
+        : sci
+        ? Text.rich(
+            TextSpan(style: asked, children: stageFrontSpans(front, asked, colors, sci: true)),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            semanticsLabel: StageText.speakable(front),
+          )
+        : StageMarkedText(line: BlankedLine.front(front), style: asked, maxLines: 2);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _KindLine(kindLabel: kindLabel, extraKind: extraKind),
-            if (StageText.speakable(front).isNotEmpty) ...[
-              const SizedBox(height: 14),
-              StageMarkedText(line: BlankedLine.front(front), style: asked, maxLines: 2),
-            ],
-            const SizedBox(height: 14),
-            StageNcert(card: card, size: size.size, height: size.height),
-          ],
-        ),
+        _KindLine(kindLabel: kindLabel, extraKind: extraKind, tagRight: tagRight),
         Padding(
-          padding: const EdgeInsets.only(top: 8),
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (askedLine != null) ...[askedLine, const SizedBox(height: 14)],
+              StageNcert(card: card, size: size.size, height: size.height, sci: sci),
+            ],
+          ),
+        ),
+        // "Turn back" sits 6 dp up into the gap above it, as the web's `margin-top: -6px`.
+        Transform.translate(
+          offset: const Offset(0, -6),
           child: Align(
             alignment: Alignment.centerRight,
             child: StageTextKey(label: 'Turn back', size: 13.5, quiet: true, onTap: onTurn),
@@ -498,7 +579,7 @@ class _Stamp extends StatelessWidget {
         replay: s,
         child: Row(
           children: [
-            if (!s.bad) ...[StageBookmark(size: 14, color: stageSelect(colors)), const SizedBox(width: MmSpace.s6)],
+            if (!s.bad) ...[Icon(LucideIcons.check, size: 15, color: colors.goodText), const SizedBox(width: MmSpace.s6)],
             Flexible(
               child: Text(
                 s.text,
@@ -514,7 +595,7 @@ class _Stamp extends StatelessWidget {
   }
 }
 
-/// Two faces in one cell: both are laid out between [minHeight] and [maxHeight], and both take the taller one's
+// Two faces in one cell: both are laid out between [minHeight] and [maxHeight], and both take the taller one's
 /// height, so the turn never changes the card's size (the web's grid stacking).
 class _FacePair extends MultiChildRenderObjectWidget {
   const _FacePair({required this.minHeight, required this.maxHeight, required super.children});

@@ -2,17 +2,18 @@
 ///
 ///   StageCentre       a title (Bricolage 26), a line (15 ink-2) and a column of keys, centred, at most 420 dp wide:
 ///                     "The feed did not start", "Nothing to play here yet", "Today's free session is used"
-///   StageCheckpoint   the pause after every 8 items: the mini pile when something was kept, the big number
-///                     (Bricolage 44, "2 of 3 right"), the status ("8 of 21 done. About 6 min left.") and the line
-///   StageMiniPile     three small cards (28 x 36), the kept pile in miniature
+///   StageCheckpoint   the pause after every 8 items (R2 screens 12): the big number (Bricolage 44, "2 of 3 right", never a
+///                     zero), one line ("8 of 21 done, about 6 min left.") and the cards kept so far as the small fan
 ///   StageSkeleton     the whole stage while a feed or a run starts: the real Close, the title or a bar, one hairline
 ///                     for the ticks, a card skeleton at the card's least height, skeleton keys in the action bar
 library;
 
 import 'package:flutter/material.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/skeleton.dart';
+import 'end_form.dart' show StageKeptFan, StagePileCard;
 import 'stage_balance.dart';
 import 'stage_frame.dart';
 import 'stage_sizes.dart';
@@ -68,21 +69,20 @@ class StageCentre extends StatelessWidget {
   }
 }
 
-/// The checkpoint's body (put it on a centre page of the pager).
+/// The checkpoint's body (put it on a centre page of the pager; R2 screens 12, R3 L3): one headline that never leads with a zero
+/// (Bricolage 44, popping in over 220 ms from 0.96), one line under it, and the cards kept so far as the small fan. No mini pile,
+/// no third line.
 class StageCheckpoint extends StatelessWidget {
-  const StageCheckpoint({super.key, required this.big, required this.status, this.line, this.kept = false});
+  const StageCheckpoint({super.key, required this.big, required this.status, this.keptCards = const []});
 
-  /// "2 of 3 right" once a plain question is answered, else "6 cards seen, 2 kept".
+  /// "2 of 3 right" / "2 questions tried" / "3 for Revise" / "6 cards seen" / "8 done" (`StageEndModel.checkpointLines`).
   final String big;
 
-  /// "8 of 21 done. About 6 min left."
+  /// "8 of 21 done, about 6 min left."
   final String status;
 
-  /// "Keep going, or end here. What you kept is already in Revise."
-  final String? line;
-
-  /// Something was kept: the mini pile shows 16 dp above the number.
-  final bool kept;
+  /// The cards kept in this feed: the fan under the line (empty: none).
+  final List<StagePileCard> keptCards;
 
   @override
   Widget build(BuildContext context) {
@@ -94,28 +94,26 @@ class StageCheckpoint extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (kept) ...[const StageMiniPile(), const SizedBox(height: 16)],
-          StageBalancedText(
-            TextSpan(
-              text: big,
-              style: type.headline.copyWith(
-                fontSize: 44,
-                height: 1.05,
-                letterSpacing: -0.44,
-                color: colors.ink,
-                fontFeatures: const [FontFeature.tabularFigures()],
+          _CheckpointPop(
+            child: StageBalancedText(
+              TextSpan(
+                text: big,
+                style: type.headline.copyWith(
+                  fontSize: 44,
+                  height: 1.05,
+                  letterSpacing: -0.44,
+                  color: colors.ink,
+                  fontFeatures: const [FontFeature.tabularFigures()],
+                ),
               ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 10),
           Text(status, textAlign: TextAlign.center, style: quiet),
-          if (line != null && line!.isNotEmpty) ...[
-            const SizedBox(height: 6),
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 300),
-              child: StageBalancedText(TextSpan(text: line, style: quiet), textAlign: TextAlign.center),
-            ),
+          if (keptCards.isNotEmpty) ...[
+            const SizedBox(height: 20),
+            StageKeptFan(cards: keptCards, small: true, height: 128),
           ],
         ],
       ),
@@ -123,34 +121,43 @@ class StageCheckpoint extends StatelessWidget {
   }
 }
 
-/// Three small cards (28 x 36, radius 6, a 1 dp strong line, raised), each 4 dp right and 2 dp down of the last.
-class StageMiniPile extends StatelessWidget {
-  const StageMiniPile({super.key});
+/// `st-cp-pop`: the checkpoint's headline arrives over 220 ms from 0.96 and 60% opacity (nothing under reduced motion).
+class _CheckpointPop extends StatefulWidget {
+  const _CheckpointPop({required this.child});
+
+  final Widget child;
 
   @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    Widget card() => DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.raised,
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: colors.lineStrong),
-        boxShadow: colors.cardShadow,
-      ),
-      child: const SizedBox(width: 28, height: 36),
-    );
-    return ExcludeSemantics(
-      child: SizedBox(
-        width: 36,
-        height: 40,
-        child: Stack(
-          children: [
-            for (var i = 0; i < 3; i++) Positioned(left: 4.0 * i, top: 2.0 * i, child: card()),
-          ],
-        ),
-      ),
-    );
+  State<_CheckpointPop> createState() => _CheckpointPopState();
+}
+
+class _CheckpointPopState extends State<_CheckpointPop> with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(milliseconds: 220), value: 1);
+  bool _started = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    if (!Motion.reduced(context)) _c.forward(from: 0);
   }
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => AnimatedBuilder(
+    animation: _c,
+    child: widget.child,
+    builder: (context, child) {
+      final t = Motion.out.transform(_c.value);
+      return Opacity(opacity: 0.6 + 0.4 * t, child: Transform.scale(scale: 0.96 + 0.04 * t, child: child));
+    },
+  );
 }
 
 /// The whole stage while it starts: the frame with the real Close, the [title] (or a 140 dp bar), one hairline for

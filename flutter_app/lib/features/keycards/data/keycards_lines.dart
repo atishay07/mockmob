@@ -240,6 +240,57 @@ List<KcEntryRow> joinedNarrations(List<KcEntryRow> rows) {
   return out;
 }
 
+// ---- Blanks with their punctuation (the website's blankRuns) ----
+
+/// One part of a front split on its blanks: a run of [text], or a blank ([blank], numbered [n] from 1) that may carry the
+/// punctuation that touches it: [lead] (an opening bracket or quote right before it) and [tail] (a comma, stop, closing
+/// bracket or quote right after it).
+typedef KcBlankRun = ({String text, bool blank, int n, String lead, String tail});
+
+/// Punctuation that belongs to a blank: a comma, stop or closing bracket or quote right after it, an opening bracket or
+/// quote right before it (the web's `GAP_TAIL` and `GAP_LEAD`).
+final RegExp _gapTail = RegExp('^[,.;:!?)\\]}’”\'"…%]+');
+final RegExp _gapLead = RegExp('[([{‘“\'"]+\$');
+
+/// `blankRuns`: the front split on its blanks (`____`, three or more underscores), with the punctuation that touches a blank
+/// moved onto it as `lead` and `tail`, so a screen draws the gap and its punctuation in one unbreakable run: a line never
+/// starts with ", and" or ends with "(". No character is lost. A front without blanks is one text part; an empty one is none.
+List<KcBlankRun> blankRuns(String? front) {
+  final text = front ?? '';
+  // Mutable while the punctuation moves: [text, blank, n, lead, tail].
+  final parts = <List<Object>>[];
+  var at = 0;
+  var n = 0;
+  for (final m in RegExp(r'_{3,}').allMatches(text)) {
+    if (m.start > at) parts.add([text.substring(at, m.start), false, 0, '', '']);
+    parts.add(['', true, n += 1, '', '']);
+    at = m.end;
+  }
+  if (at < text.length) parts.add([text.substring(at), false, 0, '', '']);
+  if (parts.isEmpty) parts.add([text, false, 0, '', '']);
+  for (var i = 0; i < parts.length; i++) {
+    final p = parts[i];
+    if (p[1] != true) continue;
+    final before = i > 0 && parts[i - 1][1] != true ? parts[i - 1] : null;
+    final after = i + 1 < parts.length && parts[i + 1][1] != true ? parts[i + 1] : null;
+    final lead = before == null ? null : _gapLead.firstMatch(before[0] as String)?.group(0);
+    if (lead != null) {
+      p[3] = lead;
+      final t = before![0] as String;
+      before[0] = t.substring(0, t.length - lead.length);
+    }
+    final tail = after == null ? null : _gapTail.firstMatch(after[0] as String)?.group(0);
+    if (tail != null) {
+      p[4] = tail;
+      after![0] = (after[0] as String).substring(tail.length);
+    }
+  }
+  return [
+    for (final p in parts)
+      if (p[1] == true || (p[0] as String).isNotEmpty) (text: p[0] as String, blank: p[1] as bool, n: p[2] as int, lead: p[3] as String, tail: p[4] as String),
+  ];
+}
+
 // ---- The back as the screen draws it (the website's NcertText) ----
 
 /// One paragraph of a back: a list item takes a bullet unless the book already numbers or letters it (then

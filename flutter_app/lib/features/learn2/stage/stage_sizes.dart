@@ -15,13 +15,14 @@ abstract final class StageSizes {
   /// never under [cardMin].
   static double cardMax(double area, double screenHeight) => math.max(cardMin(screenHeight), area - 28 - 0.04 * screenHeight);
 
-  /// The prompt's size, line height and tracking (em) by its size step and the screen's width.
+  /// The prompt's size, line height and tracking (em) by its size step and the screen's width (R3 L1: 34 / 28 / 22 dp,
+  /// line height 1.15 at every step; 32 / 26 / 21 under 380 dp wide).
   static ({double size, double height, double tracking}) prompt(String step, double screenWidth) {
     final narrow = screenWidth < 380;
     return switch (step) {
-      'm' => (size: narrow ? 26 : 28, height: 1.16, tracking: -0.02),
-      'l' => (size: narrow ? 21 : 22, height: 1.3, tracking: -0.01),
-      _ => (size: narrow ? 32 : 34, height: 1.12, tracking: -0.025),
+      'm' => (size: narrow ? 26 : 28, height: 1.15, tracking: -0.02),
+      'l' => (size: narrow ? 21 : 22, height: 1.15, tracking: -0.01),
+      _ => (size: narrow ? 32 : 34, height: 1.15, tracking: -0.025),
     };
   }
 }

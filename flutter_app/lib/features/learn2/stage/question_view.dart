@@ -20,6 +20,7 @@
 library;
 
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -31,6 +32,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/mm_spinner.dart';
 import '../../../core/widgets/pressable.dart';
 import '../../keycards/data/keycards_models.dart';
+import 'pager_model.dart';
 import 'stage_keys.dart';
 import 'stage_motion.dart';
 import 'stage_ncert.dart';
@@ -86,6 +88,7 @@ class QuestionView extends StatefulWidget {
     required this.stem,
     required this.options,
     this.mistake = false,
+    this.headIcon,
     this.answer,
     this.streak = 0,
     this.skipped,
@@ -93,12 +96,17 @@ class QuestionView extends StatefulWidget {
     this.error,
     this.onChoose,
     this.onSeePro,
+    this.hint,
+    this.sci = false,
   });
 
   final String head;
 
-  /// An old mistake: the head reads in ink-2.
+  /// An open mistake: the head reads in ink-2.
   final bool mistake;
+
+  /// A small icon before the head (the run's open mistake wears the history mark, like the web's run); none on the feed.
+  final IconData? headIcon;
   final String stem;
 
   /// As served; drawn A, B, C...
@@ -121,6 +129,13 @@ class QuestionView extends StatefulWidget {
   /// "See Pro" in a locked line.
   final VoidCallback? onSeePro;
 
+  /// The first question a student ever sees: "Pick the answer you think is right.", a quiet line read before the options,
+  /// until the question is graded.
+  final String? hint;
+
+  /// A chemistry question: the line you needed draws its subscripts and superscripts.
+  final bool sci;
+
   @override
   State<QuestionView> createState() => _QuestionViewState();
 }
@@ -128,9 +143,11 @@ class QuestionView extends StatefulWidget {
 class _QuestionViewState extends State<QuestionView> {
   // By position, so a bank that repeats a key can never give two rows one key.
   final Map<int, GlobalKey> _rows = {};
+  final GlobalKey _headKey = GlobalKey();
+  final GlobalKey _verdictKey = GlobalKey();
+  final GlobalKey _lineKey = GlobalKey();
   String? _tapped;
   Timer? _scroll;
-  String? _scrollTo;
   StageQuestionScope? _page;
 
   GlobalKey _rowKey(int index) => _rows.putIfAbsent(index, GlobalKey.new);
@@ -165,9 +182,9 @@ class _QuestionViewState extends State<QuestionView> {
       if (now.correct) {
         hapticsOf(context)?.confirm();
       } else {
-        _scrollTo = widget.answer!.choice;
+        // The line opens in place; 300 ms on, the page scrolls only as far as the verdict and the line need.
         _scroll?.cancel();
-        _scroll = Timer(const Duration(milliseconds: 300), _scrollChosen);
+        _scroll = Timer(const Duration(milliseconds: 300), _scrollToVerdict);
       }
     }
   }
@@ -186,25 +203,38 @@ class _QuestionViewState extends State<QuestionView> {
     widget.onChoose?.call(key);
   }
 
-  /// The chosen row to 12 dp under the top of its page, so the pick, the verdict and the line read together (M2).
-  void _scrollChosen() {
-    final choice = _scrollTo;
-    if (!mounted || choice == null) return;
-    final index = widget.options.indexWhere((o) => o.key == choice);
-    final rowContext = index < 0 ? null : _rows[index]?.currentContext;
-    if (rowContext == null) return;
-    final box = rowContext.findRenderObject();
-    final scrollable = Scrollable.maybeOf(rowContext);
-    if (box is! RenderBox || !box.attached || scrollable == null) return;
-    final viewport = RenderAbstractViewport.maybeOf(box);
-    final position = scrollable.position;
-    if (viewport == null || !position.hasContentDimensions) return;
-    final target = (viewport.getOffsetToReveal(box, 0).offset - 12).clamp(position.minScrollExtent, position.maxScrollExtent);
-    if ((target - position.pixels).abs() < 1) return;
+  static RenderBox? _boxOf(GlobalKey key) {
+    final object = key.currentContext?.findRenderObject();
+    return object is RenderBox && object.attached && object.hasSize ? object : null;
+  }
+
+  /// After a wrong answer (R4 ui-correctness#7): the page scrolls only as far as it takes to bring the verdict and the start of
+  /// the line you needed into view, and never so far that the head line (the context, "You missed this in Mock 3 on 16 Oct") or
+  /// the stem's first line goes under the top (`PagerModel.verdictScrollTop`).
+  void _scrollToVerdict() {
+    final scope = _page;
+    if (!mounted || scope == null || !scope.scroll.hasClients) return;
+    final position = scope.scroll.position;
+    final viewport = position.context.storageContext.findRenderObject();
+    final target = _boxOf(_lineKey) ?? _boxOf(_verdictKey);
+    if (viewport is! RenderBox || !viewport.attached || target == null) return;
+    final head = _boxOf(_headKey);
+    final boxTop = viewport.localToGlobal(Offset.zero).dy;
+    final targetTop = target.localToGlobal(Offset.zero).dy;
+    final top = PagerModel.verdictScrollTop(
+      boxTop: boxTop,
+      boxBottom: boxTop + viewport.size.height,
+      scrollTop: position.pixels,
+      headTop: head?.localToGlobal(Offset.zero).dy,
+      targetTop: targetTop,
+      targetBottom: targetTop + target.size.height,
+    );
+    if (top == null) return;
+    final to = top.toDouble().clamp(position.minScrollExtent, position.maxScrollExtent);
     if (Motion.reduced(context)) {
-      position.jumpTo(target);
+      position.jumpTo(to);
     } else {
-      unawaited(position.animateTo(target, duration: const Duration(milliseconds: 320), curve: Motion.drawer));
+      unawaited(position.animateTo(to, duration: const Duration(milliseconds: 320), curve: Motion.drawer));
     }
   }
 
@@ -217,16 +247,36 @@ class _QuestionViewState extends State<QuestionView> {
     final pending = widget.answer?.pending ?? false;
     final off = res != null || pending || widget.locked != null;
     final width = MediaQuery.sizeOf(context).width;
-    final children = <Widget>[
-      Text(widget.head, style: type.label.copyWith(fontSize: 13, height: 1.35, color: widget.mistake ? colors.ink2 : colors.ink3)),
+    final scope = StageQuestionScope.maybeOf(context);
+    // The head and the stem sit at the top; the options (then the verdict and the line) form the group that rests at the
+    // foot of the page in the thumb zone. A left-out question has no options, so everything flows from the top.
+    final headStyle = type.label.copyWith(fontSize: 13, height: 1.35, color: widget.mistake ? colors.ink2 : colors.ink3);
+    final headIcon = widget.headIcon;
+    final top = <Widget>[
+      if (headIcon == null)
+        Text(widget.head, key: _headKey, style: headStyle)
+      else
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(headIcon, size: 14, color: headStyle.color),
+            const SizedBox(width: 6),
+            Flexible(child: Text(widget.head, key: _headKey, style: headStyle)),
+          ],
+        ),
       StageStem(text: widget.stem, width: width),
     ];
+    final bottom = <Widget>[];
     if (widget.skipped != null) {
-      children.add(_LeftOut(text: widget.skipped!));
+      top.add(_LeftOut(text: widget.skipped!));
     } else {
-      children.add(
+      final hint = widget.hint;
+      if (hint != null && res == null) {
+        bottom.add(Text(hint, style: type.label.copyWith(fontSize: 13.5, height: 1.4, fontWeight: FontWeight.w500, color: colors.ink3)));
+      }
+      bottom.add(
         Padding(
-          padding: const EdgeInsets.only(top: MmSpace.s8),
+          padding: EdgeInsets.only(top: scope == null ? MmSpace.s8 : 0),
           child: Semantics(
             container: true,
             explicitChildNodes: true,
@@ -250,41 +300,45 @@ class _QuestionViewState extends State<QuestionView> {
           ),
         ),
       );
-      if (widget.locked != null && res == null) children.add(_LeftOut(text: widget.locked!));
+      if (widget.locked != null && res == null) bottom.add(_LeftOut(text: widget.locked!));
       if (res != null) {
-        children.add(
+        bottom.add(
           Padding(
             padding: const EdgeInsets.only(top: MmSpace.s4),
-            child: StageVerdict(result: res, letter: StageText.letterOf(widget.options, res.key), streak: widget.streak),
+            child: StageVerdict(key: _verdictKey, result: res, letter: StageText.letterOf(widget.options, res.key), streak: widget.streak),
           ),
         );
       }
       final line = res != null && !res.correct;
-      children.add(
+      bottom.add(
         StageReveal(
           open: line,
-          onOpened: _scrollChosen,
-          child: line ? StageLineBlock(result: res, onSeePro: widget.onSeePro) : const SizedBox(width: double.infinity),
+          child: line ? StageLineBlock(key: _lineKey, result: res, onSeePro: widget.onSeePro, sci: widget.sci) : const SizedBox(width: double.infinity),
         ),
       );
     }
     if (widget.error != null) {
-      children.add(
+      bottom.add(
         Semantics(
           liveRegion: true,
           child: Text(widget.error!, style: type.label.copyWith(fontSize: 14, height: 1.5, color: colors.badText)),
         ),
       );
     }
-    return Column(
+    Widget group(List<Widget> items) => Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        for (final (i, c) in children.indexed) ...[
+        for (final (i, c) in items.indexed) ...[
           if (i > 0) const SizedBox(height: MmSpace.s12),
           c,
         ],
       ],
     );
+    if (scope == null || bottom.isEmpty) {
+      return group([...top, ...bottom]);
+    }
+    return StageThumbZone(minHeight: scope.minHeight, top: group(top), bottom: group(bottom));
   }
 
   StageOptionState _stateOf(String key, StageResult? res, bool pending) {
@@ -295,7 +349,73 @@ class _QuestionViewState extends State<QuestionView> {
   }
 }
 
-/// A left-out or closed line: 15/1.5 ink-2.
+/// A question's content with its options at the foot of the page: [top] (the head and the stem) sits at the top and [bottom]
+/// (the options, then the verdict and the line) at the bottom of a box at least [minHeight] tall, 22 dp apart at the least
+/// (the web's flex gap and the options' 10 dp padding, `margin-top: auto`). Taller than [minHeight] it is plain flow, and the
+/// page scrolls.
+class StageThumbZone extends MultiChildRenderObjectWidget {
+  StageThumbZone({super.key, required this.minHeight, required Widget top, required Widget bottom, this.gap = 22}) : super(children: [top, bottom]);
+
+  final double minHeight;
+  final double gap;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) => _RenderThumbZone(minHeight, gap);
+
+  @override
+  void updateRenderObject(BuildContext context, covariant RenderObject renderObject) {
+    (renderObject as _RenderThumbZone)
+      ..minHeight = minHeight
+      ..gap = gap;
+  }
+}
+
+class _ThumbData extends ContainerBoxParentData<RenderBox> {}
+
+class _RenderThumbZone extends RenderBox with ContainerRenderObjectMixin<RenderBox, _ThumbData>, RenderBoxContainerDefaultsMixin<RenderBox, _ThumbData> {
+  _RenderThumbZone(this._minHeight, this._gap);
+
+  double _minHeight;
+  set minHeight(double v) {
+    if (v == _minHeight) return;
+    _minHeight = v;
+    markNeedsLayout();
+  }
+
+  double _gap;
+  set gap(double v) {
+    if (v == _gap) return;
+    _gap = v;
+    markNeedsLayout();
+  }
+
+  @override
+  void setupParentData(RenderBox child) {
+    if (child.parentData is! _ThumbData) child.parentData = _ThumbData();
+  }
+
+  @override
+  void performLayout() {
+    final w = constraints.maxWidth;
+    final loose = BoxConstraints(minWidth: w, maxWidth: w);
+    final top = firstChild!;
+    final bottom = childAfter(top)!;
+    top.layout(loose, parentUsesSize: true);
+    bottom.layout(loose, parentUsesSize: true);
+    final h = math.max(_minHeight, top.size.height + _gap + bottom.size.height);
+    (top.parentData! as _ThumbData).offset = Offset.zero;
+    (bottom.parentData! as _ThumbData).offset = Offset(0, h - bottom.size.height);
+    size = constraints.constrain(Size(w, h));
+  }
+
+  @override
+  void paint(PaintingContext context, Offset offset) => defaultPaint(context, offset);
+
+  @override
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) => defaultHitTestChildren(result, position: position);
+}
+
+// A left-out or closed line: 15/1.5 ink-2.
 class _LeftOut extends StatelessWidget {
   const _LeftOut({required this.text});
 
@@ -631,7 +751,7 @@ class StageVerdict extends StatelessWidget {
         words = Text('Right.', style: style);
       }
     } else {
-      words = Text('Not quite. The answer is $letter.', style: style);
+      words = Text('Not quite. It’s $letter.', style: style);
     }
     return StageIn(
       delay: const Duration(milliseconds: 120),
@@ -650,12 +770,17 @@ class StageVerdict extends StatelessWidget {
   }
 }
 
-/// The line you needed, as a block (the web's `.st-line`): radius 16, a 1 dp hairline, raised, 14/16 padding.
+/// The line you needed, as a block (the web's `.st-line`): radius 16, a 1 dp hairline, raised, 14/16 padding. NCERT's line shows
+/// at most four lines (19/1.5) behind a 32 dp fade with "Read the whole line" (R2 screens 6), so a two-paragraph line is never a
+/// wall under the options; its source sits under it.
 class StageLineBlock extends StatelessWidget {
-  const StageLineBlock({super.key, required this.result, this.onSeePro});
+  const StageLineBlock({super.key, required this.result, this.onSeePro, this.sci = false});
 
   final StageResult result;
   final VoidCallback? onSeePro;
+
+  /// A chemistry question: the quote draws its subscripts and superscripts.
+  final bool sci;
 
   @override
   Widget build(BuildContext context) {
@@ -676,7 +801,20 @@ class StageLineBlock extends StatelessWidget {
         ],
       );
     } else if (card != null) {
-      body = StageNcert(card: card, size: 16.5, height: 1.6);
+      final source = card.source.reference;
+      body = Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          StageClampLine(child: StageNcert(card: card, size: 19, height: 1.5, showSource: false, sci: sci)),
+          if (source != null) ...[
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.only(left: 17),
+              child: Text(source, style: type.caption.copyWith(fontSize: 13, height: 1.45, color: colors.ink3, fontFeatures: const [FontFeature.tabularFigures()])),
+            ),
+          ],
+        ],
+      );
     } else {
       final why = result.explanation;
       body = Text(why == null || why.trim().isEmpty ? 'The right answer is marked above.' : why, style: quiet);
@@ -711,6 +849,75 @@ class StageLineBlock extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// A line that shows at most four lines (the web's `ClampLine`, R2 screens 6): 98 dp (4 x 1.5 x 16 + 2), the last 32 dp fading
+/// while more waits below, and a text key "Read the whole line" that opens all of it. A line that fits shows whole, no key.
+class StageClampLine extends StatefulWidget {
+  const StageClampLine({super.key, required this.child});
+
+  final Widget child;
+
+  /// The height of the clamp: four lines at 1.5 of 16 dp, and 2.
+  static const double maxHeight = 98;
+
+  @override
+  State<StageClampLine> createState() => _StageClampLineState();
+}
+
+class _StageClampLineState extends State<StageClampLine> {
+  bool _open = false;
+  bool _long = false;
+
+  bool _read(ScrollMetrics m) {
+    final long = m.maxScrollExtent > 2;
+    if (long != _long) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) setState(() => _long = long);
+      });
+    }
+    return true;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_open) return widget.child;
+    final clipped = NotificationListener<ScrollMetricsNotification>(
+      onNotification: (n) => _read(n.metrics),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxHeight: StageClampLine.maxHeight),
+        child: SingleChildScrollView(physics: const NeverScrollableScrollPhysics(), child: widget.child),
+      ),
+    );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (_long)
+          ShaderMask(
+            blendMode: BlendMode.dstIn,
+            shaderCallback: (rect) {
+              final fade = (32 / rect.height).clamp(0.0, 1.0);
+              const solid = Color(0xFFFFFFFF);
+              const clear = Color(0x00FFFFFF);
+              return LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: const [solid, solid, clear], stops: [0, 1 - fade, 1]).createShader(rect);
+            },
+            child: clipped,
+          )
+        else
+          clipped,
+        if (_long)
+          // The key sits 6 dp up under the line and 6 dp in from its edge, as the web's negative margins.
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Transform.translate(
+              offset: const Offset(-6, -6),
+              child: StageTextKey(label: 'Read the whole line', size: 14, onTap: () => setState(() => _open = true)),
+            ),
+          ),
+      ],
     );
   }
 }

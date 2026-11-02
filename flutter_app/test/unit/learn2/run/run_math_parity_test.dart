@@ -180,6 +180,31 @@ void main() {
       }
     });
 
+    test('itemsFinished counts the card the server already holds while it flies away', () {
+      final all = cases('itemsFinished');
+      expect(all.length, greaterThan(100));
+      for (final c in all) {
+        expect(
+          RunView.itemsFinished(
+            playing: c['phase'] == 'play',
+            at: c['at'] as int,
+            length: c['length'] as int,
+            item: _typed(c['item'] as String?),
+            answered: c['answered'] as bool,
+            acted: c['acted'] as bool,
+          ),
+          c['out'],
+          reason: '$c',
+        );
+      }
+    });
+
+    test('a pile reads its total before any of it is done', () {
+      for (final c in cases('pileTotal')) {
+        expect(RunView.pileTotal(c['id'] as String, c['n'] as int), c['out'], reason: '$c');
+      }
+    });
+
     test('placeReinsert puts a copy 3 on, moves one already ahead and never duplicates (resumed lists too)', () {
       final list = {for (final e in lists.entries) e.key: e.value};
       for (final c in cases('placeReinsert')) {

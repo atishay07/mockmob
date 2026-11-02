@@ -1,9 +1,12 @@
 /// The study stage's pager (the web's `usePager`, BUILD-1101 B1, A1 3.7): one item per item-area height, in a track
 /// moved by translation only. It is not a `PageView`.
 ///
-///   pages      each page is its own vertical scroll view (clamping, so the content never bounces) one item area
-///              tall: a card centred with a slight upward bias, a question from the top with fades at its edges, a
-///              centred state. Pages more than 2 away are not built.
+///   pages      each page is the item area less a 40 dp peek (R2 ruling 7): a card fills it, a question is its own
+///              vertical scroll view (clamping, so the content never bounces) with its options at the foot in the thumb
+///              zone and fades at its edges, a state is centred. Pages more than 2 away are not built.
+///   peek       the page after the one in view shows its top 40 dp above the action bar as a real card edge with its
+///              type label (the cap); it fades out over 200 ms when its page comes into view. [StagePager.chip] is the
+///              first visit's cue, centred in that strip (the label hides while it shows)
 ///   touch      the track follows the finger 1:1 only when the drag's first movement could not scroll the content in
 ///              its direction (the edge rule, the web's `scrollerThatCanMove`): a drag that starts at the content's
 ///              edge, or on a page that does not scroll, belongs to the pager for the whole gesture and the content
@@ -12,8 +15,8 @@
 ///   release    on past 18% of the item area or above 0.35 px/ms (350 dp/s) over the last 80 ms, in that
 ///              direction; never more than one item; else back. 320 ms on `Motion.drawer`.
 ///   keys       the screen moves the pager by changing [StagePager.index] (its own `go`, the same one it passes as
-///              [StagePager.onGo]); the track slides from where it is. A jump of more than one item, or any move under
-///              reduced motion, switches at once with a 120 ms cross-fade.
+///              [StagePager.onGo]); the track slides one page (area less peek) from where it is. A jump of more than one
+///              item, or any move under reduced motion, switches at once with a 120 ms cross-fade.
 ///   semantics  a label per page ("Card 3 of 21"), custom actions Next and Previous on the current page, and an
 ///              announcement of the new page after each move. No haptic on a move.
 library;
@@ -25,6 +28,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 import '../../../core/motion/motion.dart';
+import '../../../core/theme/theme.dart';
+import '../../../core/widgets/materials/shape.dart';
 import 'pager_model.dart';
 import 'stage_frame.dart';
 import 'stage_keys.dart' show StageBelowChip;
@@ -32,10 +37,10 @@ import 'stage_motion.dart';
 
 /// How a page sits in the item area.
 enum StagePageKind {
-  /// Centred with a slight upward bias (a Key card: it fits its words).
+  /// Filling the page, 4 dp from the top and 12 from the foot (a Key card: a flashcard).
   card,
 
-  /// From the top, 16 dp down, with fades at the edges while it scrolls (a question).
+  /// From the top, 12 dp down, with the options at the foot and fades at the edges while it scrolls (a question).
   question,
 
   /// Centred both ways (the checkpoint, a state).
@@ -44,14 +49,18 @@ enum StagePageKind {
 
 /// One page of the pager, as the screen describes it.
 class StagePage {
-  const StagePage({required this.kind, required this.child, required this.label, this.announce, this.id});
+  const StagePage({required this.kind, required this.child, required this.label, this.announce, this.id, this.cap});
 
-  const StagePage.card({required this.child, required this.label, this.announce, this.id}) : kind = StagePageKind.card;
-  const StagePage.question({required this.child, required this.label, this.announce, this.id}) : kind = StagePageKind.question;
-  const StagePage.centre({required this.child, required this.label, this.announce, this.id}) : kind = StagePageKind.centre;
+  const StagePage.card({required this.child, required this.label, this.announce, this.id, this.cap}) : kind = StagePageKind.card;
+  const StagePage.question({required this.child, required this.label, this.announce, this.id, this.cap}) : kind = StagePageKind.question;
+  const StagePage.centre({required this.child, required this.label, this.announce, this.id, this.cap}) : kind = StagePageKind.centre;
 
   final StagePageKind kind;
   final Widget child;
+
+  /// The label on the card edge this page shows in the peek while it is the next one: a card's kind ("Definition"), a
+  /// mistake's own line else "Question", "So far" for a checkpoint. Null draws no edge.
+  final String? cap;
 
   /// The page's name for a screen reader: "Card 3 of 21", "Question 4 of 21", "Checkpoint after 8 of 21".
   final String label;
@@ -65,8 +74,8 @@ class StagePage {
 
 typedef StagePageBuilder = StagePage Function(BuildContext context, int index);
 
-/// What a page's content can read from the pager: the item area's height, the physics for any scroll view of its
-/// own (a card's long back), and whether it is the current page.
+/// What a page's content can read from the pager: the page's height (the item area less the peek), the physics for any
+/// scroll view of its own (a card's long back), and whether it is the current page.
 class StagePagerScope extends InheritedWidget {
   const StagePagerScope({super.key, required this.area, required this.physics, required this.current, required super.child});
 
@@ -91,7 +100,12 @@ class StagePager extends StatefulWidget {
     this.feedLabel,
     this.nextLabel = 'Next',
     this.previousLabel = 'Previous',
+    this.peek = StagePager.peekHeight,
+    this.chip,
   });
+
+  /// The next page's top that always shows above the action bar (R2 ruling 7).
+  static const double peekHeight = 40;
 
   /// Pages in all; [index] is the one shown.
   final int count;
@@ -109,10 +123,17 @@ class StagePager extends StatefulWidget {
   final String nextLabel;
   final String previousLabel;
 
+  /// The peek's height: 40 on the feed; 0 for a pager that never shows the next page (the run's one page).
+  final double peek;
+
+  /// The first visit's cue (`StageCue`), centred in the peek strip at the foot of the item area. While it shows, the next
+  /// page's label on the card edge is hidden.
+  final Widget? chip;
+
   /// The physics a scroll view inside a page uses, so the edge rule holds for it too.
   static ScrollPhysics physicsOf(BuildContext context) => StagePagerScope.maybeOf(context)?.physics ?? const ClampingScrollPhysics();
 
-  /// The item area's height around [context], or null outside a pager.
+  /// The page's height (the item area less the peek) around [context], or null outside a pager.
   static double? areaOf(BuildContext context) => StagePagerScope.maybeOf(context)?.area;
 
   @override
@@ -182,10 +203,9 @@ class StagePagerState extends State<StagePager> with TickerProviderStateMixin {
   /// The reduced-motion and jump cross-fade (0 to 1 over 120 ms; the track shows from 0.35).
   late final AnimationController _fade = AnimationController(vsync: this, duration: Motion.reducedFade, value: 1);
 
-  /// The one-time nudge (the track rises 24 dp and settles, 360 ms).
-  late final AnimationController _nudge = AnimationController(vsync: this, duration: const Duration(milliseconds: 360));
-
+  /// The item area's height (the release rule measures 18% of it) and one page's: the area less the peek.
   double _height = 0;
+  double _stride = 0;
 
   // The gesture.
   int? _pointer;
@@ -220,13 +240,13 @@ class StagePagerState extends State<StagePager> with TickerProviderStateMixin {
       // The screen moved while a finger held the track: that gesture is over.
       _pointer = null;
     }
-    if (Motion.reduced(context) || delta.abs() > 1 || _height <= 0) {
+    if (Motion.reduced(context) || delta.abs() > 1 || _stride <= 0) {
       _home.stop();
       _shift.value = 0;
       _fade.forward(from: 0);
     } else {
       // The pages stay where they are on screen; the track then slides home to the new page.
-      _shift.value += delta * _height;
+      _shift.value += delta * _stride;
       _slideHome();
     }
     WidgetsBinding.instance.addPostFrameCallback((_) => _announce());
@@ -243,22 +263,8 @@ class StagePagerState extends State<StagePager> with TickerProviderStateMixin {
   void dispose() {
     _home.dispose();
     _fade.dispose();
-    _nudge.dispose();
     _shift.dispose();
     super.dispose();
-  }
-
-  /// The first feed's nudge: the track rises 24 dp and settles in 360 ms, once (nothing under reduced motion).
-  void nudge() {
-    if (!mounted || Motion.reduced(context) || _pointer != null) return;
-    _nudge.forward(from: 0);
-  }
-
-  double get _nudgeOffset {
-    final v = _nudge.value;
-    if (v <= 0 || v >= 1) return 0;
-    final rise = v < 0.5 ? Motion.out.transform(v * 2) : 1 - Motion.out.transform((v - 0.5) * 2);
-    return -24 * rise;
   }
 
   void _onHome() => _shift.value = _homeFrom * (1 - Motion.drawer.transform(_home.value));
@@ -367,45 +373,56 @@ class StagePagerState extends State<StagePager> with TickerProviderStateMixin {
   static const CustomSemanticsAction _nextAction = CustomSemanticsAction(label: 'Next');
   static const CustomSemanticsAction _previousAction = CustomSemanticsAction(label: 'Previous');
 
-  Widget _page(BuildContext context, int i, StagePage page, double area) {
+  Widget _page(BuildContext context, int i, StagePage page, double height) {
     final current = i == widget.index;
-    final screen = MediaQuery.sizeOf(context).height;
+    final next = i == widget.index + 1;
     final Widget body = switch (page.kind) {
       StagePageKind.question => _QuestionScroll(physics: _physics, child: page.child),
-      StagePageKind.card => _FillScroll(physics: _physics, area: area, bias: 0.04 * screen, child: page.child),
-      StagePageKind.centre => _FillScroll(physics: _physics, area: area, bias: 0.04 * screen, child: page.child),
+      // A card fills its page (4 dp from the top, 12 from the foot): a flashcard, never a floating box in a void. It sits in a
+      // scroll view as tall as the page, so a drag on its front still tells the pager (the gate is decided by a scroll view's
+      // physics: without one, nothing would claim a swipe that starts on a card).
+      StagePageKind.card => _CardScroll(physics: _physics, height: height, child: page.child),
+      StagePageKind.centre => _FillScroll(physics: _physics, area: height, bias: 24, child: page.child),
     };
-    final next = widget.nextLabel == 'Next' ? _nextAction : CustomSemanticsAction(label: widget.nextLabel);
+    final cap = page.cap;
+    final nextAction = widget.nextLabel == 'Next' ? _nextAction : CustomSemanticsAction(label: widget.nextLabel);
     final previous = widget.previousLabel == 'Previous' ? _previousAction : CustomSemanticsAction(label: widget.previousLabel);
     return KeyedSubtree(
       key: ValueKey<Object>(page.id ?? i),
       child: SizedBox(
-        height: area,
+        height: height,
         child: RepaintBoundary(
           child: StagePagerScope(
-            area: area,
+            area: height,
             physics: _physics,
             current: current,
             child: TickerMode(
-              enabled: current,
+              enabled: current || next,
               child: IgnorePointer(
                 ignoring: !current,
                 child: ExcludeFocus(
                   excluding: !current,
-                  child: ExcludeSemantics(
-                    excluding: !current,
-                    child: Semantics(
-                      container: true,
-                      explicitChildNodes: true,
-                      label: page.label,
-                      customSemanticsActions: current
-                          ? {
-                              if (i + 1 < widget.count) next: () => widget.onGo(i + 1),
-                              if (i > 0) previous: () => widget.onGo(i - 1),
-                            }
-                          : null,
-                      child: body,
-                    ),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      ExcludeSemantics(
+                        excluding: !current,
+                        child: Semantics(
+                          container: true,
+                          explicitChildNodes: true,
+                          label: page.label,
+                          customSemanticsActions: current
+                              ? {
+                                  if (i + 1 < widget.count) nextAction: () => widget.onGo(i + 1),
+                                  if (i > 0) previous: () => widget.onGo(i - 1),
+                                }
+                              : null,
+                          child: body,
+                        ),
+                      ),
+                      // The page under the one in view shows its top as a real card edge with its type label.
+                      if (cap != null && widget.peek > 0) _PageCap(label: cap, show: next, hideLabel: widget.chip != null, height: widget.peek + 24),
+                    ],
                   ),
                 ),
               ),
@@ -421,7 +438,9 @@ class StagePagerState extends State<StagePager> with TickerProviderStateMixin {
     return LayoutBuilder(
       builder: (context, c) {
         final area = c.maxHeight.isFinite ? c.maxHeight : MediaQuery.sizeOf(context).height;
+        final stride = area - widget.peek.clamp(0.0, area);
         _height = area;
+        _stride = stride;
         _built.clear();
         final first = math.max(0, widget.index - 2);
         final last = math.min(widget.count - 1, widget.index + 2);
@@ -429,12 +448,12 @@ class StagePagerState extends State<StagePager> with TickerProviderStateMixin {
         for (var i = first; i <= last; i++) {
           final page = widget.pageBuilder(context, i);
           _built[i] = page;
-          pages[i] = _page(context, i, page, area);
+          pages[i] = _page(context, i, page, stride);
         }
         final track = AnimatedBuilder(
-          animation: Listenable.merge([_shift, _nudge, _fade]),
+          animation: Listenable.merge([_shift, _fade]),
           builder: (context, _) {
-            final y = _shift.value + _nudgeOffset;
+            final y = _shift.value;
             return Opacity(
               opacity: _fade.value >= 1 ? 1 : 0.35 + 0.65 * _fade.value,
               child: Stack(
@@ -445,8 +464,8 @@ class StagePagerState extends State<StagePager> with TickerProviderStateMixin {
                       left: 0,
                       right: 0,
                       top: 0,
-                      height: area,
-                      child: Transform.translate(offset: Offset(0, (i - widget.index) * area + y), child: page),
+                      height: stride,
+                      child: Transform.translate(offset: Offset(0, (i - widget.index) * stride + y), child: page),
                     ),
                 ],
               ),
@@ -464,7 +483,19 @@ class StagePagerState extends State<StagePager> with TickerProviderStateMixin {
             onPointerCancel: _cancel,
             child: NotificationListener<ScrollStartNotification>(
               onNotification: _onScrollStart,
-              child: ClipRect(child: SizedBox(height: area, width: c.maxWidth, child: track)),
+              child: ClipRect(
+                child: SizedBox(
+                  height: area,
+                  width: c.maxWidth,
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Positioned.fill(child: track),
+                      if (widget.chip != null) Positioned(left: 0, right: 0, bottom: 2, child: IgnorePointer(child: Center(child: widget.chip))),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
         );
@@ -473,8 +504,33 @@ class StagePagerState extends State<StagePager> with TickerProviderStateMixin {
   }
 }
 
-/// A page that fills the item area: its content centred (a card, a state) with the upward [bias] under it, and
-/// scrolling only if it is taller than the area.
+/// A Key card's page: the card fills it (16 dp at the sides, 4 from the top, 12 from the foot) inside a scroll view exactly as
+/// tall as the page. It never scrolls; it is there so the page's physics see the first movement of a drag on the card and hand
+/// the gesture to the pager (a card's long back has a scroll view of its own, which decides the same way at its edges).
+class _CardScroll extends StatelessWidget {
+  const _CardScroll({required this.physics, required this.height, required this.child});
+
+  final ScrollPhysics physics;
+  final double height;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false, overscroll: false),
+      child: SingleChildScrollView(
+        physics: physics,
+        child: SizedBox(
+          height: height,
+          child: Padding(padding: const EdgeInsets.fromLTRB(16, 4, 16, 12), child: child),
+        ),
+      ),
+    );
+  }
+}
+
+/// A page that fills its height: its content centred (a state, the checkpoint) with [bias] dp under it, and scrolling only
+/// if it is taller than the page.
 class _FillScroll extends StatelessWidget {
   const _FillScroll({required this.physics, required this.area, required this.bias, required this.child});
 
@@ -504,20 +560,28 @@ class _FillScroll extends StatelessWidget {
 /// What a question's page offers its content: the first option row, watched for the "Options below" chip. A
 /// `QuestionView` on the page sets it while the question is unanswered.
 class StageQuestionScope extends InheritedWidget {
-  const StageQuestionScope({super.key, required this.firstOption, required super.child});
+  const StageQuestionScope({super.key, required this.firstOption, required this.minHeight, required this.scroll, required super.child});
 
   final ValueNotifier<GlobalKey?> firstOption;
+
+  /// The least height the question's content takes: the page less its padding, so the options can sit at its foot in the
+  /// thumb zone (taller content: plain flow, and the page scrolls).
+  final double minHeight;
+
+  /// The page's scroll position, for the scroll after a wrong answer (`PagerModel.verdictScrollTop`).
+  final ScrollController scroll;
 
   static StageQuestionScope? maybeOf(BuildContext context) => context.getInheritedWidgetOfExactType<StageQuestionScope>();
 
   @override
-  bool updateShouldNotify(StageQuestionScope old) => old.firstOption != firstOption;
+  bool updateShouldNotify(StageQuestionScope old) => old.firstOption != firstOption || old.minHeight != minHeight || old.scroll != scroll;
 }
 
-/// A question's page: from the top (16 dp down, 24 under the last line), its head fading 24 dp once it is scrolled
-/// and its foot fading 56 dp while more waits below. While the first option waits below the fold (less than 28 dp of
-/// it above the page's foot, M10) a quiet "Options below" chip sits over the foot; a tap brings option A to 12 dp
-/// under the top.
+/// A question's page: from the top (12 dp down, 24 under the last line), its head fading 24 dp once it is scrolled and its
+/// foot fading 56 dp while more waits below. The content is at least as tall as the page, so the options sit at its foot in the
+/// thumb zone (R3 L2); taller than the page it flows plainly and the page scrolls. While the first option waits below the fold
+/// (less than 28 dp of it above the page's foot, M10, R4 ui-correctness#5) a quiet "Options below" chip sits inside the page,
+/// 8 dp above its foot (never on the peek strip); a tap brings option A to 12 dp under the top.
 class _QuestionScroll extends StatefulWidget {
   const _QuestionScroll({required this.physics, required this.child});
 
@@ -529,7 +593,10 @@ class _QuestionScroll extends StatefulWidget {
 }
 
 class _QuestionScrollState extends State<_QuestionScroll> {
+  static const EdgeInsets _padding = EdgeInsets.fromLTRB(16, 12, 16, 24);
+
   final ValueNotifier<GlobalKey?> _first = ValueNotifier(null);
+  final ScrollController _controller = ScrollController();
   bool _top = false;
   bool _more = false;
   bool _below = false;
@@ -543,6 +610,7 @@ class _QuestionScrollState extends State<_QuestionScroll> {
   @override
   void dispose() {
     _first.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -568,7 +636,7 @@ class _QuestionScrollState extends State<_QuestionScroll> {
     return row is RenderBox && row.attached && row.hasSize ? row : null;
   }
 
-  /// Whether option A waits below the fold, read after the frame.
+  /// Whether option A waits below the fold (the page's own foot), read after the frame.
   void _check() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
@@ -576,7 +644,7 @@ class _QuestionScrollState extends State<_QuestionScroll> {
       final row = _firstRow();
       var below = false;
       if (page is RenderBox && page.hasSize && row != null) {
-        below = row.localToGlobal(Offset.zero, ancestor: page).dy + 28 > page.size.height;
+        below = PagerModel.optionsBelow(optionTop: row.localToGlobal(Offset.zero, ancestor: page).dy, edge: page.size.height);
       }
       if (below != _below) setState(() => _below = below);
     });
@@ -599,19 +667,25 @@ class _QuestionScrollState extends State<_QuestionScroll> {
 
   @override
   Widget build(BuildContext context) {
-    final scroll = NotificationListener<ScrollMetricsNotification>(
-      onNotification: (n) => n.depth == 0 && _read(n.metrics),
-      child: NotificationListener<ScrollNotification>(
-        onNotification: (n) => n.depth == 0 && _read(n.metrics),
-        child: ScrollConfiguration(
-          behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false, overscroll: false),
-          child: SingleChildScrollView(
-            physics: widget.physics,
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-            child: StageQuestionScope(firstOption: _first, child: widget.child),
+    final scroll = LayoutBuilder(
+      builder: (context, c) {
+        final minHeight = math.max(0.0, c.maxHeight - _padding.vertical);
+        return NotificationListener<ScrollMetricsNotification>(
+          onNotification: (n) => n.depth == 0 && _read(n.metrics),
+          child: NotificationListener<ScrollNotification>(
+            onNotification: (n) => n.depth == 0 && _read(n.metrics),
+            child: ScrollConfiguration(
+              behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false, overscroll: false),
+              child: SingleChildScrollView(
+                controller: _controller,
+                physics: widget.physics,
+                padding: _padding,
+                child: StageQuestionScope(firstOption: _first, minHeight: minHeight, scroll: _controller, child: widget.child),
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
     return Stack(
       fit: StackFit.passthrough,
@@ -636,10 +710,79 @@ class _QuestionScrollState extends State<_QuestionScroll> {
           Positioned(
             left: 0,
             right: 0,
-            bottom: 4,
+            bottom: 8,
             child: Center(child: StageIn(child: StageBelowChip(onTap: _goToOptions))),
           ),
       ],
+    );
+  }
+}
+
+/// The card edge of the page under the one in view (the web's `.st-cap`): the card's width and top radius, its 1 dp line, the
+/// card surface and shadow, the next item's type label at the left (13 semibold ink-3, one line). It sits on a page-coloured
+/// box so the page's own top never shows through the corners, and fades in or out over 200 ms; the label hides (160 ms) while the
+/// first visit's chip covers the strip.
+class _PageCap extends StatelessWidget {
+  const _PageCap({required this.label, required this.show, required this.hideLabel, required this.height});
+
+  final String label;
+  final bool show;
+  final bool hideLabel;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Positioned(
+      left: 16,
+      right: 16,
+      top: 0,
+      height: height,
+      child: IgnorePointer(
+        child: ExcludeSemantics(
+          child: AnimatedOpacity(
+            opacity: show ? 1 : 0,
+            duration: Motion.of(context, const Duration(milliseconds: 200)),
+            curve: Motion.out,
+            child: Stack(
+              children: [
+                Positioned.fill(child: ColoredBox(color: colors.ground)),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 4,
+                  bottom: 0,
+                  child: DecoratedBox(
+                    decoration: ShapeDecoration(
+                      color: colors.raised,
+                      shape: mmShapeBorder(BorderRadius.circular(24), side: BorderSide(color: colors.lineStrong)),
+                      shadows: colors.cardShadow,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: 21,
+                  right: 21,
+                  top: 16,
+                  child: AnimatedOpacity(
+                    opacity: hideLabel ? 0 : 1,
+                    duration: Motion.of(context, const Duration(milliseconds: 160)),
+                    curve: Motion.out,
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
+                      style: type.label.copyWith(fontSize: 13, height: 1.3, color: colors.ink3),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

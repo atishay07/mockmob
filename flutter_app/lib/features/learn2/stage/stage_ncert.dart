@@ -14,6 +14,7 @@ import '../../../core/theme/theme.dart';
 import '../../keycards/data/keycards_lines.dart';
 import '../../keycards/data/keycards_models.dart';
 import '../../keycards/data/keycards_rules.dart' show BlankedLine;
+import 'stage_sci.dart';
 
 /// The reading size of a card's back by `StageText.backSize` (the web's `.st-back[data-size]`): 17.5/1.62, and
 /// 16.5/1.58 for 'l', 16/1.55 for 'xl'.
@@ -26,7 +27,7 @@ import '../../keycards/data/keycards_rules.dart' show BlankedLine;
 /// A card's back as the book prints it, at [size] / [height], with the rule at its left and, when [showSource],
 /// the reference (13/1.45 ink-3) set in 17 dp under it.
 class StageNcert extends StatelessWidget {
-  const StageNcert({super.key, required this.card, required this.size, required this.height, this.showSource = true, this.ruleGap = 16});
+  const StageNcert({super.key, required this.card, required this.size, required this.height, this.showSource = true, this.ruleGap = 16, this.sci = false});
 
   final KeyCard card;
   final double size;
@@ -35,6 +36,10 @@ class StageNcert extends StatelessWidget {
 
   /// The space between the rule and the words.
   final double ruleGap;
+
+  /// A chemistry card: the words draw with subscripts and superscripts (the web's `SciNcert`: its lines as a list for the list
+  /// kinds, else paragraphs, with the blanks a term card marks).
+  final bool sci;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +69,71 @@ class StageNcert extends StatelessWidget {
     );
   }
 
-  Widget _words(TextStyle reading) => switch (backShape(card)) {
+  Widget _words(TextStyle reading) => sci ? _sciWords(reading) : _plainWords(reading);
+
+  /// `SciNcert`: the list kinds as a list, everything else as paragraphs (a line break starts one), the marked words kept.
+  Widget _sciWords(TextStyle reading) {
+    final lines = listKinds.contains(card.kind) ? backLines(card.back) : const <String>[];
+    if (lines.length > 1) {
+      final steps = card.kind == 'steps';
+      return _Paragraphs(
+        paragraphs: [for (final (i, l) in lines.indexed) (text: steps ? '${i + 1}. $l' : l, bullet: !steps)],
+        style: reading,
+        sci: true,
+      );
+    }
+    final marked = blankKinds.contains(card.kind) ? markBlanks(card.back, card.blanks) : <KcPart>[(text: card.back, mark: false)];
+    final paras = <List<KcPart>>[[]];
+    for (final p in marked) {
+      if (p.mark) {
+        paras.last.add(p);
+        continue;
+      }
+      for (final (i, t) in p.text.split(RegExp(r'\n+')).indexed) {
+        if (i > 0) paras.add([]);
+        if (t.isNotEmpty) paras.last.add((text: t, mark: false));
+      }
+    }
+    final kept = [
+      for (final p in paras)
+        if (p.isNotEmpty) p,
+    ];
+    if (kept.length < 2) return _sciPara(kept.isEmpty ? const <KcPart>[] : kept.first, reading);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (final (i, p) in kept.indexed) ...[
+          if (i > 0) const SizedBox(height: MmSpace.s6),
+          _sciPara(p, reading),
+        ],
+      ],
+    );
+  }
+
+  static Widget _sciPara(List<KcPart> parts, TextStyle style) => Builder(
+    builder: (context) {
+      final colors = context.mmColors;
+      final mark = colors.accentText;
+      final marked = style.copyWith(
+        fontWeight: FontWeight.w600,
+        decoration: TextDecoration.underline,
+        decorationColor: mark.withValues(alpha: mark.a * 0.7),
+        decorationThickness: 2,
+      );
+      return Text.rich(
+        TextSpan(
+          style: style,
+          children: [
+            for (final p in parts)
+              if (p.mark) TextSpan(style: marked, children: StageSci.spans(p.text, marked)) else ...StageSci.spans(p.text, style),
+          ],
+        ),
+        semanticsLabel: parts.map((p) => p.text).join(),
+      );
+    },
+  );
+
+  Widget _plainWords(TextStyle reading) => switch (backShape(card)) {
     KcListBack(:final paragraphs) => _Paragraphs(paragraphs: paragraphs, style: reading),
     final KcFormulaBack f => _Paragraphs(paragraphs: [for (final t in f.texts) (text: t, bullet: false)], style: reading, tight: true),
     KcEntryBack(:final rows) => _Entry(rows: joinedNarrations(rows), style: reading),
@@ -138,11 +207,14 @@ class StageMarkedText extends StatelessWidget {
 /// A back the book breaks into lines (the Key cards' `KcParagraphs` rule): a paragraph a line, a list item with a
 /// small bullet hung in the margin; a formula's second line stays close to its first.
 class _Paragraphs extends StatelessWidget {
-  const _Paragraphs({required this.paragraphs, required this.style, this.tight = false});
+  const _Paragraphs({required this.paragraphs, required this.style, this.tight = false, this.sci = false});
 
   final List<KcParagraph> paragraphs;
   final TextStyle style;
   final bool tight;
+
+  /// A chemistry card: each line draws its subscripts and superscripts.
+  final bool sci;
 
   @override
   Widget build(BuildContext context) {
@@ -166,11 +238,11 @@ class _Paragraphs extends StatelessWidget {
                     ),
                   ),
                 ),
-                Expanded(child: Text(p.text, style: style)),
+                Expanded(child: StageSci.text(p.text, style, sci: sci)),
               ],
             )
           else
-            Text(p.text, style: style),
+            StageSci.text(p.text, style, sci: sci),
         ],
       ],
     );

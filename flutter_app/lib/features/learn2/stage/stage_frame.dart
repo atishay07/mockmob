@@ -1,8 +1,9 @@
-/// The study stage's frame on a phone (the web's `Stage`, `TopBar`, `KeptCount`, `ActionBar`; A1 3.2-3.6, B7):
+/// The study stage's frame on a phone (the web's `Stage`, `TopBar`, `ActionBar`; A1 3.2-3.6, B7, R3 L4):
 ///
-///   top bar     solid ground, nothing scrolls under it: the ticks (safe top + 10), then a 44 dp row 6 dp lower with
-///               Close, the title (or a note for 2.4 s), the kept count and the counter ("3 of 21", a button that
-///               opens "This feed" when [StageFrame.onCounter] is set)
+///   top bar     solid ground, nothing scrolls under it: safe top + 4, then one 44 dp row with Close (the X and the word),
+///               the ticks and the counter ("3 of 21", a button that opens "This feed" when [StageFrame.onCounter] is
+///               set), 12 dp apart; under it one quiet 20 dp line with the chapter's name (or a note for 2.4 s). No kept
+///               count and no Revise pile in a phone's bar
 ///   item area   12 dp above and below; the screen puts its `StagePager` here
 ///   action bar  solid ground: `56 | 1fr | 56`, 12 dp gaps, 6 top, 16 at the sides, the safe bottom + 8; the side
 ///               keys left and right and the step slot in the middle; [StageFrame.wide] (the checkpoint) gives the
@@ -31,8 +32,6 @@ class StageFrame extends StatelessWidget {
     this.title = '',
     this.titleNote,
     this.ticks,
-    this.kept = 0,
-    this.keptKey,
     this.position,
     this.of,
     this.onCounter,
@@ -62,12 +61,6 @@ class StageFrame extends StatelessWidget {
 
   /// The ticks row (`StageTicks`); null keeps the row's height empty.
   final Widget? ticks;
-
-  /// Cards kept in this session; the count shows from the first one.
-  final int kept;
-
-  /// On the kept count: the Keep flight's target (`StageFlight.fly`).
-  final GlobalKey? keptKey;
 
   /// "3" of "21" in the counter; null hides the counter.
   final int? position;
@@ -119,8 +112,6 @@ class StageFrame extends StatelessWidget {
           title: title,
           titleNote: titleNote,
           ticks: ticks,
-          kept: kept,
-          keptKey: keptKey,
           position: position,
           of: of,
           onCounter: onCounter,
@@ -157,7 +148,8 @@ class StageFrame extends StatelessWidget {
   }
 }
 
-/// The phone's top bar on its own (the frame builds it; a screen may build it for a state of its own).
+/// The phone's top bar on its own (the frame builds it; a screen may build it for a state of its own). One 44 dp row (Close,
+/// the ticks, the counter) and, under it, the chapter's name as one quiet 20 dp line.
 class StageTopBar extends StatelessWidget {
   const StageTopBar({
     super.key,
@@ -166,8 +158,6 @@ class StageTopBar extends StatelessWidget {
     this.title = '',
     this.titleNote,
     this.ticks,
-    this.kept = 0,
-    this.keptKey,
     this.position,
     this.of,
     this.onCounter,
@@ -180,8 +170,6 @@ class StageTopBar extends StatelessWidget {
   final String title;
   final String? titleNote;
   final Widget? ticks;
-  final int kept;
-  final GlobalKey? keptKey;
   final int? position;
   final int? of;
   final VoidCallback? onCounter;
@@ -190,6 +178,10 @@ class StageTopBar extends StatelessWidget {
   /// Stands in for the title (the loading skeleton's bar).
   final Widget? titleWidget;
 
+  /// The row's height and the title line's: the bar is `safe top + 4 + 44 + 20 + 4`.
+  static const double rowHeight = 44;
+  static const double titleHeight = 20;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -197,40 +189,32 @@ class StageTopBar extends StatelessWidget {
     return ColoredBox(
       color: colors.ground,
       child: Padding(
-        padding: EdgeInsets.only(top: top + 10),
+        padding: EdgeInsets.only(top: top + MmSpace.s4, bottom: MmSpace.s4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-              child: SizedBox(height: 2, child: ticks ?? const SizedBox.shrink()),
-            ),
-            // The 44 dp keys sit 6 dp under the ticks; the row is 48 dp so their 48 dp targets lie inside it.
-            const SizedBox(height: MmSpace.s4),
-            // The row starts 10 dp left of the gutter (Close's own padding, so its X lines up with the gutter) and
-            // ends 8 dp right of it (the counter's padding, so its words end on the gutter).
+            // The row starts 10 dp left of the gutter (Close's own padding, so its X lines up with the gutter) and ends
+            // 8 dp right of it (the counter's padding, so its words end on the gutter).
             Padding(
               padding: const EdgeInsets.only(left: MmSpace.gutter - 10, right: MmSpace.gutter - 8),
               child: SizedBox(
-                height: 48,
+                height: rowHeight,
                 child: Row(
                   children: [
-                    StageIconKey(icon: LucideIcons.x, size: 22, semanticsLabel: closeLabel, onTap: onClose),
-                    const SizedBox(width: MmSpace.s6),
-                    Expanded(child: titleWidget ?? _StageTitle(title: title, note: titleNote)),
-                    if (kept > 0) ...[
-                      const SizedBox(width: MmSpace.s6),
-                      StageKeptCount(count: kept, targetKey: keptKey),
-                    ] else if (keptKey != null)
-                      // The flight's target stays laid out (zero wide) until the first card is kept.
-                      SizedBox(key: keptKey, width: 0, height: 28),
+                    StageCloseKey(inBar: true, semanticsLabel: closeLabel, onTap: onClose),
+                    const SizedBox(width: MmSpace.s12),
+                    Expanded(child: Center(child: SizedBox(height: 2, child: ticks ?? const SizedBox.shrink()))),
                     if (position != null && of != null) ...[
-                      const SizedBox(width: MmSpace.s6),
+                      const SizedBox(width: MmSpace.s12),
                       StageCounter(position: position!, of: of!, onTap: onCounter, semanticsLabel: counterLabel),
                     ],
                   ],
                 ),
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+              child: SizedBox(height: titleHeight, child: Align(alignment: Alignment.centerLeft, child: titleWidget ?? _StageTitle(title: title, note: titleNote))),
             ),
           ],
         ),
@@ -298,94 +282,10 @@ class _StageTitleState extends State<_StageTitle> {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         softWrap: false,
-        style: type.labelLarge.copyWith(fontSize: 15, height: 1.3, color: colors.ink2),
+        style: type.label.copyWith(fontSize: 13, height: 20 / 13, fontWeight: FontWeight.w500, color: colors.ink3),
       ),
     );
   }
-}
-
-/// The kept count in the top bar: a filled bookmark in the select colour and the number, 13.5 semibold ink-2. It
-/// comes in over 160 ms from 0.95, and a new number rises into place. [targetKey] marks it for the Keep flight.
-class StageKeptCount extends StatelessWidget {
-  const StageKeptCount({super.key, required this.count, this.targetKey});
-
-  final int count;
-  final GlobalKey? targetKey;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return Semantics(
-      label: '$count kept',
-      excludeSemantics: true,
-      child: StageIn(
-        rise: 0,
-        duration: const Duration(milliseconds: 160),
-        child: _ScaleIn(
-          child: SizedBox(
-            key: targetKey,
-            height: 28,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  StageBookmark(size: 14, color: stageSelect(colors)),
-                  const SizedBox(width: MmSpace.s4),
-                  ClipRect(
-                    child: StageCount(
-                      value: count,
-                      child: Text(
-                        '$count',
-                        style: type.label.copyWith(fontSize: 13.5, height: 1, color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()]),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// From 0.95 to 1 over 160 ms when first built (the kept count's arrival).
-class _ScaleIn extends StatefulWidget {
-  const _ScaleIn({required this.child});
-
-  final Widget child;
-
-  @override
-  State<_ScaleIn> createState() => _ScaleInState();
-}
-
-class _ScaleInState extends State<_ScaleIn> with SingleTickerProviderStateMixin {
-  late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(milliseconds: 160), value: 1);
-  bool _started = false;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_started) return;
-    _started = true;
-    if (!Motion.reduced(context)) _c.forward(from: 0);
-  }
-
-  @override
-  void dispose() {
-    _c.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => AnimatedBuilder(
-    animation: _c,
-    child: widget.child,
-    builder: (context, child) => Transform.scale(scale: 0.95 + 0.05 * Motion.out.transform(_c.value), child: child),
-  );
 }
 
 /// The counter: "3" in ink and " of 21" in ink-3, 13.5 semibold with tabular figures. With [onTap] it is a 44 dp

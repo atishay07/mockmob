@@ -17,6 +17,7 @@ import 'package:flutter/foundation.dart' show immutable;
 
 import '../../../core/models/json_helpers.dart';
 import '../data/learn_models.dart';
+import '../stage/stage_end_model.dart';
 import 'feed_copy.dart';
 
 // ---------------------------------------------------------------- the feed's screens
@@ -180,8 +181,9 @@ class FeedNumbers {
   String toString() => 'FeedNumbers(${toJson()})';
 }
 
-/// A checkpoint's words: the big number, the status line and the line under it.
-typedef FeedCheckpointText = ({String big, String status, String line});
+/// A checkpoint's words: the big number and its one line ("8 of 21 done, about 6 min left."). There is no third line (R2 screens 12):
+/// [line] is always null, as the web's.
+typedef FeedCheckpointText = ({String big, String status, String? line});
 
 /// The mark of a row in "This feed".
 enum FeedRowMark { kept, seen, right, wrong }
@@ -194,14 +196,11 @@ class FeedSheetRow {
   final String id;
   final int n;
 
-  /// "Key card", "Question", "Old mistake".
+  /// "Key card", "Question", "Open mistake".
   final String kind;
   final String words;
   final FeedRowMark? mark;
 }
-
-/// One hairline row of the end ("Cards" / "12 seen, 3 kept").
-typedef FeedEndLine = ({String label, String text});
 
 // ---------------------------------------------------------------- the rules
 
@@ -275,13 +274,12 @@ abstract final class FeedModel {
     return FeedNumbers(answered: answered, right: right, mistakes: mistakes, fixed: fixed, kept: kept, seen: seen);
   }
 
-  /// `checkpointText`: the checkpoint's number, its status ("8 of 21 done. About 6 min left.") and its line.
+  /// `checkpointText` (R2 screens 12): the checkpoint's number and its one line, "2 of 3 right" / "6 cards seen" and "8 of 21
+  /// done, about 6 min left." Never a zero lead ("0 kept" is dropped); the third line is gone.
   static FeedCheckpointText checkpointText(FeedNumbers n, {required int done, required int of, required num seconds}) {
-    final big = checkpointNumber(answered: n.answered, right: n.right, seen: n.seen, kept: n.kept);
-    final mins = seconds > 0
-        ? (seconds * 1.1 < 60 ? ' Under a minute left.' : ' About ${math.max(1, ((seconds * 1.1) / 60).round())} min left.')
-        : '';
-    return (big: big, status: '$done of $of done.$mins', line: n.kept > 0 ? checkpointLine : checkpointLineQuiet);
+    final left = seconds > 0 ? (seconds * 1.1 < 60 ? 'Under a minute left' : 'About ${math.max(1, ((seconds * 1.1) / 60).round())} min left') : null;
+    final t = StageEndModel.checkpointLines(answered: n.answered, right: n.right, seen: n.seen, kept: n.kept, done: done, of: of, left: left);
+    return (big: t.big, status: t.line, line: null);
   }
 
   /// `upNextText`: "Up next: ..." from the next slot, null when nothing follows.
@@ -298,7 +296,7 @@ abstract final class FeedModel {
         if (item is LearnQuestionItem && item.isMistake) {
           final label = item.mistake?.label ?? '';
           final said = label.replaceFirst(RegExp(r'^You missed this\s*', caseSensitive: false), '').trim();
-          return said.isNotEmpty ? 'Up next: a question you missed $said' : 'Up next: an old mistake';
+          return said.isNotEmpty ? 'Up next: a question you missed $said' : 'Up next: an open mistake';
         }
         return 'Up next: a question';
     }
@@ -368,7 +366,7 @@ abstract final class FeedModel {
       case LearnQuestionItem(:final question):
         final res = st.res;
         mark = res != null ? (res.correct ? FeedRowMark.right : FeedRowMark.wrong) : (st.skipped != null ? FeedRowMark.seen : null);
-        kind = item.isMistake ? 'Old mistake' : 'Question';
+        kind = item.isMistake ? 'Open mistake' : 'Question';
         words = question.body;
       case LearnLessonItem():
         mark = null;
@@ -389,47 +387,6 @@ abstract final class FeedModel {
     if (runTitle != null && runTitle.isNotEmpty) return runTitle;
     final said = (feedTitle != null && feedTitle.isNotEmpty ? feedTitle : (endTitle ?? '')).replaceFirst(_minutesOn, '');
     return said.isNotEmpty ? said : FeedCopy.endTitleFallback;
-  }
-
-  static final RegExp _allFixed = RegExp(r'^(\d+) old mistakes?$');
-  static final RegExp _someFixed = RegExp(r'^(\d+) of (\d+) old mistakes?$');
-
-  /// The end's lines in A1's order (`endLines`): Cards (from this phone: seen and kept), then the server's lines with
-  /// its "Fixed" said as "Old mistakes: 2 of 2 fixed".
-  static List<FeedEndLine> endLines(List<({String label, String text})> lines, {required int seen, required int kept, required bool hasCards}) {
-    final out = <FeedEndLine>[];
-    if (hasCards && (seen > 0 || kept > 0)) out.add((label: 'Cards', text: '${math.max(seen, kept)} seen, $kept kept'));
-    for (final l in lines) {
-      if (l.label == 'Fixed') {
-        final all = _allFixed.firstMatch(l.text);
-        final some = _someFixed.firstMatch(l.text);
-        out.add((
-          label: 'Old mistakes',
-          text: all != null ? '${all.group(1)} of ${all.group(1)} fixed' : (some != null ? '${some.group(1)} of ${some.group(2)} fixed' : l.text),
-        ));
-      } else {
-        out.add((label: l.label, text: l.text));
-      }
-    }
-    return out;
-  }
-
-  static final RegExp _keptLead = RegExp(r'^\d+ kept\.\s*');
-
-  /// The kept pile's line without its count ("They are first in Revise."), null when nothing is left.
-  static String? pileLine(String? line) {
-    final rest = (line ?? '').replaceFirst(_keptLead, '');
-    return rest.isEmpty ? null : rest;
-  }
-
-  /// "Stop for now?"'s detail: questions right, old mistakes fixed, kept in Revise; null when there is nothing to say.
-  static String? stopDetail(FeedNumbers n) {
-    final parts = [
-      if (n.answered > 0) FeedCopy.questionsRight(n.right, n.answered),
-      if (n.mistakes > 0) FeedCopy.mistakesFixed(n.fixed, n.mistakes),
-      if (n.kept > 0) FeedCopy.keptInRevise(n.kept),
-    ];
-    return parts.isEmpty ? null : parts.join(' ');
   }
 
   /// Items done for the stop rule: a card once its back was read or it was kept, a question once it was graded.

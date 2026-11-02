@@ -13,7 +13,13 @@
 ///   a lesson  [readLesson] (opens the lesson, counted read on return), [skipLesson]
 ///   moving    [advance] (a cards run pauses after every 20 rated), [goRecap] (Previous and Next), [finish] (the end, or the recap's
 ///             own end), the stop rule ([asksToStop]: before any item is done Close leaves, after one it asks)
-///   end       read from `GET /end` (never invented numbers), read again on Try again
+///   end       read from `GET /end` (`?stop=1` after "Stop here": the run stays open to pick up today; never invented numbers),
+///             read again on Try again
+///   coaching  four first-run lines, once per student (not per run; R4 owner-eye#15): "Tap the card to turn it over" on the
+///             first card of the first run, "Got it: it comes back when it’s due." on its first two cards, "Answers are showing.
+///             Nothing is scheduled." on a recap, and "Pick the answer you think is right." above the options of the first
+///             question a student ever sees (not a run that serves an open mistake). A line is kept as seen the first time it
+///             shows
 ///
 /// What the screen draws as a side effect is a callback: [onSay] (a polite announcement), [onRated] (the confirm or tick haptic
 /// and the card's flight), [onSeePro], [onSaved], [openLesson].
@@ -99,12 +105,15 @@ class RunStamp {
 /// The one line under the keys: an error, a note, the stamp, a coach line or Free's look line.
 @immutable
 class RunStatusLine {
-  const RunStatusLine(this.text, {this.bad = false, this.stamp = false, this.n});
+  const RunStatusLine(this.text, {this.bad = false, this.stamp = false, this.n, this.cue = false});
 
   final String text;
   final bool bad;
   final bool stamp;
   final int? n;
+
+  /// The first-run turn cue: ink, semibold, so a student who has never used flashcards sees how it works.
+  final bool cue;
 }
 
 /// A card that left after its rating (or its look): what the screen plays (the haptic and the flight).
@@ -128,11 +137,14 @@ class RunRated {
 }
 
 class RunController extends ChangeNotifier {
-  RunController({required this.api, required this.launch, this.prefs, this.onSay, this.onRated, this.onSeePro, this.onSaved, this.openLesson});
+  RunController({required this.api, required this.launch, this.prefs, this.studentId, this.onSay, this.onRated, this.onSeePro, this.onSaved, this.openLesson});
 
   final LearnApi api;
   RunLaunch launch;
   final LearnPrefs? prefs;
+
+  /// The student's id, so the coach lines are once per student, not once per phone.
+  final String? studentId;
   final ValueChanged<String>? onSay;
   final ValueChanged<RunRated>? onRated;
   final ValueChanged<String>? onSeePro;
@@ -218,7 +230,11 @@ class RunController extends ChangeNotifier {
   Timer? _noteTimer;
   Timer? _landTimer;
 
-  static const List<String> _coachIds = ['front', 'rate', 'pick', 'recap'];
+  /// The coach lines' names; each is kept in Learn's prefs as `run.coach.v2:<student>:<name>`. `rate2` is the first card's,
+  /// `rate2b` the second's.
+  static const List<String> _coachIds = ['front2', 'rate2', 'rate2b', 'pick', 'recap'];
+
+  String _coachKey(String name) => 'run.coach.v2:${studentId ?? 'anon'}:$name';
 
   // ---------------------------------------------------------------- reads
 
@@ -262,8 +278,12 @@ class RunController extends ChangeNotifier {
   /// A card shown without a rating (Free past its ratings; the server's flag, or its limit line after the first look).
   bool isLook(LearnItem it) => it is LearnCardItem && !isRecap && (it.look || (lookLine != null && lookSaid));
 
-  /// Items finished: the ones before the current one, and the current one once its question is answered.
-  int get finished => phase == RunPhase.play ? at + (item is LearnQuestionItem && isAnswered(item!) ? 1 : 0) : _items.length;
+  /// Items finished (`itemsFinished`): the ones before the current one, and the current one once the server has it: an
+  /// answered question, or a card whose rating or look it holds while the card is still flying away.
+  int get finished {
+    final it = item;
+    return RunView.itemsFinished(playing: phase == RunPhase.play, at: at, length: _items.length, item: it, answered: it != null && isAnswered(it), acted: leaving);
+  }
 
   /// Items done, for the stop rule (before any, Close leaves; after one, it asks).
   int get doneCount => offset + finished;
@@ -275,12 +295,6 @@ class RunController extends ChangeNotifier {
 
   /// The stop rule applies: the items are on screen and one is done.
   bool get asksToStop => status == RunStatus.ready && phase == RunPhase.play && doneCount > 0;
-
-  /// The stop sheet's detail ("2 of 3 questions right. 4 sent to Revise.").
-  String? get stopDetail {
-    final parts = [if (tally.asked > 0) RunCopy.questionsRight(tally.right, tally.asked), if (tally.toRevise > 0) RunCopy.sentToRevise(tally.toRevise)];
-    return parts.isEmpty ? null : parts.join(' ');
-  }
 
   /// The last item.
   bool get last => at + 1 >= _items.length;
@@ -295,10 +309,16 @@ class RunController extends ChangeNotifier {
     final firstQuestion = _items.indexWhere((x) => x is LearnQuestionItem);
     final it = item;
     final onFirstCard = phase == RunPhase.play && !isRecap && offset == 0 && at == firstCard && it is LearnCardItem;
+    // "Got it: it comes back when it’s due." on the first two cards of the first run, then never.
+    final cardPlace = _items.take(at + 1).where((x) => x is LearnCardItem && !x.look).length;
+    final onEarlyCard = phase == RunPhase.play && !isRecap && offset == 0 && it is LearnCardItem && !it.look && cardPlace <= 2;
+    // The question hint is for the first question a student ever sees: a run that serves an open mistake is not a first.
+    final hasHistory = _items.any((x) => x is LearnQuestionItem && x.isMistake);
     return switch (name) {
-      'front' => onFirstCard && !isTurned(it),
-      'rate' => onFirstCard && isTurned(it),
-      'pick' => phase == RunPhase.play && offset == 0 && at == firstQuestion && it is LearnQuestionItem && !isAnswered(it),
+      'front2' => onFirstCard && !isTurned(it),
+      'rate2' => onEarlyCard && cardPlace != 2 && isTurned(it),
+      'rate2b' => onEarlyCard && cardPlace == 2 && isTurned(it),
+      'pick' => phase == RunPhase.play && !hasHistory && at == firstQuestion && it is LearnQuestionItem && !isAnswered(it),
       'recap' => phase == RunPhase.play && isRecap,
       _ => false,
     };
@@ -313,12 +333,18 @@ class RunController extends ChangeNotifier {
     if (note != null) return RunStatusLine(note!);
     final s = stamp;
     if (s != null) return RunStatusLine(s.text, stamp: true, n: s.n);
-    if (it is LearnCardItem && !isTurned(it) && _coachShow('front')) return const RunStatusLine(RunCopy.coachFront);
-    if (it is LearnCardItem && isTurned(it) && !isLook(it) && _coachShow('rate')) return const RunStatusLine(RunCopy.coachRate);
-    if (it is LearnQuestionItem && !isAnswered(it) && _coachShow('pick')) return const RunStatusLine(RunCopy.coachPick);
+    if (it is LearnCardItem && !isTurned(it) && _coachShow('front2')) return const RunStatusLine(RunCopy.coachFront, cue: true);
+    if (it is LearnCardItem && isTurned(it) && !isLook(it) && (_coachShow('rate2') || _coachShow('rate2b'))) return const RunStatusLine(RunCopy.coachRate);
     if (_coachShow('recap')) return const RunStatusLine(RunCopy.coachRecap);
     if (it is LearnCardItem && isLook(it) && isTurned(it) && lookLine != null && it.look) return RunStatusLine(lookLine!);
     return null;
+  }
+
+  /// "Pick the answer you think is right.": the quiet line above the options of the first question a student ever sees, until it is
+  /// answered (null otherwise).
+  String? get questionHint {
+    final it = item;
+    return it is LearnQuestionItem && !isAnswered(it) && _coachShow('pick') ? RunCopy.coachPick : null;
   }
 
   /// What the pager says when an item comes up (the web's live region).
@@ -338,7 +364,7 @@ class RunController extends ChangeNotifier {
     if (p == null) return;
     for (final id in _coachIds) {
       try {
-        if (await p.coachSeen(id)) _coachSeen.add(id);
+        if (await p.coachSeen(_coachKey(id))) _coachSeen.add(id);
       } on Object {
         _coachSeen.add(id);
       }
@@ -455,15 +481,16 @@ class RunController extends ChangeNotifier {
     if (first != null) _say(announceOf(first));
   }
 
-  /// The end (`GET /end`): the skeleton while it comes, an error with Try again when it fails.
-  Future<void> loadEnd(String runId) async {
+  /// The end (`GET /end`, `?stop=1` after a stop part way so the run stays open to pick up today): the skeleton while it comes, an
+  /// error with Try again when it fails.
+  Future<void> loadEnd(String runId, {bool stop = false}) async {
     final gen = ++_endGen;
     phase = RunPhase.end;
     endStatus = RunEndStatus.loading;
     endData = null;
     _notify();
     try {
-      final data = await api.end(runId);
+      final data = await api.end(runId, stop: stop);
       if (_disposed || gen != _endGen) return;
       endData = data;
       endStatus = RunEndStatus.ready;
@@ -477,7 +504,7 @@ class RunController extends ChangeNotifier {
   /// The end's Try again.
   void retryEnd() {
     final r = run;
-    if (r != null && r.id.isNotEmpty) unawaited(loadEnd(r.id));
+    if (r != null && r.id.isNotEmpty) unawaited(loadEnd(r.id, stop: stoppedAt != null));
   }
 
   /// Ends the run here: a recap goes to its own end; any other run reads the server's end. [stopAt] is how far the student
@@ -490,7 +517,7 @@ class RunController extends ChangeNotifier {
     }
     stoppedAt = stopAt;
     final r = run;
-    if (r != null && r.id.isNotEmpty) unawaited(loadEnd(r.id));
+    if (r != null && r.id.isNotEmpty) unawaited(loadEnd(r.id, stop: stopAt != null));
   }
 
   /// A new set of cards in this player (the recap's "Study these 12"): the run starts again from [next].
@@ -847,7 +874,7 @@ class RunController extends ChangeNotifier {
     final p = prefs;
     if (p == null) return;
     for (final id in _coachIds) {
-      if (_coachShow(id) && _coachMarked.add(id)) _coachWrites = _coachWrites.then((_) => p.markCoachSeen(id));
+      if (_coachShow(id) && _coachMarked.add(id)) _coachWrites = _coachWrites.then((_) => p.markCoachSeen(_coachKey(id)));
     }
   }
 

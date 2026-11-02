@@ -1,13 +1,15 @@
 /// The stage's keys (the web's `RailKey`, `StepKey`, `SkipKey`, `.st-textkey`, `.st-iconkey`; A1 3.6, BUILD-1101 B7):
 ///
-///   StageSideKey   a 48 dp round glyph with a 12 sp label under it (Keep or Save on the left of the action bar,
-///                  Chapter on the right); on = the glyph fills in the select colour; it swells to 1.15 when it turns
-///                  on; busy = a spinner in the glyph
+///   StageSideKey   a 48 dp round glyph with a 12 sp label under it (Revise later or Save on the left of the action bar,
+///                  Chapter on the right); on = the glyph takes the select colour (a bookmark fills); it swells to 1.15
+///                  when it turns on; busy = a spinner in the glyph
+///   StageCardStack the card-stack glyph of Revise later (three cards, the front one whole), the web's `CardStack`
 ///   StageStepKey   the one volt key of the screen (Turn over, Next, See how it went, Keep going), 52 dp, radius 14,
 ///                  sitting on a 3 dp volt lip it sinks into when pressed; `tone: line` is the quiet line key
 ///   StageSkipKey   "Skip", a line key in ink-2
-///   StageTextKey   an underlined text key (Turn back, See Pro, Leave for now)
-///   StageIconKey   a 44 dp round-cornered icon key (Close) with a 48 dp target
+///   StageTextKey   an underlined text key (Turn back, See Pro, Back to it)
+///   StageIconKey   a 44 dp round-cornered icon key (a sheet's close) with a 48 dp target
+///   StageCloseKey  the X and the word "Close": the one close control of the bar, the ends and the refusal
 ///
 /// Exactly one volt key is on screen at a time: the screen passes `tone: StageTone.line` to every other key.
 library;
@@ -87,6 +89,51 @@ class _BookmarkPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_BookmarkPainter old) => old.color != color || old.filled != filled || old.stroke != stroke;
+}
+
+/// The card-stack glyph of Revise later and of the Revise pile (the web's `CardStack`): three cards, the front one whole
+/// (`rect 4.5 8 15 x 13 rx 2.4`, `M6.5 5h11`, `M8.5 2.2h7` in a 24-unit box), stroked in [color]. Questions keep the bookmark
+/// of Save; a Key card goes to Revise, so it gets its own mark.
+class StageCardStack extends StatelessWidget {
+  const StageCardStack({super.key, this.size = 22, required this.color, this.stroke = 1.9});
+
+  final double size;
+  final Color color;
+
+  /// The stroke width in the glyph's 24-unit box.
+  final double stroke;
+
+  @override
+  Widget build(BuildContext context) => SizedBox.square(
+    dimension: size,
+    child: CustomPaint(painter: _CardStackPainter(color: color, stroke: stroke)),
+  );
+}
+
+class _CardStackPainter extends CustomPainter {
+  const _CardStackPainter({required this.color, required this.stroke});
+
+  final Color color;
+  final double stroke;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final k = size.shortestSide / 24;
+    canvas.scale(k);
+    final line = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = stroke
+      ..strokeJoin = StrokeJoin.round
+      ..strokeCap = StrokeCap.round;
+    canvas
+      ..drawRRect(RRect.fromRectAndRadius(const Rect.fromLTWH(4.5, 8, 15, 13), const Radius.circular(2.4)), line)
+      ..drawLine(const Offset(6.5, 5), const Offset(17.5, 5), line)
+      ..drawLine(const Offset(8.5, 2.2), const Offset(15.5, 2.2), line);
+  }
+
+  @override
+  bool shouldRepaint(_CardStackPainter old) => old.color != color || old.stroke != stroke;
 }
 
 /// A focus ring drawn [gap] dp outside its child in the [radius] shape.
@@ -223,7 +270,8 @@ class _StagePressState extends State<_StagePress> with SingleTickerProviderState
 class StageSideKey extends StatelessWidget {
   const StageSideKey({
     super.key,
-    required this.icon,
+    this.icon,
+    this.mark,
     required this.label,
     this.on = false,
     this.busy = false,
@@ -235,7 +283,10 @@ class StageSideKey extends StatelessWidget {
   });
 
   /// A Lucide icon; [LucideIcons.bookmark] is drawn by [StageBookmark] so it can fill.
-  final IconData icon;
+  final IconData? icon;
+
+  /// A glyph of its own in the colour the key wants (the card stack): used in place of [icon].
+  final Widget Function(Color color)? mark;
   final String label;
   final bool on;
   final bool busy;
@@ -256,11 +307,13 @@ class StageSideKey extends StatelessWidget {
     final type = context.mmType;
     final live = onTap != null && !busy && !disabled;
     final iconColor = on ? stageSelect(colors) : colors.ink;
-    final mark = busy
+    final glyphMark = busy
         ? MmSpinner(color: colors.ink2, size: 20, strokeWidth: 2)
-        : icon == LucideIcons.bookmark
-            ? StageBookmark(size: 22, color: iconColor, filled: on, stroke: 1.9)
-            : Icon(icon, size: 22, color: iconColor);
+        : mark != null
+            ? mark!(iconColor)
+            : icon == LucideIcons.bookmark
+                ? StageBookmark(size: 22, color: iconColor, filled: on, stroke: 1.9)
+                : Icon(icon, size: 22, color: iconColor);
     return Semantics(
       container: true,
       button: true,
@@ -291,7 +344,7 @@ class StageSideKey extends StatelessWidget {
                         color: colors.raised,
                         shape: CircleBorder(side: BorderSide(color: colors.line)),
                       ),
-                      child: mark,
+                      child: glyphMark,
                     ),
                   ),
                 ),
@@ -337,9 +390,13 @@ class StageStepKey extends StatelessWidget {
     this.semanticsLabel,
     this.quiet = false,
     this.minHeight = 52,
+    this.sub,
   });
 
   final String label;
+
+  /// A second line inside the key (13 medium, the key's ink at 70%): the end's next chapter name.
+  final String? sub;
 
   /// Null disables the key (opacity 0.55, no lip).
   final VoidCallback? onTap;
@@ -422,12 +479,36 @@ class StageStepKey extends StatelessWidget {
     return StageIn(delay: const Duration(milliseconds: 260), duration: const Duration(milliseconds: 160), child: key);
   }
 
-  Widget _body(Widget words) => ConstrainedBox(
-    constraints: BoxConstraints(minHeight: minHeight, minWidth: double.infinity),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: MmSpace.s8),
-      child: Center(child: words),
-    ),
+  Widget _body(Widget words) => Builder(
+    builder: (context) {
+      final colors = context.mmColors;
+      final second = sub;
+      return ConstrainedBox(
+        constraints: BoxConstraints(minHeight: minHeight, minWidth: double.infinity),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: MmSpace.s8),
+          child: Center(
+            child: second == null
+                ? words
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      words,
+                      const SizedBox(height: 2),
+                      Text(
+                        second,
+                        maxLines: 1,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        style: context.mmType.body.copyWith(fontSize: 13, height: 1.3, fontWeight: FontWeight.w500, color: colors.voltInk.withValues(alpha: 0.7)),
+                      ),
+                    ],
+                  ),
+          ),
+        ),
+      );
+    },
   );
 }
 
@@ -448,7 +529,16 @@ class StageSkipKey extends StatelessWidget {
 /// An underlined text key (the web's `.st-textkey`): 14.5 semibold ink by default (Turn back is 13.5 in ink-2),
 /// underlined in the strong line colour, a 48 dp target.
 class StageTextKey extends StatelessWidget {
-  const StageTextKey({super.key, required this.label, required this.onTap, this.size = 14.5, this.quiet = false, this.semanticsLabel});
+  const StageTextKey({
+    super.key,
+    required this.label,
+    required this.onTap,
+    this.size = 14.5,
+    this.quiet = false,
+    this.semanticsLabel,
+    this.underlined = true,
+    this.minHeight = 44,
+  });
 
   final String label;
   final VoidCallback? onTap;
@@ -457,6 +547,10 @@ class StageTextKey extends StatelessWidget {
   /// Ink-2 words.
   final bool quiet;
   final String? semanticsLabel;
+
+  /// False: no underline (the stop sheet's "Back to it").
+  final bool underlined;
+  final double minHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -477,7 +571,8 @@ class StageTextKey extends StatelessWidget {
             show: focused,
             radius: BorderRadius.circular(6),
             child: ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 44),
+              // At least 48 dp wide too: a short word ("Skip") is still a thumb's target.
+              constraints: BoxConstraints(minWidth: 48, minHeight: minHeight),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: MmSpace.s6),
                 child: Center(
@@ -489,7 +584,7 @@ class StageTextKey extends StatelessWidget {
                       fontSize: size,
                       height: 1.2,
                       color: (quiet ? colors.ink2 : colors.ink).withValues(alpha: 1 - 0.25 * depth),
-                      decoration: TextDecoration.underline,
+                      decoration: underlined ? TextDecoration.underline : TextDecoration.none,
                       decorationColor: colors.lineStrong,
                     ),
                   ),
@@ -548,13 +643,16 @@ class StageIconKey extends StatelessWidget {
   }
 }
 
-/// The end's Close (the web's `.st-closekey`): an X and the word, 15 semibold ink-2, 44 dp tall.
+/// The one close control (R4 first-timer#17; the web's `.st-closekey` and `.st-iconkey--word`): an X and the word "Close", 15
+/// semibold ink-2, 44 dp tall, on the feed, the run, the ends and the refusal. [inBar] is the top bar's: a 22 dp X, 6 dp from
+/// the word, 10 dp in on the left and 12 on the right; the end's has a 20 dp X, 8 dp from the word and 14 on the right.
 class StageCloseKey extends StatelessWidget {
-  const StageCloseKey({super.key, required this.onTap, this.label = 'Close', this.semanticsLabel});
+  const StageCloseKey({super.key, required this.onTap, this.label = 'Close', this.semanticsLabel, this.inBar = false});
 
   final VoidCallback? onTap;
   final String label;
   final String? semanticsLabel;
+  final bool inBar;
 
   @override
   Widget build(BuildContext context) {
@@ -577,7 +675,7 @@ class StageCloseKey extends StatelessWidget {
             gap: 0,
             child: Container(
               height: 44,
-              padding: const EdgeInsets.fromLTRB(10, 0, 14, 0),
+              padding: EdgeInsets.fromLTRB(10, 0, inBar ? 12 : 14, 0),
               decoration: BoxDecoration(
                 color: colors.ink.withValues(alpha: (colors.isNight ? 0.08 : 0.06) * depth),
                 borderRadius: BorderRadius.circular(12),
@@ -585,8 +683,8 @@ class StageCloseKey extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(LucideIcons.x, size: 18, color: colors.ink2),
-                  const SizedBox(width: MmSpace.s8),
+                  Icon(LucideIcons.x, size: inBar ? 22 : 20, color: colors.ink2),
+                  SizedBox(width: inBar ? MmSpace.s6 : MmSpace.s8),
                   Text(label, style: type.labelLarge.copyWith(fontSize: 15, height: 1, color: colors.ink2)),
                 ],
               ),

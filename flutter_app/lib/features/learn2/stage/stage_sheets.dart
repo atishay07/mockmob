@@ -2,10 +2,10 @@
 ///
 ///   StageSheet     a phone bottom sheet: radius 22 on top, the app's sheet glass, at most 70% of the screen, a 52 dp
 ///                  head with the title (Bricolage 17) and a Close key; the body scrolls when it is longer
-///   StopSheet      the one stop rule: "Stop for now?", what was done ("8 of 17 done. ... Everything you did is
-///                  saved."), End here (volt), Keep going (line), Leave for now (text). No guilt copy.
+///   StopSheet      the one stop rule (R2 ruling 6): "Stop for now?", "8 of 17 done. It’s all saved.", Stop here (volt:
+///                  shows the end; the run stays open to pick up today) and a quiet "Back to it" (R4). No guilt copy
 ///   StageFeedList  "This feed": a 52 dp row per item (its number, its kind and first words on one line, its state:
-///                  Now, a check, an X, a bookmark, a dot) and "End here, see how it went" at the foot
+///                  Now, a check, an X, the card stack of In Revise, a dot) and "Stop here" at the foot
 ///
 /// [showStageSheet] and [showStopSheet] open them on the app's sheet route (its rise, its drag to close, its scrim).
 library;
@@ -18,6 +18,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/materials/glass_surface.dart';
 import '../../../core/widgets/mm_sheet.dart' show MmSheetReleaseTracker, MmSheetRoute;
 import '../../../core/widgets/pressable.dart';
+import 'stage_end_model.dart';
 import 'stage_keys.dart';
 
 /// The frame of a stage sheet.
@@ -119,36 +120,23 @@ Future<T?> showStageSheet<T>({
 }
 
 /// What the student chose in "Stop for now?".
-enum StageStopChoice { end, keepGoing, leave }
+enum StageStopChoice { end, keepGoing }
 
-/// "Stop for now?": [done] of [of] and the [detail], then the three ways on. Each key calls its callback.
+/// The stop sheet's quiet key (R4 ui-correctness#18): it closes the sheet; "Keep going" names only the end's new 10 minutes.
+const String stageBackToIt = 'Back to it';
+
+/// "Stop for now?": [done] of [of], then "Stop here" and "Back to it". Each key calls its callback.
 class StopSheet extends StatelessWidget {
-  const StopSheet({
-    super.key,
-    required this.done,
-    required this.of,
-    required this.onEnd,
-    required this.onKeepGoing,
-    this.detail,
-    this.onLeave,
-    this.endLabel = 'End here, see how it went',
-  });
+  const StopSheet({super.key, required this.done, required this.of, required this.onEnd, required this.onKeepGoing, this.endLabel = 'Stop here'});
 
   final int done;
   final int of;
-
-  /// "1 of 1 question right. 1 kept in Revise."
-  final String? detail;
   final VoidCallback onEnd;
   final VoidCallback onKeepGoing;
-
-  /// "Leave for now, pick up later today"; null leaves the key out.
-  final VoidCallback? onLeave;
   final String endLabel;
 
-  /// The sheet's line: "8 of 17 done.", the detail, then "Everything you did is saved."
-  static String lineFor({required int done, required int of, String? detail}) =>
-      '${of > 0 ? '$done of $of done. ' : ''}${detail != null && detail.isNotEmpty ? '$detail ' : ''}Everything you did is saved.';
+  /// The sheet's line: "8 of 17 done. It’s all saved."
+  static String lineFor({required int done, required int of}) => StageEndModel.stopSheetLine(done, of);
 
   @override
   Widget build(BuildContext context) {
@@ -158,42 +146,29 @@ class StopSheet extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(lineFor(done: done, of: of, detail: detail), style: type.body.copyWith(fontSize: 14.5, height: 1.5, fontWeight: FontWeight.w500, color: colors.ink2)),
+        Text(lineFor(done: done, of: of), style: type.body.copyWith(fontSize: 14.5, height: 1.5, fontWeight: FontWeight.w500, color: colors.ink2)),
         const SizedBox(height: 18),
         StageStepKey(label: endLabel, onTap: onEnd),
         const SizedBox(height: 10),
-        StageStepKey(label: 'Keep going', onTap: onKeepGoing, tone: StageTone.line),
-        if (onLeave != null) ...[
-          const SizedBox(height: 10),
-          Center(child: StageTextKey(label: 'Leave for now, pick up later today', onTap: onLeave)),
-        ],
+        Center(child: StageTextKey(label: stageBackToIt, onTap: onKeepGoing, quiet: true, underlined: false, minHeight: 48)),
       ],
     );
   }
 }
 
-/// Opens "Stop for now?" and answers with the student's choice (null when the sheet was dragged away or the scrim
-/// tapped: keep going). [canLeave] false leaves "Leave for now" out.
-Future<StageStopChoice?> showStopSheet(
-  BuildContext context, {
-  required int done,
-  required int of,
-  String? detail,
-  bool canLeave = true,
-  String endLabel = 'End here, see how it went',
-}) {
+/// Opens "Stop for now?" and answers with the student's choice (null when the sheet was dragged away, the scrim tapped or the X
+/// pressed: back to it).
+Future<StageStopChoice?> showStopSheet(BuildContext context, {required int done, required int of, String endLabel = 'Stop here'}) {
   return showStageSheet<StageStopChoice>(
     context: context,
     title: 'Stop for now?',
-    closeLabel: 'Keep going',
+    closeLabel: stageBackToIt,
     builder: (sheet) => StopSheet(
       done: done,
       of: of,
-      detail: detail,
       endLabel: endLabel,
       onEnd: () => Navigator.of(sheet).pop(StageStopChoice.end),
       onKeepGoing: () => Navigator.of(sheet).pop(StageStopChoice.keepGoing),
-      onLeave: canLeave ? () => Navigator.of(sheet).pop(StageStopChoice.leave) : null,
     ),
   );
 }
@@ -212,9 +187,9 @@ class StageFeedRow {
   final StageRowState state;
 }
 
-/// "This feed": the rows, and "End here, see how it went" at the foot.
+/// "This feed": the rows, and "Stop here" at the foot.
 class StageFeedList extends StatelessWidget {
-  const StageFeedList({super.key, required this.rows, required this.onPick, this.onEnd, this.endLabel = 'End here, see how it went'});
+  const StageFeedList({super.key, required this.rows, required this.onPick, this.onEnd, this.endLabel = 'Stop here'});
 
   final List<StageFeedRow> rows;
 
@@ -250,7 +225,7 @@ class StageFeedRowView extends StatelessWidget {
     StageRowState.now => ', now',
     StageRowState.right => ', right',
     StageRowState.wrong => ', not right',
-    StageRowState.kept => ', kept',
+    StageRowState.kept => ', In Revise',
     StageRowState.seen => ', seen',
     StageRowState.ahead => '',
   };
@@ -263,7 +238,7 @@ class StageFeedRowView extends StatelessWidget {
       StageRowState.now => Text('Now', maxLines: 1, softWrap: false, overflow: TextOverflow.visible, style: type.label.copyWith(fontSize: 12, height: 1, color: colors.accentText)),
       StageRowState.right => Icon(LucideIcons.check, size: 16, color: colors.goodText),
       StageRowState.wrong => Icon(LucideIcons.x, size: 16, color: colors.badText),
-      StageRowState.kept => StageBookmark(size: 16, color: stageSelect(colors)),
+      StageRowState.kept => StageCardStack(size: 16, color: stageSelect(colors), stroke: 2),
       StageRowState.seen => DecoratedBox(decoration: BoxDecoration(color: colors.ink3, shape: BoxShape.circle), child: const SizedBox.square(dimension: 6)),
       StageRowState.ahead => const SizedBox.shrink(),
     };

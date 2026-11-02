@@ -1,7 +1,8 @@
-// The stage's frame, ticks and keys: the top bar (Close, the title and its 2.4 s note, the kept count, the counter that
-// opens This feed), the action bar (56 | 1fr | 56, wide for the checkpoint), the ticks (segments, the 48+ bar, the
-// loading hairline, the fill of the current one), the side key (on, pop, busy), the step key (volt or line, its lip,
-// the 300 ms double-tap guard, the commit haptic, later), 48 dp targets and text scale 1.3 at 360 dp.
+// The stage's frame, ticks and keys: the top bar (one row: Close with its word, the ticks, the counter that opens This feed;
+// under it the chapter's name and its 2.4 s note; no kept count), the action bar (56 | 1fr | 56, wide for the checkpoint), the
+// ticks (segments, the 48+ bar, the loading hairline, the fill of the current one), the side key (on, pop, busy, the card-stack
+// glyph), the step key (volt or line, its lip, the 300 ms double-tap guard, the commit haptic, later, a second line), 48 dp
+// targets and text scale 1.3 at 360 dp.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -22,24 +23,23 @@ class _Taps {
   int step = 0;
 }
 
-Widget _frame(_Taps taps, {int kept = 0, String? note, bool wide = false, int of = 21, String title = 'Admission of a Partner'}) => StageFrame(
+Widget _frame(_Taps taps, {String? note, bool wide = false, int of = 21, String title = 'Admission of a Partner'}) => StageFrame(
   label: 'Admission of a Partner feed',
   onClose: () => taps.close++,
   closeLabel: 'Close the feed',
   title: title,
   titleNote: note,
   ticks: StageTicks(total: of, done: 4, current: 4),
-  kept: kept,
   position: 5,
   of: of,
   onCounter: () => taps.counter++,
   counterLabel: '5 of $of. Open the list of this feed',
-  left: wide ? null : StageSideKey(icon: LucideIcons.bookmark, label: 'Keep', onTap: () => taps.keep++),
+  left: wide ? null : StageSideKey(mark: (color) => StageCardStack(color: color), label: 'Revise later', onTap: () => taps.keep++),
   right: wide ? null : StageSideKey(icon: LucideIcons.bookOpen, label: 'Chapter', onTap: () => taps.chapter++),
   wide: wide,
   main: wide
       ? [
-          StageStepKey(label: 'End here', tone: StageTone.line, onTap: () {}),
+          StageStepKey(label: 'Stop here', tone: StageTone.line, onTap: () {}),
           StageStepKey(label: 'Keep going', onTap: () => taps.step++),
         ]
       : [StageStepKey(label: 'Turn over', haptic: false, onTap: () => taps.step++)],
@@ -52,16 +52,23 @@ void main() {
   testWidgets('the top bar and the action bar sit where the web puts them on a phone', (tester) async {
     final taps = _Taps();
     await pumpStage(tester, _frame(taps), padding: const EdgeInsets.only(top: 24, bottom: 16));
-    // The ticks 10 dp under the safe top, the 44 dp row 6 dp below them.
-    final ticks = tester.getRect(find.byType(StageTicks));
-    expect(ticks.top, 24 + 10);
-    expect(ticks.height, 2);
-    expect(ticks.left, 16);
-    expect(ticks.right, 344);
-    final close = tester.getRect(find.byType(StageIconKey));
-    expect(close.top, ticks.bottom + 6);
+    // One 44 dp row 4 dp under the safe top: Close (the X and the word), the ticks, the counter, 12 dp apart; then the
+    // chapter's name on its own 20 dp line.
+    final close = tester.getRect(find.byType(StageCloseKey));
+    expect(close.top, 24 + 4);
     expect(close.height, 44);
     expect(close.left, 6, reason: 'the X lines up with the 16 dp gutter');
+    expect(find.text('Close'), findsOneWidget, reason: 'the X comes with its word');
+    final ticks = tester.getRect(find.byType(StageTicks));
+    expect(ticks.height, 2);
+    expect(ticks.center.dy, close.center.dy, reason: 'the ticks are centred in the row');
+    expect(ticks.left, close.right + 12);
+    final counter = tester.getRect(find.byType(StageCounter));
+    expect(ticks.right, counter.left - 12);
+    expect(counter.right, 360 - 16 + 8, reason: 'its words end on the gutter');
+    final title = tester.getRect(find.text('Admission of a Partner'));
+    expect(title.center.dy, close.bottom + 10, reason: 'the 20 dp line under the row');
+    expect(title.left, 16);
     // The action bar: 56 | 1fr | 56 with 12 dp gaps, 16 at the sides, the safe bottom + 8.
     final keep = tester.getRect(find.byType(StageSideKey).first);
     final step = tester.getRect(find.byType(StageStepKey));
@@ -75,7 +82,7 @@ void main() {
     expect(tester.getRect(find.text('the item')).center.dy, greaterThan(close.bottom));
     expect(800 - 16 - 8 - step.bottom, greaterThanOrEqualTo(0));
 
-    await tester.tap(find.byType(StageIconKey));
+    await tester.tap(find.byType(StageCloseKey));
     await tester.tap(find.byType(StageCounter));
     await tester.tap(find.byType(StageSideKey).first);
     await tester.tap(find.byType(StageSideKey).last);
@@ -84,19 +91,14 @@ void main() {
     expect([taps.close, taps.counter, taps.keep, taps.chapter, taps.step], [1, 1, 1, 1, 1]);
   });
 
-  testWidgets('the counter reads "5 of 21" with a chevron; the kept count shows from the first keep', (tester) async {
+  testWidgets('the counter reads "5 of 21" with a chevron and opens This feed', (tester) async {
     final handle = tester.ensureSemantics();
     final taps = _Taps();
     await pumpStage(tester, _frame(taps));
-    expect(find.byType(StageKeptCount), findsNothing);
     expect(find.bySemanticsLabel('5 of 21. Open the list of this feed'), findsOneWidget);
     expect(find.byIcon(LucideIcons.chevronDown), findsOneWidget);
-    await pumpStage(tester, _frame(taps, kept: 1));
-    await tester.pumpAndSettle();
-    expect(find.bySemanticsLabel('1 kept'), findsOneWidget);
-    await pumpStage(tester, _frame(taps, kept: 2));
-    await tester.pumpAndSettle();
-    expect(find.text('2'), findsOneWidget);
+    await tester.tap(find.byType(StageCounter));
+    expect(taps.counter, 1);
     handle.dispose();
   });
 
@@ -184,6 +186,15 @@ void main() {
   });
 
   group('keys', () {
+    testWidgets('the side key: the card stack is ink, then a check in the select colour once it is on; the bookmark fills; pop swells it; busy waits', (tester) async {
+      await pumpStage(tester, Center(child: StageSideKey(mark: (color) => StageCardStack(color: color), label: 'Revise later', onTap: () {})));
+      expect(tester.widget<StageCardStack>(find.byType(StageCardStack)).color, MmColors.dark.ink);
+      expect(find.text('Revise later'), findsOneWidget);
+      await pumpStage(tester, Center(child: StageSideKey(icon: LucideIcons.check, label: 'In Revise', on: true, onTap: () {})));
+      expect(find.byType(StageCardStack), findsNothing);
+      expect(tester.widget<Icon>(find.byIcon(LucideIcons.check)).color, MmColors.dark.volt);
+    });
+
     testWidgets('the side key: on fills the bookmark in volt and inks the label; pop swells it; busy waits', (tester) async {
       var taps = 0;
       Widget key({bool on = false, bool busy = false}) => Center(
@@ -241,6 +252,13 @@ void main() {
       expect(taps, 2);
     });
 
+    testWidgets('a step key can carry a second line (the end\'s next chapter)', (tester) async {
+      await pumpStage(tester, Center(child: StageStepKey(label: 'Next chapter · 10 min', sub: 'Goodwill: Nature and Valuation', minHeight: 56, onTap: () {})));
+      expect(find.text('Next chapter · 10 min'), findsOneWidget);
+      expect(find.text('Goodwill: Nature and Valuation'), findsOneWidget);
+      expect(tester.getSize(find.byType(StageStepKey)).height, greaterThanOrEqualTo(56));
+    });
+
     testWidgets('a later step key fades in after 260 ms', (tester) async {
       await pumpStage(tester, Center(child: StageStepKey(label: 'Next', later: true, onTap: () {})));
       double shown() => tester.widget<Opacity>(find.descendant(of: find.byType(StageStepKey), matching: find.byType(Opacity)).first).opacity;
@@ -256,13 +274,13 @@ void main() {
   testWidgets('48 dp targets, every target labelled; text scale 1.3 at 360 dp fits', (tester) async {
     final handle = tester.ensureSemantics();
     final taps = _Taps();
-    await pumpStage(tester, _frame(taps, kept: 3));
+    await pumpStage(tester, _frame(taps));
     await tester.pumpAndSettle();
     await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
     await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
     expect(find.bySemanticsLabel('Close the feed'), findsOneWidget);
     handle.dispose();
-    await pumpStage(tester, _frame(taps, kept: 12, of: 120, title: 'Accounting for Share Capital and Debentures'), textScale: 1.3);
+    await pumpStage(tester, _frame(taps, of: 120, title: 'Accounting for Share Capital and Debentures'), textScale: 1.3);
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
     await pumpStage(tester, _frame(taps, wide: true), textScale: 1.3);

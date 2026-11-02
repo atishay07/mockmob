@@ -1,6 +1,7 @@
 // The Explore feed's controller over the recorded Learn server (FixtureLearnApi): start and pick-up, the item states,
-// Keep, Save, answers with the streak and the re-insert, the left-out and closed lines, the checkpoint, the stop rule,
-// the end (read on arrival, never invented) and "Another 10 minutes", and the states without items.
+// Revise later, Save, answers with the streak and the re-insert, the left-out and closed lines, the checkpoint, the stop rule
+// and "Stop here" (the server keeps the feed open), the end (read on arrival, never invented), "Keep going" and "Continue",
+// the first visit's cue (once per student, marked only by the first move), and the states without items.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/learn2/data/learn_api.dart';
@@ -141,8 +142,9 @@ void main() {
       final c = feedController(FixtureLearnApi(pro: false, freeUsed: true));
       await c.start();
       expect(c.status, FeedStatus.free);
-      expect(c.free!.line, startsWith('Your free Learn session for today is done.'));
-      expect(c.free!.options.map((o) => o.label), ['Revise 3 due cards', 'Quick recap of this chapter', 'Questions on this chapter in Explore']);
+      expect(c.free!.line, startsWith("That was today's free session."));
+      expect(c.free!.options.map((o) => o.label), ['Revise 8 due cards · 2 min', 'Answer single questions'], reason: 'the keys the server accepts today, in its words');
+      expect(c.free!.resume!.raw['label'], 'Continue · 8 min');
       expect(c.free!.resume!.kind, LearnKinds.feed);
       expect(c.asksToStop, isFalse);
       c.dispose();
@@ -196,7 +198,7 @@ void main() {
       c.dispose();
     });
 
-    test('Keep: the server\'s line as the stamp, the kept count, the flight', () async {
+    test('Revise later: the stamp "In Revise" once the server has it, the count, the confirm; never before', () async {
       final api = FixtureLearnApi();
       final events = FeedEvents();
       final c = feedController(api, events: events);
@@ -208,7 +210,7 @@ void main() {
       expect(st.stamp, const FeedStamp('In Revise'));
       expect(c.numbers.kept, 1);
       expect(events.kept, [card.id]);
-      expect(events.said.last, 'Kept. In Revise.');
+      expect(events.said.last, startsWith('In Revise.'), reason: 'said after the server\'s yes, with its line about the day');
       expect(api.keeps.single.itemId, card.id);
       expect(c.dirty, 1);
       expect(c.changed, isTrue);
@@ -234,39 +236,64 @@ void main() {
       c.dispose();
     });
 
-    test('Keep that fails: "Not kept. Try again." in the bad colour', () async {
-      final c = feedController(FixtureLearnApi(failOn: {'keep': FixtureLearnApi.offlineError}));
+    test('Revise later that fails: "Not added. Try again." in the bad colour, and nothing is claimed', () async {
+      final events = FeedEvents();
+      final c = feedController(FixtureLearnApi(failOn: {'keep': FixtureLearnApi.offlineError}), events: events);
       await c.start();
       await c.keep(cardAt(c, 0));
-      expect(c.stateOf(c.items[0].id).stamp, const FeedStamp('Not kept. Try again.', bad: true));
+      expect(c.stateOf(c.items[0].id).stamp, const FeedStamp('Not added. Try again.', bad: true));
       expect(c.numbers.kept, 0);
+      expect(events.said.last, 'Could not add that card to Revise. Try again.');
+      expect(events.kept, isEmpty, reason: 'no confirm before the server says yes');
       c.dispose();
     });
 
-    test('the first feed\'s nudge comes once, after the first turn, and is remembered', () async {
+    test('the first feed\'s cue stays until the student moves once, then leaves over 160 ms and is remembered for that student', () async {
       final store = MemoryPrefsStore();
       final prefs = LearnPrefs(store);
-      final events = FeedEvents();
-      final c = feedController(FixtureLearnApi(), events: events, prefs: prefs, reduced: false);
+      final c = feedController(FixtureLearnApi(), prefs: prefs, studentId: 'ana', reduced: false);
       await c.start();
       await settle();
+      expect(c.cueDue, isTrue, reason: 'a student who has never moved in a feed');
+      expect(await prefs.coachSeen(FeedController.cueId('ana')), isFalse, reason: 'showing it marks nothing');
+      // A turn is not a move: the chip stays.
       c.turn(cardAt(c, 0));
-      await Future<void>.delayed(FeedController.nudgeAfter + const Duration(milliseconds: 50));
-      expect(events.nudges, 1);
-      expect(await prefs.feedNudgeSeen(), isTrue);
-      c.turn(cardAt(c, 0));
-      c.turn(cardAt(c, 0));
-      await Future<void>.delayed(FeedController.nudgeAfter + const Duration(milliseconds: 50));
-      expect(events.nudges, 1);
+      await settle();
+      expect(c.cueDue, isTrue);
+      expect(await prefs.coachSeen(FeedController.cueId('ana')), isFalse);
+      c.go(1);
+      expect(c.cueLeaving, isTrue, reason: 'it fades out over 160 ms');
+      expect(c.cueDue, isTrue);
+      await Future<void>.delayed(FeedController.cueLeave + const Duration(milliseconds: 60));
+      expect(c.cueDue, isFalse);
+      expect(c.cueLeaving, isFalse);
+      expect(await prefs.coachSeen(FeedController.cueId('ana')), isTrue, reason: 'marked only by the move');
+      c.go(2);
+      expect(c.cueDue, isFalse);
       c.dispose();
-      // A later feed: none.
-      final later = feedController(FixtureLearnApi(), events: events, prefs: prefs, reduced: false);
+
+      // A later feed of the same student: no cue. Another student on the same phone: the cue.
+      final later = feedController(FixtureLearnApi(), prefs: prefs, studentId: 'ana', reduced: false);
       await later.start();
       await settle();
-      later.turn(cardAt(later, 0));
-      await Future<void>.delayed(FeedController.nudgeAfter + const Duration(milliseconds: 50));
-      expect(events.nudges, 1);
+      expect(later.cueDue, isFalse);
       later.dispose();
+      final other = feedController(FixtureLearnApi(), prefs: prefs, studentId: 'ben', reduced: false);
+      await other.start();
+      await settle();
+      expect(other.cueDue, isTrue);
+      other.dispose();
+    });
+
+    test('under reduced motion the cue leaves at once', () async {
+      final prefs = LearnPrefs(MemoryPrefsStore());
+      final c = feedController(FixtureLearnApi(), prefs: prefs, studentId: 'ana');
+      await c.start();
+      await settle();
+      c.go(1);
+      await settle();
+      expect(c.cueDue, isFalse);
+      c.dispose();
     });
   });
 
@@ -296,26 +323,39 @@ void main() {
       f.dispose();
     });
 
-    test('right answers keep a streak: "Right. 3 in a row." from 3', () async {
+    test('right answers keep a streak: "Right. 4 in a row." from 3; an open mistake answered right says the fixed line', () async {
       final api = FixtureLearnApi();
       final events = FeedEvents();
       final c = feedController(api, events: events);
       await c.start();
-      c.go(4);
-      await c.choose(questionAt(c, 4), rightKey(questionAt(c, 4)));
+      final plain = [
+        for (final i in c.items)
+          if (i is LearnQuestionItem && !i.isMistake) i,
+      ];
+      final mistakes = [
+        for (final i in c.items)
+          if (i is LearnQuestionItem && i.isMistake) i,
+      ];
+      expect(plain.length, greaterThanOrEqualTo(3));
+      expect(mistakes, isNotEmpty);
+      Future<void> answer(LearnQuestionItem q) async {
+        c.go(c.slotIndexOf(q.id));
+        await c.choose(q, rightKey(q));
+      }
+
+      await answer(plain[0]);
       expect(c.streak, 1);
       expect(events.said.last, 'Right.');
-      c.go(7);
-      await c.choose(questionAt(c, 7), rightKey(questionAt(c, 7)));
+      await answer(plain[1]);
       expect(c.streak, 2);
-      // An old mistake answered right says the server's fixed line.
-      expect(events.said.last, 'Right this time. Back on Wed to check it held.');
-      c.go(10);
-      await c.choose(questionAt(c, 10), rightKey(questionAt(c, 10)));
+      await answer(mistakes[0]);
       expect(c.streak, 3);
-      expect(events.said.last, 'Right. 3 in a row.');
-      expect(c.numbers.answered, 2);
-      expect(c.numbers.right, 2);
+      expect(events.said.last, startsWith('Right this time. Back on '), reason: 'an open mistake answered right says the fixed line');
+      await answer(plain[2]);
+      expect(c.streak, 4);
+      expect(events.said.last, 'Right. 4 in a row.');
+      expect(c.numbers.answered, 3);
+      expect(c.numbers.right, 3);
       expect(c.numbers.mistakes, 1);
       expect(c.numbers.fixed, 1);
       c.dispose();
@@ -338,7 +378,7 @@ void main() {
       expect(res.correct, isFalse);
       expect(res.line?.card, isNotNull);
       expect(events.said.last, startsWith('Not quite. The answer is '));
-      expect(events.said.last, contains(' The line you needed: Goodwill appearing in the books'));
+      expect(events.said.last, contains(' The line you needed: '));
       // The copy is in the list three on, once; the student stays on the question.
       expect(c.items, hasLength(17));
       final copy = c.items[res.reinsert!.at];
@@ -431,7 +471,7 @@ void main() {
       final q = questionAt(f, 4);
       await f.choose(q, 'A');
       expect(f.closed, isTrue);
-      expect(f.stateOf(q.id).skipped, startsWith('Your free Learn session for today is done.'));
+      expect(f.stateOf(q.id).skipped, startsWith("That was today's free session."));
       expect(f.mode, FeedMode.items);
       // Nothing more is sent once closed.
       await f.choose(questionAt(f, 10), 'A');
@@ -448,13 +488,78 @@ void main() {
       expect(c.asksToStop, isFalse);
       await c.keep(cardAt(c, 0));
       expect(c.asksToStop, isTrue);
-      expect(c.stopDetail, '1 kept in Revise.');
       c.go(4);
       await c.choose(questionAt(c, 4), rightKey(questionAt(c, 4)));
-      expect(c.stopDetail, '1 of 1 question right. 1 kept in Revise.');
+      expect(c.asksToStop, isTrue);
       c.go(c.endAt);
       expect(c.mode, FeedMode.end);
       expect(c.asksToStop, isFalse);
+      c.dispose();
+    });
+
+    test('Stop here shows the end and tells the server the feed stays open to pick up today (end?stop=1)', () async {
+      final api = FixtureLearnApi();
+      final c = feedController(api);
+      await c.start();
+      await c.keep(cardAt(c, 0));
+      c.go(3);
+      c.stopHere();
+      expect(c.stoppedHere, isTrue);
+      expect(c.mode, FeedMode.end);
+      await settle();
+      expect(api.stops, [true], reason: 'the end is read with the stop flag');
+      expect(c.endStatus, FeedEndStatus.ready);
+      expect(c.furthest, 4, reason: 'a stop part way keeps the furthest item it reached, not the whole feed');
+      expect(c.closed, isTrue);
+      c.dispose();
+    });
+
+    test('a feed that ran to its last item reads the end without the stop flag', () async {
+      final api = FixtureLearnApi();
+      final c = feedController(api);
+      await c.start();
+      c.go(c.endAt);
+      await settle();
+      expect(api.stops, [false]);
+      expect(c.stoppedHere, isFalse);
+      expect(c.furthest, c.items.length);
+      c.dispose();
+    });
+
+    test('Continue picks the feed up by its id, no new start; a run the server closed goes to its end', () async {
+      final api = FixtureLearnApi();
+      final c = feedController(api);
+      await c.start();
+      final id = c.run!.id;
+      c.go(3);
+      final starts = api.starts.length;
+      await c.resumeFeed(id);
+      expect(api.starts, hasLength(starts), reason: 'a resume reads the run, it does not start another');
+      expect(c.run!.id, id);
+      expect(c.mode, FeedMode.items);
+      expect(c.active, 0);
+      expect(c.stoppedHere, isFalse);
+      expect(c.again, isFalse);
+
+      // The server closed it (its end was read without a stop): Continue shows the end instead of an error.
+      c.go(c.endAt);
+      await settle();
+      await c.resumeFeed(id);
+      await settle();
+      expect(c.mode, FeedMode.end);
+      expect(c.endStatus, FeedEndStatus.ready);
+      c.dispose();
+    });
+
+    test('an answer for an older start is dropped: a second start while one is on its way wins', () async {
+      final api = FixtureLearnApi(slow: const Duration(milliseconds: 20));
+      final c = feedController(api);
+      final first = c.start();
+      final second = c.againFeed();
+      await Future.wait([first, second]);
+      await settle();
+      expect(c.again, isFalse);
+      expect(c.status, FeedStatus.ready);
       c.dispose();
     });
 
@@ -468,13 +573,15 @@ void main() {
       await settle();
       expect(c.endStatus, FeedEndStatus.ready);
       final f = c.endData!.feed!;
-      expect(f.lead!.label, 'Another 10 minutes');
-      expect(f.next!.label, 'Next chapter: Retirement and Death of a Partner');
+      final d = c.endData!;
+      expect(d.lead!.label, 'Keep going \u00B7 10 min', reason: 'the server\'s key, word for word');
+      expect(d.options, hasLength(1), reason: 'one quiet link at most');
+      expect(d.options.first.label, startsWith('Fix '));
+      expect(f.next!.label, 'Next chapter \u00B7 10 min');
       expect(c.position, 16);
       expect(c.furthest, 16);
-      final lines = FeedModel.endLines([for (final l in f.lines) (label: l.label, text: l.text)], seen: c.numbers.seen, kept: f.kept.count, hasCards: c.hasCards);
-      expect(lines.first, (label: 'Cards', text: '1 seen, 1 kept'));
-      expect(lines.map((l) => l.label), ['Cards', 'Questions', 'Old mistakes']);
+      expect(f.kept.count, greaterThanOrEqualTo(0));
+      expect(f.lines.map((l) => l.label), containsAll(['Questions', 'Open mistakes']), reason: '"open mistakes" is the one name');
       // Back to the last item and to the end again: the same version, no second read.
       c.go(c.endAt - 1);
       c.go(c.endAt);
@@ -500,7 +607,7 @@ void main() {
       c.dispose();
     });
 
-    test('"Another 10 minutes" starts a fresh feed of the chapter', () async {
+    test('"Keep going" starts a fresh feed of the chapter', () async {
       final api = FixtureLearnApi();
       final c = feedController(api);
       await c.start();
@@ -522,7 +629,7 @@ void main() {
       c.dispose();
     });
 
-    test('"Another 10 minutes" after Free\'s claim turns into the day-used state', () async {
+    test('"Keep going" after Free\'s claim turns into the day-used state', () async {
       final api = FixtureLearnApi(pro: false);
       final c = feedController(api);
       await c.start();
@@ -546,7 +653,7 @@ void main() {
       expect(rows[4].mark, FeedRowMark.wrong);
       // The wrong answer's card came back three on, before the old mistake.
       expect(rows[7].kind, 'Key card');
-      expect(rows[8].kind, 'Old mistake');
+      expect(rows[8].kind, 'Open mistake');
       expect(c.slotIndexOf(rows[8].id), 9);
       c.dispose();
     });

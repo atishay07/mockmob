@@ -1,10 +1,9 @@
 /// The run's own parts on the stage (what only the run has; the stage parts are in `../stage/`). The run's phone band is the
-/// web's `run.css` (A4 3.3, BUILD-1101 B2 with B7): its top bar puts the ticks under the Close row with the time left, and
-/// its action bar holds the item's keys over one status line, so the run builds its own frame from the stage's keys:
+/// web's `run.css` (A4 3.3, BUILD-1101 B2 with B7, R3 L4): its top bar is one row (Close, the ticks, "3 of 21") over the chapter's
+/// name, and its action bar holds the item's keys over one status line, so the run builds its own frame from the stage's keys:
 ///
-///   RunTopBar       Close, the chapter's title, the In Revise pile and its count, "3 of 21"; under them the ticks and "about
-///                   6 min left"
-///   RunPileGlyph    the three stacked cards, the flight's target
+///   RunTopBar       Close (the X and the word), the ticks, "3 of 21" (the Revise flight lands on it); under them one quiet line
+///                   with the chapter's name. No pile and no time left in a phone's bar
 ///   RunFrame        the top bar, the item area (12 dp above and below), the action bar; the end is a layer over it
 ///   RunActionBar    the item's keys, 6 dp, then the one status line (20 dp, always reserved)
 ///   RunStatusView   an error, a note, the stamp, a coach line or Free's look line
@@ -19,7 +18,6 @@ library;
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -36,281 +34,94 @@ import '../stage/stage_ticks.dart';
 import 'run_controller.dart';
 import 'run_copy.dart';
 
-// ---------------------------------------------------------------- the Revise pile glyph and its count
+/// ---------------------------------------------------------------- the top bar and the frame
 
-/// The Revise pile's glyph: three stacked cards (20 x 24), two under-papers at -9 and 6 degrees. It is the flight's target.
-class RunPileGlyph extends StatelessWidget {
-  const RunPileGlyph({super.key});
-
-  static const double width = 20;
-  static const double height = 24;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    Widget paper({required double angle, required double shift, bool top = false}) => Positioned(
-      left: 3,
-      right: 3,
-      top: 2,
-      bottom: 2,
-      child: Transform(
-        alignment: Alignment.center,
-        transform: Matrix4.identity()
-          ..rotateZ(angle * math.pi / 180)
-          ..translateByDouble(shift, 0, 0, 1),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: top ? colors.raised2 : colors.raised,
-            borderRadius: BorderRadius.circular(3),
-            border: Border.all(color: colors.lineStrong),
-          ),
-        ),
-      ),
-    );
-    return ExcludeSemantics(
-      child: SizedBox(
-        width: width,
-        height: height,
-        child: Stack(children: [paper(angle: -9, shift: -2), paper(angle: 6, shift: 1), paper(angle: 0, shift: 0, top: true)]),
-      ),
-    );
-  }
-}
-
-/// `lr-pop`: when [trigger] changes the child swells to 1.12 at 45% and settles over 180 ms (nothing under reduced motion).
-class RunPop extends StatefulWidget {
-  const RunPop({super.key, required this.trigger, required this.child});
-
-  final int trigger;
-  final Widget child;
-
-  @override
-  State<RunPop> createState() => _RunPopState();
-}
-
-class _RunPopState extends State<RunPop> with SingleTickerProviderStateMixin {
-  late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(milliseconds: 180), value: 1);
-
-  @override
-  void didUpdateWidget(RunPop old) {
-    super.didUpdateWidget(old);
-    if (widget.trigger != old.trigger && !Motion.reduced(context)) _c.forward(from: 0);
-  }
-
-  @override
-  void dispose() {
-    _c.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => AnimatedBuilder(
-    animation: _c,
-    child: widget.child,
-    builder: (context, child) {
-      final v = _c.value;
-      if (v >= 1) return child!;
-      final bump = v < 0.45 ? Motion.out.transform(v / 0.45) : 1 - Motion.out.transform((v - 0.45) / 0.55);
-      return Transform.scale(scale: 1 + 0.12 * bump, child: child);
-    },
-  );
-}
-
-/// The glyph and its count (the count is hidden at 0 while the glyph stays as the flight's target; it pops when a card lands).
-class RunPileCount extends StatelessWidget {
-  const RunPileCount({super.key, required this.count, this.pop = 0, this.glyphKey});
-
-  final int count;
-  final int pop;
-
-  /// On the glyph: where the flight lands.
-  final GlobalKey? glyphKey;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return Semantics(
-      label: RunCopy.reviseLabel(count),
-      excludeSemantics: true,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 44),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            KeyedSubtree(key: glyphKey, child: const RunPileGlyph()),
-            const SizedBox(width: MmSpace.s4),
-            ConstrainedBox(
-              constraints: const BoxConstraints(minWidth: 8),
-              child: Visibility(
-                visible: count > 0,
-                maintainSize: true,
-                maintainAnimation: true,
-                maintainState: true,
-                child: RunPop(
-                  trigger: pop,
-                  child: Text(
-                    '$count',
-                    maxLines: 1,
-                    style: type.label.copyWith(
-                      fontSize: 13,
-                      height: 1,
-                      fontWeight: FontWeight.w700,
-                      color: colors.ink,
-                      fontFeatures: const [FontFeature.tabularFigures()],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ---------------------------------------------------------------- the top bar and the frame
-
-/// The phone's top bar (run.css `.lr-top`): row 1 is 44 dp (Close, the title, the pile, "3 of 21"), then 4 dp, then the 20 dp
-/// row of the ticks and the time left; 8 dp (or the safe top) above and 10 below, 16 at the sides. "3 of 21" and the time left
-/// share one column, as the web's grid has them.
+/// The phone's top bar (run.css `.lr-top`, R3 L4): one 44 dp row (Close, the ticks, "4 of 20"), 12 dp apart, and under it one quiet
+/// 20 dp line with the chapter's name. Safe top (at least 4) above, 6 below, 16 at the sides. No Revise pile in a phone's bar and
+/// no time left (both are drawn from 768 and 1024 dp): a card that goes to Revise flies into the counter ([posKey]).
 class RunTopBar extends StatelessWidget {
-  const RunTopBar({
-    super.key,
-    required this.onClose,
-    this.closeLabel = RunCopy.closeLabel,
-    this.title = '',
-    this.ticks,
-    this.pile,
-    this.pileKey,
-    this.pop = 0,
-    this.position,
-    this.of,
-    this.left,
-    this.reserveRight = true,
-  });
+  const RunTopBar({super.key, required this.onClose, this.closeLabel = RunCopy.closeLabel, this.title = '', this.ticks, this.position, this.of, this.posKey});
 
   final VoidCallback onClose;
   final String closeLabel;
   final String title;
 
-  /// The column of "3 of 21" and the time left keeps its width even while both are empty (the web's grid does); a skeleton
-  /// and a state give it up so the ticks span the bar.
-  final bool reserveRight;
-
   /// The ticks (`StageTicks`); null keeps the row empty.
   final Widget? ticks;
-
-  /// The In Revise count; null hides the pile (a recap, a state).
-  final int? pile;
-  final GlobalKey? pileKey;
-  final int pop;
   final int? position;
   final int? of;
 
-  /// "about 6 min left".
-  final String? left;
+  /// On the counter: where the Revise flight lands.
+  final GlobalKey? posKey;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final top = math.max(8.0, MediaQuery.paddingOf(context).top);
+    final top = math.max(4.0, MediaQuery.paddingOf(context).top);
     final tabular = [const FontFeature.tabularFigures()];
-    final titleStyle = type.label.copyWith(fontSize: 13, height: 1.2, fontWeight: FontWeight.w600, color: colors.ink2);
     final pos = position != null && of != null
         ? Semantics(
             label: RunCopy.counterLabel(position!, of!),
             excludeSemantics: true,
-            child: Text.rich(
-              TextSpan(
-                style: type.label.copyWith(fontSize: 14, height: 1, fontWeight: FontWeight.w500, color: colors.ink3, fontFeatures: tabular),
-                children: [
-                  TextSpan(
-                    text: '$position',
-                    style: TextStyle(fontWeight: FontWeight.w700, color: colors.ink),
-                  ),
-                  TextSpan(text: ' of $of'),
-                ],
+            child: KeyedSubtree(
+              key: posKey,
+              child: Text.rich(
+                TextSpan(
+                  style: type.label.copyWith(fontSize: 14, height: 1, fontWeight: FontWeight.w500, color: colors.ink3, fontFeatures: tabular),
+                  children: [
+                    TextSpan(
+                      text: '$position',
+                      style: TextStyle(fontWeight: FontWeight.w700, color: colors.ink),
+                    ),
+                    TextSpan(text: ' of $of'),
+                  ],
+                ),
+                maxLines: 1,
+                softWrap: false,
               ),
-              maxLines: 1,
-              softWrap: false,
             ),
           )
-        : const SizedBox.shrink();
-    final timeLeft = left != null && left!.isNotEmpty
-        ? Text(
-            left!,
-            maxLines: 1,
-            softWrap: false,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.end,
-            style: type.label.copyWith(fontSize: 12.5, height: 1, fontWeight: FontWeight.w500, color: colors.ink3, fontFeatures: tabular),
-          )
-        : const SizedBox.shrink();
+        : (posKey == null ? const SizedBox.shrink() : SizedBox(key: posKey, width: 0, height: 14));
     return ColoredBox(
       color: colors.ground,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(MmSpace.gutter, top, MmSpace.gutter, 10),
-        child: LayoutBuilder(
-          builder: (context, c) => Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+        padding: EdgeInsets.fromLTRB(0, top, 0, 6),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // The row starts 10 dp left of the gutter (Close's own padding, so its X lines up with the page).
+            Padding(
+              padding: const EdgeInsets.only(left: MmSpace.gutter - 10, right: MmSpace.gutter),
+              child: SizedBox(
+                height: 44,
+                child: Row(
                   children: [
-                    SizedBox(
-                      height: 44,
-                      child: Row(
-                        children: [
-                          // The key's box starts 10 dp left of the gutter, so its X lines up with the page.
-                          Transform.translate(
-                            offset: const Offset(-10, 0),
-                            child: StageIconKey(icon: LucideIcons.x, size: 22, semanticsLabel: closeLabel, onTap: onClose),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis, softWrap: false, style: titleStyle),
-                          ),
-                          if (pile != null) ...[const SizedBox(width: 10), RunPileCount(count: pile!, pop: pop, glyphKey: pileKey)],
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    SizedBox(
-                      height: 20,
-                      child: Align(alignment: Alignment.center, child: ticks),
-                    ),
+                    StageCloseKey(inBar: true, semanticsLabel: closeLabel, onTap: onClose),
+                    const SizedBox(width: MmSpace.s12),
+                    Expanded(child: Center(child: SizedBox(height: 20, child: Align(alignment: Alignment.center, child: ticks)))),
+                    if (position != null || posKey != null) ...[const SizedBox(width: MmSpace.s12), pos],
                   ],
                 ),
               ),
-              if (reserveRight) ...[
-                const SizedBox(width: 10),
-                // At large text the time left may not take more than 42% of the bar: it ends in an ellipsis, the title keeps its room.
-                ConstrainedBox(
-                  constraints: BoxConstraints(minWidth: 72, maxWidth: math.max(72, c.maxWidth * 0.42)),
-                  child: IntrinsicWidth(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        SizedBox(
-                          height: 44,
-                          child: Align(alignment: Alignment.centerLeft, child: pos),
-                        ),
-                        const SizedBox(height: 4),
-                        SizedBox(
-                          height: 20,
-                          child: Align(alignment: Alignment.centerRight, child: timeLeft),
-                        ),
-                      ],
-                    ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+              child: SizedBox(
+                height: 20,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    style: type.label.copyWith(fontSize: 13, height: 20 / 13, fontWeight: FontWeight.w500, color: colors.ink3),
                   ),
                 ),
-              ],
-            ],
-          ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -428,8 +239,8 @@ class RunStatusView extends StatelessWidget {
         style: type.body.copyWith(
           fontSize: 13.5,
           height: 1.45,
-          fontWeight: l.bad ? FontWeight.w600 : FontWeight.w500,
-          color: l.bad ? colors.badText : colors.ink2,
+          fontWeight: l.bad || l.cue ? FontWeight.w600 : FontWeight.w500,
+          color: l.bad ? colors.badText : (l.cue ? colors.ink : colors.ink2),
         ),
       );
     }
@@ -823,7 +634,7 @@ class RunSkeleton extends StatelessWidget {
     final screen = MediaQuery.sizeOf(context).height;
     return RunFrame(
       label: label,
-      topBar: RunTopBar(onClose: onClose, ticks: const StageTicks(), reserveRight: false),
+      topBar: RunTopBar(onClose: onClose, ticks: const StageTicks()),
       bar: const RunActionBar(
         keys: SkeletonGroup(label: RunCopy.loadingLabel, child: Skeleton(height: 52, radius: 14)),
       ),

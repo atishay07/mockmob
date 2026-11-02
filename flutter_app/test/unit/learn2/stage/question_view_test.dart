@@ -1,12 +1,15 @@
-// A question on the stage, over the Learn preview's real questions: each stem shape is set as its parts, the options
-// answer once, pending, right (with its confirm haptic and the streak), wrong (no haptic, the line you needed opens in
-// place and the chosen row comes to 12 dp under the top), the locked, explanation, left-out, closed and error variants,
-// 48 dp targets and text scale 1.3 at 360 dp.
+// A question on the stage, over the Learn preview's real questions: each stem shape is set as its parts, the options sit at
+// the foot of the page in the thumb zone, answer once, pending, right (with its confirm haptic and the streak), wrong (no
+// haptic, "Not quite. It\u2019s C.", the line you needed opens in place, clamped to four lines, and the page scrolls only as far
+// as the verdict needs and never under the head line), the first question's hint, the locked, explanation, left-out, closed and
+// error variants, 48 dp targets and text scale 1.3 at 360 dp.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/widgets/mm_spinner.dart';
+import 'package:mockmob/features/keycards/data/keycards_models.dart';
 import 'package:mockmob/features/learn2/stage/question_view.dart';
 import 'package:mockmob/features/learn2/stage/stage_pager.dart';
+import 'package:mockmob/features/learn2/stage/stage_sci.dart';
 import 'package:mockmob/features/learn2/stage/stage_text.dart';
 
 import '../../../helpers/fonts.dart';
@@ -25,9 +28,16 @@ final _steps = _q((s) => StageText.stemParts(s) != null && StageText.matchLists(
 
 /// A question on a pager page, its answer held by the host as a screen holds it.
 class _QHost extends StatefulWidget {
-  const _QHost({required this.stem, required this.options, this.skipped, this.locked, this.streak = 0, this.room = 0});
+  const _QHost({required this.stem, required this.options, this.skipped, this.locked, this.streak = 0, this.room = 0, this.above = 0, this.hint, this.sci = false});
 
   final String stem;
+
+  /// Something above the question on its page (so the head line is not at the page's top), in dp.
+  final double above;
+
+  /// The first question's quiet hint above the options.
+  final String? hint;
+  final bool sci;
   final List<StageOption> options;
   final String? skipped;
   final String? locked;
@@ -65,6 +75,8 @@ class _QHostState extends State<_QHost> {
               label: 'Question 1 of 1',
               child: _withRoom(QuestionView(
                 head: 'Question 1 of 3',
+                hint: widget.hint,
+                sci: widget.sci,
                 stem: widget.stem,
                 options: widget.options,
                 answer: answer,
@@ -85,7 +97,9 @@ class _QHostState extends State<_QHost> {
 }
 
 extension on _QHostState {
-  Widget _withRoom(Widget q) => widget.room == 0 ? q : Column(children: [q, SizedBox(height: widget.room)]);
+  Widget _withRoom(Widget q) => widget.room == 0 && widget.above == 0
+      ? q
+      : Column(children: [if (widget.above > 0) SizedBox(height: widget.above), q, if (widget.room > 0) SizedBox(height: widget.room)]);
 }
 
 _QHostState _host(WidgetTester tester) => tester.state<_QHostState>(find.byType(_QHost));
@@ -168,13 +182,14 @@ void main() {
     expect(find.text('Right this time. Back on Wed to check it held.'), findsOneWidget);
   });
 
-  testWidgets('wrong: no haptic, the key row outlined, the line you needed opens in place, the pick comes to the top', (tester) async {
+  testWidgets('wrong: no haptic, the key row outlined, the line you needed opens in place, the head line stays', (tester) async {
     final haptics = StageHaptics();
     await pumpStage(tester, _QHost(stem: _lists.stem, options: _lists.options), haptics: haptics);
     final page = tester.state<ScrollableState>(find.ancestor(of: find.text('List-I'), matching: find.byType(Scrollable)).first).position;
     _host(tester).set(StageAnswer.graded('B', StageResult(correct: false, key: 'A', line: StageLine(card: stageCard('oldRatio')))));
     await tester.pump();
-    expect(find.text('Not quite. The answer is A.'), findsOneWidget);
+    expect(find.text('Not quite. It\u2019s A.'), findsOneWidget);
+    expect(find.textContaining('The answer is'), findsNothing);
     expect(tester.widget<StageOptionRow>(_row('B')).state, StageOptionState.wrong);
     expect(tester.widget<StageOptionRow>(_row('A')).state, StageOptionState.key);
     await tester.pumpAndSettle();
@@ -182,21 +197,115 @@ void main() {
     expect(find.text('The line you needed'), findsOneWidget);
     expect(find.textContaining('Goodwill appearing in the books will be'), findsOneWidget);
     expect(find.text('Accountancy Part 1, Ch 2, p. 70'), findsOneWidget);
-    // The page scrolls toward the pick; here the question ends before the pick can reach the top, so it stops at its end.
-    expect(page.pixels, greaterThan(0));
-    expect(page.pixels, moreOrLessEquals(page.maxScrollExtent, epsilon: 0.5));
+    // The head line is at the top of the page, so nothing may scroll under it: the page stays where it is.
+    expect(page.pixels, 0, reason: 'the head line and the stem never go under the top (R4 ui-correctness#7)');
+    expect(find.text('Question 1 of 3'), findsOneWidget);
   });
 
-  testWidgets('after a wrong answer the chosen row comes to 12 dp under the top of its page', (tester) async {
-    await pumpStage(tester, _QHost(stem: _lists.stem, options: _lists.options, room: 900));
+  testWidgets('after a wrong answer the page scrolls only as far as the verdict needs, 300 ms on, and never under the head line', (tester) async {
+    // 300 dp of something above the question (a banner) lets the page scroll before the head line meets the top.
+    await pumpStage(tester, _QHost(stem: _lists.stem, options: _lists.options, above: 300, room: 900));
+    final page = tester.state<ScrollableState>(find.ancestor(of: find.text('List-I'), matching: find.byType(Scrollable)).first).position;
+    final viewportTop = tester.getTopLeft(find.byType(StagePager)).dy;
     _host(tester).set(StageAnswer.graded('C', StageResult(correct: false, key: 'A', line: StageLine(card: stageCard('oldRatio')))));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 250));
-    final early = tester.getTopLeft(_row('C')).dy;
+    expect(page.pixels, 0, reason: 'it waits 300 ms');
     await tester.pumpAndSettle();
-    final viewportTop = tester.getTopLeft(find.byType(StagePager)).dy;
-    expect(early, greaterThan(tester.getTopLeft(_row('C')).dy), reason: 'it waited 300 ms, then moved');
-    expect(tester.getTopLeft(_row('C')).dy - viewportTop, moreOrLessEquals(12, epsilon: 1));
+    expect(page.pixels, greaterThan(0), reason: 'then it moves toward the verdict');
+    // The head line is still in view: its top is under the 24 dp fade at the page head.
+    expect(tester.getTopLeft(find.text('Question 1 of 3')).dy, greaterThanOrEqualTo(viewportTop + 24 - 1));
+    expect(find.text('The line you needed'), findsOneWidget);
+  });
+
+  testWidgets('the options sit at the foot of the page in the thumb zone; taller than the page it is plain flow', (tester) async {
+    await pumpStage(tester, _QHost(stem: _plain.stem, options: _plain.options));
+    await tester.pumpAndSettle();
+    final pager = tester.getRect(find.byType(StagePager));
+    final last = tester.getRect(_row('D'));
+    // The page is the area less the 40 dp peek, with 24 dp under its last line and the 12 dp flex gap before the (closed) line.
+    expect(pager.bottom - 40 - last.bottom, moreOrLessEquals(36, epsilon: 1), reason: 'the last option rests at the foot of its page');
+    final stem = tester.getRect(find.textContaining('When a new partner is admitted').first);
+    expect(stem.top - pager.top, lessThan(80), reason: 'the head and the stem stay at the top');
+    expect(tester.getTopLeft(_row('A')).dy - stem.bottom, greaterThan(40), reason: 'a gap between the stem and the options');
+
+    await tester.pumpWidget(const SizedBox());
+    await pumpStage(tester, _QHost(stem: _lists.stem, options: _lists.options, room: 100));
+    await tester.pumpAndSettle();
+    final page = tester.state<ScrollableState>(find.ancestor(of: find.text('List-I'), matching: find.byType(Scrollable)).first).position;
+    expect(page.maxScrollExtent, greaterThan(0), reason: 'a long question scrolls');
+  });
+
+  testWidgets('the first question\'s hint reads above the options until it is answered, and is gone for a student who has seen it', (tester) async {
+    await pumpStage(tester, _QHost(stem: _plain.stem, options: _plain.options, hint: 'Pick the answer you think is right.'));
+    await tester.pumpAndSettle();
+    final hint = tester.getRect(find.text('Pick the answer you think is right.'));
+    expect(hint.bottom, lessThanOrEqualTo(tester.getTopLeft(_row('A')).dy), reason: 'read before the options, never under them');
+    expect(find.textContaining('Tap the answer'), findsNothing);
+    _host(tester).set(const StageAnswer.graded('A', StageResult(correct: true, key: 'A')));
+    await tester.pumpAndSettle();
+    expect(find.text('Pick the answer you think is right.'), findsNothing);
+
+    await tester.pumpWidget(const SizedBox());
+    await pumpStage(tester, _QHost(stem: _plain.stem, options: _plain.options));
+    await tester.pumpAndSettle();
+    expect(find.text('Pick the answer you think is right.'), findsNothing);
+  });
+
+  testWidgets('under a wrong answer a chemistry chapter\'s line you needed draws its notation; another chapter\'s never does', (tester) async {
+    // The web draws notation in a card\'s front and back and in NCERT\'s line, not in a stem or an option.
+    final handle = tester.ensureSemantics();
+    final card = KeyCard.tryParse({
+      'id': 'c',
+      'kind': 'definition',
+      'subject': 'chemistry',
+      'chapterKey': 'chemistry.solutions',
+      'front': 'What is the charge on SO42- in H2SO4?',
+      'back': 'The sulphate ion, SO42-, comes from H2SO4.',
+      'quote': 'The sulphate ion, SO42-, comes from H2SO4.',
+      'blanks': <String>[],
+    })!;
+    List<StageSciSpan> spans() {
+      final out = <StageSciSpan>[];
+      for (final r in tester.widgetList<RichText>(find.descendant(of: find.byType(StageLineBlock), matching: find.byType(RichText), skipOffstage: false))) {
+        r.text.visitChildren((s) {
+          if (s is StageSciSpan) out.add(s);
+          return true;
+        });
+      }
+      return out;
+    }
+
+    for (final sci in [true, false]) {
+      await tester.pumpWidget(const SizedBox());
+      await pumpStage(tester, _QHost(stem: _plain.stem, options: _plain.options, sci: sci));
+      _host(tester).set(StageAnswer.graded('B', StageResult(correct: false, key: 'A', line: StageLine(card: card))));
+      await tester.pumpAndSettle();
+      expect(find.byType(StageLineBlock), findsOneWidget);
+      if (sci) {
+        expect(spans().map((s) => s.run), containsAll(['2', '4']), reason: 'SO42- and H2SO4');
+        expect(spans().where((s) => s.raised).map((s) => s.run), contains('2−'), reason: 'the charge is raised, with a true minus sign');
+        expect(find.bySemanticsLabel(RegExp('SO42')), findsWidgets, reason: 'a screen reader reads the same characters');
+      } else {
+        expect(spans(), isEmpty, reason: 'only a chemistry chapter is read as notation (an Accountancy "H2" is never a subscript)');
+      }
+    }
+    handle.dispose();
+  });
+
+  testWidgets('the line you needed shows four lines behind a fade; "Read the whole line" opens all of it', (tester) async {
+    await pumpStage(tester, _QHost(stem: _plain.stem, options: _plain.options));
+    _host(tester).set(StageAnswer.graded('B', StageResult(correct: false, key: 'A', line: StageLine(card: stageCard('economic')))));
+    await tester.pumpAndSettle();
+    final more = find.text('Read the whole line', skipOffstage: false);
+    expect(more, findsOneWidget, reason: 'a two-paragraph line is clamped');
+    final clamp = find.byType(StageClampLine, skipOffstage: false);
+    expect(tester.getSize(clamp).height, lessThan(StageClampLine.maxHeight + 60), reason: 'about four lines and the key');
+    await tester.ensureVisible(more);
+    await tester.tap(more);
+    await tester.pumpAndSettle();
+    expect(find.text('Read the whole line'), findsNothing, reason: 'once opened, whole');
+    expect(find.textContaining('Public debt', skipOffstage: false), findsWidgets);
   });
 
   testWidgets('a long question says "Options below" while option A waits under the fold; a tap brings it up', (tester) async {
@@ -220,7 +329,8 @@ void main() {
     _host(tester).set(const StageAnswer.graded('B', StageResult(correct: false, key: 'A', line: StageLine(locked: true, text: 'Free shows 3 lines a day. This one is on Pro.'))));
     await tester.pumpAndSettle();
     expect(find.text('The line you needed'), findsOneWidget);
-    expect(find.text('Free shows 3 lines a day. This one is on Pro.'), findsOneWidget);
+    expect(find.text('Free shows 3 lines a day. This one is on Pro.', skipOffstage: false), findsOneWidget);
+    await tester.ensureVisible(find.text('See Pro'));
     await tester.tap(find.text('See Pro'));
     expect(_host(tester).seePro, 1);
 

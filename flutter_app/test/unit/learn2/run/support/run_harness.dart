@@ -72,6 +72,9 @@ class ScriptedRunApi implements LearnApi {
   Object? endError;
   final List<({String itemId, int rating})> ratings = [];
   final List<RunStart> starts = [];
+
+  /// Whether each end read was a stop (end?stop=1).
+  final List<bool> stops = [];
   int piled = 0;
 
   @override
@@ -101,7 +104,8 @@ class ScriptedRunApi implements LearnApi {
   }
 
   @override
-  Future<LearnEnd> end(String runId) async {
+  Future<LearnEnd> end(String runId, {bool stop = false}) async {
+    stops.add(stop);
     final error = endError;
     if (error != null) throw error;
     return LearnFixtures.end('run_end_mix_pf_pro');
@@ -127,6 +131,7 @@ RunController runController(
   RunLaunch launch = const RunLaunch(chapterKey: l2Pf),
   RunEvents? events,
   LearnPrefs? prefs,
+  String? studentId,
   bool reduced = true,
   Future<void> Function(String lessonId)? openLesson,
 }) {
@@ -135,6 +140,7 @@ RunController runController(
     api: api,
     launch: launch,
     prefs: prefs,
+    studentId: studentId,
     onSay: e.said.add,
     onRated: e.rated.add,
     onSeePro: e.seePro.add,

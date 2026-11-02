@@ -36,6 +36,41 @@ void main() {
     }
   });
 
+  group('blank runs (a blank keeps the punctuation that touches it)', () {
+    final runs = (data['blankRuns'] as List).cast<Map<String, dynamic>>();
+
+    test('the fixture holds fronts with a comma, a stop and a bracket right at a blank', () {
+      expect(runs.length, greaterThan(500));
+      final tails = {for (final c in runs) for (final p in (c['out'] as List).cast<Map<String, dynamic>>()) if (p['tail'] != null) p['tail']};
+      final leads = {for (final c in runs) for (final p in (c['out'] as List).cast<Map<String, dynamic>>()) if (p['lead'] != null) p['lead']};
+      expect(tails, containsAll([',', '.', ')']));
+      expect(leads, containsAll(['(', '"']));
+    });
+
+    test('every front splits as the web splits it, and no character is lost', () {
+      for (final c in runs) {
+        final front = c['front'] as String;
+        final got = blankRuns(front);
+        expect(
+          [for (final p in got) {...(p.blank ? {'blank': true, 'n': p.n} : {'text': p.text}), if (p.lead.isNotEmpty) 'lead': p.lead, if (p.tail.isNotEmpty) 'tail': p.tail}],
+          c['out'],
+          reason: 'blankRuns of "$front"',
+        );
+        // The runs put back together (a blank as three underscores) are the front.
+        final back = [for (final p in got) p.blank ? '${p.lead}___${p.tail}' : p.text].join();
+        expect(back.replaceAll(RegExp(r'_{3,}'), '___'), front.replaceAll(RegExp(r'_{3,}'), '___'), reason: 'no character lost in "$front"');
+      }
+    });
+
+    test('a comma after a blank stays on the blank, not at the start of the next line', () {
+      final got = blankRuns('The ____, and the rest');
+      expect([for (final p in got) p.blank ? '[${p.lead}_${p.tail}]' : p.text], ['The ', '[_,]', ' and the rest']);
+      expect(blankRuns('("____")').single, (text: '', blank: true, n: 1, lead: '("', tail: '")'));
+      expect(blankRuns(''), isEmpty);
+      expect(blankRuns('No blank').single.text, 'No blank');
+    });
+  });
+
   group('book names and chapter references', () {
     for (final (i, b) in (data['bookNames'] as List).cast<Map<String, dynamic>>().indexed) {
       test('bookName $i', () {
