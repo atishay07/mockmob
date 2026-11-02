@@ -1,8 +1,8 @@
 // node --test src/components/learn2/run/runView.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { FREE_END_LINE, checkpointLines, endHeadline, endNumbers, endProgress, pileFrontSize, reviseLabel, stopSheetLine } from '../stage/endModel.mjs';
-import { answerTally, endLines, endTitle, freeEndLines, frontStep, itemsFinished, leadView, movedParts, placeReinsert, positionWords, reviseSummary, rightLine, runPiles, stageTag, stateKeyOf } from './runView.mjs';
+import { FREE_END_LINE, checkpointLines, endHeadline, endNumbers, endProgress, pileFrontSize, reachedPlace, reviseLabel, stopSheetLine } from '../stage/endModel.mjs';
+import { answerTally, endLines, endTitle, freeEndLines, frontStep, itemHeld, itemsFinished, leadView, movedParts, placeReinsert, positionWords, reviseSummary, rightLine, runPiles, stageTag, stateKeyOf } from './runView.mjs';
 
 const card = (id, cardId = id, extra = {}) => ({ id, type: 'card', card: { id: cardId }, ...extra });
 const q = (id, origin = 'chapter') => ({ id, type: 'question', origin, question: { id: `q-${id}` } });
@@ -274,4 +274,46 @@ test('R4 owner-eye#15 and ui-correctness#20: the hint once per student above the
   const parts = await source('run/RunParts.jsx');
   assert.match(parts, /<div className="lr-stemwrap"><Stem text=\{q\.body\} \/><\/div>\n\s+\{hint && !result \? <p className="lr-q__hint">\{hint\}<\/p> : null\}\n\s+<div className="lr-opts"/);
   assert.match(parts, /<InShort card=\{card\} \/>\n\s+<\/div>\n[^\n]*\n\s+\{src \? <p className="lr-src lr-src--back">/, 'the source sits after the back block, at the foot');
+});
+
+// ---------------------------------------------------------------- R5 LK45 fix 2: one count of "done"
+
+test('R5 LK45 fix 2: the stop sheet counts as the end does: the place of the last item the server holds an event for', () => {
+  const items = [card('i1'), card('i2'), q('i3'), card('i4'), q('i5'), card('i6')];
+  const count = (at, answers = {}, actedId = null, offset = 0) => reachedPlace(items, (item, index) => itemHeld({ item, index, at, answers, actedId }), offset);
+  assert.equal(count(0), 0, 'nothing done: Close leaves');
+  assert.equal(count(0, {}, 'i1'), 1, 'the card on screen counts once its rating is in the servers hands');
+  assert.equal(count(3), 2, 'a question passed with no answer holds no event: the last held place is the second card');
+  const answered = { i3: { result: { correct: true } } };
+  assert.equal(count(3, answered), 3);
+  // A skipped question writes nothing, so the end would not count it as the last place reached.
+  const skipped = { i5: { status: 'skipped' } };
+  assert.equal(count(5, skipped), 4, 'passed items i1..i4: i3 unanswered, i4 a card: place 4');
+  assert.equal(count(5, skipped, null), 4);
+  assert.equal(count(4, { i5: { status: 'skipped' } }), 4);
+  assert.equal(count(2, { i3: { result: { correct: false } } }, null, 5), 8, 'a resumed run: the prefix is the offset');
+  assert.equal(count(0, {}, null, 5), 5, 'nothing new this session: where the first one stopped');
+});
+
+test('R5 LK45 fix 2: a question skipped as the latest item is not "done" (the server holds no event for it)', () => {
+  const items = [card('a'), q('b')];
+  const held = (answers) => reachedPlace(items, (item, index) => itemHeld({ item, index, at: 1, answers }), 0);
+  assert.equal(held({ b: { status: 'skipped' } }), 1);
+  assert.equal(held({ b: { status: 'done', result: { correct: true } } }), 2);
+});
+
+test('R5 LK45 fix 2: the stop sheet line carries the same number', () => {
+  assert.equal(stopSheetLine(reachedPlace([card('x'), card('y')], (_, i) => i === 1, 0), 18), '2 of 18 done. It’s all saved.');
+});
+
+// ---------------------------------------------------------------- R5 LK38: a moved card takes the fresh words
+
+test('R5 LK38: a card moved closer by a wrong answer takes the fresh `returns` (its one second showing is used)', () => {
+  const list = [card('a'), card('b'), card('c'), card('d', 'dc', { returns: { missed: 'in this run, then tomorrow', got: 'in 3 days', easy: 'in 8 days' } })];
+  const fresh = { missed: 'tomorrow', got: 'in 3 days', easy: 'in 8 days' };
+  const out = placeReinsert(list, { itemId: 'd', at: 2, moved: true, item: { id: 'd', returns: fresh } }, { current: 0 });
+  assert.deepEqual(out.map((x) => x.id), ['a', 'b', 'd', 'c']);
+  assert.deepEqual(out[2].returns, fresh);
+  const same = placeReinsert(list, { itemId: 'd', at: 2, moved: true }, { current: 0 });
+  assert.equal(same[2].returns.missed, 'in this run, then tomorrow', 'no fresh words sent: kept');
 });

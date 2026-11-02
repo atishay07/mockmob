@@ -91,6 +91,19 @@ export function itemsFinished({ phase, at, length, item = null, answered = false
 }
 
 /**
+ * Whether the server holds an event for an item of the run player (R5 LK45 fix 2: the stop sheet counts the way the end does,
+ * reachedPlace in stage/endModel.mjs). An item before the one on screen holds one when it is a card (rated or looked at), a
+ * lesson (read or skipped) or an answered question; a skipped question writes nothing. The item on screen holds one once its
+ * rating, look or answer is in the server's hands (`acted` for a card, a result for a question).
+ */
+export function itemHeld({ item, index, at, answers = {}, actedId = null }) {
+  if (!item || index > at) return false;
+  if (item.type === 'question') return Boolean(answers?.[item.id]?.result);
+  if (index < at) return true;
+  return item.type === 'card' && actedId === item.id;
+}
+
+/**
  * Where a re-inserted item goes in the client's list (A5 R7, A8 F9 and F11). The server's `at` is a place in the run's whole
  * list; a resumed run holds only the items after `offset`. `moved: true` moves the item already in the list (never a copy).
  * Returns the new list (the same list when nothing changes).
@@ -104,7 +117,9 @@ export function placeReinsert(list, { itemId, at, item = null, moved = false } =
     if (!moved || has <= current) return items;
     const rest = items.filter((x) => x.id !== itemId);
     const i = Math.max(current + 1, Math.min(rest.length, want));
-    return [...rest.slice(0, i), items[has], ...rest.slice(i)];
+    // R5 LK38: the card has now used its one second showing, so its Missed words are the server's fresh ones (no "in this run").
+    const moved_ = item?.returns ? { ...items[has], returns: item.returns } : items[has];
+    return [...rest.slice(0, i), moved_, ...rest.slice(i)];
   }
   if (!item) return items;
   const i = Math.max(current + 1, Math.min(items.length, want));

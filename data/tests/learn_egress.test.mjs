@@ -9,7 +9,7 @@ import { createKeycards } from '../../src/lib/server/keycards.js';
 import { fakeDb } from '../../src/lib/server/keycardsMemoryDb.js';
 import { syllabusFrom } from '../../src/lib/server/keycardsSyllabus.js';
 import { createLearn } from '../../src/lib/server/learn.js';
-import { STATE_COLUMNS, toState } from '../../src/lib/server/learnStore.js';
+import { FULL_STATE_COLUMNS, STATE_COLUMNS, toFullState, toState } from '../../src/lib/server/learnStore.js';
 import { memoryShare, schedule } from '../keycards.js';
 
 const T0 = Date.parse('2026-11-02T18:00:00+05:30');
@@ -92,4 +92,17 @@ test('static: the Learn server sources never select(\'*\') and never read the ba
     assert.doesNotMatch(src, /select\(\s*['"`]\*['"`]\s*\)/, `${file}: no select('*')`);
     assert.doesNotMatch(src, /select\([^)]*(['"`,])schedule(['"`,])/, `${file}: no bare schedule column`);
   }
+});
+
+test('R5 LK38: the keys words read json-path stubs (never the bare schedule), and the rebuilt state schedules exactly as the stored one', () => {
+  assert.doesNotMatch(FULL_STATE_COLUMNS, /(^|,)schedule(,|$)/);
+  const first = schedule(null, 3, T0 - 6 * DAY);
+  const sc = first.schedule;
+  const stubs = { card_id: 'c', reps: 1, lapses: 0, due_at: first.due_at, suspended: false, st: sc.stability, df: sc.difficulty, es: sc.elapsed_days, sd: sc.scheduled_days, ls: sc.learning_steps, sst: sc.state, sdue: sc.due, lr: sc.last_review, srp: sc.reps, slp: sc.lapses };
+  const rebuilt = toFullState(stubs);
+  assert.deepEqual(rebuilt.schedule, sc);
+  for (const rating of [1, 3, 4]) {
+    assert.equal(schedule(rebuilt, rating, T0).interval_days, schedule({ schedule: sc, reps: 1, lapses: 0 }, rating, T0).interval_days);
+  }
+  assert.equal(toFullState({ card_id: 'c', reps: 0, schedule: sc }).schedule, sc, 'a full row is kept');
 });

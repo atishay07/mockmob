@@ -359,6 +359,11 @@
 .lr-keys { display: grid; width: 100%; gap: 8px; }
 .lr-keys .kc-btn, .lr-keys .kc-rate__btn { min-height: 52px; font-size: 16px; }
 .lr-keys--rate { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+/* R5 LK38: a rating key names the rating and, under it, when the card would come back (the server's words from FSRS). */
+.lr-keys .lr-rate { flex-direction: column; gap: 3px; padding: 8px 6px; min-height: 60px; }
+.lr-rate__name { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.lr-rate__when { max-width: 100%; font: 500 11.5px/1.25 var(--font-body); color: var(--a-ink-2); text-align: center; text-wrap: balance; overflow-wrap: anywhere; }
+.lr-rate[data-rating='3'] .lr-rate__when { color: rgb(16 20 14 / 0.78); }
 .lr-keys--two { grid-template-columns: 1fr 1fr; }
 .lr-keys--lesson { grid-template-columns: 1fr 2fr; }
 .lr-keys--next { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; }

@@ -22,7 +22,7 @@
 //   lessonTitles        PART_TITLES override (optional)
 //   now(), newId()      clock (ms) and run ids
 import { createHash, randomBytes } from 'node:crypto';
-import { KIND_LABELS, KEYCARD_RULES, istDay, lineNeeded, lockedStub, memoryShare, tasteIds } from '../../../data/keycards.js';
+import { KIND_LABELS, KEYCARD_RULES, istDay, lineNeeded, lockedStub, memoryShare, schedule, tasteIds } from '../../../data/keycards.js';
 import { stateFor, tallyChapters } from '../../../data/chapter_state.js';
 import { getCanonicalSubject, isTopSubject } from '../../../data/canonical_syllabus.js';
 import { LEARN_RULES, budgetSeconds, composeRun, dryRun, minutesFor, cardStage, mistakeLabel } from '../../../data/learn/compose.js';
@@ -32,7 +32,7 @@ import { ROADMAP_RULES, reviseRowOf, roadmap as roadmapOf, verdictOf } from '../
 import { IN_RUN, doneLine, istDaysBetween, levelPick, movedLine, retryReady, returnDay, revisePileGroups, shortDate } from '../../../data/learn/stamps.js';
 import { FEED_RULES, coverOrder, feedEndLines, keptLine } from '../../../data/learn/feed.js';
 import { LEARN_FREE, FREE_SESSION_DONE, FREE_END_LINE, FREE_CAPPED, FREE_CARDS_ONLY, freeSession, isCounted } from '../../../data/learn/allowance.js';
-import { WORDS, reviseDue, withMinutes } from '../../../data/learn/words.js';
+import { WORDS, backStamp, missedWords, returnWords, reviseDue, withMinutes } from '../../../data/learn/words.js';
 import { cardSeconds, cardWords, itemSeconds, questionSeconds } from '../../../data/learn/seconds.js';
 import { gradeCard, istDate, planSeeds } from '../../../data/revise.js';
 import { createLearnStore } from './learnStore.js';
@@ -569,11 +569,11 @@ export function createLearn(deps) {
     return out;
   }
 
-  function publicItem(S, row, item, qmap, limited) {
+  function publicItem(S, row, item, qmap, limited, returns = null) {
     if (item.type === 'card') {
       return {
         id: item.id, type: 'card', stage: item.stage, card: cardOf(S, item.cardId), look: Boolean(item.look || limited), recap: Boolean(item.recap),
-        seconds: secondsOf(item), ...(item.reason ? { reason: item.reason } : {}),
+        seconds: secondsOf(item), ...(item.reason ? { reason: item.reason } : {}), ...(returns?.get(item.id) ? { returns: returns.get(item.id) } : {}),
       };
     }
     if (item.type === 'question') {
@@ -583,7 +583,51 @@ export function createLearn(deps) {
     return { id: item.id, type: 'lesson', lesson: { id: item.lessonId, title: item.title || null, minutes: item.minutes || null }, seconds: secondsOf(item) };
   }
 
-  const pileOf = (events) => ({ count: new Set(events.filter((e) => e.kind === 'rate' && (e.rating === 3 || e.rating === 4)).map((e) => e.card_id)).size });
+  /**
+   * R5 LK38: when each rating would bring a card back, in words, for every card item the student may rate: `returns` is
+   * { missed, got, easy } from FSRS's own schedule() on the card's stored state (the function a rating runs, so the key and the
+   * stamp agree). Missed also says "in this run" while the run will show the card again (3 items on, once per card per run:
+   * learn_runs.reinserted). Not for a look (Free's cards past the day's ratings), a recap, a feed (it only Keeps), or a card back
+   * from earlier (a copy: its rating is a last look that never moves the schedule; "the line you needed" is a first rating, so
+   * it has words). A failed read gives no words, never a guess.
+   */
+  async function returnsOf(userId, row, items, at = now()) {
+    const out = new Map();
+    const rateable = (items || []).filter((i) => i.type === 'card' && !i.look && !i.recap && (i.stage !== 'again' || i.reason === 'line'));
+    if (!rateable.length || row.kind === 'recap' || row.kind === 'feed' || row.limit_line) return out;
+    let rows = [];
+    try { rows = await store.fullStates(userId, rateable.map((i) => i.cardId)); } catch { return out; }
+    const byCard = new Map((rows || []).map((r) => [r.card_id, r]));
+    const shown = new Set(row.reinserted || []);
+    for (const item of rateable) {
+      const held = byCard.get(item.cardId);
+      if (held?.suspended) continue;
+      const state = held && Number(held.reps) > 0 && held.schedule ? held : null;
+      try {
+        const words = (rating) => returnWords(schedule(state, rating, at).interval_days);
+        out.set(item.id, { missed: missedWords(words(1), !shown.has(item.cardId)), got: words(3), easy: words(4) });
+      } catch { /* no words for this card */ }
+    }
+    return out;
+  }
+
+  /** The In Revise pile: every card rated in the run (Missed it, Got it and Easy all schedule the card), once each. */
+  const pileOf = (events) => ({ count: new Set(events.filter((e) => e.kind === 'rate' && [1, 3, 4].includes(e.rating)).map((e) => e.card_id)).size });
+
+  /**
+   * R5 LK45 fix 4: a card run whose cards come from more than one chapter (Revise's due cards, a Find set) is not "a chapter":
+   * its head line says Revise and it has no place. Today's 10 minutes and the other mixes keep their chapter.
+   */
+  function spansChapters(S, row) {
+    if (row.kind !== 'cards' && row.kind !== 'recap') return false;
+    const keys = new Set();
+    for (const i of row.items || []) {
+      const key = i.type === 'card' ? cardOf(S, i.cardId)?.chapterKey : i.type === 'question' ? S?.questionsById?.get(i.questionId)?.chapterKey : null;
+      if (key) keys.add(key);
+      if (keys.size > 1) return true;
+    }
+    return false;
+  }
 
   async function runBody(S, row, { events = [], resumed = false } = {}) {
     const done = new Set(events.map((e) => e.item_id));
@@ -592,15 +636,18 @@ export function createLearn(deps) {
     const meta = metaOf(row);
     const chapter = row.chapter_key ? syllabus.chapterByKey(row.chapter_key) : null;
     const limited = Boolean(row.limit_line);
+    const returns = await returnsOf(S.userId, row, items, S.now);
+    // R5 LK45 fix 4: a run over several chapters is headed "Revise", with no chapter place (`key` stays the first card's, for routing).
+    const spans = spansChapters(S, row);
     return {
       id: row.id, kind: row.kind,
-      chapter: {
+      chapter: spans ? { key: row.chapter_key, title: WORDS.revise, ref: null, partTitle: null, number: null, place: null, spans: true } : {
         key: row.chapter_key, title: cleanTitle(chapter?.title || chapter?.name || row.chapter_key), ref: chapter?.ncert?.chapter ? `Ch ${chapter.ncert.chapter}` : null,
         partTitle: chapter ? partTitles[chapter.ncert?.book] || chapter.ncert?.book || null : null, number: chapter?.ncert?.chapter ? Number(chapter.ncert.chapter) || null : null,
         place: placeOf(S, row.chapter_key), // R4 ruling N: "Chapter 5 of 14"; `ref` is for source lines only
       },
       minutes: row.minutes, asked: Number(row.asked_minutes) || row.minutes,
-      items: items.map((i) => publicItem(S, row, i, qmap, limited)),
+      items: items.map((i) => publicItem(S, row, i, qmap, limited, returns)),
       revisePile: pileOf(events),
       resumed: resumed ? { done: (row.items || []).length - items.length, of: (row.items || []).length } : null,
       added: row.added || null,
@@ -1002,7 +1049,10 @@ export function createLearn(deps) {
     const fresh = await store.run(row.user_id, row.id);
     const item = (fresh?.items || []).find((i) => i.id === r.item_id);
     if (!item) return null;
-    return { itemId: r.item_id, at: r.at, item: publicItem(S, fresh, item, new Map(), Boolean(fresh.limit_line)), ...(r.moved ? { moved: true } : {}) };
+    // The card's words are read from the fresh row: a card just put back (or moved closer) is already in `reinserted`, so its
+    // Missed words no longer promise a second showing in this run.
+    const returns = await returnsOf(row.user_id, fresh, [item]);
+    return { itemId: r.item_id, at: r.at, item: publicItem(S, fresh, item, new Map(), Boolean(fresh.limit_line), returns), ...(r.moved ? { moved: true } : {}) };
   }
 
   const expired = (row) => now() - Date.parse(row.created_at) > LEARN_LIMITS.answerHours * HOUR;
@@ -1137,10 +1187,13 @@ export function createLearn(deps) {
     if (row.ended_at) return bad('RUN_ENDED', 409, { endHref: endHrefOf(row) });
     if (expired(row)) return bad('RUN_EXPIRED', 409, { endHref: endHrefOf(row) });
     const record = (event, extra = {}) => store.recordEvent({ userId, runId: row.id, itemId: item.id, event: { seconds: secondsOf(item), ...event }, ...extra });
-    const pile = (res, fallback) => ({ count: Number.isFinite(Number(res?.revise_pile)) ? Number(res.revise_pile) : fallback });
+    // R5 LK38: the pile counts every rated card (Missed it, Got it, Easy), so it is read from the run's own events; the
+    // database function's `revise_pile` counts only 3 and 4 and is not used.
+    const pile = (count) => ({ count });
+    const pileNow = async () => pile(pileOf(await evs()).count);
     if (item.type === 'lesson') {
-      const res = await record({ kind: 'lesson', body: { lessonId: item.lessonId } });
-      return ok({ ok: true, stamp: null, revisePile: pile(res, 0), limit: null });
+      await record({ kind: 'lesson', body: { lessonId: item.lessonId } });
+      return ok({ ok: true, stamp: null, revisePile: await pileNow(), limit: null });
     }
     const me = await who(userId);
     const t = now();
@@ -1161,8 +1214,8 @@ export function createLearn(deps) {
         if (res.http !== 200) return { http: res.http, body: res.body };
       }
       const res = await record({ kind: 'keep', card_id: item.cardId, due_at: st && Number(st.reps) > 0 ? st.due_at : null, body: { kept: true, stamp, line: lineText, already: Boolean(st) } });
-      if (res?.status === 'replay') return ok({ ok: true, replay: true, kept: true, stamp: res.body?.stamp ?? stamp, line: res.body?.line ?? lineText, revisePile: pile(res, 0), limit: null });
-      return ok({ ok: true, kept: true, stamp, line: lineText, revisePile: pile(res, 0), limit: null });
+      if (res?.status === 'replay') return ok({ ok: true, replay: true, kept: true, stamp: res.body?.stamp ?? stamp, line: res.body?.line ?? lineText, revisePile: await pileNow(), limit: null });
+      return ok({ ok: true, kept: true, stamp, line: lineText, revisePile: await pileNow(), limit: null });
     }
     const rating = Number(body?.rating);
     if (![1, 3, 4].includes(rating)) return bad('INVALID_RATING');
@@ -1170,12 +1223,12 @@ export function createLearn(deps) {
     // A recap card: logged as a last look, never scheduled, no allowance.
     if (row.kind === 'recap' || item.recap) {
       await kc.review(userId, { cardId: item.cardId, rating, mode: 'last_look' }, opts);
-      const res = await record({ kind: 'recap', card_id: item.cardId, rating, body: { look: true } });
-      return ok({ ok: true, stamp: null, revisePile: pile(res, 0), limit: null });
+      await record({ kind: 'recap', card_id: item.cardId, rating, body: { look: true } });
+      return ok({ ok: true, stamp: null, revisePile: await pileNow(), limit: null });
     }
     if (item.look || row.limit_line) {
-      const res = await record({ kind: 'look', card_id: item.cardId, body: { look: true } });
-      return ok({ ok: true, saved: false, look: true, stamp: null, revisePile: pile(res, 0), limit: row.limit_line ? { text: row.limit_line } : row.looks || null });
+      await record({ kind: 'look', card_id: item.cardId, body: { look: true } });
+      return ok({ ok: true, saved: false, look: true, stamp: null, revisePile: await pileNow(), limit: row.limit_line ? { text: row.limit_line } : row.looks || null });
     }
     // A card rated earlier in this run and back again (R6.1): a learning step, logged as a last look; its stamp stays the first's.
     const ev = await evs();
@@ -1183,25 +1236,28 @@ export function createLearn(deps) {
     if (first) {
       await kc.review(userId, { cardId: item.cardId, rating, mode: 'last_look' }, opts);
       const stamp = first.body?.stamp && first.body.stamp !== IN_RUN ? first.body.stamp : stampOf(first.due_at, t);
-      const res = await record({ kind: 'look', card_id: item.cardId, rating, body: { again: true, stamp } });
-      return ok({ ok: true, again: true, stamp, revisePile: pile(res, pileOf(ev).count), limit: null });
+      await record({ kind: 'look', card_id: item.cardId, rating, body: { again: true, stamp } });
+      return ok({ ok: true, again: true, stamp, revisePile: pile(pileOf(ev).count), limit: null });
     }
     let res = await kc.review(userId, { cardId: item.cardId, rating, mode: 'study' }, opts);
     if (res.http === 409 && res.body?.error === 'REVIEW_CONFLICT') res = await kc.review(userId, { cardId: item.cardId, rating, mode: 'study' }, opts);
     if (res.http === 402) {
       const text = LOOKS_TEXT[res.body?.reason] || LOOKS_TEXT.keycard_reviews;
       const out = await record({ kind: 'look', card_id: item.cardId, body: { look: true, limitHit: true } }, { limitLine: text });
-      return ok({ ok: true, saved: false, look: true, stamp: null, revisePile: pile(out, pileOf(ev).count), limit: { text } });
+      return ok({ ok: true, saved: false, look: true, stamp: null, revisePile: pile(pileOf(ev).count), limit: { text } });
     }
     if (res.http !== 200) return { http: res.http, body: res.body };
     const dueAt = res.body?.next?.due_at || null;
+    // R5 LK38: "Back tomorrow", "Back in 3 days": the same words the key promised (returnWords over the schedule's days).
     let stamp = dueAt ? stampOf(dueAt, t) : null;
+    const words = dueAt ? returnWords((Date.parse(dueAt) - t) / DAY) : null;
+    if (words && Date.parse(dueAt) > t) stamp = backStamp(words);
     const reinsert = rating === 1 ? { card_id: item.cardId, gap: 3, unless_rated_well: false, item: { type: 'card', cardId: item.cardId, stage: 'again', seconds: secondsOf({ type: 'card', stage: 'again' }) } } : null;
     const out = await record({ kind: 'rate', card_id: item.cardId, rating, due_at: dueAt, body: { stamp, saved: true } }, { reinsert });
-    if (out?.status === 'replay') return ok({ ok: true, replay: true, stamp: out.body?.stamp ?? stamp, revisePile: pile(out, pileOf(ev).count), limit: null });
+    if (out?.status === 'replay') return ok({ ok: true, replay: true, stamp: out.body?.stamp ?? stamp, revisePile: await pileNow(), limit: null });
     const back = out?.reinsert ? await hydrateReinsert({ pub: await published() }, row, out.reinsert) : null;
-    if (back) stamp = IN_RUN;
-    return ok({ ok: true, stamp, revisePile: pile(out, pileOf(ev).count + (rating >= 3 ? 1 : 0)), limit: null, reinsert: back });
+    if (back) stamp = words ? `Back in this run, then ${words}` : IN_RUN;
+    return ok({ ok: true, stamp, revisePile: pile(pileOf(ev).count + 1), limit: null, reinsert: back });
   }
 
   // ---------------------------------------------------------------- GET /api/learn/runs/:id/end
@@ -1212,6 +1268,7 @@ export function createLearn(deps) {
     const me = await who(userId);
     const [S, evAll] = await Promise.all([snapshot(userId, me, row.subject), store.events(row.id)]);
     const info = chapterInfo(S, row.chapter_key);
+    const spans = spansChapters(S, row); // R5 LK45 fix 4: a card run over several chapters is headed Revise and has no chapter bar
     const items = row.items || [];
     const itemOf = new Map(items.map((i) => [i.id, i]));
     const ev = evAll.filter((e) => !e.body?.seeded);
@@ -1244,10 +1301,11 @@ export function createLearn(deps) {
       questions: answered.length ? `${right} of ${answered.length} right` : null,
       fixed: mistakesIn.length ? `${fixed} of ${mistakesIn.length}${still ? `, ${still} still open` : ''}` : null,
     };
-    // B7 6: the cards this run sent to Revise as they were rated Got it or Easy, in run order, at most 4, for the end's pile.
+    // B7 6, R5 LK38: the cards this run sent to Revise as they were rated (Missed it, Got it or Easy: each is scheduled), in run order,
+    // at most 4, for the end's pile.
     const placeOf = new Map(items.map((i, k) => [i.id, k]));
     const sent = [];
-    for (const e of ev.filter((x) => x.kind === 'rate' && (x.rating === 3 || x.rating === 4))) {
+    for (const e of ev.filter((x) => x.kind === 'rate' && [1, 3, 4].includes(x.rating))) {
       if (!sent.some((x) => x.id === e.card_id)) sent.push({ id: e.card_id, at: placeOf.get(e.item_id) ?? Number.MAX_SAFE_INTEGER });
     }
     const reviseCards = sent.sort((a, b) => a.at - b.at).map((x) => cardOf(S, x.id)).filter(Boolean).slice(0, 4)
@@ -1255,11 +1313,13 @@ export function createLearn(deps) {
     const groups = revisePileGroups([...perCard.values()].map((c) => c.dueAt).filter(Boolean), S.now);
     // R16: "moved" only between answer-based states, never from Not started.
     const startState = metaOf(row);
-    const moved = S.isPro && info ? movedLine(info.title, startState, info.state) : null;
+    const moved = S.isPro && info && !spans ? movedLine(info.title, startState, info.state) : null;
     const free = !S.isPro && row.limit_line && info ? { text: `Free opened ${info.counts.open} of this chapter's ${info.counts.cards} cards. Pro opens all of them and keeps them on a schedule.` } : null;
     // The length the student chose, unless the run was shrunk (R4): the title and the next options use it.
     const length = metaOf(row).shrink ? Number(row.minutes) : Number(row.asked_minutes) || Number(row.minutes);
-    const title = recap ? `Quick recap of ${info?.title || row.chapter_key}` : `${minutesWord(length)} on ${info?.title || row.chapter_key}`;
+    // R5 LK45 fix 4: a card run over several chapters is "Revise", as its head line was; the end says the same.
+    const headName = spans ? WORDS.revise : info?.title || row.chapter_key;
+    const title = recap ? (spans ? 'Quick recap of your cards' : `Quick recap of ${headName}`) : `${minutesWord(length)} on ${headName}`;
     // R2 ruling 6: a run stopped part way (the stop sheet's "Stop here": ?stop=1) is not ended, so the student can pick it up
     // today (Learn home and the chapter page offer it; a start of the same chapter and make resumes it). A run that reached its
     // end, or a stop with every item done, is ended once. R4 server-security#5: a run already ended never gets the stopped keys.
@@ -1312,10 +1372,10 @@ export function createLearn(deps) {
     // How far the run got and how long it took, for every run kind ("You stopped at 8 of 21." / "All 21 done in 9 min.").
     const done = runDone(row, ev);
     // On Free the bar also carries `open` (the cards Free opens in this chapter), so a Free end can say the rest open with Pro.
-    const progress = info ? { ...chapterProgress(info, items, ev), ...(S.isPro ? {} : { open: info.counts.open }) } : null;
+    const progress = info && !spans ? { ...chapterProgress(info, items, ev), ...(S.isPro ? {} : { open: info.counts.open }) } : null;
     const feed = row.kind === 'feed' ? feedEnd(S, row, info, { ev, itemOf, answered: answered.length, right, fixed, mistakes: mistakesIn.length, sessionDone, length, done }) : null;
     return ok({
-      feed, title, done, stopped: stoppedHere, progress, chapter: info ? { key: info.key, title: info.title, place: info.place } : null,
+      feed, title, done, stopped: stoppedHere, progress, chapter: spans ? { key: row.chapter_key, title: WORDS.revise, place: null, spans: true } : info ? { key: info.key, title: info.title, place: info.place } : null,
       numbers: { cards: perCard.size, questions: answered.length, fixed, mistakes: mistakesTried, detail },
       lines, revisePile: groups, reviseCards, moved, free, lead: opts.lead, options: opts.options, ...(level ? { level } : {}),
     });

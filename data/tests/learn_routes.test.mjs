@@ -9,6 +9,7 @@ import { fakeDb } from '../../src/lib/server/keycardsMemoryDb.js';
 import { syllabusFrom } from '../../src/lib/server/keycardsSyllabus.js';
 import { createLearn, clientKeyOf, FREE_SESSION_DONE, FREE_END_LINE, FREE_CAPPED, FREE_CARDS_ONLY, keyLetter, servedOptions, mistakeText } from '../../src/lib/server/learn.js';
 import { toState } from '../../src/lib/server/learnStore.js';
+import { returnWords } from '../learn/words.js';
 import { istDay, schedule, tasteIds } from '../keycards.js';
 
 const HOUR = 3_600_000;
@@ -360,10 +361,10 @@ test('rate: Got it stamps a real date; Missed comes back once; its re-rating is 
   const { learn, tables, calls } = setup({ isPro: true });
   const run = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'cards', requestKey: 'rate-000001' })).body;
   const got = (await learn.rate('u1', run.id, { itemId: run.items[0].id, rating: 3 })).body;
-  assert.match(got.stamp, /^Back (tomorrow|Mon|Tue|Wed|Thu|Fri|Sat|Sun|in \d+ days|later today)$/);
+  assert.match(got.stamp, /^Back (tomorrow|in \d+ (days|weeks|months))$/);
   assert.equal(got.revisePile.count, 1);
   const missed = (await learn.rate('u1', run.id, { itemId: run.items[1].id, rating: 1 })).body;
-  assert.equal(missed.stamp, 'Back later in this run');
+  assert.equal(missed.stamp, 'Back in this run, then tomorrow');
   assert.equal(missed.reinsert.at, 4);
   assert.equal(missed.reinsert.item.stage, 'again');
   const replay = (await learn.rate('u1', run.id, { itemId: run.items[1].id, rating: 3 })).body;
@@ -997,4 +998,105 @@ test('R4 orchestrator: covers send up to 5 hooks in feed order (the cover skips 
     if (isPro) assert.equal('open' in (end.progress || {}), false, 'Pro: no open count');
     else assert.ok(Number.isInteger(end.progress?.open) && end.progress.open <= end.progress.of, 'Free: the cards Free opens here');
   }
+});
+
+// ---------------------------------------------------------------- R5 packet B1: the study stage tells the truth (LK38, LK45)
+
+const reviewedState = (card, { daysAgo = 6, chapter = PL } = {}) => {
+  const at = T0 - daysAgo * DAY;
+  const s = schedule(null, 3, at);
+  return { user_id: 'u1', card_id: card.id, subject: 'business_studies', chapter_key: chapter, schedule: s.schedule, reps: 1, lapses: 0, due_at: s.due_at, last_review_at: new Date(at).toISOString(), last_rating: 3, added_from: 'chapter', added_at: new Date(at).toISOString(), suspended: false };
+};
+
+test('R5 LK38: every rateable card carries `returns` from FSRS; the stamp after a rating says the same words', async () => {
+  const { learn } = setup({ isPro: true });
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'cards', requestKey: 'ret-0000001' })).body;
+  const cards = run.items.filter((i) => i.type === 'card');
+  assert.ok(cards.length >= 3);
+  for (const c of cards) assert.deepEqual(c.returns, { missed: 'in this run, then tomorrow', got: 'in 3 days', easy: 'in 8 days' }, 'a new card: FSRS gives 1, 3 and 8 days');
+  const got = (await learn.rate('u1', run.id, { itemId: cards[0].id, rating: 3 })).body;
+  assert.equal(got.stamp, `Back ${cards[0].returns.got}`);
+  const easy = (await learn.rate('u1', run.id, { itemId: cards[1].id, rating: 4 })).body;
+  assert.equal(easy.stamp, `Back ${cards[1].returns.easy}`);
+  const missed = (await learn.rate('u1', run.id, { itemId: cards[2].id, rating: 1 })).body;
+  assert.equal(missed.stamp, 'Back in this run, then tomorrow');
+  assert.equal(missed.reinsert.item.returns, undefined, 'a missed card back in the run is a last look: it has no words');
+});
+
+test("R5 LK38: a reviewed (due) card reads its own stored schedule, not a new card's", async () => {
+  const state = reviewedState(PLANNING[0]);
+  const { learn } = setup({ isPro: true, tables: { key_card_states: [state] } });
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'cards', requestKey: 'ret-0000002' })).body;
+  const item = run.items.find((i) => i.type === 'card' && i.card.id === PLANNING[0].id);
+  assert.ok(item, 'the due card is in the run');
+  const words = (r) => returnWords(schedule(state, r, T0).interval_days);
+  assert.deepEqual(item.returns, { missed: `in this run, then ${words(1)}`, got: words(3), easy: words(4) });
+  assert.notEqual(item.returns.got, 'in 3 days');
+  const got = (await learn.rate('u1', run.id, { itemId: item.id, rating: 3 })).body;
+  assert.equal(got.stamp, `Back ${item.returns.got}`, "the stamp is the key's promise");
+});
+
+test('R5 LK38: no words on a look, a recap or a feed; a line card put in the run has words without "in this run"', async () => {
+  const free = setup();
+  const runFree = (await free.learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'cards', requestKey: 'ret-0000003' })).body;
+  for (const c of runFree.items.filter((i) => i.type === 'card')) assert.equal(Boolean(c.returns), !c.look, 'Free: a look has no words');
+  const pro = setup({ isPro: true });
+  const recap = (await pro.learn.start('u1', { chapterKey: PL, minutes: 3, kind: 'recap', requestKey: 'ret-0000004' })).body;
+  assert.ok(recap.items.every((i) => !i.returns));
+  const feed = (await pro.learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'feed', requestKey: 'ret-0000005' })).body;
+  assert.ok(feed.items.every((i) => !i.returns));
+  const run = (await pro.learn.start('u1', { chapterKey: PL, minutes: 20, kind: 'mix', requestKey: 'ret-0000006' })).body;
+  const q2 = run.items.find((i) => i.type === 'question' && i.question.id === 'q-p2');
+  if (q2 && !run.items.some((i) => i.type === 'card' && i.card.id === PLANNING[9].id)) {
+    const out = (await pro.learn.answer('u1', run.id, { itemId: q2.id, choice: 'B' })).body;
+    assert.deepEqual(out.reinsert.item.returns, { missed: 'tomorrow', got: 'in 3 days', easy: 'in 8 days' }, 'it is already in `reinserted`: Missed does not show it twice');
+  }
+});
+
+test('R5 LK38: the In Revise pile counts every rated card: Missed it, Got it and Easy', async () => {
+  const { learn } = setup({ isPro: true });
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'cards', requestKey: 'pile-000001' })).body;
+  const cards = run.items.filter((i) => i.type === 'card');
+  assert.equal((await learn.rate('u1', run.id, { itemId: cards[0].id, rating: 1 })).body.revisePile.count, 1, 'Missed it is in Revise');
+  assert.equal((await learn.rate('u1', run.id, { itemId: cards[1].id, rating: 3 })).body.revisePile.count, 2);
+  assert.equal((await learn.rate('u1', run.id, { itemId: cards[2].id, rating: 4 })).body.revisePile.count, 3);
+  const reread = (await learn.getRun('u1', run.id)).body;
+  assert.equal(reread.revisePile.count, 3);
+  const end = (await learn.end('u1', run.id, { stop: true })).body;
+  assert.equal(end.reviseCards.length, 3, "the end's pile shows all three ratings");
+  assert.equal(end.revisePile.reduce((n, g) => n + g.count, 0), 3);
+});
+
+test('R5 LK45 fix 4: a card run over several chapters is headed Revise, with no place; one chapter keeps its name', async () => {
+  const { learn } = setup({ isPro: true });
+  const ids = [PLANNING[0].id, STAFFING[0].id, PLANNING[1].id];
+  const run = (await learn.start('u1', { minutes: 5, kind: 'cards', cardIds: ids, requestKey: 'span-000001' })).body;
+  assert.equal(run.chapter.title, 'Revise');
+  assert.equal(run.chapter.place, null);
+  assert.equal(run.chapter.spans, true);
+  assert.equal(run.chapter.ref, null);
+  const reread = (await learn.getRun('u1', run.id)).body;
+  assert.equal(reread.chapter.title, 'Revise');
+  const end = (await learn.end('u1', run.id, { stop: true })).body;
+  assert.deepEqual([end.chapter.title, end.chapter.place, end.chapter.spans], ['Revise', null, true]);
+  assert.equal(end.title, '5 minutes on Revise');
+  assert.equal(end.progress, null, 'no chapter bar for a run over several chapters');
+  const one = (await learn.start('u1', { minutes: 5, kind: 'cards', cardIds: [PLANNING[0].id, PLANNING[1].id], requestKey: 'span-000002' })).body;
+  assert.equal(one.chapter.title, 'Planning');
+  assert.ok(one.chapter.place?.n >= 1);
+  assert.equal(one.chapter.spans, undefined);
+  const mix = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'span-000003' })).body;
+  assert.equal(mix.chapter.title, 'Planning', 'a chapter mix is never headed Revise');
+});
+
+test('R5 LK45 fix 2: the end counts "done" as the place of the last item the server holds an event for', async () => {
+  const { learn } = setup({ isPro: true });
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'done-000001' })).body;
+  const at = run.items.findIndex((i) => i.type === 'card');
+  await learn.rate('u1', run.id, { itemId: run.items[at].id, rating: 3 });
+  const second = run.items.findIndex((i, k) => k > at + 1 && i.type === 'card');
+  await learn.rate('u1', run.id, { itemId: run.items[second].id, rating: 3 });
+  const end = (await learn.end('u1', run.id, { stop: true })).body;
+  assert.equal(end.done.reached, second + 1, 'the place of the last item with an event, not a count of events');
+  assert.equal(end.done.of, run.items.length);
 });

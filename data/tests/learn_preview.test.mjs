@@ -100,12 +100,12 @@ test('a run end to end: no keys before an answer, a fixed mistake, the line you 
   // Got it on the first card: a real return day.
   const got = (await call(`/api/learn/runs/${run.id}/rate`, { method: 'POST', body: { itemId: items[0].id, rating: 3 } })).body;
   assert.equal(got.ok, true);
-  assert.match(got.stamp, /^Back (Mon|Tue|Wed|Thu|Fri|Sat|Sun|tomorrow|later today|in \d+ days)$/);
+  assert.match(got.stamp, /^Back (tomorrow|in \d+ (days|weeks|months))$/);
   assert.equal(got.revisePile.count, 1);
   // Missed: back later in this run, 3 items on.
   const second = items.findIndex((i, k) => k > 0 && i.type === 'card');
   const missed = (await call(`/api/learn/runs/${run.id}/rate`, { method: 'POST', body: { itemId: items[second].id, rating: 1 } })).body;
-  assert.equal(missed.stamp, 'Back later in this run');
+  assert.equal(missed.stamp, 'Back in this run, then tomorrow');
   assert.equal(missed.reinsert.at, second + 3);
   assert.equal(missed.reinsert.item.stage, 'again');
   // The first mistake answered right: fixed, with the line collapsed under it.

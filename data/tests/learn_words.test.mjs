@@ -2,7 +2,7 @@
 // (data/learn/allowance.js, ruling F). Pins the exact labels and the " · N min" format.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { WORDS, chapterPlace, chapterShort, fixMistakes, pileLabel, reviseDue, reviseQuestions, wholeMinutes, withMinutes } from '../learn/words.js';
+import { WORDS, backLine, backStamp, chapterPlace, chapterShort, fixMistakes, missedWords, pileLabel, returnWords, reviseDue, reviseQuestions, wholeMinutes, withMinutes } from '../learn/words.js';
 import { FREE_DONE_HEADLINE, FREE_DONE_LINE } from '../learn/allowance.js';
 
 test('one word for each thing', () => {
@@ -41,4 +41,32 @@ test('a chapter is named by its place in the roadmap, never by a bare NCERT numb
   assert.equal(chapterPlace(null), '', 'no place, no label');
   assert.equal(chapterPlace({ n: 0, of: 14 }), '');
   assert.equal(chapterShort(undefined), '');
+});
+
+test('R5 LK38: when a rated card comes back, in words', () => {
+  assert.equal(returnWords(1), 'tomorrow');
+  assert.equal(returnWords(1.49), 'tomorrow');
+  assert.equal(returnWords(1.5), 'in 2 days');
+  assert.equal(returnWords(3), 'in 3 days');
+  assert.equal(returnWords(8), 'in 8 days');
+  assert.equal(returnWords(13), 'in 13 days');
+  assert.equal(returnWords(14), 'in 2 weeks');
+  assert.equal(returnWords(20), 'in 3 weeks');
+  assert.equal(returnWords(55), 'in 8 weeks');
+  assert.equal(returnWords(56), 'in 2 months');
+  assert.equal(returnWords(35), 'in 5 weeks');
+  assert.equal(returnWords(95), 'in 3 months');
+  assert.equal(returnWords(0), 'tomorrow', 'never "later today": FSRS gives at least a day');
+  assert.equal(returnWords(null), 'tomorrow');
+});
+
+test('R5 LK38: the keys, the stamp and the coach line use one set of words', () => {
+  assert.equal(WORDS.missedIt, 'Missed it');
+  assert.equal(WORDS.coachRatings, 'Missed it brings a card back soonest. Easy sends it furthest away.');
+  assert.equal(backStamp(returnWords(1)), 'Back tomorrow');
+  assert.equal(backStamp(returnWords(3)), 'Back in 3 days');
+  assert.equal(backLine(returnWords(14)), 'back in 2 weeks');
+  assert.equal(missedWords('tomorrow', true), 'in this run, then tomorrow');
+  assert.equal(missedWords('tomorrow', false), 'tomorrow');
+  assert.equal(WORDS.revise, 'Revise');
 });

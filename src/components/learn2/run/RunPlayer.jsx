@@ -31,10 +31,11 @@ import { runAddressParams, sameAddress } from './address.mjs';
 import RunEnd from './RunEnd';
 import { BelowChip, EndKey, EndScreen, StopSheet, goToOptions, isChemistry, scrollToVerdict, watchBelow, watchMore } from '../stage';
 import FreeUsed from '../stage/FreeUsed';
+import { reachedPlace } from '../stage/endModel.mjs';
 import { CardItem, LessonItem, QuestionItem, SaveKey, SessionPanel, TopBar } from './RunParts';
 import { FLIGHT, minutesLeftLine, upNextLine } from './runMath';
-import { answerTally, itemsFinished, placeReinsert, positionWords, runPiles } from './runView.mjs';
-import { WORDS, chapterPlace } from '../../../../data/learn/words.js';
+import { answerTally, itemHeld, itemsFinished, placeReinsert, positionWords, runPiles } from './runView.mjs';
+import { WORDS, backLine, chapterPlace } from '../../../../data/learn/words.js';
 import '@/components/keycards/keycards.css';
 import './run.css';
 
@@ -225,7 +226,8 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const sayFirst = useRef('');
 
   const isRecap = run?.kind === 'recap' || params.kind === 'recap';
-  const closeHref = links.chapter(params.chapterKey || run?.chapter?.key, params.minutes);
+  // R5 LK45 fix 4: a run over several chapters (Revise, a Find set) belongs to no one chapter, so Close goes to Learn home.
+  const closeHref = run?.chapter?.spans ? links.home() : links.chapter(params.chapterKey || run?.chapter?.key, params.minutes);
 
   // R4 client-code#1: the run the server gave is the address, ?run=<id> (no end=1, no fresh), replaced in place (no navigation,
   // no remount: the page keys the player by its first address). The preview keys its view by ?run=, so it keeps its own.
@@ -298,7 +300,8 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const finished = itemsFinished({ phase, at, length: items.length, item, answered, acted: Boolean(item && actedId === item.id) });
   const total = offset + items.length;
   const position = offset + at + 1;
-  const doneCount = offset + finished;
+  // R5 LK45 fix 2: the stop sheet counts as the end does (the place of the last item the server holds an event for), not the items passed.
+  const doneCount = phase === 'play' ? reachedPlace(items, (it, i) => itemHeld({ item: it, index: i, at, answers, actedId }), offset) : offset + finished;
   const look = Boolean(item?.type === 'card' && !isRecap && (item.look || (lookLine && lookSaid)));
   const chapter = run?.chapter || {};
   // R4 ruling N: the rail names the chapter by its roadmap place ("Chapter 5 of 14"); no place, no label (never "Part 1, Ch 2").
@@ -310,10 +313,9 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const firstQuestion = items.findIndex((x) => x.type === 'question');
   const onFirstCard = phase === 'play' && !isRecap && offset === 0 && at === firstCard;
   const coachFront = useCoach(coachKey, 'front2', onFirstCard && !isTurned);
-  // "Got it: it comes back when it's due." on the first two cards of the first run, then never (R2 screens 20).
-  const cardPlace = items.slice(0, at + 1).filter((x) => x.type === 'card' && !x.look).length;
-  const onEarlyCard = phase === 'play' && !isRecap && offset === 0 && item?.type === 'card' && !item.look && cardPlace <= 2;
-  const coachRate = useCoach(coachKey, cardPlace === 2 ? 'rate2b' : 'rate2', onEarlyCard && isTurned);
+  // R5 LK38: once per student, under the keys, on the first card they can rate: what Missed it and Easy do. It replaces R2's
+  // "Got it: it comes back when it's due.", which the keys' own words now say for every card.
+  const coachRate = useCoach(coachKey, 'ratings3', phase === 'play' && !isRecap && item?.type === 'card' && !item.look && Boolean(item.returns) && isTurned);
   // The question hint: once per student, on the first question they ever see (a run that serves an old mistake is not a first).
   const hasHistory = items.some((x) => x.origin === 'mistake');
   const coachPick = useCoach(coachKey, 'pick', phase === 'play' && !hasHistory && at === firstQuestion && !answered);
@@ -408,7 +410,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
 
   const reinsert = useCallback((r, base) => {
     if (!r?.itemId) return;
-    setItems((list) => placeReinsert(list, { itemId: r.itemId, at: r.at, moved: Boolean(r.moved), item: r.item ? { ...base, ...r.item, again: r.item.reason !== 'line', stage: 'again' } : null }, { current: at, offset }));
+    setItems((list) => placeReinsert(list, { itemId: r.itemId, at: r.at, moved: Boolean(r.moved), item: r.item ? { ...base, ...r.item, returns: r.item.returns || null, again: r.item.reason !== 'line', stage: 'again' } : null }, { current: at, offset }));
   }, [at, offset]);
 
   // The Revise pile is the flight's target where it shows (the panel from 1200, the top bar from 1024); on a phone the card
@@ -600,7 +602,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
     : note ? { text: note }
       : stamp ? { text: stamp.text, stamp: true, key: stamp.n }
         : coachFront && item?.type === 'card' && !isTurned ? { text: WORDS.turnCue, cue: true }
-          : coachRate && item?.type === 'card' && isTurned && !look ? { text: 'Got it: it comes back when it\u2019s due.' }
+          : coachRate && item?.type === 'card' && isTurned && !look ? { text: WORDS.coachRatings }
             : coachRecap ? { text: 'Answers are showing. Nothing is scheduled.' }
                 : look && isTurned && lookLine && item?.look ? { text: lookLine } : null;
 
@@ -725,13 +727,20 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
     if (item.type === 'card') {
       return (
         <div className="lr-keys lr-keys--rate" role="group" aria-label="How well did you recall it?">
-          {RATINGS.map((r) => (
-            <button key={r.rating} type="button" className="kc-rate__btn lr-rate" data-rating={r.rating} data-page-primary={r.rating === 3 ? '' : undefined} disabled={Boolean(busy) || leaving} aria-busy={busy === r.rating || undefined} onClick={() => rate(r.rating)}>
-              {busy === r.rating ? <LoaderCircle className="kc-spin" size={16} strokeWidth={2.2} aria-hidden="true" /> : null}
-              <span>{r.label}</span>
-              <kbd className="kc-kbd" aria-hidden="true">{r.key}</kbd>
-            </button>
-          ))}
+          {RATINGS.map((r) => {
+            // R5 LK38: each key says when the card would come back (the server's `returns`, from FSRS); none when it has no words.
+            const when = item.returns?.[FLIGHT[r.rating]] || null;
+            return (
+              <button key={r.rating} type="button" className="kc-rate__btn lr-rate" data-rating={r.rating} data-page-primary={r.rating === 3 ? '' : undefined} disabled={Boolean(busy) || leaving} aria-busy={busy === r.rating || undefined} onClick={() => rate(r.rating)}>
+                <span className="lr-rate__name">
+                  {busy === r.rating ? <LoaderCircle className="kc-spin" size={16} strokeWidth={2.2} aria-hidden="true" /> : null}
+                  <span>{r.rating === 1 ? WORDS.missedIt : r.label}</span>
+                  <kbd className="kc-kbd" aria-hidden="true">{r.key}</kbd>
+                </span>
+                {when ? <span className="lr-rate__when">{backLine(when)}</span> : null}
+              </button>
+            );
+          })}
         </div>
       );
     }
