@@ -14,6 +14,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../insights/widgets/edge_fade.dart';
 import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
+import '../learn2_balance.dart';
 import 'card_model.dart';
 import 'card_styles.dart';
 import 'cards_copy.dart';
@@ -497,7 +498,7 @@ class CardsSectionBar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
-              Expanded(child: Text(group.title, style: compact ? CardStyles.barCompact(context) : CardStyles.bar(context))),
+              Expanded(child: BalancedText(group.title, style: compact ? CardStyles.barCompact(context) : CardStyles.bar(context))),
               const SizedBox(width: 12),
               Text(group.countText, style: CardStyles.barCount(context)),
             ],

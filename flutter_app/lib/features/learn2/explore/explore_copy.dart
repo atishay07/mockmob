@@ -1,5 +1,7 @@
-// The words of the Explore page (web: ExploreCovers.jsx and DiscoveryFeed.jsx, the phone band). Plain words, sentence case,
-// no exclamation marks, no emoji, no middle dots, no arrows on keys. The words of a cover live in cover_model.dart.
+// The words of the Explore page (web: ExploreCovers.jsx and DiscoveryFeed.jsx, the phone band, rounds 2 to 4). Plain words,
+// sentence case, no exclamation marks, no emoji, no arrows on keys; a time after a label is " · N min". The words of a cover live in
+// cover_model.dart, Free's lines in data/learn_words.dart.
+import '../data/learn_words.dart';
 import 'cover_model.dart';
 
 abstract final class ExploreCopy {
@@ -11,11 +13,11 @@ abstract final class ExploreCopy {
   static const String feedsNote = 'Key cards and questions, one at a time.';
 
   /// Free with 20 minutes picked: its sessions are composed as 10.
-  static const String freeCapped = 'Free sessions are up to 10 minutes. Pro has any length.';
+  static const String freeCapped = LearnFreeWords.capped;
 
-  /// Free once today's one Learn session is used.
-  static const String freeDone = 'Your free Learn session for today is done. Explore questions stay free.';
-  static const String seePro = 'See Pro';
+  /// Free once today's one Learn session is used (R3 ruling F): "That was today's free session. Single questions stay free."
+  static const String freeDone = '${LearnFreeWords.doneHeadline} Single questions stay free.';
+  static const String seePro = LearnWords.seePro;
 
   static const String lengthLabel = 'Feed length in minutes';
   static const String subjectLabel = 'Subject';

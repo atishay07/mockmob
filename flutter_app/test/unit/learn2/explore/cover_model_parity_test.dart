@@ -13,6 +13,7 @@ Map<String, dynamic>? _line(CoverLine? l) => l == null ? null : {'prefix': l.pre
 
 Map<String, dynamic> _media(CoverMedia m) => switch (m) {
   CoverMediaCard(:final text) => {'kind': 'card', 'text': text},
+  CoverMediaCards(:final text, :final note) => {'kind': 'cards', 'text': text, 'note': note},
   CoverMediaLocked(:final label) => {'kind': 'locked', 'label': label},
   CoverMediaQuestions(:final text, :final note) => {'kind': 'questions', 'text': text, 'note': note},
 };
@@ -44,7 +45,12 @@ Map<String, dynamic> _describe(LearnCover c, List<int> minutes) {
             'minutes': CoverModel.countsOf(c, m).minutes,
             'capped': CoverModel.countsOf(c, m).capped,
           },
-          'mix': {'pro': CoverModel.mixLineOf(c, m), 'free': CoverModel.mixLineOf(c, m, free: true)},
+          'mix': {
+            'pro': CoverModel.mixLineOf(c, m),
+            'free': CoverModel.mixLineOf(c, m, free: true),
+            'noHistory': CoverModel.mixLineOf(c, m, history: false),
+            'freeNoHistory': CoverModel.mixLineOf(c, m, free: true, history: false),
+          },
           'key': {'open': CoverModel.keyLabelOf(c, m), 'done': CoverModel.keyLabelOf(c, m, freeDone: true)},
           'media': _media(CoverModel.mediaOf(c, m)),
         },
@@ -61,7 +67,7 @@ void main() {
     final counts = data['counts'] as Map<String, dynamic>;
     expect(counts['recordings'], 6);
     expect(counts['recordedCovers'], 84);
-    expect(counts['edgeCovers'], greaterThanOrEqualTo(70));
+    expect(counts['edgeCovers'], greaterThanOrEqualTo(100));
     expect(counts['dataSets'], greaterThanOrEqualTo(12));
     expect(data['lengths'], CoverModel.lengths);
     // Every shape of media and every key is there to be checked.
@@ -73,13 +79,14 @@ void main() {
       for (final c in all)
         for (final l in (c['byLength'] as Map<String, dynamic>).values) ((l as Map<String, dynamic>)['media'] as Map<String, dynamic>)['kind'],
     };
-    expect(kinds, {'card', 'locked', 'questions'});
+    expect(kinds, {'card', 'cards', 'locked', 'questions'});
     final keys = {
       for (final c in all)
         for (final l in (c['byLength'] as Map<String, dynamic>).values) (((l as Map<String, dynamic>)['key'] as Map<String, dynamic>)['open'] as String).split(' ').first,
     };
-    expect(keys, containsAll(['Play', 'Pick']));
-    expect({for (final c in all) c['tier']}, containsAll(['s', 'm', 'l', 'xl', 'xxl']));
+    expect(keys, containsAll(['Play', 'Continue']));
+    // A front over 105 characters is never a cover's line now (it is not readable cold), so the longest tier is reached only by the size test below.
+    expect({for (final c in all) c['tier']}, containsAll(['s', 'm', 'l', 'xl']));
   });
 
   group('the recorded covers', () {

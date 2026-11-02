@@ -1,5 +1,5 @@
 // Every word of the Cards view and Find (APP-1101 section 5, H home), as the website's learn2/cards writes them: plain, sentence
-// case, no exclamation marks, no emoji, no middle dots, no arrows on keys, never "mastered". Words Key cards already has
+// case, no exclamation marks, no emoji, no arrows on keys, never "mastered". Words Key cards already has
 // (Must-know, In Revise, In short, the Pro line) are used from KeyCardsCopy, so the two places never say them differently.
 library;
 

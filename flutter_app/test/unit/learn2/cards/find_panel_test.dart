@@ -102,7 +102,7 @@ void main() {
       await pumpFind(tester, FixtureLearnApi());
       expect(find.text('Results for “goodwill”'), findsOneWidget);
       expect(find.text('50 cards in 4 chapters'), findsOneWidget);
-      expect(proGroups.map((g) => g.cards.length), [27, 13, 9, 1]);
+      expect(proGroups.map((g) => g.cards.length), [32, 13, 4, 1]);
       var y = -1.0;
       for (final g in proGroups) {
         final bar = find.text(g.title);

@@ -81,19 +81,19 @@ void main() {
       await pumpView(tester, FixtureLearnApi());
       expect(find.text(CardsCopy.title), findsOneWidget);
       expect(find.text('Admission of a Partner'), findsOneWidget, reason: 'Back is named by the chapter');
-      expect(find.text('Accountancy, Ch 2, 53 cards'), findsOneWidget);
-      expect(pro.counts.all, 53);
-      for (final (value, label, n) in [('all', 'All', 53), ('must', 'Must-know', 14), ('revise', 'In Revise', 0), ('missed', 'Missed lately', 2)]) {
+      expect(find.text('Accountancy, Ch 2, 58 cards'), findsOneWidget);
+      expect(pro.counts.all, 58);
+      for (final (value, label, n) in [('all', 'All', 58), ('must', 'Must-know', 15), ('revise', 'In Revise', 0), ('missed', 'Missed lately', 2)]) {
         expect(find.byKey(ValueKey('cards-filter-$value')), findsOneWidget, reason: label);
         expect(find.descendant(of: find.byKey(ValueKey('cards-filter-$value')), matching: find.text(label)), findsOneWidget);
         expect(find.descendant(of: find.byKey(ValueKey('cards-filter-$value')), matching: find.text('$n')), findsOneWidget);
       }
     });
 
-    testWidgets('has one volt key, Study these 53, that plays every card of the chapter in book order', (tester) async {
+    testWidgets('has one volt key, Study these 58, that plays every card of the chapter in book order', (tester) async {
       await pumpView(tester, FixtureLearnApi());
       expect(voltKeys(tester), 1);
-      await tapAt(tester, find.text('Study these 53'));
+      await tapAt(tester, find.text('Study these 58'));
       final uri = lastVisit();
       expect(uri.path, '/learn/session');
       expect(uri.queryParameters['chapter'], cardsChapter);
@@ -104,31 +104,31 @@ void main() {
 
     testWidgets('keeps the whole chapter as the opening filter unless the link names one', (tester) async {
       await pumpView(tester, FixtureLearnApi(), filter: 'nonsense');
-      expect(find.text('Study these 53'), findsOneWidget);
+      expect(find.text('Study these 58'), findsOneWidget);
       expect(tester.widget<MmPressable>(find.byKey(const ValueKey('cards-filter-all'))).selected, isTrue);
     });
   });
 
   group('the filters', () {
-    testWidgets('a link can open Must-know: Study these 14, the 14 cards, and no Must-know word drawn on every row', (tester) async {
+    testWidgets('a link can open Must-know: Study these 15, the 15 cards, and no Must-know word drawn on every row', (tester) async {
       await pumpView(tester, FixtureLearnApi(), filter: 'must');
       expect(tester.widget<MmPressable>(find.byKey(const ValueKey('cards-filter-must'))).selected, isTrue);
-      expect(find.text('Study these 14'), findsOneWidget);
+      expect(find.text('Study these 15'), findsOneWidget);
       expect(_rows, findsWidgets);
       expect(find.text(KeyCardsCopy.mustKnow), findsOneWidget, reason: 'only the chip says it');
-      await tapAt(tester, find.text('Study these 14'));
+      await tapAt(tester, find.text('Study these 15'));
       expect(cardsOf(lastVisit()), mustIds);
     });
 
     testWidgets('choosing a filter reads it, moves the selection and changes what the key plays', (tester) async {
       final api = FixtureLearnApi();
       await pumpView(tester, api);
-      expect(_rows.evaluate().length, lessThan(53), reason: 'only the rows near the top are built');
+      expect(_rows.evaluate().length, lessThan(58), reason: 'only the rows near the top are built');
       await tapAt(tester, find.byKey(const ValueKey('cards-filter-must')));
       expect(api.calls, contains('chapterCards $cardsChapter must'));
       expect(tester.widget<MmPressable>(find.byKey(const ValueKey('cards-filter-must'))).selected, isTrue);
       expect(tester.widget<MmPressable>(find.byKey(const ValueKey('cards-filter-all'))).selected, isFalse);
-      expect(find.text('Study these 14'), findsOneWidget);
+      expect(find.text('Study these 15'), findsOneWidget);
       expect(voltKeys(tester), 1);
     });
 
@@ -324,14 +324,14 @@ void main() {
   group('Free', () {
     testWidgets('shows the open cards whole and the one locked line with the server\'s own words', (tester) async {
       await pumpView(tester, FixtureLearnApi(pro: false), nudges: true);
-      expect(find.text('Accountancy, Ch 2, 5 of 53 cards open on Free'), findsOneWidget);
+      expect(find.text('Accountancy, Ch 2, 5 of 58 cards open on Free'), findsOneWidget);
       expect(freeIds, hasLength(5));
       expect(find.text('Study these 5'), findsOneWidget);
       await tester.drag(find.byType(CustomScrollView), const Offset(0, -3000));
       await settleCards(tester);
       expect(find.text(free.lockedLine!), findsOneWidget);
       expect(find.byKey(const ValueKey('cards-see-pro')), findsOneWidget);
-      expect(free.lockedLine, startsWith('48 more cards'));
+      expect(free.lockedLine, startsWith('53 more cards'));
       // One lock for the one line.
       expect(find.byIcon(LucideIcons.lock), findsOneWidget);
     });
@@ -363,7 +363,7 @@ void main() {
       expect(find.byKey(const ValueKey('cards-filter-all')), findsNothing);
       api.gate.complete();
       await settleCards(tester);
-      expect(find.text('Study these 53'), findsOneWidget);
+      expect(find.text('Study these 58'), findsOneWidget);
     });
 
     testWidgets('a failed read says so and offers Try again, never a number', (tester) async {
@@ -371,12 +371,12 @@ void main() {
       await pumpView(tester, api);
       expect(find.text(CardsCopy.loadFailedTitle), findsOneWidget);
       expect(find.text(CardsCopy.loadFailedLine), findsOneWidget);
-      expect(find.textContaining('53 cards'), findsNothing);
+      expect(find.textContaining('58 cards'), findsNothing);
       expect(voltKeys(tester), 0);
       api.failOn.clear();
       await tester.tap(find.byKey(const ValueKey('cards-retry')));
       await settleCards(tester);
-      expect(find.text('Study these 53'), findsOneWidget);
+      expect(find.text('Study these 58'), findsOneWidget);
       expect(find.text(CardsCopy.loadFailedTitle), findsNothing);
     });
 
@@ -404,7 +404,7 @@ void main() {
       expect(find.byKey(ValueKey('card-row-${proIds.first}')), findsOneWidget, reason: 'the old rows stay while the new are read');
       await tester.pump(const Duration(milliseconds: 600));
       await settleCards(tester);
-      expect(find.text('Study these 14'), findsOneWidget);
+      expect(find.text('Study these 15'), findsOneWidget);
     });
   });
 

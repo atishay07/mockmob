@@ -54,11 +54,17 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
   /// 20 the student chose last time.
   bool _lengthRead = false;
 
+  /// The covers' first-visit nudge has not been shown on this phone (read once; it plays once, LK29).
+  bool _nudge = false;
+
   @override
   void initState() {
     super.initState();
     unawaited(ref.read(learnPrefsProvider).feedMinutes().whenComplete(() {
       if (mounted) setState(() => _lengthRead = true);
+    }));
+    unawaited(ref.read(learnPrefsProvider).coversNudgeSeen().then((seen) {
+      if (mounted && !seen) setState(() => _nudge = true);
     }));
     final want = widget.subject?.trim();
     if (want != null && storedSubjectId.hasMatch(want)) {
@@ -143,6 +149,8 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
         label: '$subjectName chapter feeds',
         views: [for (final c in data!.covers) CoverView.of(c, minutes: minutes, history: history, free: free, freeDone: freeDone)],
         onOpen: (view, index) => unawaited(_open(view, index, practiceId: practiceId, subject: subject, minutes: minutes)),
+        nudge: _nudge,
+        onNudged: () => unawaited(ref.read(learnPrefsProvider).markCoversNudgeSeen()),
       ),
     };
 

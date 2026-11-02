@@ -1845,7 +1845,7 @@
       }
      },
      "student": {
-      "history": "You stopped at 3 of 16",
+      "history": "You stopped at 3 of 17",
       "noHistory": null
      },
      "opensQuestions": {
@@ -1879,7 +1879,7 @@
       },
       "5": {
        "counts": {
-        "cards": 5,
+        "cards": 4,
         "questions": 3,
         "minutes": 5,
         "capped": false
@@ -1896,7 +1896,7 @@
        },
        "media": {
         "kind": "cards",
-        "text": "5 Key cards",
+        "text": "4 Key cards",
         "note": "and 3 questions"
        }
       },
@@ -1948,7 +1948,7 @@
       },
       "20": {
        "counts": {
-        "cards": 21,
+        "cards": 20,
         "questions": 10,
         "minutes": 20,
         "capped": false
@@ -1965,7 +1965,7 @@
        },
        "media": {
         "kind": "cards",
-        "text": "21 Key cards",
+        "text": "20 Key cards",
         "note": "and 10 questions"
        }
       }

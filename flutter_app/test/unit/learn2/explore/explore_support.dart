@@ -116,9 +116,12 @@ List<Override> exploreOverrides(
   bool upgrade = true,
   HapticDriver? driver,
   MemoryPrefsStore? prefs,
+  bool nudged = true,
 }) {
   final store = prefs ?? MemoryPrefsStore();
   if (minutes != null) store.values[LearnPrefs.feedMinutesKey] = minutes;
+  // The covers' first-visit nudge has played, so a test that is not about it never sees the row move.
+  if (nudged) store.values[LearnPrefs.coversNudgeKey] = true;
   return [
     learnApiProvider.overrideWithValue(api),
     learn2PrefsStoreProvider.overrideWithValue(store),

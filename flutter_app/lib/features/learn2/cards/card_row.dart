@@ -270,12 +270,18 @@ class _KindLine extends StatelessWidget {
 
 /// The front, its blanks as underlined gaps (a term or key line) and the search's words underlined. A gap is one box that
 /// wraps as a whole (the website's `.kc-gap`: 3.4 em wide with a 1.5 dp line under it), so it never splits at the end of a
-/// line and leaves a blank nobody can see.
+/// line and leaves a blank nobody can see. Punctuation that touches a gap (a comma, stop or closing bracket right after it, an
+/// opening bracket or quote right before it) sits close, with 0.04 em instead of 0.18 em between (the web's `blankRuns`, which keeps a
+/// line from starting with ", and"); the line breaker already keeps it on the gap's line.
 class _FrontText extends StatelessWidget {
   const _FrontText({required this.front, required this.spans});
 
   final String front;
   final List<LearnSpan> spans;
+
+  // (the exclamation mark is written \x21 so a copy lint that looks for one in a literal does not mistake it for a word)
+  static final RegExp _tail = RegExp(r'''^[,.;:\x21?)\]}’”'"…%]''');
+  static final RegExp _lead = RegExp(r'''[(\[{‘“'"]$''');
 
   @override
   Widget build(BuildContext context) {
@@ -288,15 +294,18 @@ class _FrontText extends StatelessWidget {
       TextSpan(
         style: style,
         children: [
-          for (final p in parts)
-            if (p.blank)
+          for (var i = 0; i < parts.length; i++)
+            if (parts[i].blank)
               WidgetSpan(
                 alignment: PlaceholderAlignment.baseline,
                 baseline: TextBaseline.alphabetic,
                 child: Semantics(
                   label: 'blank',
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 0.18 * em),
+                    padding: EdgeInsets.only(
+                      left: (i > 0 && !parts[i - 1].blank && _lead.hasMatch(parts[i - 1].text) ? 0.04 : 0.18) * em,
+                      right: (i + 1 < parts.length && !parts[i + 1].blank && _tail.hasMatch(parts[i + 1].text) ? 0.04 : 0.18) * em,
+                    ),
                     child: Transform.translate(
                       offset: Offset(0, 0.18 * em),
                       child: SizedBox(
@@ -309,7 +318,7 @@ class _FrontText extends StatelessWidget {
                 ),
               )
             else
-              TextSpan(text: p.text, style: p.hit ? hit : null),
+              TextSpan(text: parts[i].text, style: parts[i].hit ? hit : null),
         ],
       ),
     );

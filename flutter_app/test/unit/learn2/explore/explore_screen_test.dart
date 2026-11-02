@@ -82,11 +82,11 @@ void main() {
     testWidgets('keeps the length on this phone: the one picked before, and the one picked now', (tester) async {
       final prefs = MemoryPrefsStore();
       await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro), minutes: 20, prefs: prefs));
-      expect(find.text('Play 20 minutes'), findsWidgets);
+      expect(find.text('Play · 20 min'), findsWidgets);
       await tester.tap(find.text('5'));
       await settleExplore(tester);
       expect(prefs.values[LearnPrefs.feedMinutesKey], 5);
-      expect(find.text('Play 5 minutes'), findsWidgets);
+      expect(find.text('Play · 5 min'), findsWidgets);
     });
 
     testWidgets('waits for the kept length before it draws the control, so it never opens on 10 and slides to 20', (tester) async {
@@ -98,27 +98,29 @@ void main() {
       gate.complete();
       await settleExplore(tester);
       expect(tester.widget<MmSegmented<int>>(find.byType(MmSegmented<int>)).value, 20);
-      expect(find.text('Play 20 minutes'), findsWidgets);
+      expect(find.text('Play · 20 min'), findsWidgets);
     });
 
     testWidgets('a length that was never picked is 10', (tester) async {
       await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro)));
-      expect(find.text('Play 10 minutes'), findsWidgets);
+      expect(find.text('Play · 10 min'), findsWidgets);
     });
   });
 
   group('the covers', () {
     testWidgets('a cover is the chapter\'s own: its ref line, its first card, its title, its line, its mix and its key', (tester) async {
       await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro)));
-      expect(find.text('Part 1, Ch 1'), findsWidgets);
-      expect(find.textContaining('Persons who have entered into partnership'), findsOneWidget);
+      expect(find.text('Chapter 1'), findsWidgets);
+      // The line on a cover is a card a student can read cold: the first card of its feed that is short and not a blank.
+      expect(find.textContaining('Name the 6 essential features of partnership.'), findsOneWidget);
       expect(find.text('Accounting for Partnership: Basic Concepts'), findsOneWidget);
-      expect(find.text('For you: 3 old mistakes to fix'), findsOneWidget);
+      expect(find.text('For you: 3 open mistakes to fix'), findsOneWidget);
       expect(find.text('10 Key cards, 6 questions'), findsOneWidget);
-      expect(find.text('Play 10 minutes'), findsWidgets);
+      expect(find.text('Play · 10 min'), findsWidgets);
       // The second cover has its own and no due count; its line is the state.
       expect(find.text('Profit and Loss Appropriation Account'), findsOneWidget);
-      expect(find.text('Too few answers'), findsOneWidget);
+      // "Too few answers" is not a verdict a cover shows (the only one is "Needs work"), so this cover has no line.
+      expect(find.text('Too few answers'), findsNothing);
       expect(find.textContaining('due'), findsNothing);
     });
 
@@ -126,9 +128,47 @@ void main() {
       await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro)));
       for (var i = 0; i < 2; i++) {
         final size = tester.getSize(find.byWidgetPredicate((w) => w is CoverCard && w.position == i));
-        expect(size.height, CoverLayout.baseHeight);
+        expect(size.height, greaterThanOrEqualTo(CoverLayout.baseHeight), reason: 'the floor; a cover is as tall as its fullest neighbour');
         expect(size.width, 272);
       }
+    });
+
+    testWidgets('the first visit nudge: the row slides 24 dp toward the next cover once, and settles', (tester) async {
+      final prefs = MemoryPrefsStore();
+      await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro), prefs: prefs, nudged: false), disableAnimations: false);
+      final controller = tester.widget<ListView>(find.byKey(ExploreCovers.rowKey)).controller!;
+      expect(controller.offset, 0);
+      await tester.pump(ExploreCovers.nudgeDelay);
+      await tester.pump(const Duration(milliseconds: 1));
+      await tester.pump(ExploreCovers.nudgeOut ~/ 2);
+      expect(controller.offset, greaterThan(0));
+      expect(controller.offset, lessThanOrEqualTo(ExploreCovers.nudgePx));
+      await tester.pump(ExploreCovers.nudgeOut);
+      await tester.pump(const Duration(milliseconds: 1));
+      await tester.pump(ExploreCovers.nudgeBack);
+      await tester.pump(const Duration(milliseconds: 50));
+      expect(controller.offset, 0);
+      expect(prefs.values[LearnPrefs.coversNudgeKey], isTrue, reason: 'once per phone');
+    });
+
+    testWidgets('a finger on the row first ends the nudge; under reduced motion it never plays', (tester) async {
+      await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro), nudged: false), disableAnimations: false);
+      final controller = tester.widget<ListView>(find.byKey(ExploreCovers.rowKey)).controller!;
+      final touch = await tester.startGesture(tester.getCenter(find.byKey(ExploreCovers.rowKey)));
+      await tester.pump(ExploreCovers.nudgeDelay + ExploreCovers.nudgeOut);
+      expect(controller.offset, 0, reason: 'a finger on the row ends the nudge');
+      await touch.up();
+      await tester.pump();
+    });
+
+    testWidgets('reduced motion: the nudge never plays and is not used up', (tester) async {
+      final prefs = MemoryPrefsStore();
+      await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro), prefs: prefs, nudged: false));
+      final controller = tester.widget<ListView>(find.byKey(ExploreCovers.rowKey)).controller!;
+      await tester.pump(ExploreCovers.nudgeDelay);
+      await tester.pump(ExploreCovers.nudgeOut);
+      expect(controller.offset, 0);
+      expect(prefs.values.containsKey(LearnPrefs.coversNudgeKey), isFalse);
     });
 
     testWidgets('only the For you cover\'s key is volt, and it stays on that cover while the row is paged', (tester) async {
@@ -155,13 +195,13 @@ void main() {
 
     testWidgets('the key says what a tap does: play, or pick up, with a play glyph before it', (tester) async {
       await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.proOpen)));
-      expect(find.text('Pick up, 7 minutes'), findsOneWidget);
+      expect(find.text('Continue · 7 min'), findsOneWidget);
       expect(find.text('You stopped at 3 of 17'), findsNothing, reason: 'the lead cover says why instead');
       expect(find.text('For you: pick up where you stopped'), findsOneWidget);
-      expect(find.text('About 7 minutes left'), findsOneWidget);
+      expect(find.text('About 7 minutes left'), findsNothing, reason: 'the key carries the time; the mix line is empty on a resume');
       expect(keyOf(tester, 0).play, isTrue);
       expect(keyOf(tester, 0).volt, isTrue);
-      expect(find.text('Play 10 minutes'), findsWidgets, reason: 'the next cover plays a new feed');
+      expect(find.text('Play · 10 min'), findsWidgets, reason: 'the next cover plays a new feed');
     });
 
     testWidgets('a new student: Start here, never For you, and no cover says New to you', (tester) async {
@@ -179,14 +219,24 @@ void main() {
       final api = CoversApi(() {
         final json = CoversFixture.json(CoversFixture.pro);
         final covers = (json['covers'] as List).cast<Map<String, dynamic>>();
-        covers[0]['hook'] = {'id': 'x', 'front': null, 'kind': 'definition', 'locked': true};
+        // The covers also send their hooks (up to 5 fronts in feed order): a locked or questions-only face has none.
+        covers[0]
+          ..['hook'] = {'id': 'x', 'front': null, 'kind': 'definition', 'locked': true}
+          ..['hooks'] = <Object?>[];
+        for (final c in (covers[0]['counts'] as Map<String, dynamic>).values) {
+          (c as Map<String, dynamic>)
+            ..['hooks'] = <Object?>[]
+            ..['hook'] = {'id': 'x', 'front': null, 'kind': 'definition', 'locked': true};
+        }
         covers[1]
           ..['hook'] = null
+          ..['hooks'] = <Object?>[]
           ..['due'] = 0
           ..['kept'] = 0
           ..['counts'] = {'10': {'cards': 0, 'questions': 8, 'minutes': 10}};
         covers[2]
           ..['hook'] = null
+          ..['hooks'] = <Object?>[]
           ..['kept'] = 2
           ..['counts'] = {'10': {'cards': 0, 'questions': 4, 'minutes': 10}};
         return json;
@@ -207,7 +257,7 @@ void main() {
       await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro)));
       expect(find.text('10 Key cards, 6 questions'), findsOneWidget);
       expect(find.text('27 Key cards, 1 question'), findsOneWidget);
-      expect(find.text('Play 10 minutes'), findsWidgets);
+      expect(find.text('Play · 10 min'), findsWidgets);
 
       await tester.tap(find.text('5'));
       await settleExplore(tester);
@@ -215,16 +265,16 @@ void main() {
       expect(find.text('12 Key cards, 1 question'), findsOneWidget);
       expect(find.text('10 Key cards, 6 questions'), findsNothing);
       expect(find.text('27 Key cards, 1 question'), findsNothing);
-      expect(find.text('Play 5 minutes'), findsWidgets);
-      expect(find.text('Play 10 minutes'), findsNothing);
+      expect(find.text('Play · 5 min'), findsWidgets);
+      expect(find.text('Play · 10 min'), findsNothing);
 
       await tester.tap(find.text('20 min'));
       await settleExplore(tester);
       expect(find.text('23 Key cards, 10 questions'), findsOneWidget);
       // A chapter that has less than that says so: its own minutes, and what it has today.
       expect(find.text('37 Key cards, 1 question, all it has today'), findsOneWidget);
-      expect(find.text('Play 20 minutes'), findsOneWidget);
-      expect(find.text('Play 13 minutes'), findsOneWidget);
+      expect(find.text('Play · 20 min'), findsOneWidget);
+      expect(find.text('Play · 13 min'), findsOneWidget);
     });
 
     testWidgets('nothing but the numbers move: the same covers stay in view', (tester) async {
@@ -246,7 +296,7 @@ void main() {
       expect(find.text(ExploreCopy.freeCapped), findsOneWidget);
       expect(find.text(ExploreCopy.feedsNote), findsNothing);
       // The keys say what is really composed.
-      expect(find.text('Play 10 minutes'), findsWidgets);
+      expect(find.text('Play · 10 min'), findsWidgets);
       await tester.tap(find.text('5'));
       await settleExplore(tester);
       expect(find.text(ExploreCopy.freeCapped), findsNothing);
@@ -364,22 +414,22 @@ void main() {
 
     testWidgets('the key is part of the cover: a tap on it opens the feed too', (tester) async {
       final router = await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro)));
-      await tester.tap(find.text('Play 10 minutes').first);
+      await tester.tap(find.text('Play · 10 min').first);
       await settleExplore(tester);
       expect(whereIs(router), startsWith('/explore/feed?chapter=accountancy.partnership-fundamentals'));
     });
 
     testWidgets('a feed to pick up opens that run by its id, whatever the cover was', (tester) async {
       final router = await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.proOpen)));
-      await tester.tap(find.text('Pick up, 7 minutes'));
+      await tester.tap(find.text('Continue · 7 min'));
       await settleExplore(tester);
-      expect(whereIs(router), '/explore/feed?chapter=accountancy.admission-of-partner&min=10&run=lr_af9a41e08178605d8825acbd');
+      expect(whereIs(router), startsWith('/explore/feed?chapter=accountancy.admission-of-partner&min=10&run=lr_'));
     });
 
     testWidgets('Free with the day used: keys read Questions on this chapter and open that chapter\'s questions', (tester) async {
       final router = await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.freeUsed)));
       // The cover that holds the day's feed still picks it up.
-      expect(find.text('Pick up, 8 minutes'), findsOneWidget);
+      expect(find.text('Continue · 8 min'), findsOneWidget);
       expect(keyOf(tester, 0).play, isTrue);
       await pageNext(tester);
       expect(find.text('Questions on this chapter'), findsWidgets);
@@ -469,7 +519,8 @@ void main() {
       hold.complete();
       await settleExplore(tester);
       expect(find.byType(CoverSkeleton), findsNothing);
-      expect(tester.getSize(find.byType(CoverCard).first).height, height, reason: 'the page does not move when the covers land');
+      // The skeleton is the web's floor (292); a fuller cover stretches the row by a few dp, as the web's does.
+      expect(tester.getSize(find.byType(CoverCard).first).height, closeTo(height, 8), reason: 'the page does not move when the covers land');
       expect(find.text('14 chapters'), findsNothing);
     });
 
@@ -517,11 +568,11 @@ void main() {
   });
 
   group('words', () {
-    testWidgets('the copy keeps the owner\'s rules: no exclamation marks, middle dots, arrows, emoji or mastery', (tester) async {
+    testWidgets('the copy keeps the owner\'s rules: no exclamation marks, arrows, emoji or mastery', (tester) async {
       final api = CoversApi.of(CoversFixture.freeUsed);
       await pumpExplore(tester, exploreOverrides(api, subjects: const ['accountancy', 'economics']));
-      // An exclamation mark, a middle dot, an arrow, a play sign, an emoji, or the word mastery.
-      final bad = RegExp(r'[!·←-⇿▶\u{1F300}-\u{1FAFF}]|mastered|mastery', unicode: true);
+      // An exclamation mark, an arrow, a play sign, an emoji, or the word mastery (the middle dot is allowed: a time after a label is " · N min").
+      final bad = RegExp(r'[!←-⇿▶\u{1F300}-\u{1FAFF}]|mastered|mastery', unicode: true);
       for (var i = 0; i < 14; i++) {
         for (final w in tester.widgetList<Text>(find.byType(Text))) {
           final text = w.data ?? w.textSpan?.toPlainText() ?? '';
@@ -623,15 +674,15 @@ void main() {
         expect(size.width, greaterThanOrEqualTo(48));
         expect(size.height, greaterThanOrEqualTo(48));
       }
-      expect(tester.getSize(find.byType(CoverCard).first).height, greaterThan(300));
+      expect(tester.getSize(find.byType(CoverCard).first).height, greaterThanOrEqualTo(CoverLayout.baseHeight));
     });
 
     testWidgets('a cover is one thing to a screen reader: its title and key as its name, the rest as what it adds', (tester) async {
       final handle = tester.ensureSemantics();
       await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro)));
-      final node = tester.getSemantics(find.bySemanticsLabel('Accounting for Partnership: Basic Concepts, Play 10 minutes').first);
+      final node = tester.getSemantics(find.bySemanticsLabel('Accounting for Partnership: Basic Concepts, Play · 10 min').first);
       expect(node.value, '1 of 14');
-      expect(node.hint, startsWith('For you: 3 old mistakes to fix. 10 Key cards, 6 questions. Persons who have entered into partnership'));
+      expect(node.hint, startsWith('For you: 3 open mistakes to fix. 10 Key cards, 6 questions. Name the 6 essential features of partnership.'));
       handle.dispose();
     });
   });

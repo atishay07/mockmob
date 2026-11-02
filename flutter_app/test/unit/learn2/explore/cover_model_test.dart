@@ -14,18 +14,17 @@ Map<String, dynamic> counts(int cards, int questions, int minutes, {bool capped 
 };
 
 void main() {
-  test('ref line: the server line wins, else derived from part and ref, else the unit', () {
-    expect(CoverModel.refLineOf(cover({'refLine': 'Part 1, Ch 2', 'ref': 'Ch 9'})), 'Part 1, Ch 2');
-    expect(CoverModel.refLineOf(cover({'ref': 'Ch 2', 'partTitle': 'Part 1, Partnership Accounts'})), 'Part 1, Ch 2');
-    expect(CoverModel.refLineOf(cover({'ref': 'Ch 4', 'partTitle': 'Business Studies Part 2'})), 'Part 2, Ch 4');
-    expect(CoverModel.refLineOf(cover({'ref': 'Ch 2', 'partTitle': 'Introductory Microeconomics'})), 'Microeconomics, Ch 2');
-    expect(CoverModel.refLineOf(cover({'ref': 'Ch 5', 'partTitle': 'Indian Economic Development'})), 'Indian Economic Development, Ch 5');
-    expect(CoverModel.refLineOf(cover({'ref': null, 'unitTitle': 'Verbal Ability'})), 'Verbal Ability');
+  test('label: the chapter\'s place, never the NCERT number; none without a place', () {
+    expect(CoverModel.refLineOf(cover({'place': {'n': 5, 'of': 14}, 'refLine': 'Part 1, Ch 2', 'ref': 'Ch 2'})), 'Chapter 5');
+    expect(CoverModel.refLineOf(cover({'place': {'n': 12}})), 'Chapter 12');
+    expect(CoverModel.refLineOf(cover({'place': {'n': 0, 'of': 14}, 'ref': 'Ch 2'})), isNull);
+    expect(CoverModel.refLineOf(cover({'refLine': 'Part 1, Ch 2', 'ref': 'Ch 9', 'partTitle': 'Part 1, Partnership Accounts'})), isNull);
     expect(CoverModel.refLineOf(cover({})), isNull);
   });
 
   test('lead line: For you only from history; book order reads Start here', () {
-    expect(CoverModel.leadLine(cover({'forYou': true, 'reason': '3 old mistakes to fix'})), (prefix: 'For you:', text: '3 old mistakes to fix'));
+    expect(CoverModel.leadLine(cover({'forYou': true, 'reason': '3 old mistakes to fix'})), (prefix: 'For you:', text: '3 open mistakes to fix'));
+    expect(CoverModel.leadLine(cover({'forYou': true, 'reason': '3 open mistakes to fix'})), (prefix: 'For you:', text: '3 open mistakes to fix'));
     expect(CoverModel.leadLine(cover({'forYou': true, 'reason': 'Pick up where you stopped'})), (prefix: 'For you:', text: 'pick up where you stopped'));
     expect(
       CoverModel.leadLine(cover({'forYou': true, 'reason': 'Next after Goodwill: Nature and Valuation'})),
@@ -43,17 +42,22 @@ void main() {
 
   test('student line: never a due count; resume, mistakes, state, New to you; nothing without history', () {
     String? line(Map<String, dynamic> j, {bool history = true}) => CoverModel.studentLineOf(cover(j), history: history);
-    expect(line({'studentLine': '3 due, 3 old mistakes'}), '3 old mistakes to fix');
-    expect(line({'studentLine': '2 old mistakes to fix'}), '2 old mistakes to fix');
-    expect(line({'studentLine': '1 old mistake'}), '1 old mistake to fix');
-    expect(line({'studentLine': '3 due', 'state': {'key': 'holding', 'label': 'Holding'}}), 'Holding');
+    expect(line({'studentLine': '3 due, 3 old mistakes'}), '3 open mistakes to fix');
+    expect(line({'studentLine': '2 open mistakes to fix'}), '2 open mistakes to fix');
+    expect(line({'studentLine': '1 old mistake'}), '1 open mistake to fix');
+    // The only verdict word is "Needs work" (R2 ruling 2): the others never show on a cover.
+    expect(line({'studentLine': '3 due', 'state': {'key': 'holding', 'label': 'Holding'}}), isNull);
+    expect(line({'studentLine': '3 due', 'state': {'key': 'needs_work', 'label': 'Needs work'}}), 'Needs work');
     expect(line({'studentLine': '3 due', 'state': {'key': 'none', 'label': 'Not started'}}), 'New to you');
-    expect(line({'studentLine': 'Getting there'}), 'Getting there');
+    for (final quiet in ['Getting there', 'Holding', 'Too few answers', 'Fading', 'Thin']) {
+      expect(line({'studentLine': quiet}), isNull, reason: quiet);
+    }
+    expect(line({'studentLine': 'Not started'}), 'New to you');
     expect(line({'studentLine': 'x', 'resume': {'runId': 'lr_1', 'done': 6, 'of': 16, 'minutesLeft': 4}}), 'You stopped at 6 of 16');
     expect(line({'studentLine': 'New to you'}), 'New to you');
     expect(line({'studentLine': 'New to you'}, history: false), isNull);
-    expect(line({'studentLine': '', 'mistakes': 3}), '3 old mistakes to fix');
-    expect(line({'studentLine': '', 'mistakes': 1}), '1 old mistake to fix');
+    expect(line({'studentLine': '', 'mistakes': 3}), '3 open mistakes to fix');
+    expect(line({'studentLine': '', 'mistakes': 1}), '1 open mistake to fix');
   });
 
   test('history: the server flag, else any line that is not New to you', () {
@@ -74,18 +78,23 @@ void main() {
     expect(CoverModel.mixLineOf(cover({'counts': {'10': counts(1, 1, 10)}}), 10), '1 Key card, 1 question');
     expect(CoverModel.mixLineOf(cover({'counts': {'10': counts(5, 0, 1)}}), 10, free: true), '5 Key cards');
     expect(CoverModel.mixLineOf(cover({'counts': {'20': counts(5, 7, 9, capped: true)}}), 20), '5 Key cards, 7 questions');
-    expect(CoverModel.keyLabelOf(c, 10), 'Play 10 minutes');
-    expect(CoverModel.keyLabelOf(c, 20), 'Play 4 minutes');
-    expect(CoverModel.keyLabelOf(cover({'counts': {'10': counts(5, 0, 1)}}), 10), 'Play 1 minute');
+    expect(CoverModel.keyLabelOf(c, 10), 'Play · 10 min');
+    expect(CoverModel.keyLabelOf(c, 20), 'Play · 4 min');
+    expect(CoverModel.keyLabelOf(cover({'counts': {'10': counts(5, 0, 1)}}), 10), 'Play · 1 min');
+    // A first visit says what a feed holds in plain words (phone-clarity 18).
+    expect(CoverModel.mixLineOf(c, 10, history: false), 'Cards and questions');
+    expect(CoverModel.mixLineOf(cover({'counts': {'10': counts(0, 8, 10)}}), 10, history: false), 'Questions, one at a time');
+    expect(CoverModel.mixLineOf(cover({'counts': {'10': counts(5, 0, 10)}}), 10, history: false), 'Cards, one at a time');
     final r = cover({
       'counts': {'5': counts(8, 2, 5), '10': counts(16, 5, 10), '20': counts(16, 0, 4)},
       'resume': {'runId': 'lr_1', 'done': 6, 'of': 16, 'minutesLeft': 4},
     });
-    expect(CoverModel.keyLabelOf(r, 20), 'Pick up, 4 minutes');
-    expect(CoverModel.mixLineOf(r, 5), 'About 4 minutes left');
+    expect(CoverModel.keyLabelOf(r, 20), 'Continue · 4 min');
+    // On a resume the key carries the time, so the mix line is empty.
+    expect(CoverModel.mixLineOf(r, 5), '');
     expect(CoverModel.keyLabelOf(c, 10, freeDone: true), 'Questions on this chapter');
     // At Free's day limit a cover with a feed to pick up says so (the feed resumes its own run); only the others open questions.
-    expect(CoverModel.keyLabelOf(r, 10, freeDone: true), 'Pick up, 4 minutes');
+    expect(CoverModel.keyLabelOf(r, 10, freeDone: true), 'Continue · 4 min');
     expect(CoverModel.opensQuestions(r, freeDone: true), isFalse);
     expect(CoverModel.opensQuestions(c, freeDone: true), isTrue);
     expect(CoverModel.opensQuestions(c), isFalse);
@@ -104,11 +113,12 @@ void main() {
     expect(CoverModel.chaptersText(14), '14 chapters');
     // A feed with a minute left reads "1 minute", never "0 minutes".
     final one = cover({'resume': {'runId': 'lr_1', 'done': 6, 'of': 16, 'minutesLeft': 0}});
-    expect(CoverModel.keyLabelOf(one, 10), 'Pick up, 1 minute');
-    expect(CoverModel.mixLineOf(one, 10), 'About 1 minute left');
-    // A fraction rounds, as the web rounds it.
+    expect(CoverModel.keyLabelOf(one, 10), 'Continue · 1 min');
+    expect(CoverModel.mixLineOf(one, 10), '');
+    // A fraction rounds up, as the web's wholeMinutes does.
     final half = cover({'resume': {'runId': 'lr_1', 'done': 1, 'of': 4, 'minutesLeft': 3.5}});
-    expect(CoverModel.keyLabelOf(half, 10), 'Pick up, 4 minutes');
+    expect(CoverModel.keyLabelOf(half, 10), 'Continue · 4 min');
+    expect(CoverModel.keyLabelOf(cover({'resume': {'runId': 'lr_1', 'done': 1, 'of': 4, 'minutesLeft': 2.4}}), 10), 'Continue · 3 min');
   });
 
   test('media: the opening card, a locked card never prints null, a questions-only chapter', () {
@@ -130,6 +140,40 @@ void main() {
     expect(CoverModel.hookTier('Sum due to a retiring/deceased partner includes: name items (i) to (v).'), 'l');
     expect(CoverModel.hookTier('Define the dissolution of the firm (Section 39 of the Partnership Act 1932) as a whole.'), 'xl');
     expect(CoverModel.hookTier('Which Article requires the government to present its estimated receipts and expenditures to Parliament every year?'), 'xxl');
+  });
+
+  test('a cover never leads with a cloze or a long front: the first readable hook, else what the feed holds', () {
+    // The first of the length's hooks (feed order) that is short and not a fill-in-the-blank wins over the cover's own hook.
+    final withHooks = cover({
+      'hook': {'front': 'Fill ____'},
+      'counts': {
+        '10': {
+          ...counts(10, 2, 10),
+          'hooks': [
+            {'front': 'Cloze [...]'},
+            {'front': 'Define partnership.'},
+            {'front': 'Later'},
+          ],
+        },
+      },
+    });
+    expect(CoverModel.mediaOf(withHooks, 10), const CoverMediaCard('Define partnership.'));
+    // The cover's own top-level hooks serve a length that sends none.
+    expect(
+      CoverModel.mediaOf(cover({'hook': {'front': 'Fill ____'}, 'hooks': [{'front': 'Fill ___'}, {'front': 'What is goodwill?'}], 'counts': {'10': counts(10, 2, 10)}}), 10),
+      const CoverMediaCard('What is goodwill?'),
+    );
+    // Only a cloze or a long card is left: the cover says what the feed holds instead of an unfinished sentence.
+    expect(CoverModel.mediaOf(cover({'hook': {'front': 'Fill the ____ in.'}, 'counts': {'10': counts(10, 2, 10)}}), 10), const CoverMediaCards(text: '10 Key cards', note: 'and 2 questions'));
+    expect(CoverModel.mediaOf(cover({'hook': {'front': 'x' * 106}, 'counts': {'10': counts(5, 0, 10)}}), 10), const CoverMediaCards(text: '5 Key cards', note: 'one at a time'));
+    expect(CoverModel.mediaOf(cover({'hook': {'front': 'x' * 105}, 'counts': {'10': counts(5, 0, 10)}}), 10), CoverMediaCard('x' * 105));
+    expect(CoverModel.isCloze('Fill the ____ in.'), isTrue);
+    expect(CoverModel.isCloze('A [ … ] is missing'), isTrue);
+    expect(CoverModel.isCloze('Dashes ---- here'), isTrue);
+    expect(CoverModel.isCloze('A well-known rule: 1-2-3.'), isFalse);
+    expect(CoverModel.isReadableHook('  '), isFalse);
+    expect(CoverModel.isReadableHook(null), isFalse);
+    expect(CoverModel.isReadableHook('What is goodwill?'), isTrue);
   });
 
   test('kind labels: the card kinds, whatever the case, and "Key card" for one nobody knows', () {

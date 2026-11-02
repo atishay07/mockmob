@@ -8,6 +8,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show ScrollDirection;
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
@@ -18,11 +19,25 @@ import 'cover_card.dart';
 import 'explore_copy.dart';
 
 /// The covers and their pager. [onOpen] gets the cover and where it stands in the row (from 0).
+///
+/// First visit cue (R2 ruling 7, LK29): with [nudge] on, 0.9 s after the covers land the row slides 24 dp toward the next cover (420
+/// ms out, 380 ms back) and settles, so a first-timer sees that covers page sideways. [onNudged] is told when it plays (the caller
+/// remembers it, so it is once per phone); a touch or a scroll first cancels it, and reduced motion never plays it.
 class ExploreCovers extends StatefulWidget {
-  const ExploreCovers({super.key, required this.views, required this.onOpen, this.label});
+  const ExploreCovers({super.key, required this.views, required this.onOpen, this.label, this.nudge = false, this.onNudged});
 
   final List<CoverView> views;
   final void Function(CoverView view, int index) onOpen;
+
+  /// Play the first-visit nudge once the covers are on screen.
+  final bool nudge;
+  final VoidCallback? onNudged;
+
+  /// The nudge's own timings and distance.
+  static const Duration nudgeDelay = Duration(milliseconds: 900);
+  static const Duration nudgeOut = Duration(milliseconds: 420);
+  static const Duration nudgeBack = Duration(milliseconds: 380);
+  static const double nudgePx = 24;
 
   /// What a screen reader calls the row ("Accountancy chapter feeds").
   final String? label;
@@ -43,17 +58,47 @@ class _ExploreCoversState extends State<ExploreCovers> {
   /// A cover and the gap after it, as laid out now.
   double _step = 0;
 
+  Timer? _nudgeTimer;
+  bool _nudgeOver = false;
+
   @override
   void initState() {
     super.initState();
     _scroll.addListener(_track);
+    if (widget.nudge) _nudgeTimer = Timer(ExploreCovers.nudgeDelay, () => unawaited(_runNudge()));
+  }
+
+  @override
+  void didUpdateWidget(ExploreCovers old) {
+    super.didUpdateWidget(old);
+    if (widget.nudge && !old.nudge && !_nudgeOver && _nudgeTimer == null) _nudgeTimer = Timer(ExploreCovers.nudgeDelay, () => unawaited(_runNudge()));
   }
 
   @override
   void dispose() {
+    _nudgeOver = true;
+    _nudgeTimer?.cancel();
     _scroll.dispose();
     _index.dispose();
     super.dispose();
+  }
+
+  /// A touch or a scroll first ends the nudge for good.
+  void _cancelNudge() {
+    _nudgeOver = true;
+    _nudgeTimer?.cancel();
+  }
+
+  /// The nudge: only when a cover waits past the right edge, the row has not been moved, and motion is not reduced.
+  Future<void> _runNudge() async {
+    if (!mounted || _nudgeOver || Motion.reduced(context) || !_scroll.hasClients) return;
+    final p = _scroll.position;
+    if (!p.hasContentDimensions || p.pixels > 2 || p.maxScrollExtent <= 2) return;
+    _nudgeOver = true;
+    widget.onNudged?.call();
+    await _scroll.animateTo(ExploreCovers.nudgePx, duration: ExploreCovers.nudgeOut, curve: Motion.out);
+    if (!mounted || !_scroll.hasClients || _scroll.offset > ExploreCovers.nudgePx + 2) return;
+    await _scroll.animateTo(0, duration: ExploreCovers.nudgeBack, curve: Motion.out);
   }
 
   /// The cover in view: the one the row has moved nearest to, and the last one once the row cannot go further (the web's
@@ -113,6 +158,17 @@ class _ExploreCoversState extends State<ExploreCovers> {
                 child: CoverCard(view: views[i], size: size, position: i, total: views.length, onTap: () => widget.onOpen(views[i], i)),
               ),
             ),
+          ),
+        );
+        row = Listener(
+          behavior: HitTestBehavior.translucent,
+          onPointerDown: (_) => _cancelNudge(),
+          child: NotificationListener<UserScrollNotification>(
+            onNotification: (n) {
+              if (n.direction != ScrollDirection.idle) _cancelNudge();
+              return false;
+            },
+            child: row,
           ),
         );
         final label = widget.label;

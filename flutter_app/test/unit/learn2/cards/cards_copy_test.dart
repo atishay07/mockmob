@@ -1,5 +1,5 @@
 // The words of the Cards view and Find keep the app's rules (APP-1101 sections 7 and 8): plain, sentence case, no exclamation
-// marks, emoji, middle dots or arrows, no 24-hour times, never "mastered" or a mastery percentage, colours from the theme,
+// marks, emoji or arrows, no 24-hour times, never "mastered" or a mastery percentage, colours from the theme,
 // and no motion the guard bans.
 import 'dart:io';
 
@@ -24,8 +24,9 @@ void main() {
 
   test('the folder has its files', () => expect(files.length, greaterThanOrEqualTo(8)));
 
-  test('no exclamation mark, middle dot, arrow or emoji in a word the student reads', () {
-    final bad = RegExp(r'[!·←-⇿⌀-⏿☀-➿\u{1f000}-\u{1faff}]', unicode: true);
+  test('no exclamation mark, arrow or emoji in a word the student reads', () {
+    // A time after a label is " · N min" (the web's ruling W), so the middle dot is allowed; the rest of the lint stands.
+    final bad = RegExp(r'[!←-⇿⌀-⏿☀-➿\u{1f000}-\u{1faff}]', unicode: true);
     for (final f in files) {
       for (final s in literals(f)) {
         // A comparison in code ('!=') is not a word.

@@ -126,18 +126,38 @@ void main() {
 Map<String, dynamic> _faces() {
   final json = CoversFixture.json(CoversFixture.pro);
   final covers = (json['covers'] as List).cast<Map<String, dynamic>>();
+  // The covers also send their hooks (up to 5 fronts in feed order, and each length's own): a locked or questions-only face has none.
+  const locked = {'id': 'x', 'front': null, 'kind': 'definition', 'mustKnow': true, 'locked': true};
   covers[0]
-    ..['hook'] = {'id': 'x', 'front': null, 'kind': 'definition', 'mustKnow': true, 'locked': true}
+    ..['hook'] = locked
+    ..['hooks'] = <Object?>[]
     ..['title'] = 'Development Experiences of India: A Comparison with Neighbours'
     ..['forYou'] = true;
+  for (final c in (covers[0]['counts'] as Map<String, dynamic>).values) {
+    (c as Map<String, dynamic>)
+      ..['hooks'] = <Object?>[]
+      ..['hook'] = locked;
+  }
   covers[1]
     ..['hook'] = null
+    ..['hooks'] = <Object?>[]
+    ..['kept'] = 0
+    ..['due'] = 0
     ..['counts'] = {'5': {'cards': 0, 'questions': 3, 'minutes': 5}, '10': {'cards': 0, 'questions': 8, 'minutes': 10}, '20': {'cards': 0, 'questions': 14, 'minutes': 20}};
   covers[2]
     ..['hook'] = null
+    ..['hooks'] = <Object?>[]
     ..['kept'] = 4
     ..['due'] = 2
     ..['counts'] = {'5': {'cards': 0, 'questions': 2, 'minutes': 5}, '10': {'cards': 0, 'questions': 4, 'minutes': 10}, '20': {'cards': 0, 'questions': 7, 'minutes': 12}};
-  covers[3]['hook'] = {'id': 'y', 'front': 'Which Article requires the government to present its estimated receipts and expenditures to Parliament every year?', 'kind': 'definition', 'mustKnow': false};
+  const longHook = {'id': 'y', 'front': 'Which Article requires the government to present its estimated receipts and expenditures to Parliament every year?', 'kind': 'definition', 'mustKnow': false};
+  covers[3]
+    ..['hook'] = longHook
+    ..['hooks'] = [longHook];
+  for (final c in (covers[3]['counts'] as Map<String, dynamic>).values) {
+    (c as Map<String, dynamic>)
+      ..['hooks'] = [longHook]
+      ..['hook'] = longHook;
+  }
   return json;
 }

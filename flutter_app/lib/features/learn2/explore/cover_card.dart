@@ -15,11 +15,11 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/materials/edge_light.dart';
 import '../../../core/widgets/materials/grain.dart';
-import '../../../core/widgets/materials/light_field.dart';
 import '../../../core/widgets/materials/shape.dart';
 import '../../../core/widgets/pressable.dart';
 import '../../../core/widgets/skeleton.dart';
 import '../data/learn_models.dart';
+import '../learn2_balance.dart';
 import 'cover_model.dart';
 import 'explore_copy.dart';
 
@@ -51,7 +51,7 @@ class CoverView {
       media: CoverModel.mediaOf(c, minutes),
       lead: lead ? CoverModel.leadLine(c, history: history) : null,
       line: lead ? null : CoverModel.studentLineOf(c, history: history),
-      mix: toQuestions ? '' : CoverModel.mixLineOf(c, minutes, free: free),
+      mix: toQuestions ? '' : CoverModel.mixLineOf(c, minutes, free: free, history: history),
       keyLabel: CoverModel.keyLabelOf(c, minutes, freeDone: freeDone),
       isLead: lead,
       opensQuestions: toQuestions,
@@ -93,6 +93,7 @@ class CoverView {
   String get mediaText => switch (media) {
     CoverMediaCard(:final text) => text,
     CoverMediaLocked(:final label) => '$label. ${ExploreCopy.proCard}',
+    CoverMediaCards(:final text, :final note) => '$text. $note',
     CoverMediaQuestions(:final text, :final note) => '$text. $note',
   };
 
@@ -115,9 +116,10 @@ abstract final class CoverLayout {
   static const double maxWidth = 320;
   static const double widthMargin = 88;
 
-  /// The usual size of a cover: 134 dp of media (its hairline included) and 204 of body, 338 in all.
-  static const double baseMedia = 134;
-  static const double baseBody = 204;
+  /// The usual size of a cover (the web's phone band, R4 owner-eye#10): 118 dp of media (its hairline included) and 174 of body,
+  /// 292 in all; a cover is as tall as its fullest neighbour, with this as its floor.
+  static const double baseMedia = 118;
+  static const double baseBody = 174;
   static const double baseHeight = baseMedia + baseBody;
 
   static const EdgeInsets mediaPadding = EdgeInsets.fromLTRB(16, 14, 16, 10);
@@ -144,7 +146,7 @@ class CoverStyles {
   final MmType type;
   final MmColors colors;
 
-  /// "Part 1, Ch 2": 12.5, tabular, the quiet ink.
+  /// "Chapter 5": 12.5, tabular, the quiet ink.
   TextStyle get ref => type.caption.copyWith(fontSize: 12.5, height: 16 / 12.5, fontWeight: FontWeight.w600, color: colors.ink3);
 
   /// The hook in display type, sized by its tier (24, 21, 18, 15.5, 14).
@@ -221,8 +223,10 @@ abstract final class CoverMetrics {
       hook = math.max(hook, _media(v, inner, scaler, styles));
       body = math.max(body, _body(v, inner, scaler, styles));
     }
-    final ref = _height(TextSpan(text: ' ', style: styles.ref), inner, scaler, maxLines: 1);
-    final media = CoverLayout.mediaPadding.vertical + ref + CoverLayout.mediaGap + hook + 1;
+    // A cover with no label draws no label row (the web's `data-noref`).
+    final hasRef = views.any((v) => v.refLine != null);
+    final ref = hasRef ? _height(TextSpan(text: ' ', style: styles.ref), inner, scaler, maxLines: 1) + CoverLayout.mediaGap : 0.0;
+    final media = CoverLayout.mediaPadding.vertical + ref + hook + 1;
     return CoverSize(media: math.max(CoverLayout.baseMedia, media + slack), body: math.max(CoverLayout.baseBody, body + slack));
   }
 
@@ -235,6 +239,7 @@ abstract final class CoverMetrics {
       _height(TextSpan(text: label, style: styles.noteKind), inner, scaler) +
           CoverLayout.noteGap +
           _height(TextSpan(text: ExploreCopy.proCard, style: styles.note), inner, scaler),
+    CoverMediaCards(:final text, :final note) ||
     CoverMediaQuestions(:final text, :final note) =>
       _height(TextSpan(text: text, style: styles.noteBig), inner, scaler) + CoverLayout.noteGap + _height(TextSpan(text: note, style: styles.note), inner, scaler),
   };
@@ -366,7 +371,7 @@ class _Face extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(view.title, style: styles.title(long: view.longTitle)),
+                BalancedText(view.title, style: styles.title(long: view.longTitle)),
                 if (hasLine && line != null) ...[
                   const SizedBox(height: CoverLayout.lineGap),
                   Text.rich(line, maxLines: CoverStyles.lineLines, overflow: TextOverflow.ellipsis),
@@ -417,7 +422,7 @@ class _Media extends StatelessWidget {
     final Widget face = switch (view.media) {
       CoverMediaCard(:final text) => () {
         final tier = CoverModel.hookTier(text);
-        return Text(text, maxLines: CoverStyles.hookLines(tier), overflow: TextOverflow.ellipsis, style: styles.hook(tier));
+        return BalancedText(text, maxLines: CoverStyles.hookLines(tier), overflow: TextOverflow.ellipsis, style: styles.hook(tier));
       }(),
       CoverMediaLocked(:final label) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -428,7 +433,7 @@ class _Media extends StatelessWidget {
           Text(ExploreCopy.proCard, style: styles.note),
         ],
       ),
-      CoverMediaQuestions(:final text, :final note) => Column(
+      CoverMediaCards(:final text, :final note) || CoverMediaQuestions(:final text, :final note) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -440,24 +445,18 @@ class _Media extends StatelessWidget {
     };
     return Stack(
       children: [
-        // The lit card surface: the lamp on its upper left and the film grain, as a hero card's.
-        Positioned.fill(
-          child: IgnorePointer(
-            child: RepaintBoundary(
-              child: LightField(
-                pools: [LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.16 : 0.12), center: const Alignment(-1.05, -1.2), radius: 0.95, aspect: 1.4)],
-                child: const Grain(),
-              ),
-            ),
-          ),
-        ),
+        // A flat surface and the film grain, no tinted radial (the web: no gradients or glow, R2 screens 18).
+        Positioned.fill(child: ColoredBox(color: colors.raised2)),
+        const Positioned.fill(child: IgnorePointer(child: RepaintBoundary(child: Grain()))),
         Padding(
           padding: CoverLayout.mediaPadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(view.refLine ?? ' ', maxLines: 1, overflow: TextOverflow.ellipsis, style: styles.ref),
-              const SizedBox(height: CoverLayout.mediaGap),
+              if (view.refLine != null) ...[
+                Text(view.refLine!, maxLines: 1, overflow: TextOverflow.ellipsis, style: styles.ref),
+                const SizedBox(height: CoverLayout.mediaGap),
+              ],
               Expanded(child: Align(alignment: Alignment.centerLeft, child: face)),
             ],
           ),
