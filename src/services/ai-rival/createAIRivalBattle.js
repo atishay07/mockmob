@@ -1,5 +1,5 @@
 import 'server-only';
-import { servedRow } from '@/../data/option_order';
+import { OPTION_ORDER_VERSION, servedRow } from '@/../data/option_order';
 import { supabaseAdmin } from '@/lib/supabase';
 import { getRivalProfile, quotaSlotFor, rivalAccessRule } from './rivalProfiles';
 import { getUsageSnapshot, planTierFor, rivalTypeToQuotaAction } from '@/services/usage/getDailyUsage';
@@ -127,6 +127,7 @@ export async function createAIRivalBattle({
         battleSeed,
         charge: null,
         rivalAnswers: rivalBenchmark.answers,
+        optionOrder: OPTION_ORDER_VERSION, // served in the stable option order (scoreRivalBattle grades through it)
       },
     })
     .select()

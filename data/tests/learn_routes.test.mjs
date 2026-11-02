@@ -48,7 +48,7 @@ const syllabus = syllabusFrom(null);
 const index = (rows = QROWS) => ({
   list: rows.map((r) => ({
     id: r.id, subject: r.subject, chapter: r.chapter, chapterKey: syllabus.resolveChapter(r.subject, r.chapter).key, body: r.question,
-    options: learnServed(r).options, words: r.question.split(/\s+/).length, difficulty: r.difficulty, cards: LINKS[r.id] || [], chash: r.content_hash, managed: false,
+    options: learnServed(r).options, order: learnServed(r).order, words: r.question.split(/\s+/).length, difficulty: r.difficulty, cards: LINKS[r.id] || [], chash: r.content_hash, managed: false,
   })),
 });
 
@@ -766,6 +766,21 @@ test('B7 2: the feed end says how far it got and how long it took (first event t
   assert.deepEqual((await learn.end('u1', feed2.id)).body.feed.done, { reached: feed2.items.length, of: feed2.items.length, minutes: 4 });
   const none = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'feed', requestKey: 'done-0000003', fresh: true })).body;
   assert.deepEqual((await learn.end('u1', none.id)).body.feed.done, { reached: 0, of: none.items.length, minutes: 1 });
+});
+
+test('R5 Packet A: a run started before the stable order keeps the stored order it was served in, to its end', async () => {
+  const { learn, tables } = setup({ isPro: true });
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'legacy-ord-01' })).body;
+  const stored = runOf(tables, run.id);
+  assert.ok(stored.items.filter((i) => i.type === 'question').every((i) => i.ov === 'stable-1'), 'a new run is served in the stable order');
+  // The same run as one started before the change: its items carry no ov.
+  stored.items = stored.items.map(({ ov, ...rest }) => rest);
+  const again = (await learn.getRun('u1', run.id)).body;
+  const q = again.items.find((i) => i.type === 'question');
+  assert.deepEqual(q.question.options.map((o) => o.text), ['The right one', 'A wrong one', 'Another wrong one', 'The last wrong one']);
+  const ans = (await learn.answer('u1', run.id, { itemId: q.id, choice: 'A' })).body;
+  assert.deepEqual([ans.correct, ans.key, ans.choice], [true, 'A', 'A']);
+  assert.equal(tables.learn_run_events.find((e) => e.item_id === q.id).choice, 'A', 'the stored letter, as before');
 });
 
 test('B7 3: an answer echoes the choice, and a replay echoes the first one', async () => {

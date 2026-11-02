@@ -53,8 +53,9 @@ export async function scoreRivalBattle({ battleId, userId, answers }) {
     const q = questionById.get(a.qid);
     if (!q) continue;
     const correctIndex = resolveCorrectIndex(q);
-    // The battle served the stable option order (createAIRivalBattle): the served index is graded and kept as the stored option.
-    const selectedIndex = Number.isInteger(a.selectedIndex) ? storedIndexOf(stableOrder(q), a.selectedIndex) : null;
+    // A battle served in the stable option order (metadata.optionOrder, createAIRivalBattle): the served index is graded and kept as
+    // the stored option. A battle started before that was served in the stored order.
+    const selectedIndex = Number.isInteger(a.selectedIndex) ? (battle.metadata?.optionOrder ? storedIndexOf(stableOrder(q), a.selectedIndex) : a.selectedIndex) : null;
     const time = Math.max(0, Math.min(600, Number(a.timeSeconds) || 0));
     totalTime += time;
     let isCorrect = null;

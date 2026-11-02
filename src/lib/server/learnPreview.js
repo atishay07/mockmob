@@ -43,9 +43,9 @@ async function contentOnce() {
     const resolved = syllabus.resolveChapter(q.subject, q.chapter);
     if (!resolved || resolved.retired || !q.id) continue;
     // Served as production serves it: the stable option order over the full row (data/option_order.js).
-    const options = learnServed({ id: q.id, question: q.body, options: q.options, correct_answer: q.correct_answer, explanation: q.explanation || '' }).options;
+    const { options, order } = learnServed({ id: q.id, question: q.body, options: q.options, correct_answer: q.correct_answer, explanation: q.explanation || '' });
     const entry = {
-      id: q.id, subject: q.subject, chapter: q.chapter, chapterKey: resolved.key, body: q.body, options, words: wordCount(q.body),
+      id: q.id, subject: q.subject, chapter: q.chapter, chapterKey: resolved.key, body: q.body, options, order, words: wordCount(q.body),
       difficulty: q.difficulty || null, cards: q.cards || [], chash: `fixture-${q.id}`, managed: false,
     };
     index.set(q.subject, [...(index.get(q.subject) || []), entry]);

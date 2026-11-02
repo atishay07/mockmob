@@ -13,8 +13,9 @@
 //                       add(userId, { cardIds, addedFrom }), dueCount(userId), published() when it exports it
 //   decks, syllabus     loadDecks() and the keycardsSyllabus.js adapter
 //   getUser(id)         -> { isPremium, subjects } (fresh, never an auth cache)
-//   questionIndex(subject) -> { list: [{ id, subject, chapter, chapterKey, body, options, words, difficulty, cards, chash,
-//                       managed, family, concept }] } (no key, no explanation)
+//   questionIndex(subject) -> { list: [{ id, subject, chapter, chapterKey, body, options, order, words, difficulty, cards, chash,
+//                       managed, family, concept }] } (no key, no explanation; options in the stable order of data/option_order.js,
+//                       order[i] the stored index served at i)
 //   verifyRows(ids)     -> Set of the managed ids that pass a check on their fresh full rows (optional: all pass)
 //   lessonsFor(userId, subject) -> [{ id, chapterKey, title, minutes, read }] in catalog order (optional: none)
 //   heldQuestions(userId) -> Set of question ids of a Mob paper still open (throws: every question is refused, fail closed)
@@ -36,7 +37,7 @@ import { WORDS, reviseDue, withMinutes } from '../../../data/learn/words.js';
 import { cardSeconds, cardWords, itemSeconds, questionSeconds } from '../../../data/learn/seconds.js';
 import { gradeCard, istDate, planSeeds } from '../../../data/revise.js';
 import { createLearnStore } from './learnStore.js';
-import { servedRow, storedIndexOf, storedKeyAt } from '../../../data/option_order.js';
+import { OPTION_ORDER_VERSION, isPermutation, servedRow, storedIndexOf, storedKeyAt } from '../../../data/option_order.js';
 
 const HOUR = 3_600_000;
 const DAY = 24 * HOUR;
@@ -131,6 +132,23 @@ export function learnServed(row) {
   const s = servedRow(row);
   const options = servedOptions(s.row?.options);
   return { options, key: keyLetter(s.row, options), order: s.order, explanation: explanationOf(s.row) };
+}
+
+/**
+ * A row as Learn served it before the stable order (a run started before R5 Packet A carries no `ov` on its items): the
+ * stored order, as the old code served and graded it, so a run in flight across the change keeps its meaning to the end.
+ */
+export function learnStored(row) {
+  const options = servedOptions(row?.options);
+  return { options, key: keyLetter(row, options), order: options.map((_, i) => i), explanation: explanationOf(row) };
+}
+
+/** An index entry's served options put back in the stored order (entry.order: served position i shows stored option order[i]). */
+function storedOptionsOf(q) {
+  if (!isPermutation(q?.order, q?.options?.length || 0)) return q?.options || [];
+  const out = [];
+  q.order.forEach((stored, i) => { out[stored] = { ...q.options[i], key: 'ABCDE'[stored] }; });
+  return out;
 }
 
 /** The stored letter of the option served under `letter` (what Learn persists: option identity, never a served letter). */
@@ -577,13 +595,13 @@ export function createLearn(deps) {
     const missing = [];
     for (const id of ids) {
       const q = index?.get(id);
-      if (q) out.set(id, { id: q.id, body: q.body, options: q.options });
+      if (q) out.set(id, { id: q.id, body: q.body, options: q.options, order: q.order });
       else missing.push(id);
     }
     if (!missing.length) return out;
     let rows = [];
     try { rows = await store.questionContent(missing); } catch { rows = []; }
-    for (const r of rows) out.set(r.id, { id: r.id, body: String(r.question || r.body || ''), options: learnServed(r).options });
+    for (const r of rows) { const s = learnServed(r); out.set(r.id, { id: r.id, body: String(r.question || r.body || ''), options: s.options, order: s.order }); }
     return out;
   }
 
@@ -596,7 +614,9 @@ export function createLearn(deps) {
     }
     if (item.type === 'question') {
       const q = qmap.get(item.questionId) || { id: item.questionId, body: '', options: [] };
-      return { id: item.id, type: 'question', origin: item.origin, question: { id: q.id, body: q.body, options: q.options }, mistake: item.origin === 'mistake' ? item.mistake || null : null, seconds: secondsOf(item) };
+      // A run started before the stable order (no ov on its items) keeps the stored order it began with.
+      const options = item.ov ? q.options : storedOptionsOf(q);
+      return { id: item.id, type: 'question', origin: item.origin, question: { id: q.id, body: q.body, options }, mistake: item.origin === 'mistake' ? item.mistake || null : null, seconds: secondsOf(item) };
     }
     return { id: item.id, type: 'lesson', lesson: { id: item.lessonId, title: item.title || null, minutes: item.minutes || null }, seconds: secondsOf(item) };
   }
@@ -982,7 +1002,7 @@ export function createLearn(deps) {
       const q = S.questionsById.get(it.questionId);
       return {
         ...base, questionId: it.questionId, origin: it.origin, links: it.links || [], difficulty: it.difficulty || null,
-        chash: q?.chash ?? null, ...(it.late ? { late: true } : {}), ...(it.origin === 'mistake' ? { mistake: it.mistake || null } : {}),
+        chash: q?.chash ?? null, ov: OPTION_ORDER_VERSION, ...(it.late ? { late: true } : {}), ...(it.origin === 'mistake' ? { mistake: it.mistake || null } : {}),
       };
     }
     const lesson = S.lessons.find((l) => l.id === it.lessonId);
@@ -1063,7 +1083,8 @@ export function createLearn(deps) {
     if (expired(row)) return bad('RUN_EXPIRED', 409, { endHref: endHrefOf(row) });
     const [q, A] = await Promise.all([store.question(item.questionId), answerContext(userId, row, item.questionId)]);
     // Served letters (the stable order of learnServed); what other surfaces read below is the stored option's own letter.
-    const served = q ? learnServed(q) : { options: [], key: null, order: [], explanation: '' };
+    // An item of a run started before the stable order (no ov) is graded in the stored order it was served in.
+    const served = !q ? { options: [], key: null, order: [], explanation: '' } : item.ov ? learnServed(q) : learnStored(q);
     const options = served.options;
     const choice = String(body?.choice ?? '').trim().toUpperCase();
     if (q && !options.some((o) => o.key === choice)) return bad('INVALID_CHOICE');
