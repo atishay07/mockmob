@@ -1,4 +1,5 @@
-import { Bricolage_Grotesque, Gabarito, Hanken_Grotesk, Geist_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Gabarito, Hanken_Grotesk } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import "./marketing-theme.css";
 import "./brand-pip.css";
@@ -37,12 +38,14 @@ const hanken = Hanken_Grotesk({
 
 // Only the faces the first screen reads are preloaded: Bricolage (the headline, the page's largest paint) and
 // Hanken (the hero's lead). Geist Mono sets small labels and figures; it loads from the stylesheet with swap,
-// so it no longer competes with the headline face for a slow phone's first second.
-const geistMono = Geist_Mono({
+// so it no longer competes with the headline face for a slow phone's first second. It is self-hosted (the
+// variable face from geist@1.8.1, OFL, src/app/fonts/GeistMono-OFL.txt), so a build never fetches it from
+// Google: 2 of 4 production builds failed on that fetch on 2 Nov 2026.
+const geistMono = localFont({
+  src: "./fonts/GeistMono-Variable.woff2",
   variable: "--font-geist-mono",
-  subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500", "600"],
+  weight: "100 900",
   preload: false,
 });
 
