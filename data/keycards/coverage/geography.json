@@ -2,28 +2,28 @@
   "subject": "geography",
   "chapters": {
     "geography.geographical-perspective-on-selected-issues-and-problems": {
-      "published": 50,
-      "quarantined": 39,
+      "published": 57,
+      "quarantined": 29,
       "byKind": {
         "definition": 6,
-        "types": 4,
+        "types": 5,
         "key_line": 8,
-        "list": 18,
-        "fact": 14
+        "fact": 19,
+        "list": 19
       },
       "byImportance": {
-        "must": 21,
-        "good": 29
+        "must": 24,
+        "good": 33
       },
       "coverage_note": null,
       "mustShare": 0.42,
       "belowMinimum": false
     },
     "geography.human-development": {
-      "published": 37,
-      "quarantined": 53,
+      "published": 45,
+      "quarantined": 44,
       "byKind": {
-        "fact": 12,
+        "fact": 20,
         "definition": 10,
         "key_line": 8,
         "list": 6,
@@ -31,19 +31,19 @@
       },
       "byImportance": {
         "must": 14,
-        "good": 23
+        "good": 31
       },
       "coverage_note": null,
-      "mustShare": 0.38,
+      "mustShare": 0.31,
       "belowMinimum": false
     },
     "geography.human-geography-nature-and-scope": {
-      "published": 35,
-      "quarantined": 27,
+      "published": 45,
+      "quarantined": 15,
       "byKind": {
-        "definition": 6,
-        "key_line": 10,
-        "fact": 7,
+        "definition": 7,
+        "key_line": 11,
+        "fact": 15,
         "list": 6,
         "term": 1,
         "example": 2,
@@ -51,38 +51,38 @@
         "steps": 1
       },
       "byImportance": {
-        "must": 14,
-        "good": 21
+        "must": 18,
+        "good": 27
       },
       "coverage_note": null,
       "mustShare": 0.4,
       "belowMinimum": false
     },
     "geography.human-settlements": {
-      "published": 49,
-      "quarantined": 13,
+      "published": 56,
+      "quarantined": 5,
       "byKind": {
         "definition": 5,
-        "fact": 31,
+        "fact": 36,
         "term": 1,
         "difference": 2,
         "list": 3,
-        "types": 2,
+        "types": 4,
         "key_line": 5
       },
       "byImportance": {
-        "must": 13,
-        "good": 36
+        "must": 15,
+        "good": 41
       },
       "coverage_note": null,
       "mustShare": 0.27,
       "belowMinimum": false
     },
     "geography.india-people-and-economy": {
-      "published": 71,
-      "quarantined": 16,
+      "published": 75,
+      "quarantined": 10,
       "byKind": {
-        "fact": 48,
+        "fact": 52,
         "key_line": 7,
         "list": 3,
         "definition": 7,
@@ -91,18 +91,18 @@
       },
       "byImportance": {
         "must": 22,
-        "good": 49
+        "good": 53
       },
       "coverage_note": null,
-      "mustShare": 0.31,
+      "mustShare": 0.29,
       "belowMinimum": false
     },
     "geography.international-trade": {
-      "published": 65,
-      "quarantined": 18,
+      "published": 73,
+      "quarantined": 10,
       "byKind": {
         "definition": 17,
-        "fact": 21,
+        "fact": 29,
         "key_line": 11,
         "list": 4,
         "example": 7,
@@ -110,36 +110,36 @@
         "types": 4
       },
       "byImportance": {
-        "must": 14,
-        "good": 51
+        "must": 15,
+        "good": 58
       },
       "coverage_note": null,
-      "mustShare": 0.22,
+      "mustShare": 0.21,
       "belowMinimum": false
     },
     "geography.international-trade-india": {
-      "published": 56,
-      "quarantined": 21,
+      "published": 57,
+      "quarantined": 18,
       "byKind": {
         "key_line": 10,
-        "fact": 43,
+        "fact": 44,
         "list": 2,
         "difference": 1
       },
       "byImportance": {
         "must": 17,
-        "good": 39
+        "good": 40
       },
       "coverage_note": null,
       "mustShare": 0.3,
       "belowMinimum": false
     },
     "geography.land-resources-and-agriculture": {
-      "published": 131,
-      "quarantined": 16,
+      "published": 134,
+      "quarantined": 10,
       "byKind": {
         "key_line": 24,
-        "fact": 69,
+        "fact": 72,
         "difference": 4,
         "list": 11,
         "definition": 12,
@@ -149,92 +149,92 @@
       },
       "byImportance": {
         "must": 25,
-        "good": 106
+        "good": 109
       },
       "coverage_note": null,
       "mustShare": 0.19,
       "belowMinimum": false
     },
     "geography.mineral-and-energy-resources": {
-      "published": 81,
-      "quarantined": 15,
+      "published": 84,
+      "quarantined": 8,
       "byKind": {
-        "definition": 4,
+        "definition": 5,
         "types": 9,
         "difference": 1,
         "list": 3,
-        "key_line": 18,
-        "fact": 43,
+        "key_line": 19,
+        "fact": 44,
         "term": 3
       },
       "byImportance": {
-        "must": 23,
-        "good": 58
+        "must": 24,
+        "good": 60
       },
       "coverage_note": null,
-      "mustShare": 0.28,
+      "mustShare": 0.29,
       "belowMinimum": false
     },
     "geography.planning-and-sustainable-development": {
-      "published": 63,
-      "quarantined": 18,
+      "published": 67,
+      "quarantined": 14,
       "byKind": {
-        "fact": 38,
+        "fact": 42,
         "types": 2,
         "definition": 5,
         "key_line": 10,
         "list": 8
       },
       "byImportance": {
-        "must": 19,
-        "good": 44
+        "must": 20,
+        "good": 47
       },
       "coverage_note": null,
       "mustShare": 0.3,
       "belowMinimum": false
     },
     "geography.population-distribution-density-growth": {
-      "published": 38,
-      "quarantined": 31,
+      "published": 53,
+      "quarantined": 16,
       "byKind": {
-        "fact": 15,
+        "fact": 25,
         "definition": 15,
         "key_line": 3,
+        "list": 6,
         "formula": 2,
-        "list": 1,
         "types": 2
       },
       "byImportance": {
-        "must": 15,
-        "good": 23
+        "must": 16,
+        "good": 37
       },
       "coverage_note": null,
-      "mustShare": 0.39,
+      "mustShare": 0.3,
       "belowMinimum": false
     },
     "geography.primary-activities": {
-      "published": 94,
-      "quarantined": 7,
+      "published": 96,
+      "quarantined": 5,
       "byKind": {
         "definition": 13,
         "types": 3,
         "list": 12,
         "term": 3,
-        "fact": 57,
+        "fact": 59,
         "key_line": 5,
         "difference": 1
       },
       "byImportance": {
         "must": 19,
-        "good": 75
+        "good": 77
       },
       "coverage_note": null,
       "mustShare": 0.2,
       "belowMinimum": false
     },
     "geography.secondary-activities": {
-      "published": 57,
-      "quarantined": 17,
+      "published": 65,
+      "quarantined": 8,
       "byKind": {
         "definition": 19,
         "example": 3,
@@ -242,89 +242,89 @@
         "list": 7,
         "difference": 2,
         "term": 1,
-        "fact": 11,
+        "fact": 19,
         "types": 5
       },
       "byImportance": {
         "must": 12,
-        "good": 45
+        "good": 53
       },
       "coverage_note": null,
-      "mustShare": 0.21,
+      "mustShare": 0.18,
       "belowMinimum": false
     },
     "geography.tertiary-and-quaternary-activities": {
-      "published": 70,
-      "quarantined": 12,
+      "published": 76,
+      "quarantined": 6,
       "byKind": {
         "definition": 13,
-        "fact": 36,
-        "types": 2,
+        "fact": 41,
+        "types": 3,
         "key_line": 5,
         "difference": 4,
         "list": 8,
         "term": 2
       },
       "byImportance": {
-        "must": 17,
-        "good": 53
+        "must": 19,
+        "good": 57
       },
       "coverage_note": null,
-      "mustShare": 0.24,
+      "mustShare": 0.25,
       "belowMinimum": false
     },
     "geography.transport-and-communication": {
-      "published": 162,
-      "quarantined": 26,
+      "published": 170,
+      "quarantined": 16,
       "byKind": {
         "definition": 13,
         "term": 3,
         "types": 4,
         "list": 7,
         "key_line": 24,
-        "fact": 111
+        "fact": 119
       },
       "byImportance": {
-        "must": 30,
-        "good": 132
+        "must": 31,
+        "good": 139
       },
       "coverage_note": null,
-      "mustShare": 0.19,
+      "mustShare": 0.18,
       "belowMinimum": false
     },
     "geography.transport-and-communication-india": {
-      "published": 94,
-      "quarantined": 15,
+      "published": 98,
+      "quarantined": 11,
       "byKind": {
         "key_line": 29,
-        "fact": 50,
+        "fact": 53,
         "types": 4,
         "definition": 7,
         "term": 1,
-        "list": 2,
+        "list": 3,
         "quote": 1
       },
       "byImportance": {
         "must": 27,
-        "good": 67
+        "good": 71
       },
       "coverage_note": null,
-      "mustShare": 0.29,
+      "mustShare": 0.28,
       "belowMinimum": false
     },
     "geography.water-resources": {
-      "published": 85,
-      "quarantined": 23,
+      "published": 94,
+      "quarantined": 13,
       "byKind": {
-        "fact": 57,
+        "fact": 66,
         "key_line": 19,
         "types": 1,
         "list": 5,
         "definition": 3
       },
       "byImportance": {
-        "must": 23,
-        "good": 62
+        "must": 25,
+        "good": 69
       },
       "coverage_note": null,
       "mustShare": 0.27,

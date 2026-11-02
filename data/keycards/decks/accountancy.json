@@ -1,6 +1,6 @@
 {
   "subject": "accountancy",
-  "version": 10,
+  "version": 11,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -4792,6 +4792,34 @@
       "order": 130
     },
     {
+      "id": "kc.accountancy.admission-of-partner.fact-new-share-decided-mutually",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "On admission, how are the new partner's share, and how he acquires it from the old partners, decided?",
+      "back": "what will be the share of new partner and how he will acquire it from the existing partners is decided mutually among the old partners and the new partner.",
+      "quote": "But, what will be the share of new partner and how he will acquire it from the existing partners is decided mutually among the old partners and the new partner.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 50,
+        "section": "2.3 New Profit Sharing Ratio"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "new profit sharing ratio"
+      ],
+      "order": 135,
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.admission-of-partner.fact-nothing-specified-old-ratio",
       "v": 1,
       "subject": "accountancy",
@@ -5926,6 +5954,34 @@
       "order": 1000
     },
     {
+      "id": "kc.accountancy.admission-of-partner.fact-reval-entries-amount-note",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "fact",
+      "front": "Entries for a rise or fall in an asset's or a liability's value: what amount is recorded in them?",
+      "back": "are recorded only with the amount increase and decrease in the value of assets and liabilities.",
+      "quote": "Note: Entries (i), (ii), (iii) and (iv) are recorded only with the amount increase and decrease in the value of assets and liabilities.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 78,
+        "section": "2.7 Revaluation of Assets and Reassessment of Liabilities"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "revaluation"
+      ],
+      "order": 1001,
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.admission-of-partner.kl-capitals-proportionate",
       "v": 1,
       "subject": "accountancy",
@@ -6652,6 +6708,34 @@
       "order": 140
     },
     {
+      "id": "kc.accountancy.analysis-of-financial-statements.list-lenders-analyse",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "list",
+      "front": "Suppliers of long-term debt analyse three things about the firm. Name them.",
+      "back": "the firm’s profitability over a period of time\nits ability to generate cash, to be able to pay interest and repay the principal\nthe relationship between various sources of funds (capital structure relationships)",
+      "quote": "They analyse the firm’s profitability over a period of time, its ability to generate cash, to be able to pay interest and repay the principal and the relationship between various sources of funds (capital structure relationships).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 173,
+        "section": "4.2 Significance of Analysis of Financial Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "lenders"
+      ],
+      "order": 141,
+      "addedIn": "top-1102"
+    },
+    {
       "id": "kc.accountancy.analysis-of-financial-statements.fact-lenders-historical-statements",
       "v": 1,
       "subject": "accountancy",
@@ -6705,6 +6789,35 @@
         "investors"
       ],
       "order": 145,
+      "addedIn": "top-1102"
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.list-investors-also-interested",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "list",
+      "front": "Besides profitability, investors are 'also interested in' one thing and 'also evaluate' another. Name both.",
+      "back": "the firm’s capital structure to ascertain its influences on firm’s earning and risk\nthe efficiency of the management and determine whether a change is needed or not",
+      "quote": "They are also interested in the firm’s capital structure to ascertain its influences on firm’s earning and risk. They also evaluate the efficiency of the management and determine whether a change is needed or not.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 173,
+        "section": "4.2 Significance of Analysis of Financial Statements"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "investors",
+        "capital structure"
+      ],
+      "order": 146,
       "addedIn": "top-1102"
     },
     {
@@ -6816,6 +6929,34 @@
         "government"
       ],
       "order": 170
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-broad-objectives",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "State the broad, general objective of analysing financial statements (not the four specific purposes).",
+      "back": "Broadly speaking, the objectives of the analysis are to apprehend the information contained in financial statements with a view to know the weaknesses and strengths of the firm and to make a forecast about the future prospects of the firm thereby, enabling the analysts to take decisions regarding the operation of, and further investment in the firm.",
+      "quote": "Broadly speaking, the objectives of the analysis are to apprehend the information contained in financial statements with a view to know the weaknesses and strengths of the firm and to make a forecast about the future prospects of the firm thereby, enabling the analysts to take decisions regarding the operation of, and further investment in the firm.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 173,
+        "section": "4.3 Objectives of Analysis of Financial Statements"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "objectives"
+      ],
+      "order": 180,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.analysis-of-financial-statements.list-objectives-of-analysis",
@@ -16459,6 +16600,35 @@
       "order": 1080
     },
     {
+      "id": "kc.accountancy.goodwill-valuation.list-goodwill-adjusted-at-reconstitution",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "list",
+      "front": "Name the three occasions of reconstitution when goodwill needs adjustment.",
+      "back": "a change in the profit sharing ratio\nthe admission of a partner\nthe retirement or death of a partner",
+      "quote": "Goodwill is also one of the special aspects of partnership accounts which requires adjustment (also valuation if not specified) at the time of reconstitution of a firm viz., a change in the profit sharing ratio, the admission of a partner or the retirement or death of a partner.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 55,
+        "section": "2.5 Goodwill"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "goodwill",
+        "reconstitution"
+      ],
+      "order": 225,
+      "addedIn": "fix-1102"
+    },
+    {
       "id": "kc.accountancy.goodwill-valuation.def-goodwill-meaning",
       "v": 1,
       "subject": "accountancy",
@@ -16656,6 +16826,35 @@
         "factors"
       ],
       "order": 290
+    },
+    {
+      "id": "kc.accountancy.goodwill-valuation.list-special-advantages-factor",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "list",
+      "front": "Goodwill factor 'special advantages': name the six examples NCERT gives.",
+      "back": "import licences\nlow rate and assured supply of electricity\nlong-term contracts for supply of materials\nwell-known collaborators\npatents\ntrademarks, etc.",
+      "quote": "Special advantages: The firm that enjoys special advantages like import licences, low rate and assured supply of electricity, long-term contracts for supply of materials, well-known collaborators, patents, trademarks, etc. enjoy higher value of goodwill.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 56,
+        "section": "2.5.2 Factors Affecting the Value of Goodwill"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "goodwill",
+        "factors"
+      ],
+      "order": 295,
+      "addedIn": "top-1102"
     },
     {
       "id": "kc.accountancy.goodwill-valuation.list-need-for-valuation",
@@ -25127,6 +25326,35 @@
       ],
       "order": 1180,
       "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.accountancy.share-capital.fact-discount-sweat-equity-only",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.share-capital",
+      "chapter": "Share Capital",
+      "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+      "kind": "fact",
+      "front": "Under the Companies Act, 2013, which shares only can be issued at a discount?",
+      "back": "According to the Companies Act, 2013, only sweat equity shares can be issued at a discount.",
+      "quote": "According to the Companies Act, 2013, only sweat equity shares can be issued at a discount.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy Part 2: Company Accounts and Analysis of Financial Statements",
+        "code": "leac201",
+        "chapterNo": 1,
+        "page": 66,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "discount",
+        "sweat equity"
+      ],
+      "order": 1190,
+      "addedIn": "fix-1102"
     }
   ]
 }

@@ -127,13 +127,13 @@
     },
     {
       "id": "kc.physics.electric-charges-and-fields.fact-conductor-examples",
-      "v": 1,
+      "v": 2,
       "subject": "physics",
       "chapterKey": "physics.electric-charges-and-fields",
       "chapter": "Electric Charges & Fields",
       "unit": "Electrostatics",
       "kind": "fact",
-      "front": "Which of these are conductors: metals, human and animal bodies, earth?",
+      "front": "Give NCERT's examples of conductors (three kinds).",
       "back": "Metals, human and animal bodies and earth are conductors.",
       "quote": "Metals, human and animal bodies and earth are conductors.",
       "blanks": [],
@@ -153,7 +153,7 @@
       "order": 210,
       "reasons": [
         "review:not_unambiguous",
-        "review:Front lists the answer (metals, human and animal bodies, earth); it does not test anything."
+        "review:Open-ended: front says 'NCERT's examples' and a student can validly name copper, silver, water etc.; not one right answer from the front alone."
       ]
     },
     {
@@ -412,70 +412,6 @@
       ]
     },
     {
-      "id": "kc.physics.electric-charges-and-fields.fact-gauss-q-meaning",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electric-charges-and-fields",
-      "chapter": "Electric Charges & Fields",
-      "unit": "Electrostatics",
-      "kind": "fact",
-      "front": "In Gauss's law, what does q stand for?",
-      "back": "q = total charge enclosed by S.",
-      "quote": "q = total charge enclosed by S.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 1",
-        "code": "leph101",
-        "chapterNo": 1,
-        "page": 30,
-        "section": "Gauss's Law"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "gauss"
-      ],
-      "order": 830,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front asks what q stands for in Gauss's law but the law's equation is not on the card, so q has no context."
-      ]
-    },
-    {
-      "id": "kc.physics.electric-charges-and-fields.key-gauss-q-inside",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electric-charges-and-fields",
-      "chapter": "Electric Charges & Fields",
-      "unit": "Electrostatics",
-      "kind": "key_line",
-      "front": "The term q on the right side of Gauss's law, however, represents only the total charge ____ S.",
-      "back": "The term q on the right side of Gauss's law, however, represents only the total charge inside S.",
-      "quote": "The term q on the right side of Gauss's law, however, represents only the total charge inside S.",
-      "blanks": [
-        "inside"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 1",
-        "code": "leph101",
-        "chapterNo": 1,
-        "page": 30,
-        "section": "Gauss's Law"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "gauss"
-      ],
-      "order": 860,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank could be 'inside' or 'within'; two natural fills."
-      ]
-    },
-    {
       "id": "kc.physics.electric-charges-and-fields.key-wire-ends-zero-flux",
       "v": 1,
       "subject": "physics",
@@ -579,53 +515,17 @@
       ]
     },
     {
-      "id": "kc.physics.electric-charges-and-fields.key-shell-outside",
+      "id": "kc.physics.electric-charges-and-fields.fact-shell-solid-sphere-same",
       "v": 1,
       "subject": "physics",
       "chapterKey": "physics.electric-charges-and-fields",
       "chapter": "Electric Charges & Fields",
       "unit": "Electrostatics",
-      "kind": "key_line",
-      "front": "The electric field outside the shell is as though the total charge is concentrated at the ____.",
-      "back": "The electric field outside the shell is as though the total charge is concentrated at the centre.",
-      "quote": "The electric field outside the shell is as though the total charge is concentrated at the centre.",
-      "blanks": [
-        "centre"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 1",
-        "code": "leph101",
-        "chapterNo": 1,
-        "page": 40,
-        "section": "Summary"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "gauss",
-        "shell"
-      ],
-      "order": 1100,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'The shell' is undefined: the card does not say it is a thin spherical shell of uniform surface charge."
-      ]
-    },
-    {
-      "id": "kc.physics.electric-charges-and-fields.key-shell-solid-sphere",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electric-charges-and-fields",
-      "chapter": "Electric Charges & Fields",
-      "unit": "Electrostatics",
-      "kind": "key_line",
-      "front": "The same result is true for a solid sphere of uniform ____ charge density.",
+      "kind": "fact",
+      "front": "A thin uniformly charged shell acts, outside, as if its charge were at the centre. Which solid body gives the same result?",
       "back": "The same result is true for a solid sphere of uniform volume charge density.",
       "quote": "The same result is true for a solid sphere of uniform volume charge density.",
-      "blanks": [
-        "volume"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Physics Part 1",
@@ -643,41 +543,7 @@
       "order": 1110,
       "reasons": [
         "review:not_unambiguous",
-        "review:'The same result' has no antecedent and 'solid sphere' lacks its context."
-      ]
-    },
-    {
-      "id": "kc.physics.electric-charges-and-fields.key-shell-inside-zero",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electric-charges-and-fields",
-      "chapter": "Electric Charges & Fields",
-      "unit": "Electrostatics",
-      "kind": "key_line",
-      "front": "The field is ____ at all points inside the shell.",
-      "back": "The field is zero at all points inside the shell.",
-      "quote": "The field is zero at all points inside the shell.",
-      "blanks": [
-        "zero"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 1",
-        "code": "leph101",
-        "chapterNo": 1,
-        "page": 40,
-        "section": "Summary"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "gauss",
-        "shell"
-      ],
-      "order": 1120,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'The shell' is undefined (thin spherical shell of uniform surface charge); context missing."
+        "review:'Which solid body' is ambiguous: a charged solid conducting sphere (charge on surface) also acts like the shell; NCERT's answer needs 'uniform volume charge density' which the front does not state."
       ]
     },
     {
@@ -1059,39 +925,6 @@
       ]
     },
     {
-      "id": "kc.physics.current-electricity.term-resistivity-property",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.current-electricity",
-      "chapter": "Current Electricity",
-      "unit": "Current Electricity",
-      "kind": "term",
-      "front": "____ is a property of the material and depends on temperature and pressure.",
-      "back": "resistivity is a property of the material and depends on temperature and pressure.",
-      "quote": "resistivity is a property of the material and depends on temperature and pressure.",
-      "blanks": [
-        "resistivity"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph103",
-        "chapterNo": 3,
-        "page": 103,
-        "section": "Summary"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "resistivity"
-      ],
-      "order": 220,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank has several valid fills (conductivity is also a temperature-dependent property of the material); sentence alone does not single out resistivity"
-      ]
-    },
-    {
       "id": "kc.physics.current-electricity.fact-drift-velocity-name",
       "v": 1,
       "subject": "physics",
@@ -1120,39 +953,6 @@
       "reasons": [
         "review:not_exact",
         "review:Back is not a substring of the quote: it adds a 'Drift velocity' line and cuts the sentence before the naming clause (vd in Eq. 3.17 is called the drift velocity); quote also carries flattened subscript 'vd'."
-      ]
-    },
-    {
-      "id": "kc.physics.current-electricity.key-drift-not-all-same-direction",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.current-electricity",
-      "chapter": "Current Electricity",
-      "unit": "Current Electricity",
-      "kind": "key_line",
-      "front": "By no means. The drift velocity is ____ over the large random velocities of electrons.",
-      "back": "By no means. The drift velocity is superposed over the large random velocities of electrons.",
-      "quote": "By no means. The drift velocity is superposed over the large random velocities of electrons.",
-      "blanks": [
-        "superposed"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph103",
-        "chapterNo": 3,
-        "page": 88,
-        "section": "Drift of electrons and the origin of resistivity"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "drift"
-      ],
-      "order": 300,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Opens with 'By no means.', the answer to an unseen question; blank also accepts 'superimposed'"
       ]
     },
     {
@@ -1312,40 +1112,6 @@
       "reasons": [
         "review:not_exact",
         "review:Kind is definition but front is not 'Define/What is emf' as spec requires and back is a lowercase mid-sentence fragment; emf definition should be 'must'."
-      ]
-    },
-    {
-      "id": "kc.physics.current-electricity.key-max-current-r-zero",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.current-electricity",
-      "chapter": "Current Electricity",
-      "unit": "Current Electricity",
-      "kind": "key_line",
-      "front": "The maximum current that can be drawn from a cell is for ____",
-      "back": "The maximum current that can be drawn from a cell is for R = 0",
-      "quote": "The maximum current that can be drawn from a cell is for R = 0",
-      "blanks": [
-        "R = 0"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph103",
-        "chapterNo": 3,
-        "page": 95,
-        "section": "Cells, emf, internal resistance"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "internal resistance",
-        "cell"
-      ],
-      "order": 720,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:R is not defined in the front (external resistance); answer format 'R = 0' is unclear"
       ]
     },
     {
@@ -1574,39 +1340,6 @@
       ]
     },
     {
-      "id": "kc.physics.moving-charges-and-magnetism.kl-motion-parallel-unchanged",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.moving-charges-and-magnetism",
-      "chapter": "Moving Charges & Magnetism",
-      "unit": "Moving Charges and Magnetism",
-      "kind": "key_line",
-      "front": "If velocity has a component along B, this component remains ____ as the motion along the magnetic field will not be affected by the magnetic field.",
-      "back": "If velocity has a component along B, this component remains unchanged as the motion along the magnetic field will not be affected by the magnetic field.",
-      "quote": "If velocity has a component along B, this component remains unchanged as the motion along the magnetic field will not be affected by the magnetic field.",
-      "blanks": [
-        "unchanged"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph104",
-        "chapterNo": 4,
-        "page": 112,
-        "section": "Motion in a Magnetic Field"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "motion in magnetic field"
-      ],
-      "order": 230,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank 'unchanged' has the synonym 'constant'; not a mark-carrying word"
-      ]
-    },
-    {
       "id": "kc.physics.moving-charges-and-magnetism.formula-radius-of-path",
       "v": 1,
       "subject": "physics",
@@ -1635,39 +1368,6 @@
       "reasons": [
         "review:not_exact",
         "review:Formula r = mv/qB: NCERT prints a fraction bar; plain text 'm v / qB' flattens it and can read as (mv/q)B"
-      ]
-    },
-    {
-      "id": "kc.physics.moving-charges-and-magnetism.kl-motion-larger-momentum",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.moving-charges-and-magnetism",
-      "chapter": "Moving Charges & Magnetism",
-      "unit": "Moving Charges and Magnetism",
-      "kind": "key_line",
-      "front": "The larger the ____, the larger is the radius and bigger the circle described.",
-      "back": "The larger the momentum, the larger is the radius and bigger the circle described.",
-      "quote": "The larger the momentum, the larger is the radius and bigger the circle described.",
-      "blanks": [
-        "momentum"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph104",
-        "chapterNo": 4,
-        "page": 112,
-        "section": "Motion in a Magnetic Field"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "motion in magnetic field"
-      ],
-      "order": 260,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank 'momentum' is not unique: larger speed or mass also gives a larger radius"
       ]
     },
     {
@@ -2024,39 +1724,6 @@
       ]
     },
     {
-      "id": "kc.physics.moving-charges-and-magnetism.kl-torque-vector-product",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.moving-charges-and-magnetism",
-      "chapter": "Moving Charges & Magnetism",
-      "unit": "Moving Charges and Magnetism",
-      "kind": "key_line",
-      "front": "The torques in Eqs. (4.20) and (4.21) can be expressed as ____ of the magnetic moment of the coil and the magnetic field.",
-      "back": "The torques in Eqs. (4.20) and (4.21) can be expressed as vector product of the magnetic moment of the coil and the magnetic field.",
-      "quote": "The torques in Eqs. (4.20) and (4.21) can be expressed as vector product of the magnetic moment of the coil and the magnetic field.",
-      "blanks": [
-        "vector product"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph104",
-        "chapterNo": 4,
-        "page": 126,
-        "section": "Torque on Current Loop, Magnetic Dipole"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "torque on loop"
-      ],
-      "order": 720,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front refers to 'Eqs. (4.20) and (4.21)', meaningless to the student; 'cross product' is a synonym fill"
-      ]
-    },
-    {
       "id": "kc.physics.moving-charges-and-magnetism.def-magnetic-moment-loop",
       "v": 1,
       "subject": "physics",
@@ -2184,50 +1851,17 @@
       ]
     },
     {
-      "id": "kc.physics.magnetism-and-matter.fact-intrinsic-moment-particles",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.magnetism-and-matter",
-      "chapter": "Magnetism & Matter",
-      "unit": "Magnetism and Matter",
-      "kind": "fact",
-      "front": "What kind of magnetic moment do an electron or a proton carry that circulating currents do not account for?",
-      "back": "However, elementary particles such as an electron or a proton also carry an intrinsic magnetic moment, not accounted by circulating currents.",
-      "quote": "However, elementary particles such as an electron or a proton also carry an intrinsic magnetic moment, not accounted by circulating currents.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph104",
-        "chapterNo": 4,
-        "page": 129,
-        "section": "Circular Current Loop as a Magnetic Dipole"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "magnetic dipole"
-      ],
-      "order": 850,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Fill 'intrinsic' has an obvious synonym 'spin' (the magnetic moment students know electrons carry); front gives no cue for NCERT's word."
-      ]
-    },
-    {
-      "id": "kc.physics.moving-charges-and-magnetism.kl-mcg-torque-on-coil",
+      "id": "kc.physics.moving-charges-and-magnetism.fact-mcg-torque-on-coil",
       "v": 1,
       "subject": "physics",
       "chapterKey": "physics.moving-charges-and-magnetism",
       "chapter": "Moving Charges & Magnetism",
       "unit": "Moving Charges and Magnetism",
-      "kind": "key_line",
-      "front": "When a current flows through the coil, a ____ acts on it.",
+      "kind": "fact",
+      "front": "A current flows in the coil of a moving coil galvanometer, which is free to rotate about a fixed axis. What acts on the coil?",
       "back": "When a current flows through the coil, a torque acts on it.",
       "quote": "When a current flows through the coil, a torque acts on it.",
-      "blanks": [
-        "torque"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Physics Part I",
@@ -2243,8 +1877,9 @@
       ],
       "order": 870,
       "reasons": [
+        "review:not_important",
         "review:not_unambiguous",
-        "review:'a ____ acts on it': force is also a plausible fill; torque is the intended answer but not forced"
+        "review:Front 'What acts on the coil?' also fits a magnetic force; and the card is trivial. The exam-worthy MCG point is that the torque is proportional to current (deflection), not that a torque acts."
       ]
     },
     {
@@ -2280,52 +1915,17 @@
       ]
     },
     {
-      "id": "kc.physics.moving-charges-and-magnetism.kl-voltmeter-large-resistance",
+      "id": "kc.physics.moving-charges-and-magnetism.fact-ptp-frame-magnetic-vanishes",
       "v": 1,
       "subject": "physics",
       "chapterKey": "physics.moving-charges-and-magnetism",
       "chapter": "Moving Charges & Magnetism",
       "unit": "Moving Charges and Magnetism",
-      "kind": "key_line",
-      "front": "To ensure this, a ____ R is connected in series with the galvanometer.",
-      "back": "To ensure this, a large resistance R is connected in series with the galvanometer.",
-      "quote": "To ensure this, a large resistance R is connected in series with the galvanometer.",
-      "blanks": [
-        "large resistance"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph104",
-        "chapterNo": 4,
-        "page": 131,
-        "section": "The Moving Coil Galvanometer"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "voltmeter"
-      ],
-      "order": 950,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'To ensure this' has no referent; 'large' and 'high' resistance are synonyms"
-      ]
-    },
-    {
-      "id": "kc.physics.moving-charges-and-magnetism.kl-ptp-frame-magnetic-vanishes",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.moving-charges-and-magnetism",
-      "chapter": "Moving Charges & Magnetism",
-      "unit": "Moving Charges and Magnetism",
-      "kind": "key_line",
-      "front": "If one switches to a frame with instantaneous velocity v, the magnetic part of the force ____.",
+      "kind": "fact",
+      "front": "On switching to a frame moving with the charge's instantaneous velocity v, what happens to the magnetic part of the Lorentz force?",
       "back": "If one switches to a frame with instantaneous velocity v, the magnetic part of the force vanishes.",
       "quote": "If one switches to a frame with instantaneous velocity v, the magnetic part of the force vanishes.",
-      "blanks": [
-        "vanishes"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Physics Part I",
@@ -2341,8 +1941,8 @@
       ],
       "order": 990,
       "reasons": [
-        "review:not_unambiguous",
-        "review:No antecedent for the frame (the charge's own rest frame) or the force; 'vanishes' has synonyms 'becomes zero'"
+        "review:not_important",
+        "review:Points to Ponder relativity remark about frame change; not in the CUET unit list and not exam-tested; poor use of student memory."
       ]
     },
     {
@@ -2472,39 +2072,6 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:Front gives no referent for 'similar'; back only says 'a similar pattern', so the answer is meaningless alone. Low value."
-      ]
-    },
-    {
-      "id": "kc.physics.magnetism-and-matter.kl-prop-density",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.magnetism-and-matter",
-      "chapter": "Magnetism & Matter",
-      "unit": "Magnetism and Matter",
-      "kind": "key_line",
-      "front": "The larger the number of field lines crossing per unit area, the ____ is the magnitude of the magnetic field B.",
-      "back": "The larger the number of field lines crossing per unit area, the stronger is the magnitude of the magnetic field B.",
-      "quote": "The larger the number of field lines crossing per unit area, the stronger is the magnitude of the magnetic field B.",
-      "blanks": [
-        "stronger"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph105",
-        "chapterNo": 5,
-        "page": 138,
-        "section": "The Bar Magnet"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "field lines"
-      ],
-      "order": 150,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Property (iii) of headed list, should be must. Blank 'stronger' has synonyms (greater, larger) and carries no marks."
       ]
     },
     {
@@ -2706,37 +2273,6 @@
       ]
     },
     {
-      "id": "kc.physics.magnetism-and-matter.fact-ancient-facts",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.magnetism-and-matter",
-      "chapter": "Magnetism & Matter",
-      "unit": "Magnetism and Matter",
-      "kind": "fact",
-      "front": "What has been known about magnetic materials since ancient times?",
-      "back": "It has been known since ancient times that magnetic materials tend to point in the north-south direction; like magnetic poles repel and unlike ones attract; and cutting a bar magnet in two leads to two smaller magnets. Magnetic poles cannot be isolated.",
-      "quote": "It has been known since ancient times that magnetic materials tend to point in the north-south direction; like magnetic poles repel and unlike ones attract; and cutting a bar magnet in two leads to two smaller magnets. Magnetic poles cannot be isolated.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph105",
-        "chapterNo": 5,
-        "page": 149,
-        "section": "Summary"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "bar magnet"
-      ],
-      "order": 820,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Four separate ideas in one card (violates one idea per card); open-ended front has no single right answer; back is long."
-      ]
-    },
-    {
       "id": "kc.physics.magnetism-and-matter.fact-ponder-other-types",
       "v": 1,
       "subject": "physics",
@@ -2799,106 +2335,6 @@
       ]
     },
     {
-      "id": "kc.physics.electromagnetic-induction.key-generators-transformers",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-induction",
-      "chapter": "Electromagnetic Induction",
-      "unit": "Electromagnetic Induction",
-      "kind": "key_line",
-      "front": "The pioneering experiments of Faraday and Henry have led directly to the development of modern day ____.",
-      "back": "The pioneering experiments of Faraday and Henry have led directly to the development of modern day generators and transformers.",
-      "quote": "The pioneering experiments of Faraday and Henry have led directly to the development of modern day generators and transformers.",
-      "blanks": [
-        "generators and transformers"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph106",
-        "chapterNo": 6,
-        "page": 155,
-        "section": "Introduction"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "faraday",
-        "application"
-      ],
-      "order": 40,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank 'generators and transformers' is a two-item list; other devices (motors) also fit 'modern day ____'"
-      ]
-    },
-    {
-      "id": "kc.physics.electromagnetic-induction.key-exp1-no-deflection-stationary",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-induction",
-      "chapter": "Electromagnetic Induction",
-      "unit": "Electromagnetic Induction",
-      "kind": "key_line",
-      "front": "The galvanometer does not show any deflection when the magnet is held ____.",
-      "back": "The galvanometer does not show any deflection when the magnet is held stationary.",
-      "quote": "The galvanometer does not show any deflection when the magnet is held stationary.",
-      "blanks": [
-        "stationary"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph106",
-        "chapterNo": 6,
-        "page": 155,
-        "section": "The experiments of Faraday and Henry"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "experiment"
-      ],
-      "order": 50,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'stationary' has synonyms (fixed, at rest); NCERT itself later says 'held fixed'"
-      ]
-    },
-    {
-      "id": "kc.physics.electromagnetic-induction.key-exp1-faster-larger",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-induction",
-      "chapter": "Electromagnetic Induction",
-      "unit": "Electromagnetic Induction",
-      "kind": "key_line",
-      "front": "Further, the deflection (and hence current) is found to be ____ when the magnet is pushed towards or pulled away from the coil faster.",
-      "back": "Further, the deflection (and hence current) is found to be larger when the magnet is pushed towards or pulled away from the coil faster.",
-      "quote": "Further, the deflection (and hence current) is found to be larger when the magnet is pushed towards or pulled away from the coil faster.",
-      "blanks": [
-        "larger"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph106",
-        "chapterNo": 6,
-        "page": 155,
-        "section": "The experiments of Faraday and Henry"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "experiment"
-      ],
-      "order": 70,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'larger' has synonyms (greater, more, bigger)"
-      ]
-    },
-    {
       "id": "kc.physics.electromagnetic-induction.key-exp2-relative-motion-coils",
       "v": 1,
       "subject": "physics",
@@ -2932,19 +2368,17 @@
       ]
     },
     {
-      "id": "kc.physics.electromagnetic-induction.key-exp3-not-absolute-requirement",
+      "id": "kc.physics.electromagnetic-induction.fact-exp3-relative-motion-not-required",
       "v": 1,
       "subject": "physics",
       "chapterKey": "physics.electromagnetic-induction",
       "chapter": "Electromagnetic Induction",
       "unit": "Electromagnetic Induction",
-      "kind": "key_line",
-      "front": "Through another experiment, Faraday showed that this relative motion is ____.",
+      "kind": "fact",
+      "front": "Experiment 6.3 used two stationary coils. Is relative motion an absolute requirement for induction?",
       "back": "Through another experiment, Faraday showed that this relative motion is not an absolute requirement.",
       "quote": "Through another experiment, Faraday showed that this relative motion is not an absolute requirement.",
-      "blanks": [
-        "not an absolute requirement"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Physics Part I",
@@ -2960,8 +2394,9 @@
       ],
       "order": 100,
       "reasons": [
+        "review:not_important",
         "review:not_unambiguous",
-        "review:'this relative motion' has no referent on the card; free-phrase blank ('not necessary/essential') has many wordings"
+        "review:Front points at 'Experiment 6.3' and 'two stationary coils' which the student cannot see; it is a yes/no whose answer is leaked by the front, and the back's 'this relative motion' dangles. Misses the real content (changing current in a neighbouring coil induces current)."
       ]
     },
     {
@@ -3188,39 +2623,6 @@
       ]
     },
     {
-      "id": "kc.physics.electromagnetic-induction.key-electric-flux-no-current",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-induction",
-      "chapter": "Electromagnetic Induction",
-      "unit": "Electromagnetic Induction",
-      "kind": "key_line",
-      "front": "Current can not be induced by changing the ____.",
-      "back": "Current can not be induced by changing the electric flux.",
-      "quote": "Current can not be induced by changing the electric flux.",
-      "blanks": [
-        "electric flux"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph106",
-        "chapterNo": 6,
-        "page": 162,
-        "section": "Faraday's law of induction"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "flux"
-      ],
-      "order": 290,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank after 'changing the ____' also fits electric field, so not one answer"
-      ]
-    },
-    {
       "id": "kc.physics.electromagnetic-induction.key-open-circuit-emf-induced",
       "v": 1,
       "subject": "physics",
@@ -3252,70 +2654,6 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:'In this case too' has no referent; 'open ends' vs ends/terminals; duplicates the open-circuit Points to ponder card"
-      ]
-    },
-    {
-      "id": "kc.physics.electromagnetic-induction.key-no-induced-current-loops-inside-or-outside",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-induction",
-      "chapter": "Electromagnetic Induction",
-      "unit": "Electromagnetic Induction",
-      "kind": "key_line",
-      "front": "Note that there are no induced current as long as the loops are ____ the region of the magnetic field.",
-      "back": "Note that there are no induced current as long as the loops are completely inside or outside the region of the magnetic field.",
-      "quote": "Note that there are no induced current as long as the loops are completely inside or outside the region of the magnetic field.",
-      "blanks": [
-        "completely inside or outside"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph106",
-        "chapterNo": 6,
-        "page": 161,
-        "section": "Lenz's law and conservation of energy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "lenz"
-      ],
-      "order": 370,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Long phrase blank 'completely inside or outside' with no setup on the card; many wordings"
-      ]
-    },
-    {
-      "id": "kc.physics.electromagnetic-induction.ex-ex65-rectangular-loop-constant-emf",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-induction",
-      "chapter": "Electromagnetic Induction",
-      "unit": "Electromagnetic Induction",
-      "kind": "example",
-      "front": "Loops leave a uniform field at constant speed: which loop has a constant induced emf, and why?",
-      "back": "The induced emf is expected to be constant only in the case of the rectangular loop. In the case of circular loop, the rate of change of area of the loop during its passage out of the field region is not constant, hence induced emf will vary accordingly.",
-      "quote": "The induced emf is expected to be constant only in the case of the rectangular loop. In the case of circular loop, the rate of change of area of the loop during its passage out of the field region is not constant, hence induced emf will vary accordingly.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph106",
-        "chapterNo": 6,
-        "page": 162,
-        "section": "Lenz's law and conservation of energy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "induced emf"
-      ],
-      "order": 380,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front never says the loops are one rectangular and one circular, so the answer cannot be derived from the front"
       ]
     },
     {
@@ -3382,19 +2720,17 @@
       ]
     },
     {
-      "id": "kc.physics.electromagnetic-induction.term-inductance-constant-of-proportionality",
+      "id": "kc.physics.electromagnetic-induction.def-inductance-flux-linkage-current",
       "v": 1,
       "subject": "physics",
       "chapterKey": "physics.electromagnetic-induction",
       "chapter": "Electromagnetic Induction",
       "unit": "Electromagnetic Induction",
-      "kind": "term",
-      "front": "The constant of proportionality, in this relation, is called ____.",
+      "kind": "definition",
+      "front": "What is inductance, in terms of the flux linkage of a closely wound coil and the current in it?",
       "back": "The constant of proportionality, in this relation, is called inductance.",
       "quote": "The constant of proportionality, in this relation, is called inductance.",
-      "blanks": [
-        "inductance"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Physics Part I",
@@ -3410,8 +2746,8 @@
       ],
       "order": 490,
       "reasons": [
-        "review:not_unambiguous",
-        "review:'in this relation' refers to flux-linkage proportional to current, an equation not on the card"
+        "review:not_exact",
+        "review:Back 'The constant of proportionality, in this relation, is called inductance.' points at a relation (flux linkage N*phi_B proportional to I) that extraction flattened and the back does not state, so it cannot stand as plain text. It is a definition, so importance should be must, not good."
       ]
     },
     {
@@ -3476,40 +2812,6 @@
       "reasons": [
         "review:not_exact",
         "review:M12 = M21 relies on subscripts flattened by extraction"
-      ]
-    },
-    {
-      "id": "kc.physics.electromagnetic-induction.key-flux-change-orientation-area",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-induction",
-      "chapter": "Electromagnetic Induction",
-      "unit": "Electromagnetic Induction",
-      "kind": "key_line",
-      "front": "As was pointed out in Section 6.3, one method to induce an emf or current in a loop is through a change in the loop's ____ or a change in its ____.",
-      "back": "As was pointed out in Section 6.3, one method to induce an emf or current in a loop is through a change in the loop's orientation or a change in its effective area.",
-      "quote": "As was pointed out in Section 6.3, one method to induce an emf or current in a loop is through a change in the loop's orientation or a change in its effective area.",
-      "blanks": [
-        "orientation",
-        "effective area"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph106",
-        "chapterNo": 6,
-        "page": 170,
-        "section": "AC generator"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "ac generator"
-      ],
-      "order": 690,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Two blanks (orientation, effective area) with near-synonyms (angle, area); cross-reference to Section 6.3"
       ]
     },
     {
@@ -3800,103 +3102,6 @@
       ]
     },
     {
-      "id": "kc.physics.alternating-current.ex-swing-resonance",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.alternating-current",
-      "chapter": "Alternating Current",
-      "unit": "Alternating Current",
-      "kind": "example",
-      "front": "Give a familiar example of the phenomenon of resonance.",
-      "back": "A familiar example of this phenomenon is a child on a swing.",
-      "quote": "A familiar example of this phenomenon is a child on a swing.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph107",
-        "chapterNo": 7,
-        "page": 188,
-        "section": "Resonance"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "resonance"
-      ],
-      "order": 380,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front asks for 'a familiar example' of resonance; other NCERT examples (radio tuning, metal detector) are equally right, so the answer is not unique."
-      ]
-    },
-    {
-      "id": "kc.physics.alternating-current.key-low-pf-large-loss",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.alternating-current",
-      "chapter": "Alternating Current",
-      "unit": "Alternating Current",
-      "kind": "key_line",
-      "front": "For circuits used for transporting electric power, a low power factor implies ____ in transmission.",
-      "back": "For circuits used for transporting electric power, a low power factor implies large power loss in transmission.",
-      "quote": "For circuits used for transporting electric power, a low power factor implies large power loss in transmission.",
-      "blanks": [
-        "large power loss"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph107",
-        "chapterNo": 7,
-        "page": 191,
-        "section": "Power in AC circuit: the power factor"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "power factor"
-      ],
-      "order": 530,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank 'large power loss' is a phrase; 'high power loss' or 'more power loss' is equally right, so not one right fill."
-      ]
-    },
-    {
-      "id": "kc.physics.alternating-current.key-step-up",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.alternating-current",
-      "chapter": "Alternating Current",
-      "unit": "Alternating Current",
-      "kind": "key_line",
-      "front": "If the secondary coil has a greater number of turns than the primary, the voltage is ____",
-      "back": "If the secondary coil has a greater number of turns than the primary, the voltage is stepped-up",
-      "quote": "If the secondary coil has a greater number of turns than the primary, the voltage is stepped-up",
-      "blanks": [
-        "stepped-up"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph107",
-        "chapterNo": 7,
-        "page": 197,
-        "section": "Summary"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "transformer"
-      ],
-      "order": 640,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank 'stepped-up' has near synonyms (increased, raised); not one right fill from the front alone."
-      ]
-    },
-    {
       "id": "kc.physics.alternating-current.ex-transformer-220v-example",
       "v": 1,
       "subject": "physics",
@@ -3959,39 +3164,6 @@
       ]
     },
     {
-      "id": "kc.physics.electromagnetic-waves.key-light-is-em-wave",
-      "v": 2,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-waves",
-      "chapter": "Electromagnetic Waves",
-      "unit": "Electromagnetic Waves",
-      "kind": "key_line",
-      "front": "Light is an ____; c is, therefore, also the speed of light.",
-      "back": "Light is an electromagnetic wave; c is, therefore, also the speed of light.",
-      "quote": "Light is an electromagnetic wave; c is, therefore, also the speed of light.",
-      "blanks": [
-        "electromagnetic wave"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph108",
-        "chapterNo": 8,
-        "page": 212,
-        "section": "Introduction"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "light"
-      ],
-      "order": 50,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front stands on a linking word and an undefined symbol: 'c is, therefore, also the speed of light' points at unseen text (c = speed of em waves in vacuum). Define c on the front or drop the second clause."
-      ]
-    },
-    {
       "id": "kc.physics.electromagnetic-waves.list-maxwell-four-equations",
       "v": 1,
       "subject": "physics",
@@ -4020,37 +3192,6 @@
       "reasons": [
         "review:not_exact",
         "review:Back/quote carries a garbled character in \"Ampere � Maxwell Law\" (printed en dash lost); not exact."
-      ]
-    },
-    {
-      "id": "kc.physics.electromagnetic-waves.fact-former-latter",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-waves",
-      "chapter": "Electromagnetic Waves",
-      "unit": "Electromagnetic Waves",
-      "kind": "fact",
-      "front": "Why cannot stationary charges or steady currents give electromagnetic waves?",
-      "back": "The former produces only electrostatic fields, while the latter produces magnetic fields that, however, do not vary with time.",
-      "quote": "The former produces only electrostatic fields, while the latter produces magnetic fields that, however, do not vary with time.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph108",
-        "chapterNo": 8,
-        "page": 205,
-        "section": "Sources of electromagnetic waves"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "sources"
-      ],
-      "order": 210,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Back uses \"The former ... the latter\" with no antecedent; unreadable as a standalone answer."
       ]
     },
     {
@@ -4087,167 +3228,6 @@
       ]
     },
     {
-      "id": "kc.physics.electromagnetic-waves.fact-hertz-1887",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-waves",
-      "chapter": "Electromagnetic Waves",
-      "unit": "Electromagnetic Waves",
-      "kind": "fact",
-      "front": "Who first produced and detected electromagnetic waves in the laboratory, and in which year?",
-      "back": "Hertz in 1887",
-      "quote": "Electromagnetic waves with wavelength of the order of a few metres were first produced and detected in the laboratory by Hertz in 1887.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph108",
-        "chapterNo": 8,
-        "page": 212,
-        "section": "Summary"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "hertz"
-      ],
-      "order": 260,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:NCERT intro (p202) says Hertz demonstrated EM waves in 1885, summary says 1887; year answer is contested inside the chapter. Taken from a summary point (spec: summary points are must); rated good."
-      ]
-    },
-    {
-      "id": "kc.physics.electromagnetic-waves.fact-refractive-index-ratio",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-waves",
-      "chapter": "Electromagnetic Waves",
-      "unit": "Electromagnetic Waves",
-      "kind": "fact",
-      "front": "What is the refractive index of one medium with respect to the other equal to?",
-      "back": "The ratio of velocities of light in the two media\nthe refractive index of one medium with respect to the other is equal to the ratio of velocities of light in the two media.",
-      "quote": "the refractive index of one medium with respect to the other is equal to the ratio of velocities of light in the two media.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph108",
-        "chapterNo": 8,
-        "page": 207,
-        "section": "Nature of electromagnetic waves"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "refractive index"
-      ],
-      "order": 320,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'with respect to the other' points at media the student cannot see, and several answers are right (ratio of speeds, n2/n1, sin i / sin r). NCERT also defers this to the next chapter (forward reference)."
-      ]
-    },
-    {
-      "id": "kc.physics.electromagnetic-waves.key-accelerating-charge-produces",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-waves",
-      "chapter": "Electromagnetic Waves",
-      "unit": "Electromagnetic Waves",
-      "kind": "key_line",
-      "front": "An ____ produces electromagnetic waves.",
-      "back": "An accelerating charge produces electromagnetic waves.",
-      "quote": "An accelerating charge produces electromagnetic waves.",
-      "blanks": [
-        "accelerating charge"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph108",
-        "chapterNo": 8,
-        "page": 212,
-        "section": "Summary"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "sources"
-      ],
-      "order": 370,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front \"An ____ produces EM waves\" also fits \"electric dipole\" (card 37) and \"oscillating charge\"; also duplicates card 21. Summary point rated good (spec: must)."
-      ]
-    },
-    {
-      "id": "kc.physics.electromagnetic-waves.key-dipole-basic-source",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-waves",
-      "chapter": "Electromagnetic Waves",
-      "unit": "Electromagnetic Waves",
-      "kind": "key_line",
-      "front": "An ____ is a basic source of electromagnetic waves.",
-      "back": "An electric dipole is a basic source of electromagnetic waves.",
-      "quote": "An electric dipole is a basic source of electromagnetic waves.",
-      "blanks": [
-        "electric dipole"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph108",
-        "chapterNo": 8,
-        "page": 212,
-        "section": "Summary"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "sources"
-      ],
-      "order": 380,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front \"An ____ is a basic source of EM waves\" also fits \"accelerating charge\" (card 36). Summary point rated good (spec: must)."
-      ]
-    },
-    {
-      "id": "kc.physics.electromagnetic-waves.key-radio-produced",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-waves",
-      "chapter": "Electromagnetic Waves",
-      "unit": "Electromagnetic Waves",
-      "kind": "key_line",
-      "front": "Radio waves are produced by the ____.",
-      "back": "Radio waves are produced by the accelerated motion of charges in conducting wires.",
-      "quote": "Radio waves are produced by the accelerated motion of charges in conducting wires.",
-      "blanks": [
-        "accelerated motion of charges in conducting wires"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph108",
-        "chapterNo": 8,
-        "page": 209,
-        "section": "Radio waves"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "radio waves"
-      ],
-      "order": 440,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Same stem as card 97 and table card 78: radio waves are produced by accelerated charges in wires / accelerating electrons in a circuit / acceleration of electrons in aerials; more than one correct fill."
-      ]
-    },
-    {
       "id": "kc.physics.electromagnetic-waves.key-radar-speed-guns",
       "v": 1,
       "subject": "physics",
@@ -4278,39 +3258,6 @@
       "reasons": [
         "review:not_important",
         "review:Trivia (speed guns timing balls/serves); not exam-tested point."
-      ]
-    },
-    {
-      "id": "kc.physics.electromagnetic-waves.key-ir-produced",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-waves",
-      "chapter": "Electromagnetic Waves",
-      "unit": "Electromagnetic Waves",
-      "kind": "key_line",
-      "front": "Infrared waves are produced by ____.",
-      "back": "Infrared waves are produced by hot bodies and molecules.",
-      "quote": "Infrared waves are produced by hot bodies and molecules.",
-      "blanks": [
-        "hot bodies and molecules"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph108",
-        "chapterNo": 8,
-        "page": 210,
-        "section": "Infrared waves"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "infrared"
-      ],
-      "order": 540,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:\"Infrared waves are produced by ____\": Table 8.1 gives \"vibration of atoms and molecules\", also a correct fill."
       ]
     },
     {
@@ -4373,39 +3320,6 @@
       "reasons": [
         "review:not_important",
         "review:Single-sentence illustrative example (snakes); trivia; front also open to other animals."
-      ]
-    },
-    {
-      "id": "kc.physics.electromagnetic-waves.key-uv-produced",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-waves",
-      "chapter": "Electromagnetic Waves",
-      "unit": "Electromagnetic Waves",
-      "kind": "key_line",
-      "front": "Ultraviolet (UV) radiation is produced by ____.",
-      "back": "Ultraviolet (UV) radiation is produced by special lamps and very hot bodies.",
-      "quote": "Ultraviolet (UV) radiation is produced by special lamps and very hot bodies.",
-      "blanks": [
-        "special lamps and very hot bodies"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph108",
-        "chapterNo": 8,
-        "page": 210,
-        "section": "Ultraviolet rays"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "ultraviolet"
-      ],
-      "order": 650,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:\"UV radiation is produced by ____\": Table 8.1 gives \"inner shell electrons ... moving to a lower level\", also a correct fill."
       ]
     },
     {
@@ -4475,37 +3389,6 @@
       ]
     },
     {
-      "id": "kc.physics.electromagnetic-waves.fact-gamma-frequency",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-waves",
-      "chapter": "Electromagnetic Waves",
-      "unit": "Electromagnetic Waves",
-      "kind": "fact",
-      "front": "Where do gamma rays lie in the electromagnetic spectrum?",
-      "back": "In the upper frequency range\nThey lie in the upper frequency range of the electromagnetic spectrum",
-      "quote": "They lie in the upper frequency range of the electromagnetic spectrum",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph108",
-        "chapterNo": 8,
-        "page": 211,
-        "section": "Gamma rays"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "gamma rays"
-      ],
-      "order": 750,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'Where do gamma rays lie in the spectrum?' has several right answers (beyond X-rays, shortest-wavelength end, highest-energy end); only 'upper frequency range' matches. Ask 'In which frequency range ...'."
-      ]
-    },
-    {
       "id": "kc.physics.electromagnetic-waves.key-table-no-sharp-overlap",
       "v": 1,
       "subject": "physics",
@@ -4539,19 +3422,17 @@
       ]
     },
     {
-      "id": "kc.physics.electromagnetic-waves.key-p-xray-heavy",
+      "id": "kc.physics.electromagnetic-waves.fact-p-xray-heavy-atoms",
       "v": 1,
       "subject": "physics",
       "chapterKey": "physics.electromagnetic-waves",
       "chapter": "Electromagnetic Waves",
       "unit": "Electromagnetic Waves",
-      "kind": "key_line",
-      "front": "X-rays are emitted from ____.",
+      "kind": "fact",
+      "front": "X-rays are emitted from atoms of what kind?",
       "back": "X-rays are emitted from heavy atoms.",
       "quote": "X-rays are emitted from heavy atoms.",
-      "blanks": [
-        "heavy atoms"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Physics Part I",
@@ -4568,40 +3449,7 @@
       "order": 970,
       "reasons": [
         "review:not_unambiguous",
-        "review:\"X-rays are emitted from ____\" also fits \"X-ray tubes / inner shell electrons / metal target bombarded by electrons\" elsewhere in the chapter."
-      ]
-    },
-    {
-      "id": "kc.physics.electromagnetic-waves.key-p-radio-circuit",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.electromagnetic-waves",
-      "chapter": "Electromagnetic Waves",
-      "unit": "Electromagnetic Waves",
-      "kind": "key_line",
-      "front": "Radio waves are produced by ____.",
-      "back": "Radio waves are produced by accelerating electrons in a circuit.",
-      "quote": "Radio waves are produced by accelerating electrons in a circuit.",
-      "blanks": [
-        "accelerating electrons in a circuit"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part I",
-        "code": "leph108",
-        "chapterNo": 8,
-        "page": 213,
-        "section": "Points to ponder"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "radio waves"
-      ],
-      "order": 980,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Same stem as card 43; both fills are NCERT-correct, so front has two right answers. Also near-duplicate."
+        "review:Front 'atoms of what kind?' admits several right answers (high atomic number, metal target, inner-shell electrons) and clashes with the chapter's own production text (high energy electrons on a metal target; inner shell electrons), so one right fill is not guaranteed; the Points to ponder line is a "
       ]
     },
     {
@@ -4634,37 +3482,6 @@
       "reasons": [
         "review:not_important",
         "review:Explanatory filler (why light looks straight), not a definition or exam fact."
-      ]
-    },
-    {
-      "id": "kc.physics.ray-optics-and-optical-instruments.def-ray-and-beam",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.ray-optics-and-optical-instruments",
-      "chapter": "Ray Optics & Optical Instruments",
-      "unit": "Ray Optics and Optical Instruments",
-      "kind": "definition",
-      "front": "Define a ray of light and a beam of light.",
-      "back": "The path is called a ray of light, and a bundle of such rays constitutes a beam of light.",
-      "quote": "The path is called a ray of light, and a bundle of such rays constitutes a beam of light.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph201",
-        "chapterNo": 9,
-        "page": 222,
-        "section": "Introduction"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "ray"
-      ],
-      "order": 40,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Back says 'The path is called a ray' with no antecedent; reads as incomplete without the preceding NCERT sentence."
       ]
     },
     {
@@ -5285,39 +4102,6 @@
       ]
     },
     {
-      "id": "kc.physics.ray-optics-and-optical-instruments.kl-simple-microscope-closer-to-eye",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.ray-optics-and-optical-instruments",
-      "chapter": "Ray Optics & Optical Instruments",
-      "unit": "Ray Optics and Optical Instruments",
-      "kind": "key_line",
-      "front": "What a single-lens simple magnifier achieves is that it allows the object to be brought ____ than D.",
-      "back": "What a single-lens simple magnifier achieves is that it allows the object to be brought closer to the eye than D.",
-      "quote": "What a single-lens simple magnifier achieves is that it allows the object to be brought closer to the eye than D.",
-      "blanks": [
-        "closer to the eye"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph201",
-        "chapterNo": 9,
-        "page": 242,
-        "section": "The microscope"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "microscope"
-      ],
-      "order": 930,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank 'closer to the eye' is multi-word with near-synonyms ('nearer'); no single fixed fill."
-      ]
-    },
-    {
       "id": "kc.physics.ray-optics-and-optical-instruments.def-tube-length",
       "v": 1,
       "subject": "physics",
@@ -5633,72 +4417,6 @@
       ]
     },
     {
-      "id": "kc.physics.wave-optics.kl-angle-rarer",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.wave-optics",
-      "chapter": "Wave Optics",
-      "unit": "Wave Optics",
-      "kind": "key_line",
-      "front": "The angle of refraction will now be ____ than angle of incidence",
-      "back": "The angle of refraction will now be greater than angle of incidence",
-      "quote": "The angle of refraction will now be greater than angle of incidence",
-      "blanks": [
-        "greater"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph202",
-        "chapterNo": 10,
-        "page": 260,
-        "section": "Refraction at a Rarer Medium"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "refraction",
-        "rarer medium"
-      ],
-      "order": 140,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front 'The angle of refraction will now be ____ than angle of incidence' omits the rarer medium (v2 > v1); 'now' has no context, so greater/less cannot be decided from the front alone."
-      ]
-    },
-    {
-      "id": "kc.physics.wave-optics.fact-law-of-reflection-huygens",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.wave-optics",
-      "chapter": "Wave Optics",
-      "unit": "Wave Optics",
-      "kind": "fact",
-      "front": "In Huygens construction for reflection, what do the congruent triangles EAC and BAC show about the angles i and r?",
-      "back": "the angles i and r (as shown in Fig. 10.6) would be equal. This is the law of reflection.",
-      "quote": "If we now consider the triangles EAC and BAC we will find that they are congruent and therefore, the angles i and r (as shown in Fig. 10.6) would be equal. This is the law of reflection.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph202",
-        "chapterNo": 10,
-        "page": 261,
-        "section": "Reflection of a Plane Wave by a Plane Surface"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "reflection",
-        "law of reflection"
-      ],
-      "order": 160,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front and back depend on Fig. 10.6 (triangles EAC and BAC, back says 'as shown in Fig. 10.6'); the student cannot see the figure, so the card is not answerable on its own. State the law of reflection in words."
-      ]
-    },
-    {
       "id": "kc.physics.wave-optics.kl-equal-time",
       "v": 1,
       "subject": "physics",
@@ -5799,14 +4517,14 @@
     },
     {
       "id": "kc.physics.wave-optics.def-fringes",
-      "v": 1,
+      "v": 2,
       "subject": "physics",
       "chapterKey": "physics.wave-optics",
       "chapter": "Wave Optics",
       "unit": "Wave Optics",
       "kind": "definition",
       "front": "What are fringes in Young's experiment?",
-      "back": "Such bands are called fringes.",
+      "back": "Thus dark and bright bands appear on the screen, as shown in Fig. 10.13. Such bands are called fringes.",
       "quote": "Thus dark and bright bands appear on the screen, as shown in Fig. 10.13. Such bands are called fringes.",
       "blanks": [],
       "source": {
@@ -5826,40 +4544,7 @@
       "order": 340,
       "reasons": [
         "review:not_unambiguous",
-        "review:Back 'Such bands are called fringes.' has no antecedent; the sentence that says which bands (dark and bright bands on the screen) is left out of the back, so the card does not answer 'what are fringes'. Use the full two-sentence quote."
-      ]
-    },
-    {
-      "id": "kc.physics.wave-optics.kl-diffraction-all-waves",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.wave-optics",
-      "chapter": "Wave Optics",
-      "unit": "Wave Optics",
-      "kind": "key_line",
-      "front": "Diffraction is a general characteristic exhibited by ____ of waves, be it sound waves, light waves, water waves or matter waves.",
-      "back": "Diffraction is a general characteristic exhibited by all types of waves, be it sound waves, light waves, water waves or matter waves.",
-      "quote": "Diffraction is a general characteristic exhibited by all types of waves, be it sound waves, light waves, water waves or matter waves.",
-      "blanks": [
-        "all types"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph202",
-        "chapterNo": 10,
-        "page": 266,
-        "section": "Diffraction"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "diffraction"
-      ],
-      "order": 380,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank 'all types' is not a mark-carrying term; 'all kinds' or 'all sorts' fit equally. The point (diffraction occurs for all waves) should blank 'diffraction' or 'all waves' differently."
+        "review:Back opens with 'Thus' and points to 'Fig. 10.13', which the student cannot see, and 'Such bands' leans on the previous clause; the card does not stand alone. Use only the self-contained part (dark and bright bands on the screen are called fringes) or a quote without the figure reference."
       ]
     },
     {
@@ -5898,41 +4583,6 @@
       ]
     },
     {
-      "id": "kc.physics.wave-optics.kl-energy-redistributed",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.wave-optics",
-      "chapter": "Wave Optics",
-      "unit": "Wave Optics",
-      "kind": "key_line",
-      "front": "In interference and diffraction, light energy is ____.",
-      "back": "In interference and diffraction, light energy is redistributed.",
-      "quote": "In interference and diffraction, light energy is redistributed.",
-      "blanks": [
-        "redistributed"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph202",
-        "chapterNo": 10,
-        "page": 268,
-        "section": "Seeing the Single Slit Diffraction Pattern"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "energy conservation",
-        "interference",
-        "diffraction"
-      ],
-      "order": 500,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front 'light energy is ____' has several right fills (redistributed, conserved); only 'redistributed' is accepted, so the blank is not unique."
-      ]
-    },
-    {
       "id": "kc.physics.wave-optics.kl-summary-rays-perpendicular",
       "v": 1,
       "subject": "physics",
@@ -5963,40 +4613,6 @@
       "order": 540,
       "reasons": [
         "blanks:0:stopword"
-      ]
-    },
-    {
-      "id": "kc.physics.wave-optics.kl-ponder-limits",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.wave-optics",
-      "chapter": "Wave Optics",
-      "unit": "Wave Optics",
-      "kind": "key_line",
-      "front": "Diffraction phenomena define the limits of ____ optics.",
-      "back": "Diffraction phenomena define the limits of ray optics.",
-      "quote": "Diffraction phenomena define the limits of ray optics.",
-      "blanks": [
-        "ray"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph202",
-        "chapterNo": 10,
-        "page": 272,
-        "section": "Points to Ponder"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "diffraction",
-        "ray optics"
-      ],
-      "order": 560,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'ray' is not the only right fill; 'geometrical' optics is NCERT's own name for the same thing (see def-geometrical-optics), so two answers are correct."
       ]
     },
     {
@@ -6033,39 +4649,6 @@
       ]
     },
     {
-      "id": "kc.physics.dual-nature-of-radiation-and-matter.term-photoelectric-emission",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
-      "chapter": "Dual Nature of Radiation & Matter",
-      "unit": "Dual Nature of Radiation and Matter",
-      "kind": "term",
-      "front": "____ : When light of suitable frequency illuminates a metal surface, electrons are emitted from the metal surface.",
-      "back": "Photoelectric emission : When light of suitable frequency illuminates a metal surface, electrons are emitted from the metal surface.",
-      "quote": "Photoelectric emission : When light of suitable frequency illuminates a metal surface, electrons are emitted from the metal surface.",
-      "blanks": [
-        "Photoelectric emission"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph203",
-        "chapterNo": 11,
-        "page": 276,
-        "section": "Electron emission"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "electron emission"
-      ],
-      "order": 60,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:unambiguous: Blank could be filled with photoelectric effect; NCERT uses both terms, so the answer is not unique from the front alone."
-      ]
-    },
-    {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.kl-hertz-sparks",
       "v": 1,
       "subject": "physics",
@@ -6096,37 +4679,6 @@
       "reasons": [
         "review:not_important",
         "review:important: Hertz story detail (UV from an arc lamp); the discovery fact is already on its own card."
-      ]
-    },
-    {
-      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-electrons-absorb-energy",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
-      "chapter": "Dual Nature of Radiation & Matter",
-      "unit": "Dual Nature of Radiation and Matter",
-      "kind": "fact",
-      "front": "What happens to some electrons near a metal surface when light falls on it (Hertz's observations)?",
-      "back": "When light falls on a metal surface, some electrons near the surface absorb enough energy from the incident radiation to overcome the attraction of the positive ions in the material of the surface.",
-      "quote": "When light falls on a metal surface, some electrons near the surface absorb enough energy from the incident radiation to overcome the attraction of the positive ions in the material of the surface.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph203",
-        "chapterNo": 11,
-        "page": 276,
-        "section": "Hertz's observations"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "photoelectric effect"
-      ],
-      "order": 100,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front 'what happens to some electrons' has two valid answers in the source (they absorb energy, or they escape the surface); no single answer."
       ]
     },
     {
@@ -6189,72 +4741,6 @@
       "reasons": [
         "review:not_important",
         "review:important: Experiment narrative detail, not a definition or tested law."
-      ]
-    },
-    {
-      "id": "kc.physics.dual-nature-of-radiation-and-matter.kl-hallwachs-conclusion",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
-      "chapter": "Dual Nature of Radiation & Matter",
-      "unit": "Dual Nature of Radiation and Matter",
-      "kind": "key_line",
-      "front": "From these observations he concluded that ____ were emitted from the zinc plate under the action of ultraviolet light.",
-      "back": "From these observations he concluded that negatively charged particles were emitted from the zinc plate under the action of ultraviolet light.",
-      "quote": "From these observations he concluded that negatively charged particles were emitted from the zinc plate under the action of ultraviolet light.",
-      "blanks": [
-        "negatively charged particles"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph203",
-        "chapterNo": 11,
-        "page": 276,
-        "section": "Hallwachs' and Lenard's observations"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "Hallwachs"
-      ],
-      "order": 140,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:unambiguous: Blank could be filled with electrons; NCERT wording is negatively charged particles, so the answer is not unique."
-      ]
-    },
-    {
-      "id": "kc.physics.dual-nature-of-radiation-and-matter.kl-photon-absorbed",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
-      "chapter": "Dual Nature of Radiation & Matter",
-      "unit": "Dual Nature of Radiation and Matter",
-      "kind": "key_line",
-      "front": "Photoelectric emission from the metal surface occurs due to ____ by an electron.",
-      "back": "Photoelectric emission from the metal surface occurs due to absorption of a photon by an electron.",
-      "quote": "Photoelectric emission from the metal surface occurs due to absorption of a photon by an electron.",
-      "blanks": [
-        "absorption of a photon"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph203",
-        "chapterNo": 11,
-        "page": 287,
-        "section": "Summary"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "photoelectric effect"
-      ],
-      "order": 210,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:unambiguous: Blank is a three-word phrase; absorption of a light quantum would also fit."
       ]
     },
     {
@@ -6387,15 +4873,15 @@
     },
     {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-accelerating-potential",
-      "v": 1,
+      "v": 2,
       "subject": "physics",
       "chapterKey": "physics.dual-nature-of-radiation-and-matter",
       "chapter": "Dual Nature of Radiation & Matter",
       "unit": "Dual Nature of Radiation and Matter",
       "kind": "fact",
-      "front": "How does photoelectric current vary as the positive (accelerating) potential of plate A is increased?",
-      "back": "It is found that the photoelectric current increases with increase in positive (accelerating) potential. At some stage, for a certain positive potential of plate A, all the emitted electrons are collected by the plate A and the photoelectric current becomes maximum or saturates.",
-      "quote": "It is found that the photoelectric current increases with increase in positive (accelerating) potential. At some stage, for a certain positive potential of plate A, all the emitted electrons are collected by the plate A and the photoelectric current becomes maximum or saturates.",
+      "front": "How does photoelectric current vary as the positive (accelerating) potential of the collector plate is increased?",
+      "back": "It is found that the photoelectric current increases with increase in positive (accelerating) potential.",
+      "quote": "It is found that the photoelectric current increases with increase in positive (accelerating) potential.",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -6412,8 +4898,8 @@
       ],
       "order": 300,
       "reasons": [
-        "review:not_unambiguous",
-        "review:Front uses 'plate A' (Fig 11.1 label) the student cannot see; say collector plate. Answer is two-part (increases, then saturates)."
+        "review:not_important",
+        "review:Half a fact: NCERT's next sentences say the current saturates, so 'increases' alone is incomplete and a student answering 'rises then saturates' is also right; the testable point is already carried by def-saturation-current."
       ]
     },
     {
@@ -6479,70 +4965,6 @@
       "reasons": [
         "review:not_exact",
         "review:exact: Back carries V0 with the subscript flattened to a plain 0 by extraction."
-      ]
-    },
-    {
-      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-kmax-independent-intensity",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
-      "chapter": "Dual Nature of Radiation & Matter",
-      "unit": "Dual Nature of Radiation and Matter",
-      "kind": "fact",
-      "front": "On what does the maximum kinetic energy of photoelectrons depend, and what is it independent of?",
-      "back": "The maximum kinetic energy of photoelectrons depends on the light source and the emitter plate material, but is independent of intensity of incident radiation.",
-      "quote": "the maximum kinetic energy of photoelectrons depends on the light source and the emitter plate material, but is independent of intensity of incident radiation.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph203",
-        "chapterNo": 11,
-        "page": 279,
-        "section": "Experimental study of photoelectric effect"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "kinetic energy"
-      ],
-      "order": 360,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Back's 'depends on the light source and emitter plate material' is vague; a correct answer (frequency and work function) would be marked wrong. Summary feature (iii): should be 'must'."
-      ]
-    },
-    {
-      "id": "kc.physics.dual-nature-of-radiation-and-matter.kl-stopping-potential-more-negative",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
-      "chapter": "Dual Nature of Radiation & Matter",
-      "unit": "Dual Nature of Radiation and Matter",
-      "kind": "key_line",
-      "front": "The stopping potential is ____ for higher frequencies of incident radiation.",
-      "back": "The stopping potential is more negative for higher frequencies of incident radiation.",
-      "quote": "The stopping potential is more negative for higher frequencies of incident radiation.",
-      "blanks": [
-        "more negative"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph203",
-        "chapterNo": 11,
-        "page": 279,
-        "section": "Experimental study of photoelectric effect"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "frequency"
-      ],
-      "order": 380,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:unambiguous: Blank could be higher, greater or more negative; NCERT phrase more negative is not the only fit."
       ]
     },
     {
@@ -6679,37 +5101,6 @@
       ]
     },
     {
-      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-kmax-energy-of-each-photon",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
-      "chapter": "Dual Nature of Radiation & Matter",
-      "unit": "Dual Nature of Radiation and Matter",
-      "kind": "fact",
-      "front": "In Einstein's picture, what determines the maximum kinetic energy of the emitted photoelectrons?",
-      "back": "Increasing the intensity will increase the number of emitted electrons per second. However, the maximum kinetic energy of the emitted photoelectrons is determined by the energy of each photon.",
-      "quote": "Increasing the intensity will increase the number of emitted electrons per second. However, the maximum kinetic energy of the emitted photoelectrons is determined by the energy of each photon.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph203",
-        "chapterNo": 11,
-        "page": 281,
-        "section": "Einstein's photoelectric equation"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "kinetic energy"
-      ],
-      "order": 590,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'Frequency of light' or 'photon energy minus work function' are equally right answers to 'what determines Kmax'; only 'energy of each photon' matches the back."
-      ]
-    },
-    {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.kl-intensity-irrelevant",
       "v": 1,
       "subject": "physics",
@@ -6741,37 +5132,6 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:important: Filler restatement. | unambiguous: irrelevant has synonyms (immaterial, not related); blank is not a mark-carrying term."
-      ]
-    },
-    {
-      "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-absorption-instantaneous",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
-      "chapter": "Dual Nature of Radiation & Matter",
-      "unit": "Dual Nature of Radiation and Matter",
-      "kind": "fact",
-      "front": "In Einstein's picture, what is the basic elementary process in photoelectric effect, and how fast is it?",
-      "back": "In Einstein's picture, the basic elementary process involved in photoelectric effect is the absorption of a light quantum by an electron. This process is instantaneous.",
-      "quote": "In Einstein's picture, the basic elementary process involved in photoelectric effect is the absorption of a light quantum by an electron. This process is instantaneous.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph203",
-        "chapterNo": 11,
-        "page": 282,
-        "section": "Einstein's photoelectric equation"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "Einstein"
-      ],
-      "order": 620,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Two questions in one front (process and speed); overlaps fact-single-quantum-single-electron and fact-instantaneous."
       ]
     },
     {
@@ -6839,39 +5199,6 @@
       ]
     },
     {
-      "id": "kc.physics.dual-nature-of-radiation-and-matter.kl-de-broglie-dual-aspect",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
-      "chapter": "Dual Nature of Radiation & Matter",
-      "unit": "Dual Nature of Radiation and Matter",
-      "kind": "key_line",
-      "front": "The ____ of matter is evident in the de Broglie relation.",
-      "back": "The dual aspect of matter is evident in the de Broglie relation.",
-      "quote": "The dual aspect of matter is evident in the de Broglie relation.",
-      "blanks": [
-        "dual aspect"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph203",
-        "chapterNo": 11,
-        "page": 285,
-        "section": "Wave nature of matter"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "de Broglie"
-      ],
-      "order": 830,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:unambiguous: Blank could be filled with dual nature or wave-particle duality; dual aspect is not unique."
-      ]
-    },
-    {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-measurable-subatomic-particles",
       "v": 1,
       "subject": "physics",
@@ -6904,13 +5231,13 @@
     },
     {
       "id": "kc.physics.dual-nature-of-radiation-and-matter.fact-electron-wavelength-xray",
-      "v": 1,
+      "v": 2,
       "subject": "physics",
       "chapterKey": "physics.dual-nature-of-radiation-and-matter",
       "chapter": "Dual Nature of Radiation & Matter",
       "unit": "Dual Nature of Radiation and Matter",
       "kind": "fact",
-      "front": "The de Broglie wavelength of an electron is comparable with the wavelength of which radiation?",
+      "front": "An electron moves at 5.4 million m/s (Example 11.3). Its de Broglie wavelength is comparable with which radiation's?",
       "back": "The de Broglie wavelength of electron is comparable with X-ray wavelengths.",
       "quote": "The de Broglie wavelength of electron is comparable with X-ray wavelengths.",
       "blanks": [],
@@ -6929,74 +5256,9 @@
       ],
       "order": 880,
       "reasons": [
+        "review:not_important",
         "review:not_unambiguous",
-        "review:unambiguous: NCERT line belongs to the example of an electron at 5.4e6 m/s; front drops that speed, so the general claim is not true for every electron."
-      ]
-    },
-    {
-      "id": "kc.physics.dual-nature-of-radiation-and-matter.kl-work-function-least-energy",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
-      "chapter": "Dual Nature of Radiation & Matter",
-      "unit": "Dual Nature of Radiation and Matter",
-      "kind": "key_line",
-      "front": "Work function is the ____ required by an electron to come out of the metal.",
-      "back": "Work function is the least energy required by an electron to come out of the metal.",
-      "quote": "Work function is the least energy required by an electron to come out of the metal.",
-      "blanks": [
-        "least energy"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph203",
-        "chapterNo": 11,
-        "page": 288,
-        "section": "Points to ponder"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "work function"
-      ],
-      "order": 890,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:unambiguous: Blank could be filled with minimum energy; least energy is not unique."
-      ]
-    },
-    {
-      "id": "kc.physics.dual-nature-of-radiation-and-matter.kl-electrons-energy-distribution",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.dual-nature-of-radiation-and-matter",
-      "chapter": "Dual Nature of Radiation & Matter",
-      "unit": "Dual Nature of Radiation and Matter",
-      "kind": "key_line",
-      "front": "Free electrons in a metal ____.",
-      "back": "Free electrons in a metal do not all have the same energy.",
-      "quote": "Free electrons in a metal do not all have the same energy.",
-      "blanks": [
-        "do not all have the same energy"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph203",
-        "chapterNo": 11,
-        "page": 288,
-        "section": "Points to ponder"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "work function"
-      ],
-      "order": 910,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:unambiguous: Blank is the whole predicate; many completions fit (move in constant potential, have an energy distribution)."
+        "review:Front points at 'Example 11.3' the student cannot see, and the claim holds only for that one electron speed (wavelength 0.135 nm); a worked-example aside, not a memory fact."
       ]
     },
     {
@@ -7432,37 +5694,6 @@
       ]
     },
     {
-      "id": "kc.physics.atoms.fact-levels-closer",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.atoms",
-      "chapter": "Atoms",
-      "unit": "Atoms",
-      "kind": "fact",
-      "front": "How do the energies of the excited states change as n increases?",
-      "back": "Observe how the energies of the excited states come closer and closer together as n increases.",
-      "quote": "Observe how the energies of the excited states come closer and closer together as n increases.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph204",
-        "chapterNo": 12,
-        "page": 300,
-        "section": "Energy levels"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "energy-levels"
-      ],
-      "order": 600,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'How do energies change as n increases' also has the right answer 'they increase' (less negative); back's 'come closer together' is not the only answer"
-      ]
-    },
-    {
       "id": "kc.physics.atoms.fact-bohr-nobel-1922",
       "v": 1,
       "subject": "physics",
@@ -7553,101 +5784,6 @@
       "order": 820,
       "reasons": [
         "quote:not_in_pdf"
-      ]
-    },
-    {
-      "id": "kc.physics.atoms.list-bohr-limitations",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.atoms",
-      "chapter": "Atoms",
-      "unit": "Atoms",
-      "kind": "list",
-      "front": "Name the two limitations of Bohr's model.",
-      "back": "Bohr's model is applicable only to hydrogenic (single electron) atoms. It cannot be extended to even two electron atoms such as helium.\nThis model is also unable to explain for the relative intensities of the frequencies emitted even by hydrogenic atoms.",
-      "quote": "Bohr's model is applicable only to hydrogenic (single electron) atoms. It cannot be extended to even two electron atoms such as helium. This model is also unable to explain for the relative intensities of the frequencies emitted even by hydrogenic atoms.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph204",
-        "chapterNo": 12,
-        "page": 304,
-        "section": "Summary"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "bohr",
-        "limitations"
-      ],
-      "order": 880,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'The two limitations' is not a fixed set: NCERT says 'some are' and Points to Ponder gives others (uncertainty principle, multi-electron), so other right answers exist"
-      ]
-    },
-    {
-      "id": "kc.physics.atoms.fact-bohr-useful-3",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.atoms",
-      "chapter": "Atoms",
-      "unit": "Atoms",
-      "kind": "fact",
-      "front": "Why is Bohr's model still useful: how many postulates, and what does it account for?",
-      "back": "The model is based on just three postulates but accounts for almost all the general features of the hydrogen spectrum.",
-      "quote": "The model is based on just three postulates but accounts for almost all the general features of the hydrogen spectrum.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph204",
-        "chapterNo": 12,
-        "page": 305,
-        "section": "Points to Ponder"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "bohr"
-      ],
-      "order": 930,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Question asks why the model is useful but only one of NCERT's three reasons is the answer; (ii) and (iii) are equally valid"
-      ]
-    },
-    {
-      "id": "kc.physics.nuclei.fact-atom-almost-empty",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.nuclei",
-      "chapter": "Nuclei",
-      "unit": "Nuclei",
-      "kind": "fact",
-      "front": "Because a nucleus is far smaller than an atom, what is an atom said to be, in other words?",
-      "back": "In other words, an atom is almost empty.",
-      "quote": "In other words, an atom is almost empty.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph205",
-        "chapterNo": 13,
-        "page": 306,
-        "section": "Introduction"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "nucleus",
-        "atom"
-      ],
-      "order": 20,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front and back lean on 'in other words' (linking phrase to unseen text: radius ratio ~10^4, volume ~10^-12) and 'almost empty' has synonyms (mostly empty space); the back starts with a dangling 'In other words'."
       ]
     },
     {
@@ -7941,37 +6077,6 @@
       ]
     },
     {
-      "id": "kc.physics.nuclei.fact-electron-scattering-radius",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.nuclei",
-      "chapter": "Nuclei",
-      "unit": "Nuclei",
-      "kind": "fact",
-      "front": "Which scattering experiments allow determination of the nuclear radius?",
-      "back": "Electron scattering experiments allow determination of the nuclear radius",
-      "quote": "Electron scattering experiments allow determination of the nuclear radius",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph205",
-        "chapterNo": 13,
-        "page": 318,
-        "section": "Summary"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "nuclear radius"
-      ],
-      "order": 450,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:unambiguous: alpha-particle scattering also infers nuclear size (card 43, Points to Ponder), so electron scattering is not the only right answer | importance: Summary point; per spec should be must (but see ambiguity)"
-      ]
-    },
-    {
       "id": "kc.physics.nuclei.fact-mass-energy-verified",
       "v": 1,
       "subject": "physics",
@@ -8252,13 +6357,13 @@
     },
     {
       "id": "kc.physics.nuclei.fact-force-totally-different",
-      "v": 1,
+      "v": 2,
       "subject": "physics",
       "chapterKey": "physics.nuclei",
       "chapter": "Nuclei",
       "unit": "Nuclei",
       "kind": "fact",
-      "front": "Why must the nuclear force be of a totally different kind from the Coulomb force?",
+      "front": "Nuclear binding energy per nucleon (~8 MeV) far exceeds atomic binding energy. What kind of force must bind a nucleus?",
       "back": "Therefore, to bind a nucleus together there must be a strong attractive force of a totally different kind.",
       "quote": "Therefore, to bind a nucleus together there must be a strong attractive force of a totally different kind.",
       "blanks": [],
@@ -8278,39 +6383,7 @@
       "order": 730,
       "reasons": [
         "review:not_unambiguous",
-        "review:unambiguous: front asks why; back gives only the conclusion, the reason (binding energy per nucleon is much larger than atomic binding) is missing"
-      ]
-    },
-    {
-      "id": "kc.physics.nuclei.fact-nf-saturation-reason",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.nuclei",
-      "chapter": "Nuclei",
-      "unit": "Nuclei",
-      "kind": "fact",
-      "front": "What is the reason for the constancy of binding energy per nucleon in a large nucleus?",
-      "back": "This leads to saturation of forces in a medium or a large-sized nucleus, which is the reason for the constancy of the binding energy per nucleon.",
-      "quote": "This leads to saturation of forces in a medium or a large-sized nucleus, which is the reason for the constancy of the binding energy per nucleon.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph205",
-        "chapterNo": 13,
-        "page": 313,
-        "section": "Nuclear Force"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "nuclear force",
-        "saturation"
-      ],
-      "order": 800,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:unambiguous: two right answers: NCERT also gives short range of the force as the reason for the constancy (card 68)"
+        "review:Gradable answer is vague: 'a strong attractive force of a totally different kind' (different from what?); a student saying 'strong nuclear force' cannot be marked against it. Also overlaps fact-force-attractive-strong."
       ]
     },
     {
@@ -8408,70 +6481,6 @@
       ]
     },
     {
-      "id": "kc.physics.nuclei.fact-sun-fusion-multistep",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.nuclei",
-      "chapter": "Nuclei",
-      "unit": "Nuclei",
-      "kind": "fact",
-      "front": "What is the fusion reaction in the sun?",
-      "back": "The fusion reaction in the sun is a multi-step process in which the hydrogen is burned into helium.",
-      "quote": "The fusion reaction in the sun is a multi-step process in which the hydrogen is burned into helium.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph205",
-        "chapterNo": 13,
-        "page": 316,
-        "section": "Nuclear Fusion"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "fusion",
-        "sun"
-      ],
-      "order": 1070,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:unambiguous: front does not pin the answer; \"proton-proton cycle\" is the likely expected answer, back says multi-step hydrogen burning"
-      ]
-    },
-    {
-      "id": "kc.physics.nuclei.fact-heavy-elements-limit",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.nuclei",
-      "chapter": "Nuclei",
-      "unit": "Nuclei",
-      "kind": "fact",
-      "front": "Which elements cannot be produced by fusion in a star?",
-      "back": "But elements more massive than those near the peak of the binding energy curve in Fig. 13.1 cannot be so produced.",
-      "quote": "But elements more massive than those near the peak of the binding energy curve in Fig. 13.1 cannot be so produced.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph205",
-        "chapterNo": 13,
-        "page": 316,
-        "section": "Nuclear Fusion"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "fusion",
-        "stars"
-      ],
-      "order": 1100,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:unambiguous: back rests on unseen Fig. 13.1; expected answer (elements heavier than those near the binding-energy peak) not stated"
-      ]
-    },
-    {
       "id": "kc.physics.nuclei.fact-controlled-fusion-replicates",
       "v": 1,
       "subject": "physics",
@@ -8565,40 +6574,6 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:Conceptual filler; blank could equally be 'different energy level' (id says unique-energy-level), not a mark-carrying term"
-      ]
-    },
-    {
-      "id": "kc.physics.semiconductor-electronics.key-metal-overlap",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.semiconductor-electronics",
-      "chapter": "Semiconductor Electronics",
-      "unit": "Semiconductor Electronics",
-      "kind": "key_line",
-      "front": "But when it overlaps on the valence band electrons can move freely into it. This is the case with ____.",
-      "back": "But when it overlaps on the valence band electrons can move freely into it. This is the case with metallic conductors.",
-      "quote": "But when it overlaps on the valence band electrons can move freely into it. This is the case with metallic conductors.",
-      "blanks": [
-        "metallic conductors"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph206",
-        "chapterNo": 14,
-        "page": 325,
-        "section": "Classification of Metals, Conductors and Semiconductors"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "energy-bands",
-        "metals"
-      ],
-      "order": 130,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'it' has no antecedent without the prior sentence; 'metals' fits as well as 'metallic conductors'"
       ]
     },
     {
@@ -8700,19 +6675,17 @@
       ]
     },
     {
-      "id": "kc.physics.semiconductor-electronics.key-recombination-collision",
+      "id": "kc.physics.semiconductor-electronics.fact-recombination-cause",
       "v": 1,
       "subject": "physics",
       "chapterKey": "physics.semiconductor-electronics",
       "chapter": "Semiconductor Electronics",
       "unit": "Semiconductor Electronics",
-      "kind": "key_line",
-      "front": "The recombination occurs due to an electron ____.",
+      "kind": "fact",
+      "front": "In a semiconductor, how does recombination of charge carriers occur?",
       "back": "The recombination occurs due to an electron colliding with a hole.",
       "quote": "The recombination occurs due to an electron colliding with a hole.",
-      "blanks": [
-        "colliding with a hole"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Physics Part 2",
@@ -8728,21 +6701,22 @@
       ],
       "order": 330,
       "reasons": [
+        "review:not_important",
         "review:not_unambiguous",
-        "review:Multi-word blank 'colliding with a hole'; many fills possible (combining with, meeting)"
+        "review:Quote verified on p.328, but it is tautological ('electron colliding with a hole') and overlaps fact-generation-recombination, whose back already says electrons recombine with holes; the two fronts accept the same answer. Trivial."
       ]
     },
     {
       "id": "kc.physics.semiconductor-electronics.def-doped-semiconductor",
-      "v": 1,
+      "v": 2,
       "subject": "physics",
       "chapterKey": "physics.semiconductor-electronics",
       "chapter": "Semiconductor Electronics",
       "unit": "Semiconductor Electronics",
       "kind": "definition",
       "front": "What is a doped semiconductor?",
-      "back": "Such materials are known as extrinsic semiconductors or impurity semiconductors. The deliberate addition of a desirable impurity is called doping and the impurity atoms are called dopants. Such a material is also called a doped semiconductor.",
-      "quote": "Such materials are known as extrinsic semiconductors or impurity semiconductors. The deliberate addition of a desirable impurity is called doping and the impurity atoms are called dopants. Such a material is also called a doped semiconductor.",
+      "back": "When a small amount, say, a few parts per million (ppm), of a suitable impurity is added to the pure semiconductor, the conductivity of the semiconductor is increased manifold. Such materials are known as extrinsic semiconductors or impurity semiconductors. The deliberate addition of a desirable impurity is called doping and the impurity atoms are called dopants. Such a material is also called a doped semiconductor.",
+      "quote": "When a small amount, say, a few parts per million (ppm), of a suitable impurity is added to the pure semiconductor, the conductivity of the semiconductor is increased manifold. Such materials are known as extrinsic semiconductors or impurity semiconductors. The deliberate addition of a desirable impurity is called doping and the impurity atoms are called dopants. Such a material is also called a doped semiconductor.",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -8752,27 +6726,27 @@
         "page": 329,
         "section": "Extrinsic Semiconductor"
       },
-      "importance": "good",
+      "importance": "must",
       "asked": 0,
       "tags": [
         "doping"
       ],
       "order": 410,
       "reasons": [
-        "review:not_unambiguous",
-        "review:Back opens with 'Such materials' (refers to the unseen sentence about adding a few ppm of impurity to a pure semiconductor) so the defining content is missing and the answer is circular; quote should start at 'When a small amount...'. Also a definition, so must not good."
+        "review:not_important",
+        "review:Quote verified on p.329, but the card duplicates def-extrinsic-semiconductor and def-doping (the whole back is those two cards joined); 'doped semiconductor' is only a synonym, so 'must' is overrated. Drop or merge."
       ]
     },
     {
       "id": "kc.physics.semiconductor-electronics.fact-forbidden-band-ge-si",
-      "v": 1,
+      "v": 2,
       "subject": "physics",
       "chapterKey": "physics.semiconductor-electronics",
       "chapter": "Semiconductor Electronics",
       "unit": "Semiconductor Electronics",
       "kind": "fact",
-      "front": "What is the forbidden band (energy gap) in germanium and in silicon?",
-      "back": "This is in contrast to the energy required to jump the forbidden band (about 0.72 eV for germanium and about 1.1 eV for silicon) at room temperature in the intrinsic semiconductor.",
+      "front": "In an intrinsic semiconductor at room temperature, what energy is needed to jump the forbidden band in Ge and Si?",
+      "back": "the energy required to jump the forbidden band (about 0.72 eV for germanium and about 1.1 eV for silicon) at room temperature in the intrinsic semiconductor.",
       "quote": "This is in contrast to the energy required to jump the forbidden band (about 0.72 eV for germanium and about 1.1 eV for silicon) at room temperature in the intrinsic semiconductor.",
       "blanks": [],
       "source": {
@@ -8790,8 +6764,9 @@
       ],
       "order": 470,
       "reasons": [
+        "review:not_important",
         "review:not_unambiguous",
-        "review:Ge gap given as 0.72 eV here but 0.7 eV in the energy-gap card; back opens with 'This is in contrast...' and is not a clean answer"
+        "review:Quote verified on p.330 (donor context). Duplicates fact-gap-c-si-ge and conflicts with it (Ge 0.72 eV here, 0.7 eV there), so the student has two right-looking answers; front says 'energy needed to jump', not 'energy gap'; back is a lowercase fragment restating the front."
       ]
     },
     {
@@ -8857,103 +6832,6 @@
       "reasons": [
         "review:not_important",
         "review:Generic summary statement, trivia not tested"
-      ]
-    },
-    {
-      "id": "kc.physics.semiconductor-electronics.key-pn-building-block",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.semiconductor-electronics",
-      "chapter": "Semiconductor Electronics",
-      "unit": "Semiconductor Electronics",
-      "kind": "key_line",
-      "front": "A p-n junction is the ____ of many semiconductor devices like diodes, transistor, etc.",
-      "back": "A p-n junction is the basic building block of many semiconductor devices like diodes, transistor, etc.",
-      "quote": "A p-n junction is the basic building block of many semiconductor devices like diodes, transistor, etc.",
-      "blanks": [
-        "basic building block"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph206",
-        "chapterNo": 14,
-        "page": 333,
-        "section": "p-n Junction"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "pn-junction"
-      ],
-      "order": 660,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank 'basic building block' has synonyms (foundation, key); not a single mark-carrying term"
-      ]
-    },
-    {
-      "id": "kc.physics.semiconductor-electronics.fact-potential-difference-junction",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.semiconductor-electronics",
-      "chapter": "Semiconductor Electronics",
-      "unit": "Semiconductor Electronics",
-      "kind": "fact",
-      "front": "What causes a difference of potential across a p-n junction, and what is its polarity such as to do?",
-      "back": "The loss of electrons from the n-region and the gain of electron by the p-region causes a difference of potential across the junction of the two regions. The polarity of this potential is such as to oppose further flow of carriers so that a condition of equilibrium exists.",
-      "quote": "The loss of electrons from the n-region and the gain of electron by the p-region causes a difference of potential across the junction of the two regions. The polarity of this potential is such as to oppose further flow of carriers so that a condition of equilibrium exists.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph206",
-        "chapterNo": 14,
-        "page": 334,
-        "section": "p-n Junction"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "barrier-potential"
-      ],
-      "order": 770,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front is garbled ('its polarity such as to do?'); question cannot be answered as written"
-      ]
-    },
-    {
-      "id": "kc.physics.semiconductor-electronics.key-reverse-current-voltage",
-      "v": 1,
-      "subject": "physics",
-      "chapterKey": "physics.semiconductor-electronics",
-      "chapter": "Semiconductor Electronics",
-      "unit": "Semiconductor Electronics",
-      "kind": "key_line",
-      "front": "The diode reverse current is ____ on the applied voltage.",
-      "back": "The diode reverse current is not very much dependent on the applied voltage.",
-      "quote": "The diode reverse current is not very much dependent on the applied voltage.",
-      "blanks": [
-        "not very much dependent"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Physics Part 2",
-        "code": "leph206",
-        "chapterNo": 14,
-        "page": 335,
-        "section": "Semiconductor Diode"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "reverse-bias"
-      ],
-      "order": 930,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Phrase blank 'not very much dependent'; independent / not dependent also fit"
       ]
     },
     {
@@ -9055,19 +6933,17 @@
       ]
     },
     {
-      "id": "kc.physics.semiconductor-electronics.key-large-time-constant",
+      "id": "kc.physics.semiconductor-electronics.fact-filter-large-time-constant",
       "v": 1,
       "subject": "physics",
       "chapterKey": "physics.semiconductor-electronics",
       "chapter": "Semiconductor Electronics",
       "unit": "Semiconductor Electronics",
-      "kind": "key_line",
-      "front": "To make the ____ large value of C should be large.",
-      "back": "To make the time constant large value of C should be large.",
-      "quote": "To make the time constant large value of C should be large.",
-      "blanks": [
-        "time constant"
-      ],
+      "kind": "fact",
+      "front": "Capacitor input filter in a rectifier: to make the time constant large, what should be large?",
+      "back": "To make the time constant large value of C should be large. So capacitor input filters use large capacitors.",
+      "quote": "To make the time constant large value of C should be large. So capacitor input filters use large capacitors.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Physics Part 2",
@@ -9084,7 +6960,7 @@
       "order": 1180,
       "reasons": [
         "review:not_unambiguous",
-        "review:Front garbled ('To make the ____ large value of C...'); time constant is never named with its RC meaning on the card, blank not derivable"
+        "review:Quote verified on p.339, but time constant is the product of C and RL, so 'what should be large' also accepts RL; the front does not define C and has no single answer. Rephrase to ask which component a capacitor input filter uses large values of."
       ]
     }
   ]

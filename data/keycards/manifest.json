@@ -1,33 +1,33 @@
 {
   "accountancy": {
-    "version": 10,
-    "sha256": "8f404133f9c620c8eba58dd1e155d26366a09e43262741f2283f9e97d40f5557",
-    "cards": 912
+    "version": 11,
+    "sha256": "9e14c424afadc3aa3786f6e286c0d3af756f32c25cd1520402bd29aa9c301063",
+    "cards": 920
   },
   "biology": {
-    "version": 5,
-    "sha256": "59896083600fdf0db9e72fa0a3fac217b86ea030e64209760ad44df80900c292",
-    "cards": 1394
+    "version": 6,
+    "sha256": "f07f10dfd4627c433734243286907d5a7fb3dc7f40b5bc7493ef0e57673f4c26",
+    "cards": 1396
   },
   "business_studies": {
-    "version": 6,
-    "sha256": "c99773a0a20b7da438ddfe9b21d7890c0c1ae533b94331a951071496632176a4",
-    "cards": 901
+    "version": 7,
+    "sha256": "454639826885799a10ab3b8f4a390b136bf73fc96e8dfab3205038d5a09346d8",
+    "cards": 902
   },
   "chemistry": {
-    "version": 2,
-    "sha256": "9f5940babf3a5785b5828aa108a1a8f9e028cc7b4b2970a1bd0389c05dd46910",
-    "cards": 1354
+    "version": 3,
+    "sha256": "b03a7408b81ef9c38ccb48bccad0cd0367670874d16dd109b66d581bd794741b",
+    "cards": 1411
   },
   "computer_science": {
-    "version": 1,
-    "sha256": "ab3e22d9a4eb0bb071de7a872b161a153af9a683d60da907111f51aae7cd7420",
-    "cards": 1350
+    "version": 2,
+    "sha256": "860edae6b8e3e3c6f72096cef5a4532f5de1fba663dc55026f0e2e87f812fecf",
+    "cards": 1544
   },
   "economics": {
-    "version": 6,
-    "sha256": "56b1f51e3adca689a4c2403f9d1886498abb7d76b6187884ccfdfbf054e9347e",
-    "cards": 1195
+    "version": 7,
+    "sha256": "1fefda9229ed93cab97351d5ad980cad9ced37a6b411dce6b5a404ae9b56a264",
+    "cards": 1200
   },
   "english": {
     "version": 4,
@@ -35,38 +35,38 @@
     "cards": 650
   },
   "geography": {
-    "version": 2,
-    "sha256": "91aa402f8bb35f71eead98ca4243c8e780cc584703c5c486bad1494da79b93b6",
-    "cards": 1238
+    "version": 3,
+    "sha256": "5e71706690e910ecc4081d3970652752d70804158da21276840a8f9596003d81",
+    "cards": 1345
   },
   "history": {
-    "version": 2,
-    "sha256": "489f1eed5bfbc75ab38445d3e62ed3bc626dd43c666f6b4b006126ca0b7060ed",
-    "cards": 1497
+    "version": 3,
+    "sha256": "7fabe87c351aa6dc9b559692939ac5b89e3fb63ae872c370bc7e4125fa3f50d5",
+    "cards": 1587
   },
   "mathematics": {
-    "version": 2,
-    "sha256": "9799ff95a4a4faac151d01ea094e3a58be40196ce0636d6ad33ea79d3194d0f3",
-    "cards": 290
+    "version": 3,
+    "sha256": "4896554fdef3dbc23665a02d3fe5f8c983527eb43a428681a44ead4810f1a4be",
+    "cards": 310
   },
   "physics": {
-    "version": 2,
-    "sha256": "30f5a89c3a438f3ee64188bcecf88fe5c626634aa6ad2f0ce5ccc64f1c5f350b",
-    "cards": 1044
+    "version": 3,
+    "sha256": "a69c65db248194ceed0a34b87810b0cf1c889c9e63a6ae7f1fc9b4960b02faf0",
+    "cards": 1090
   },
   "political_science": {
-    "version": 5,
-    "sha256": "389d8a2b5e492f08411ea2693a0a9ec93594350fa8b9e0840b6d78a65ef33ac9",
-    "cards": 1096
+    "version": 6,
+    "sha256": "1290fffea40d1213b925378d21c23fb121c7421e2cdfea6f7ec878fb96321f54",
+    "cards": 1098
   },
   "psychology": {
-    "version": 2,
-    "sha256": "4c5357725d3a8861ea721190badf45708cf62217c32b3950b02c90273c93cf43",
-    "cards": 778
+    "version": 3,
+    "sha256": "b58517690986db4c34925db472c193680956a03a620dc75c329472e9b6062f69",
+    "cards": 826
   },
   "sociology": {
-    "version": 2,
-    "sha256": "7d03a690433a79699f25ef3897e7ff13b9819c2928dd3cb3f765f7d892391d01",
-    "cards": 1102
+    "version": 3,
+    "sha256": "c9714ab772f3315440a8f1c0603baa1556327f405dcc555caa345f0a9ca28198",
+    "cards": 1190
   }
 }

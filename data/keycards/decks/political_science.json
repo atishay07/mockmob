@@ -1,6 +1,6 @@
 {
   "subject": "political_science",
-  "version": 5,
+  "version": 6,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -2726,6 +2726,31 @@
       "asked": 0,
       "tags": [],
       "order": 250
+    },
+    {
+      "id": "kc.political_science.challenges-of-nation-building.fact-1947-transfer-of-population",
+      "v": 3,
+      "subject": "political_science",
+      "chapterKey": "political_science.challenges-of-nation-building",
+      "chapter": "Challenges of Nation Building",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "Which year did NCERT call one of the largest, most abrupt, unplanned and tragic transfers of population in history?",
+      "back": "The year 1947 was the year of one of the largest, most abrupt, unplanned and tragic transfer of population that human history has known.",
+      "quote": "The year 1947 was the year of one of the largest, most abrupt, unplanned and tragic transfer of population that human history has known.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps201",
+        "chapterNo": 1,
+        "page": 9,
+        "section": "Partition: displacement and rehabilitation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 260
     },
     {
       "id": "kc.political_science.challenges-of-nation-building.fact-division-of-hearts",
@@ -8933,6 +8958,33 @@
         "cabinet"
       ],
       "order": 420
+    },
+    {
+      "id": "kc.political_science.crisis-of-the-democratic-order.fact-civil-liberties",
+      "v": 4,
+      "subject": "political_science",
+      "chapterKey": "political_science.crisis-of-the-democratic-order",
+      "chapter": "Crisis of the Democratic Order",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "Third lesson of the Emergency: everyone grew more aware of the value of what, which Courts now actively protect?",
+      "back": "Thirdly, the Emergency made everyone more aware of the value of civil liberties. The Courts too, have taken an active role after the Emergency in protecting the civil liberties of the individuals.",
+      "quote": "Thirdly, the Emergency made everyone more aware of the value of civil liberties. The Courts too, have taken an active role after the Emergency in protecting the civil liberties of the individuals.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps206",
+        "chapterNo": 6,
+        "page": 102,
+        "section": "Lessons of the Emergency"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "civil"
+      ],
+      "order": 430
     },
     {
       "id": "kc.political_science.crisis-of-the-democratic-order.fact-shah-commission",

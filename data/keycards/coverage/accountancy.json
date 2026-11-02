@@ -23,38 +23,38 @@
       "belowMinimum": false
     },
     "accountancy.admission-of-partner": {
-      "published": 58,
-      "quarantined": 11,
+      "published": 60,
+      "quarantined": 9,
       "byKind": {
         "definition": 3,
         "types": 2,
         "key_line": 13,
         "list": 4,
-        "fact": 18,
+        "fact": 20,
         "formula": 2,
         "entry": 16
       },
       "byImportance": {
         "must": 45,
-        "good": 13
+        "good": 15
       },
       "coverage_note": null,
-      "mustShare": 0.78,
+      "mustShare": 0.75,
       "belowMinimum": false
     },
     "accountancy.analysis-of-financial-statements": {
-      "published": 32,
-      "quarantined": 6,
+      "published": 35,
+      "quarantined": 3,
       "byKind": {
         "definition": 6,
-        "fact": 15,
+        "fact": 16,
         "types": 1,
-        "list": 9,
+        "list": 11,
         "key_line": 1
       },
       "byImportance": {
-        "must": 20,
-        "good": 12
+        "must": 22,
+        "good": 13
       },
       "coverage_note": null,
       "mustShare": 0.63,
@@ -85,7 +85,7 @@
     },
     "accountancy.change-in-profit-sharing-ratio": {
       "published": 11,
-      "quarantined": 6,
+      "quarantined": 5,
       "byKind": {
         "definition": 2,
         "fact": 4,
@@ -123,7 +123,7 @@
     },
     "accountancy.debentures": {
       "published": 86,
-      "quarantined": 3,
+      "quarantined": 0,
       "byKind": {
         "key_line": 16,
         "definition": 24,
@@ -185,12 +185,12 @@
       "belowMinimum": false
     },
     "accountancy.goodwill-valuation": {
-      "published": 46,
-      "quarantined": 5,
+      "published": 48,
+      "quarantined": 2,
       "byKind": {
+        "list": 4,
         "definition": 6,
         "key_line": 8,
-        "list": 2,
         "fact": 11,
         "types": 2,
         "example": 5,
@@ -199,11 +199,11 @@
         "steps": 3
       },
       "byImportance": {
-        "must": 31,
+        "must": 33,
         "good": 15
       },
       "coverage_note": null,
-      "mustShare": 0.67,
+      "mustShare": 0.69,
       "belowMinimum": false
     },
     "accountancy.partnership-fundamentals": {
@@ -248,7 +248,7 @@
     },
     "accountancy.retirement-and-death-of-partner": {
       "published": 72,
-      "quarantined": 9,
+      "quarantined": 3,
       "byKind": {
         "key_line": 2,
         "list": 4,
@@ -268,12 +268,12 @@
       "belowMinimum": false
     },
     "accountancy.share-capital": {
-      "published": 106,
-      "quarantined": 4,
+      "published": 107,
+      "quarantined": 2,
       "byKind": {
         "definition": 26,
         "list": 7,
-        "fact": 27,
+        "fact": 28,
         "term": 2,
         "key_line": 15,
         "types": 5,
@@ -283,7 +283,7 @@
         "steps": 1
       },
       "byImportance": {
-        "must": 68,
+        "must": 69,
         "good": 38
       },
       "coverage_note": null,

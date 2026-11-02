@@ -130,37 +130,6 @@
       ]
     },
     {
-      "id": "kc.business_studies.staffing.list-three-aspects",
-      "v": 1,
-      "subject": "business_studies",
-      "chapterKey": "business_studies.staffing",
-      "chapter": "Staffing",
-      "unit": "Staffing",
-      "kind": "list",
-      "front": "Name the three aspects of staffing.",
-      "back": "recruitment\nselection\ntraining",
-      "quote": "There are three aspects of staffing: recruitment, selection and training.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Business Studies Part 1",
-        "code": "lebs106",
-        "chapterNo": 6,
-        "page": 148,
-        "section": "Aspects of staffing"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "staffing"
-      ],
-      "order": 410,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:CONFLICT: 'Three aspects of staffing: recruitment, selection, training' (p148, only the aspects the chapter then details) vs staffing including recruitment, selection, training, development, promotion, compensation and appraisal (p140) and the 8-step staffing process (pp147, 164). Different list for"
-      ]
-    },
-    {
       "id": "kc.business_studies.staffing.term-recruitment-finding-candidates",
       "v": 1,
       "subject": "business_studies",
@@ -351,7 +320,7 @@
       "addedIn": "gap-1031",
       "reasons": [
         "review:not_unambiguous",
-        "review:NCERT says measurement is 'generally' after the task yet 'wherever possible' during; the front is a binary choice that gives the answer away and either side can be defended."
+        "review:Front is a binary 'after, or during where possible' choice that either side can claim (NCERT says 'generally' after yet 'wherever possible' during); back opens with the generally-believed view, so no single right answer. Card in drafts/lebs108.json is byte-identical to the backup, so the fixer's cha"
       ]
     },
     {

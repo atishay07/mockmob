@@ -2,19 +2,19 @@
   "subject": "biology",
   "chapters": {
     "biology.biodiversity-and-conservation": {
-      "published": 71,
-      "quarantined": 1,
+      "published": 72,
+      "quarantined": 0,
       "byKind": {
         "definition": 13,
         "term": 2,
         "types": 3,
-        "fact": 45,
+        "fact": 46,
         "list": 6,
         "formula": 1,
         "key_line": 1
       },
       "byImportance": {
-        "must": 43,
+        "must": 44,
         "good": 28
       },
       "coverage_note": null,
@@ -85,10 +85,10 @@
       "belowMinimum": false
     },
     "biology.evolution": {
-      "published": 120,
-      "quarantined": 3,
+      "published": 121,
+      "quarantined": 2,
       "byKind": {
-        "fact": 92,
+        "fact": 93,
         "definition": 12,
         "list": 5,
         "key_line": 6,
@@ -97,7 +97,7 @@
         "types": 1
       },
       "byImportance": {
-        "must": 86,
+        "must": 87,
         "good": 34
       },
       "coverage_note": null,
@@ -206,7 +206,7 @@
     },
     "biology.principles-of-inheritance-and-variation": {
       "published": 114,
-      "quarantined": 2,
+      "quarantined": 1,
       "byKind": {
         "fact": 63,
         "definition": 32,

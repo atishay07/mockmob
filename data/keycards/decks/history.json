@@ -1,6 +1,6 @@
 {
   "subject": "history",
-  "version": 2,
+  "version": 3,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -561,6 +561,33 @@
         "trade"
       ],
       "order": 210
+    },
+    {
+      "id": "kc.history.an-imperial-capital-vijayanagara.list-dynasties-first-three",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.an-imperial-capital-vijayanagara",
+      "chapter": "An Imperial Capital — Vijayanagara",
+      "unit": "Themes in Indian History Part II",
+      "kind": "list",
+      "front": "Name the first three dynasties of Vijayanagara in order.",
+      "back": "The first dynasty, known as the Sangama dynasty, exercised control till 1485.\nThey were supplanted by the Saluvas, military commanders, who remained in power till 1503 when they were replaced by the Tuluvas.",
+      "quote": "The first dynasty, known as the Sangama dynasty, exercised control till 1485. They were supplanted by the Saluvas, military commanders, who remained in power till 1503 when they were replaced by the Tuluvas.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs203",
+        "chapterNo": 7,
+        "page": 173,
+        "section": "The apogee and decline of the empire"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "dynasties"
+      ],
+      "order": 220
     },
     {
       "id": "kc.history.an-imperial-capital-vijayanagara.kl-krishnadeva-tuluva",
@@ -1804,6 +1831,33 @@
       "order": 680
     },
     {
+      "id": "kc.history.an-imperial-capital-vijayanagara.fact-mahanavami-display",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.an-imperial-capital-vijayanagara",
+      "chapter": "An Imperial Capital — Vijayanagara",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "What three things did the Vijayanagara kings display at the Mahanavami festival?",
+      "back": "The Vijayanagara kings displayed their prestige, power and suzerainty on this occasion.",
+      "quote": "The Vijayanagara kings displayed their prestige, power and suzerainty on this occasion.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs203",
+        "chapterNo": 7,
+        "page": 181,
+        "section": "The mahanavami dibba"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "mahanavami-dibba"
+      ],
+      "order": 690
+    },
+    {
       "id": "kc.history.an-imperial-capital-vijayanagara.fact-last-day-army",
       "v": 1,
       "subject": "history",
@@ -2267,6 +2321,33 @@
       "order": 880
     },
     {
+      "id": "kc.history.an-imperial-capital-vijayanagara.fact-vitthala-chariot",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.an-imperial-capital-vijayanagara",
+      "chapter": "An Imperial Capital — Vijayanagara",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "The Vitthala temple at Vijayanagara has several halls and a unique shrine designed as what?",
+      "back": "As in the case of other temples, this temple too has several halls and a unique shrine designed as a chariot (Fig. 7.24).",
+      "quote": "As in the case of other temples, this temple too has several halls and a unique shrine designed as a chariot (Fig. 7.24).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs203",
+        "chapterNo": 7,
+        "page": 188,
+        "section": "Gopurams and mandapas"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "vitthala-temple"
+      ],
+      "order": 890
+    },
+    {
       "id": "kc.history.an-imperial-capital-vijayanagara.fact-chariot-streets",
       "v": 1,
       "subject": "history",
@@ -2292,6 +2373,34 @@
         "temples"
       ],
       "order": 900
+    },
+    {
+      "id": "kc.history.an-imperial-capital-vijayanagara.fact-nayakas-gopurams",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.an-imperial-capital-vijayanagara",
+      "chapter": "An Imperial Capital — Vijayanagara",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "What are the towering temple gateways called, some of whose most spectacular examples the local nayakas built?",
+      "back": "Just as the nayakas continued with and elaborated on traditions of fortification, so they did with traditions of temple building. In fact, some of the most spectacular gopurams were also built by the local nayakas.",
+      "quote": "Just as the nayakas continued with and elaborated on traditions of fortification, so they did with traditions of temple building. In fact, some of the most spectacular gopurams were also built by the local nayakas.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs203",
+        "chapterNo": 7,
+        "page": 188,
+        "section": "Gopurams and mandapas"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "nayakas",
+        "gopuram"
+      ],
+      "order": 910
     },
     {
       "id": "kc.history.an-imperial-capital-vijayanagara.fact-asi-1976",
@@ -2483,6 +2592,34 @@
         "timeline"
       ],
       "order": 1020
+    },
+    {
+      "id": "kc.history.an-imperial-capital-vijayanagara.list-timeline2-landmarks",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.an-imperial-capital-vijayanagara",
+      "chapter": "An Imperial Capital — Vijayanagara",
+      "unit": "Themes in Indian History Part II",
+      "kind": "list",
+      "front": "Name the five landmarks, with years, in the discovery and conservation of Vijayanagara.",
+      "back": "1800 Colin Mackenzie visits Vijayanagara\n1856 Alexander Greenlaw takes the first detailed photographs of archaeological remains at Hampi\n1876 J.F. Fleet begins documenting the inscriptions on the temple walls at the site\n1902 Conservation begins under John Marshall\n1986 Hampi declared a World Heritage site by UNESCO",
+      "quote": "1800 Colin Mackenzie visits Vijayanagara 1856 Alexander Greenlaw takes the first detailed photographs of archaeological remains at Hampi 1876 J.F. Fleet begins documenting the inscriptions on the temple walls at the site 1902 Conservation begins under John Marshall 1986 Hampi declared a World Heritage site by UNESCO",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs203",
+        "chapterNo": 7,
+        "page": 193,
+        "section": "Timeline 2"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "timeline",
+        "conservation"
+      ],
+      "order": 1030
     },
     {
       "id": "kc.history.bhakti-sufi-traditions.fact-fluid-traditions",
@@ -2755,6 +2892,34 @@
         "tantric"
       ],
       "order": 100
+    },
+    {
+      "id": "kc.history.bhakti-sufi-traditions.fact-vedic-deities-marginal",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bhakti-sufi-traditions",
+      "chapter": "Bhakti-Sufi Traditions",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "Which three principal deities of the Vedic pantheon does NCERT name as becoming marginal figures in Puranic traditions?",
+      "back": "The principal deities of the Vedic pantheon, Agni, Indra and Soma, become marginal figures, rarely visible in textual or visual representations.",
+      "quote": "The principal deities of the Vedic pantheon, Agni, Indra and Soma, become marginal figures, rarely visible in textual or visual representations.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs202",
+        "chapterNo": 6,
+        "page": 142,
+        "section": "Difference and conflict"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "vedic",
+        "puranic"
+      ],
+      "order": 110
     },
     {
       "id": "kc.history.bhakti-sufi-traditions.fact-vedas-authoritative",
@@ -3721,6 +3886,33 @@
       "order": 460
     },
     {
+      "id": "kc.history.bhakti-sufi-traditions.list-two-developments",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.bhakti-sufi-traditions",
+      "chapter": "Bhakti-Sufi Traditions",
+      "unit": "Themes in Indian History Part II",
+      "kind": "list",
+      "front": "What two major developments does NCERT list under 'New religious developments', after the twelfth-century Virashaiva movement?",
+      "back": "many ideas of the Tamil bhaktas (especially the Vaishnavas) were incorporated within the Sanskritic tradition, culminating in the composition of one of the best-known Puranas, the Bhagavata Purana\nthe development of traditions of bhakti in Maharashtra in the thirteenth century",
+      "quote": "This period also witnessed two major developments. On the one hand, many ideas of the Tamil bhaktas (especially the Vaishnavas) were incorporated within the Sanskritic tradition, culminating in the composition of one of the best-known Puranas, the Bhagavata Purana. Second, we find the development of traditions of bhakti in Maharashtra in the thirteenth century.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs202",
+        "chapterNo": 6,
+        "page": 147,
+        "section": "New religious developments"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "bhakti"
+      ],
+      "order": 470
+    },
+    {
       "id": "kc.history.bhakti-sufi-traditions.fact-north-india-fourteenth-century",
       "v": 1,
       "subject": "history",
@@ -3800,6 +3992,60 @@
         "north india"
       ],
       "order": 500
+    },
+    {
+      "id": "kc.history.bhakti-sufi-traditions.fact-naths-artisans",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bhakti-sufi-traditions",
+      "chapter": "Bhakti-Sufi Traditions",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "Which artisanal group does NCERT name among those from which many Naths, Jogis and Siddhas came?",
+      "back": "These included the Naths, Jogis and Siddhas. Many of them came from artisanal groups, including weavers, who were becoming increasingly important with the development of organised craft production.",
+      "quote": "These included the Naths, Jogis and Siddhas. Many of them came from artisanal groups, including weavers, who were becoming increasingly important with the development of organised craft production.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs202",
+        "chapterNo": 6,
+        "page": 148,
+        "section": "Religious Ferment in North India"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "north india"
+      ],
+      "order": 510
+    },
+    {
+      "id": "kc.history.bhakti-sufi-traditions.fact-leaders-questioned-vedas",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bhakti-sufi-traditions",
+      "chapter": "Bhakti-Sufi Traditions",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "Which scriptures' authority did many of the Naths, Jogis and Siddhas question, speaking in the languages of ordinary people?",
+      "back": "Many of these new religious leaders questioned the authority of the Vedas, and expressed themselves in languages spoken by ordinary people",
+      "quote": "Many of these new religious leaders questioned the authority of the Vedas, and expressed themselves in languages spoken by ordinary people",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs202",
+        "chapterNo": 6,
+        "page": 148,
+        "section": "Religious Ferment in North India"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "north india"
+      ],
+      "order": 520
     },
     {
       "id": "kc.history.bhakti-sufi-traditions.fact-coming-of-turks",
@@ -4074,6 +4320,33 @@
         "islam"
       ],
       "order": 620
+    },
+    {
+      "id": "kc.history.bhakti-sufi-traditions.fact-rulers-land-tax-grants",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bhakti-sufi-traditions",
+      "chapter": "Bhakti-Sufi Traditions",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "Which two kinds of grants did several rulers make to Hindu, Jaina, Zoroastrian, Christian and Jewish religious institutions?",
+      "back": "In effect, rulers often adopted a fairly flexible policy towards their subjects. For instance, several rulers gave land endowments and granted tax exemptions to Hindu, Jaina, Zoroastrian, Christian and Jewish religious institutions",
+      "quote": "In effect, rulers often adopted a fairly flexible policy towards their subjects. For instance, several rulers gave land endowments and granted tax exemptions to Hindu, Jaina, Zoroastrian, Christian and Jewish religious institutions",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs202",
+        "chapterNo": 6,
+        "page": 149,
+        "section": "Faiths of rulers and subjects"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "islam"
+      ],
+      "order": 630
     },
     {
       "id": "kc.history.bhakti-sufi-traditions.fact-akbar-khambat-church",
@@ -5029,6 +5302,141 @@
       "order": 980
     },
     {
+      "id": "kc.history.bhakti-sufi-traditions.fact-chishti-muinuddin-sijzi",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bhakti-sufi-traditions",
+      "chapter": "Bhakti-Sufi Traditions",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "Chishti silsila: in which year did Shaikh Muinuddin Sijzi die, and where is his dargah?",
+      "back": "Shaikh Muinuddin Sijzi 1235 Ajmer (Rajasthan)",
+      "quote": "Shaikh Muinuddin Sijzi 1235 Ajmer (Rajasthan)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs202",
+        "chapterNo": 6,
+        "page": 154,
+        "section": "Major teachers of the Chishti silsila"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "chishti"
+      ],
+      "order": 982
+    },
+    {
+      "id": "kc.history.bhakti-sufi-traditions.fact-chishti-bakhtiyar-kaki",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bhakti-sufi-traditions",
+      "chapter": "Bhakti-Sufi Traditions",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "Chishti silsila: in which year did Khwaja Qutbuddin Bakhtiyar Kaki die, and where is his dargah?",
+      "back": "Khwaja Qutbuddin Bakhtiyar Kaki 1235 Delhi",
+      "quote": "Khwaja Qutbuddin Bakhtiyar Kaki 1235 Delhi",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs202",
+        "chapterNo": 6,
+        "page": 154,
+        "section": "Major teachers of the Chishti silsila"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "chishti"
+      ],
+      "order": 984
+    },
+    {
+      "id": "kc.history.bhakti-sufi-traditions.fact-chishti-fariduddin-ganj-i-shakar",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bhakti-sufi-traditions",
+      "chapter": "Bhakti-Sufi Traditions",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "Chishti silsila: in which year did Shaikh Fariduddin Ganj-i Shakar die, and where is his dargah?",
+      "back": "Shaikh Fariduddin Ganj-i Shakar 1265 Ajodhan (Pakistan)",
+      "quote": "Shaikh Fariduddin Ganj-i Shakar 1265 Ajodhan (Pakistan)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs202",
+        "chapterNo": 6,
+        "page": 154,
+        "section": "Major teachers of the Chishti silsila"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "chishti"
+      ],
+      "order": 986
+    },
+    {
+      "id": "kc.history.bhakti-sufi-traditions.fact-chishti-nizamuddin-auliya",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bhakti-sufi-traditions",
+      "chapter": "Bhakti-Sufi Traditions",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "Chishti silsila: in which year did Shaikh Nizamuddin Auliya die, and where is his dargah?",
+      "back": "Shaikh Nizamuddin Auliya 1325 Delhi",
+      "quote": "Shaikh Nizamuddin Auliya 1325 Delhi",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs202",
+        "chapterNo": 6,
+        "page": 154,
+        "section": "Major teachers of the Chishti silsila"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "chishti"
+      ],
+      "order": 988
+    },
+    {
+      "id": "kc.history.bhakti-sufi-traditions.fact-chishti-chiragh-i-dehli",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bhakti-sufi-traditions",
+      "chapter": "Bhakti-Sufi Traditions",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "Chishti silsila: in which year did Shaikh Nasiruddin Chiragh-i Dehli die, and where is his dargah?",
+      "back": "Shaikh Nasiruddin Chiragh-i Dehli 1356 Delhi",
+      "quote": "Shaikh Nasiruddin Chiragh-i Dehli 1356 Delhi",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs202",
+        "chapterNo": 6,
+        "page": 154,
+        "section": "Major teachers of the Chishti silsila"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "chishti"
+      ],
+      "order": 990
+    },
+    {
       "id": "kc.history.bhakti-sufi-traditions.def-langar-futuh",
       "v": 1,
       "subject": "history",
@@ -5330,6 +5738,33 @@
         "chishti"
       ],
       "order": 1130
+    },
+    {
+      "id": "kc.history.bhakti-sufi-traditions.fact-sama-integral-chishtis",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bhakti-sufi-traditions",
+      "chapter": "Bhakti-Sufi Traditions",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "Which sufi practice, literally \"audition\", was integral to the Chishtis and showed interaction with indigenous devotional traditions?",
+      "back": "The sufis remember God either by reciting the zikr (the Divine Names) or evoking His Presence through sama‘ (literally, “audition”) or performance of mystical music. Sama‘ was integral to the Chishtis, and exemplified interaction with indigenous devotional traditions.",
+      "quote": "The sufis remember God either by reciting the zikr (the Divine Names) or evoking His Presence through sama‘ (literally, “audition”) or performance of mystical music. Sama‘ was integral to the Chishtis, and exemplified interaction with indigenous devotional traditions.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs202",
+        "chapterNo": 6,
+        "page": 157,
+        "section": "Chishti devotionalism: ziyarat and qawwali"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "chishti"
+      ],
+      "order": 1140
     },
     {
       "id": "kc.history.bhakti-sufi-traditions.fact-qawwals",
@@ -6313,6 +6748,33 @@
       "order": 1510
     },
     {
+      "id": "kc.history.bhakti-sufi-traditions.fact-guru-gobind-singh-military-force",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bhakti-sufi-traditions",
+      "chapter": "Bhakti-Sufi Traditions",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "What kind of force did the Sikh community become consolidated as under Guru Gobind Singh, founder of the Khalsa Panth?",
+      "back": "Guru Gobind Singh also laid the foundation of the Khalsa Panth (army of the pure) and defined its five symbols: uncut hair, a dagger, a pair of shorts, a comb and a steel bangle. Under him the community got consolidated as a socio-religious and military force.",
+      "quote": "Guru Gobind Singh also laid the foundation of the Khalsa Panth (army of the pure) and defined its five symbols: uncut hair, a dagger, a pair of shorts, a comb and a steel bangle. Under him the community got consolidated as a socio-religious and military force.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs202",
+        "chapterNo": 6,
+        "page": 164,
+        "section": "Baba Guru Nanak and the Sacred Word"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "guru nanak"
+      ],
+      "order": 1520
+    },
+    {
       "id": "kc.history.bhakti-sufi-traditions.fact-mirabai-best-known",
       "v": 1,
       "subject": "history",
@@ -7073,6 +7535,33 @@
       "order": 140
     },
     {
+      "id": "kc.history.bricks-beads-and-bones.list-animal-bones",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.bricks-beads-and-bones",
+      "chapter": "Bricks, Beads & Bones",
+      "unit": "Themes in Indian History Part I",
+      "kind": "list",
+      "front": "Name the five domesticated animals whose bones NCERT lists as found at Harappan sites.",
+      "back": "cattle\nsheep\ngoat\nbuffalo\npig",
+      "quote": "Animal bones found at Harappan sites include those of cattle, sheep, goat, buffalo and pig.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs101",
+        "chapterNo": 1,
+        "page": 3,
+        "section": "Subsistence Strategies"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "subsistence"
+      ],
+      "order": 150
+    },
+    {
       "id": "kc.history.bricks-beads-and-bones.def-archaeo-zoologists",
       "v": 1,
       "subject": "history",
@@ -7399,6 +7888,34 @@
       "order": 300
     },
     {
+      "id": "kc.history.bricks-beads-and-bones.fact-drainage-distinctive",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.bricks-beads-and-bones",
+      "chapter": "Bricks, Beads & Bones",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "In NCERT's section 'Laying out drains', what is called one of the most distinctive features of Harappan cities?",
+      "back": "One of the most distinctive features of Harappan cities was the carefully planned drainage system.",
+      "quote": "One of the most distinctive features of Harappan cities was the carefully planned drainage system.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs101",
+        "chapterNo": 1,
+        "page": 6,
+        "section": "Laying out drains"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "planning",
+        "drainage"
+      ],
+      "order": 310
+    },
+    {
       "id": "kc.history.bricks-beads-and-bones.fact-grid-pattern",
       "v": 1,
       "subject": "history",
@@ -7704,6 +8221,34 @@
       "order": 430
     },
     {
+      "id": "kc.history.bricks-beads-and-bones.fact-citadel-warehouse-great-bath",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bricks-beads-and-bones",
+      "chapter": "Bricks, Beads & Bones",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "On Mohenjodaro's Citadel, which two structures does NCERT name as probably used for special public purposes?",
+      "back": "It is on the Citadel that we find evidence of structures that were probably used for special public purposes. These include the warehouse – a massive structure of which the lower brick portions remain, while the upper portions, probably of wood, decayed long ago – and the Great Bath.",
+      "quote": "It is on the Citadel that we find evidence of structures that were probably used for special public purposes. These include the warehouse – a massive structure of which the lower brick portions remain, while the upper portions, probably of wood, decayed long ago – and the Great Bath.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs101",
+        "chapterNo": 1,
+        "page": 8,
+        "section": "The Citadel"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "mohenjodaro",
+        "citadels"
+      ],
+      "order": 440
+    },
+    {
       "id": "kc.history.bricks-beads-and-bones.def-great-bath",
       "v": 1,
       "subject": "history",
@@ -8005,6 +8550,36 @@
       "order": 580
     },
     {
+      "id": "kc.history.bricks-beads-and-bones.kl-steatite-soft",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.bricks-beads-and-bones",
+      "chapter": "Bricks, Beads & Bones",
+      "unit": "Themes in Indian History Part I",
+      "kind": "key_line",
+      "front": "Steatite, a very ____ stone, was easily worked.",
+      "back": "Steatite, a very soft stone, was easily worked.",
+      "quote": "Steatite, a very soft stone, was easily worked.",
+      "blanks": [
+        "soft"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs101",
+        "chapterNo": 1,
+        "page": 11,
+        "section": "Finding Out About Craft Production"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "craft",
+        "beads"
+      ],
+      "order": 590
+    },
+    {
       "id": "kc.history.bricks-beads-and-bones.fact-carnelian-firing",
       "v": 1,
       "subject": "history",
@@ -8142,6 +8717,33 @@
       "order": 640
     },
     {
+      "id": "kc.history.bricks-beads-and-bones.fact-waste-best-indicator",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.bricks-beads-and-bones",
+      "chapter": "Bricks, Beads & Bones",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "Archaeologists look for raw material, tools, unfinished objects, rejects, waste. Which is 'one of the best indicators' of craft work?",
+      "back": "In fact, waste is one of the best indicators of craft work.",
+      "quote": "In fact, waste is one of the best indicators of craft work.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs101",
+        "chapterNo": 1,
+        "page": 11,
+        "section": "Identifying centres of production"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "craft"
+      ],
+      "order": 650
+    },
+    {
       "id": "kc.history.bricks-beads-and-bones.fact-bullock-carts",
       "v": 1,
       "subject": "history",
@@ -8167,6 +8769,33 @@
         "trade"
       ],
       "order": 670
+    },
+    {
+      "id": "kc.history.bricks-beads-and-bones.fact-river-coastal-routes",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.bricks-beads-and-bones",
+      "chapter": "Bricks, Beads & Bones",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "Terracotta models suggest bullock carts carried goods over land. Which other routes were probably used?",
+      "back": "Riverine routes along the Indus and its tributaries, as well as coastal routes were also probably used.",
+      "quote": "Terracotta toy models of bullock carts suggest that this was one important means of transporting goods and people across land routes. Riverine routes along the Indus and its tributaries, as well as coastal routes were also probably used.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs101",
+        "chapterNo": 1,
+        "page": 12,
+        "section": "Strategies for Procuring Materials"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "trade"
+      ],
+      "order": 680
     },
     {
       "id": "kc.history.bricks-beads-and-bones.fact-nageshwar-balakot-shell",
@@ -8248,6 +8877,34 @@
         "trade"
       ],
       "order": 710
+    },
+    {
+      "id": "kc.history.bricks-beads-and-bones.fact-oman-copper",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.bricks-beads-and-bones",
+      "chapter": "Bricks, Beads & Bones",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "Beyond Rajasthan's Khetri region, from where outside the subcontinent was copper also probably brought to the Harappan region?",
+      "back": "Recent archaeological finds suggest that copper was also probably brought from Oman, on the southeastern tip of the Arabian peninsula.",
+      "quote": "Recent archaeological finds suggest that copper was also probably brought from Oman, on the southeastern tip of the Arabian peninsula.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs101",
+        "chapterNo": 1,
+        "page": 13,
+        "section": "Contact with distant lands"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "trade",
+        "oman"
+      ],
+      "order": 730
     },
     {
       "id": "kc.history.bricks-beads-and-bones.fact-nickel-common-origin",
@@ -8691,6 +9348,34 @@
       "order": 910
     },
     {
+      "id": "kc.history.bricks-beads-and-bones.types-views-on-rulers",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.bricks-beads-and-bones",
+      "chapter": "Bricks, Beads & Bones",
+      "unit": "Themes in Indian History Part I",
+      "kind": "types",
+      "front": "What three views do archaeologists hold on who ruled Harappan society, according to NCERT?",
+      "back": "Some archaeologists are of the opinion that Harappan society had no rulers, and that everybody enjoyed equal status.\nOthers feel there was no single ruler but several, that Mohenjodaro had a separate ruler, Harappa another, and so forth.\nYet others argue that there was a single state, given the similarity in artefacts, the evidence for planned settlements, the standardised ratio of brick size, and the establishment of settlements near sources of raw material.",
+      "quote": "Some archaeologists are of the opinion that Harappan society had no rulers, and that everybody enjoyed equal status. Others feel there was no single ruler but several, that Mohenjodaro had a separate ruler, Harappa another, and so forth. Yet others argue that there was a single state, given the similarity in artefacts, the evidence for planned settlements, the standardised ratio of brick size, and the establishment of settlements near sources of raw material.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs101",
+        "chapterNo": 1,
+        "page": 16,
+        "section": "Palaces and kings"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "authority"
+      ],
+      "order": 920,
+      "note": "A third view in NCERT: a single state, given the similarity in artefacts and planned settlements."
+    },
+    {
       "id": "kc.history.bricks-beads-and-bones.kl-abandoned-1800",
       "v": 1,
       "subject": "history",
@@ -8934,6 +9619,34 @@
         "invasion"
       ],
       "order": 1010
+    },
+    {
+      "id": "kc.history.bricks-beads-and-bones.fact-rakhigarhi-biggest",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.bricks-beads-and-bones",
+      "chapter": "Bricks, Beads & Bones",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "Which is the biggest Harappan city, and where is it located?",
+      "back": "the recent archaeogenetic research carried out at the site of Rakhigarhi. The site, located in Hisar district of Haryana, is the biggest Harappan city, spread over an area of 550 Hectare.",
+      "quote": "In this respect, it is necessary to mention the recent archaeogenetic research carried out at the site of Rakhigarhi. The site, located in Hisar district of Haryana, is the biggest Harappan city, spread over an area of 550 Hectare.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs101",
+        "chapterNo": 1,
+        "page": 18,
+        "section": "Source 3: Evidence of an \"invasion\""
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "rakhigarhi",
+        "settlements"
+      ],
+      "order": 1020
     },
     {
       "id": "kc.history.bricks-beads-and-bones.fact-rakhigarhi-indigenous",
@@ -10301,6 +11014,33 @@
       "note": "A zamindar was a revenue collector for the state, not the owner of the village land."
     },
     {
+      "id": "kc.history.colonialism-and-the-countryside.fact-zamindar-income",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.colonialism-and-the-countryside",
+      "chapter": "Colonialism & the Countryside",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "Under the Permanent Settlement, how did a zamindar earn his income?",
+      "back": "The zamindar collected rent from the different villages, paid the revenue to the Company, and retained the difference as his income.",
+      "quote": "The zamindar collected rent from the different villages, paid the revenue to the Company, and retained the difference as his income.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs301",
+        "chapterNo": 9,
+        "page": 229,
+        "section": "The problem of unpaid revenue"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "zamindar"
+      ],
+      "order": 110
+    },
+    {
       "id": "kc.history.colonialism-and-the-countryside.fact-default-first-reason",
       "v": 1,
       "subject": "history",
@@ -10326,6 +11066,33 @@
         "default"
       ],
       "order": 120
+    },
+    {
+      "id": "kc.history.colonialism-and-the-countryside.list-default-reasons-two-to-four",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.colonialism-and-the-countryside",
+      "chapter": "Colonialism & the Countryside",
+      "unit": "Themes in Indian History Part III",
+      "kind": "list",
+      "front": "Besides the very high initial demand, name the three other reasons zamindars defaulted on revenue payments.",
+      "back": "this high demand was imposed in the 1790s, a time when the prices of agricultural produce were depressed, making it difficult for the ryots to pay their dues to the zamindar\nthe revenue was invariable, regardless of the harvest, and had to be paid punctually\nthe Permanent Settlement initially limited the power of the zamindar to collect rent from the ryot and manage his zamindari",
+      "quote": "Second: this high demand was imposed in the 1790s, a time when the prices of agricultural produce were depressed, making it difficult for the ryots to pay their dues to the zamindar. If the zamindar could not collect the rent, how could he pay the Company? Third: the revenue was invariable, regardless of the harvest, and had to be paid punctually. In fact, according to the Sunset Law, if payment did not come in by sunset of the specified date, the zamindari was liable to be auctioned. Fourth: the Permanent Settlement initially limited the power of the zamindar to collect rent from the ryot and manage his zamindari.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs301",
+        "chapterNo": 9,
+        "page": 230,
+        "section": "Why zamindars defaulted on payments"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "default"
+      ],
+      "order": 130
     },
     {
       "id": "kc.history.colonialism-and-the-countryside.def-sunset-law",
@@ -10492,6 +11259,33 @@
         "jotedar"
       ],
       "order": 200
+    },
+    {
+      "id": "kc.history.colonialism-and-the-countryside.fact-jotedars-village-power",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.colonialism-and-the-countryside",
+      "chapter": "Colonialism & the Countryside",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "Why was the power of jotedars within the villages more effective than that of zamindars?",
+      "back": "Unlike zamindars who often lived in urban areas, jotedars were located in the villages and exercised direct control over a considerable section of poor villagers.",
+      "quote": "Within the villages, the power of jotedars was more effective than that of zamindars. Unlike zamindars who often lived in urban areas, jotedars were located in the villages and exercised direct control over a considerable section of poor villagers.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs301",
+        "chapterNo": 9,
+        "page": 231,
+        "section": "The rise of the jotedars"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "jotedar"
+      ],
+      "order": 210
     },
     {
       "id": "kc.history.colonialism-and-the-countryside.list-jotedar-resistance",
@@ -10905,6 +11699,33 @@
       "order": 370
     },
     {
+      "id": "kc.history.colonialism-and-the-countryside.fact-parliament-acts-purpose",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.colonialism-and-the-countryside",
+      "chapter": "Colonialism & the Countryside",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "Why did the British Parliament pass a series of Acts on India in the late eighteenth century?",
+      "back": "The British Parliament passed a series of Acts in the late eighteenth century to regulate and control Company rule in India.",
+      "quote": "The British Parliament passed a series of Acts in the late eighteenth century to regulate and control Company rule in India.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs301",
+        "chapterNo": 9,
+        "page": 234,
+        "section": "The Fifth Report"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "fifth-report"
+      ],
+      "order": 390
+    },
+    {
       "id": "kc.history.colonialism-and-the-countryside.fact-fifth-report-select-committee",
       "v": 1,
       "subject": "history",
@@ -11121,6 +11942,33 @@
         "paharia"
       ],
       "order": 500
+    },
+    {
+      "id": "kc.history.colonialism-and-the-countryside.fact-paharia-chiefs-role",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.colonialism-and-the-countryside",
+      "chapter": "Colonialism & the Countryside",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "What role did the chiefs of the Paharias play for their group?",
+      "back": "Their chiefs maintained the unity of the group, settled disputes, and led the tribe in battles with other tribes and plainspeople.",
+      "quote": "Their chiefs maintained the unity of the group, settled disputes, and led the tribe in battles with other tribes and plainspeople.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs301",
+        "chapterNo": 9,
+        "page": 238,
+        "section": "In the hills of Rajmahal"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "paharia"
+      ],
+      "order": 510
     },
     {
       "id": "kc.history.colonialism-and-the-countryside.list-paharia-raids-reasons",
@@ -11765,6 +12613,33 @@
       "order": 790
     },
     {
+      "id": "kc.history.colonialism-and-the-countryside.fact-buchanan-forests-view",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.colonialism-and-the-countryside",
+      "chapter": "Colonialism & the Countryside",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "Being critical of the lifestyles of forest dwellers, what did Buchanan feel had to be done to forests?",
+      "back": "He was inevitably critical of the lifestyles of forest dwellers and felt that forests had to be turned into agricultural lands.",
+      "quote": "He was inevitably critical of the lifestyles of forest dwellers and felt that forests had to be turned into agricultural lands.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs301",
+        "chapterNo": 9,
+        "page": 244,
+        "section": "The accounts of Buchanan"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "buchanan"
+      ],
+      "order": 800
+    },
+    {
       "id": "kc.history.colonialism-and-the-countryside.fact-supa-start",
       "v": 1,
       "subject": "history",
@@ -11901,6 +12776,35 @@
         "glossary"
       ],
       "order": 860
+    },
+    {
+      "id": "kc.history.colonialism-and-the-countryside.key-ps-rarely-extended",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.colonialism-and-the-countryside",
+      "chapter": "Colonialism & the Countryside",
+      "unit": "Themes in Indian History Part III",
+      "kind": "key_line",
+      "front": "The Permanent Settlement was rarely extended to any region beyond ____.",
+      "back": "The Permanent Settlement was rarely extended to any region beyond Bengal.",
+      "quote": "The Permanent Settlement was rarely extended to any region beyond Bengal.",
+      "blanks": [
+        "Bengal"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs301",
+        "chapterNo": 9,
+        "page": 247,
+        "section": "A new revenue system"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "permanent-settlement"
+      ],
+      "order": 870
     },
     {
       "id": "kc.history.colonialism-and-the-countryside.fact-ps-not-extended-first-reason",
@@ -12407,6 +13311,90 @@
       "order": 1060
     },
     {
+      "id": "kc.history.colonialism-and-the-countryside.fact-cotton-expansion-debt",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.colonialism-and-the-countryside",
+      "chapter": "Colonialism & the Countryside",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "What did cotton expansion mean for the large majority of cotton producers in the Bombay Deccan?",
+      "back": "But these boom years did not bring prosperity to all cotton producers. Some rich peasants did gain, but for the large majority, cotton expansion meant heavier debt.",
+      "quote": "But these boom years did not bring prosperity to all cotton producers. Some rich peasants did gain, but for the large majority, cotton expansion meant heavier debt.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs301",
+        "chapterNo": 9,
+        "page": 251,
+        "section": "Then came the cotton boom"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "cotton",
+        "debt"
+      ],
+      "order": 1070
+    },
+    {
+      "id": "kc.history.colonialism-and-the-countryside.fact-cotton-exports-civil-war-end",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.colonialism-and-the-countryside",
+      "chapter": "Colonialism & the Countryside",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "What happened to Indian cotton exports to Britain as the American Civil War ended?",
+      "back": "As the Civil War ended, cotton production in America revived and Indian cotton exports to Britain steadily declined.",
+      "quote": "As the Civil War ended, cotton production in America revived and Indian cotton exports to Britain steadily declined.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs301",
+        "chapterNo": 9,
+        "page": 252,
+        "section": "Credit dries up"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "cotton",
+        "credit"
+      ],
+      "order": 1080
+    },
+    {
+      "id": "kc.history.colonialism-and-the-countryside.fact-new-settlement-demand-rise",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.colonialism-and-the-countryside",
+      "chapter": "Colonialism & the Countryside",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "After the first Bombay Deccan revenue settlement, by how much did the new settlement raise the demand?",
+      "back": "Now it was time for the next. And in the new settlement, the demand was increased dramatically: from 50 to 100 per cent.",
+      "quote": "Now it was time for the next. And in the new settlement, the demand was increased dramatically: from 50 to 100 per cent.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs301",
+        "chapterNo": 9,
+        "page": 252,
+        "section": "Credit dries up"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "revenue-settlement",
+        "credit"
+      ],
+      "order": 1090
+    },
+    {
       "id": "kc.history.colonialism-and-the-countryside.fact-interest-norm",
       "v": 1,
       "subject": "history",
@@ -12572,6 +13560,60 @@
       "order": 1160
     },
     {
+      "id": "kc.history.colonialism-and-the-countryside.fact-british-written-transactions",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.colonialism-and-the-countryside",
+      "chapter": "Colonialism & the Countryside",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "What did the British believe about how the terms of transactions had to be stated?",
+      "back": "The British, however, were suspicious of transactions based on informal understanding, as was common in the past. The terms of transactions, they believed, had to be clearly, unambiguously and categorically stated in contracts, deeds and bonds, and regulated by law.",
+      "quote": "The British, however, were suspicious of transactions based on informal understanding, as was common in the past. The terms of transactions, they believed, had to be clearly, unambiguously and categorically stated in contracts, deeds and bonds, and regulated by law.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs301",
+        "chapterNo": 9,
+        "page": 254,
+        "section": "The experience of injustice"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "deed"
+      ],
+      "order": 1170
+    },
+    {
+      "id": "kc.history.colonialism-and-the-countryside.fact-misery-bonds-and-deeds",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.colonialism-and-the-countryside",
+      "chapter": "Colonialism & the Countryside",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "Over time, what did Deccan peasants come to associate the misery of their lives with?",
+      "back": "Over time, peasants came to associate the misery of their lives with the new regime of bonds and deeds.",
+      "quote": "Over time, peasants came to associate the misery of their lives with the new regime of bonds and deeds.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs301",
+        "chapterNo": 9,
+        "page": 254,
+        "section": "The experience of injustice"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "deed"
+      ],
+      "order": 1190
+    },
+    {
       "id": "kc.history.colonialism-and-the-countryside.fact-deccan-commission-1878",
       "v": 1,
       "subject": "history",
@@ -12624,6 +13666,34 @@
         "deccan-riots-commission"
       ],
       "order": 1220
+    },
+    {
+      "id": "kc.history.colonialism-and-the-countryside.fact-persistent-reluctance",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.colonialism-and-the-countryside",
+      "chapter": "Colonialism & the Countryside",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "What persistent reluctance of the colonial government did the “blame the moneylenders” argument show?",
+      "back": "This shows that there was a persistent reluctance on the part of the colonial government to admit that popular discontent was ever on account of government action.",
+      "quote": "It was the moneylenders who were to blame. This argument is found very frequently in colonial records. This shows that there was a persistent reluctance on the part of the colonial government to admit that popular discontent was ever on account of government action.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs301",
+        "chapterNo": 9,
+        "page": 255,
+        "section": "The Deccan Riots Commission"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "sources",
+        "deccan-riots-commission"
+      ],
+      "order": 1230
     },
     {
       "id": "kc.history.colonialism-and-the-countryside.fact-use-official-reports",
@@ -12761,6 +13831,33 @@
       "order": 1280
     },
     {
+      "id": "kc.history.colonialism-and-the-countryside.fact-timeline-agri-prices-fall",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.colonialism-and-the-countryside",
+      "chapter": "Colonialism & the Countryside",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "According to the chapter timeline, in which decade did agricultural prices begin to fall?",
+      "back": "1820s Agricultural prices begin to fall",
+      "quote": "1820s Agricultural prices begin to fall",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs301",
+        "chapterNo": 9,
+        "page": 256,
+        "section": "Timeline"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "timeline"
+      ],
+      "order": 1300
+    },
+    {
       "id": "kc.history.colonialism-and-the-countryside.fact-timeline-1840s-50s",
       "v": 1,
       "subject": "history",
@@ -12786,6 +13883,33 @@
         "timeline"
       ],
       "order": 1310
+    },
+    {
+      "id": "kc.history.colonialism-and-the-countryside.fact-timeline-cotton-boom",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.colonialism-and-the-countryside",
+      "chapter": "Colonialism & the Countryside",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "According to the chapter timeline, in which year did the cotton boom begin?",
+      "back": "1861 Cotton boom begins",
+      "quote": "1861 Cotton boom begins",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs301",
+        "chapterNo": 9,
+        "page": 256,
+        "section": "Timeline"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "timeline"
+      ],
+      "order": 1330
     },
     {
       "id": "kc.history.colonialism-and-the-countryside.fact-timeline-1875",
@@ -13124,6 +14248,33 @@
       "note": "Nehru’s speech in the Constituent Assembly at midnight on 14 August 1947 (Fig. 12.3)."
     },
     {
+      "id": "kc.history.framing-the-constitution.fact-not-universal-franchise",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.framing-the-constitution",
+      "chapter": "Framing the Constitution",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "Was the Constituent Assembly elected on the basis of universal franchise?",
+      "back": "The members of the Constituent Assembly were not elected on the basis of universal franchise.",
+      "quote": "The members of the Constituent Assembly were not elected on the basis of universal franchise.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs304",
+        "chapterNo": 12,
+        "page": 318,
+        "section": "1.1 The making of the Constituent Assembly"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "assembly"
+      ],
+      "order": 120
+    },
+    {
       "id": "kc.history.framing-the-constitution.fact-how-chosen",
       "v": 1,
       "subject": "history",
@@ -13314,6 +14465,33 @@
         "congress"
       ],
       "order": 190
+    },
+    {
+      "id": "kc.history.framing-the-constitution.fact-congress-differed",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.framing-the-constitution",
+      "chapter": "Framing the Constitution",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "What two differences of opinion divided Congress members in the Constituent Assembly?",
+      "back": "Some members were inspired by socialism while others were defenders of landlordism. Some were close to communal parties while others were assertively secular.",
+      "quote": "Some members were inspired by socialism while others were defenders of landlordism. Some were close to communal parties while others were assertively secular.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs304",
+        "chapterNo": 12,
+        "page": 319,
+        "section": "1.1 The making of the Constituent Assembly"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "congress"
+      ],
+      "order": 200
     },
     {
       "id": "kc.history.framing-the-constitution.fact-public-opinion",
@@ -15075,6 +16253,34 @@
         "nagappa"
       ],
       "order": 860
+    },
+    {
+      "id": "kc.history.framing-the-constitution.quote-velayudhan-moral-safeguard",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.framing-the-constitution",
+      "chapter": "Framing the Constitution",
+      "unit": "Themes in Indian History Part III",
+      "kind": "quote",
+      "front": "Who said: 'What we want is not all kinds of safeguards. It is the moral safeguard which gives protection to the underdogs'?",
+      "back": "Dakshayani Velayudhan from Madras, argued: What we want is not all kinds of safeguards. It is the moral safeguard which gives protection to the underdogs of this country",
+      "quote": "Dakshayani Velayudhan from Madras, argued: What we want is not all kinds of safeguards. It is the moral safeguard which gives protection to the underdogs of this country",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs304",
+        "chapterNo": 12,
+        "page": 333,
+        "section": "3.3 “We were suppressed for thousands of years”"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "dakshayani-velayudhan"
+      ],
+      "order": 870,
+      "note": "Dakshayani Velayudhan of Madras, in the Constituent Assembly."
     },
     {
       "id": "kc.history.framing-the-constitution.fact-ambedkar-no-separate-after-partition",
@@ -17035,6 +18241,34 @@
       "order": 100
     },
     {
+      "id": "kc.history.kings-farmers-and-towns.fact-vajji-collective-land",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.kings-farmers-and-towns",
+      "chapter": "Kings, Farmers & Towns",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "Which sangha is NCERT's example of rajas who probably controlled resources such as land collectively?",
+      "back": "In some instances, as in the case of the Vajji sangha, the rajas probably controlled resources such as land collectively.",
+      "quote": "In some instances, as in the case of the Vajji sangha, the rajas probably controlled resources such as land collectively.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs102",
+        "chapterNo": 2,
+        "page": 29,
+        "section": "The Earliest States"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "vajji",
+        "sangha"
+      ],
+      "order": 110
+    },
+    {
       "id": "kc.history.kings-farmers-and-towns.def-inscriptions",
       "v": 1,
       "subject": "history",
@@ -18102,6 +19336,34 @@
       "order": 540
     },
     {
+      "id": "kc.history.kings-farmers-and-towns.fact-satavahanas-shakas-trade-revenue",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.kings-farmers-and-towns",
+      "chapter": "Kings, Farmers & Towns",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "Which two ruling groups does NCERT name among the chiefs and kings who derived revenues from long-distance trade?",
+      "back": "Many chiefs and kings, including the Satavahanas who ruled over parts of western and central India (c. second century BCE-second century CE) and the Shakas, a people of Central Asian origin who established kingdoms in the north-western and western parts of the subcontinent, derived revenues from long-distance trade.",
+      "quote": "Many chiefs and kings, including the Satavahanas who ruled over parts of western and central India (c. second century BCE-second century CE) and the Shakas, a people of Central Asian origin who established kingdoms in the north-western and western parts of the subcontinent, derived revenues from long-distance trade.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs102",
+        "chapterNo": 2,
+        "page": 35,
+        "section": "New Notions of Kingship"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "satavahanas",
+        "trade"
+      ],
+      "order": 550
+    },
+    {
       "id": "kc.history.kings-farmers-and-towns.fact-shakas-who",
       "v": 1,
       "subject": "history",
@@ -18213,6 +19475,34 @@
       "order": 590
     },
     {
+      "id": "kc.history.kings-farmers-and-towns.fact-kushana-kingship-evidence",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.kings-farmers-and-towns",
+      "chapter": "Kings, Farmers & Towns",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "In what are the notions of kingship that the Kushanas wished to project perhaps best evidenced?",
+      "back": "The notions of kingship they wished to project are perhaps best evidenced in their coins and sculpture.",
+      "quote": "The notions of kingship they wished to project are perhaps best evidenced in their coins and sculpture.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs102",
+        "chapterNo": 2,
+        "page": 36,
+        "section": "Divine kings"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "kushanas",
+        "kingship"
+      ],
+      "order": 600
+    },
+    {
       "id": "kc.history.kings-farmers-and-towns.fact-kushana-statues-mat",
       "v": 1,
       "subject": "history",
@@ -18296,6 +19586,33 @@
         "samantas"
       ],
       "order": 630
+    },
+    {
+      "id": "kc.history.kings-farmers-and-towns.fact-samantas-become-kings",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.kings-farmers-and-towns",
+      "chapter": "Kings, Farmers & Towns",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "Which men, offering homage and military support to rulers in fourth-century states, could become kings if powerful?",
+      "back": "They offered homage and provided military support to rulers. Powerful samantas could become kings: conversely, weak rulers might find themselves being reduced to positions of subordination.",
+      "quote": "They offered homage and provided military support to rulers. Powerful samantas could become kings: conversely, weak rulers might find themselves being reduced to positions of subordination.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs102",
+        "chapterNo": 2,
+        "page": 36,
+        "section": "Divine kings"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "samantas"
+      ],
+      "order": 640
     },
     {
       "id": "kc.history.kings-farmers-and-towns.term-prashastis",
@@ -18858,6 +20175,33 @@
       "order": 840
     },
     {
+      "id": "kc.history.kings-farmers-and-towns.fact-gahapati-second-third",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.kings-farmers-and-towns",
+      "chapter": "Kings, Farmers & Towns",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "Buddhist stories name landless labourers, small peasants and large landholders. Which Pali term covers the second and third?",
+      "back": "landless agricultural labourers, small peasants, as well as large landholders. The term gahapati was often used in Pali texts to designate the second and third categories.",
+      "quote": "stories, especially within the Buddhist tradition, refer to landless agricultural labourers, small peasants, as well as large landholders. The term gahapati was often used in Pali texts to designate the second and third categories.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs102",
+        "chapterNo": 2,
+        "page": 39,
+        "section": "Differences in rural society"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "gahapati"
+      ],
+      "order": 850
+    },
+    {
       "id": "kc.history.kings-farmers-and-towns.def-gahapati",
       "v": 1,
       "subject": "history",
@@ -19327,6 +20671,35 @@
       "order": 1040
     },
     {
+      "id": "kc.history.kings-farmers-and-towns.fact-pataliputra-fifth-century-shift",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.kings-farmers-and-towns",
+      "chapter": "Kings, Farmers & Towns",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "NCERT's history of Pataliputra: in the fifth century BCE, Magadhan rulers shifted their capital to Pataligrama from where?",
+      "back": "Pataliputra, for instance, began as a village known as Pataligrama. Then, in the fifth century BCE, the Magadhan rulers decided to shift their capital from Rajagaha to this settlement and renamed it.",
+      "quote": "Pataliputra, for instance, began as a village known as Pataligrama. Then, in the fifth century BCE, the Magadhan rulers decided to shift their capital from Rajagaha to this settlement and renamed it.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs102",
+        "chapterNo": 2,
+        "page": 42,
+        "section": "The history of Pataliputra"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "pataliputra",
+        "rajagaha"
+      ],
+      "note": "NCERT p. 31 gives the fourth century BCE for the shift; both are quoted as printed.",
+      "order": 1050
+    },
+    {
       "id": "kc.history.kings-farmers-and-towns.fact-pataliputra-mauryan-capital",
       "v": 1,
       "subject": "history",
@@ -19631,6 +21004,33 @@
       "order": 1200
     },
     {
+      "id": "kc.history.kings-farmers-and-towns.fact-rulers-control-routes",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.kings-farmers-and-towns",
+      "chapter": "Kings, Farmers & Towns",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "How did rulers possibly try to control the land and river trade routes that criss-crossed the subcontinent from the sixth century BCE?",
+      "back": "Rulers often attempted to control these routes, possibly by offering protection for a price.",
+      "quote": "Rulers often attempted to control these routes, possibly by offering protection for a price.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs102",
+        "chapterNo": 2,
+        "page": 44,
+        "section": "Trade in the subcontinent and beyond"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "trade routes"
+      ],
+      "order": 1210
+    },
+    {
       "id": "kc.history.kings-farmers-and-towns.types-trade-route-travellers",
       "v": 1,
       "subject": "history",
@@ -19826,6 +21226,34 @@
       "order": 1280
     },
     {
+      "id": "kc.history.kings-farmers-and-towns.fact-gold-coins-indicate-value",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.kings-farmers-and-towns",
+      "chapter": "Kings, Farmers & Towns",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "What does the widespread use of gold coins in the subcontinent's trade indicate, according to NCERT?",
+      "back": "The widespread use of gold coins indicates the enormous value of the transactions that were taking place.",
+      "quote": "The widespread use of gold coins indicates the enormous value of the transactions that were taking place.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs102",
+        "chapterNo": 2,
+        "page": 45,
+        "section": "Coins and kings"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "coins",
+        "gold"
+      ],
+      "order": 1290
+    },
+    {
       "id": "kc.history.kings-farmers-and-towns.fact-roman-coins-south-india",
       "v": 1,
       "subject": "history",
@@ -19880,6 +21308,33 @@
         "gold coins"
       ],
       "order": 1320
+    },
+    {
+      "id": "kc.history.kings-farmers-and-towns.fact-gold-coins-taper-off-century",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.kings-farmers-and-towns",
+      "chapter": "Kings, Farmers & Towns",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "From roughly which century CE onwards do finds of gold coins taper off in the subcontinent?",
+      "back": "From c. sixth century CE onwards, finds of gold coins taper off.",
+      "quote": "From c. sixth century CE onwards, finds of gold coins taper off.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs102",
+        "chapterNo": 2,
+        "page": 45,
+        "section": "Coins and kings"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "gold coins"
+      ],
+      "order": 1330
     },
     {
       "id": "kc.history.kings-farmers-and-towns.fact-gold-coins-decline-rome",
@@ -20134,6 +21589,34 @@
       "order": 1420
     },
     {
+      "id": "kc.history.kings-farmers-and-towns.fact-assess-inscription-statements",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.kings-farmers-and-towns",
+      "chapter": "Kings, Farmers & Towns",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "Historians constantly assess statements in inscriptions to judge whether they are which three things?",
+      "back": "Historians have to constantly assess statements made in inscriptions to judge whether they are true, plausible or exaggerations.",
+      "quote": "Historians have to constantly assess statements made in inscriptions to judge whether they are true, plausible or exaggerations.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs102",
+        "chapterNo": 2,
+        "page": 47,
+        "section": "Historical evidence from inscriptions"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "inscriptions",
+        "historians"
+      ],
+      "order": 1430
+    },
+    {
       "id": "kc.history.kings-farmers-and-towns.term-pativedaka",
       "v": 1,
       "subject": "history",
@@ -20357,6 +21840,33 @@
         "limitations"
       ],
       "order": 1530
+    },
+    {
+      "id": "kc.history.kings-farmers-and-towns.steps-historians-interests-shift",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.kings-farmers-and-towns",
+      "chapter": "Kings, Farmers & Towns",
+      "unit": "Themes in Indian History Part I",
+      "kind": "steps",
+      "front": "How have historians' main interests shifted from the late nineteenth century to recent decades, in order?",
+      "back": "Scholars in the late nineteenth and early twentieth centuries were primarily interested in the histories of kings.\nFrom the mid-twentieth century onwards, issues such as economic change, and the ways in which different social groups emerged have assumed far more importance.\nRecent decades have seen a much greater preoccupation with histories of marginalised groups.",
+      "quote": "Scholars in the late nineteenth and early twentieth centuries were primarily interested in the histories of kings. From the mid-twentieth century onwards, issues such as economic change, and the ways in which different social groups emerged have assumed far more importance. Recent decades have seen a much greater preoccupation with histories of marginalised groups.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs102",
+        "chapterNo": 2,
+        "page": 49,
+        "section": "The Limitations of Inscriptional Evidence"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "historiography"
+      ],
+      "order": 1550
     },
     {
       "id": "kc.history.kings-farmers-and-towns.fact-tl-600-500",
@@ -22985,6 +24495,34 @@
       "order": 940
     },
     {
+      "id": "kc.history.kinship-caste-and-class.fact-prabhavati-gupta-power",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.kinship-caste-and-class",
+      "chapter": "Kinship, Caste & Class",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "Which Vakataka queen does NCERT name as an example of a wealthy woman?",
+      "back": "Prabhavati Gupta\nwealthy women such as the Vakataka queen Prabhavati Gupta",
+      "quote": "wealthy women such as the Vakataka queen Prabhavati Gupta",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs103",
+        "chapterNo": 3,
+        "page": 68,
+        "section": "4.1 Gendered access to property"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "property",
+        "women"
+      ],
+      "order": 945
+    },
+    {
       "id": "kc.history.kinship-caste-and-class.fact-women-control-resources",
       "v": 1,
       "subject": "history",
@@ -24477,6 +26015,34 @@
       "order": 100
     },
     {
+      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-bhu-salvation-farmer",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
+      "chapter": "Mahatma Gandhi & the Nationalist Movement",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "At the 1916 opening of the BHU, through whom did Gandhiji say India's salvation can only come?",
+      "back": "Our salvation can only come through the farmer. Neither the lawyers, nor the doctors, nor the rich landlords are going to secure it.",
+      "quote": "Our salvation can only come through the farmer. Neither the lawyers, nor the doctors, nor the rich landlords are going to secure it.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs303",
+        "chapterNo": 11,
+        "page": 288,
+        "section": "1. A Leader Announces Himself"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "bhu",
+        "peasants"
+      ],
+      "order": 110
+    },
+    {
       "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-bhu-elite",
       "v": 1,
       "subject": "history",
@@ -24588,6 +26154,35 @@
         "1918"
       ],
       "order": 150
+    },
+    {
+      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-localised-struggles",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
+      "chapter": "Mahatma Gandhi & the Nationalist Movement",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "Gandhiji's Champaran, Ahmedabad and Kheda struggles showed his sympathy for the poor; what limit does NCERT note about their scale?",
+      "back": "These initiatives in Champaran, Ahmedabad and Kheda marked Gandhiji out as a nationalist with a deep sympathy for the poor. At the same time, these were all localised struggles.",
+      "quote": "These initiatives in Champaran, Ahmedabad and Kheda marked Gandhiji out as a nationalist with a deep sympathy for the poor. At the same time, these were all localised struggles.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs303",
+        "chapterNo": 11,
+        "page": 289,
+        "section": "2. The Making and Unmaking of Non-cooperation"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "champaran",
+        "kheda",
+        "ahmedabad"
+      ],
+      "order": 160
     },
     {
       "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-rowlatt-measures",
@@ -24810,6 +26405,34 @@
         "non-cooperation"
       ],
       "order": 240
+    },
+    {
+      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-noncoop-swaraj-within-year",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
+      "chapter": "Mahatma Gandhi & the Nationalist Movement",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "In NCERT's words, what did Gandhiji say India would win within a year if non-cooperation was effectively carried out?",
+      "back": "If non-cooperation was effectively carried out, said Gandhiji, India would win swaraj within a year.",
+      "quote": "If non-cooperation was effectively carried out, said Gandhiji, India would win swaraj within a year.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs303",
+        "chapterNo": 11,
+        "page": 290,
+        "section": "2. The Making and Unmaking of Non-cooperation"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "non-cooperation",
+        "swaraj"
+      ],
+      "order": 250
     },
     {
       "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-kemal-attaturk",
@@ -25372,6 +26995,34 @@
       "order": 500
     },
     {
+      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-released-1924",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
+      "chapter": "Mahatma Gandhi & the Nationalist Movement",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "What two causes did Gandhiji devote his attention to after his release from prison in February 1924?",
+      "back": "Mahatma Gandhi was released from prison in February 1924, and now chose to devote his attention to the promotion of home-spun cloth (khadi), and the abolition of untouchability.",
+      "quote": "Mahatma Gandhi was released from prison in February 1924, and now chose to devote his attention to the promotion of home-spun cloth (khadi), and the abolition of untouchability.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs303",
+        "chapterNo": 11,
+        "page": 294,
+        "section": "2.2 A people's leader"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "khadi",
+        "1924"
+      ],
+      "order": 510
+    },
+    {
       "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.kl-social-reformer",
       "v": 1,
       "subject": "history",
@@ -25400,6 +27051,35 @@
         "reform"
       ],
       "order": 520
+    },
+    {
+      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.list-three-emphases",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
+      "chapter": "Mahatma Gandhi & the Nationalist Movement",
+      "unit": "Themes in Indian History Part III",
+      "kind": "list",
+      "front": "What did Gandhiji say Indians had to do to be worthy of freedom: socially, communally and economically?",
+      "back": "Indians had to get rid of social evils such as child marriage and untouchability.\nIndians of one faith had also to cultivate a genuine tolerance for Indians of another – hence his emphasis on Hindu-Muslim harmony.\nOn the economic front Indians had to learn to become self-reliant – hence his stress on the significance of wearing khadi rather than mill-made cloth imported from overseas.",
+      "quote": "He believed that in order to be worthy of freedom, Indians had to get rid of social evils such as child marriage and untouchability. Indians of one faith had also to cultivate a genuine tolerance for Indians of another – hence his emphasis on Hindu-Muslim harmony. Meanwhile, on the economic front Indians had to learn to become self-reliant – hence his stress on the significance of wearing khadi rather than mill-made cloth imported from overseas.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs303",
+        "chapterNo": 11,
+        "page": 295,
+        "section": "2.2 A people's leader"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "gandhi",
+        "reform",
+        "khadi"
+      ],
+      "order": 530
     },
     {
       "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-simon-1928",
@@ -25990,6 +27670,34 @@
         "ambedkar"
       ],
       "order": 750
+    },
+    {
+      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-separate-electorates-destruction",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
+      "chapter": "Mahatma Gandhi & the Nationalist Movement",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "At the Round Table Conference, Gandhiji said separate electorates would perpetuate the stigma; what, he said, was needed?",
+      "back": "Well, the separate electorates would perpetuate the stigma. What is needed is destruction of “Untouchability”",
+      "quote": "Well, the separate electorates would perpetuate the stigma. What is needed is destruction of “Untouchability”",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs303",
+        "chapterNo": 11,
+        "page": 300,
+        "section": "3.2 Dialogues"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "separate-electorates"
+      ],
+      "order": 760,
+      "note": "Gandhiji at the Round Table Conference, against separate electorates."
     },
     {
       "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-ambedkar-power",
@@ -26641,6 +28349,34 @@
       "order": 1050
     },
     {
+      "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-gandhi-26-jan-1948-equality",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.mahatma-gandhi-and-the-nationalist-movement",
+      "chapter": "Mahatma Gandhi & the Nationalist Movement",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "On 26 January 1948, what did Gandhiji say Indians would henceforth work collectively for?",
+      "back": "work collectively for the “equality of all classes and creeds, never the domination and superiority of the major community over a minor, however insignificant it may be in numbers or influence”",
+      "quote": "work collectively for the “equality of all classes and creeds, never the domination and superiority of the major community over a minor, however insignificant it may be in numbers or influence”",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs303",
+        "chapterNo": 11,
+        "page": 306,
+        "section": "5. The Last Heroic Days"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "1948",
+        "minorities"
+      ],
+      "order": 1080
+    },
+    {
       "id": "kc.history.mahatma-gandhi-and-the-nationalist-movement.fact-godse",
       "v": 1,
       "subject": "history",
@@ -27090,6 +28826,33 @@
       "order": 10
     },
     {
+      "id": "kc.history.peasants-zamindars-and-the-state.def-rural-society",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.peasants-zamindars-and-the-state",
+      "chapter": "Peasants, Zamindars & the State",
+      "unit": "Themes in Indian History Part II",
+      "kind": "definition",
+      "front": "Define rural society.",
+      "back": "Both peasants and landed elites were involved in agricultural production and claimed rights to a share of the produce. This created relationships of cooperation, competition and conflict among them. The sum of these agrarian relationships made up rural society.",
+      "quote": "Both peasants and landed elites were involved in agricultural production and claimed rights to a share of the produce. This created relationships of cooperation, competition and conflict among them. The sum of these agrarian relationships made up rural society.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs204",
+        "chapterNo": 8,
+        "page": 196,
+        "section": "Introduction"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "rural-society"
+      ],
+      "order": 20
+    },
+    {
       "id": "kc.history.peasants-zamindars-and-the-state.kl-mughal-state-income",
       "v": 1,
       "subject": "history",
@@ -27144,6 +28907,33 @@
         "mughal-state"
       ],
       "order": 40
+    },
+    {
+      "id": "kc.history.peasants-zamindars-and-the-state.list-trade-money-markets",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.peasants-zamindars-and-the-state",
+      "chapter": "Peasants, Zamindars & the State",
+      "unit": "Themes in Indian History Part II",
+      "kind": "list",
+      "front": "Since many crops were grown for sale, which three things entered the villages and linked them with the towns?",
+      "back": "Since many crops were grown for sale, trade, money and markets entered the villages and linked the agricultural areas with the towns.",
+      "quote": "Since many crops were grown for sale, trade, money and markets entered the villages and linked the agricultural areas with the towns.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs204",
+        "chapterNo": 8,
+        "page": 196,
+        "section": "Introduction"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "rural-society"
+      ],
+      "order": 50
     },
     {
       "id": "kc.history.peasants-zamindars-and-the-state.kl-basic-unit-village",
@@ -27871,6 +29661,33 @@
       "order": 350
     },
     {
+      "id": "kc.history.peasants-zamindars-and-the-state.fact-subsistence-commercial",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.peasants-zamindars-and-the-state",
+      "chapter": "Peasants, Zamindars & the State",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "Cash crops like mustard and lentils show which two kinds of production were intertwined in a peasant’s holding?",
+      "back": "Such cash crops would also include various sorts of oilseeds (for example, mustard) and lentils. This shows how subsistence and commercial production were closely intertwined in an average peasant’s holding.",
+      "quote": "Such cash crops would also include various sorts of oilseeds (for example, mustard) and lentils. This shows how subsistence and commercial production were closely intertwined in an average peasant’s holding.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs204",
+        "chapterNo": 8,
+        "page": 200,
+        "section": "1.4 An abundance of crops"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "crops"
+      ],
+      "order": 360
+    },
+    {
       "id": "kc.history.peasants-zamindars-and-the-state.fact-maize",
       "v": 1,
       "subject": "history",
@@ -27896,6 +29713,33 @@
         "crops"
       ],
       "order": 370
+    },
+    {
+      "id": "kc.history.peasants-zamindars-and-the-state.list-new-world-crops",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.peasants-zamindars-and-the-state",
+      "chapter": "Peasants, Zamindars & the State",
+      "unit": "Themes in Indian History Part II",
+      "kind": "list",
+      "front": "Name the five vegetables and fruits introduced into India from the New World in the seventeenth century.",
+      "back": "tomatoes, potatoes and chillies\nthe pineapple and the papaya",
+      "quote": "Vegetables like tomatoes, potatoes and chillies were introduced from the New World at this time, as were fruits like the pineapple and the papaya.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs204",
+        "chapterNo": 8,
+        "page": 201,
+        "section": "1.4 An abundance of crops"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "crops"
+      ],
+      "order": 380
     },
     {
       "id": "kc.history.peasants-zamindars-and-the-state.list-village-community-constituents",
@@ -29097,6 +30941,33 @@
       "order": 820
     },
     {
+      "id": "kc.history.peasants-zamindars-and-the-state.list-jangli-livelihood",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.peasants-zamindars-and-the-state",
+      "chapter": "Peasants, Zamindars & the State",
+      "unit": "Themes in Indian History Part II",
+      "kind": "list",
+      "front": "Name the three livelihoods of those termed jangli.",
+      "back": "gathering of forest produce\nhunting\nshifting agriculture",
+      "quote": "Rather, the term described those whose livelihood came from the gathering of forest produce, hunting and shifting agriculture.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs204",
+        "chapterNo": 8,
+        "page": 208,
+        "section": "4.1 Beyond settled villages"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "forests"
+      ],
+      "order": 830
+    },
+    {
       "id": "kc.history.peasants-zamindars-and-the-state.term-mawas",
       "v": 1,
       "subject": "history",
@@ -29597,6 +31468,33 @@
       "order": 1030
     },
     {
+      "id": "kc.history.peasants-zamindars-and-the-state.list-zamindar-power-sources",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.peasants-zamindars-and-the-state",
+      "chapter": "Peasants, Zamindars & the State",
+      "unit": "Themes in Indian History Part II",
+      "kind": "list",
+      "front": "Besides their personal milkiyat lands, what two sources of power did zamindars have, per NCERT?",
+      "back": "Zamindars also derived their power from the fact that they could often collect revenue on behalf of the state, a service for which they were compensated financially. Control over military resources was another source of power.",
+      "quote": "Zamindars also derived their power from the fact that they could often collect revenue on behalf of the state, a service for which they were compensated financially. Control over military resources was another source of power.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs204",
+        "chapterNo": 8,
+        "page": 211,
+        "section": "5. The Zamindars"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "zamindars"
+      ],
+      "order": 1040
+    },
+    {
       "id": "kc.history.peasants-zamindars-and-the-state.term-qilachas",
       "v": 1,
       "subject": "history",
@@ -29678,6 +31576,33 @@
         "zamindars"
       ],
       "order": 1080
+    },
+    {
+      "id": "kc.history.peasants-zamindars-and-the-state.list-zamindari-consolidation",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.peasants-zamindars-and-the-state",
+      "chapter": "Peasants, Zamindars & the State",
+      "unit": "Themes in Indian History Part II",
+      "kind": "list",
+      "front": "Name the four slow processes of zamindari consolidation.",
+      "back": "More important were the slow processes of zamindari consolidation, which are also documented in sources. These involved colonisation of new lands, by transfer of rights, by order of the state and by purchase.",
+      "quote": "More important were the slow processes of zamindari consolidation, which are also documented in sources. These involved colonisation of new lands, by transfer of rights, by order of the state and by purchase.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs204",
+        "chapterNo": 8,
+        "page": 212,
+        "section": "5. The Zamindars"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "zamindars"
+      ],
+      "order": 1090
     },
     {
       "id": "kc.history.peasants-zamindars-and-the-state.fact-rajputs-jats-sadgops",
@@ -31408,6 +33333,33 @@
       "order": 100
     },
     {
+      "id": "kc.history.rebels-and-the-raj.fact-defiance-authority-hierarchy",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.rebels-and-the-raj",
+      "chapter": "Rebels & the Raj",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "After the sepoys' mutiny quickly became a rebellion, defiance of what was general?",
+      "back": "There was a general defiance of all kinds of authority and hierarchy.",
+      "quote": "The mutiny in the sepoy ranks quickly became a rebellion. There was a general defiance of all kinds of authority and hierarchy.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs302",
+        "chapterNo": 10,
+        "page": 259,
+        "section": "1.1 How the mutinies began"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "rebellion"
+      ],
+      "order": 110
+    },
+    {
       "id": "kc.history.rebels-and-the-raj.fact-house-of-cards",
       "v": 1,
       "subject": "history",
@@ -31517,6 +33469,34 @@
         "hearsey"
       ],
       "order": 170
+    },
+    {
+      "id": "kc.history.rebels-and-the-raj.fact-sepoys-makers-of-rebellion",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.rebels-and-the-raj",
+      "chapter": "Rebels & the Raj",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "Who, per NCERT, were the makers of the 1857 rebellion, deciding their own future together in their lines?",
+      "back": "The sepoys were the makers of their own rebellion.",
+      "quote": "The sepoys were the makers of their own rebellion.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs302",
+        "chapterNo": 10,
+        "page": 261,
+        "section": "1.2 Lines of communication"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "sepoys",
+        "planning"
+      ],
+      "order": 190
     },
     {
       "id": "kc.history.rebels-and-the-raj.def-mutiny",
@@ -31851,6 +33831,33 @@
       "order": 320
     },
     {
+      "id": "kc.history.rebels-and-the-raj.fact-danka-shah-why",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.rebels-and-the-raj",
+      "chapter": "Rebels & the Raj",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "Why was Maulvi Ahmadullah Shah popularly called Danka Shah?",
+      "back": "He moved in a palanquin, with drumbeaters in front and followers at the rear. He was therefore popularly called Danka Shah – the maulvi with the drum (danka).",
+      "quote": "He moved in a palanquin, with drumbeaters in front and followers at the rear. He was therefore popularly called Danka Shah – the maulvi with the drum (danka).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs302",
+        "chapterNo": 10,
+        "page": 263,
+        "section": "Two rebels of 1857: Maulvi Ahmadullah Shah"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "ahmadullah-shah"
+      ],
+      "order": 330
+    },
+    {
       "id": "kc.history.rebels-and-the-raj.fact-ahmadullah-shah-preaching",
       "v": 1,
       "subject": "history",
@@ -31904,6 +33911,34 @@
         "chinhat"
       ],
       "order": 350
+    },
+    {
+      "id": "kc.history.rebels-and-the-raj.fact-enfield-cartridges",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.rebels-and-the-raj",
+      "chapter": "Rebels & the Raj",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "Which rifles' cartridges did the sepoys mean when they said biting the bullets would corrupt caste and religion?",
+      "back": "They were referring to the cartridges of the Enfield rifles which had just been given to them.",
+      "quote": "They were referring to the cartridges of the Enfield rifles which had just been given to them.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs302",
+        "chapterNo": 10,
+        "page": 264,
+        "section": "1.4 Rumours and prophecies"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "cartridges",
+        "enfield"
+      ],
+      "order": 360
     },
     {
       "id": "kc.history.rebels-and-the-raj.fact-cartridge-rumour-wildfire",
@@ -32683,6 +34718,33 @@
         "overassessment"
       ],
       "order": 660
+    },
+    {
+      "id": "kc.history.rebels-and-the-raj.fact-taluqdars-dispossession-meaning",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.rebels-and-the-raj",
+      "chapter": "Rebels & the Raj",
+      "unit": "Themes in Indian History Part III",
+      "kind": "fact",
+      "front": "What did the dispossession of the taluqdars of Awadh mean, according to NCERT?",
+      "back": "The dispossession of taluqdars meant the breakdown of an entire social order. The ties of loyalty and patronage that had bound the peasant to the taluqdar were disrupted.",
+      "quote": "The dispossession of taluqdars meant the breakdown of an entire social order. The ties of loyalty and patronage that had bound the peasant to the taluqdar were disrupted.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part III",
+        "code": "lehs302",
+        "chapterNo": 10,
+        "page": 269,
+        "section": "2.3 Firangi raj and the end of a world"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "taluqdars"
+      ],
+      "order": 670
     },
     {
       "id": "kc.history.rebels-and-the-raj.fact-begum-hazrat-mahal",
@@ -35546,6 +37608,60 @@
       "order": 230
     },
     {
+      "id": "kc.history.thinkers-beliefs-and-buildings.def-fatalists-ajivikas",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.thinkers-beliefs-and-buildings",
+      "chapter": "Thinkers, Beliefs & Buildings",
+      "unit": "Themes in Indian History Part I",
+      "kind": "definition",
+      "front": "What does it mean that the Ajivikas are often described as fatalists?",
+      "back": "fatalists: those who believe that everything is predetermined.",
+      "quote": "fatalists: those who believe that everything is predetermined.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs104",
+        "chapterNo": 4,
+        "page": 87,
+        "section": "Source 3: Fatalists and materialists?"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "ajivikas"
+      ],
+      "order": 240
+    },
+    {
+      "id": "kc.history.thinkers-beliefs-and-buildings.fact-lokayatas-materialists",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.thinkers-beliefs-and-buildings",
+      "chapter": "Thinkers, Beliefs & Buildings",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "Which tradition of early Indian thinkers is usually described as materialists?",
+      "back": "Lokayatas\nLokayatas, usually described as materialists.",
+      "quote": "Lokayatas, usually described as materialists.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs104",
+        "chapterNo": 4,
+        "page": 87,
+        "section": "Source 3: Fatalists and materialists?"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "lokayatas"
+      ],
+      "order": 250
+    },
+    {
       "id": "kc.history.thinkers-beliefs-and-buildings.fact-vardhamana-mahavira",
       "v": 1,
       "subject": "history",
@@ -35601,6 +37717,33 @@
         "jainism"
       ],
       "order": 280
+    },
+    {
+      "id": "kc.history.thinkers-beliefs-and-buildings.fact-jaina-world-animated",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.thinkers-beliefs-and-buildings",
+      "chapter": "Thinkers, Beliefs & Buildings",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "What is the most important idea in Jainism about the entire world?",
+      "back": "The most important idea in Jainism is that the entire world is animated: even stones, rocks and water have life.",
+      "quote": "The most important idea in Jainism is that the entire world is animated: even stones, rocks and water have life.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs104",
+        "chapterNo": 4,
+        "page": 88,
+        "section": "3. Beyond Worldly Pleasures: The Message of Mahavira"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "jainism"
+      ],
+      "order": 290
     },
     {
       "id": "kc.history.thinkers-beliefs-and-buildings.key-ahimsa-mark-indian-thinking",
@@ -36565,6 +38708,33 @@
       "order": 650
     },
     {
+      "id": "kc.history.thinkers-beliefs-and-buildings.def-stupa-heap",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.thinkers-beliefs-and-buildings",
+      "chapter": "Thinkers, Beliefs & Buildings",
+      "unit": "Themes in Indian History Part I",
+      "kind": "definition",
+      "front": "Define the stupa: what does the Sanskrit word mean, and how did it originate?",
+      "back": "The stupa (a Sanskrit word meaning a heap) originated as a simple semi-circular mound of earth, later called anda.",
+      "quote": "The stupa (a Sanskrit word meaning a heap) originated as a simple semi-circular mound of earth, later called anda.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs104",
+        "chapterNo": 4,
+        "page": 96,
+        "section": "7.3 The structure of the stupa"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "stupas"
+      ],
+      "order": 660
+    },
+    {
       "id": "kc.history.thinkers-beliefs-and-buildings.fact-stupa-emblem-pre-buddhist",
       "v": 1,
       "subject": "history",
@@ -36673,6 +38843,34 @@
         "inscriptions"
       ],
       "order": 700
+    },
+    {
+      "id": "kc.history.thinkers-beliefs-and-buildings.fact-sanchi-gateway-ivory-workers",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.thinkers-beliefs-and-buildings",
+      "chapter": "Thinkers, Beliefs & Buildings",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "Which guild does NCERT name as having financed part of one of the gateways at Sanchi?",
+      "back": "The ivory workers\nothers were made by guilds, such as that of the ivory workers who financed part of one of the gateways at Sanchi.",
+      "quote": "others were made by guilds, such as that of the ivory workers who financed part of one of the gateways at Sanchi.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs104",
+        "chapterNo": 4,
+        "page": 96,
+        "section": "7.2 How were stupas built?"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "stupas",
+        "donations"
+      ],
+      "order": 710
     },
     {
       "id": "kc.history.thinkers-beliefs-and-buildings.term-anda",
@@ -36792,6 +38990,34 @@
         "sanchi"
       ],
       "order": 750
+    },
+    {
+      "id": "kc.history.thinkers-beliefs-and-buildings.fact-stupa-circuit-clockwise",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.thinkers-beliefs-and-buildings",
+      "chapter": "Thinkers, Beliefs & Buildings",
+      "unit": "Themes in Indian History Part I",
+      "kind": "fact",
+      "front": "In which direction did worshippers walk around the mound of the early stupas at Sanchi and Bharhut, keeping it on their right?",
+      "back": "Clockwise\nwalked around the mound in a clockwise direction keeping the mound on the right",
+      "quote": "walked around the mound in a clockwise direction keeping the mound on the right",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part I",
+        "code": "lehs104",
+        "chapterNo": 4,
+        "page": 97,
+        "section": "7.3 The structure of the stupa"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "stupas",
+        "sanchi"
+      ],
+      "order": 760
     },
     {
       "id": "kc.history.thinkers-beliefs-and-buildings.fact-later-stupas-carved",
@@ -38755,6 +40981,34 @@
       "order": 210
     },
     {
+      "id": "kc.history.through-the-eyes-of-travellers.fact-hindu-not-religious",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.through-the-eyes-of-travellers",
+      "chapter": "Through the Eyes of Travellers",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "What did the early terms Hindu, Hindi, Hindustan and Hindavi not indicate about the people east of the Indus?",
+      "back": "None of these expressions indicated the religious identity of the people. It was much later that the term developed religious connotations.",
+      "quote": "None of these expressions indicated the religious identity of the people. It was much later that the term developed religious connotations.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs201",
+        "chapterNo": 5,
+        "page": 117,
+        "section": "Al-Biruni and the Kitab-ul-Hind"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "hindu",
+        "term"
+      ],
+      "order": 220
+    },
+    {
       "id": "kc.history.through-the-eyes-of-travellers.fact-rihla",
       "v": 1,
       "subject": "history",
@@ -39029,6 +41283,33 @@
       "order": 330
     },
     {
+      "id": "kc.history.through-the-eyes-of-travellers.fact-battuta-returned-1354",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.through-the-eyes-of-travellers",
+      "chapter": "Through the Eyes of Travellers",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "In which year did Ibn Battuta finally reach home again, about 30 years after he set out?",
+      "back": "Ibn Battuta returned home in 1354, about 30 years after he had set out.",
+      "quote": "Ibn Battuta returned home in 1354, about 30 years after he had set out.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs201",
+        "chapterNo": 5,
+        "page": 118,
+        "section": "Ibn Battuta’s Rihla"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "ibn-battuta"
+      ],
+      "order": 340
+    },
+    {
       "id": "kc.history.through-the-eyes-of-travellers.fact-battuta-robbers",
       "v": 1,
       "subject": "history",
@@ -39136,6 +41417,33 @@
         "travellers"
       ],
       "order": 390
+    },
+    {
+      "id": "kc.history.through-the-eyes-of-travellers.list-later-persian-writers",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.through-the-eyes-of-travellers",
+      "chapter": "Through the Eyes of Travellers",
+      "unit": "Themes in Indian History Part II",
+      "kind": "list",
+      "front": "Name the best-known writers of Persian travelogues on India between 1400 and 1800, with their dates.",
+      "back": "Abdur Razzaq Samarqandi, who visited south India in the 1440s\nMahmud Wali Balkhi, who travelled very widely in the 1620s\nShaikh Ali Hazin, who came to north India in the 1740s",
+      "quote": "Among the best known of these writers were Abdur Razzaq Samarqandi, who visited south India in the 1440s, Mahmud Wali Balkhi, who travelled very widely in the 1620s, and Shaikh Ali Hazin, who came to north India in the 1740s.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs201",
+        "chapterNo": 5,
+        "page": 121,
+        "section": "Ibn Battuta’s Rihla"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "travellers"
+      ],
+      "order": 400
     },
     {
       "id": "kc.history.through-the-eyes-of-travellers.fact-barbosa",
@@ -40775,6 +43083,34 @@
       "order": 1010
     },
     {
+      "id": "kc.history.through-the-eyes-of-travellers.fact-asiatic-mode-marx",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.through-the-eyes-of-travellers",
+      "chapter": "Through the Eyes of Travellers",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "Which concept did Karl Marx develop in the nineteenth century from Montesquieu's idea of oriental despotism?",
+      "back": "This idea was further developed as the concept of the Asiatic mode of production by Karl Marx in the nineteenth century.",
+      "quote": "This idea was further developed as the concept of the Asiatic mode of production by Karl Marx in the nineteenth century.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs201",
+        "chapterNo": 5,
+        "page": 132,
+        "section": "Bernier and the “Degenerate” East"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "marx",
+        "asiatic-mode"
+      ],
+      "order": 1020
+    },
+    {
       "id": "kc.history.through-the-eyes-of-travellers.fact-marx-surplus-state",
       "v": 1,
       "subject": "history",
@@ -40803,6 +43139,62 @@
       "order": 1030
     },
     {
+      "id": "kc.history.through-the-eyes-of-travellers.fact-marx-village-communities",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.through-the-eyes-of-travellers",
+      "chapter": "Through the Eyes of Travellers",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "According to Karl Marx, what kind of society emerged in pre-colonial India, where the state appropriated surplus?",
+      "back": "This led to the emergence of a society that was composed of a large number of autonomous and (internally) egalitarian village communities.",
+      "quote": "This led to the emergence of a society that was composed of a large number of autonomous and (internally) egalitarian village communities.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs201",
+        "chapterNo": 5,
+        "page": 132,
+        "section": "Bernier and the “Degenerate” East"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "marx",
+        "asiatic-mode"
+      ],
+      "order": 1040
+    },
+    {
+      "id": "kc.history.through-the-eyes-of-travellers.fact-asiatic-mode-stagnant",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.through-the-eyes-of-travellers",
+      "chapter": "Through the Eyes of Travellers",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "In Marx's Asiatic mode of production, how was the system of autonomous village communities under an imperial court regarded?",
+      "back": "The imperial court presided over these village communities, respecting their autonomy as long as the flow of surplus was unimpeded. This was regarded as a stagnant system.",
+      "quote": "The imperial court presided over these village communities, respecting their autonomy as long as the flow of surplus was unimpeded. This was regarded as a stagnant system.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs201",
+        "chapterNo": 5,
+        "page": 132,
+        "section": "Bernier and the “Degenerate” East"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "marx",
+        "asiatic-mode"
+      ],
+      "order": 1050
+    },
+    {
       "id": "kc.history.through-the-eyes-of-travellers.fact-rural-society-differentiation",
       "v": 1,
       "subject": "history",
@@ -40828,6 +43220,33 @@
         "rural-society"
       ],
       "order": 1060
+    },
+    {
+      "id": "kc.history.through-the-eyes-of-travellers.fact-zamindars-one-end",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.through-the-eyes-of-travellers",
+      "chapter": "Through the Eyes of Travellers",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "In sixteenth-seventeenth century rural society, which group at one end of the spectrum enjoyed superior rights in land?",
+      "back": "At one end of the spectrum were the big zamindars, who enjoyed superior rights in land",
+      "quote": "At one end of the spectrum were the big zamindars, who enjoyed superior rights in land",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs201",
+        "chapterNo": 5,
+        "page": 132,
+        "section": "Bernier and the “Degenerate” East"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "rural-society"
+      ],
+      "order": 1070
     },
     {
       "id": "kc.history.through-the-eyes-of-travellers.fact-big-and-small-peasant",
@@ -40941,6 +43360,34 @@
       "order": 1110
     },
     {
+      "id": "kc.history.through-the-eyes-of-travellers.fact-bernier-karkhanas",
+      "v": 2,
+      "subject": "history",
+      "chapterKey": "history.through-the-eyes-of-travellers",
+      "chapter": "Through the Eyes of Travellers",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "What were the imperial karkhanas, whose working Bernier describes in detail?",
+      "back": "Bernier is perhaps the only historian who provides a detailed account of the working of the imperial karkhanas or workshops",
+      "quote": "Bernier is perhaps the only historian who provides a detailed account of the working of the imperial karkhanas or workshops",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs201",
+        "chapterNo": 5,
+        "page": 134,
+        "section": "Bernier and the “Degenerate” East"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "bernier",
+        "karkhana"
+      ],
+      "order": 1120
+    },
+    {
       "id": "kc.history.through-the-eyes-of-travellers.fact-urban-15-percent",
       "v": 1,
       "subject": "history",
@@ -41049,6 +43496,33 @@
         "towns"
       ],
       "order": 1160
+    },
+    {
+      "id": "kc.history.through-the-eyes-of-travellers.fact-mahajans-sheth",
+      "v": 1,
+      "subject": "history",
+      "chapterKey": "history.through-the-eyes-of-travellers",
+      "chapter": "Through the Eyes of Travellers",
+      "unit": "Themes in Indian History Part II",
+      "kind": "fact",
+      "front": "In western India, what were merchants' caste-cum-occupational bodies called, and what was each body's chief called?",
+      "back": "Merchants often had strong community or kin ties, and were organised into their own caste-cum-occupational bodies. In western India these groups were called mahajans, and their chief, the sheth.",
+      "quote": "Merchants often had strong community or kin ties, and were organised into their own caste-cum-occupational bodies. In western India these groups were called mahajans, and their chief, the sheth.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Themes in Indian History Part II",
+        "code": "lehs201",
+        "chapterNo": 5,
+        "page": 134,
+        "section": "Bernier and the “Degenerate” East"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "merchants"
+      ],
+      "order": 1170
     },
     {
       "id": "kc.history.through-the-eyes-of-travellers.term-nagarsheth",

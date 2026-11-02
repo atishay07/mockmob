@@ -2,30 +2,30 @@
   "subject": "history",
   "chapters": {
     "history.an-imperial-capital-vijayanagara": {
-      "published": 90,
-      "quarantined": 13,
+      "published": 95,
+      "quarantined": 8,
       "byKind": {
         "definition": 8,
         "key_line": 18,
-        "fact": 61,
-        "list": 2,
+        "fact": 64,
+        "list": 4,
         "difference": 1
       },
       "byImportance": {
-        "must": 23,
-        "good": 67
+        "must": 25,
+        "good": 70
       },
       "coverage_note": null,
       "mustShare": 0.26,
       "belowMinimum": false
     },
     "history.bhakti-sufi-traditions": {
-      "published": 157,
-      "quarantined": 13,
+      "published": 169,
+      "quarantined": 4,
       "byKind": {
-        "fact": 97,
+        "fact": 108,
         "term": 3,
-        "list": 10,
+        "list": 11,
         "definition": 25,
         "key_line": 14,
         "types": 3,
@@ -34,98 +34,99 @@
       },
       "byImportance": {
         "must": 44,
-        "good": 113
+        "good": 125
       },
       "coverage_note": null,
-      "mustShare": 0.28,
+      "mustShare": 0.26,
       "belowMinimum": false
     },
     "history.bricks-beads-and-bones": {
-      "published": 121,
-      "quarantined": 20,
+      "published": 130,
+      "quarantined": 8,
       "byKind": {
-        "fact": 88,
-        "types": 3,
+        "fact": 94,
+        "types": 4,
         "term": 1,
-        "list": 6,
-        "key_line": 7,
+        "list": 7,
+        "key_line": 8,
         "definition": 11,
         "quote": 2,
         "steps": 3
       },
       "byImportance": {
-        "must": 29,
-        "good": 92
+        "must": 33,
+        "good": 97
       },
       "coverage_note": null,
-      "mustShare": 0.24,
+      "mustShare": 0.25,
       "belowMinimum": false
     },
     "history.colonialism-and-the-countryside": {
-      "published": 99,
-      "quarantined": 35,
+      "published": 114,
+      "quarantined": 17,
       "byKind": {
-        "fact": 60,
-        "key_line": 15,
+        "fact": 73,
+        "key_line": 16,
         "definition": 12,
-        "list": 9,
+        "list": 10,
         "steps": 2,
         "difference": 1
       },
       "byImportance": {
-        "must": 29,
-        "good": 70
+        "must": 31,
+        "good": 83
       },
       "coverage_note": null,
-      "mustShare": 0.29,
+      "mustShare": 0.27,
       "belowMinimum": false
     },
     "history.framing-the-constitution": {
-      "published": 144,
-      "quarantined": 9,
+      "published": 147,
+      "quarantined": 6,
       "byKind": {
-        "fact": 106,
+        "fact": 108,
         "key_line": 18,
         "term": 2,
         "list": 6,
         "definition": 2,
-        "quote": 9,
+        "quote": 10,
         "types": 1
       },
       "byImportance": {
-        "must": 32,
-        "good": 112
+        "must": 33,
+        "good": 114
       },
       "coverage_note": null,
       "mustShare": 0.22,
       "belowMinimum": false
     },
     "history.kings-farmers-and-towns": {
-      "published": 146,
-      "quarantined": 33,
+      "published": 157,
+      "quarantined": 16,
       "byKind": {
         "term": 13,
-        "fact": 99,
+        "fact": 109,
         "key_line": 6,
         "list": 15,
         "definition": 9,
         "difference": 1,
-        "types": 3
+        "types": 3,
+        "steps": 1
       },
       "byImportance": {
-        "must": 41,
-        "good": 105
+        "must": 42,
+        "good": 115
       },
       "coverage_note": null,
-      "mustShare": 0.28,
+      "mustShare": 0.27,
       "belowMinimum": false
     },
     "history.kinship-caste-and-class": {
-      "published": 121,
-      "quarantined": 23,
+      "published": 122,
+      "quarantined": 13,
       "byKind": {
         "key_line": 13,
-        "fact": 83,
+        "fact": 84,
         "term": 7,
         "definition": 12,
         "types": 2,
@@ -134,56 +135,56 @@
       },
       "byImportance": {
         "must": 31,
-        "good": 90
+        "good": 91
       },
       "coverage_note": null,
-      "mustShare": 0.26,
+      "mustShare": 0.25,
       "belowMinimum": false
     },
     "history.mahatma-gandhi-and-the-nationalist-movement": {
-      "published": 101,
-      "quarantined": 26,
+      "published": 108,
+      "quarantined": 19,
       "byKind": {
-        "fact": 82,
+        "fact": 88,
         "key_line": 5,
         "quote": 1,
-        "list": 11,
+        "list": 12,
         "definition": 2
       },
       "byImportance": {
         "must": 31,
-        "good": 70
+        "good": 77
       },
       "coverage_note": null,
-      "mustShare": 0.31,
+      "mustShare": 0.29,
       "belowMinimum": false
     },
     "history.peasants-zamindars-and-the-state": {
-      "published": 147,
-      "quarantined": 22,
+      "published": 154,
+      "quarantined": 12,
       "byKind": {
-        "fact": 92,
+        "fact": 93,
+        "definition": 8,
         "key_line": 24,
+        "list": 9,
         "term": 14,
         "types": 3,
-        "list": 4,
-        "definition": 7,
         "difference": 2,
         "steps": 1
       },
       "byImportance": {
-        "must": 34,
-        "good": 113
+        "must": 38,
+        "good": 116
       },
       "coverage_note": null,
-      "mustShare": 0.23,
+      "mustShare": 0.25,
       "belowMinimum": false
     },
     "history.rebels-and-the-raj": {
-      "published": 139,
-      "quarantined": 21,
+      "published": 144,
+      "quarantined": 16,
       "byKind": {
-        "fact": 119,
+        "fact": 124,
         "key_line": 4,
         "steps": 1,
         "definition": 7,
@@ -193,38 +194,38 @@
         "term": 1
       },
       "byImportance": {
-        "must": 26,
-        "good": 113
+        "must": 27,
+        "good": 117
       },
       "coverage_note": null,
       "mustShare": 0.19,
       "belowMinimum": false
     },
     "history.thinkers-beliefs-and-buildings": {
-      "published": 113,
-      "quarantined": 23,
+      "published": 119,
+      "quarantined": 14,
       "byKind": {
-        "fact": 64,
+        "fact": 68,
         "list": 4,
         "key_line": 24,
         "term": 8,
-        "definition": 12,
+        "definition": 14,
         "quote": 1
       },
       "byImportance": {
-        "must": 29,
-        "good": 84
+        "must": 33,
+        "good": 86
       },
       "coverage_note": null,
-      "mustShare": 0.26,
+      "mustShare": 0.28,
       "belowMinimum": false
     },
     "history.through-the-eyes-of-travellers": {
-      "published": 119,
-      "quarantined": 19,
+      "published": 128,
+      "quarantined": 10,
       "byKind": {
-        "list": 6,
-        "fact": 93,
+        "list": 7,
+        "fact": 101,
         "key_line": 9,
         "steps": 1,
         "definition": 5,
@@ -233,11 +234,11 @@
         "term": 1
       },
       "byImportance": {
-        "must": 33,
-        "good": 86
+        "must": 35,
+        "good": 93
       },
       "coverage_note": null,
-      "mustShare": 0.28,
+      "mustShare": 0.27,
       "belowMinimum": false
     }
   }

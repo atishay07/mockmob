@@ -320,46 +320,14 @@
       ]
     },
     {
-      "id": "kc.accountancy.admission-of-partner.fact-new-share-decided-mutually",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.admission-of-partner",
-      "chapter": "Admission of Partner",
-      "unit": "Admission of Partner",
-      "kind": "fact",
-      "front": "Who decides the share of a new partner and how he acquires it from the existing partners?",
-      "back": "what will be the share of new partner and how he will acquire it from the existing partners is decided mutually among the old partners and the new partner.",
-      "quote": "But, what will be the share of new partner and how he will acquire it from the existing partners is decided mutually among the old partners and the new partner.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy : Partnership Accounts",
-        "code": "leac102",
-        "chapterNo": 2,
-        "page": 50,
-        "section": "2.3 New Profit Sharing Ratio"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "new profit sharing ratio"
-      ],
-      "order": 135,
-      "addedIn": "top-1102",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front asks two things (who decides, and how he acquires it); the back only says 'mutually among the old partners and the new partner', so the 'how' part has no answer. Split or narrow to one question."
-      ]
-    },
-    {
       "id": "kc.accountancy.admission-of-partner.entry-premium-to-sacrificing-partners",
-      "v": 1,
+      "v": 2,
       "subject": "accountancy",
       "chapterKey": "accountancy.admission-of-partner",
       "chapter": "Admission of Partner",
       "unit": "Admission of Partner",
       "kind": "entry",
-      "front": "Journal entry: premium for goodwill distributed among the existing partners in their sacrificing ratio (second entry).",
+      "front": "Entry (ii), after 'Bank A/c Dr. To Premium for Goodwill A/c': premium shared among the sacrificing partners.",
       "back": "Goodwill A/c Dr.\nTo Sacrificing Partners Capital A/c\n(Individually)(Goodwill distributed among the existing partners' in their sacrificing ratio)",
       "quote": "Goodwill A/c Dr. To Sacrificing Partners Capital A/c (Individually)(Goodwill distributed among the existing partners' in their sacrificing ratio).",
       "blanks": [],
@@ -379,9 +347,10 @@
       ],
       "order": 605,
       "addedIn": "top-1102",
+      "note": "NCERT prints the account here as 'Goodwill A/c'; it is the Premium for Goodwill A/c credited in entry (i).",
       "reasons": [
         "review:not_unambiguous",
-        "review:Front depends on an unseen 'first entry'; NCERT prints 'Goodwill A/c Dr.' here although the first entry credits 'Premium for Goodwill A/c', so a student giving the logical account name would be marked wrong. State the pair in the front or note the account title."
+        "review:Front names entry (i) as 'To Premium for Goodwill A/c', so the one right answer is 'Premium for Goodwill A/c Dr.'; back shows NCERT's printed 'Goodwill A/c Dr.' (a misprint, p.64). A student answering correctly is marked wrong. Fix: make the back say Premium for Goodwill A/c Dr. as the card's answer"
       ]
     },
     {
@@ -414,38 +383,6 @@
       "reasons": [
         "review:not_important",
         "review:Low value: answer is near-tautological ('brought into the books'); the exam-tested treatment (unrecorded assets credited, liabilities debited to Revaluation A/c) is already in old card kl-unrecorded-credit-debit."
-      ]
-    },
-    {
-      "id": "kc.accountancy.admission-of-partner.fact-reval-entries-amount-note",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.admission-of-partner",
-      "chapter": "Admission of Partner",
-      "unit": "Admission of Partner",
-      "kind": "fact",
-      "front": "Revaluation entries for a change in the value of an asset or liability: what amount is recorded?",
-      "back": "Entries (i), (ii), (iii) and (iv) are recorded only with the amount increase and decrease in the value of assets and liabilities.",
-      "quote": "Note: Entries (i), (ii), (iii) and (iv) are recorded only with the amount increase and decrease in the value of assets and liabilities.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy : Partnership Accounts",
-        "code": "leac102",
-        "chapterNo": 2,
-        "page": 78,
-        "section": "2.7 Revaluation of Assets and Reassessment of Liabilities"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "revaluation"
-      ],
-      "order": 1001,
-      "addedIn": "top-1102",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Back refers to 'Entries (i), (ii), (iii) and (iv)' which the student cannot see, and the front does not say which entries or which change; does not stand alone."
       ]
     },
     {
@@ -550,105 +487,6 @@
       ]
     },
     {
-      "id": "kc.accountancy.goodwill-valuation.fact-goodwill-needs-adjustment-at-reconstitution",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.goodwill-valuation",
-      "chapter": "Goodwill Valuation",
-      "unit": "Goodwill Valuation",
-      "kind": "fact",
-      "front": "Which special aspect of partnership accounts needs adjustment, and valuation if not specified, at reconstitution?",
-      "back": "Goodwill is also one of the special aspects of partnership accounts which requires adjustment (also valuation if not specified) at the time of reconstitution of a firm viz., a change in the profit sharing ratio, the admission of a partner or the retirement or death of a partner.",
-      "quote": "Goodwill is also one of the special aspects of partnership accounts which requires adjustment (also valuation if not specified) at the time of reconstitution of a firm viz., a change in the profit sharing ratio, the admission of a partner or the retirement or death of a partner.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy : Partnership Accounts",
-        "code": "leac102",
-        "chapterNo": 2,
-        "page": 55,
-        "section": "2.5 Goodwill"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "goodwill",
-        "reconstitution"
-      ],
-      "order": 225,
-      "addedIn": "top-1102",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Quote says goodwill is 'also one of the special aspects', so 'which special aspect' has other right answers (revaluation, reserves); front is also clumsy and gives away the answer in the back's first word."
-      ]
-    },
-    {
-      "id": "kc.accountancy.goodwill-valuation.fact-pays-for-goodwill",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.goodwill-valuation",
-      "chapter": "Goodwill Valuation",
-      "unit": "Goodwill Valuation",
-      "kind": "fact",
-      "front": "When a person pays for goodwill, what does he or she pay for?",
-      "back": "he/she pays for something, which places him in the position of being able to earn super profits as compared to the profit earned by other firms in the same industry.",
-      "quote": "It is generally observed that when a person pays for goodwill, he/she pays for something, which places him in the position of being able to earn super profits as compared to the profit earned by other firms in the same industry.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy : Partnership Accounts",
-        "code": "leac102",
-        "chapterNo": 2,
-        "page": 55,
-        "section": "2.5.1 Meaning of Goodwill"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "goodwill",
-        "super profits"
-      ],
-      "order": 245,
-      "addedIn": "top-1102",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Open-ended: a student could say 'reputation' or 'an intangible', while the back wants a long phrase ('something which places him in the position of earning super profits'). No single fill."
-      ]
-    },
-    {
-      "id": "kc.accountancy.goodwill-valuation.list-special-advantages-factor",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.goodwill-valuation",
-      "chapter": "Goodwill Valuation",
-      "unit": "Goodwill Valuation",
-      "kind": "list",
-      "front": "Name the special advantages that raise the value of goodwill.",
-      "back": "import licences\nlow rate and assured supply of electricity\nlong-term contracts for supply of materials\nwell-known collaborators\npatents\ntrademarks",
-      "quote": "Special advantages: The firm that enjoys special advantages like import licences, low rate and assured supply of electricity, long-term contracts for supply of materials, well-known collaborators, patents, trademarks, etc. enjoy higher value of goodwill.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy : Partnership Accounts",
-        "code": "leac102",
-        "chapterNo": 2,
-        "page": 56,
-        "section": "2.5.2 Factors Affecting the Value of Goodwill"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "goodwill",
-        "factors"
-      ],
-      "order": 295,
-      "addedIn": "top-1102",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:NCERT's list is non-exhaustive ('like ... etc.'); the back drops 'etc.', so a student naming another advantage cannot be judged. Better as a key_line with blanks or a 'which of these' framing."
-      ]
-    },
-    {
       "id": "kc.accountancy.goodwill-valuation.def-intangible-asset-as26",
       "v": 1,
       "subject": "accountancy",
@@ -712,38 +550,6 @@
       "reasons": [
         "review:not_important",
         "review:AS 26 detail outside the CUET goodwill sub-topics; trivia for a CUET student."
-      ]
-    },
-    {
-      "id": "kc.accountancy.change-in-profit-sharing-ratio.fact-cause-change-in-role",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.change-in-profit-sharing-ratio",
-      "chapter": "Change in Profit Sharing Ratio",
-      "unit": "Change in Profit Sharing Ratio",
-      "kind": "fact",
-      "front": "A change in the profit sharing ratio among existing partners may happen on account of what?",
-      "back": "a change in the existing partners' role in the firm.",
-      "quote": "Sometimes the partners of a firm may decide to change their existing profit sharing ratio. This may happen an account of a change in the existing partners' role in the firm.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy : Partnership Accounts",
-        "code": "leac102",
-        "chapterNo": 2,
-        "page": 49,
-        "section": "2.1 Modes of Reconstitution of a Partnership Firm"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "profit sharing ratio"
-      ],
-      "order": 1075,
-      "addedIn": "top-1102",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Open 'on account of what?': several plausible answers (agreement, capital change, efficiency); the one NCERT answer 'a change in the existing partners' role' cannot be derived from the front."
       ]
     },
     {
@@ -946,72 +752,6 @@
       ]
     },
     {
-      "id": "kc.accountancy.retirement-and-death-of-partner.fact-accumulated-profits-form",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.retirement-and-death-of-partner",
-      "chapter": "Retirement & Death of Partner",
-      "unit": "Retirement & Death of Partner",
-      "kind": "fact",
-      "front": "In what form may a firm's Balance Sheet show accumulated profits?",
-      "back": "Sometimes, the Balance Sheet of a firm may show accumulated profits in the form of general reserve",
-      "quote": "Sometimes, the Balance Sheet of a firm may show accumulated profits in the form of general reserve",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy – Partnership Accounts",
-        "code": "leac103",
-        "chapterNo": 3,
-        "page": 122,
-        "section": "3.6 Adjustment of Accumulated Profits and Losses"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "accumulated profits",
-        "general reserve"
-      ],
-      "order": 485,
-      "addedIn": "top-1102",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Ambiguous: \"reserves\", \"reserve fund\" or P&L credit balance are also valid answers, only \"general reserve\" is marked right; a passing remark, so good not must."
-      ]
-    },
-    {
-      "id": "kc.accountancy.retirement-and-death-of-partner.fact-total-due-paid-immediately",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.retirement-and-death-of-partner",
-      "chapter": "Retirement & Death of Partner",
-      "unit": "Retirement & Death of Partner",
-      "kind": "fact",
-      "front": "After all adjustments, when is the total amount due to the retiring partner to be paid?",
-      "back": "Hence, the total amount due to the retiring partner which is ascertained after all adjustments have been made is to be paid immediately to the retiring partner.",
-      "quote": "Hence, the total amount due to the retiring partner which is ascertained after all adjustments have been made is to be paid immediately to the retiring partner.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy – Partnership Accounts",
-        "code": "leac103",
-        "chapterNo": 3,
-        "page": 125,
-        "section": "3.7 Disposal of Amount Due to Retiring Partner"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "settlement",
-        "retiring partner"
-      ],
-      "order": 585,
-      "addedIn": "top-1102",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Ambiguous: NCERT also allows settlement per the deed (instalments, part cash, loan account), so \"immediately\" is not the one right answer; overlaps types-settlement-modes and fact-due-to-loan-account; back opens with dangling \"Hence\". Should be good."
-      ]
-    },
-    {
       "id": "kc.accountancy.retirement-and-death-of-partner.fact-loan-entries-repeated",
       "v": 1,
       "subject": "accountancy",
@@ -1043,137 +783,6 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:Trivia and not standalone: refers to unseen \"entry (a) and (b)\"; answer is just \"till the loan is paid off\"."
-      ]
-    },
-    {
-      "id": "kc.accountancy.retirement-and-death-of-partner.fact-capital-excess-shortage",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.retirement-and-death-of-partner",
-      "chapter": "Retirement & Death of Partner",
-      "unit": "Retirement & Death of Partner",
-      "kind": "fact",
-      "front": "Adjusting continuing partners' capitals: how is the excess or shortage in a capital account adjusted?",
-      "back": "Such excess or shortage shall be adjusted by withdrawal of contribution in cash, as the case may be",
-      "quote": "Such excess or shortage shall be adjusted by withdrawal of contribution in cash, as the case may be",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy – Partnership Accounts",
-        "code": "leac103",
-        "chapterNo": 3,
-        "page": 134,
-        "section": "3.8 Adjustment of Partners' Capitals"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "capital adjustment"
-      ],
-      "order": 695,
-      "addedIn": "top-1102",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:NCERT prints \"withdrawal of contribution in cash\" (typo for \"or\"); the back as printed teaches a meaningless phrase, so the answer is not clear; the two capital entry cards cover the point."
-      ]
-    },
-    {
-      "id": "kc.accountancy.retirement-and-death-of-partner.fact-capital-way-1",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.retirement-and-death-of-partner",
-      "chapter": "Retirement & Death of Partner",
-      "unit": "Retirement & Death of Partner",
-      "kind": "fact",
-      "front": "Adjusting continuing partners' capitals: in how many ways may it be done, and what is way 1?",
-      "back": "The adjustment of the continuing partner's capitals may involve any one of the three ways as illustrated as follows : 1. When the capital of the new firm as decided by the partners is specified.",
-      "quote": "The adjustment of the continuing partner's capitals may involve any one of the three ways as illustrated as follows : 1. When the capital of the new firm as decided by the partners is specified.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy – Partnership Accounts",
-        "code": "leac103",
-        "chapterNo": 3,
-        "page": 134,
-        "section": "3.8 Adjustment of Partners' Capitals"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "capital adjustment",
-        "ways"
-      ],
-      "order": 715,
-      "addedIn": "top-1102",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front asks two things (how many ways, and what is way 1); one idea per card; better as one list card of the three ways."
-      ]
-    },
-    {
-      "id": "kc.accountancy.retirement-and-death-of-partner.fact-capital-way-2",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.retirement-and-death-of-partner",
-      "chapter": "Retirement & Death of Partner",
-      "unit": "Retirement & Death of Partner",
-      "kind": "fact",
-      "front": "Way 2 of the three ways to adjust continuing partners' capitals: when does it apply?",
-      "back": "When the total capital of new firm is not specified.",
-      "quote": "When the total capital of new firm is not specified.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy – Partnership Accounts",
-        "code": "leac103",
-        "chapterNo": 3,
-        "page": 135,
-        "section": "3.8 Adjustment of Partners' Capitals"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "capital adjustment",
-        "ways"
-      ],
-      "order": 720,
-      "addedIn": "top-1102",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front identifies the way only by its position number, so it cannot stand alone; make the three ways one list card."
-      ]
-    },
-    {
-      "id": "kc.accountancy.retirement-and-death-of-partner.fact-capital-way-3",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.retirement-and-death-of-partner",
-      "chapter": "Retirement & Death of Partner",
-      "unit": "Retirement & Death of Partner",
-      "kind": "fact",
-      "front": "Way 3 of the three ways to adjust continuing partners' capitals: when does it apply?",
-      "back": "When the amount payable to retiring partner will be contributed by continuing partners in such a way that their capitals are adjusted proportionate to their new profit sharing ratio",
-      "quote": "When the amount payable to retiring partner will be contributed by continuing partners in such a way that their capitals are adjusted proportionate to their new profit sharing ratio",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy – Partnership Accounts",
-        "code": "leac103",
-        "chapterNo": 3,
-        "page": 136,
-        "section": "3.8 Adjustment of Partners' Capitals"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "capital adjustment",
-        "ways"
-      ],
-      "order": 725,
-      "addedIn": "top-1102",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front identifies the way only by its position number, so it cannot stand alone; make the three ways one list card."
       ]
     },
     {
@@ -1209,38 +818,6 @@
       ]
     },
     {
-      "id": "kc.accountancy.share-capital.fact-discount-two-cases",
-      "v": 2,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.share-capital",
-      "chapter": "Share Capital",
-      "unit": "Share Capital",
-      "kind": "fact",
-      "front": "Name two cases in which a company can issue shares at a discount.",
-      "back": "Reissue of forfeited shares; issue of sweat equity shares\nAs a general rule, a company cannot ordinarily issue shares at a discount. It can do so only in cases such as ‘reissue of forfeited shares’ (to be discussed later) and issue of sweat equity shares.",
-      "quote": "As a general rule, a company cannot ordinarily issue shares at a discount. It can do so only in cases such as ‘reissue of forfeited shares’ (to be discussed later) and issue of sweat equity shares.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy Part 2: Company Accounts and Analysis of Financial Statements",
-        "code": "leac201",
-        "chapterNo": 1,
-        "page": 33,
-        "section": "1.6.6 Issue of Shares at a Discount"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "discount",
-        "sweat equity"
-      ],
-      "order": 910,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:NCERT's own leac201 summary says only sweat equity shares can be issued at a discount (Companies Act 2013), so 'two cases' is not the single NCERT answer."
-      ]
-    },
-    {
       "id": "kc.accountancy.share-capital.def-sum-forfeit-def",
       "v": 1,
       "subject": "accountancy",
@@ -1269,137 +846,6 @@
       "reasons": [
         "review:not_important",
         "review:DUPLICATE: same fact as kc.accountancy.share-capital.fact-forfeit-when. Same forfeiture fact; kept is linked and has the fuller quote (duplicate sweep, 31 Oct)"
-      ]
-    },
-    {
-      "id": "kc.accountancy.share-capital.fact-discount-general-rule",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.share-capital",
-      "chapter": "Share Capital",
-      "unit": "Share Capital",
-      "kind": "fact",
-      "front": "Summary: can the shares of a company ordinarily be issued at a discount?",
-      "back": "Apart from such compliance, shares of a company cannot ordinarily be issued at a discount.",
-      "quote": "Apart from such compliance, shares of a company cannot ordinarily be issued at a discount.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy Part 2: Company Accounts and Analysis of Financial Statements",
-        "code": "leac201",
-        "chapterNo": 1,
-        "page": 66,
-        "section": "Summary"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "discount"
-      ],
-      "order": 1190,
-      "addedIn": "gap-1031",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:CONFLICT: the Summary line (with the Companies Act 2013 'only sweat equity shares' sentence) disagrees with section 1.6.6 and 1.7.1, which also allow a discount on reissue of forfeited shares. Back also opens with a dangling 'Apart from such compliance' and the front is a yes/no that omits the condi"
-      ]
-    },
-    {
-      "id": "kc.accountancy.debentures.fact-discount-balance-sheet-current",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.debentures",
-      "chapter": "Debentures",
-      "unit": "Debentures",
-      "kind": "fact",
-      "front": "Where is discount on issue of debentures (to be written off within 12 months) shown in the balance sheet?",
-      "back": "Discount on issue of debentures to be written off within 12 months of the balance sheet date or the period of operating cycle is shown under ‘Other Current Assets’",
-      "quote": "Discount on issue of debentures to be written off within 12 months of the balance sheet date or the period of operating cycle is shown under ‘Other Current Assets’",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
-        "code": "leac202",
-        "chapterNo": 2,
-        "page": 81,
-        "section": "2.4.2 Issue of Debentures at a Discount"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "issue at discount",
-        "balance sheet"
-      ],
-      "order": 450,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:CONFLICT: p81 (with the already-held 'life time' card) splits the unwritten discount into current (within 12 months) and non-current (after 12 months) assets, which presumes write-off over the debentures' life; p106 and p154 say discount is written off in the year of issue, so no non-current balance"
-      ]
-    },
-    {
-      "id": "kc.accountancy.debentures.fact-discount-balance-sheet-non-current",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.debentures",
-      "chapter": "Debentures",
-      "unit": "Debentures",
-      "kind": "fact",
-      "front": "Where is the part of discount to be written off after 12 months of the balance sheet shown?",
-      "back": "the part which is to be written off after 12 months of balance sheet is shown under ‘Other Non-Current Assets’.",
-      "quote": "the part which is to be written off after 12 months of balance sheet is shown under ‘Other Non-Current Assets’.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
-        "code": "leac202",
-        "chapterNo": 2,
-        "page": 81,
-        "section": "2.4.2 Issue of Debentures at a Discount"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "issue at discount",
-        "balance sheet"
-      ],
-      "order": 460,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:CONFLICT: p81 (with the already-held 'life time' card) splits the unwritten discount into current (within 12 months) and non-current (after 12 months) assets, which presumes write-off over the debentures' life; p106 and p154 say discount is written off in the year of issue, so no non-current balance"
-      ]
-    },
-    {
-      "id": "kc.accountancy.debentures.kl-premium-discount-accounts",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.debentures",
-      "chapter": "Debentures",
-      "unit": "Debentures",
-      "kind": "key_line",
-      "front": "The amount received as premium is credited to ‘____’ whereas amount of discount allowed is debited to “____” and is written-off over the years",
-      "back": "The amount received as premium is credited to ‘securities premium account’ whereas amount of discount allowed is debited to “loss/discount on issue” and is written-off over the years",
-      "quote": "The amount received as premium is credited to ‘securities premium account’ whereas amount of discount allowed is debited to “loss/discount on issue” and is written-off over the years",
-      "blanks": [
-        "securities premium account",
-        "loss/discount on issue"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
-        "code": "leac202",
-        "chapterNo": 2,
-        "page": 138,
-        "section": "Summary"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "issue at premium",
-        "issue at discount"
-      ],
-      "order": 1010,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:CONFLICT: NCERT p. 106 and p. 154 say discount on issue of debentures is written off in the year of issue; this p. 138 line says it is written off over the years. Held back so the deck never teaches both (orchestrator, 31 Oct)."
       ]
     },
     {
@@ -1498,103 +944,6 @@
       "reasons": [
         "review:not_important",
         "review:generic filler sentence about top management's overall responsibility; not a testable point and adds nothing beyond list-top-management-helps"
-      ]
-    },
-    {
-      "id": "kc.accountancy.analysis-of-financial-statements.list-lenders-analyse",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.analysis-of-financial-statements",
-      "chapter": "Analysis of Financial Statements",
-      "unit": "Analysis of Financial Statements",
-      "kind": "list",
-      "front": "What do suppliers of long-term debt analyse about the firm?",
-      "back": "the firm’s profitability over a period of time\nits ability to generate cash, to be able to pay interest and repay the principal\nthe relationship between various sources of funds (capital structure relationships)",
-      "quote": "They analyse the firm’s profitability over a period of time, its ability to generate cash, to be able to pay interest and repay the principal and the relationship between various sources of funds (capital structure relationships).",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
-        "code": "leac204",
-        "chapterNo": 4,
-        "page": 173,
-        "section": "4.2 Significance of Analysis of Financial Statements"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "lenders"
-      ],
-      "order": 141,
-      "addedIn": "top-1102",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:front does not signal the three items, and 'solvency and survival' from the preceding sentence (see kl-lenders-solvency) is a plausible wrong answer; ask 'which three things do suppliers of long-term debt analyse'"
-      ]
-    },
-    {
-      "id": "kc.accountancy.analysis-of-financial-statements.fact-investors-capital-structure",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.analysis-of-financial-statements",
-      "chapter": "Analysis of Financial Statements",
-      "unit": "Analysis of Financial Statements",
-      "kind": "fact",
-      "front": "Besides profitability, what else do investors examine in a firm’s financial statements?",
-      "back": "They are also interested in the firm’s capital structure to ascertain its influences on firm’s earning and risk. They also evaluate the efficiency of the management and determine whether a change is needed or not.",
-      "quote": "They are also interested in the firm’s capital structure to ascertain its influences on firm’s earning and risk. They also evaluate the efficiency of the management and determine whether a change is needed or not.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
-        "code": "leac204",
-        "chapterNo": 4,
-        "page": 173,
-        "section": "4.2 Significance of Analysis of Financial Statements"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "investors",
-        "capital structure"
-      ],
-      "order": 146,
-      "addedIn": "top-1102",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:two right answers (capital structure; efficiency of management) for 'what else'; the front picks neither"
-      ]
-    },
-    {
-      "id": "kc.accountancy.analysis-of-financial-statements.fact-broad-objectives",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.analysis-of-financial-statements",
-      "chapter": "Analysis of Financial Statements",
-      "unit": "Analysis of Financial Statements",
-      "kind": "fact",
-      "front": "Broadly speaking, what are the objectives of the analysis of financial statements?",
-      "back": "Broadly speaking, the objectives of the analysis are to apprehend the information contained in financial statements with a view to know the weaknesses and strengths of the firm and to make a forecast about the future prospects of the firm thereby, enabling the analysts to take decisions regarding the operation of, and further investment in the firm.",
-      "quote": "Broadly speaking, the objectives of the analysis are to apprehend the information contained in financial statements with a view to know the weaknesses and strengths of the firm and to make a forecast about the future prospects of the firm thereby, enabling the analysts to take decisions regarding the operation of, and further investment in the firm.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
-        "code": "leac204",
-        "chapterNo": 4,
-        "page": 173,
-        "section": "4.3 Objectives of Analysis of Financial Statements"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "objectives"
-      ],
-      "order": 180,
-      "addedIn": "top-1102",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:front collides with old list-objectives-of-analysis ('Name the objectives of analysis of financial statements'); both answers are NCERT-valid so a student cannot tell which is wanted"
       ]
     },
     {
@@ -1759,13 +1108,13 @@
     },
     {
       "id": "kc.accountancy.accounting-ratios.fml-shareholders-funds-equity-first-form",
-      "v": 2,
+      "v": 3,
       "subject": "accountancy",
       "chapterKey": "accountancy.accounting-ratios",
       "chapter": "Accounting Ratios",
       "unit": "Analysis of Financial Statements",
       "kind": "formula",
-      "front": "Formula: Shareholders' Funds (Equity), as the sum of share capital and reserve items",
+      "front": "Formula: Shareholders' Funds (Equity) in the Debt-Equity Ratio, as NCERT's Accounting Ratios chapter sums it",
       "back": "Shareholders’ Funds (Equity) = Share capital + Reserves and Surplus + Money received against share warrants + Share application money pending allotment",
       "quote": "Shareholders’ Funds (Equity) = Share capital + Reserves and Surplus + Money received against share warrants + Share application money pending allotment",
       "blanks": [],
@@ -1785,7 +1134,7 @@
       "order": 680,
       "reasons": [
         "review:not_unambiguous",
-        "review:CONFLICT: Ratios p205 formula adds 'Share application money pending allotment' into Shareholders' Funds; Financial Statements p149 (Schedule III) lists exactly three sub-classifications (share capital, reserves and surplus, share warrants) and shows share application money as a separate head. Keep t"
+        "review:Back/quote exact (printed p.205 first form). But NCERT prints a second equivalent form for the same term (Non-current assets + Working capital - Non-current liabilities) and the chapter's Illustration omits warrants; front 'as NCERT's chapter sums it' does not tell the student which form, so more th"
       ]
     },
     {

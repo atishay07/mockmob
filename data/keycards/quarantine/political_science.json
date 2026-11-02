@@ -2,38 +2,6 @@
   "subject": "political_science",
   "cards": [
     {
-      "id": "kc.political_science.contemporary-south-asia.fact-tl-kargil",
-      "v": 2,
-      "subject": "political_science",
-      "chapterKey": "political_science.contemporary-south-asia",
-      "chapter": "Contemporary South Asia",
-      "unit": "Contemporary World Politics",
-      "kind": "fact",
-      "front": "What conflict took place in June-July 1999, after Vajpayee's bus journey to Lahore in February 1999?",
-      "back": "1999 February: Indian PM Vajpayee undertakes bus journey to Lahore to sign a Peace Declaration June-July: Kargil conflict between India and Pakistan",
-      "quote": "1999 February: Indian PM Vajpayee undertakes bus journey to Lahore to sign a Peace Declaration June-July: Kargil conflict between India and Pakistan",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Contemporary World Politics",
-        "code": "leps103",
-        "chapterNo": 3,
-        "page": 32,
-        "section": "Timeline of South Asia since 1947"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "south-asia"
-      ],
-      "order": 160,
-      "note": "The Kargil conflict took place in June-July 1999.",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:CONFLICT: Kargil conflict dated June-July on the timeline (Contemporary South Asia p.32) but May and June, with India recovering points by 26 July, in the detailed account (India's External Relations p.66). Keep the detailed account; the timeline card also repeats the Lahore card. (conflict sweep, 3"
-      ]
-    },
-    {
       "id": "kc.political_science.contemporary-south-asia.fact-saarc-1985",
       "v": 1,
       "subject": "political_science",
@@ -360,35 +328,6 @@
       ]
     },
     {
-      "id": "kc.political_science.challenges-of-nation-building.fact-1947-transfer-of-population",
-      "v": 2,
-      "subject": "political_science",
-      "chapterKey": "political_science.challenges-of-nation-building",
-      "chapter": "Challenges of Nation Building",
-      "unit": "Politics in India Since Independence",
-      "kind": "fact",
-      "front": "1947 was the year of one of the largest, most abrupt, unplanned and tragic what in human history?",
-      "back": "The year 1947 was the year of one of the largest, most abrupt, unplanned and tragic transfer of population that human history has known.",
-      "quote": "The year 1947 was the year of one of the largest, most abrupt, unplanned and tragic transfer of population that human history has known.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Politics in India since Independence",
-        "code": "leps201",
-        "chapterNo": 1,
-        "page": 9,
-        "section": "Partition: displacement and rehabilitation"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [],
-      "order": 260,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front is an open \"what\" with obvious synonyms (migration, displacement, mass exodus); NCERT word \"transfer of population\" is not forced."
-      ]
-    },
-    {
       "id": "kc.political_science.era-of-one-party-dominance.fact-cpi-16-seats",
       "v": 1,
       "subject": "political_science",
@@ -474,68 +413,6 @@
       "reasons": [
         "review:not_important",
         "review:DUPLICATE: same fact as kc.political_science.regional-aspirations.fact-indira-assassination. Same fact; kept answers when and by whom (duplicate sweep, 31 Oct)"
-      ]
-    },
-    {
-      "id": "kc.political_science.crisis-of-the-democratic-order.fact-civil-liberties",
-      "v": 3,
-      "subject": "political_science",
-      "chapterKey": "political_science.crisis-of-the-democratic-order",
-      "chapter": "Crisis of the Democratic Order",
-      "unit": "Politics in India Since Independence",
-      "kind": "fact",
-      "front": "What came up in India after the experience of the Emergency?",
-      "back": "Many civil liberties organisations came up after this experience.",
-      "quote": "Many civil liberties organisations came up after this experience.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Politics in India since Independence",
-        "code": "leps206",
-        "chapterNo": 6,
-        "page": 103,
-        "section": "Lessons of the Emergency"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "civil"
-      ],
-      "order": 430,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:\"What came up in India after the Emergency?\" has many right answers (Janata government, protest movements, etc.); front does not single out civil liberties organisations. Also thin importance."
-      ]
-    },
-    {
-      "id": "kc.political_science.regional-aspirations.fact-reorg-1972",
-      "v": 1,
-      "subject": "political_science",
-      "chapterKey": "political_science.regional-aspirations",
-      "chapter": "Regional Aspirations",
-      "unit": "Politics in India Since Independence",
-      "kind": "fact",
-      "front": "By which year was the reorganisation of the North-East completed?",
-      "back": "The reorganisation of the North-East was completed by 1972.",
-      "quote": "The reorganisation of the North-East was completed by 1972.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Politics in India since Independence",
-        "code": "leps207",
-        "chapterNo": 7,
-        "page": 127,
-        "section": "Demands for autonomy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "regional-aspirations"
-      ],
-      "order": 860,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:CONFLICT: \"Reorganisation of the North-East was completed by 1972\" (Regional Aspirations p.127) is unqualified, but Mizoram and Arunachal Pradesh became States only in 1987 (Regional Aspirations p.126, Nation-Building p.23). Keep the dated statehood cards. (conflict sweep, 31 Oct)"
       ]
     },
     {

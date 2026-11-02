@@ -2,12 +2,12 @@
   "subject": "psychology",
   "chapters": {
     "psychology.attitude-and-social-cognition": {
-      "published": 104,
-      "quarantined": 9,
+      "published": 108,
+      "quarantined": 5,
       "byKind": {
         "definition": 21,
         "key_line": 8,
-        "fact": 50,
+        "fact": 54,
         "list": 10,
         "term": 1,
         "example": 13,
@@ -15,61 +15,62 @@
       },
       "byImportance": {
         "must": 26,
-        "good": 78
+        "good": 82
       },
       "coverage_note": null,
-      "mustShare": 0.25,
+      "mustShare": 0.24,
       "belowMinimum": false
     },
     "psychology.meeting-life-challenges": {
-      "published": 116,
-      "quarantined": 15,
+      "published": 122,
+      "quarantined": 8,
       "byKind": {
         "term": 2,
         "key_line": 11,
         "definition": 40,
-        "fact": 34,
+        "fact": 39,
         "list": 10,
         "types": 14,
         "steps": 3,
+        "example": 1,
         "difference": 2
       },
       "byImportance": {
         "must": 29,
-        "good": 87
+        "good": 93
       },
       "coverage_note": null,
-      "mustShare": 0.25,
+      "mustShare": 0.24,
       "belowMinimum": false
     },
     "psychology.psychological-disorders": {
-      "published": 125,
-      "quarantined": 12,
+      "published": 130,
+      "quarantined": 7,
       "byKind": {
         "definition": 54,
         "list": 18,
         "key_line": 9,
-        "fact": 24,
+        "fact": 28,
         "term": 1,
         "types": 16,
-        "difference": 3
+        "difference": 4
       },
       "byImportance": {
         "must": 35,
-        "good": 90
+        "good": 95
       },
       "coverage_note": null,
-      "mustShare": 0.28,
+      "mustShare": 0.27,
       "belowMinimum": false
     },
     "psychology.self-and-personality": {
-      "published": 153,
-      "quarantined": 7,
+      "published": 156,
+      "quarantined": 4,
       "byKind": {
         "definition": 65,
         "difference": 11,
         "types": 12,
-        "fact": 45,
+        "fact": 48,
         "key_line": 3,
         "list": 14,
         "example": 1,
@@ -77,73 +78,74 @@
       },
       "byImportance": {
         "must": 32,
-        "good": 121
+        "good": 124
       },
       "coverage_note": null,
       "mustShare": 0.21,
       "belowMinimum": false
     },
     "psychology.social-influence-and-group-processes": {
-      "published": 50,
-      "quarantined": 21,
+      "published": 62,
+      "quarantined": 9,
       "byKind": {
         "definition": 10,
-        "list": 8,
+        "list": 10,
         "term": 2,
         "key_line": 7,
+        "fact": 22,
         "difference": 5,
         "steps": 1,
-        "fact": 12,
         "types": 2,
         "example": 3
       },
       "byImportance": {
-        "must": 13,
-        "good": 37
+        "must": 15,
+        "good": 47
       },
       "coverage_note": null,
-      "mustShare": 0.26,
+      "mustShare": 0.24,
       "belowMinimum": false
     },
     "psychology.therapeutic-approaches": {
-      "published": 104,
-      "quarantined": 25,
+      "published": 120,
+      "quarantined": 7,
       "byKind": {
-        "definition": 30,
-        "list": 13,
-        "fact": 17,
+        "definition": 32,
+        "list": 16,
+        "fact": 27,
         "difference": 7,
         "key_line": 27,
         "types": 4,
         "example": 3,
-        "term": 3
+        "term": 3,
+        "steps": 1
       },
       "byImportance": {
-        "must": 31,
-        "good": 73
+        "must": 33,
+        "good": 87
       },
       "coverage_note": null,
-      "mustShare": 0.3,
+      "mustShare": 0.28,
       "belowMinimum": false
     },
     "psychology.variations-in-psychological-attributes": {
-      "published": 126,
-      "quarantined": 9,
+      "published": 128,
+      "quarantined": 6,
       "byKind": {
-        "definition": 47,
+        "definition": 48,
         "difference": 7,
         "types": 5,
         "fact": 29,
         "key_line": 11,
-        "list": 17,
+        "list": 18,
         "example": 10
       },
       "byImportance": {
-        "must": 32,
+        "must": 34,
         "good": 94
       },
       "coverage_note": null,
-      "mustShare": 0.25,
+      "mustShare": 0.27,
       "belowMinimum": false
     }
   }

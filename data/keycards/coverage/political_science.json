@@ -21,18 +21,18 @@
       "belowMinimum": false
     },
     "political_science.challenges-of-nation-building": {
-      "published": 75,
-      "quarantined": 1,
+      "published": 76,
+      "quarantined": 0,
       "byKind": {
         "list": 3,
-        "fact": 59,
+        "fact": 60,
         "quote": 4,
         "key_line": 2,
         "definition": 4,
         "term": 3
       },
       "byImportance": {
-        "must": 59,
+        "must": 60,
         "good": 16
       },
       "coverage_note": null,
@@ -58,7 +58,7 @@
     },
     "political_science.contemporary-south-asia": {
       "published": 70,
-      "quarantined": 2,
+      "quarantined": 1,
       "byKind": {
         "list": 4,
         "fact": 60,
@@ -74,22 +74,22 @@
       "belowMinimum": false
     },
     "political_science.crisis-of-the-democratic-order": {
-      "published": 52,
-      "quarantined": 1,
+      "published": 53,
+      "quarantined": 0,
       "byKind": {
         "term": 1,
         "key_line": 6,
-        "fact": 38,
+        "fact": 39,
         "quote": 2,
         "list": 3,
         "definition": 2
       },
       "byImportance": {
-        "must": 29,
+        "must": 30,
         "good": 23
       },
       "coverage_note": null,
-      "mustShare": 0.56,
+      "mustShare": 0.57,
       "belowMinimum": false
     },
     "political_science.democratic-upsurge-and-coalition-politics": {
@@ -255,7 +255,7 @@
     },
     "political_science.regional-aspirations": {
       "published": 105,
-      "quarantined": 2,
+      "quarantined": 1,
       "byKind": {
         "key_line": 3,
         "fact": 95,

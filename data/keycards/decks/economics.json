@@ -1,6 +1,6 @@
 {
   "subject": "economics",
-  "version": 6,
+  "version": 7,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -220,6 +220,34 @@
         "BoP"
       ],
       "order": 80
+    },
+    {
+      "id": "kc.economics.balance-of-payments.fact-bpm6-three-accounts",
+      "v": 2,
+      "subject": "economics",
+      "chapterKey": "economics.balance-of-payments",
+      "chapter": "Balance of Payments",
+      "unit": "Open Economy Macroeconomics",
+      "kind": "fact",
+      "front": "NCERT's main text uses two BoP accounts. In the new IMF classification (BPM6), the BoP has which three accounts?",
+      "back": "There is a new classification in which the balance of payments have been divided into three accounts – the current account, the financial account and the capital account.",
+      "quote": "There is a new classification in which the balance of payments have been divided into three accounts – the current account, the financial account and the capital account.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec106",
+        "chapterNo": 6,
+        "page": 86,
+        "section": "6.1 The Balance of Payments (footnote 1)"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "BoP",
+        "BPM6"
+      ],
+      "order": 90
     },
     {
       "id": "kc.economics.balance-of-payments.def-current-account",
@@ -1191,6 +1219,34 @@
         "BoP"
       ],
       "order": 460
+    },
+    {
+      "id": "kc.economics.balance-of-payments.fact-new-classification-financial-account",
+      "v": 3,
+      "subject": "economics",
+      "chapterKey": "economics.balance-of-payments",
+      "chapter": "Balance of Payments",
+      "unit": "Open Economy Macroeconomics",
+      "kind": "fact",
+      "front": "In the old two-account BoP the capital account holds asset trade. Under BPM6, where are bonds and equity shares placed?",
+      "back": "The most important change is that almost all the transactions arising on account of trade in financial assets such as bonds and equity shares are now placed in the financial account.",
+      "quote": "The most important change is that almost all the transactions arising on account of trade in financial assets such as bonds and equity shares are now placed in the financial account.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec106",
+        "chapterNo": 6,
+        "page": 90,
+        "section": "Box 6.1"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "BoP",
+        "BPM6"
+      ],
+      "order": 470
     },
     {
       "id": "kc.economics.balance-of-payments.def-forex-market",
@@ -14174,6 +14230,31 @@
       "order": 310
     },
     {
+      "id": "kc.economics.income-determination.fact-c-stable-i-fluctuates",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.income-determination",
+      "chapter": "Income Determination",
+      "unit": "Determination of Income and Employment",
+      "kind": "fact",
+      "front": "Of autonomous consumption and autonomous investment, which stays stable over time and which fluctuates?",
+      "back": "C̅, representing subsistence consumption level of an economy, remains more or less stable over time. However, I̅ has been observed to undergo periodic fluctuations.",
+      "quote": "C̅, representing subsistence consumption level of an economy, remains more or less stable over time. However, I̅ has been observed to undergo periodic fluctuations.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec104",
+        "chapterNo": 4,
+        "page": 56,
+        "section": "4.2 Determination of Income in Two-Sector Model"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 320
+    },
+    {
       "id": "kc.economics.income-determination.key-exante-supply-demand-equilibrium",
       "v": 1,
       "subject": "economics",
@@ -18295,6 +18376,33 @@
         "growth"
       ],
       "order": 110
+    },
+    {
+      "id": "kc.economics.indian-economy-on-the-eve-of-independence.fact-colonial-economy-agrarian",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.indian-economy-on-the-eve-of-independence",
+      "chapter": "Indian Economy on the Eve of Independence",
+      "unit": "Development Policies and Experience (1947-90)",
+      "kind": "fact",
+      "front": "Under British colonial rule, what was the fundamental nature of India's economy, judged by how most people earned a living?",
+      "back": "India's economy under the British colonial rule remained fundamentally agrarian",
+      "quote": "India's economy under the British colonial rule remained fundamentally agrarian — about 85 per cent of the country's population lived mostly in villages and derived livelihood directly or indirectly from agriculture",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec101",
+        "chapterNo": 1,
+        "page": 5,
+        "section": "1.3 Agricultural Sector"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "agriculture"
+      ],
+      "order": 120
     },
     {
       "id": "kc.economics.indian-economy-on-the-eve-of-independence.fact-stagnation-land-settlement",
@@ -31510,6 +31618,33 @@
         "price line"
       ],
       "order": 150
+    },
+    {
+      "id": "kc.economics.theory-of-firms-under-perfect-competition.fact-demand-shift-same-direction",
+      "v": 2,
+      "subject": "economics",
+      "chapterKey": "economics.theory-of-firms-under-perfect-competition",
+      "chapter": "Theory of Firms under Perfect Competition",
+      "unit": "The Theory of the Firm under Perfect Competition",
+      "kind": "fact",
+      "front": "With a fixed number of firms, do equilibrium price and quantity move in the same or opposite directions when demand shifts?",
+      "back": "Notice that the direction of change in equilibrium price and quantity is same whenever there is a shift in demand curve.",
+      "quote": "Notice that the direction of change in equilibrium price and quantity is same whenever there is a shift in demand curve.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec205",
+        "chapterNo": 5,
+        "page": 77,
+        "section": "Shifts in Demand and Supply"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "demand shift"
+      ],
+      "order": 180
     },
     {
       "id": "kc.economics.theory-of-firms-under-perfect-competition.def-profit-def",

@@ -1,6 +1,6 @@
 {
   "subject": "business_studies",
-  "version": 6,
+  "version": 7,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -23677,6 +23677,35 @@
         "staffing process"
       ],
       "order": 401
+    },
+    {
+      "id": "kc.business_studies.staffing.key-three-aspects-recruitment",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.staffing",
+      "chapter": "Staffing",
+      "unit": "Staffing",
+      "kind": "key_line",
+      "front": "There are three aspects of staffing: ____, selection and training.",
+      "back": "There are three aspects of staffing: recruitment, selection and training.",
+      "quote": "There are three aspects of staffing: recruitment, selection and training.",
+      "blanks": [
+        "recruitment"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs106",
+        "chapterNo": 6,
+        "page": 148,
+        "section": "Aspects of staffing"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "staffing"
+      ],
+      "order": 410
     },
     {
       "id": "kc.business_studies.staffing.list-internal-sources",

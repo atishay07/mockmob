@@ -34,7 +34,7 @@ test('subject: the seeded returning Pro student (A7 suggestions, parts, true row
   assert.equal(http, 200);
   assert.equal(body.plan, 'pro');
   assert.equal(body.student.isNew, false);
-  assert.equal(body.subject.cards, 912);
+  assert.equal(body.subject.cards, 920);
   assert.equal(body.freeNote, null);
   assert.equal(body.suggestions.length, 3);
   assert.equal(new Set(body.suggestions.map((s) => s.kind)).size, 3);
@@ -58,7 +58,7 @@ test('subject: a new Free student gets the first-run set and the Free line', asy
   const call = student('free', 'new');
   const { body } = await call('/api/learn/subject', { query: { subject: 'accountancy' } });
   assert.equal(body.student.isNew, true);
-  assert.equal(body.freeNote, 'Free opens 5 cards in every chapter. Pro opens all 912.');
+  assert.equal(body.freeNote, 'Free opens 5 cards in every chapter. Pro opens all 920.');
   assert.deepEqual(body.suggestions.map((s) => s.kind), ['start', 'level', 'feed']);
   assert.equal(body.suggestions[0].title, 'Start with Accounting for Partnership: Basic Concepts');
   const rows = body.parts.flatMap((p) => p.units.flatMap((u) => u.chapters));
@@ -263,7 +263,7 @@ test('E1: Learn shows the re-tiered Must-know (about one card in four)', async (
   const cards = (await call('/api/learn/cards', { query: { chapter: PF, filter: 'all' } })).body;
   assert.deepEqual([cards.counts.total, cards.counts.must], [45, 12]);
   const shelves = (await call('/api/learn/shelves', { query: { subject: 'accountancy' } })).body;
-  assert.deepEqual([shelves.must.count, shelves.must.chapters], [235, 14]); // data/keycards/tiers.json, as live
+  assert.deepEqual([shelves.must.count, shelves.must.chapters], [236, 14]); // data/keycards/tiers.json, as live
   const preview = (await call('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 10, leaveOut: [] } })).body;
   assert.match(preview.recap.label, /^Or a quick recap: the 12 Must-know lines, about \d min$/);
   assert.equal(preview.shelf.cards.mustKnow, 12);

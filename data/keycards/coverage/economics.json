@@ -2,12 +2,12 @@
   "subject": "economics",
   "chapters": {
     "economics.balance-of-payments": {
-      "published": 76,
-      "quarantined": 4,
+      "published": 78,
+      "quarantined": 2,
       "byKind": {
         "definition": 26,
         "list": 5,
-        "fact": 19,
+        "fact": 21,
         "term": 1,
         "types": 7,
         "key_line": 12,
@@ -16,8 +16,8 @@
         "formula": 1
       },
       "byImportance": {
-        "must": 49,
-        "good": 27
+        "must": 50,
+        "good": 28
       },
       "coverage_note": null,
       "mustShare": 0.64,
@@ -25,7 +25,7 @@
     },
     "economics.development-experiences-of-india": {
       "published": 83,
-      "quarantined": 3,
+      "quarantined": 2,
       "byKind": {
         "fact": 32,
         "key_line": 28,
@@ -142,12 +142,12 @@
       "belowMinimum": false
     },
     "economics.income-determination": {
-      "published": 78,
-      "quarantined": 2,
+      "published": 79,
+      "quarantined": 1,
       "byKind": {
         "key_line": 20,
         "definition": 25,
-        "fact": 15,
+        "fact": 16,
         "example": 5,
         "formula": 7,
         "types": 2,
@@ -157,7 +157,7 @@
       },
       "byImportance": {
         "must": 51,
-        "good": 27
+        "good": 28
       },
       "coverage_note": null,
       "mustShare": 0.65,
@@ -165,7 +165,7 @@
     },
     "economics.indian-economic-development-1950-1990": {
       "published": 93,
-      "quarantined": 7,
+      "quarantined": 5,
       "byKind": {
         "fact": 38,
         "key_line": 27,
@@ -183,10 +183,10 @@
       "belowMinimum": false
     },
     "economics.indian-economy-on-the-eve-of-independence": {
-      "published": 50,
-      "quarantined": 2,
+      "published": 51,
+      "quarantined": 1,
       "byKind": {
-        "fact": 21,
+        "fact": 22,
         "key_line": 16,
         "definition": 4,
         "term": 1,
@@ -194,7 +194,7 @@
         "difference": 2
       },
       "byImportance": {
-        "must": 39,
+        "must": 40,
         "good": 11
       },
       "coverage_note": null,
@@ -244,7 +244,7 @@
     },
     "economics.money-and-banking": {
       "published": 70,
-      "quarantined": 3,
+      "quarantined": 2,
       "byKind": {
         "definition": 23,
         "example": 1,
@@ -323,13 +323,13 @@
       "belowMinimum": false
     },
     "economics.theory-of-firms-under-perfect-competition": {
-      "published": 66,
-      "quarantined": 3,
+      "published": 67,
+      "quarantined": 2,
       "byKind": {
         "list": 4,
         "key_line": 8,
         "definition": 13,
-        "fact": 23,
+        "fact": 24,
         "example": 7,
         "formula": 5,
         "term": 2,
@@ -338,7 +338,7 @@
         "steps": 1
       },
       "byImportance": {
-        "must": 50,
+        "must": 51,
         "good": 16
       },
       "coverage_note": null,

@@ -1,6 +1,6 @@
 {
   "subject": "biology",
-  "version": 5,
+  "version": 6,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -579,6 +579,31 @@
       "asked": 0,
       "tags": [],
       "order": 230
+    },
+    {
+      "id": "kc.biology.biodiversity-and-conservation.fact-z-value-range",
+      "v": 2,
+      "subject": "biology",
+      "chapterKey": "biology.biodiversity-and-conservation",
+      "chapter": "Biodiversity & Conservation",
+      "unit": "Ecology and Environment",
+      "kind": "fact",
+      "front": "Species-area line: Z lies in what range across taxa and regions (not very large areas like continents)?",
+      "back": "Ecologists have discovered that the value of Z lies in the range of 0.1 to 0.2, regardless of the taxonomic group or the region",
+      "quote": "Ecologists have discovered that the value of Z lies in the range of 0.1 to 0.2, regardless of the taxonomic group or the region",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo113",
+        "chapterNo": 13,
+        "page": 220,
+        "section": "Patterns of Biodiversity"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 240
     },
     {
       "id": "kc.biology.biodiversity-and-conservation.fact-z-value-continents",
@@ -7634,6 +7659,33 @@
         "evolution"
       ],
       "order": 30
+    },
+    {
+      "id": "kc.biology.evolution.fact-life-appeared",
+      "v": 2,
+      "subject": "biology",
+      "chapterKey": "biology.evolution",
+      "chapter": "Evolution",
+      "unit": "Genetics and Evolution",
+      "kind": "fact",
+      "front": "How long after the formation of earth did life appear, in NCERT's Origin of Life account?",
+      "back": "Life appeared 500 million years after the formation of earth",
+      "quote": "Life appeared 500 million years after the formation of earth, i.e., almost four billion years back.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo106",
+        "chapterNo": 6,
+        "page": 111,
+        "section": "6.1 Origin of Life"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "evolution"
+      ],
+      "order": 40
     },
     {
       "id": "kc.biology.evolution.fact-panspermia",

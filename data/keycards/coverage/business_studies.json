@@ -212,11 +212,11 @@
       "belowMinimum": false
     },
     "business_studies.staffing": {
-      "published": 98,
-      "quarantined": 4,
+      "published": 99,
+      "quarantined": 3,
       "byKind": {
         "definition": 33,
-        "key_line": 24,
+        "key_line": 25,
         "list": 14,
         "fact": 9,
         "difference": 6,
@@ -224,11 +224,11 @@
         "types": 7
       },
       "byImportance": {
-        "must": 65,
+        "must": 66,
         "good": 33
       },
       "coverage_note": null,
-      "mustShare": 0.66,
+      "mustShare": 0.67,
       "belowMinimum": false
     }
   }

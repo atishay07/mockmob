@@ -164,37 +164,6 @@
       ]
     },
     {
-      "id": "kc.psychology.variations-in-psychological-attributes.def-aptitude-special-abilities",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.variations-in-psychological-attributes",
-      "chapter": "Variations in Psychological Attributes",
-      "unit": "Variations in Psychological Attributes",
-      "kind": "definition",
-      "front": "Define aptitude as a special ability.",
-      "back": "Aptitude refers to special abilities in a particular field of activity. It is a combination of characteristics that indicates an individual's capacity to acquire some specific knowledge or skill after training.",
-      "quote": "Aptitude refers to special abilities in a particular field of activity. It is a combination of characteristics that indicates an individual's capacity to acquire some specific knowledge or skill after training.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy101",
-        "chapterNo": 1,
-        "page": 17,
-        "section": "Aptitude: Nature and Measurement"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "aptitude"
-      ],
-      "order": 1160,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Ambiguous with def-aptitude-attribute (two different NCERT aptitude definitions, fronts differ only by 'as a ...'); also Key Term so should be must"
-      ]
-    },
-    {
       "id": "kc.psychology.variations-in-psychological-attributes.list-creativity-test-developers",
       "v": 1,
       "subject": "psychology",
@@ -224,167 +193,6 @@
       "reasons": [
         "review:not_important",
         "review:Seven-name list of test developers is trivia, unrealistic to recall; low exam yield"
-      ]
-    },
-    {
-      "id": "kc.psychology.variations-in-psychological-attributes.def-intelligence-summary",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.variations-in-psychological-attributes",
-      "chapter": "Variations in Psychological Attributes",
-      "unit": "Variations in Psychological Attributes",
-      "kind": "definition",
-      "front": "What does the term \"intelligence\" refer to (chapter summary)?",
-      "back": "The term \"intelligence\" refers to an individual's capacity to understand the world, think rationally, and use resources effectively to meet the demands of life.",
-      "quote": "The term \"intelligence\" refers to an individual's capacity to understand the world, think rationally, and use resources effectively to meet the demands of life.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy101",
-        "chapterNo": 1,
-        "page": 21,
-        "section": "Summary"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "intelligence"
-      ],
-      "order": 1340,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Duplicate of def-intelligence-attribute: two valid NCERT definitions answer 'What is intelligence?'; student cannot tell which is wanted"
-      ]
-    },
-    {
-      "id": "kc.psychology.variations-in-psychological-attributes.fact-ei-summary",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.variations-in-psychological-attributes",
-      "chapter": "Variations in Psychological Attributes",
-      "unit": "Variations in Psychological Attributes",
-      "kind": "fact",
-      "front": "What does emotional intelligence involve (chapter summary)?",
-      "back": "Emotional intelligence involves the ability to perceive and manage one's and other's feelings and emotions; to motivate oneself and restrain one's impulses; and to handle interpersonal relationships effectively.",
-      "quote": "Emotional intelligence involves the ability to perceive and manage one's and other's feelings and emotions; to motivate oneself and restrain one's impulses; and to handle interpersonal relationships effectively.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy101",
-        "chapterNo": 1,
-        "page": 21,
-        "section": "Summary"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "emotional intelligence"
-      ],
-      "order": 1350,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Overlaps def-emotional-intelligence: two valid NCERT answers to 'what is emotional intelligence/what does it involve'; front cannot pick one"
-      ]
-    },
-    {
-      "id": "kc.psychology.self-and-personality.kl-self-efficacy-circumstances",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.self-and-personality",
-      "chapter": "Self & Personality",
-      "unit": "Self and Personality",
-      "kind": "key_line",
-      "front": "A strong sense of ____ allows people to select, influence, and even construct the circumstances of their own life.",
-      "back": "A strong sense of self-efficacy allows people to select, influence, and even construct the circumstances of their own life.",
-      "quote": "A strong sense of self-efficacy allows people to select, influence, and even construct the circumstances of their own life.",
-      "blanks": [
-        "self-efficacy"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy102",
-        "chapterNo": 2,
-        "page": 27,
-        "section": "Self-efficacy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "self-efficacy"
-      ],
-      "order": 140,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank has no unique fill from the line; self-esteem or self-confidence also fit"
-      ]
-    },
-    {
-      "id": "kc.psychology.self-and-personality.kl-interactional-approach",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.self-and-personality",
-      "chapter": "Self & Personality",
-      "unit": "Self and Personality",
-      "kind": "key_line",
-      "front": "The ____ approach holds that situational characteristics play an important role in determining our behaviour.",
-      "back": "The interactional approach holds that situational characteristics play an important role in determining our behaviour.",
-      "quote": "The interactional approach holds that situational characteristics play an important role in determining our behaviour.",
-      "blanks": [
-        "interactional"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy102",
-        "chapterNo": 2,
-        "page": 30,
-        "section": "Major Approaches to the Study of Personality"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "approaches"
-      ],
-      "order": 300,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'situational' is the natural fill given 'situational characteristics' in the line; 'interactional' has no cue"
-      ]
-    },
-    {
-      "id": "kc.psychology.self-and-personality.kl-prakriti",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.self-and-personality",
-      "chapter": "Self & Personality",
-      "unit": "Self and Personality",
-      "kind": "key_line",
-      "front": "Each refers to a type of temperament, called ____ (basic nature) of a person.",
-      "back": "Each refers to a type of temperament, called prakriti (basic nature) of a person.",
-      "quote": "Each refers to a type of temperament, called prakriti (basic nature) of a person.",
-      "blanks": [
-        "prakriti"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy102",
-        "chapterNo": 2,
-        "page": 30,
-        "section": "Type Approaches"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "type-approach"
-      ],
-      "order": 330,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front opens 'Each refers to...' with no antecedent (vata, pitta, kapha missing), so the prompt is context-free"
       ]
     },
     {
@@ -482,24 +290,24 @@
       ]
     },
     {
-      "id": "kc.psychology.self-and-personality.types-kinds-of-self",
+      "id": "kc.psychology.self-and-personality.fact-personal-social-self",
       "v": 1,
       "subject": "psychology",
       "chapterKey": "psychology.self-and-personality",
       "chapter": "Self & Personality",
       "unit": "Self and Personality",
-      "kind": "types",
-      "front": "Name the different kinds of self.",
-      "back": "personal self\nsocial self\nrelational self",
-      "quote": "There are different kinds of self such as personal self, social self, and relational self.",
+      "kind": "fact",
+      "front": "In \"Kinds of Self\", NCERT distinguishes the \"personal\" self from which other self?",
+      "back": "A distinction is made between “personal” and “social” self.",
+      "quote": "A distinction is made between “personal” and “social” self.",
       "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Psychology",
         "code": "lepy102",
         "chapterNo": 2,
-        "page": 48,
-        "section": "Concept of Self"
+        "page": 26,
+        "section": "Kinds of Self"
       },
       "importance": "must",
       "asked": 0,
@@ -508,25 +316,23 @@
       ],
       "order": 1540,
       "reasons": [
+        "review:not_exact",
         "review:not_unambiguous",
-        "review:'Different kinds of self' also fits subject/object self and real/ideal self; also overlaps social vs relational self in card def-social-self"
+        "review:Quote/back type the marks as double curly quotes; NCERT p26 prints single quotes 'personal' and 'social'. Front is open: 'which other self' also fits the 'biological self' discussed just before in the same section, and 'social' is a near-guess; name the pair or blank 'social' with the sentence shown"
       ]
     },
     {
-      "id": "kc.psychology.meeting-life-challenges.key-stress-like-electricity",
+      "id": "kc.psychology.meeting-life-challenges.fact-stress-like-electricity",
       "v": 1,
       "subject": "psychology",
       "chapterKey": "psychology.meeting-life-challenges",
       "chapter": "Meeting Life Challenges",
       "unit": "Meeting Life Challenges",
-      "kind": "key_line",
-      "front": "Stress is like ____. It gives energy, increases human ____ and affects performance.",
+      "kind": "fact",
+      "front": "NCERT: stress is like what? (It gives energy, increases human arousal and affects performance.)",
       "back": "Stress is like electricity. It gives energy, increases human arousal and affects performance.",
       "quote": "Stress is like electricity. It gives energy, increases human arousal and affects performance.",
-      "blanks": [
-        "electricity",
-        "arousal"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Psychology",
@@ -543,7 +349,7 @@
       "order": 10,
       "reasons": [
         "review:not_unambiguous",
-        "review:both blanks have rival fills (battery/fuel; motivation/alertness) without the NCERT context"
+        "review:Open analogy question: from the front alone fuel, fire, a drug or a double-edged sword also fit 'gives energy, increases arousal, affects performance'; only recall of NCERT's word gives electricity. Blank the word in the sentence or ask 'NCERT compares stress to which thing that can fuse bulbs if to"
       ]
     },
     {
@@ -576,39 +382,6 @@
       "reasons": [
         "review:not_important",
         "review:Bare count (fifty-one items) of an Indian scale in a box is trivia; the scale's name/authors or use matter more than the number."
-      ]
-    },
-    {
-      "id": "kc.psychology.meeting-life-challenges.key-hassles-poorer-wellbeing",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.meeting-life-challenges",
-      "chapter": "Meeting Life Challenges",
-      "unit": "Meeting Life Challenges",
-      "kind": "key_line",
-      "front": "The more stress people report as a result of daily hassles, the ____ is their psychological well-being.",
-      "back": "The more stress people report as a result of daily hassles, the poorer is their psychological well-being.",
-      "quote": "The more stress people report as a result of daily hassles, the poorer is their psychological well-being.",
-      "blanks": [
-        "poorer"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy103",
-        "chapterNo": 3,
-        "page": 57,
-        "section": "Hassles"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "hassles"
-      ],
-      "order": 410,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:blank \"poorer\" has rival fills (worse, lower); wording not unique"
       ]
     },
     {
@@ -678,38 +451,6 @@
       "reasons": [
         "review:not_important",
         "review:bare statistic (60 per cent of medical visits), low exam value"
-      ]
-    },
-    {
-      "id": "kc.psychology.meeting-life-challenges.fact-hiv-attacks-t-helper-cells",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.meeting-life-challenges",
-      "chapter": "Meeting Life Challenges",
-      "unit": "Meeting Life Challenges",
-      "kind": "fact",
-      "front": "Which cells of the immune system are attacked by HIV, the virus causing AIDS?",
-      "back": "T-helper cells\nIt is these T-helper cells that are attacked by the Human Immuno Deficiency Virus (HIV), the virus causing Acquired Immuno Deficiency Syndrome (AIDS).",
-      "quote": "T cells destroy invaders, and T-helper cells increase immunological activity. It is these T-helper cells that are attacked by the Human Immuno Deficiency Virus (HIV), the virus causing Acquired Immuno Deficiency Syndrome (AIDS).",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy103",
-        "chapterNo": 3,
-        "page": 60,
-        "section": "Stress and the Immune System"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "immune",
-        "hiv"
-      ],
-      "order": 630,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front asks only 'which cells of the immune system'; 'T cells' is an equally natural answer while the card needs 'T-helper cells'. Front should say which kind of T cell or ask for the subtype."
       ]
     },
     {
@@ -810,143 +551,6 @@
       ]
     },
     {
-      "id": "kc.psychology.meeting-life-challenges.ex-coping-emotion-focused-example",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.meeting-life-challenges",
-      "chapter": "Meeting Life Challenges",
-      "unit": "Meeting Life Challenges",
-      "kind": "example",
-      "front": "Which type of coping is this? “I did some things to let it out of my system”.",
-      "back": "Emotion-focused strategies call for psychological changes designed primarily to limit the degree of emotional disruption caused by an event, with minimal effort to alter the event itself. For example “I did some things to let it out of my system”.",
-      "quote": "Emotion-focused strategies call for psychological changes designed primarily to limit the degree of emotional disruption caused by an event, with minimal effort to alter the event itself. For example “I did some things to let it out of my system”.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy103",
-        "chapterNo": 3,
-        "page": 62,
-        "section": "Coping with Stress"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "coping",
-        "emotion-focused"
-      ],
-      "order": 810,
-      "note": "Answer: emotion-focused coping.",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:\"let it out of my system\" fits both emotion-focused (Lazarus) and emotion-oriented (Endler and Parker); back repeats definition rather than naming concept alone"
-      ]
-    },
-    {
-      "id": "kc.psychology.meeting-life-challenges.key-relaxation-lower-to-facial",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.meeting-life-challenges",
-      "chapter": "Meeting Life Challenges",
-      "unit": "Meeting Life Challenges",
-      "kind": "key_line",
-      "front": "Usually relaxation starts from the ____ part of the body and progresses up to the ____ muscles in such a way that the whole body is relaxed.",
-      "back": "Usually relaxation starts from the lower part of the body and progresses up to the facial muscles in such a way that the whole body is relaxed.",
-      "quote": "Usually relaxation starts from the lower part of the body and progresses up to the facial muscles in such a way that the whole body is relaxed.",
-      "blanks": [
-        "lower",
-        "facial"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy103",
-        "chapterNo": 3,
-        "page": 62,
-        "section": "Stress Management Techniques"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "stress management",
-        "relaxation"
-      ],
-      "order": 850,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:blank \"lower\" has rival fills (bottom, lowest); low-value procedural detail"
-      ]
-    },
-    {
-      "id": "kc.psychology.meeting-life-challenges.key-visualisation-realistic-goal",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.meeting-life-challenges",
-      "chapter": "Meeting Life Challenges",
-      "unit": "Meeting Life Challenges",
-      "kind": "key_line",
-      "front": "Before visualising one must set oneself a ____ goal, as it helps build confidence.",
-      "back": "Before visualising one must set oneself a realistic goal, as it helps build confidence.",
-      "quote": "Before visualising one must set oneself a realistic goal, as it helps build confidence.",
-      "blanks": [
-        "realistic"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy103",
-        "chapterNo": 3,
-        "page": 63,
-        "section": "Stress Management Techniques"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "stress management",
-        "visualisation"
-      ],
-      "order": 900,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:blank \"realistic\" has rival fills (achievable, attainable, small)"
-      ]
-    },
-    {
-      "id": "kc.psychology.meeting-life-challenges.key-exercise-calming-arousal",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.meeting-life-challenges",
-      "chapter": "Meeting Life Challenges",
-      "unit": "Meeting Life Challenges",
-      "kind": "key_line",
-      "front": "Whereas stretching exercises have a ____ effect, ____ exercises increase the arousal level of the body.",
-      "back": "Whereas stretching exercises have a calming effect, aerobic exercises increase the arousal level of the body.",
-      "quote": "Whereas stretching exercises have a calming effect, aerobic exercises increase the arousal level of the body.",
-      "blanks": [
-        "calming",
-        "aerobic"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy103",
-        "chapterNo": 3,
-        "page": 66,
-        "section": "Promoting Positive Health and Well-being"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "positive health",
-        "exercise"
-      ],
-      "order": 1190,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:blank \"calming\" has rival fills (relaxing, soothing)"
-      ]
-    },
-    {
       "id": "kc.psychology.meeting-life-challenges.def-social-support-informational",
       "v": 1,
       "subject": "psychology",
@@ -979,52 +583,17 @@
       ]
     },
     {
-      "id": "kc.psychology.meeting-life-challenges.key-summary-stress-transactional",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.meeting-life-challenges",
-      "chapter": "Meeting Life Challenges",
-      "unit": "Meeting Life Challenges",
-      "kind": "key_line",
-      "front": "Stress is neither a stimulus nor a response but an ongoing ____ process between the individual and the environment.",
-      "back": "Stress is neither a stimulus nor a response but an ongoing transactional process between the individual and the environment.",
-      "quote": "Stress is neither a stimulus nor a response but an ongoing transactional process between the individual and the environment.",
-      "blanks": [
-        "transactional"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy103",
-        "chapterNo": 3,
-        "page": 67,
-        "section": "Summary"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "stress"
-      ],
-      "order": 1310,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:blank \"transactional\" has rival fills (dynamic, interactive)"
-      ]
-    },
-    {
-      "id": "kc.psychology.psychological-disorders.kl-first-approach-norms",
+      "id": "kc.psychology.psychological-disorders.fact-first-approach-norms",
       "v": 1,
       "subject": "psychology",
       "chapterKey": "psychology.psychological-disorders",
       "chapter": "Psychological Disorders",
       "unit": "Psychological Disorders",
-      "kind": "key_line",
-      "front": "The first approach views abnormal behaviour as a deviation from ____.",
+      "kind": "fact",
+      "front": "NCERT gives two basic, conflicting views of abnormal behaviour. How does the first approach view it?",
       "back": "The first approach views abnormal behaviour as a deviation from social norms.",
       "quote": "The first approach views abnormal behaviour as a deviation from social norms.",
-      "blanks": [
-        "social norms"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Psychology",
@@ -1041,7 +610,7 @@
       "order": 60,
       "reasons": [
         "review:not_unambiguous",
-        "review:'The first approach' has no antecedent on the card; 'deviation from ____' also fits 'the normal' or 'social expectations'. Name the context (normal vs abnormal behaviour)."
+        "review:Front depends on the ordinal 'first approach'; a student cannot derive first vs second from content, and 'maladaptive' fits the same front. Reword e.g. 'Abnormality as deviation from social norms: which view is this?' or ask for both views."
       ]
     },
     {
@@ -1077,19 +646,17 @@
       ]
     },
     {
-      "id": "kc.psychology.psychological-disorders.kl-second-approach-maladaptive",
+      "id": "kc.psychology.psychological-disorders.fact-second-approach-maladaptive",
       "v": 1,
       "subject": "psychology",
       "chapterKey": "psychology.psychological-disorders",
       "chapter": "Psychological Disorders",
       "unit": "Psychological Disorders",
-      "kind": "key_line",
-      "front": "The second approach views abnormal behaviour as ____.",
+      "kind": "fact",
+      "front": "NCERT gives two basic, conflicting views of abnormal behaviour. How does the second approach view it?",
       "back": "The second approach views abnormal behaviour as maladaptive.",
       "quote": "The second approach views abnormal behaviour as maladaptive.",
-      "blanks": [
-        "maladaptive"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Psychology",
@@ -1106,56 +673,21 @@
       "order": 90,
       "reasons": [
         "review:not_unambiguous",
-        "review:'The second approach' has no antecedent; 'views abnormal behaviour as ____' also fits 'deviant' or 'a label'. Needs the approach named."
+        "review:Same as first-approach card: ordinal 'second approach' is not derivable; answer is only obtainable by eliminating the other view. Reword to name the view without the ordinal."
       ]
     },
     {
-      "id": "kc.psychology.psychological-disorders.kl-biological-model",
+      "id": "kc.psychology.psychological-disorders.fact-genetic-factors-disorders",
       "v": 1,
       "subject": "psychology",
       "chapterKey": "psychology.psychological-disorders",
       "chapter": "Psychological Disorders",
       "unit": "Psychological Disorders",
-      "kind": "key_line",
-      "front": "According to this model, abnormal behaviour has a ____ basis.",
-      "back": "According to this model, abnormal behaviour has a biochemical or physiological basis.",
-      "quote": "According to this model, abnormal behaviour has a biochemical or physiological basis.",
-      "blanks": [
-        "biochemical or physiological"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy104",
-        "chapterNo": 4,
-        "page": 73,
-        "section": "Factors Underlying Abnormal Behaviour"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "biological model"
-      ],
-      "order": 270,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'According to this model' names no model on the card; 'biochemical or physiological' vs 'biological/genetic' is not fixed. Add 'biological model'."
-      ]
-    },
-    {
-      "id": "kc.psychology.psychological-disorders.kl-genetic-factors",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.psychological-disorders",
-      "chapter": "Psychological Disorders",
-      "unit": "Psychological Disorders",
-      "kind": "key_line",
-      "front": "Genetic factors have been linked to ____ and other psychological disorders.",
+      "kind": "fact",
+      "front": "Which three psychological disorders does NCERT name as linked to genetic factors?",
       "back": "Genetic factors have been linked to bipolar and related disorders, schizophrenia, intellectual disability and other psychological disorders.",
       "quote": "Genetic factors have been linked to bipolar and related disorders, schizophrenia, intellectual disability and other psychological disorders.",
-      "blanks": [
-        "bipolar and related disorders, schizophrenia, intellectual disability"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Psychology",
@@ -1172,56 +704,21 @@
       "order": 300,
       "reasons": [
         "review:not_unambiguous",
-        "review:Blank is a three-item list while front says 'and other disorders', so other disorders also fit; not one right fill."
+        "review:Next sentence on the same page says genetic/biochemical factors are involved in schizophrenia, depression, anxiety, so a student can validly name different disorders; front must anchor 'Genetic factors have been linked to ...'. Also 'and other disorders' is in the back."
       ]
     },
     {
-      "id": "kc.psychology.psychological-disorders.kl-biology-alone",
+      "id": "kc.psychology.psychological-disorders.fact-cognitive-model-assumptions",
       "v": 1,
       "subject": "psychology",
       "chapterKey": "psychology.psychological-disorders",
       "chapter": "Psychological Disorders",
       "unit": "Psychological Disorders",
-      "kind": "key_line",
-      "front": "____ cannot account for most mental disorders.",
-      "back": "biology alone cannot account for most mental disorders.",
-      "quote": "biology alone cannot account for most mental disorders.",
-      "blanks": [
-        "biology alone"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy104",
-        "chapterNo": 4,
-        "page": 74,
-        "section": "Factors Underlying Abnormal Behaviour"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "biological model"
-      ],
-      "order": 310,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'____ cannot account for most mental disorders' has no context; genetics, heredity or biochemistry also fit. Not one right fill."
-      ]
-    },
-    {
-      "id": "kc.psychology.psychological-disorders.kl-irrational-assumptions",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.psychological-disorders",
-      "chapter": "Psychological Disorders",
-      "unit": "Psychological Disorders",
-      "kind": "key_line",
-      "front": "People may hold assumptions and attitudes about themselves that are ____.",
+      "kind": "fact",
+      "front": "Cognitive model: which two adjectives does NCERT use for the assumptions and attitudes people may hold about themselves?",
       "back": "People may hold assumptions and attitudes about themselves that are irrational and inaccurate.",
       "quote": "People may hold assumptions and attitudes about themselves that are irrational and inaccurate.",
-      "blanks": [
-        "irrational and inaccurate"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Psychology",
@@ -1238,7 +735,7 @@
       "order": 390,
       "reasons": [
         "review:not_unambiguous",
-        "review:No model named on the front (cognitive model); 'irrational and inaccurate' vs 'negative/unrealistic' is not a single answer."
+        "review:'Two adjectives' (irrational, inaccurate) have obvious synonyms (illogical, unrealistic, incorrect); next sentence uses 'illogical'. Make it a term/key_line with the blanks irrational and inaccurate, or ask what the model says about the assumptions."
       ]
     },
     {
@@ -1271,104 +768,6 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:Back ('the most dramatic of the dissociative disorders') does not define DID; a correct definition would not match it. Use NCERT's 'the person assumes alternate personalities that may or may not be aware of each other'."
-      ]
-    },
-    {
-      "id": "kc.psychology.psychological-disorders.kl-depression-heredity",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.psychological-disorders",
-      "chapter": "Psychological Disorders",
-      "unit": "Psychological Disorders",
-      "kind": "key_line",
-      "front": "____ is an important risk factor for major depression and other depressive disorders.",
-      "back": "Genetic make-up, or heredity is an important risk factor for major depression and other depressive disorders.",
-      "quote": "Genetic make-up, or heredity is an important risk factor for major depression and other depressive disorders.",
-      "blanks": [
-        "Genetic make-up, or heredity"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy104",
-        "chapterNo": 4,
-        "page": 79,
-        "section": "Depressive Disorders"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "depression"
-      ],
-      "order": 820,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Age, gender and negative life events are also stated risk factors, so '____ is an important risk factor' has several fits."
-      ]
-    },
-    {
-      "id": "kc.psychology.psychological-disorders.kl-depression-risk-factors",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.psychological-disorders",
-      "chapter": "Psychological Disorders",
-      "unit": "Psychological Disorders",
-      "kind": "key_line",
-      "front": "Other risk factors are experiencing ____ and ____.",
-      "back": "Other risk factors are experiencing negative life events and lack of social support.",
-      "quote": "Other risk factors are experiencing negative life events and lack of social support.",
-      "blanks": [
-        "negative life events",
-        "lack of social support"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy104",
-        "chapterNo": 4,
-        "page": 80,
-        "section": "Depressive Disorders"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "depression"
-      ],
-      "order": 840,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front never says these are risk factors for depression; subject missing, so the blanks cannot be answered."
-      ]
-    },
-    {
-      "id": "kc.psychology.psychological-disorders.diff-blunted-vs-flat",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.psychological-disorders",
-      "chapter": "Psychological Disorders",
-      "unit": "Psychological Disorders",
-      "kind": "difference",
-      "front": "Blunted affect vs flat affect: what is each?",
-      "back": "Thus they have blunted affect.\nSome show no emotions at all, a condition known as flat affect.",
-      "quote": "Many people with schizophrenia show less anger, sadness, joy, and other feelings than most people do. Thus they have blunted affect. Some show no emotions at all, a condition known as flat affect.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy104",
-        "chapterNo": 4,
-        "page": 82,
-        "section": "Schizophrenia Spectrum and Other Psychotic Disorders"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "schizophrenia"
-      ],
-      "order": 1020,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Back for blunted affect ('Thus they have blunted affect.') omits the defining sentence (shows less anger, sadness, joy than most people), so it does not say what blunted affect is."
       ]
     },
     {
@@ -1434,72 +833,6 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:Blank 'solve' is a generic verb (solve/resolve/overcome all fit) and carries no marks; low exam value."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-psychotherapy-aims",
-      "v": 2,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "Psychotherapies aim at changing the ____ behaviours, decreasing the sense of personal distress",
-      "back": "Psychotherapies aim at changing the maladaptive behaviours, decreasing the sense of personal distress",
-      "quote": "Psychotherapies aim at changing the maladaptive behaviours, decreasing the sense of personal distress",
-      "blanks": [
-        "maladaptive"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 90,
-        "section": "Nature and Process of Psychotherapy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "psychotherapy"
-      ],
-      "order": 30,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank \"maladaptive\" has obvious synonyms (abnormal, faulty, unhealthy, undesirable) that a student would write; the sentence does not force one fill."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-clinical-formulation-ongoing",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "The clinical formulation is an ____ process.",
-      "back": "The clinical formulation is an ongoing process.",
-      "quote": "The clinical formulation is an ongoing process.",
-      "blanks": [
-        "ongoing"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 93,
-        "section": "Steps in the Formulation of a Client's Problem"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "clinical-formulation"
-      ],
-      "order": 310,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'ongoing' has near synonyms (continuous/continuing) so a blank answer is not uniquely marked."
       ]
     },
     {
@@ -1632,302 +965,6 @@
       ]
     },
     {
-      "id": "kc.psychology.therapeutic-approaches.term-relaxation-procedures",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "term",
-      "front": "____ are used to decrease the anxiety levels.",
-      "back": "Relaxation procedures are used to decrease the anxiety levels.",
-      "quote": "Relaxation procedures are used to decrease the anxiety levels.",
-      "blanks": [
-        "Relaxation procedures"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 95,
-        "section": "Relaxation Procedures (Box 5.2)"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "relaxation"
-      ],
-      "order": 500,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front '____ are used to decrease the anxiety levels' has no context; antianxiety drugs or other terms also fit."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-relaxation-examples",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "For instance, progressive muscular relaxation and ____ induce a state of relaxation.",
-      "back": "For instance, progressive muscular relaxation and meditation induce a state of relaxation.",
-      "quote": "For instance, progressive muscular relaxation and meditation induce a state of relaxation.",
-      "blanks": [
-        "meditation"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 95,
-        "section": "Relaxation Procedures (Box 5.2)"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "relaxation"
-      ],
-      "order": 510,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'For instance, progressive muscular relaxation and ____' admits yoga, deep breathing, biofeedback; only NCERT's 'meditation' is accepted."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-progressive-muscular-relaxation",
-      "v": 2,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "In progressive muscular relaxation, the client is taught to ____ individual muscle groups",
-      "back": "In progressive muscular relaxation, the client is taught to contract individual muscle groups",
-      "quote": "In progressive muscular relaxation, the client is taught to contract individual muscle groups",
-      "blanks": [
-        "contract"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 95,
-        "section": "Relaxation Procedures (Box 5.2)"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "relaxation"
-      ],
-      "order": 520,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank \"contract\" has an obvious synonym: NCERT itself says in the next sentence the client learns to \"tense\" the muscle group; \"tense\" fits the gap equally."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.steps-systematic-desensitisation-steps",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "steps",
-      "front": "Steps in systematic desensitisation, in order (first steps).",
-      "back": "The client is interviewed to elicit fear-provoking situations and together with the client, the therapist prepares a hierarchy of anxiety-provoking stimuli with the least anxiety-provoking stimuli at the bottom of the hierarchy. The therapist relaxes the client and asks the client to think about the least anxiety-provoking situation.",
-      "quote": "The client is interviewed to elicit fear-provoking situations and together with the client, the therapist prepares a hierarchy of anxiety-provoking stimuli with the least anxiety-provoking stimuli at the bottom of the hierarchy. The therapist relaxes the client and asks the client to think about the least anxiety-provoking situation.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 96,
-        "section": "Behaviour Therapy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "behaviour-therapy"
-      ],
-      "order": 560,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front says '(first steps)' and the back is a paragraph, not NCERT titled ordered steps, so the answer is vague and incomplete; systematic desensitisation procedure is a CUET staple and should be must."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-cognitive-restructuring",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "The aim of the therapy is to achieve this ____ which, in turn, reduces anxiety and depression.",
-      "back": "The aim of the therapy is to achieve this cognitive restructuring which, in turn, reduces anxiety and depression.",
-      "quote": "The aim of the therapy is to achieve this cognitive restructuring which, in turn, reduces anxiety and depression.",
-      "blanks": [
-        "cognitive restructuring"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 97,
-        "section": "Cognitive Therapy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "cognitive-therapy",
-        "beck"
-      ],
-      "order": 730,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'this ____' has no antecedent (which therapy, which aim?); front is ambiguous without the Beck context."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-cognitive-therapy-open",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "Unlike psycho-dynamic therapy, behaviour therapy is ____, i.e. the therapist shares her/his method with the client.",
-      "back": "Unlike psycho-dynamic therapy, behaviour therapy is open, i.e. the therapist shares her/his method with the client.",
-      "quote": "Unlike psycho-dynamic therapy, behaviour therapy is open, i.e. the therapist shares her/his method with the client.",
-      "blanks": [
-        "open"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 97,
-        "section": "Cognitive Therapy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "cognitive-therapy"
-      ],
-      "order": 740,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:NCERT sentence reads 'behaviour therapy is open' inside the Cognitive Therapy paragraph (likely misprint for cognitive therapy), and card id says cognitive; student will be misled. Needs owner call or removal."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-humanistic-chief-aim",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "The chief aim of the therapy is to expand the client's ____.",
-      "back": "The chief aim of the therapy is to expand the client's awareness.",
-      "quote": "The chief aim of the therapy is to expand the client's awareness.",
-      "blanks": [
-        "awareness"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 98,
-        "section": "Humanistic-existential Therapy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "humanistic-existential"
-      ],
-      "order": 830,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'The chief aim of the therapy' names no therapy; gestalt (self-awareness) and others give different aims."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-existential-anxiety",
-      "v": 2,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "Frankl emphasised the role of spiritual anxieties in leading to meaninglessness and hence it may be called an ____",
-      "back": "Frankl emphasised the role of spiritual anxieties in leading to meaninglessness and hence it may be called an existential anxiety",
-      "quote": "Frankl emphasised the role of spiritual anxieties in leading to meaninglessness and hence it may be called an existential anxiety",
-      "blanks": [
-        "existential anxiety"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 99,
-        "section": "Existential Therapy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "logotherapy"
-      ],
-      "order": 870,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front uses a dangling \"it\" and the same passage also says \"neurotic anxiety of spiritual origin\", so \"neurotic anxiety\" is a plausible fill for \"an ____\"; not a single clear answer."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-logotherapy-goal",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "The goal of logotherapy is to help the patients to find meaning and ____ in their life irrespective of their life circumstances.",
-      "back": "The goal of logotherapy is to help the patients to find meaning and responsibility in their life irrespective of their life circumstances.",
-      "quote": "The goal of logotherapy is to help the patients to find meaning and responsibility in their life irrespective of their life circumstances.",
-      "blanks": [
-        "responsibility"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 99,
-        "section": "Existential Therapy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "logotherapy"
-      ],
-      "order": 880,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'find meaning and ____' - 'purpose' fits equally; only 'responsibility' is NCERT's."
-      ]
-    },
-    {
       "id": "kc.psychology.therapeutic-approaches.def-rogers-empathy-uph",
       "v": 1,
       "subject": "psychology",
@@ -1956,169 +993,6 @@
       "reasons": [
         "review:not_important",
         "review:Front gives away the answer in brackets (empathy and unconditional positive regard) and duplicates the separate empathy and UPR cards."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-empathy-resonance",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "Empathy sets up an ____ between the therapist and the client.",
-      "back": "Empathy sets up an emotional resonance between the therapist and the client.",
-      "quote": "Empathy sets up an emotional resonance between the therapist and the client.",
-      "blanks": [
-        "emotional resonance"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 99,
-        "section": "Client-centred Therapy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "client-centred"
-      ],
-      "order": 930,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'Empathy sets up an ____' - emotional bond/connection/rapport also fit; 'emotional resonance' is not uniquely derivable."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-reflection",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "The reflection is achieved by ____ the statements of the client, i.e. seeking simple clarifications to enhance the meaning of the client's statements.",
-      "back": "The reflection is achieved by rephrasing the statements of the client, i.e. seeking simple clarifications to enhance the meaning of the client's statements.",
-      "quote": "The reflection is achieved by rephrasing the statements of the client, i.e. seeking simple clarifications to enhance the meaning of the client's statements.",
-      "blanks": [
-        "rephrasing"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 99,
-        "section": "Client-centred Therapy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "client-centred"
-      ],
-      "order": 940,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank 'rephrasing' has synonyms (restating/repeating/paraphrasing); not uniquely answerable."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-client-centred-real-self",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "In essence, this therapy helps a client to become her/his ____ with the therapist working as a facilitator.",
-      "back": "In essence, this therapy helps a client to become her/his real self with the therapist working as a facilitator.",
-      "quote": "In essence, this therapy helps a client to become her/his real self with the therapist working as a facilitator.",
-      "blanks": [
-        "real self"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 99,
-        "section": "Client-centred Therapy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "client-centred"
-      ],
-      "order": 950,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'this therapy' is not identified in front (client-centred), so many humanistic goals could fill the blank."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-gestalt-act-out",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "The therapist does this by encouraging the client to ____ fantasies about feelings and conflicts.",
-      "back": "The therapist does this by encouraging the client to act out fantasies about feelings and conflicts.",
-      "quote": "The therapist does this by encouraging the client to act out fantasies about feelings and conflicts.",
-      "blanks": [
-        "act out"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 99,
-        "section": "Gestalt Therapy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "gestalt"
-      ],
-      "order": 980,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'The therapist does this by...' has no antecedent; 'act out' vs 'enact/express' not unique."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.list-healing-factors",
-      "v": 2,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "list",
-      "front": "Name the factors that contribute to healing in psychotherapy.",
-      "back": "A major factor in the healing is the techniques adopted by the therapist and the implementation of the same with the patient/client.\nThe therapeutic alliance, which is formed between the therapist and the patient/client, has healing properties\nThis process of emotional unburdening is known as catharsis, and it has healing properties.\nThere are several non-specific factors associated with psychotherapy.",
-      "quote": "There are several factors which contribute to the healing process. Some of these factors are as follows : 1. A major factor in the healing is the techniques adopted by the therapist and the implementation of the same with the patient/client. If the behavioural system and the CBT school are adopted to heal an anxious client, the relaxation procedures and the cognitive restructuring largely contribute to the healing. 2. The therapeutic alliance, which is formed between the therapist and the patient/client, has healing properties, because of the regular availability of the therapist, and the warmth and empathy provided by the therapist. 3. At the outset of therapy while the patient/client is being interviewed in the initial sessions to understand the nature of the problem, s/he unburdens the emotional problems being faced. This process of emotional unburdening is known as catharsis, and it has healing properties. 4. There are several non-specific factors associated with psychotherapy.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 99,
-        "section": "Factors Contributing to Healing in Psychotherapy"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "healing"
-      ],
-      "order": 990,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front gives no count (4) so the student cannot know the list is complete; back item 3 starts \"This process\" with no named factor and item 4 is not a named factor, so the items do not stand alone."
       ]
     },
     {
@@ -2152,72 +1026,6 @@
       "reasons": [
         "review:not_important",
         "review:Trivia (survivors of 'mass disasters'); low CUET value."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-severe-disorders-quality",
-      "v": 2,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "In the case of severe mental disorders such as ____, reduction of symptoms may not be associated with an improvement in the quality of life.",
-      "back": "In the case of severe mental disorders such as schizophrenia, reduction of symptoms may not be associated with an improvement in the quality of life.",
-      "quote": "In the case of severe mental disorders such as schizophrenia, reduction of symptoms may not be associated with an improvement in the quality of life.",
-      "blanks": [
-        "schizophrenia"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 101,
-        "section": "Rehabilitation of the Mentally Ill"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "rehabilitation"
-      ],
-      "order": 1190,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank after \"severe mental disorders such as\" accepts other severe disorders (bipolar disorder, psychosis); only NCERT happens to name schizophrenia, so it is not a single fill."
-      ]
-    },
-    {
-      "id": "kc.psychology.therapeutic-approaches.kl-rehabilitation-aim",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.therapeutic-approaches",
-      "chapter": "Therapeutic Approaches",
-      "unit": "Therapeutic Approaches",
-      "kind": "key_line",
-      "front": "The aim of rehabilitation is to ____ the patient to become a productive member of society to the extent possible.",
-      "back": "The aim of rehabilitation is to empower the patient to become a productive member of society to the extent possible.",
-      "quote": "The aim of rehabilitation is to empower the patient to become a productive member of society to the extent possible.",
-      "blanks": [
-        "empower"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy105",
-        "chapterNo": 5,
-        "page": 101,
-        "section": "Rehabilitation of the Mentally Ill"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "rehabilitation"
-      ],
-      "order": 1200,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank 'empower' has synonyms (enable/help); not uniquely answerable."
       ]
     },
     {
@@ -2346,78 +1154,16 @@
       ]
     },
     {
-      "id": "kc.psychology.attitude-and-social-cognition.fact-box62-explanation",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.attitude-and-social-cognition",
-      "chapter": "Attitude & Social Cognition",
-      "unit": "Attitude and Social Cognition",
-      "kind": "fact",
-      "front": "In Box 6.2, why did the $ 1 students change their attitude towards the experiment?",
-      "back": "The explanation was : the $ 1 students changed their attitude towards the experiment because they experienced cognitive dissonance.",
-      "quote": "The explanation was : the $ 1 students changed their attitude towards the experiment because they experienced cognitive dissonance.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy106",
-        "chapterNo": 6,
-        "page": 111,
-        "section": "Box 6.2"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "cognitive dissonance"
-      ],
-      "order": 570,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front depends on Box 6.2 (what the experiment was, who the '$1 students' are) which the card does not state; add the experiment to the front."
-      ]
-    },
-    {
-      "id": "kc.psychology.attitude-and-social-cognition.fact-box62-twenty",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.attitude-and-social-cognition",
-      "chapter": "Attitude & Social Cognition",
-      "unit": "Attitude and Social Cognition",
-      "kind": "fact",
-      "front": "In Box 6.2, why did the $ 20 group not change its attitude?",
-      "back": "The $ 20 group did not experience cognitive dissonance. So, they did not change their attitude towards the experiment, and rated it as very boring.",
-      "quote": "The $ 20 group did not experience cognitive dissonance. So, they did not change their attitude towards the experiment, and rated it as very boring.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy106",
-        "chapterNo": 6,
-        "page": 111,
-        "section": "Box 6.2"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "cognitive dissonance"
-      ],
-      "order": 580,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front depends on Box 6.2 (the '$20 group' and the experiment are not described on the card); add the context to the front."
-      ]
-    },
-    {
       "id": "kc.psychology.attitude-and-social-cognition.fact-behaviour-decides-attitude",
-      "v": 1,
+      "v": 2,
       "subject": "psychology",
       "chapterKey": "psychology.attitude-and-social-cognition",
       "chapter": "Attitude & Social Cognition",
       "unit": "Attitude and Social Cognition",
       "kind": "fact",
-      "front": "In the $ 1 group of Box 6.2, what did the students conclude on the basis of their behaviour?",
-      "back": "That is, on the basis of their behaviour (telling others that the experiment was interesting, for only a small amount of money), they concluded that their attitude towards the experiment was positive",
-      "quote": "That is, on the basis of their behaviour (telling others that the experiment was interesting, for only a small amount of money), they concluded that their attitude towards the experiment was positive",
+      "front": "Festinger and Carlsmith's $ 1 group: what did the students conclude about the experiment, and on what basis?",
+      "back": "on the basis of their behaviour (telling others that the experiment was interesting, for only a small amount of money), they concluded that their attitude towards the experiment was positive (‘I would not have told a lie for this small amount of money, which means that the experiment was actually interesting’).",
+      "quote": "on the basis of their behaviour (telling others that the experiment was interesting, for only a small amount of money), they concluded that their attitude towards the experiment was positive (‘I would not have told a lie for this small amount of money, which means that the experiment was actually interesting’).",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -2435,141 +1181,7 @@
       "order": 880,
       "reasons": [
         "review:not_unambiguous",
-        "review:Front depends on Box 6.2 (the experiment is not described) and the back starts 'That is,' with no antecedent and drops the sentence end; answer is vague without context."
-      ]
-    },
-    {
-      "id": "kc.psychology.attitude-and-social-cognition.kl-prejudice-affective",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.attitude-and-social-cognition",
-      "chapter": "Attitude & Social Cognition",
-      "unit": "Attitude and Social Cognition",
-      "kind": "key_line",
-      "front": "The cognitive component of prejudice is frequently accompanied by dislike or hatred, the ____ component.",
-      "back": "The cognitive component of prejudice is frequently accompanied by dislike or hatred, the affective component.",
-      "quote": "The cognitive component of prejudice is frequently accompanied by dislike or hatred, the affective component.",
-      "blanks": [
-        "affective"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy106",
-        "chapterNo": 6,
-        "page": 115,
-        "section": "Prejudice and Discrimination"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "prejudice"
-      ],
-      "order": 900,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:'emotional' fits the blank as well as 'affective' (NCERT itself calls it 'affective (emotional)'); two right fills."
-      ]
-    },
-    {
-      "id": "kc.psychology.attitude-and-social-cognition.kl-scapegoating-frustration",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.attitude-and-social-cognition",
-      "chapter": "Attitude & Social Cognition",
-      "unit": "Attitude and Social Cognition",
-      "kind": "key_line",
-      "front": "Scapegoating is a group-based way of expressing ____, and it often results in negative attitudes or prejudice against the weaker group.",
-      "back": "Scapegoating is a group-based way of expressing frustration, and it often results in negative attitudes or prejudice against the weaker group.",
-      "quote": "Scapegoating is a group-based way of expressing frustration, and it often results in negative attitudes or prejudice against the weaker group.",
-      "blanks": [
-        "frustration"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy106",
-        "chapterNo": 6,
-        "page": 116,
-        "section": "Prejudice and Discrimination"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "scapegoating"
-      ],
-      "order": 1010,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Alternatives such as anger, hostility or aggression also fit 'a group-based way of expressing ____'; only the NCERT word 'frustration' is accepted."
-      ]
-    },
-    {
-      "id": "kc.psychology.social-influence-and-group-processes.kl-group-vs-collection",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "key_line",
-      "front": "____, roles, status, and ____ are the main characteristics of groups.",
-      "back": "Mutual interdependence, roles, status, and expectations are the main characteristics of groups.",
-      "quote": "Mutual interdependence, roles, status, and expectations are the main characteristics of groups.",
-      "blanks": [
-        "Mutual interdependence",
-        "expectations"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 130,
-        "section": "Summary"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "group"
-      ],
-      "order": 30,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Ambiguous: Second blank has other fits (norms, cohesiveness); 'expectations' is not forced by the line. Importance: Summary point; spec makes summary points must."
-      ]
-    },
-    {
-      "id": "kc.psychology.social-influence-and-group-processes.kl-crowd-no-structure",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "key_line",
-      "front": "There is neither any ____ nor feeling of ____ in a crowd.",
-      "back": "There is neither any structure nor feeling of belongingness in a crowd.",
-      "quote": "There is neither any structure nor feeling of belongingness in a crowd.",
-      "blanks": [
-        "structure",
-        "belongingness"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 122,
-        "section": "What is a Group?"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "crowd"
-      ],
-      "order": 60,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Ambiguous: First blank 'structure' has close synonyms (organisation); two blanks."
+        "review:Front says 'the experiment' but never states what it was (students told others a boring experiment was interesting for $ 1), so a student without the box cannot answer; two-part question (conclusion and basis); back opens with a lowercase fragment."
       ]
     },
     {
@@ -2606,107 +1218,6 @@
       ]
     },
     {
-      "id": "kc.psychology.social-influence-and-group-processes.kl-audience-mob",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "key_line",
-      "front": "Audiences are generally ____ but sometimes they go into a frenzy and become ____.",
-      "back": "Audiences are generally passive but sometimes they go into a frenzy and become mobs.",
-      "quote": "Audiences are generally passive but sometimes they go into a frenzy and become mobs.",
-      "blanks": [
-        "passive",
-        "mobs"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 123,
-        "section": "What is a Group?"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "mob"
-      ],
-      "order": 120,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Ambiguous: 'passive' has equal fits (calm, quiet, peaceful); not a forced fill."
-      ]
-    },
-    {
-      "id": "kc.psychology.social-influence-and-group-processes.kl-mob-behaviour",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "key_line",
-      "front": "Mob behaviour is characterised by ____ of thought and behaviour as well as ____.",
-      "back": "Mob behaviour is characterised by homogeneity of thought and behaviour as well as impulsivity.",
-      "quote": "Mob behaviour is characterised by homogeneity of thought and behaviour as well as impulsivity.",
-      "blanks": [
-        "homogeneity",
-        "impulsivity"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 123,
-        "section": "What is a Group?"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "mob"
-      ],
-      "order": 130,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Ambiguous: Both blanks have synonyms (uniformity; emotionality/irrationality); not a forced fill."
-      ]
-    },
-    {
-      "id": "kc.psychology.social-influence-and-group-processes.kl-similarity-validate",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "key_line",
-      "front": "Another explanation given by psychologists is that when we meet similar people, they reinforce and ____ our opinions and values",
-      "back": "Another explanation given by psychologists is that when we meet similar people, they reinforce and validate our opinions and values",
-      "quote": "Another explanation given by psychologists is that when we meet similar people, they reinforce and validate our opinions and values",
-      "blanks": [
-        "validate"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 124,
-        "section": "Group Formation"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "similarity"
-      ],
-      "order": 180,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Ambiguous: 'reinforce and ____' fits strengthen/support/confirm equally; 'validate' is not forced."
-      ]
-    },
-    {
       "id": "kc.psychology.social-influence-and-group-processes.kl-common-motives",
       "v": 1,
       "subject": "psychology",
@@ -2737,39 +1248,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Ambiguous: 'motives' has equal fits (aims, interests, objectives) before 'or goals'."
-      ]
-    },
-    {
-      "id": "kc.psychology.social-influence-and-group-processes.kl-storming-hierarchy",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "key_line",
-      "front": "When this stage is complete, some sort of ____ of leadership in the group develops and a clear vision as to how to achieve the group goal.",
-      "back": "When this stage is complete, some sort of hierarchy of leadership in the group develops and a clear vision as to how to achieve the group goal.",
-      "quote": "When this stage is complete, some sort of hierarchy of leadership in the group develops and a clear vision as to how to achieve the group goal.",
-      "blanks": [
-        "hierarchy"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 124,
-        "section": "Stages of Group Formation"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "tuckman"
-      ],
-      "order": 230,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Ambiguous: 'this stage' has no antecedent in the front (storming is never named), so the card cannot be answered; 'hierarchy' also has synonyms (structure)."
       ]
     },
     {
@@ -2806,154 +1284,17 @@
       ]
     },
     {
-      "id": "kc.psychology.social-influence-and-group-processes.kl-cohesive-social-unit",
+      "id": "kc.psychology.social-influence-and-group-processes.diff-formal-informal-functions",
       "v": 1,
       "subject": "psychology",
       "chapterKey": "psychology.social-influence-and-group-processes",
       "chapter": "Social Influence & Group Processes",
       "unit": "Social Influence and Group Processes",
-      "kind": "key_line",
-      "front": "As the group becomes more cohesive, group members start to think, feel and act as a ____, and less like isolated individuals.",
-      "back": "As the group becomes more cohesive, group members start to think, feel and act as a social unit, and less like isolated individuals.",
-      "quote": "As the group becomes more cohesive, group members start to think, feel and act as a social unit, and less like isolated individuals.",
-      "blanks": [
-        "social unit"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 126,
-        "section": "Group Structure"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "cohesiveness"
-      ],
-      "order": 340,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Ambiguous: 'act as a ____' fits group/unit/team equally; 'social unit' not forced."
-      ]
-    },
-    {
-      "id": "kc.psychology.social-influence-and-group-processes.kl-groupthink-conditions",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "key_line",
-      "front": "Groupthink is likely to occur in socially ____, cohesive groups that are ____ from outsiders",
-      "back": "Groupthink is likely to occur in socially homogenous, cohesive groups that are isolated from outsiders",
-      "quote": "Groupthink is likely to occur in socially homogenous, cohesive groups that are isolated from outsiders",
-      "blanks": [
-        "homogenous",
-        "isolated"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 125,
-        "section": "Groupthink (Box 7.1)"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "groupthink"
-      ],
-      "order": 380,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Ambiguous: Both blanks have close synonyms (similar/uniform; cut off/separated)."
-      ]
-    },
-    {
-      "id": "kc.psychology.social-influence-and-group-processes.kl-primary-values",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "key_line",
-      "front": "Primary groups are central to individual’s functioning and have a very major role in developing ____ and ____ of the individual",
-      "back": "Primary groups are central to individual’s functioning and have a very major role in developing values and ideals of the individual",
-      "quote": "Primary groups are central to individual’s functioning and have a very major role in developing values and ideals of the individual",
-      "blanks": [
-        "values",
-        "ideals"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 126,
-        "section": "Primary and Secondary Groups"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "primary-group"
-      ],
-      "order": 450,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Ambiguous: Blanks 'values and ideals' have plausible alternatives (beliefs, attitudes, personality)."
-      ]
-    },
-    {
-      "id": "kc.psychology.social-influence-and-group-processes.kl-secondary-impersonal",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "key_line",
-      "front": "In contrast, secondary groups are those where relationships among members are more ____, ____, and less frequent.",
-      "back": "In contrast, secondary groups are those where relationships among members are more impersonal, indirect, and less frequent.",
-      "quote": "In contrast, secondary groups are those where relationships among members are more impersonal, indirect, and less frequent.",
-      "blanks": [
-        "impersonal",
-        "indirect"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 126,
-        "section": "Primary and Secondary Groups"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "secondary-group"
-      ],
-      "order": 460,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Ambiguous: 'impersonal, indirect' competes with formal/distant; two blanks, no primary-group context in front."
-      ]
-    },
-    {
-      "id": "kc.psychology.social-influence-and-group-processes.kl-formal-functions",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "key_line",
-      "front": "The functions of a formal group are ____ stated as in the case of an office organisation.",
-      "back": "The functions of a formal group are explicitly stated as in the case of an office organisation.",
-      "quote": "The functions of a formal group are explicitly stated as in the case of an office organisation.",
-      "blanks": [
-        "explicitly"
-      ],
+      "kind": "difference",
+      "front": "Formal vs informal groups: the difference in how the functions of the group are stated.",
+      "back": "These groups differ in the degree to which the functions of the group are stated explicitly and formally. The functions of a formal group are explicitly stated as in the case of an office organisation.",
+      "quote": "These groups differ in the degree to which the functions of the group are stated explicitly and formally. The functions of a formal group are explicitly stated as in the case of an office organisation.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Psychology",
@@ -2970,7 +1311,7 @@
       "order": 480,
       "reasons": [
         "review:not_unambiguous",
-        "review:Ambiguous: 'explicitly' fits clearly/formally equally; low-value blank."
+        "review:Difference card gives only the formal side; back opens 'These groups differ...' with no antecedent and never states the informal side, so the contrast cannot be recalled or marked. Formal vs informal is a headed contrast (Review Question 1) and should be must; better built on the structure sentence "
       ]
     },
     {
@@ -3007,40 +1348,6 @@
       ]
     },
     {
-      "id": "kc.psychology.social-influence-and-group-processes.kl-categories-not-real",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "key_line",
-      "front": "Although it is common to make these categorisations, it should be appreciated that these categories are not real and are ____ by us.",
-      "back": "Although it is common to make these categorisations, it should be appreciated that these categories are not real and are created by us.",
-      "quote": "Although it is common to make these categorisations, it should be appreciated that these categories are not real and are created by us.",
-      "blanks": [
-        "created"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 127,
-        "section": "Ingroup and Outgroup"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "ingroup",
-        "outgroup"
-      ],
-      "order": 530,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Ambiguous: 'created' fits made/constructed/formed equally; not a mark-carrying term."
-      ]
-    },
-    {
       "id": "kc.psychology.social-influence-and-group-processes.fact-minimal-group-artists",
       "v": 1,
       "subject": "psychology",
@@ -3069,37 +1376,6 @@
       "reasons": [
         "review:not_important",
         "review:Not important: Names of the two painters (Kandinsky, Klee) are experimental trivia, not exam-tested content."
-      ]
-    },
-    {
-      "id": "kc.psychology.social-influence-and-group-processes.fact-loafing-free-rider",
-      "v": 1,
-      "subject": "psychology",
-      "chapterKey": "psychology.social-influence-and-group-processes",
-      "chapter": "Social Influence & Group Processes",
-      "unit": "Social Influence and Group Processes",
-      "kind": "fact",
-      "front": "In social loafing, what does a group member who relaxes in a collective task become?",
-      "back": "A free rider\nSuch situations give opportunities to group members to relax and become a free rider.",
-      "quote": "It is not possible for you to identify how much force each member of the team has been exerting. Such situations give opportunities to group members to relax and become a free rider.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Psychology",
-        "code": "lepy107",
-        "chapterNo": 7,
-        "page": 128,
-        "section": "Social Loafing"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "social-loafing"
-      ],
-      "order": 600,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front asks for a term with obvious synonyms: 'a social loafer' or 'a loafer' fits as well as 'a free rider'; only NCERT's wording is accepted."
       ]
     },
     {

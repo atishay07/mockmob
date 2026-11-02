@@ -19,7 +19,7 @@
     },
     "mathematics.application-of-integrals": {
       "published": 6,
-      "quarantined": 7,
+      "quarantined": 6,
       "byKind": {
         "fact": 6
       },
@@ -32,37 +32,37 @@
       "belowMinimum": true
     },
     "mathematics.continuity-and-differentiability": {
-      "published": 29,
-      "quarantined": 19,
+      "published": 33,
+      "quarantined": 14,
       "byKind": {
         "definition": 10,
-        "fact": 12,
+        "fact": 16,
         "term": 3,
         "key_line": 4
       },
       "byImportance": {
-        "must": 7,
-        "good": 22
+        "must": 8,
+        "good": 25
       },
       "coverage_note": null,
       "mustShare": 0.24,
       "belowMinimum": false
     },
     "mathematics.determinants": {
-      "published": 26,
-      "quarantined": 10,
+      "published": 28,
+      "quarantined": 8,
       "byKind": {
-        "fact": 13,
+        "fact": 15,
         "key_line": 3,
         "definition": 6,
         "term": 4
       },
       "byImportance": {
         "must": 6,
-        "good": 20
+        "good": 22
       },
       "coverage_note": null,
-      "mustShare": 0.23,
+      "mustShare": 0.21,
       "belowMinimum": false
     },
     "mathematics.differential-equations": {
@@ -82,74 +82,74 @@
       "belowMinimum": false
     },
     "mathematics.integrals": {
-      "published": 38,
-      "quarantined": 23,
+      "published": 44,
+      "quarantined": 16,
       "byKind": {
-        "definition": 6,
+        "definition": 9,
         "types": 2,
         "list": 2,
         "key_line": 12,
-        "fact": 11,
+        "fact": 14,
         "term": 2,
         "example": 1,
         "steps": 1,
         "difference": 1
       },
       "byImportance": {
-        "must": 10,
-        "good": 28
+        "must": 12,
+        "good": 32
       },
       "coverage_note": null,
-      "mustShare": 0.26,
+      "mustShare": 0.27,
       "belowMinimum": false
     },
     "mathematics.inverse-trigonometric-functions": {
-      "published": 6,
-      "quarantined": 17,
+      "published": 7,
+      "quarantined": 16,
       "byKind": {
-        "fact": 4,
+        "fact": 5,
         "definition": 1,
         "key_line": 1
       },
       "byImportance": {
-        "must": 3,
+        "must": 4,
         "good": 3
       },
       "coverage_note": null,
-      "mustShare": 0.5,
+      "mustShare": 0.57,
       "belowMinimum": true
     },
     "mathematics.linear-programming": {
-      "published": 19,
-      "quarantined": 18,
+      "published": 20,
+      "quarantined": 16,
       "byKind": {
         "key_line": 4,
-        "definition": 10,
+        "definition": 11,
         "fact": 5
       },
       "byImportance": {
-        "must": 6,
+        "must": 7,
         "good": 13
       },
       "coverage_note": null,
-      "mustShare": 0.32,
+      "mustShare": 0.35,
       "belowMinimum": false
     },
     "mathematics.matrices": {
-      "published": 38,
-      "quarantined": 12,
+      "published": 40,
+      "quarantined": 9,
       "byKind": {
         "definition": 15,
         "fact": 18,
-        "list": 2,
+        "list": 4,
         "key_line": 3
       },
       "byImportance": {
-        "must": 13,
+        "must": 15,
         "good": 25
       },
       "coverage_note": null,
-      "mustShare": 0.34,
+      "mustShare": 0.38,
       "belowMinimum": false
     },
     "mathematics.probability": {
@@ -184,58 +184,58 @@
       "belowMinimum": true
     },
     "mathematics.relations-and-functions": {
-      "published": 24,
-      "quarantined": 11,
+      "published": 25,
+      "quarantined": 10,
       "byKind": {
         "key_line": 2,
         "definition": 7,
         "term": 6,
         "types": 1,
-        "fact": 7,
+        "fact": 8,
         "example": 1
       },
       "byImportance": {
         "must": 8,
-        "good": 16
+        "good": 17
       },
       "coverage_note": null,
-      "mustShare": 0.33,
+      "mustShare": 0.32,
       "belowMinimum": false
     },
     "mathematics.three-dimensional-geometry": {
-      "published": 24,
-      "quarantined": 6,
+      "published": 25,
+      "quarantined": 4,
       "byKind": {
         "definition": 6,
         "key_line": 4,
-        "fact": 11,
+        "fact": 12,
         "steps": 1,
         "list": 1,
         "term": 1
       },
       "byImportance": {
         "must": 7,
-        "good": 17
+        "good": 18
       },
       "coverage_note": null,
-      "mustShare": 0.29,
+      "mustShare": 0.28,
       "belowMinimum": false
     },
     "mathematics.vector-algebra": {
-      "published": 34,
-      "quarantined": 15,
+      "published": 36,
+      "quarantined": 12,
       "byKind": {
-        "definition": 12,
+        "definition": 13,
         "list": 2,
-        "fact": 14,
+        "fact": 15,
         "key_line": 6
       },
       "byImportance": {
         "must": 10,
-        "good": 24
+        "good": 26
       },
       "coverage_note": null,
-      "mustShare": 0.29,
+      "mustShare": 0.28,
       "belowMinimum": false
     }
   }

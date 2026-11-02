@@ -2,72 +2,73 @@
   "subject": "chemistry",
   "chapters": {
     "chemistry.alcohols-phenols-and-ethers": {
-      "published": 192,
-      "quarantined": 30,
+      "published": 209,
+      "quarantined": 13,
       "byKind": {
         "definition": 17,
         "key_line": 108,
         "types": 3,
-        "fact": 45,
+        "fact": 62,
         "example": 6,
         "list": 7,
         "steps": 4,
         "term": 2
       },
       "byImportance": {
-        "must": 48,
-        "good": 144
+        "must": 52,
+        "good": 157
       },
       "coverage_note": null,
       "mustShare": 0.25,
       "belowMinimum": false
     },
     "chemistry.aldehydes-ketones-and-carboxylic-acids": {
-      "published": 153,
-      "quarantined": 16,
+      "published": 158,
+      "quarantined": 11,
       "byKind": {
         "definition": 8,
         "difference": 4,
-        "fact": 105,
+        "fact": 110,
         "key_line": 13,
         "list": 20,
         "types": 2,
         "formula": 1
       },
       "byImportance": {
-        "must": 35,
-        "good": 118
+        "must": 36,
+        "good": 122
       },
       "coverage_note": null,
       "mustShare": 0.23,
       "belowMinimum": false
     },
     "chemistry.amines": {
-      "published": 116,
-      "quarantined": 22,
+      "published": 125,
+      "quarantined": 12,
       "byKind": {
         "definition": 4,
         "key_line": 75,
-        "types": 2,
-        "fact": 32,
+        "types": 3,
+        "fact": 39,
         "steps": 2,
+        "list": 1,
         "term": 1
       },
       "byImportance": {
-        "must": 31,
-        "good": 85
+        "must": 33,
+        "good": 92
       },
       "coverage_note": null,
-      "mustShare": 0.27,
+      "mustShare": 0.26,
       "belowMinimum": false
     },
     "chemistry.biomolecules": {
-      "published": 184,
-      "quarantined": 23,
+      "published": 185,
+      "quarantined": 22,
       "byKind": {
         "definition": 32,
         "formula": 2,
-        "fact": 118,
+        "fact": 119,
         "term": 6,
         "key_line": 9,
         "types": 13,
@@ -75,7 +76,7 @@
         "difference": 3
       },
       "byImportance": {
-        "must": 47,
+        "must": 48,
         "good": 137
       },
       "coverage_note": null,
@@ -83,11 +84,11 @@
       "belowMinimum": false
     },
     "chemistry.chemical-kinetics": {
-      "published": 80,
-      "quarantined": 13,
+      "published": 82,
+      "quarantined": 10,
       "byKind": {
         "definition": 19,
-        "fact": 34,
+        "fact": 36,
         "list": 2,
         "formula": 10,
         "key_line": 5,
@@ -97,46 +98,67 @@
         "term": 1
       },
       "byImportance": {
-        "must": 17,
+        "must": 19,
         "good": 63
       },
       "coverage_note": null,
-      "mustShare": 0.21,
+      "mustShare": 0.23,
       "belowMinimum": false
     },
     "chemistry.coordination-compounds": {
-      "published": 165,
-      "quarantined": 25,
+      "published": 172,
+      "quarantined": 15,
       "byKind": {
         "definition": 35,
-        "fact": 63,
+        "fact": 69,
         "key_line": 31,
         "list": 8,
         "types": 6,
         "difference": 3,
-        "example": 17,
+        "example": 18,
         "steps": 1,
         "formula": 1
       },
       "byImportance": {
         "must": 46,
-        "good": 119
+        "good": 126
       },
       "coverage_note": null,
-      "mustShare": 0.28,
+      "mustShare": 0.27,
       "belowMinimum": false
     },
     "chemistry.d-and-f-block-elements": {
-      "published": 115,
-      "quarantined": 19,
+      "published": 120,
+      "quarantined": 14,
       "byKind": {
         "definition": 12,
         "types": 1,
         "key_line": 6,
-        "fact": 86,
+        "fact": 90,
         "formula": 1,
         "list": 4,
-        "example": 5
+        "example": 6
+      },
+      "byImportance": {
+        "must": 30,
+        "good": 90
+      },
+      "coverage_note": null,
+      "mustShare": 0.25,
+      "belowMinimum": false
+    },
+    "chemistry.electrochemistry": {
+      "published": 115,
+      "quarantined": 21,
+      "byKind": {
+        "definition": 16,
+        "fact": 69,
+        "key_line": 15,
+        "term": 5,
+        "formula": 4,
+        "types": 1,
+        "list": 4,
+        "difference": 1
       },
       "byImportance": {
         "must": 30,
@@ -146,33 +168,12 @@
       "mustShare": 0.26,
       "belowMinimum": false
     },
-    "chemistry.electrochemistry": {
-      "published": 113,
-      "quarantined": 24,
-      "byKind": {
-        "definition": 16,
-        "fact": 68,
-        "key_line": 14,
-        "term": 5,
-        "formula": 4,
-        "types": 1,
-        "list": 4,
-        "difference": 1
-      },
-      "byImportance": {
-        "must": 30,
-        "good": 83
-      },
-      "coverage_note": null,
-      "mustShare": 0.27,
-      "belowMinimum": false
-    },
     "chemistry.haloalkanes-and-haloarenes": {
-      "published": 134,
-      "quarantined": 17,
+      "published": 140,
+      "quarantined": 11,
       "byKind": {
         "definition": 22,
-        "fact": 40,
+        "fact": 46,
         "key_line": 58,
         "types": 5,
         "difference": 1,
@@ -180,16 +181,16 @@
         "term": 3
       },
       "byImportance": {
-        "must": 42,
-        "good": 92
+        "must": 45,
+        "good": 95
       },
       "coverage_note": null,
-      "mustShare": 0.31,
+      "mustShare": 0.32,
       "belowMinimum": false
     },
     "chemistry.solutions": {
-      "published": 102,
-      "quarantined": 11,
+      "published": 105,
+      "quarantined": 8,
       "byKind": {
         "definition": 32,
         "key_line": 16,
@@ -197,12 +198,12 @@
         "list": 5,
         "term": 2,
         "formula": 5,
-        "fact": 29,
+        "fact": 32,
         "types": 2
       },
       "byImportance": {
         "must": 28,
-        "good": 74
+        "good": 77
       },
       "coverage_note": null,
       "mustShare": 0.27,

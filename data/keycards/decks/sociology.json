@@ -1,6 +1,6 @@
 {
   "subject": "sociology",
-  "version": 2,
+  "version": 3,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -393,6 +393,33 @@
       "order": 160
     },
     {
+      "id": "kc.sociology.challenges-of-cultural-diversity.fact-nation-describe-define",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.challenges-of-cultural-diversity",
+      "chapter": "Challenges of Cultural Diversity",
+      "unit": "The Challenges of Unity in Diversity",
+      "kind": "fact",
+      "front": "What is peculiar about a nation as a sort of community, when it comes to describing it and defining it?",
+      "back": "A nation is a peculiar sort of community that is easy to describe but hard to define.",
+      "quote": "A nation is a peculiar sort of community that is easy to describe but hard to define.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy106",
+        "chapterNo": 6,
+        "page": 99,
+        "section": "Communities, Nations and Nation-States"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "nation"
+      ],
+      "order": 170
+    },
+    {
       "id": "kc.sociology.challenges-of-cultural-diversity.def-ethnic-group",
       "v": 1,
       "subject": "sociology",
@@ -584,6 +611,62 @@
       "order": 260
     },
     {
+      "id": "kc.sociology.challenges-of-cultural-diversity.fact-singular-identity-policies",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.challenges-of-cultural-diversity",
+      "chapter": "Challenges of Cultural Diversity",
+      "unit": "The Challenges of Unity in Diversity",
+      "kind": "fact",
+      "front": "What do the policies of assimilation and the policies of integration both assume about national identity?",
+      "back": "Both sets of policies assume a singular national identity.",
+      "quote": "Both sets of policies assume a singular national identity.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy106",
+        "chapterNo": 6,
+        "page": 101,
+        "section": "Box: Threatened by community identities, states try to eliminate cultural diversity"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "assimilation",
+        "integration"
+      ],
+      "order": 270
+    },
+    {
+      "id": "kc.sociology.challenges-of-cultural-diversity.list-singular-identity-interventions",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.challenges-of-cultural-diversity",
+      "chapter": "Challenges of Cultural Diversity",
+      "unit": "The Challenges of Unity in Diversity",
+      "kind": "list",
+      "front": "Box 6.1: name the six interventions that assimilationist and integrationist strategies use to build singular national identities.",
+      "back": "Centralising all power to forums where the dominant group constitutes a majority\nImposing a unified legal and judicial system based on the dominant group’s traditions\nAdopting the dominant group’s language as the only official ‘national’ language\nPromotion of the dominant group’s language and culture through national institutions\nAdoption of state symbols celebrating the dominant group’s history, heroes and culture\nSeizure of lands, forests and fisheries from minority groups and indigenous people",
+      "quote": "Assimilationist and integrationist strategies try to establish singular national identities through various interventions like: Centralising all power to forums where the dominant group constitutes a majority, and eliminating the autonomy of local or minority groups; Imposing a unified legal and judicial system based on the dominant group’s traditions and abolishing alternative systems used by other groups; Adopting the dominant group’s language as the only official ‘national’ language and making its use mandatory in all public institutions; Promotion of the dominant group’s language and culture through national institutions including state-controlled media and educational institutions; Adoption of state symbols celebrating the dominant group’s history, heroes and culture, reflected in such things as choice of national holidays or naming of streets etc.; Seizure of lands, forests and fisheries from minority groups and indigenous people and declaring them ‘national resources’…",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy106",
+        "chapterNo": 6,
+        "page": 101,
+        "section": "Box: Threatened by community identities, states try to eliminate cultural diversity"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "assimilation",
+        "integration"
+      ],
+      "order": 280
+    },
+    {
       "id": "kc.sociology.challenges-of-cultural-diversity.def-assimilation-text",
       "v": 1,
       "subject": "sociology",
@@ -611,6 +694,33 @@
       "order": 300
     },
     {
+      "id": "kc.sociology.challenges-of-cultural-diversity.def-integration-text",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.challenges-of-cultural-diversity",
+      "chapter": "Challenges of Cultural Diversity",
+      "unit": "The Challenges of Unity in Diversity",
+      "kind": "definition",
+      "front": "Policies promoting integration differ from assimilation in style, not in overall objective. What do they insist on?",
+      "back": "Policies promoting integration are different in style but not in overall objective: they insist that the public culture be restricted to a common national pattern, while all ‘non-national’ cultures are to be relegated to the private sphere.",
+      "quote": "Policies promoting integration are different in style but not in overall objective: they insist that the public culture be restricted to a common national pattern, while all ‘non-national’ cultures are to be relegated to the private sphere.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy106",
+        "chapterNo": 6,
+        "page": 102,
+        "section": "Communities, Nations and Nation-States (continued)"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "integration"
+      ],
+      "order": 310
+    },
+    {
       "id": "kc.sociology.challenges-of-cultural-diversity.fact-alienation",
       "v": 1,
       "subject": "sociology",
@@ -636,6 +746,33 @@
         "diversity"
       ],
       "order": 320
+    },
+    {
+      "id": "kc.sociology.challenges-of-cultural-diversity.fact-diversity-good-policy",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.challenges-of-cultural-diversity",
+      "chapter": "Challenges of Cultural Diversity",
+      "unit": "The Challenges of Unity in Diversity",
+      "kind": "fact",
+      "front": "Encouraging, or at least allowing, what is good policy from both the practical and the principled point of view?",
+      "back": "Encouraging, or at least allowing, cultural diversity is good policy from both the practical and the principled point of view.",
+      "quote": "So encouraging, or at least allowing, cultural diversity is good policy from both the practical and the principled point of view.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy106",
+        "chapterNo": 6,
+        "page": 102,
+        "section": "Communities, Nations and Nation-States (continued)"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "diversity"
+      ],
+      "order": 330
     },
     {
       "id": "kc.sociology.challenges-of-cultural-diversity.fact-population-2011",
@@ -804,6 +941,36 @@
         "assimilation"
       ],
       "order": 390
+    },
+    {
+      "id": "kc.sociology.challenges-of-cultural-diversity.key-secular-not-banished",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.challenges-of-cultural-diversity",
+      "chapter": "Challenges of Cultural Diversity",
+      "unit": "The Challenges of Unity in Diversity",
+      "kind": "key_line",
+      "front": "The Constitution declares the state to be a ____ state, but religion, language and other such factors are not banished from the public sphere.",
+      "back": "The Constitution declares the state to be a secular state, but religion, language and other such factors are not banished from the public sphere.",
+      "quote": "The Constitution declares the state to be a secular state, but religion, language and other such factors are not banished from the public sphere.",
+      "blanks": [
+        "secular"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy106",
+        "chapterNo": 6,
+        "page": 103,
+        "section": "Cultural Diversity and India as a Nation-state"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "india",
+        "secularism"
+      ],
+      "order": 400
     },
     {
       "id": "kc.sociology.challenges-of-cultural-diversity.def-state-nation",
@@ -1113,6 +1280,34 @@
         "src"
       ],
       "order": 510
+    },
+    {
+      "id": "kc.sociology.challenges-of-cultural-diversity.fact-linguistic-states-unity",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.challenges-of-cultural-diversity",
+      "chapter": "Challenges of Cultural Diversity",
+      "unit": "The Challenges of Unity in Diversity",
+      "kind": "fact",
+      "front": "In the early 1950s Nehru and many others feared linguistic states would divide India further. What happened?",
+      "back": "In fact, something like the reverse has happened. Far from undermining Indian unity, linguistic states have helped strengthen it.",
+      "quote": "In the early 1950s, many including Prime Minister Jawaharlal Nehru feared that states based on language might hasten a further subdivision of India. In fact, something like the reverse has happened. Far from undermining Indian unity, linguistic states have helped strengthen it.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy106",
+        "chapterNo": 6,
+        "page": 105,
+        "section": "6.2 Regionalism in the Indian Context"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "regionalism",
+        "src"
+      ],
+      "order": 520
     },
     {
       "id": "kc.sociology.challenges-of-cultural-diversity.fact-language-not-religion",
@@ -2183,6 +2378,87 @@
       "order": 980
     },
     {
+      "id": "kc.sociology.challenges-of-cultural-diversity.fact-faith-communalism",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.challenges-of-cultural-diversity",
+      "chapter": "Challenges of Cultural Diversity",
+      "unit": "The Challenges of Unity in Diversity",
+      "kind": "fact",
+      "front": "Although communalists are intensely involved with religion, how are personal faith and communalism related?",
+      "back": "Although communalists are intensely involved with religion, there is in fact no necessary relationship between personal faith and communalism.",
+      "quote": "Although communalists are intensely involved with religion, there is in fact no necessary relationship between personal faith and communalism.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy106",
+        "chapterNo": 6,
+        "page": 112,
+        "section": "Communalism, Secularism and the Nation-state: Communalism"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "communalism"
+      ],
+      "order": 990
+    },
+    {
+      "id": "kc.sociology.challenges-of-cultural-diversity.fact-communalists-identity",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.challenges-of-cultural-diversity",
+      "chapter": "Challenges of Cultural Diversity",
+      "unit": "The Challenges of Unity in Diversity",
+      "kind": "fact",
+      "front": "What kind of political identity do communalists cultivate, and whom are they prepared to condemn or attack?",
+      "back": "Communalists cultivate an aggressive political identity, and are prepared to condemn or attack everyone who does not share their identity.",
+      "quote": "Communalists cultivate an aggressive political identity, and are prepared to condemn or attack everyone who does not share their identity.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy106",
+        "chapterNo": 6,
+        "page": 112,
+        "section": "Communalism, Secularism and the Nation-state: Communalism"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "communalism"
+      ],
+      "order": 1000
+    },
+    {
+      "id": "kc.sociology.challenges-of-cultural-diversity.fact-communalism-religious-identity",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.challenges-of-cultural-diversity",
+      "chapter": "Challenges of Cultural Diversity",
+      "unit": "The Challenges of Unity in Diversity",
+      "kind": "fact",
+      "front": "What claim about religious identity is one of the characteristic features of communalism?",
+      "back": "One of the characteristic features of communalism is its claim that religious identity overrides everything else.",
+      "quote": "One of the characteristic features of communalism is its claim that religious identity overrides everything else.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy106",
+        "chapterNo": 6,
+        "page": 112,
+        "section": "Communalism, Secularism and the Nation-state: Communalism"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "communalism"
+      ],
+      "order": 1010
+    },
+    {
       "id": "kc.sociology.challenges-of-cultural-diversity.key-divide-and-rule",
       "v": 1,
       "subject": "sociology",
@@ -2346,6 +2622,33 @@
         "secularism"
       ],
       "order": 1070
+    },
+    {
+      "id": "kc.sociology.challenges-of-cultural-diversity.fact-secularism-no-hostility",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.challenges-of-cultural-diversity",
+      "chapter": "Challenges of Cultural Diversity",
+      "unit": "The Challenges of Unity in Diversity",
+      "kind": "fact",
+      "front": "Secularism in the sense of the opposite of religious chauvinism need not necessarily imply what?",
+      "back": "Secularism in this sense is the opposite of religious chauvinism and it need not necessarily imply hostility to religion as such.",
+      "quote": "Secularism in this sense is the opposite of religious chauvinism and it need not necessarily imply hostility to religion as such.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy106",
+        "chapterNo": 6,
+        "page": 113,
+        "section": "Secularism"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "secularism"
+      ],
+      "order": 1080
     },
     {
       "id": "kc.sociology.challenges-of-cultural-diversity.key-equal-respect",
@@ -4536,6 +4839,34 @@
       "order": 660
     },
     {
+      "id": "kc.sociology.change-and-development-in-industrial-society.fact-it-taylorist-labour",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.change-and-development-in-industrial-society",
+      "chapter": "Change & Development in Industrial Society",
+      "unit": "Social Change and the Economy",
+      "kind": "fact",
+      "front": "Software professionals' work is meant to be self-motivated and creative. To what labour processes is it also subject?",
+      "back": "Their work is supposed to be self-motivated and creative. But, as we see from the box, their work is also subject to Taylorist labour processes.",
+      "quote": "Their work is supposed to be self-motivated and creative. But, as we see from the box, their work is also subject to Taylorist labour processes.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy205",
+        "chapterNo": 5,
+        "page": 67,
+        "section": "How is work carried out?"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "IT sector",
+        "Taylorism"
+      ],
+      "order": 670
+    },
+    {
       "id": "kc.sociology.change-and-development-in-industrial-society.fact-joint-family-reemerged",
       "v": 1,
       "subject": "sociology",
@@ -5251,6 +5582,33 @@
       "order": 20
     },
     {
+      "id": "kc.sociology.change-and-development-in-rural-society.fact-agriculture-way-of-life",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.change-and-development-in-rural-society",
+      "chapter": "Change & Development in Rural Society",
+      "unit": "Social Change and the Economy",
+      "kind": "fact",
+      "front": "Besides being a form of livelihood, what else is agriculture, according to NCERT?",
+      "back": "Nor is agriculture just a form of livelihood. It is also a way of life.",
+      "quote": "Nor is agriculture just a form of livelihood. It is also a way of life.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy204",
+        "chapterNo": 4,
+        "page": 42,
+        "section": "Introduction: The Diversity of Occupations"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "agriculture and culture"
+      ],
+      "order": 30
+    },
+    {
       "id": "kc.sociology.change-and-development-in-rural-society.fact-harvest-new-year-festivals",
       "v": 1,
       "subject": "sociology",
@@ -5276,6 +5634,33 @@
         "agriculture and culture"
       ],
       "order": 40
+    },
+    {
+      "id": "kc.sociology.change-and-development-in-rural-society.fact-culture-structure-bound-up-agrarian",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.change-and-development-in-rural-society",
+      "chapter": "Change & Development in Rural Society",
+      "unit": "Social Change and the Economy",
+      "kind": "fact",
+      "front": "With what are both the culture and social structure in rural India closely bound up, according to NCERT?",
+      "back": "One can say that both the culture and social structure in rural India are closely bound up with agricultural and the agrarian way of life.",
+      "quote": "One can say that both the culture and social structure in rural India are closely bound up with agricultural and the agrarian way of life.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy204",
+        "chapterNo": 4,
+        "page": 42,
+        "section": "Introduction: The Diversity of Occupations"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "agriculture and culture"
+      ],
+      "order": 50
     },
     {
       "id": "kc.sociology.change-and-development-in-rural-society.fact-artisans-lessening",
@@ -5527,6 +5912,34 @@
         "tenants"
       ],
       "order": 170
+    },
+    {
+      "id": "kc.sociology.change-and-development-in-rural-society.fact-caste-class-relationship-complex",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.change-and-development-in-rural-society",
+      "chapter": "Change & Development in Rural Society",
+      "unit": "Social Change and the Economy",
+      "kind": "fact",
+      "front": "How does NCERT describe the relationship between caste and class in rural areas?",
+      "back": "In rural areas, there is a complex relationship between caste and class. This relationship is not always straightforward.",
+      "quote": "In rural areas, there is a complex relationship between caste and class. This relationship is not always straightforward.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy204",
+        "chapterNo": 4,
+        "page": 44,
+        "section": "4.1 Agrarian Structure: Caste and Class in Rural India"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "caste",
+        "class"
+      ],
+      "order": 180
     },
     {
       "id": "kc.sociology.change-and-development-in-rural-society.fact-brahmins-outside-agrarian",
@@ -5863,6 +6276,34 @@
       "order": 300
     },
     {
+      "id": "kc.sociology.change-and-development-in-rural-society.fact-nehru-planned-development-focus",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.change-and-development-in-rural-society",
+      "chapter": "Change & Development in Rural Society",
+      "unit": "Social Change and the Economy",
+      "kind": "fact",
+      "front": "Which two things did the planned development programme of Nehru and his policy advisors focus on?",
+      "back": "After India became independent, Nehru and his policy advisors embarked on a programme of planned development that focused on agrarian reform as well as industrialisation.",
+      "quote": "After India became independent, Nehru and his policy advisors embarked on a programme of planned development that focused on agrarian reform as well as industrialisation.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy204",
+        "chapterNo": 4,
+        "page": 46,
+        "section": "4.2 The Impact of Land Reforms"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "land reforms",
+        "planning"
+      ],
+      "order": 310
+    },
+    {
       "id": "kc.sociology.change-and-development-in-rural-society.list-dismal-agri-situation",
       "v": 1,
       "subject": "sociology",
@@ -5945,6 +6386,34 @@
         "zamindari"
       ],
       "order": 340
+    },
+    {
+      "id": "kc.sociology.change-and-development-in-rural-society.fact-zamindari-abolition-effective",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.change-and-development-in-rural-society",
+      "chapter": "Change & Development in Rural Society",
+      "unit": "Social Change and the Economy",
+      "kind": "fact",
+      "front": "Which land reform law was probably the most effective, and why?",
+      "back": "The first important legislation was the abolition of the zamindari system, which removed the layer of intermediaries who stood between the cultivators and the state. Of all the land reform laws that were passed, this was probably the most effective, for in most areas it succeeded in taking away the superior rights of the zamindars over the land and weakening their economic and political power.",
+      "quote": "The first important legislation was the abolition of the zamindari system, which removed the layer of intermediaries who stood between the cultivators and the state. Of all the land reform laws that were passed, this was probably the most effective, for in most areas it succeeded in taking away the superior rights of the zamindars over the land and weakening their economic and political power.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy204",
+        "chapterNo": 4,
+        "page": 46,
+        "section": "4.2 The Impact of Land Reforms"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "land reforms",
+        "zamindari"
+      ],
+      "order": 350
     },
     {
       "id": "kc.sociology.change-and-development-in-rural-society.def-tenancy-acts",
@@ -6030,6 +6499,33 @@
         "land ceiling"
       ],
       "order": 380
+    },
+    {
+      "id": "kc.sociology.change-and-development-in-rural-society.diff-ceiling-productive-vs-dry-land",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.change-and-development-in-rural-society",
+      "chapter": "Change & Development in Rural Society",
+      "unit": "Social Change and the Economy",
+      "kind": "difference",
+      "front": "Land Ceiling Acts, very productive land vs unproductive dry land: the difference in ceiling limit.",
+      "back": "Very productive land has a low ceiling while unproductive dry land has a higher ceiling limit.",
+      "quote": "Very productive land has a low ceiling while unproductive dry land has a higher ceiling limit.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy204",
+        "chapterNo": 4,
+        "page": 47,
+        "section": "4.2 The Impact of Land Reforms"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "land ceiling"
+      ],
+      "order": 390
     },
     {
       "id": "kc.sociology.change-and-development-in-rural-society.fact-ceiling-surplus-land",
@@ -6557,6 +7053,33 @@
         "green revolution"
       ],
       "order": 580
+    },
+    {
+      "id": "kc.sociology.change-and-development-in-rural-society.fact-gr-worsened-regional-inequalities",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.change-and-development-in-rural-society",
+      "chapter": "Change & Development in Rural Society",
+      "unit": "Social Change and the Economy",
+      "kind": "fact",
+      "front": "What was the effect of the Green Revolution strategy on regional inequalities, according to NCERT?",
+      "back": "Another negative outcome of the Green Revolution strategy was the worsening of regional inequalities. The areas that underwent this technological transformation became more developed while other areas stagnated.",
+      "quote": "Another negative outcome of the Green Revolution strategy was the worsening of regional inequalities. The areas that underwent this technological transformation became more developed while other areas stagnated.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy204",
+        "chapterNo": 4,
+        "page": 49,
+        "section": "4.3 The Green Revolution and its Social Consequences"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "green revolution"
+      ],
+      "order": 590
     },
     {
       "id": "kc.sociology.change-and-development-in-rural-society.fact-gr-regions-promoted",
@@ -7192,6 +7715,33 @@
         "agricultural labourers"
       ],
       "order": 840
+    },
+    {
+      "id": "kc.sociology.change-and-development-in-rural-society.fact-liberalisation-since-late-1980s",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.change-and-development-in-rural-society",
+      "chapter": "Change & Development in Rural Society",
+      "unit": "Social Change and the Economy",
+      "kind": "fact",
+      "front": "According to NCERT, since when has India been following the policy of liberalisation?",
+      "back": "The policy of liberalisation that India has been following since the late 1980s have had a very significant impact on agriculture and rural society.",
+      "quote": "The policy of liberalisation that India has been following since the late 1980s have had a very significant impact on agriculture and rural society.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy204",
+        "chapterNo": 4,
+        "page": 53,
+        "section": "4.6 Globalisation, Liberalisation, and Rural Society"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "liberalisation"
+      ],
+      "order": 850
     },
     {
       "id": "kc.sociology.change-and-development-in-rural-society.fact-wto-opening-markets",
@@ -8330,6 +8880,60 @@
       "order": 270
     },
     {
+      "id": "kc.sociology.cultural-change.diff-reform-upper-caste-vs-discriminated-castes",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.cultural-change",
+      "chapter": "Cultural Change",
+      "unit": "Process of Social Change in India",
+      "kind": "difference",
+      "front": "Social reform movements: how did they differ on whose problems were central? (NCERT's two positions)",
+      "back": "For some the concerns were confined to the problems that the upper caste, middle class women and men faced. For others the injustices suffered by the discriminated castes were central questions.",
+      "quote": "For some the concerns were confined to the problems that the upper caste, middle class women and men faced. For others the injustices suffered by the discriminated castes were central questions.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy202",
+        "chapterNo": 2,
+        "page": 18,
+        "section": "2.1 Social reform movements in the 19th and early 20th century"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "social reform"
+      ],
+      "order": 280
+    },
+    {
+      "id": "kc.sociology.cultural-change.diff-reform-decline-vs-intrinsic",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.cultural-change",
+      "chapter": "Cultural Change",
+      "unit": "Process of Social Change in India",
+      "kind": "difference",
+      "front": "Social reform movements: how did they differ on why social evils arose in Hinduism? (NCERT's two views)",
+      "back": "For some social evils had emerged because of a decline of the true spirit of Hinduism. For others caste and gender oppression was intrinsic to the religion.",
+      "quote": "For some social evils had emerged because of a decline of the true spirit of Hinduism. For others caste and gender oppression was intrinsic to the religion.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy202",
+        "chapterNo": 2,
+        "page": 18,
+        "section": "2.1 Social reform movements in the 19th and early 20th century"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "social reform"
+      ],
+      "order": 290
+    },
+    {
       "id": "kc.sociology.cultural-change.kl-muslim-reformers-debate",
       "v": 1,
       "subject": "sociology",
@@ -8806,6 +9410,33 @@
       "order": 490
     },
     {
+      "id": "kc.sociology.cultural-change.fact-dominant-caste-punished-low-castes",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.cultural-change",
+      "chapter": "Cultural Change",
+      "unit": "Process of Social Change in India",
+      "kind": "fact",
+      "front": "Traditionally, how did the dominant caste respond to low castes that dared to attempt Sanskritisation?",
+      "back": "Indeed, traditionally, the dominant caste punished those low castes, which were audacious enough to attempt it.",
+      "quote": "Indeed, traditionally, the dominant caste punished those low castes, which were audacious enough to attempt it.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy202",
+        "chapterNo": 2,
+        "page": 21,
+        "section": "2.3 Different Kinds of Social Change: Sanskritisation"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "sanskritisation"
+      ],
+      "order": 500
+    },
+    {
       "id": "kc.sociology.cultural-change.fact-crit-1-exaggerating-mobility",
       "v": 1,
       "subject": "sociology",
@@ -8832,6 +9463,34 @@
         "criticism"
       ],
       "order": 550
+    },
+    {
+      "id": "kc.sociology.cultural-change.fact-crit-positional-change",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.cultural-change",
+      "chapter": "Cultural Change",
+      "unit": "Process of Social Change in India",
+      "kind": "fact",
+      "front": "Sanskritisation, say its critics, leads to no structural change but only what kind of change of some individuals?",
+      "back": "For it leads to no structural change but only positional change of some individuals.",
+      "quote": "For it leads to no structural change but only positional change of some individuals.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy202",
+        "chapterNo": 2,
+        "page": 22,
+        "section": "2.3 Different Kinds of Social Change: Sanskritisation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "sanskritisation",
+        "criticism"
+      ],
+      "order": 560
     },
     {
       "id": "kc.sociology.cultural-change.fact-crit-2-ideology-superior",
@@ -9034,6 +9693,33 @@
       "order": 630
     },
     {
+      "id": "kc.sociology.cultural-change.fact-dominant-castes-no-pass-for-varnas",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.cultural-change",
+      "chapter": "Cultural Change",
+      "unit": "Process of Social Change in India",
+      "kind": "fact",
+      "front": "After the Backward Classes Movement, which varnas did dominant castes no longer desire to pass for?",
+      "back": "In the case of the dominant castes, there was no longer any desire to pass for the Vaisyas, Kshatriyas and Brahmins. On the other hand, it was prestigious to be a member of the dominant caste.",
+      "quote": "In the case of the dominant castes, there was no longer any desire to pass for the Vaisyas, Kshatriyas and Brahmins. On the other hand, it was prestigious to be a member of the dominant caste.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy202",
+        "chapterNo": 2,
+        "page": 22,
+        "section": "2.3 Different Kinds of Social Change: Sanskritisation"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "sanskritisation"
+      ],
+      "order": 640
+    },
+    {
       "id": "kc.sociology.cultural-change.fact-dalit-assertion-identity",
       "v": 1,
       "subject": "sociology",
@@ -9087,6 +9773,33 @@
         "Srinivas"
       ],
       "order": 660
+    },
+    {
+      "id": "kc.sociology.cultural-change.types-westernisation-two-kinds",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.cultural-change",
+      "chapter": "Cultural Change",
+      "unit": "Process of Social Change in India",
+      "kind": "types",
+      "front": "Types of westernisation: the two kinds NCERT describes.",
+      "back": "One kind refers to the emergence of a westernised sub-cultural pattern through a minority section of Indians who first came in contact with Western culture.\nApart from this there has been also the general spread of Western cultural traits, such as the use of new technology, dress, food, and changes in the habits and styles of people in general.",
+      "quote": "One kind refers to the emergence of a westernised sub-cultural pattern through a minority section of Indians who first came in contact with Western culture. This included the sub culture of Indian intellectuals who not only adopted many cognitive patterns, or ways of thinking, and styles of life, but supported its expansion. Many of the early 19th century reformers were of this kind. The boxes show the different kinds of westernisation. There were, therefore, small sections of people who adopted western life styles or were affected by western ways of thinking. Apart from this there has been also the general spread of Western cultural traits, such as the use of new technology, dress, food, and changes in the habits and styles of people in general.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy202",
+        "chapterNo": 2,
+        "page": 23,
+        "section": "2.3 Different Kinds of Social Change: Westernisation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "westernisation"
+      ],
+      "order": 670
     },
     {
       "id": "kc.sociology.cultural-change.ex-middle-class-homes-western-goods",
@@ -10680,6 +11393,33 @@
       "order": 250
     },
     {
+      "id": "kc.sociology.demographic-structure.fact-transition-middle-stage",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.demographic-structure",
+      "chapter": "Demographic Structure",
+      "unit": "Structure of Indian Society",
+      "kind": "fact",
+      "front": "In the theory of demographic transition, what happens in the stage between the low-growth first and last stages?",
+      "back": "Between these two stages is a transitional stage of movement from a backward to an advanced stage, and this stage is characterised by very high rates of growth of population.",
+      "quote": "Between these two stages is a transitional stage of movement from a backward to an advanced stage, and this stage is characterised by very high rates of growth of population.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy102",
+        "chapterNo": 2,
+        "page": 10,
+        "section": "The Theory of Demographic Transition"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "demographic-transition"
+      ],
+      "order": 260
+    },
+    {
       "id": "kc.sociology.demographic-structure.fact-population-explosion-cause",
       "v": 1,
       "subject": "sociology",
@@ -11436,6 +12176,33 @@
         "epidemics"
       ],
       "order": 550
+    },
+    {
+      "id": "kc.sociology.demographic-structure.fact-influenza-1918-19-india",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.demographic-structure",
+      "chapter": "Demographic Structure",
+      "unit": "Structure of Indian Society",
+      "kind": "fact",
+      "front": "Which was the single biggest epidemic in India, and about what share of the total population did it kill?",
+      "back": "But the single biggest epidemic was the influenza epidemic of 1918-19, which killed as many as 170 lakh people, or about 5% of the total population of India at that time.",
+      "quote": "But the single biggest epidemic was the influenza epidemic of 1918-19, which killed as many as 170 lakh people, or about 5% of the total population of India at that time.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy102",
+        "chapterNo": 2,
+        "page": 14,
+        "section": "2.2 Size and Growth of India's Population"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "epidemics"
+      ],
+      "order": 560
     },
     {
       "id": "kc.sociology.demographic-structure.def-pandemic",
@@ -13222,6 +13989,33 @@
       "order": 20
     },
     {
+      "id": "kc.sociology.globalisation-and-social-change.fact-media-most-visible-effect",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.globalisation-and-social-change",
+      "chapter": "Globalisation & Social Change",
+      "unit": "New Arenas of Social Change",
+      "kind": "fact",
+      "front": "What does NCERT call perhaps the most visible effect of globalisation?",
+      "back": "The dramatic changes in the media are perhaps the most visible effect of globalisation.",
+      "quote": "The dramatic changes in the media are perhaps the most visible effect of globalisation.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy206",
+        "chapterNo": 6,
+        "page": 73,
+        "section": "Introduction"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "media"
+      ],
+      "order": 30
+    },
+    {
       "id": "kc.sociology.globalisation-and-social-change.kl-compression-space-time",
       "v": 1,
       "subject": "sociology",
@@ -13249,6 +14043,33 @@
         "compression"
       ],
       "order": 40
+    },
+    {
+      "id": "kc.sociology.globalisation-and-social-change.fact-affects-all-differently",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.globalisation-and-social-change",
+      "chapter": "Globalisation & Social Change",
+      "unit": "New Arenas of Social Change",
+      "kind": "fact",
+      "front": "Does globalisation affect everyone in the same way? What does NCERT say?",
+      "back": "The effect of globalisation is far reaching. It affects us all but affects us differently.",
+      "quote": "The effect of globalisation is far reaching. It affects us all but affects us differently.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy206",
+        "chapterNo": 6,
+        "page": 74,
+        "section": "Introduction"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "impact"
+      ],
+      "order": 50
     },
     {
       "id": "kc.sociology.globalisation-and-social-change.fact-opportunities-or-loss",
@@ -13417,6 +14238,33 @@
         "capitalism"
       ],
       "order": 160
+    },
+    {
+      "id": "kc.sociology.globalisation-and-social-change.list-colonialism-required-sources",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.globalisation-and-social-change",
+      "chapter": "Globalisation & Social Change",
+      "unit": "New Arenas of Social Change",
+      "kind": "list",
+      "front": "Colonialism was part of a system that required new sources of what? Name the five things NCERT lists.",
+      "back": "capital\nraw materials\nenergy\nmarkets\na global network that sustained it",
+      "quote": "Colonialism was part of the system that required new sources of capital, raw materials, energy, markets and a global network that sustained it.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy206",
+        "chapterNo": 6,
+        "page": 75,
+        "section": "Are Global Interconnections New to World and to India"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "colonialism"
+      ],
+      "order": 170
     },
     {
       "id": "kc.sociology.globalisation-and-social-change.fact-greatest-migration",
@@ -13922,6 +14770,33 @@
       "order": 360
     },
     {
+      "id": "kc.sociology.globalisation-and-social-change.fact-electronic-economy-click",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.globalisation-and-social-change",
+      "chapter": "Globalisation & Social Change",
+      "unit": "New Arenas of Social Change",
+      "kind": "fact",
+      "front": "What can banks, corporations, fund managers and investors do 'with the click of a mouse' in the 'electronic economy'?",
+      "back": "The ‘electronic economy’ is another factor that underpins economic globalisation. Banks, corporations, fund managers and individual investors are able to shift funds internationally with the click of a mouse.",
+      "quote": "The ‘electronic economy’ is another factor that underpins economic globalisation. Banks, corporations, fund managers and individual investors are able to shift funds internationally with the click of a mouse.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy206",
+        "chapterNo": 6,
+        "page": 77,
+        "section": "The electronic economy"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "electronic economy"
+      ],
+      "order": 370
+    },
+    {
       "id": "kc.sociology.globalisation-and-social-change.kl-global-economy-basis",
       "v": 1,
       "subject": "sociology",
@@ -14140,6 +15015,33 @@
         "compression"
       ],
       "order": 490
+    },
+    {
+      "id": "kc.sociology.globalisation-and-social-change.fact-network-media-society",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.globalisation-and-social-change",
+      "chapter": "Globalisation & Social Change",
+      "unit": "New Arenas of Social Change",
+      "kind": "fact",
+      "front": "According to NCERT, the process of globalisation is giving rise to which kind of society?",
+      "back": "The process of globalisation is giving rise to network and media society.",
+      "quote": "The process of globalisation is giving rise to network and media society.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy206",
+        "chapterNo": 6,
+        "page": 80,
+        "section": "Global Communications"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "network society"
+      ],
+      "order": 500
     },
     {
       "id": "kc.sociology.globalisation-and-social-change.fact-digital-india",
@@ -15083,6 +15985,33 @@
       "order": 940
     },
     {
+      "id": "kc.sociology.globalisation-and-social-change.fact-gender-cultural-identity-women",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.globalisation-and-social-change",
+      "chapter": "Globalisation & Social Change",
+      "unit": "New Arenas of Social Change",
+      "kind": "fact",
+      "front": "Defenders of a fixed traditional idea of cultural identity often defend undemocratic and discriminating practices against whom?",
+      "back": "Very often defenders of a fixed traditional idea of cultural identity defend undemocratic and discriminating practices against women in the name of cultural identity.",
+      "quote": "Very often defenders of a fixed traditional idea of cultural identity defend undemocratic and discriminating practices against women in the name of cultural identity.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy206",
+        "chapterNo": 6,
+        "page": 85,
+        "section": "Gender and culture"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "gender"
+      ],
+      "order": 950
+    },
+    {
       "id": "kc.sociology.globalisation-and-social-change.kl-culture-way-of-life",
       "v": 2,
       "subject": "sociology",
@@ -15333,6 +16262,35 @@
         "knowledge systems"
       ],
       "order": 1080
+    },
+    {
+      "id": "kc.sociology.introducing-indian-society.fact-no-one-starts-from-zero",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.introducing-indian-society",
+      "chapter": "Introducing Indian Society",
+      "unit": "Structure of Indian Society",
+      "kind": "fact",
+      "front": "Before studying Sociology, how much do students already know about society, according to NCERT?",
+      "back": "In one important sense, Sociology is unlike any other subject that you may have studied. It is a subject in which no one starts from zero – everyone already knows something about society.",
+      "quote": "In one important sense, Sociology is unlike any other subject that you may have studied. It is a subject in which no one starts from zero – everyone already knows something about society.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy101",
+        "chapterNo": 1,
+        "page": 2,
+        "section": "Introducing Indian Society"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "sociology",
+        "common-sense"
+      ],
+      "order": 10,
+      "note": "Everyone arrives at sociology already knowing something about society."
     },
     {
       "id": "kc.sociology.introducing-indian-society.fact-learnt-vs-acquired",
@@ -15678,6 +16636,34 @@
       "order": 230
     },
     {
+      "id": "kc.sociology.introducing-indian-society.list-chapter-5-inequality-contexts",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.introducing-indian-society",
+      "chapter": "Introducing Indian Society",
+      "unit": "Structure of Indian Society",
+      "kind": "list",
+      "front": "Name the four contexts in which Chapter 5 of Indian Society looks at inequality and exclusion.",
+      "back": "caste\ntribe\ngender\nthe ‘disabled’",
+      "quote": "Chapter 5 looks at inequality and exclusion in the context of caste, tribe, gender and the ‘disabled’.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy101",
+        "chapterNo": 1,
+        "page": 4,
+        "section": "1.2 A Preview of this Book"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "book-preview",
+        "inequality"
+      ],
+      "order": 350
+    },
+    {
       "id": "kc.sociology.market-as-a-social-institution.key-market-general",
       "v": 1,
       "subject": "sociology",
@@ -15932,6 +16918,33 @@
       "order": 100
     },
     {
+      "id": "kc.sociology.market-as-a-social-institution.fact-weekly-market-who-why",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.market-as-a-social-institution",
+      "chapter": "Market as a Social Institution",
+      "unit": "Social Institutions: Continuity and Change",
+      "kind": "fact",
+      "front": "Weekly markets bring people from surrounding villages together. Besides selling produce, what do they come to buy?",
+      "back": "Weekly markets bring together people from surrounding villages, who come to sell their agricultural or other produce and to buy manufactured goods and other items that are not available in their villages.",
+      "quote": "Weekly markets bring together people from surrounding villages, who come to sell their agricultural or other produce and to buy manufactured goods and other items that are not available in their villages.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy104",
+        "chapterNo": 4,
+        "page": 55,
+        "section": "A weekly tribal haat"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "haat"
+      ],
+      "order": 120
+    },
+    {
       "id": "kc.sociology.market-as-a-social-institution.fact-periodic-markets-link",
       "v": 1,
       "subject": "sociology",
@@ -16123,6 +17136,33 @@
         "bastar"
       ],
       "order": 200
+    },
+    {
+      "id": "kc.sociology.market-as-a-social-institution.fact-extensively-monetised",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.market-as-a-social-institution",
+      "chapter": "Market as a Social Institution",
+      "unit": "Social Institutions: Continuity and Change",
+      "kind": "fact",
+      "front": "In the late pre-colonial period, much of India’s economy was already extensively what (trade was carried out using money)?",
+      "back": "recent historical research has shown that much of India’s economy was already extensively monetised (trade was carried out using money) in the late pre-colonial period.",
+      "quote": "recent historical research has shown that much of India’s economy was already extensively monetised (trade was carried out using money) in the late pre-colonial period.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy104",
+        "chapterNo": 4,
+        "page": 58,
+        "section": "Caste-based markets and trading networks"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "pre-colonial"
+      ],
+      "order": 210
     },
     {
       "id": "kc.sociology.market-as-a-social-institution.fact-jajmani-non-market",
@@ -16422,6 +17462,33 @@
         "trade"
       ],
       "order": 320
+    },
+    {
+      "id": "kc.sociology.market-as-a-social-institution.fact-caste-specialisation",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.market-as-a-social-institution",
+      "chapter": "Market as a Social Institution",
+      "unit": "Social Institutions: Continuity and Change",
+      "kind": "fact",
+      "front": "One reason for the caste-based specialisation of business in India is that trade often operates through which networks?",
+      "back": "One of the reasons for this caste-based specialisation is that trade and commerce often operate through caste and kinship networks, as we have seen in the case of the Nakarattars.",
+      "quote": "One of the reasons for this caste-based specialisation is that trade and commerce often operate through caste and kinship networks, as we have seen in the case of the Nakarattars.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy104",
+        "chapterNo": 4,
+        "page": 59,
+        "section": "Social Organisation of Markets"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "trade"
+      ],
+      "order": 330
     },
     {
       "id": "kc.sociology.market-as-a-social-institution.fact-caste-monopoly",
@@ -16832,6 +17899,33 @@
       "order": 510
     },
     {
+      "id": "kc.sociology.market-as-a-social-institution.fact-consumer-conveys-status",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.market-as-a-social-institution",
+      "chapter": "Market as a Social Institution",
+      "unit": "Social Institutions: Continuity and Change",
+      "kind": "fact",
+      "front": "How does a consumer convey a message about his or her socio-economic status or cultural preferences?",
+      "back": "The consumer conveys a message about his or her socio-economic status or cultural preferences by buying and displaying certain goods, and companies try to sell their goods by appealing to symbols of status or culture.",
+      "quote": "The consumer conveys a message about his or her socio-economic status or cultural preferences by buying and displaying certain goods, and companies try to sell their goods by appealing to symbols of status or culture.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy104",
+        "chapterNo": 4,
+        "page": 63,
+        "section": "Commoditisation and Consumption"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "consumption"
+      ],
+      "order": 530
+    },
+    {
       "id": "kc.sociology.market-as-a-social-institution.def-status-symbol",
       "v": 1,
       "subject": "sociology",
@@ -16886,6 +17980,33 @@
         "consumption"
       ],
       "order": 550
+    },
+    {
+      "id": "kc.sociology.market-as-a-social-institution.fact-markets-social-institutions",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.market-as-a-social-institution",
+      "chapter": "Market as a Social Institution",
+      "unit": "Social Institutions: Continuity and Change",
+      "kind": "fact",
+      "front": "In its conclusion NCERT says markets, from the village haat to the virtual stock exchange, are themselves what?",
+      "back": "In this chapter we have seen that there are many different kinds of markets in contemporary India, from the village haat to the virtual stock exchange. These markets are themselves social institutions, and are connected to other aspects of the social structure, such as caste and class, in various ways.",
+      "quote": "In this chapter we have seen that there are many different kinds of markets in contemporary India, from the village haat to the virtual stock exchange. These markets are themselves social institutions, and are connected to other aspects of the social structure, such as caste and class, in various ways.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy104",
+        "chapterNo": 4,
+        "page": 67,
+        "section": "Conclusion"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "market"
+      ],
+      "order": 750
     },
     {
       "id": "kc.sociology.market-as-a-social-institution.fact-exchange-symbolic",
@@ -17162,6 +18283,33 @@
       "order": 100
     },
     {
+      "id": "kc.sociology.mass-media-and-communications.fact-sharp-differences-in-use",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.mass-media-and-communications",
+      "chapter": "Mass Media & Communications",
+      "unit": "New Arenas of Social Change",
+      "kind": "fact",
+      "front": "Sharp differences exist in how easily different sections of people can use mass media. Which concept from the last chapter is this?",
+      "back": "there are sharp differences between how easily different sections of people can use mass media. You will recall the concept of digital divide from the last chapter.",
+      "quote": "there are sharp differences between how easily different sections of people can use mass media. You will recall the concept of digital divide from the last chapter.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy207",
+        "chapterNo": 7,
+        "page": 91,
+        "section": "Introduction"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "digital divide"
+      ],
+      "order": 110
+    },
+    {
       "id": "kc.sociology.mass-media-and-communications.fact-first-modern-institution",
       "v": 1,
       "subject": "sociology",
@@ -17411,6 +18559,33 @@
       "order": 200
     },
     {
+      "id": "kc.sociology.mass-media-and-communications.list-nationalist-papers-displeasure",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.mass-media-and-communications",
+      "chapter": "Mass Media & Communications",
+      "unit": "New Arenas of Social Change",
+      "kind": "list",
+      "front": "Which three nationalist newspapers does NCERT cite as examples that suffered the displeasure of the colonial state?",
+      "back": "Kesari (Marathi)\nMathrubhumi (Malayalam)\nAmrita Bazar Patrika (English)",
+      "quote": "some of the nationalist newspapers like Kesari (Marathi), Mathrubhumi (Malayalam), Amrita Bazar Patrika (English) to suffer the displeasure of the colonial state.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy207",
+        "chapterNo": 7,
+        "page": 93,
+        "section": "The Beginnings of Modern Mass Media"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "nationalist press"
+      ],
+      "order": 210
+    },
+    {
       "id": "kc.sociology.mass-media-and-communications.fact-sambad-kaumudi",
       "v": 1,
       "subject": "sociology",
@@ -17574,6 +18749,34 @@
       "order": 280
     },
     {
+      "id": "kc.sociology.mass-media-and-communications.fact-colonial-press-word-of-mouth",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.mass-media-and-communications",
+      "chapter": "Mass Media & Communications",
+      "unit": "New Arenas of Social Change",
+      "kind": "fact",
+      "front": "In colonial India, how did news from newspapers and magazines reach people far beyond their small circulation?",
+      "back": "Newspapers and magazines either in English or vernacular were not very widely circulated as the literate public was limited. Yet their influence far out stripped their circulation as news and information was read and spread by word of mouth from commercial and administrative hubs",
+      "quote": "Newspapers and magazines either in English or vernacular were not very widely circulated as the literate public was limited. Yet their influence far out stripped their circulation as news and information was read and spread by word of mouth from commercial and administrative hubs",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy207",
+        "chapterNo": 7,
+        "page": 93,
+        "section": "The Beginnings of Modern Mass Media"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "colonial India",
+        "newspapers"
+      ],
+      "order": 290
+    },
+    {
       "id": "kc.sociology.mass-media-and-communications.kl-nehru-watchdog",
       "v": 1,
       "subject": "sociology",
@@ -17601,6 +18804,33 @@
         "Nehru"
       ],
       "order": 300
+    },
+    {
+      "id": "kc.sociology.mass-media-and-communications.fact-media-spirit-self-reliance",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.mass-media-and-communications",
+      "chapter": "Mass Media & Communications",
+      "unit": "New Arenas of Social Change",
+      "kind": "fact",
+      "front": "In independent India, what spirit was the media expected to spread among the people?",
+      "back": "The media was expected to spread the spirit of self-reliance and national development among the people.",
+      "quote": "The media was expected to spread the spirit of self-reliance and national development among the people.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy207",
+        "chapterNo": 7,
+        "page": 94,
+        "section": "Mass Media in Independent India"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "Nehru"
+      ],
+      "order": 310
     },
     {
       "id": "kc.sociology.mass-media-and-communications.fact-films-division",
@@ -17683,6 +18913,34 @@
         "radio"
       ],
       "order": 360
+    },
+    {
+      "id": "kc.sociology.mass-media-and-communications.fact-vividh-bharati-1957",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.mass-media-and-communications",
+      "chapter": "Mass Media & Communications",
+      "unit": "New Arenas of Social Change",
+      "kind": "fact",
+      "front": "Which hugely popular entertainment channel did All India Radio (AIR) acquire in 1957?",
+      "back": "In 1957, AIR acquired the hugely popular channel Vividh Bharati",
+      "quote": "In 1957, AIR acquired the hugely popular channel Vividh Bharati, which soon began to carry sponsored programmes and advertisements and grew to become a money-spinning channel for AIR.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy207",
+        "chapterNo": 7,
+        "page": 95,
+        "section": "Radio"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "AIR",
+        "Vividh Bharati"
+      ],
+      "order": 380
     },
     {
       "id": "kc.sociology.mass-media-and-communications.fact-air-green-revolution",
@@ -18155,6 +19413,33 @@
       "order": 610
     },
     {
+      "id": "kc.sociology.mass-media-and-communications.fact-print-media-approach",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.mass-media-and-communications",
+      "chapter": "Mass Media & Communications",
+      "unit": "New Arenas of Social Change",
+      "kind": "fact",
+      "front": "After Independence, what general approach did the Indian print media continue to share?",
+      "back": "After Independence, the print media continued to share the general approach of being a partner in the task of nation building by taking up developmental issues, as well as, giving voice to the widest section of people.",
+      "quote": "After Independence, the print media continued to share the general approach of being a partner in the task of nation building by taking up developmental issues, as well as, giving voice to the widest section of people.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy207",
+        "chapterNo": 7,
+        "page": 97,
+        "section": "Print Media"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "print media"
+      ],
+      "order": 630
+    },
+    {
       "id": "kc.sociology.mass-media-and-communications.fact-emergency-1975",
       "v": 1,
       "subject": "sociology",
@@ -18319,6 +19604,34 @@
         "Internet"
       ],
       "order": 710
+    },
+    {
+      "id": "kc.sociology.mass-media-and-communications.fact-media-industry-transformation",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.mass-media-and-communications",
+      "chapter": "Mass Media & Communications",
+      "unit": "New Arenas of Social Change",
+      "kind": "fact",
+      "front": "In the past three decades, what profound transformations have taken place within the media industry?",
+      "back": "In the past three decades, however, profound transformations have taken place within the media industry. National markets have given way to a fluid global market, while new technologies have led to the fusion of forms of media that were once distinct.",
+      "quote": "In the past three decades, however, profound transformations have taken place within the media industry. National markets have given way to a fluid global market, while new technologies have led to the fusion of forms of media that were once distinct.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy207",
+        "chapterNo": 7,
+        "page": 99,
+        "section": "Globalisation and the Media"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "globalisation",
+        "media convergence"
+      ],
+      "order": 720
     },
     {
       "id": "kc.sociology.mass-media-and-communications.fact-print-circulation-grew",
@@ -19498,6 +20811,34 @@
       "order": 140
     },
     {
+      "id": "kc.sociology.patterns-of-social-inequality.def-ascribed-position",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.patterns-of-social-inequality",
+      "chapter": "Patterns of Social Inequality",
+      "unit": "Social Inequality and Exclusion",
+      "kind": "definition",
+      "front": "In social stratification, what does it mean that a person’s social position is ascribed?",
+      "back": "A person’s social position is ascribed. That is, children assume the social positions of their parents.",
+      "quote": "A person’s social position is ascribed. That is, children assume the social positions of their parents.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy105",
+        "chapterNo": 5,
+        "page": 72,
+        "section": "Social Stratification"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "stratification",
+        "ascription"
+      ],
+      "order": 150
+    },
+    {
       "id": "kc.sociology.patterns-of-social-inequality.kl-birth-dictates-occupation",
       "v": 1,
       "subject": "sociology",
@@ -19833,6 +21174,33 @@
         "stereotype"
       ],
       "order": 290
+    },
+    {
+      "id": "kc.sociology.patterns-of-social-inequality.fact-stereotype-homogenous",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.patterns-of-social-inequality",
+      "chapter": "Patterns of Social Inequality",
+      "unit": "Social Inequality and Exclusion",
+      "kind": "fact",
+      "front": "Stereotypes fix whole groups into single, homogenous categories. What do they refuse to recognise?",
+      "back": "Stereotypes fix whole groups into single, homogenous categories; they refuse to recognise the variation across individuals and across contexts or across time.",
+      "quote": "Stereotypes fix whole groups into single, homogenous categories; they refuse to recognise the variation across individuals and across contexts or across time.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy105",
+        "chapterNo": 5,
+        "page": 73,
+        "section": "Prejudice, Stereotypes and Discrimination"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "stereotype"
+      ],
+      "order": 300
     },
     {
       "id": "kc.sociology.patterns-of-social-inequality.def-discrimination",
@@ -20246,6 +21614,34 @@
       "order": 470
     },
     {
+      "id": "kc.sociology.patterns-of-social-inequality.fact-status-coincide-practice",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.patterns-of-social-inequality",
+      "chapter": "Patterns of Social Inequality",
+      "unit": "Social Inequality and Exclusion",
+      "kind": "fact",
+      "front": "Scripture held social and economic status to be sharply separated. In historical practice, did they stay separate or tend to coincide?",
+      "back": "However, in actual historical practice economic and social status tended to coincide.",
+      "quote": "However, in actual historical practice economic and social status tended to coincide.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy105",
+        "chapterNo": 5,
+        "page": 75,
+        "section": "The Caste System as a Discriminatory System"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "caste",
+        "class"
+      ],
+      "order": 480
+    },
+    {
       "id": "kc.sociology.patterns-of-social-inequality.fact-high-castes-high-economic",
       "v": 1,
       "subject": "sociology",
@@ -20495,6 +21891,33 @@
         "untouchability"
       ],
       "order": 580
+    },
+    {
+      "id": "kc.sociology.patterns-of-social-inequality.fact-untouchability-forced-labour",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.patterns-of-social-inequality",
+      "chapter": "Patterns of Social Inequality",
+      "unit": "Social Inequality and Exclusion",
+      "kind": "fact",
+      "front": "Besides forced, unpaid (or under-paid) labour, what other form of economic exploitation is untouchability almost always linked to?",
+      "back": "Moreover, untouchability is almost always associated with economic exploitation of various kinds, most commonly through the imposition of forced, unpaid (or under-paid) labour, or the confiscation of property.",
+      "quote": "Moreover, untouchability is almost always associated with economic exploitation of various kinds, most commonly through the imposition of forced, unpaid (or under-paid) labour, or the confiscation of property.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy105",
+        "chapterNo": 5,
+        "page": 79,
+        "section": "Untouchability"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "untouchability"
+      ],
+      "order": 590
     },
     {
       "id": "kc.sociology.patterns-of-social-inequality.fact-harijan-gandhi",
@@ -21105,6 +22528,33 @@
       "order": 800
     },
     {
+      "id": "kc.sociology.patterns-of-social-inequality.fact-obc-service-artisanal",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.patterns-of-social-inequality",
+      "chapter": "Patterns of Social Inequality",
+      "unit": "Social Inequality and Exclusion",
+      "kind": "fact",
+      "front": "NCERT on the OBCs: low-status castes facing discrimination short of untouchability were mainly which two occupational groups?",
+      "back": "However, there were a large group of castes that were of low status and were also subjected to varying levels of discrimination short of untouchability. These were the service and artisanal castes who occupied the lower rungs of the caste hierarchy.",
+      "quote": "However, there were a large group of castes that were of low status and were also subjected to varying levels of discrimination short of untouchability. These were the service and artisanal castes who occupied the lower rungs of the caste hierarchy.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy105",
+        "chapterNo": 5,
+        "page": 81,
+        "section": "The Other Backward Classes"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "OBC"
+      ],
+      "order": 810
+    },
+    {
       "id": "kc.sociology.patterns-of-social-inequality.def-obc-constitutional-basis",
       "v": 1,
       "subject": "sociology",
@@ -21159,6 +22609,33 @@
         "OBC"
       ],
       "order": 830
+    },
+    {
+      "id": "kc.sociology.patterns-of-social-inequality.fact-obc-neither-forward",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.patterns-of-social-inequality",
+      "chapter": "Patterns of Social Inequality",
+      "unit": "Social Inequality and Exclusion",
+      "kind": "fact",
+      "front": "The OBCs are defined negatively: neither Dalits at the lower end nor which castes (a term NCERT puts in quotation marks) at the upper end?",
+      "back": "Like the category of the ‘tribe’ (see Chapter 3), the OBCs are defined negatively, by what they are not. They are neither part of the ‘forward’ castes at the upper end of the status spectrum, nor of the Dalits at the lower end.",
+      "quote": "Like the category of the ‘tribe’ (see Chapter 3), the OBCs are defined negatively, by what they are not. They are neither part of the ‘forward’ castes at the upper end of the status spectrum, nor of the Dalits at the lower end.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy105",
+        "chapterNo": 5,
+        "page": 82,
+        "section": "The Other Backward Classes"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "OBC"
+      ],
+      "order": 840
     },
     {
       "id": "kc.sociology.patterns-of-social-inequality.fact-obc-other-religions",
@@ -21330,6 +22807,34 @@
       "order": 900
     },
     {
+      "id": "kc.sociology.patterns-of-social-inequality.fact-mandal-commission",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.patterns-of-social-inequality",
+      "chapter": "Patterns of Social Inequality",
+      "unit": "Social Inequality and Exclusion",
+      "kind": "fact",
+      "front": "Who headed the Second Backward Classes Commission, appointed in the late 1970s after the Emergency?",
+      "back": "The Second Backward Classes Commission headed by B.P. Mandal was appointed at this time.",
+      "quote": "The Second Backward Classes Commission headed by B.P. Mandal was appointed at this time.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy105",
+        "chapterNo": 5,
+        "page": 82,
+        "section": "The Other Backward Classes"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "OBC",
+        "commission"
+      ],
+      "order": 910
+    },
+    {
       "id": "kc.sociology.patterns-of-social-inequality.fact-mandal-1990",
       "v": 1,
       "subject": "sociology",
@@ -21468,6 +22973,33 @@
       "order": 960
     },
     {
+      "id": "kc.sociology.patterns-of-social-inequality.fact-urban-obc-worse",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.patterns-of-social-inequality",
+      "chapter": "Patterns of Social Inequality",
+      "unit": "Social Inequality and Exclusion",
+      "kind": "fact",
+      "front": "Although upper OBCs dominate rural areas, urban OBCs are much worse off, closer to which groups than to the upper castes?",
+      "back": "Although the upper OBCs are dominant in the rural sector, the situation of urban OBCs is much worse, being much closer to that of the Scheduled Castes and Tribes than to the upper castes.",
+      "quote": "Although the upper OBCs are dominant in the rural sector, the situation of urban OBCs is much worse, being much closer to that of the Scheduled Castes and Tribes than to the upper castes.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy105",
+        "chapterNo": 5,
+        "page": 83,
+        "section": "The Other Backward Classes"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "OBC"
+      ],
+      "order": 970
+    },
+    {
       "id": "kc.sociology.patterns-of-social-inequality.kl-st-recognised-constitution",
       "v": 1,
       "subject": "sociology",
@@ -21553,6 +23085,33 @@
       "order": 1000
     },
     {
+      "id": "kc.sociology.patterns-of-social-inequality.fact-tribal-exception-north-east",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.patterns-of-social-inequality",
+      "chapter": "Patterns of Social Inequality",
+      "unit": "Social Inequality and Exclusion",
+      "kind": "fact",
+      "front": "Which states are the one exception to the rule that no area of the country is inhabited exclusively by tribal people today?",
+      "back": "Today, barring the North-Eastern states, there are no areas of the country that are inhabited exclusively by tribal people; there are only areas of tribal concentration.",
+      "quote": "Today, barring the North-Eastern states, there are no areas of the country that are inhabited exclusively by tribal people; there are only areas of tribal concentration.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy105",
+        "chapterNo": 5,
+        "page": 83,
+        "section": "Adivasi Struggles"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tribe"
+      ],
+      "order": 1010
+    },
+    {
       "id": "kc.sociology.patterns-of-social-inequality.fact-colonial-forest-reserved",
       "v": 1,
       "subject": "sociology",
@@ -21606,6 +23165,34 @@
         "tribe"
       ],
       "order": 1030
+    },
+    {
+      "id": "kc.sociology.patterns-of-social-inequality.fact-adivasi-mining-dams",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.patterns-of-social-inequality",
+      "chapter": "Patterns of Social Inequality",
+      "unit": "Social Inequality and Exclusion",
+      "kind": "fact",
+      "front": "Adivasi lands were acquired for which two kinds of projects, displacing millions without proper compensation or rehabilitation?",
+      "back": "Adivasi lands were rapidly acquired for new mining and dam projects. In the process, millions of adivasis were displaced without any appropriate compensation or rehabilitation.",
+      "quote": "Adivasi lands were rapidly acquired for new mining and dam projects. In the process, millions of adivasis were displaced without any appropriate compensation or rehabilitation.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy105",
+        "chapterNo": 5,
+        "page": 83,
+        "section": "Adivasi Struggles"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tribe",
+        "displacement"
+      ],
+      "order": 1040
     },
     {
       "id": "kc.sociology.patterns-of-social-inequality.fact-internal-colonialism",
@@ -21882,6 +23469,33 @@
         "gender"
       ],
       "order": 1140
+    },
+    {
+      "id": "kc.sociology.patterns-of-social-inequality.fact-matrilineal-nairs-khasis",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.patterns-of-social-inequality",
+      "chapter": "Patterns of Social Inequality",
+      "unit": "Social Inequality and Exclusion",
+      "kind": "fact",
+      "front": "Which matrilineal societies, one in Kerala (in the past) and one in Meghalaya (still today), does NCERT cite?",
+      "back": "matrilineal societies (as the Nairs of Kerala used to be, and as the Khasis of Meghalaya still are)",
+      "quote": "did matrilineal societies (as the Nairs of Kerala used to be, and as the Khasis of Meghalaya still are) work for centuries?",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy105",
+        "chapterNo": 5,
+        "page": 85,
+        "section": "Struggle for women’s equality and rights"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "gender"
+      ],
+      "order": 1150
     },
     {
       "id": "kc.sociology.patterns-of-social-inequality.kl-gender-form-of-inequality",
@@ -22986,6 +24600,33 @@
       "order": 1600
     },
     {
+      "id": "kc.sociology.patterns-of-social-inequality.list-inequality-class-race-gender",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.patterns-of-social-inequality",
+      "chapter": "Patterns of Social Inequality",
+      "unit": "Social Inequality and Exclusion",
+      "kind": "list",
+      "front": "Name the three notions that have historically dominated the social sciences’ understanding of inequality (the last the most recent).",
+      "back": "class, race and more recently, gender",
+      "quote": "Historically, the understanding of inequality in the social sciences has been dominated by notions of class, race and more recently, gender.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy105",
+        "chapterNo": 5,
+        "page": 92,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "summary"
+      ],
+      "order": 1610
+    },
+    {
       "id": "kc.sociology.patterns-of-social-inequality.fact-marginalised-by-religion",
       "v": 1,
       "subject": "sociology",
@@ -23096,6 +24737,34 @@
         "caste"
       ],
       "order": 20
+    },
+    {
+      "id": "kc.sociology.social-institutions.fact-caste-word-portuguese-casta",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-institutions",
+      "chapter": "Social Institutions",
+      "unit": "Social Institutions: Continuity and Change",
+      "kind": "fact",
+      "front": "From which language does the English word ‘caste’ come, and what did the original word casta mean?",
+      "back": "As is well-known, the English word ‘caste’ is actually a borrowing from the Portuguese casta, meaning pure breed.",
+      "quote": "As is well-known, the English word ‘caste’ is actually a borrowing from the Portuguese casta, meaning pure breed.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy103",
+        "chapterNo": 3,
+        "page": 36,
+        "section": "Caste in the Past"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "caste",
+        "etymology"
+      ],
+      "order": 30
     },
     {
       "id": "kc.sociology.social-institutions.fact-caste-two-terms",
@@ -23495,6 +25164,34 @@
       "order": 180
     },
     {
+      "id": "kc.sociology.social-institutions.fact-caste-unequal",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-institutions",
+      "chapter": "Social Institutions",
+      "unit": "Social Institutions: Continuity and Change",
+      "kind": "fact",
+      "front": "Under caste, what did the historical evidence show about the fate of some castes compared with others?",
+      "back": "It is also clear from the historical evidence that caste was a very unequal institution – some castes benefitted greatly from the system, while others were condemned to a life of endless labour and subordination.",
+      "quote": "It is also clear from the historical evidence that caste was a very unequal institution – some castes benefitted greatly from the system, while others were condemned to a life of endless labour and subordination.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy103",
+        "chapterNo": 3,
+        "page": 38,
+        "section": "Defining features of caste"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "caste",
+        "inequality"
+      ],
+      "order": 190
+    },
+    {
       "id": "kc.sociology.social-institutions.types-two-principles",
       "v": 1,
       "subject": "sociology",
@@ -23870,6 +25567,62 @@
       "order": 330
     },
     {
+      "id": "kc.sociology.social-institutions.fact-state-two-stances-on-caste",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-institutions",
+      "chapter": "Social Institutions",
+      "unit": "Social Institutions: Continuity and Change",
+      "kind": "fact",
+      "front": "What were the two contradictory stances of the post-Independence Indian state towards caste?",
+      "back": "On the one hand, the state was committed to the abolition of caste and explicitly wrote this into the Constitution. On the other hand, the state was both unable and unwilling to push through radical reforms which would have undermined the economic basis for caste inequality.",
+      "quote": "On the one hand, the state was committed to the abolition of caste and explicitly wrote this into the Constitution. On the other hand, the state was both unable and unwilling to push through radical reforms which would have undermined the economic basis for caste inequality.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy103",
+        "chapterNo": 3,
+        "page": 40,
+        "section": "Caste in the Present"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "caste",
+        "constitution"
+      ],
+      "order": 340
+    },
+    {
+      "id": "kc.sociology.social-institutions.fact-govt-jobs-caste-blind-exception",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-institutions",
+      "chapter": "Social Institutions",
+      "unit": "Social Institutions: Continuity and Change",
+      "kind": "fact",
+      "front": "Appointments to government jobs took no account of caste. What was the only exception, per NCERT?",
+      "back": "For example, appointments to government jobs took no account of caste, thus leaving the well-educated upper castes and the ill-educated or often illiterate lower castes to compete on “equal” terms. The only exception to this was in the form of reservations for the Scheduled Castes and Scheduled Tribes.",
+      "quote": "For example, appointments to government jobs took no account of caste, thus leaving the well-educated upper castes and the ill-educated or often illiterate lower castes to compete on “equal” terms. The only exception to this was in the form of reservations for the Scheduled Castes and Scheduled Tribes.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy103",
+        "chapterNo": 3,
+        "page": 41,
+        "section": "Caste in the Present"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "caste",
+        "reservation"
+      ],
+      "order": 350
+    },
+    {
       "id": "kc.sociology.social-institutions.fact-caste-blind-assumption",
       "v": 1,
       "subject": "sociology",
@@ -23896,6 +25649,34 @@
         "state"
       ],
       "order": 360
+    },
+    {
+      "id": "kc.sociology.social-institutions.fact-industry-new-jobs-no-caste-rules",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-institutions",
+      "chapter": "Social Institutions",
+      "unit": "Social Institutions: Continuity and Change",
+      "kind": "fact",
+      "front": "According to NCERT, what did modern industry create that caste rules did not cover?",
+      "back": "Modern industry created all kinds of new jobs for which there were no caste rules.",
+      "quote": "Modern industry created all kinds of new jobs for which there were no caste rules.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Society",
+        "code": "lesy103",
+        "chapterNo": 3,
+        "page": 41,
+        "section": "Caste in the Present"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "caste",
+        "industrialisation"
+      ],
+      "order": 370
     },
     {
       "id": "kc.sociology.social-institutions.kl-urbanisation-caste",
@@ -26196,6 +27977,60 @@
       "order": 470
     },
     {
+      "id": "kc.sociology.social-movements.fact-peasant-1858-1914",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-movements",
+      "chapter": "Social Movements",
+      "unit": "Social Movements",
+      "kind": "fact",
+      "front": "What was the character of peasant movements in India between 1858 and 1914, according to NCERT?",
+      "back": "The movements in the period between 1858 and 1914 tended to remain localised, disjointed and confined to particular grievances.",
+      "quote": "The movements in the period between 1858 and 1914 tended to remain localised, disjointed and confined to particular grievances.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy208",
+        "chapterNo": 8,
+        "page": 118,
+        "section": "Peasant Movements"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "peasant movements"
+      ],
+      "order": 490
+    },
+    {
+      "id": "kc.sociology.social-movements.fact-indigo-deccan",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-movements",
+      "chapter": "Social Movements",
+      "unit": "Social Movements",
+      "kind": "fact",
+      "front": "Peasant movements: what did the Bengal revolt of 1859-62 and the 'Deccan riots' of 1857 each oppose?",
+      "back": "Well-known are the Bengal revolt of 1859-62 against the indigo plantation system and the 'Deccan riots' of 1857 against moneylenders.",
+      "quote": "Well-known are the Bengal revolt of 1859-62 against the indigo plantation system and the 'Deccan riots' of 1857 against moneylenders.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy208",
+        "chapterNo": 8,
+        "page": 118,
+        "section": "Peasant Movements"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "peasant movements"
+      ],
+      "order": 500
+    },
+    {
       "id": "kc.sociology.social-movements.fact-bardoli-champaran",
       "v": 1,
       "subject": "sociology",
@@ -26412,6 +28247,33 @@
       "order": 580
     },
     {
+      "id": "kc.sociology.social-movements.fact-farmers-ideology",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-movements",
+      "chapter": "Social Movements",
+      "unit": "Social Movements",
+      "kind": "fact",
+      "front": "What was the basic ideology of the new farmers' movements that began in the 1970s in Punjab and Tamil Nadu?",
+      "back": "The basic ideology of the movement was strongly anti-state and anti-urban.",
+      "quote": "The basic ideology of the movement was strongly anti-state and anti-urban.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy208",
+        "chapterNo": 8,
+        "page": 118,
+        "section": "Peasant Movements"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "new farmers' movements"
+      ],
+      "order": 590
+    },
+    {
       "id": "kc.sociology.social-movements.fact-farmers-new-social-movements",
       "v": 1,
       "subject": "sociology",
@@ -26522,6 +28384,33 @@
         "workers' movements"
       ],
       "order": 650
+    },
+    {
+      "id": "kc.sociology.social-movements.fact-workers-spontaneous",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-movements",
+      "chapter": "Social Movements",
+      "unit": "Social Movements",
+      "kind": "fact",
+      "front": "How does NCERT describe the early protest actions of workers in colonial India, before trade unions emerged?",
+      "back": "Though trade unions emerged later, workers did protest. Their actions then were, however, more spontaneous than sustained.",
+      "quote": "Though trade unions emerged later, workers did protest. Their actions then were, however, more spontaneous than sustained.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy208",
+        "chapterNo": 8,
+        "page": 119,
+        "section": "Workers' Movements"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "workers' movements"
+      ],
+      "order": 660
     },
     {
       "id": "kc.sociology.social-movements.fact-first-trade-union",
@@ -26823,6 +28712,33 @@
       "order": 770
     },
     {
+      "id": "kc.sociology.social-movements.fact-dalit-denial",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-movements",
+      "chapter": "Social Movements",
+      "unit": "Social Movements",
+      "kind": "fact",
+      "front": "What does the word Dalit itself inherently deny, according to NCERT?",
+      "back": "There is, in the word itself, inherent denial of pollution, karma and justified caste hierarchy.",
+      "quote": "There is, in the word itself, inherent denial of pollution, karma and justified caste hierarchy.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy208",
+        "chapterNo": 8,
+        "page": 121,
+        "section": "The Dalit Movement"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "Dalit movement"
+      ],
+      "order": 790
+    },
+    {
       "id": "kc.sociology.social-movements.kl-no-single-dalit-movement",
       "v": 1,
       "subject": "sociology",
@@ -26939,6 +28855,33 @@
       "order": 830
     },
     {
+      "id": "kc.sociology.social-movements.fact-dalit-literature-call",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-movements",
+      "chapter": "Social Movements",
+      "unit": "Social Movements",
+      "kind": "fact",
+      "front": "What does Dalit literature give a call for, according to NCERT?",
+      "back": "Dalit literature gives a call for social and cultural revolt.",
+      "quote": "Dalit literature gives a call for social and cultural revolt.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy208",
+        "chapterNo": 8,
+        "page": 122,
+        "section": "The Dalit Movement"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "Dalit movement"
+      ],
+      "order": 840
+    },
+    {
       "id": "kc.sociology.social-movements.fact-phule-ambedkar-movement",
       "v": 1,
       "subject": "sociology",
@@ -26966,6 +28909,33 @@
       "order": 850
     },
     {
+      "id": "kc.sociology.social-movements.fact-anti-caste-best",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-movements",
+      "chapter": "Social Movements",
+      "unit": "Social Movements",
+      "kind": "fact",
+      "front": "Box 8.7: at its best, what was the anti-caste movement in terms of society, and what in terms of individuals?",
+      "back": "At its best it was revolutionary in terms of society and redemptive in terms of individuals.",
+      "quote": "the anti-caste movement which began in the 19th century under the inspiration of Jotiba Phule and was carried out in the 1920s by the non-Brahmin movements in Maharashtra and Tamil Nadu and then developed under the leadership of Dr. Ambedkar had characteristics of all types. At its best it was revolutionary in terms of society and redemptive in terms of individuals.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy208",
+        "chapterNo": 8,
+        "page": 122,
+        "section": "Box 8.7"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "Dalit movement"
+      ],
+      "order": 860
+    },
+    {
       "id": "kc.sociology.social-movements.fact-caste-groups-horizontal-stretch",
       "v": 1,
       "subject": "sociology",
@@ -26991,6 +28961,33 @@
         "backward classes"
       ],
       "order": 890
+    },
+    {
+      "id": "kc.sociology.social-movements.fact-caste-secularised",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-movements",
+      "chapter": "Social Movements",
+      "unit": "Social Movements",
+      "kind": "fact",
+      "front": "What happened to caste as similarly placed caste groups united for political mobilisation under the colonial state?",
+      "back": "Caste, thus, began to lose its ritual content and become more and more secularised for political mobilisation",
+      "quote": "Caste, thus, began to lose its ritual content and become more and more secularised for political mobilisation",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy208",
+        "chapterNo": 8,
+        "page": 122,
+        "section": "Backward Class Castes Movements"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "backward classes"
+      ],
+      "order": 900
     },
     {
       "id": "kc.sociology.social-movements.fact-backward-classes-term",
@@ -27129,6 +29126,33 @@
         "Jharkhand"
       ],
       "order": 980
+    },
+    {
+      "id": "kc.sociology.social-movements.fact-jharkhand-century",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-movements",
+      "chapter": "Social Movements",
+      "unit": "Social Movements",
+      "kind": "fact",
+      "front": "How long a history of resistance lies behind the formation of the state of Jharkhand, according to NCERT?",
+      "back": "Jharkhand is one of the newly formed states of India, carved out of south Bihar in the year 2000. Behind the formation of this state lies more than a century of resistance.",
+      "quote": "Jharkhand is one of the newly formed states of India, carved out of south Bihar in the year 2000. Behind the formation of this state lies more than a century of resistance.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy208",
+        "chapterNo": 8,
+        "page": 123,
+        "section": "Jharkhand"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "Jharkhand"
+      ],
+      "order": 990
     },
     {
       "id": "kc.sociology.social-movements.fact-birsa-munda",
@@ -27459,6 +29483,33 @@
       "order": 1110
     },
     {
+      "id": "kc.sociology.social-movements.fact-womens-question",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-movements",
+      "chapter": "Social Movements",
+      "unit": "Social Movements",
+      "kind": "fact",
+      "front": "What atmosphere did the early 20th-century women's organisations together succeed in creating, according to NCERT?",
+      "back": "What they succeeded together was to create an atmosphere where the women's question could not be ignored.",
+      "quote": "What they succeeded together was to create an atmosphere where the women's question could not be ignored.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy208",
+        "chapterNo": 8,
+        "page": 125,
+        "section": "The Women's Movement"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "women's movement"
+      ],
+      "order": 1120
+    },
+    {
       "id": "kc.sociology.social-movements.list-women-agrarian-revolts",
       "v": 1,
       "subject": "sociology",
@@ -27568,6 +29619,33 @@
         "women's movement"
       ],
       "order": 1160
+    },
+    {
+      "id": "kc.sociology.social-movements.fact-women-discrimination-differs",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.social-movements",
+      "chapter": "Social Movements",
+      "unit": "Social Movements",
+      "kind": "fact",
+      "front": "What recognition has the women's movement come to about discrimination, though all women are disadvantaged vis-a-vis men?",
+      "back": "There has been a recognition too that while all women are in some way disadvantaged vis-a-vis men, all women do not suffer the same level or kind of discrimination.",
+      "quote": "There has been a recognition too that while all women are in some way disadvantaged vis-a-vis men, all women do not suffer the same level or kind of discrimination.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy208",
+        "chapterNo": 8,
+        "page": 126,
+        "section": "The Women's Movement"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "women's movement"
+      ],
+      "order": 1170
     },
     {
       "id": "kc.sociology.social-movements.kl-gender-just-society",
@@ -28666,6 +30744,34 @@
       "order": 360
     },
     {
+      "id": "kc.sociology.story-of-indian-democracy.fact-panchayat-monitor-irdp-icds",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.story-of-indian-democracy",
+      "chapter": "Story of Indian Democracy",
+      "unit": "Social Change and the Polity",
+      "kind": "fact",
+      "front": "Which government schemes does NCERT name as examples monitored by members of the panchayat?",
+      "back": "Many government schemes like the Integrated Rural Development Programme (IRDP) and Integrated Child Development Scheme (ICDS) are monitored by members of the panchayat.",
+      "quote": "Many government schemes like the Integrated Rural Development Programme (IRDP) and Integrated Child Development Scheme (ICDS) are monitored by members of the panchayat.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy203",
+        "chapterNo": 3,
+        "page": 34,
+        "section": "Powers and Responsibilities of Panchayats"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "irdp",
+        "icds"
+      ],
+      "order": 370
+    },
+    {
       "id": "kc.sociology.story-of-indian-democracy.list-panchayat-income",
       "v": 1,
       "subject": "sociology",
@@ -29030,6 +31136,33 @@
       "order": 550
     },
     {
+      "id": "kc.sociology.story-of-indian-democracy.def-def-political-party-1",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.story-of-indian-democracy",
+      "chapter": "Story of Indian Democracy",
+      "unit": "Social Change and the Polity",
+      "kind": "definition",
+      "front": "Define a political party: the NCERT definition that speaks of 'legitimate control of government'.",
+      "back": "A political party may be defined as an organisation oriented towards achieving legitimate control of government through an electoral process.",
+      "quote": "A political party may be defined as an organisation oriented towards achieving legitimate control of government through an electoral process.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy203",
+        "chapterNo": 3,
+        "page": 38,
+        "section": "Political Parties, Pressure and Interest Groups in Democratic Politics"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "political party"
+      ],
+      "order": 570
+    },
+    {
       "id": "kc.sociology.story-of-indian-democracy.def-def-political-party-2",
       "v": 1,
       "subject": "sociology",
@@ -29055,6 +31188,33 @@
         "political party"
       ],
       "order": 580
+    },
+    {
+      "id": "kc.sociology.story-of-indian-democracy.fact-parties-represent-groups",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.story-of-indian-democracy",
+      "chapter": "Story of Indian Democracy",
+      "unit": "Social Change and the Polity",
+      "kind": "fact",
+      "front": "What role do political parties play for the interests of different groups in a democratic system?",
+      "back": "In a democratic system the interests of different groups are also represented by political parties, who take up their case.",
+      "quote": "In a democratic system the interests of different groups are also represented by political parties, who take up their case.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy203",
+        "chapterNo": 3,
+        "page": 38,
+        "section": "Political Parties, Pressure and Interest Groups in Democratic Politics"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "political party"
+      ],
+      "order": 600
     },
     {
       "id": "kc.sociology.story-of-indian-democracy.fact-alternative-party-or-pressure-group",
@@ -29249,6 +31409,33 @@
       "order": 10
     },
     {
+      "id": "kc.sociology.structural-change.fact-western-colonialism-impact",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.structural-change",
+      "chapter": "Structural Change",
+      "unit": "Process of Social Change in India",
+      "kind": "fact",
+      "front": "In the modern period, which kind of colonialism has had the greatest impact, according to NCERT?",
+      "back": "In the modern period western colonialism has had the greatest impact.",
+      "quote": "In the modern period western colonialism has had the greatest impact.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy201",
+        "chapterNo": 1,
+        "page": 4,
+        "section": "1.1 Understanding Colonialism"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "colonialism"
+      ],
+      "order": 20
+    },
+    {
       "id": "kc.sociology.structural-change.kl-precapitalist-tribute",
       "v": 1,
       "subject": "sociology",
@@ -29334,6 +31521,33 @@
       "order": 60
     },
     {
+      "id": "kc.sociology.structural-change.ex-jharkhand-assam-movement",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.structural-change",
+      "chapter": "Structural Change",
+      "unit": "Process of Social Change in India",
+      "kind": "example",
+      "front": "People from present-day Jharkhand moving to work on Assam's tea plantations illustrates which effect of colonialism?",
+      "back": "Colonialism also led to considerable movement of people. It led to movement of people from one part to another within India. For instance people from present day Jharkhand moved to Assam to work on the tea plantations.",
+      "quote": "Colonialism also led to considerable movement of people. It led to movement of people from one part to another within India. For instance people from present day Jharkhand moved to Assam to work on the tea plantations.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy201",
+        "chapterNo": 1,
+        "page": 5,
+        "section": "1.1 Understanding Colonialism"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "colonialism"
+      ],
+      "order": 70
+    },
+    {
       "id": "kc.sociology.structural-change.fact-jharkhand-to-assam",
       "v": 1,
       "subject": "sociology",
@@ -29415,6 +31629,33 @@
       "order": 110
     },
     {
+      "id": "kc.sociology.structural-change.fact-colonialism-story-apart",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.structural-change",
+      "chapter": "Structural Change",
+      "unit": "Process of Social Change in India",
+      "kind": "fact",
+      "front": "In what respect was colonialism “a story apart” from earlier rules, according to NCERT?",
+      "back": "Colonialism was a story apart in the very scale and intensity of the changes that it brought about.",
+      "quote": "Colonialism was a story apart in the very scale and intensity of the changes that it brought about.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy201",
+        "chapterNo": 1,
+        "page": 5,
+        "section": "1.1 Understanding Colonialism"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "colonialism"
+      ],
+      "order": 120
+    },
+    {
       "id": "kc.sociology.structural-change.kl-deliberate-unintended",
       "v": 1,
       "subject": "sociology",
@@ -29443,6 +31684,34 @@
         "colonialism"
       ],
       "order": 130
+    },
+    {
+      "id": "kc.sociology.structural-change.ex-western-education-unintended",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.structural-change",
+      "chapter": "Structural Change",
+      "unit": "Process of Social Change in India",
+      "kind": "example",
+      "front": "Which measure, introduced to create Indians to manage British colonialism, instead bred nationalist, anti-colonial consciousness?",
+      "back": "Western education\nFor example, we saw how western education was introduced to create Indians who would manage British colonialism. Instead it led to the growth of a nationalist and anti-colonial consciousness.",
+      "quote": "For example, we saw how western education was introduced to create Indians who would manage British colonialism. Instead it led to the growth of a nationalist and anti-colonial consciousness.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy201",
+        "chapterNo": 1,
+        "page": 5,
+        "section": "1.1 Understanding Colonialism"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "colonialism",
+        "education"
+      ],
+      "order": 140
     },
     {
       "id": "kc.sociology.structural-change.def-capitalism",
@@ -29637,6 +31906,34 @@
         "nationalism"
       ],
       "order": 220
+    },
+    {
+      "id": "kc.sociology.structural-change.fact-colonialism-nationalism-contradict",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.structural-change",
+      "chapter": "Structural Change",
+      "unit": "Process of Social Change in India",
+      "kind": "fact",
+      "front": "How do the practice of colonialism and the principle of nationalism and democratic rights contradict each other?",
+      "back": "The practice of colonialism and the principle of nationalism and democratic rights are contradictory. For colonial rule implied foreign rule such as British rule over India. Nationalism implied that the people of India or of any colonised society have an equal right to be sovereign.",
+      "quote": "It must have struck you that the practice of colonialism and the principle of nationalism and democratic rights are contradictory. For colonial rule implied foreign rule such as British rule over India. Nationalism implied that the people of India or of any colonised society have an equal right to be sovereign.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy201",
+        "chapterNo": 1,
+        "page": 6,
+        "section": "1.1 Understanding Colonialism"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "colonialism",
+        "nationalism"
+      ],
+      "order": 230
     },
     {
       "id": "kc.sociology.structural-change.fact-swaraj-birthright",
@@ -29918,6 +32215,34 @@
         "urbanisation"
       ],
       "order": 350
+    },
+    {
+      "id": "kc.sociology.structural-change.diff-britain-vs-india-movement",
+      "v": 2,
+      "subject": "sociology",
+      "chapterKey": "sociology.structural-change",
+      "chapter": "Structural Change",
+      "unit": "Process of Social Change in India",
+      "kind": "difference",
+      "front": "Britain vs India: the initial impact of British industrialisation on the movement of people, in each country.",
+      "back": "Unlike Britain where the impact of industrialisation led to more people moving into urban areas, in India the initial impact of the same British industrialisation led to more people moving into agriculture.",
+      "quote": "Unlike Britain where the impact of industrialisation led to more people moving into urban areas, in India the initial impact of the same British industrialisation led to more people moving into agriculture.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy201",
+        "chapterNo": 1,
+        "page": 7,
+        "section": "1.2 Urbanisation and Industrialisation: The Colonial Experience"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "industrialisation",
+        "urbanisation"
+      ],
+      "order": 360
     },
     {
       "id": "kc.sociology.structural-change.fact-sarkar-railways",
@@ -30279,6 +32604,33 @@
       "order": 510
     },
     {
+      "id": "kc.sociology.structural-change.fact-assam-planters-recruitment",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.structural-change",
+      "chapter": "Structural Change",
+      "unit": "Process of Social Change in India",
+      "kind": "fact",
+      "front": "Unwilling to offer financial and other incentives, what did Assam's tea planters resort to for recruiting labour?",
+      "back": "Instead, they had recourse to fraud and coercion; and they persuaded the government to aid and abet them in this unholy task by passing penal laws.",
+      "quote": "Instead, they had recourse to fraud and coercion; and they persuaded the government to aid and abet them in this unholy task by passing penal laws.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy201",
+        "chapterNo": 1,
+        "page": 9,
+        "section": "The Tea Plantations"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tea"
+      ],
+      "order": 520
+    },
+    {
       "id": "kc.sociology.structural-change.fact-transport-native-labourers-act",
       "v": 1,
       "subject": "sociology",
@@ -30304,6 +32656,33 @@
         "tea"
       ],
       "order": 530
+    },
+    {
+      "id": "kc.sociology.structural-change.fact-tea-harsh-measures",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.structural-change",
+      "chapter": "Structural Change",
+      "unit": "Process of Social Change in India",
+      "kind": "fact",
+      "front": "What were the colonial administrators clear about in the treatment of the tea-plantation labourers?",
+      "back": "Significantly the colonial administrators were clear that harsh measures were taken against the labourers to make sure they benefited the planters.",
+      "quote": "Significantly the colonial administrators were clear that harsh measures were taken against the labourers to make sure they benefited the planters.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy201",
+        "chapterNo": 1,
+        "page": 9,
+        "section": "The Tea Plantations"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tea"
+      ],
+      "order": 540
     },
     {
       "id": "kc.sociology.structural-change.kl-swadeshi-national-economy",
@@ -30333,6 +32712,33 @@
         "industrialisation"
       ],
       "order": 550
+    },
+    {
+      "id": "kc.sociology.structural-change.fact-poverty-preventable",
+      "v": 1,
+      "subject": "sociology",
+      "chapterKey": "sociology.structural-change",
+      "chapter": "Structural Change",
+      "unit": "Process of Social Change in India",
+      "kind": "fact",
+      "front": "What did modern ideas make people realise about poverty, according to NCERT?",
+      "back": "Modern ideas made people realise that poverty was preventable.",
+      "quote": "Modern ideas made people realise that poverty was preventable.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Social Change and Development in India",
+        "code": "lesy201",
+        "chapterNo": 1,
+        "page": 10,
+        "section": "Industrialisation in Independent India"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "industrialisation"
+      ],
+      "order": 560
     },
     {
       "id": "kc.sociology.structural-change.list-nationalists-industrialisation-priorities",

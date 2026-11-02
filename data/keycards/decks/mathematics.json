@@ -1,6 +1,6 @@
 {
   "subject": "mathematics",
-  "version": 2,
+  "version": 3,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -885,6 +885,35 @@
       "order": 100
     },
     {
+      "id": "kc.mathematics.continuity-and-differentiability.fact-gif-discontinuous",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.continuity-and-differentiability",
+      "chapter": "Continuity & Differentiability",
+      "unit": "Calculus",
+      "kind": "fact",
+      "front": "Where is the greatest integer function discontinuous?",
+      "back": "the function is discontinuous at every integral point.",
+      "quote": "the function is discontinuous at every integral point.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part I",
+        "code": "lemh105",
+        "chapterNo": 5,
+        "page": 113,
+        "section": "Continuity"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "continuity",
+        "greatest-integer"
+      ],
+      "order": 120,
+      "note": "The greatest integer function is discontinuous at every integer and continuous at all other real numbers."
+    },
+    {
       "id": "kc.mathematics.continuity-and-differentiability.fact-sine-cosine-continuous",
       "v": 1,
       "subject": "mathematics",
@@ -1050,6 +1079,33 @@
         "implicit"
       ],
       "order": 250
+    },
+    {
+      "id": "kc.mathematics.continuity-and-differentiability.fact-inverse-trig-continuous",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.continuity-and-differentiability",
+      "chapter": "Continuity & Differentiability",
+      "unit": "Calculus",
+      "kind": "fact",
+      "front": "What does NCERT remark, without proof, about inverse trigonometric functions before differentiating them?",
+      "back": "We remark that inverse trigonometric functions are continuous functions, but we will not prove this.",
+      "quote": "We remark that inverse trigonometric functions are continuous functions, but we will not prove this.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part I",
+        "code": "lemh105",
+        "chapterNo": 5,
+        "page": 124,
+        "section": "Derivatives of inverse trigonometric functions"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "inverse-trigonometric"
+      ],
+      "order": 260
     },
     {
       "id": "kc.mathematics.continuity-and-differentiability.fact-polynomial-growth",
@@ -1445,6 +1501,33 @@
       "order": 450
     },
     {
+      "id": "kc.mathematics.continuity-and-differentiability.fact-third-variable-parameter",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.continuity-and-differentiability",
+      "chapter": "Continuity & Differentiability",
+      "unit": "Calculus",
+      "kind": "fact",
+      "front": "When the relation between two variables x and y is expressed via a third variable, what is that third variable called?",
+      "back": "The third variable is called the parameter.",
+      "quote": "The third variable is called the parameter.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part I",
+        "code": "lemh105",
+        "chapterNo": 5,
+        "page": 135,
+        "section": "Derivatives of Functions in Parametric Forms"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "parametric"
+      ],
+      "order": 460
+    },
+    {
       "id": "kc.mathematics.continuity-and-differentiability.def-parametric-form",
       "v": 1,
       "subject": "mathematics",
@@ -1470,6 +1553,35 @@
         "parametric"
       ],
       "order": 470
+    },
+    {
+      "id": "kc.mathematics.continuity-and-differentiability.fact-algebra-continuous",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.continuity-and-differentiability",
+      "chapter": "Continuity & Differentiability",
+      "unit": "Calculus",
+      "kind": "fact",
+      "front": "Summary: what is said about the sum, difference, product and quotient of continuous functions (quotient where divisor is not zero)?",
+      "back": "Sum, difference, product and quotient of continuous functions are continuous.",
+      "quote": "Sum, difference, product and quotient of continuous functions are continuous.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part I",
+        "code": "lemh105",
+        "chapterNo": 5,
+        "page": 146,
+        "section": "Algebra of continuous functions"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "continuity",
+        "algebra"
+      ],
+      "order": 485,
+      "note": "For the quotient, the denominator function must be non-zero."
     },
     {
       "id": "kc.mathematics.determinants.fact-determinant-function",
@@ -1637,6 +1749,33 @@
         "expansion"
       ],
       "order": 90
+    },
+    {
+      "id": "kc.mathematics.determinants.fact-area-given-both-signs",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.determinants",
+      "chapter": "Determinants",
+      "unit": "Algebra",
+      "kind": "fact",
+      "front": "Area of a triangle by a determinant: if the area is given, which values of the determinant do you use?",
+      "back": "If area is given, use both positive and negative values of the determinant for calculation.",
+      "quote": "If area is given, use both positive and negative values of the determinant for calculation.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh104",
+        "chapterNo": 4,
+        "page": 82,
+        "section": "Area of a Triangle"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "area"
+      ],
+      "order": 110
     },
     {
       "id": "kc.mathematics.determinants.kl-collinear-area-zero",
@@ -2054,6 +2193,33 @@
         "consistency"
       ],
       "order": 290
+    },
+    {
+      "id": "kc.mathematics.determinants.fact-nonsingular-inverse-exists",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.determinants",
+      "chapter": "Determinants",
+      "unit": "Algebra",
+      "kind": "fact",
+      "front": "Matrix method for a system of linear equations: what is true of the inverse of A when A is a nonsingular matrix?",
+      "back": "If A is a nonsingular matrix, then its inverse exists.",
+      "quote": "If A is a nonsingular matrix, then its inverse exists.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh104",
+        "chapterNo": 4,
+        "page": 94,
+        "section": "Solution of system of linear equations using inverse of a matrix"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "inverse"
+      ],
+      "order": 300
     },
     {
       "id": "kc.mathematics.determinants.fact-matrix-method-name",
@@ -2993,6 +3159,33 @@
       "order": 130
     },
     {
+      "id": "kc.mathematics.integrals.def-indefinite-integral-symbol",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "kind": "definition",
+      "front": "What does the indefinite integral of a function f represent?",
+      "back": "the entire class of anti derivatives",
+      "quote": "which will represent the entire class of anti derivatives read as the indefinite integral of f with respect to x.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 227,
+        "section": "7.2 Integration as an Inverse Process of Differentiation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "indefinite integral"
+      ],
+      "order": 140
+    },
+    {
       "id": "kc.mathematics.integrals.kl-prop-inverse",
       "v": 1,
       "subject": "mathematics",
@@ -3018,6 +3211,31 @@
       "asked": 0,
       "tags": [],
       "order": 170
+    },
+    {
+      "id": "kc.mathematics.integrals.fact-prop-same-family",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "kind": "fact",
+      "front": "What follows when two indefinite integrals have the same derivative?",
+      "back": "Two indefinite integrals with the same derivative lead to the same family of curves and so they are equivalent.",
+      "quote": "Two indefinite integrals with the same derivative lead to the same family of curves and so they are equivalent.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 229,
+        "section": "7.2.1 Some properties of indefinite integral"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 180
     },
     {
       "id": "kc.mathematics.integrals.term-inspection",
@@ -3047,6 +3265,31 @@
         "inspection"
       ],
       "order": 190
+    },
+    {
+      "id": "kc.mathematics.integrals.fact-unique-antiderivative",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "kind": "fact",
+      "front": "In applications, an additional condition on an anti derivative is often needed. What does it determine?",
+      "back": "In applications, it is often necessary to satisfy an additional condition which then determines a specific value of C giving unique anti derivative of the given function.",
+      "quote": "In applications, it is often necessary to satisfy an additional condition which then determines a specific value of C giving unique anti derivative of the given function.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 234,
+        "section": "7.2.1 Some properties of indefinite integral"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 210
     },
     {
       "id": "kc.mathematics.integrals.types-elementary-functions",
@@ -3159,6 +3402,34 @@
         "substitution"
       ],
       "order": 280
+    },
+    {
+      "id": "kc.mathematics.integrals.def-proper-rational",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "kind": "definition",
+      "front": "A rational function is the ratio of polynomial P(x) to polynomial Q(x). When is it called proper, and when improper?",
+      "back": "If the degree of P(x) is less than the degree of Q(x), then the rational function is called proper, otherwise, it is called improper.",
+      "quote": "If the degree of P(x) is less than the degree of Q(x), then the rational function is called proper, otherwise, it is called improper.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 252,
+        "section": "7.5 Integration by Partial Fractions"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "rational function"
+      ],
+      "order": 310,
+      "note": "Proper: the degree of the numerator P(x) is less than the degree of the denominator Q(x); otherwise it is improper."
     },
     {
       "id": "kc.mathematics.integrals.kl-long-division",
@@ -3373,6 +3644,31 @@
         "integration by parts"
       ],
       "order": 430
+    },
+    {
+      "id": "kc.mathematics.integrals.fact-second-function-known",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "kind": "fact",
+      "front": "In integration by parts, which function must be taken as the second function?",
+      "back": "Obviously, we must take that function as the second function whose integral is well known to us.",
+      "quote": "Obviously, we must take that function as the second function whose integral is well known to us.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 290,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 440
     },
     {
       "id": "kc.mathematics.integrals.def-limits-of-integration",
@@ -3719,6 +4015,34 @@
       "order": 600
     },
     {
+      "id": "kc.mathematics.integrals.def-general-integrals-name",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "kind": "definition",
+      "front": "What is another name for indefinite integrals?",
+      "back": "These integrals are called indefinite integrals or general integrals",
+      "quote": "These integrals are called indefinite integrals or general integrals",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 287,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "indefinite integral",
+        "constant of integration"
+      ],
+      "order": 610
+    },
+    {
       "id": "kc.mathematics.inverse-trigonometric-functions.fact-inverse-domain-range",
       "v": 1,
       "subject": "mathematics",
@@ -3803,6 +4127,35 @@
         "inverse"
       ],
       "order": 100
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-inverse-graph-mirror-image",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Relations and Functions",
+      "kind": "fact",
+      "front": "Geometrically, how is the graph of an inverse function related to the original graph about the line y = x?",
+      "back": "As a mirror image (reflection) along the line y = x\nthe graph of an inverse function can be obtained from the corresponding graph of original function as a mirror image (i.e., reflection) along the line y = x",
+      "quote": "the graph of an inverse function can be obtained from the corresponding graph of original function as a mirror image (i.e., reflection) along the line y = x",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 20,
+        "section": "2.2 Basic Concepts, Remarks"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "graph",
+        "inverse"
+      ],
+      "order": 110,
+      "note": "The graph of an inverse function is the reflection of the original graph in the line y = x."
     },
     {
       "id": "kc.mathematics.inverse-trigonometric-functions.fact-cos-domain-range",
@@ -4031,6 +4384,33 @@
         "constraints"
       ],
       "order": 110
+    },
+    {
+      "id": "kc.mathematics.linear-programming.def-optimisation-problem",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.linear-programming",
+      "chapter": "Linear Programming",
+      "unit": "Linear Programming",
+      "kind": "definition",
+      "front": "Define the term 'optimisation problem' (a problem on a linear function under linear inequality constraints).",
+      "back": "A problem which seeks to maximise or minimise a linear function (say of two variables x and y) subject to certain constraints as determined by a set of linear inequalities is called an optimisation problem.",
+      "quote": "A problem which seeks to maximise or minimise a linear function (say of two variables x and y) subject to certain constraints as determined by a set of linear inequalities is called an optimisation problem.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh206",
+        "chapterNo": 12,
+        "page": 396,
+        "section": "Optimisation problem"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "optimisation"
+      ],
+      "order": 120
     },
     {
       "id": "kc.mathematics.linear-programming.def-infeasible-region",
@@ -4919,6 +5299,34 @@
       "order": 240
     },
     {
+      "id": "kc.mathematics.matrices.list-add-properties",
+      "v": 3,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.matrices",
+      "chapter": "Matrices",
+      "unit": "Algebra",
+      "kind": "list",
+      "front": "Name the four properties satisfied by the addition of matrices.",
+      "back": "Commutative Law\nAssociative Law\nExistence of additive identity\nThe existence of additive inverse",
+      "quote": "The addition of matrices satisfy the following properties:\n(i) Commutative Law If A = [aij], B = [bij] are matrices of the same order, say\nm × n, then A + B = B + A.\nNow A + B = [aij] + [bij] = [aij + bij]\n= [bij + aij] (addition of numbers is commutative)\n= ([bij] + [aij]) = B + A\n(ii) Associative Law For any three matrices A = [aij], B = [bij], C = [cij] of the\nsame order, say m × n, (A + B) + C = A + (B + C).\nNow (A + B) + C = ([aij] + [bij]) + [c\nij]\n= [aij + bij] + [cij] = [(aij + bij) + cij]\n= [aij + (bij + c\nij)] (Why?)\n= [aij] + [(bij + cij)] = [aij] + ([bij] + [cij]) = A + (B + C)\n(iii) Existence of additive identity Let A = [aij] be an m × n matrix and\nO be an m × n zero matrix, then A + O = O \n+ A = A. In other words, O is the\nadditive identity for matrix addition.\n(iv) The existence of additive inverse Let A = [aij]\nm × n\n be any matrix, then we\nhave another matrix as – A = [– aij]\nm × n\n such that A + (– A) = (– A) + A= O. So\n– A is the additive inverse of A or negative of A.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh103",
+        "chapterNo": 3,
+        "page": 46,
+        "section": "Properties of matrix addition"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "matrices",
+        "properties"
+      ],
+      "order": 250
+    },
+    {
       "id": "kc.mathematics.matrices.fact-additive-inverse",
       "v": 1,
       "subject": "mathematics",
@@ -5199,6 +5607,34 @@
         "multiplication"
       ],
       "order": 380
+    },
+    {
+      "id": "kc.mathematics.matrices.list-mult-properties",
+      "v": 3,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.matrices",
+      "chapter": "Matrices",
+      "unit": "Algebra",
+      "kind": "list",
+      "front": "Name the three properties of matrix multiplication that NCERT states without proof.",
+      "back": "The associative law\nThe distributive law\nThe existence of multiplicative identity",
+      "quote": "The multiplication of matrices possesses the following properties, which we state without\nproof.\n1. The associative law For any three matrices A, B and C. We have\n(AB) C = A (BC), whenever both sides of the equality are defined.\n2. The distributive law For three matrices A, B and C.\n(i) A (B+C) = AB + AC\n(ii) (A+B) C = AC + BC, whenever both sides of equality are defined.\n3. The existence of multiplicative identity For every square matrix A, there\nexist an identity matrix of same order such that IA = AI = A.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh103",
+        "chapterNo": 3,
+        "page": 54,
+        "section": "Properties of multiplication of matrices"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "matrices",
+        "properties"
+      ],
+      "order": 390
     },
     {
       "id": "kc.mathematics.matrices.def-transpose",
@@ -6014,6 +6450,33 @@
       "order": 130
     },
     {
+      "id": "kc.mathematics.relations-and-functions.fact-even-odd-unrelated",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.relations-and-functions",
+      "chapter": "Relations & Functions",
+      "unit": "Relations and Functions",
+      "kind": "fact",
+      "front": "Relation 'difference divisible by 2' on integers: how is any element of E (even) related to any element of O (odd)?",
+      "back": "No element of E is related to any element of O and vice-versa.",
+      "quote": "No element of E is related to any element of O and vice-versa.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh101",
+        "chapterNo": 1,
+        "page": 4,
+        "section": "Equivalence classes"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "equivalence class"
+      ],
+      "order": 160
+    },
+    {
       "id": "kc.mathematics.relations-and-functions.fact-even-related-to-zero",
       "v": 1,
       "subject": "mathematics",
@@ -6792,6 +7255,34 @@
       "order": 140
     },
     {
+      "id": "kc.mathematics.three-dimensional-geometry.fact-collinear-dr-test",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.three-dimensional-geometry",
+      "chapter": "Three Dimensional Geometry",
+      "unit": "Vectors and Three-Dimensional Geometry",
+      "kind": "fact",
+      "front": "Direction ratios of AB and BC are proportional and B is common to both. What follows for the points A, B and C?",
+      "back": "It is clear that direction ratios of AB and BC are proportional, hence, AB is parallel to BC. But point B is common to both AB and BC. Therefore, A, B, C are collinear points.",
+      "quote": "It is clear that direction ratios of AB and BC are proportional, hence, AB is parallel to BC. But point B is common to both AB and BC. Therefore, A, B, C are collinear points.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh205",
+        "chapterNo": 11,
+        "page": 381,
+        "section": "11.2 Direction Cosines and Direction Ratios of a Line"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "collinear",
+        "direction ratios"
+      ],
+      "order": 150
+    },
+    {
       "id": "kc.mathematics.three-dimensional-geometry.list-line-uniquely-determined",
       "v": 1,
       "subject": "mathematics",
@@ -7179,6 +7670,33 @@
         "vector"
       ],
       "order": 30
+    },
+    {
+      "id": "kc.mathematics.vector-algebra.def-directed-line",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.vector-algebra",
+      "chapter": "Vector Algebra",
+      "unit": "Vectors and Three-Dimensional Geometry",
+      "kind": "definition",
+      "front": "Define a directed line.",
+      "back": "Let ‘l’ be any straight line in plane or three dimensional space. This line can be given two directions by means of arrowheads. A line with one of these directions prescribed is called a directed line",
+      "quote": "Let ‘l’ be any straight line in plane or three dimensional space. This line can be given two directions by means of arrowheads. A line with one of these directions prescribed is called a directed line",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh204",
+        "chapterNo": 10,
+        "page": 338,
+        "section": "10.2 Some Basic Concepts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "directed-line"
+      ],
+      "order": 40
     },
     {
       "id": "kc.mathematics.vector-algebra.def-vector",
@@ -7868,6 +8386,33 @@
         "midpoint"
       ],
       "order": 360
+    },
+    {
+      "id": "kc.mathematics.vector-algebra.fact-dot-commutative",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.vector-algebra",
+      "chapter": "Vector Algebra",
+      "unit": "Vectors and Three-Dimensional Geometry",
+      "kind": "fact",
+      "front": "Which property of the scalar product of two vectors says that interchanging the vectors leaves the product unchanged?",
+      "back": "The scalar product is commutative.",
+      "quote": "The scalar product is commutative.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh204",
+        "chapterNo": 10,
+        "page": 356,
+        "section": "10.6.1 Scalar (or dot) product of two vectors"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "dot-product"
+      ],
+      "order": 400
     },
     {
       "id": "kc.mathematics.vector-algebra.kl-perpendicular-dot-zero",
