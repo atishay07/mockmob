@@ -2,6 +2,7 @@ import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { getRivalProfile } from './rivalProfiles';
 import { validateRivalAnswers } from '@/../data/rival_answers';
+import { stableOrder, storedIndexOf } from '@/../data/option_order';
 
 /**
  * Score a submitted Shadow Benchmark deterministically.
@@ -31,7 +32,7 @@ export async function scoreRivalBattle({ battleId, userId, answers }) {
   const questionIds = battle.question_ids || [];
   const { data: questions, error: qErr } = await sb
     .from('questions')
-    .select('id, correct_index, correct_answer, options, subject, chapter, difficulty')
+    .select('id, question, body, explanation, correct_index, correct_answer, options, subject, chapter, difficulty')
     .in('id', questionIds);
 
   if (qErr || !questions) {
@@ -52,7 +53,8 @@ export async function scoreRivalBattle({ battleId, userId, answers }) {
     const q = questionById.get(a.qid);
     if (!q) continue;
     const correctIndex = resolveCorrectIndex(q);
-    const selectedIndex = Number.isInteger(a.selectedIndex) ? a.selectedIndex : null;
+    // The battle served the stable option order (createAIRivalBattle): the served index is graded and kept as the stored option.
+    const selectedIndex = Number.isInteger(a.selectedIndex) ? storedIndexOf(stableOrder(q), a.selectedIndex) : null;
     const time = Math.max(0, Math.min(600, Number(a.timeSeconds) || 0));
     totalTime += time;
     let isCorrect = null;

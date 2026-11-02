@@ -204,7 +204,9 @@ test('F15: Revise reads a chunk of the room plus a few, finds the same items and
   const got = await getRevise(USER, { db, now: REVISE_NOW });
   assert.deepEqual(got.body.items.map((i) => i.questionId), ['r-q5', 'r-q1', 'r-q2', 'r-q3']);
   assert.equal(SEED_COLUMNS.includes('explanation') || SEED_COLUMNS.includes('passage_text'), false);
-  assert.equal(ITEM_COLUMNS.includes('passage_text') && !ITEM_COLUMNS.includes('explanation'), true);
+  // R5 Packet A: the items read the explanation too, because the stable option order (data/option_order.js) keeps an item whose
+  // explanation names an option it cannot rewrite in the stored order; it is never sent with an item.
+  assert.equal(ITEM_COLUMNS.includes('passage_text') && ITEM_COLUMNS.includes('explanation'), true);
   const code = src('src/lib/server/revise.js');
   assert.match(code, /loadQuestions\(db, candidates\.map\(\(c\) => c\.question_id\), SEED_COLUMNS\)/);
   assert.match(code, /ITEM_COLUMNS\);/);
