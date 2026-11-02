@@ -11,6 +11,10 @@ import {
 import { getRevise, answerRevise, cardsFor, eligibleQuestion, reviseItem } from '../../src/lib/server/revise.js';
 import { DELETION_STEPS } from '../../src/lib/server/accountDeletion.js';
 import { fakeDb } from '../../scripts/mistake-lab/fake-db.mjs';
+import { servedIndexOf, stableOrder } from '../option_order.js';
+
+// R5 Packet A: Revise serves the stable option order, so a choice is the SERVED index of a stored option.
+const served = (row, stored) => servedIndexOf(stableOrder(row), stored);
 import { USER, REVISE_NOW, reviseWorld, labPaper, T0 } from '../../scripts/mistake-lab/build-s4-fixtures.mjs';
 
 const card = (over = {}) => ({ user_id: USER, question_id: 'c1', box: 1, due_day: '2026-10-16', state: 'active', right_total: 0, last_recalled_day: null, updated_at: '2026-10-15T07:00:00.000Z', ...over });
@@ -173,12 +177,13 @@ test('Revise writes nothing but cards: no attempts row, nothing in user_question
 test('a recall is graded on the server and answers with the key, the stored explanation and the card\'s next day', async () => {
   const world = reviseWorld();
   const db = fakeDb({ questions: world.questions, progress: [], cards: world.cards });
-  const right = (await answerRevise(USER, { questionId: 'r-q1', choice: 1 }, { db, now: REVISE_NOW })).body;
-  assert.deepEqual([right.ok, right.correct, right.keyIndex, right.box, right.dueDay, right.outcome], [true, true, 1, 2, '2026-10-19', 'right']);
+  const row = (id) => world.questions.find((x) => x.id === id);
+  const right = (await answerRevise(USER, { questionId: 'r-q1', choice: served(row('r-q1'), 1) }, { db, now: REVISE_NOW })).body;
+  assert.deepEqual([right.ok, right.correct, right.keyIndex, right.box, right.dueDay, right.outcome], [true, true, served(row('r-q1'), 1), 2, '2026-10-19', 'right'], 'the key as served');
   assert.equal(right.explanation, 'Illustrative stored explanation 1.');
-  const wrong = (await answerRevise(USER, { questionId: 'r-q2', choice: 3 }, { db, now: REVISE_NOW })).body;
-  assert.deepEqual([wrong.correct, wrong.keyIndex, wrong.box, wrong.dueDay], [false, 1, 1, '2026-10-17']);
-  const done = (await answerRevise(USER, { questionId: 'r-q3', choice: 1 }, { db, now: REVISE_NOW })).body;
+  const wrong = (await answerRevise(USER, { questionId: 'r-q2', choice: served(row('r-q2'), 3) }, { db, now: REVISE_NOW })).body;
+  assert.deepEqual([wrong.correct, wrong.keyIndex, wrong.box, wrong.dueDay], [false, served(row('r-q2'), 1), 1, '2026-10-17']);
+  const done = (await answerRevise(USER, { questionId: 'r-q3', choice: served(row('r-q3'), 1) }, { db, now: REVISE_NOW })).body;
   assert.deepEqual([done.retired, done.dueDay, done.outcome], [true, null, 'done']);
   const stored = db.tables.revise_cards.find((c) => c.question_id === 'r-q1');
   assert.deepEqual([stored.box, stored.due_day, stored.last_recalled_day, stored.right_total], [2, '2026-10-19', '2026-10-16', 1]);
@@ -215,7 +220,8 @@ test('the daily cap is kept on the server: 10 a day, 5 when chosen, and the rest
   const got = await getRevise(USER, { db, now: REVISE_NOW });
   assert.deepEqual([got.body.shown, got.body.due, got.body.cap], [10, 14, 10]);
   let answered = 0;
-  for (const item of got.body.items) { const r = await answerRevise(USER, { questionId: item.questionId, choice: 1 }, { db, now: REVISE_NOW }); if (r.http === 200) answered += 1; }
+  const key = (id) => served(questions.find((x) => x.id === id), 1);
+  for (const item of got.body.items) { const r = await answerRevise(USER, { questionId: item.questionId, choice: key(item.questionId) }, { db, now: REVISE_NOW }); if (r.http === 200) answered += 1; }
   assert.equal(answered, 10);
   const over = await answerRevise(USER, { questionId: 'c-q13', choice: 1 }, { db, now: REVISE_NOW });
   assert.deepEqual([over.http, over.body.error], [409, 'cap_reached']);
@@ -248,7 +254,8 @@ test('a question may be asked only when live, not under re-check, with a readabl
   assert.equal(eligibleQuestion(null), false);
   const item = reviseItem({ ...ok, passage_text: ' A passage. ' }, { box: 2 });
   assert.deepEqual(item.passage, { text: 'A passage.' });
-  assert.deepEqual(item.options, ['Illustrative option 1a', 'Illustrative option 1b', 'Illustrative option 1c', 'Illustrative option 1d']);
+  // In the stable option order every surface serves (R5 Packet A).
+  assert.deepEqual(item.options, stableOrder(ok).map((i) => ['Illustrative option 1a', 'Illustrative option 1b', 'Illustrative option 1c', 'Illustrative option 1d'][i]));
   assert.equal(item.box, 2);
 });
 

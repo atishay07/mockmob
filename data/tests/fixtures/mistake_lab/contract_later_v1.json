@@ -69,10 +69,10 @@
         "question": "Illustrative revise question 5",
         "passage": null,
         "options": [
-          "Illustrative option 5a",
           "Illustrative option 5b",
+          "Illustrative option 5d",
           "Illustrative option 5c",
-          "Illustrative option 5d"
+          "Illustrative option 5a"
         ],
         "box": 1
       },
@@ -83,10 +83,10 @@
         "question": "Illustrative revise question 1",
         "passage": null,
         "options": [
-          "Illustrative option 1a",
           "Illustrative option 1b",
-          "Illustrative option 1c",
-          "Illustrative option 1d"
+          "Illustrative option 1a",
+          "Illustrative option 1d",
+          "Illustrative option 1c"
         ],
         "box": 1
       },
@@ -97,10 +97,10 @@
         "question": "Illustrative revise question 2",
         "passage": null,
         "options": [
+          "Illustrative option 2d",
           "Illustrative option 2a",
-          "Illustrative option 2b",
           "Illustrative option 2c",
-          "Illustrative option 2d"
+          "Illustrative option 2b"
         ],
         "box": 2
       },
@@ -112,9 +112,9 @@
         "passage": null,
         "options": [
           "Illustrative option 3a",
+          "Illustrative option 3d",
           "Illustrative option 3b",
-          "Illustrative option 3c",
-          "Illustrative option 3d"
+          "Illustrative option 3c"
         ],
         "box": 4
       }
@@ -125,7 +125,7 @@
       "ok": true,
       "version": 1,
       "correct": true,
-      "keyIndex": 1,
+      "keyIndex": 0,
       "explanation": "Illustrative stored explanation 1.",
       "outcome": "right",
       "box": 2,
@@ -138,7 +138,7 @@
       "ok": true,
       "version": 1,
       "correct": false,
-      "keyIndex": 1,
+      "keyIndex": 3,
       "explanation": "Illustrative stored explanation 2.",
       "outcome": "wrong",
       "box": 1,
@@ -151,7 +151,7 @@
       "ok": true,
       "version": 1,
       "correct": true,
-      "keyIndex": 1,
+      "keyIndex": 2,
       "explanation": "Illustrative stored explanation 3.",
       "outcome": "done",
       "box": 4,

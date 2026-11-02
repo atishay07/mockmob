@@ -12,6 +12,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { optionHash } from '../../data/option_hash.js';
+import { servedIndexOf, stableOrder } from '../../data/option_order.js';
 import { buildMistakeLab } from '../../data/mistake_lab.js';
 import { buildLabSlice4 } from '../../data/lab_loop.js';
 import { buildTrapsMeet, indexAtlas } from '../../data/trap_atlas.js';
@@ -153,9 +154,11 @@ export async function buildReviseContracts() {
   const got = await getRevise(USER, { db, now: REVISE_NOW });
   const answers = {};
   const take = async (name, qid, choice) => { answers[name] = (await answerRevise(USER, { questionId: qid, choice }, { db, now: REVISE_NOW })).body; };
-  await take('right', 'r-q1', 1); // box 1 to box 2
-  await take('wrong', 'r-q2', 0); // back to box 1
-  await take('done', 'r-q3', 1); // box 4 recalled right: done
+  // Choices are SERVED indices (R5 Packet A: Revise serves the stable option order of data/option_order.js); the key is stored option 1.
+  const shown = (qid, stored) => servedIndexOf(stableOrder(world.questions.find((x) => x.id === qid)), stored);
+  await take('right', 'r-q1', shown('r-q1', 1)); // box 1 to box 2
+  await take('wrong', 'r-q2', shown('r-q2', 0)); // back to box 1
+  await take('done', 'r-q3', shown('r-q3', 1)); // box 4 recalled right: done
   const later = {
     scheduled: buildLater({ attempt: labPaper(), allAttempts: [labPaper()], answerReviews: { 'p1-q7': { state: 'under_review' } }, cards: null, now: T0 + 3_600_000 }),
     withCards: buildLater({
