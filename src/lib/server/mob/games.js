@@ -18,7 +18,7 @@
 //         charge is the solo Full mock's, made by the practice start in service.js startMock).
 //   Every format: no question of another open game or held paper is drawn, and a review never shows a key that sits in
 //   another open game or a held paper of the Mob (web-security 20 Oct #2).
-import { MobError, UUID_RE, mobWeek, picksFromAttempt } from '../../mob/model.mjs';
+import { MobError, UUID_RE, mobWeek, picksFromAttempt, stableOrderWeek } from '../../mob/model.mjs';
 import { mobName, validNameKey } from '../../mob/names.mjs';
 import { FOIL_DAYS, FOLDS, FOLD_KEYS, FINISHES, STARTERS, isFold, mobShelf, parcelFor, ruleProgress } from '../../mob/folds.mjs';
 import { MAX_OPEN_GAMES, MICS_PER_WEEK, inLiveHours, startRight, startsView } from '../../mob/starts.mjs';
@@ -38,6 +38,16 @@ import { memberIdFor } from './memberId.js';
 import { createHoursReader } from './hours.js';
 import { createMissingMemo } from './missing.js';
 import { denFixView } from '../../mob/denFix.mjs';
+import { outOrder, servedIndexOf, servedOut, storedIndexOf } from '../../../../data/option_order.js';
+
+// R5 Packet A: a game of a week from STABLE_ORDER_FROM_WEEK shows every question in the stable option order
+// (data/option_order.js), the same for every member; older games keep the stored order. What is stored (mob_game_runs answers,
+// the key passed to mob_game_answer) is always the stored option index, so a run of any age keeps its meaning. toStored turns a
+// served pick into the stored option; toServed turns a stored pick back for display; servedView is the question as the game serves it.
+const orderIn = (g, q) => (stableOrderWeek(g?.week_start) ? outOrder(q) : null);
+const toStored = (g, q, pick) => (Number.isInteger(pick) && pick >= 0 ? storedIndexOf(orderIn(g, q), pick) : pick);
+const toServed = (g, q, pick) => (Number.isInteger(pick) && pick >= 0 ? servedIndexOf(orderIn(g, q), pick) : pick);
+const servedView = (g, q) => (stableOrderWeek(g?.week_start) ? servedOut(q) : q);
 
 export const STICKERS = Object.freeze(['nice_one', 'so_close', 'teach_me', 'again', 'good_luck', 'lets_go', 'one_sec', 'ready']);
 export const FIXED_FOR_CRANE = 3;
@@ -301,7 +311,7 @@ export function createMobV3Service(deps, helpers = {}) {
     if (!mine && now() + MOCK_MINUTES * 60_000 > Date.parse(g.closes_at)) throw new MobError('MOCK_TOO_LATE');
     const questions = await deps.loadQuestions(g.question_ids).catch(() => []);
     if (!Array.isArray(questions) || questions.length !== g.question_ids.length) throw new MobError('PAPER_UNAVAILABLE');
-    return { g, questions };
+    return { g, questions: questions.map((q) => servedView(g, q)) };
   }
 
   /** The member opened the paper (after the practice start went through): the run reads as playing. */
@@ -432,7 +442,9 @@ export function createMobV3Service(deps, helpers = {}) {
     const questions = await loadLight(ids).catch(() => []);
     if (!Array.isArray(questions) || questions.length !== ids.length) throw new MobError('UNAVAILABLE');
     const view = await gameView(g, members, userId);
-    return { run: runOut(r, g), questions: questions.map((q, i) => publicQuestion(q, i)), ghosts: view.ghosts };
+    const run = runOut(r, g);
+    run.answers = run.answers.map((a) => (questions[a.q] ? { ...a, pick: toServed(g, questions[a.q], a.pick) } : a));
+    return { run, questions: questions.map((q, i) => publicQuestion(servedView(g, q), i)), ghosts: view.ghosts };
   }
 
   async function answer(userId, gameId, body = {}) {
@@ -442,15 +454,18 @@ export function createMobV3Service(deps, helpers = {}) {
     if (!g) throw new MobError('GAME_NOT_FOUND');
     if (body.q < 0 || body.q >= g.question_ids.length) throw new MobError('Q_INVALID');
     let key = null;
+    let pick = body.pick;
     if (body.pick >= 0) {
       const [question] = await loadLight([g.question_ids[body.q]]).catch(() => []);
       key = question?.correctIndex;
       if (!Number.isInteger(key) || key < 0) throw new MobError('UNAVAILABLE');
       if (body.pick >= (question.options || []).length) throw new MobError('Q_INVALID');
+      pick = toStored(g, question, body.pick); // the served pick as the stored option, graded against the stored key
+      if (!Number.isInteger(pick) || pick < 0) throw new MobError('Q_INVALID');
     }
     if (g.format === 'mock') throw new MobError('RUN_PAPER');
     const memberId = memberIdFor(deps.secret, g.mob_id, userId);
-    const r = await call('mob_game_answer', { p_user_id: userId, p_game_id: g.id, p_q: body.q, p_pick: body.pick, p_correct_index: key, p_member_id: memberId, p_now: nowIso() });
+    const r = await call('mob_game_answer', { p_user_id: userId, p_game_id: g.id, p_q: body.q, p_pick: pick, p_correct_index: key, p_member_id: memberId, p_now: nowIso() });
     if (r?.status === 'no_run') throw new MobError('NO_RUN');
     if (r?.status === 'q_invalid') throw new MobError('Q_INVALID');
     if (r?.status === 'not_started') throw new MobError('RUN_NOT_STARTED', { detail: { startsAt: iso(r.starts_at), serverNow: nowIso() } });
@@ -469,7 +484,7 @@ export function createMobV3Service(deps, helpers = {}) {
       // The five questions after it are read in the same batch when this one has to be read, only to warm the two-minute cache on the
       // server (a race reads one batch for every six answers); the member is served exactly this question, never one ahead.
       const [question] = open ? await loadLight([g.question_ids[nextQ]], { warm: g.question_ids.slice(nextQ + 1, nextQ + 6) }).catch(() => []) : [];
-      out.next = question ? publicQuestion(question, nextQ) : null;
+      out.next = question ? publicQuestion(servedView(g, question), nextQ) : null;
     }
     return out;
   }
@@ -550,12 +565,14 @@ export function createMobV3Service(deps, helpers = {}) {
     // A race shows only the questions you were served (the rest of its pool stays unseen for a rematch's fairness).
     const seen = g.format === 'race' ? Math.max(...(g.mine || []).map((a) => a.q + 1), 0) : questions.length;
     return {
-      questions: questions.slice(0, seen).map((q, i) => (elsewhere.has(g.question_ids[i])
-        ? { ...publicQuestion(q, i), correctIndex: null, explanation: null, held: true, yourPick: Number.isInteger(picks.get(i)) && picks.get(i) >= 0 ? picks.get(i) : null }
-        : {
-          ...publicQuestion(q, i), correctIndex: Number.isInteger(q.correctIndex) ? q.correctIndex : null, explanation: q.explanation || null,
-          yourPick: Number.isInteger(picks.get(i)) && picks.get(i) >= 0 ? picks.get(i) : null,
-        })),
+      // Shown in the stable order: the key, the explanation's letters and your stored pick as served.
+      questions: questions.slice(0, seen).map((q, i) => {
+        const s = servedView(g, q);
+        const yourPick = Number.isInteger(picks.get(i)) && picks.get(i) >= 0 ? toServed(g, q, picks.get(i)) : null;
+        return elsewhere.has(g.question_ids[i])
+          ? { ...publicQuestion(s, i), correctIndex: null, explanation: null, held: true, yourPick }
+          : { ...publicQuestion(s, i), correctIndex: Number.isInteger(s.correctIndex) && s.correctIndex >= 0 ? s.correctIndex : null, explanation: s.explanation || null, yourPick };
+      }),
       trap: trap ? {
         q: trap.q, number: trap.number, caught: 'most',
         fix: {
@@ -680,10 +697,11 @@ export function createMobV3Service(deps, helpers = {}) {
     ]);
     if (!question || !trapQ) throw new MobError('UNAVAILABLE');
     const mine = (g.mine || []).find((a) => a.q === body.q);
-    const fresh = publicQuestion(question, 0);
+    const fresh = publicQuestion(servedView(g, question), 0);
+    const trapServed = servedView(g, trapQ);
     return {
       question: { stem: fresh.stem, options: fresh.options, passage: fresh.passage, answered: issued.answered === true },
-      trap: { q: body.q, number: body.q + 1, why: trapQ.explanation || null, yourPick: mine && mine.pick >= 0 ? mine.pick : null, correctIndex: Number.isInteger(trapQ.correctIndex) ? trapQ.correctIndex : null },
+      trap: { q: body.q, number: body.q + 1, why: trapServed.explanation || null, yourPick: mine && mine.pick >= 0 ? toServed(g, trapQ, mine.pick) : null, correctIndex: Number.isInteger(trapServed.correctIndex) && trapServed.correctIndex >= 0 ? trapServed.correctIndex : null },
     };
   }
 
@@ -692,13 +710,15 @@ export function createMobV3Service(deps, helpers = {}) {
     const { g, issued } = await fixIssue(userId, body);
     const [question] = await loadLight([issued.question_id]).catch(() => []);
     if (!question || !Number.isInteger(question.correctIndex)) throw new MobError('UNAVAILABLE');
-    const correct = body.pick === question.correctIndex;
+    if (body.pick >= (question.options || []).length) throw new MobError('Q_INVALID');
+    const correct = toStored(g, question, body.pick) === question.correctIndex; // the served pick as the stored option
+    const served = servedView(g, question);
     const r = await call('mob_fix_answer', { p_user_id: userId, p_game_id: g.id, p_q: body.q, p_stage: body.stage, p_correct: correct, p_now: nowIso() });
     if (r?.status === 'closed') throw new MobError('FIX_CLOSED');
     if (r?.status !== 'ok' && r?.status !== 'exists') throw new MobError('UNAVAILABLE');
     await checkUnlocks(userId).catch(() => null);
     return {
-      correct: r.correct === true, correctIndex: question.correctIndex, explanation: question.explanation || null,
+      correct: r.correct === true, correctIndex: served.correctIndex, explanation: served.explanation || null,
       fixedTogether: r.fixed_now === true, fixed: { count: Number(r.fixed_count) || 0, of: FIXED_FOR_CRANE },
     };
   }

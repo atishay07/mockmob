@@ -1,4 +1,5 @@
 import 'server-only';
+import { OPTION_ORDER_VERSION, servedRow } from '@/../data/option_order';
 import { supabaseAdmin } from '@/lib/supabase';
 import { getRivalProfile, quotaSlotFor, rivalAccessRule } from './rivalProfiles';
 import { getUsageSnapshot, planTierFor, rivalTypeToQuotaAction } from '@/services/usage/getDailyUsage';
@@ -126,6 +127,7 @@ export async function createAIRivalBattle({
         battleSeed,
         charge: null,
         rivalAnswers: rivalBenchmark.answers,
+        optionOrder: OPTION_ORDER_VERSION, // served in the stable option order (scoreRivalBattle grades through it)
       },
     })
     .select()
@@ -265,7 +267,7 @@ async function selectRivalQuestions({ userId, subjects, count, difficultyTarget,
     const limit = Math.min(perSubject * 3, remaining * 4, 60);
     let query = sb
       .from('questions')
-      .select('id, subject, chapter, body, question, options, correct_index, difficulty, score')
+      .select('id, subject, chapter, body, question, options, correct_index, correct_answer, explanation, difficulty, score')
       .eq('subject', subject)
       .eq('is_deleted', false)
       .or('status.eq.live,verification_state.eq.verified')
@@ -289,7 +291,9 @@ async function selectRivalQuestions({ userId, subjects, count, difficultyTarget,
   }
 
   return collected
-    .map((q) => {
+    .map((row) => {
+      // The stable option order every surface serves (data/option_order.js); scoreRivalBattle grades through the same order.
+      const q = servedRow(row).row;
       const questionText = String(q.question || q.body || '').trim();
       const options = Array.isArray(q.options)
         ? q.options.map((o) => String(typeof o === 'string' ? o : o?.text ?? o?.label ?? o?.value ?? '').trim())

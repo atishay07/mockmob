@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { openCheck, answerCheck, checkStatus } from '../../src/services/recovery/repairCheck.js';
 import { createCheckStore } from '../../src/services/recovery/repairCheckStore.js';
 import { mistakeId } from '../../src/services/recovery/repairFlow.js';
-import { optionTextHashes, orderFromHashes } from '../repair_check.js';
+import { offeredHashes, optionTextHashes, orderFromHashes } from '../repair_check.js';
 import { fakeDb } from './fake_check_db.mjs';
 
 // The repair check over the REAL store and a fake database (data/tests/fake_check_db.mjs): the offer, the seen rows, the
@@ -105,7 +105,8 @@ test('(a) the offer is stored once on the receipt: a reload shows the same quest
   const offer = w.receipt(ID1).offered;
   assert.equal(offer.checkQuestionId, first.body.check.checkQuestionId);
   assert.equal(offer.recorded, true);
-  assert.deepEqual(offer.optionHashes, optionTextHashes(w.row(offer.checkQuestionId)));
+  // Offered in the stable option order (R5 Packet A): the hashes in the order the student sees the options.
+  assert.deepEqual(offer.optionHashes, offeredHashes(w.row(offer.checkQuestionId)));
   assert.equal(seenRows(w, offer.checkQuestionId).length, 1, 'one seen row, not one per reload');
   assert.deepEqual(w.receipt(ID1).repair, { rule: RULE }, 'the repair on the receipt is untouched');
 });

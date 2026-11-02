@@ -22,6 +22,7 @@ import { isPassageLinkedQuestion } from './nta_question_selector.js';
 import { contentTokens, jaccard, ntaKeyDispute, ntaQuarantine, NEAR_DUPLICATE_STEM_JACCARD } from './nta_item_checks.js';
 import { plainOptionTexts } from './option_text.js';
 import { optionHash, optionKeyText } from './cohort_picks.js';
+import { servedRow, stableOrder } from './option_order.js';
 
 export const CHECK_VERSION = 1;
 /** One question, four options (answer integrity requires four). */
@@ -158,12 +159,29 @@ export function checkIsStillOffered(selection, checkQuestionId) {
 }
 
 /**
- * The display order of the options: the bank's own order, A to D as stored. It is deliberately NOT shuffled: bank explanations
- * cite option letters ("Option A is correct ... The correct key is A") and assertion and reason questions keep a fixed
- * option order, so a shuffled order would put a different letter on screen than the one the explanation names. order[i] is
- * the stored index of the option shown in place i; markCheck keeps that mapping, so any order is still marked correctly.
+ * The bank's own order, A to D as stored. Kept for callers that want it; checks are offered in the stable option order
+ * (offeredHashes) since R5 Packet A. order[i] is the stored index of the option shown in place i; markCheck keeps that
+ * mapping, so any order is marked correctly.
  */
 export const storedOrder = (count = CHECK_OPTION_COUNT) => Array.from({ length: count }, (_, i) => i);
+
+/**
+ * The option hashes of a check as it is offered (R5 Packet A): in the stable option order every surface serves
+ * (data/option_order.js), so the question looks the same here as in Learn, Explore and a paper. An explanation that cites
+ * option letters is rewritten to the served letters (explainedRow), and items whose explanation or options name other
+ * options in a way that cannot be rewritten keep the stored order: the NTA engine's own rules.
+ */
+export function offeredHashes(row) {
+  const hashes = optionTextHashes(row);
+  return stableOrder(row).map((stored) => hashes[stored]);
+}
+
+/** The row whose explanation is shown after a check served in `order`: letters remapped when that is the stable order. */
+export function explainedRow(row, order) {
+  const served = servedRow(row);
+  const same = Array.isArray(order) && order.length === served.order.length && order.every((v, i) => v === served.order[i]);
+  return same && served.shuffled ? { ...row, explanation: served.row.explanation } : row;
+}
 
 /**
  * The pick is matched by what an option SAYS, not by where it sits. When a check question is offered, the hash of each

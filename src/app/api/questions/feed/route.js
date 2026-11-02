@@ -1,6 +1,7 @@
 import { readablePracticeQuestions } from '@/../data/practice_library';
 import { attachBankPassages } from '@/../scripts/pipeline/lib/bankSnapshot.mjs';
-import { advanceFeedPage, feedWindow,feedOptions } from '@/../data/explore_feed';
+import { advanceFeedPage, feedWindow } from '@/../data/explore_feed';
+import { feedServed } from '@/../data/explore_served';
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { auth } from '@/lib/auth';
@@ -140,12 +141,11 @@ export async function GET(request) {
         chapter: r.chapter,
         difficulty: r.difficulty,
         body: r.question ?? r.body,
-        options: feedOptions(r.options),
+        // Options, key and explanation in the stable option order every surface serves (data/option_order.js).
+        ...feedServed(r),
         passage_text: r.passage_text || null,
         passage_group_id: r.passage_group_id || r.passage_id || null,
         order_index: r.order_index ?? null,
-        correct_answer: r.correct_answer,
-        explanation: r.explanation,
         tags: r.tags || [],
         ai_tier: r.ai_tier,
         ai_score: r.ai_score,

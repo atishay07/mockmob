@@ -29,6 +29,15 @@ const secret = () => process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE
 // Except Full mock together (owner D174): a Free member's sitting carries mobPaper.creditAction 'attempt_full' and is
 // charged below exactly as a solo Full mock is (data/practice_charge.js), after the paper is built, under the same
 // `practice_<id>` / `recovery:<id>` reference, so a retry is never charged twice; Pro is never charged.
+/**
+ * The served option orders of a Mob paper's shuffled questions (R5 Packet A), kept on selection_meta.mobPaper so the Mob turns
+ * each pick back into the stored option (picksFromAttempt) without the snapshot. Absent for a paper served in the stored order.
+ */
+function mobOptionOrders(questions) {
+  const orders = Object.fromEntries((questions || []).filter((q) => q?.optionsShuffled === true && Array.isArray(q.optionOrder)).map((q) => [q.id, q.optionOrder]));
+  return Object.keys(orders).length ? { optionOrders: orders } : {};
+}
+
 export async function startPractice(userId, input, server = {}) {
   const mobPaper = server?.mobPaper && Array.isArray(server.mobPaper.questions) ? server.mobPaper : null;
   const db = supabaseAdmin();
@@ -100,7 +109,7 @@ export async function startPractice(userId, input, server = {}) {
   }
   const row = { id, user_id: userId, subject: selection.internalSubject, mode: mode.id,
     created_at: new Date(created).toISOString(), expires_at: new Date(created + resolveDurationSec(mode, questions) * 1000).toISOString(),
-    questions, selection_meta: { ...meta, ...(optionLayout ? { ntaOptionLayout: optionLayout } : {}), ...tonightMetadata({...input, mode:mode.id, count}, created), scoringVersion: 'server_practice_v1', scoringAuthority: 'server_snapshot', contentEvidence: 'legacy_bank', learningPurpose: input.purpose === 'baseline' ? 'baseline' : 'ordinary_practice', ...(mobPaper ? { mobPaper: { mobId: mobPaper.mobId, weekStart: mobPaper.weekStart, ...(mobPaper.extraId ? { extraId: mobPaper.extraId } : {}), ...(mobPaper.gameId ? { gameId: mobPaper.gameId } : {}), ...(typeof mobPaper.holdUntil === 'string' ? { holdUntil: mobPaper.holdUntil } : {}) } } : {}) } };
+    questions, selection_meta: { ...meta, ...(optionLayout ? { ntaOptionLayout: optionLayout } : {}), ...tonightMetadata({...input, mode:mode.id, count}, created), scoringVersion: 'server_practice_v1', scoringAuthority: 'server_snapshot', contentEvidence: 'legacy_bank', learningPurpose: input.purpose === 'baseline' ? 'baseline' : 'ordinary_practice', ...(mobPaper ? { mobPaper: { mobId: mobPaper.mobId, weekStart: mobPaper.weekStart, ...(mobPaper.extraId ? { extraId: mobPaper.extraId } : {}), ...(mobPaper.gameId ? { gameId: mobPaper.gameId } : {}), ...(typeof mobPaper.holdUntil === 'string' ? { holdUntil: mobPaper.holdUntil } : {}), ...mobOptionOrders(questions) } } : {}) } };
   // The first full mock in each subject is free, once, from its start (data/first_full_mock.js). Its state for this very session
   // is read the way the quote reads it (src/lib/server/firstFullMock.js), after the set is built; unknown is charged as before.
   const firstFullMock = firstFullMockApplies({ isPremium: user?.isPremium === true, modeId: mode.id, mobPaper })

@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { createKeycards } from '../../src/lib/server/keycards.js';
 import { fakeDb } from '../../src/lib/server/keycardsMemoryDb.js';
 import { syllabusFrom } from '../../src/lib/server/keycardsSyllabus.js';
-import { createLearn, clientKeyOf, FREE_SESSION_DONE, FREE_END_LINE, FREE_CAPPED, FREE_CARDS_ONLY, keyLetter, servedOptions, mistakeText } from '../../src/lib/server/learn.js';
+import { createLearn, clientKeyOf, FREE_SESSION_DONE, FREE_END_LINE, FREE_CAPPED, FREE_CARDS_ONLY, keyLetter, servedOptions, mistakeText, learnServed } from '../../src/lib/server/learn.js';
 import { toState } from '../../src/lib/server/learnStore.js';
 import { returnWords } from '../learn/words.js';
 import { istDay, schedule, tasteIds } from '../keycards.js';
@@ -49,9 +49,17 @@ const syllabus = syllabusFrom(null);
 const index = (rows = QROWS) => ({
   list: rows.map((r) => ({
     id: r.id, subject: r.subject, chapter: r.chapter, chapterKey: syllabus.resolveChapter(r.subject, r.chapter).key, body: r.question,
-    options: servedOptions(r.options), words: r.question.split(/\s+/).length, difficulty: r.difficulty, cards: LINKS[r.id] || [], chash: r.content_hash, managed: false,
+    options: learnServed(r).options, order: learnServed(r).order, words: r.question.split(/\s+/).length, difficulty: r.difficulty, cards: LINKS[r.id] || [], chash: r.content_hash, managed: false,
   })),
 });
+
+// R5 Packet A: Learn serves the stable option order (data/option_order.js), so an answer is chosen by meaning. R: the served
+// letter of the right option of an item (a public item or a stored one), W: of a wrong one, STORED: what is persisted for a letter.
+const ROWS = new Map(QROWS.map((r) => [r.id, r]));
+const qidOf = (item) => item?.questionId ?? item?.question?.id;
+const R = (item) => learnServed(ROWS.get(qidOf(item))).key;
+const W = (item) => learnServed(ROWS.get(qidOf(item))).options.find((o) => o.key !== R(item)).key;
+const STORED = (item, letter) => 'ABCD'[learnServed(ROWS.get(qidOf(item))).order['ABCD'.indexOf(letter)]];
 
 function setup({ isPro = false, tables = {}, held = new Set(['q-held']), clock = { t: T0 }, places = null } = {}) {
   const db = fakeDb({ questions: QROWS.map((r) => ({ ...r })), ...tables });
@@ -184,7 +192,7 @@ test('LK15: the claim is at the first answered question; then a feed is 402, a c
   const feed = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'feed', requestKey: 'free-feed-0001' })).body;
   assert.equal(tables.learning_allowances.filter((r) => r.kind === 'learn_session').length, 0, 'opening a feed costs nothing');
   const q = feed.items.find((i) => i.type === 'question');
-  const ans = await learn.answer('u1', feed.id, { itemId: q.id, choice: 'A' });
+  const ans = await learn.answer('u1', feed.id, { itemId: q.id, choice: R(q) });
   assert.equal(ans.http, 200);
   const rows = tables.learning_allowances.filter((r) => r.kind === 'learn_session');
   assert.deepEqual(rows.map((r) => [r.period, r.reference]), [[`${istDay(T0)}:1`, feed.id]]);
@@ -221,20 +229,20 @@ test('LK15: an answer in a second tab\'s run is 402 and writes nothing; 11:50 pm
   const a = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'mix', requestKey: 'tab-one-00001' })).body;
   const b = (await learn.start('u1', { chapterKey: ST, minutes: 5, kind: 'mix', requestKey: 'tab-two-00001' })).body;
   clock.t = Date.parse('2026-11-02T23:50:00+05:30');
-  assert.equal((await learn.answer('u1', a.id, { itemId: a.items.find((i) => i.type === 'question').id, choice: 'A' })).http, 200);
+  assert.equal((await learn.answer('u1', a.id, { itemId: a.items.find((i) => i.type === 'question').id, choice: R(a.items.find((i) => i.type === 'question')) })).http, 200);
   const before = tables.learn_run_events.length;
-  const second = await learn.answer('u1', b.id, { itemId: b.items.find((i) => i.type === 'question').id, choice: 'A' });
+  const second = await learn.answer('u1', b.id, { itemId: b.items.find((i) => i.type === 'question').id, choice: R(b.items.find((i) => i.type === 'question')) });
   assert.equal(second.http, 402);
   assert.equal(second.body.line, FREE_SESSION_DONE);
   assert.equal(tables.learn_run_events.length, before, 'nothing written');
   clock.t = Date.parse('2026-11-03T00:10:00+05:30');
   const c = (await learn.start('u1', { chapterKey: ST, minutes: 5, kind: 'mix', requestKey: 'next-day-00001' })).body;
   assert.ok(c.items.some((i) => i.type === 'question'), 'a new India day, a new session');
-  assert.equal((await learn.answer('u1', c.id, { itemId: c.items.find((i) => i.type === 'question').id, choice: 'A' })).http, 200);
+  assert.equal((await learn.answer('u1', c.id, { itemId: c.items.find((i) => i.type === 'question').id, choice: R(c.items.find((i) => i.type === 'question')) })).http, 200);
   const pro = setup({ isPro: true });
   for (let k = 0; k < 3; k += 1) {
     const r = (await pro.learn.start('u1', { chapterKey: PL, minutes: 20, kind: 'feed', requestKey: `pro-feed-000${k}`, fresh: true })).body;
-    assert.equal((await pro.learn.answer('u1', r.id, { itemId: r.items.find((i) => i.type === 'question').id, choice: 'A' })).http, 200);
+    assert.equal((await pro.learn.answer('u1', r.id, { itemId: r.items.find((i) => i.type === 'question').id, choice: R(r.items.find((i) => i.type === 'question')) })).http, 200);
   }
   assert.equal(pro.tables.learning_allowances.filter((r) => r.kind === 'learn_session').length, 0, 'Pro: no row');
 });
@@ -263,19 +271,21 @@ test('answer: graded on the server; a replay is identical and counts nothing twi
   const { learn, tables } = setup({ isPro: true });
   const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'answer-00001' })).body;
   const q = run.items.find((i) => i.type === 'question');
-  const wrong = await learn.answer('u1', run.id, { itemId: q.id, choice: 'B' });
+  const wrong = await learn.answer('u1', run.id, { itemId: q.id, choice: W(q) });
   assert.equal(wrong.http, 200);
-  assert.deepEqual([wrong.body.correct, wrong.body.key], [false, 'A']);
+  assert.deepEqual([wrong.body.correct, wrong.body.key], [false, R(q)], 'the key as served');
   assert.ok(wrong.body.explanation.startsWith('Because'));
-  const again = await learn.answer('u1', run.id, { itemId: q.id, choice: 'A' });
+  const again = await learn.answer('u1', run.id, { itemId: q.id, choice: R(q) });
   assert.deepEqual(again.body, wrong.body, 'graded once');
   const prog = tables.user_question_progress.filter((r) => r.question_id === q.question.id);
   assert.equal(prog.length, 1);
-  assert.deepEqual([prog[0].attempt_count, prog[0].last_selected_key, prog[0].last_correct], [1, 'B', false]);
-  assert.deepEqual(tables.question_interactions.map((r) => [r.flow_context, r.session_id, r.metadata.selected_key]), [['learn', run.id, 'B']]);
-  assert.equal((await learn.answer('u1', run.id, { itemId: run.items.find((i) => i.type === 'card').id, choice: 'A' })).http, 422);
+  // Persisted: the stored option's letter (option identity), never the served one; the interaction also keeps the served letter.
+  assert.deepEqual([prog[0].attempt_count, prog[0].last_selected_key, prog[0].last_correct], [1, STORED(q, W(q)), false]);
+  assert.deepEqual(tables.question_interactions.map((r) => [r.flow_context, r.session_id, r.metadata.selected_key, r.metadata.served_key]), [['learn', run.id, STORED(q, W(q)), W(q)]]);
+  assert.equal(tables.learn_run_events.find((e) => e.item_id === q.id).choice, STORED(q, W(q)));
+  assert.equal((await learn.answer('u1', run.id, { itemId: run.items.find((i) => i.type === 'card').id, choice: R(run.items.find((i) => i.type === 'card')) })).http, 422);
   assert.equal((await learn.answer('u1', run.id, { itemId: run.items.filter((i) => i.type === 'question')[1].id, choice: 'Z' })).http, 422);
-  assert.equal((await learn.answer('u2', run.id, { itemId: q.id, choice: 'A' })).http, 404);
+  assert.equal((await learn.answer('u2', run.id, { itemId: q.id, choice: R(q) })).http, 404);
 });
 
 test('answer: a changed or held question is 409 and writes nothing; an expired run is 409 RUN_EXPIRED', async () => {
@@ -284,19 +294,19 @@ test('answer: a changed or held question is 409 and writes nothing; an expired r
   const run = (await s.learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'answer-00002' })).body;
   const [q1, q2] = run.items.filter((i) => i.type === 'question');
   s.tables.questions.find((r) => r.id === q1.question.id).content_hash = 'edited';
-  assert.deepEqual([(await s.learn.answer('u1', run.id, { itemId: q1.id, choice: 'A' })).body.error], ['QUESTION_CHANGED']);
+  assert.deepEqual([(await s.learn.answer('u1', run.id, { itemId: q1.id, choice: R(q1) })).body.error], ['QUESTION_CHANGED']);
   s.tables.questions.find((r) => r.id === q2.question.id).verification_state = 'disputed';
-  assert.deepEqual((await s.learn.answer('u1', run.id, { itemId: q2.id, choice: 'A' })).body.error, 'QUESTION_CHANGED', 'a disputed row is not graded');
+  assert.deepEqual((await s.learn.answer('u1', run.id, { itemId: q2.id, choice: R(q2) })).body.error, 'QUESTION_CHANGED', 'a disputed row is not graded');
   assert.equal(s.tables.learn_run_events.length, 0);
   assert.equal((s.tables.user_question_progress || []).length, 0);
   const held = setup({ isPro: true, held: new Set() });
   const r2 = (await held.learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'answer-00003' })).body;
   const hq = r2.items.find((i) => i.type === 'question');
   const heldNow = setup({ isPro: true, held: new Set([hq.question.id]), tables: held.tables });
-  assert.equal((await heldNow.learn.answer('u1', r2.id, { itemId: hq.id, choice: 'A' })).body.error, 'QUESTION_HELD');
+  assert.equal((await heldNow.learn.answer('u1', r2.id, { itemId: hq.id, choice: R(hq) })).body.error, 'QUESTION_HELD');
   clock.t = T0 + 49 * HOUR;
   const q3 = run.items.filter((i) => i.type === 'question')[2];
-  assert.equal((await s.learn.answer('u1', run.id, { itemId: q3.id, choice: 'A' })).body.error, 'RUN_EXPIRED');
+  assert.equal((await s.learn.answer('u1', run.id, { itemId: q3.id, choice: R(q3) })).body.error, 'RUN_EXPIRED');
 });
 
 test('answer: a retried mistake is graded as Revise grades it (right: back to check it held), and moves no progress', async () => {
@@ -305,7 +315,7 @@ test('answer: a retried mistake is graded as Revise grades it (right: back to ch
   const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'mistake-0001' })).body;
   const m = run.items.find((i) => i.type === 'question' && i.origin === 'mistake');
   assert.deepEqual(m.mistake, { where: 'Mock 4', when: '24 Oct', label: 'You missed this in Mock 4 on 24 Oct' });
-  const right = (await learn.answer('u1', run.id, { itemId: m.id, choice: 'A' })).body;
+  const right = (await learn.answer('u1', run.id, { itemId: m.id, choice: R(m) })).body;
   assert.equal(right.fixed, true);
   assert.equal(right.retired, false);
   assert.match(right.fixedText, /^Right this time\. Back (on (Mon|Tue|Wed|Thu|Fri|Sat|Sun)|tomorrow) to check it held\.$/);
@@ -323,7 +333,7 @@ test('answer: the line\'s card still ahead moves closer, no copy (R7); a card al
   const linked = items.findIndex((i) => i.type === 'question' && i.question.id === 'q-p1');
   if (linked >= 0) {
     const ahead = items.findIndex((i) => i.type === 'card' && i.card.id === PLANNING[0].id) > linked;
-    const out = (await learn.answer('u1', run.id, { itemId: items[linked].id, choice: 'B' })).body;
+    const out = (await learn.answer('u1', run.id, { itemId: items[linked].id, choice: W(items[linked]) })).body;
     assert.ok(out.line?.card?.id === PLANNING[0].id);
     const ids = runOf(tables, run.id).items.filter((i) => i.type === 'card').map((i) => i.cardId);
     if (ahead) {
@@ -338,7 +348,7 @@ test('answer: the line\'s card still ahead moves closer, no copy (R7); a card al
   // A question whose card is not in the run: the line's card is put in, tagged "line".
   const q2 = items.find((i) => i.type === 'question' && i.question.id === 'q-p2');
   if (q2 && !items.some((i) => i.type === 'card' && i.card.id === PLANNING[9].id)) {
-    const out = (await learn.answer('u1', run.id, { itemId: q2.id, choice: 'B' })).body;
+    const out = (await learn.answer('u1', run.id, { itemId: q2.id, choice: W(q2) })).body;
     assert.equal(out.reinsert.item.reason, 'line');
     assert.equal(out.reinsert.item.card.id, PLANNING[9].id);
   }
@@ -349,7 +359,7 @@ test('answer on Free: a line whose card is not open takes a keycard_line slot (R
   const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'free-line-001' })).body;
   const q2 = run.items.find((i) => i.type === 'question' && i.question.id === 'q-p2');
   if (!q2) return; // the composer did not pick it at this length
-  const out = (await learn.answer('u1', run.id, { itemId: q2.id, choice: 'B' })).body;
+  const out = (await learn.answer('u1', run.id, { itemId: q2.id, choice: W(q2) })).body;
   assert.equal(out.line.card.id, PLANNING[9].id, 'a Good-to-know card shown through the line allowance');
   assert.equal(out.reinsert, null, 'a card that is not open is never put in the run');
   assert.equal(tables.learning_allowances.filter((r) => r.kind === 'keycard_line').length, 1);
@@ -415,7 +425,7 @@ test('the feed never serves a due card, and moves forward: two feeds in a row sh
   for (const id of due.map((d) => d.card_id)) assert.ok(!cardsA.includes(id) || a.items.find((i) => i.card?.id === id)?.look, 'a due card stays Revise\'s');
   // Act on the last item so every card before it counts as shown.
   const last = a.items[a.items.length - 1];
-  if (last.type === 'question') await learn.answer('u1', a.id, { itemId: last.id, choice: 'A' });
+  if (last.type === 'question') await learn.answer('u1', a.id, { itemId: last.id, choice: R(last) });
   else await learn.rate('u1', a.id, { itemId: last.id, keep: true });
   await learn.end('u1', a.id);
   const b = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'feed', requestKey: 'fwd-000002', fresh: true })).body;
@@ -433,8 +443,8 @@ test('end: numbers, ended_at once, and Free after the claim leads with the line 
   const { learn, tables } = setup();
   const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'end-000001' })).body;
   const qs = run.items.filter((i) => i.type === 'question');
-  await learn.answer('u1', run.id, { itemId: qs[0].id, choice: 'A' });
-  await learn.answer('u1', run.id, { itemId: qs[1].id, choice: 'B' });
+  await learn.answer('u1', run.id, { itemId: qs[0].id, choice: R(qs[0]) });
+  await learn.answer('u1', run.id, { itemId: qs[1].id, choice: W(qs[1]) });
   const end = (await learn.end('u1', run.id)).body;
   assert.equal(end.numbers.questions, 2);
   assert.equal(end.lines.find((l) => l.label === 'Questions').text, '1 of 2 right');
@@ -482,7 +492,7 @@ test('R3 L5 (C2-1): stop, then the end\'s fix key starts a NEW mistakes-only run
   // Three items done, then "Stop here".
   for (const item of items.slice(0, 3)) {
     if (item.type === 'card') await learn.rate('u1', run.id, { itemId: item.id, rating: 3 });
-    else await learn.answer('u1', run.id, { itemId: item.id, choice: 'A' });
+    else await learn.answer('u1', run.id, { itemId: item.id, choice: R(item) });
   }
   const end = (await learn.end('u1', run.id, { stop: true })).body;
   assert.equal(end.stopped, true);
@@ -515,7 +525,7 @@ test('R3 ruling F: every key a Free end and the feed refusal offer is accepted b
   const s = setup();
   const { learn } = s;
   const feed = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'feed', requestKey: 'f-keys-feed01' })).body;
-  await learn.answer('u1', feed.id, { itemId: feed.items.find((i) => i.type === 'question').id, choice: 'A' });
+  await learn.answer('u1', feed.id, { itemId: feed.items.find((i) => i.type === 'question').id, choice: R(feed.items.find((i) => i.type === 'question')) });
   // The feed refusal: Continue (today's own feed), the Or rows.
   const refused = await learn.start('u1', { chapterKey: ST, minutes: 10, kind: 'feed', requestKey: 'f-keys-feed02' });
   assert.equal(refused.http, 402);
@@ -554,7 +564,7 @@ test('server-security#1: Free stops a mix after one card, takes the fix key and 
   assert.ok(fix && fix.run.fresh === true);
   const b = (await learn.start('u1', { ...fix.run, requestKey: 'r4-s1-run-b01' })).body;
   assert.notEqual(b.id, a.id);
-  assert.equal((await learn.answer('u1', b.id, { itemId: b.items.find((i) => i.type === 'question').id, choice: 'A' })).http, 200);
+  assert.equal((await learn.answer('u1', b.id, { itemId: b.items.find((i) => i.type === 'question').id, choice: R(b.items.find((i) => i.type === 'question')) })).http, 200);
   assert.equal(tables.learning_allowances.find((r) => r.kind === 'learn_session').reference, b.id);
   // Every Continue the server offers now: home's offer and rows, the suggestions, both chapter pages, the covers, A's own end.
   const home = (await learn.home('u1', P({ subject: 'business_studies' }))).body;
@@ -575,7 +585,7 @@ test('server-security#1: Free stops a mix after one card, takes the fix key and 
   for (const id of ids) {
     const run = (await learn.start('u1', { resume: id, chapterKey: PL, kind: 'mix', requestKey: `r4-s1-cont-${String(k += 1).padStart(2, '0')}` })).body;
     const q = run.items.find((i) => i.type === 'question');
-    if (q) assert.equal((await learn.answer('u1', run.id, { itemId: q.id, choice: 'A' })).http, 200, `Continue ${id}`);
+    if (q) assert.equal((await learn.answer('u1', run.id, { itemId: q.id, choice: R(q) })).http, 200, `Continue ${id}`);
   }
   // An explicit resume of A (a stale key) is not resumed: a new Key cards only run, with no question to refuse.
   const stale = (await learn.start('u1', { resume: a.id, chapterKey: PL, kind: 'mix', minutes: 10, requestKey: 'r4-s1-stale-01' })).body;
@@ -592,7 +602,7 @@ test('server-security#1: a Free feed stopped before its first answer is never of
   assert.equal((await learn.rate('u1', feed.id, { itemId: card.id, keep: true })).http, 200);
   await learn.end('u1', feed.id, { stop: true });
   const b = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'r4-s1-feed-b1' })).body;
-  assert.equal((await learn.answer('u1', b.id, { itemId: b.items.find((i) => i.type === 'question').id, choice: 'A' })).http, 200);
+  assert.equal((await learn.answer('u1', b.id, { itemId: b.items.find((i) => i.type === 'question').id, choice: R(b.items.find((i) => i.type === 'question')) })).http, 200);
   const covers = (await learn.covers('u1', P({ subject: 'business_studies' }))).body.covers;
   assert.ok(covers.every((c) => c.resume?.runId !== feed.id), 'no cover resumes the feed');
   const again = await learn.start('u1', { chapterKey: ST, minutes: 10, kind: 'feed', requestKey: 'r4-s1-feed-02' });
@@ -606,7 +616,7 @@ test('server-security#3: a stopped questions-only run is never resumed by the fi
   const qOnly = { chapterKey: PL, minutes: 10, kind: 'mix', leaveOut: ['cards', 'mistakes', 'lesson'] };
   const q = (await learn.start('u1', { ...qOnly, requestKey: 'r4-s3-qonly-01' })).body;
   assert.ok(q.items.every((i) => i.type === 'question' && i.origin !== 'mistake'));
-  assert.equal((await learn.answer('u1', q.id, { itemId: q.items[0].id, choice: 'A' })).http, 200);
+  assert.equal((await learn.answer('u1', q.id, { itemId: q.items[0].id, choice: R(q.items[0]) })).http, 200);
   await learn.end('u1', q.id, { stop: true });
   const home = (await learn.home('u1', P({ subject: 'business_studies' }))).body;
   const fix = home.roadmap.or.find((o) => o.kind === 'fix');
@@ -631,12 +641,12 @@ test('server-security#5 and #6: an ended run never gets the stopped keys; a stop
   assert.equal(late.stopped, false);
   assert.notEqual(late.lead.kind, 'continue', 'never "Continue" on an ended run');
   const level = (await learn.start('u1', { chapterKey: PL, minutes: 6, kind: 'level', requestKey: 'r4-s6-level-01' })).body;
-  assert.equal((await learn.answer('u1', level.id, { itemId: level.items[0].id, choice: 'A' })).http, 200);
+  assert.equal((await learn.answer('u1', level.id, { itemId: level.items[0].id, choice: R(level.items[0]) })).http, 200);
   const stopped = (await learn.end('u1', level.id, { stop: true })).body;
   assert.equal(stopped.stopped, false, 'a level check has no Continue, so it is not drawn as stopped');
   assert.notEqual(stopped.lead?.kind, 'continue');
   assert.ok(runOf(tables, level.id).ended_at, 'the stopped level run is ended, never left answerable');
-  assert.equal((await learn.answer('u1', level.id, { itemId: level.items[1].id, choice: 'A' })).http, 409);
+  assert.equal((await learn.answer('u1', level.id, { itemId: level.items[1].id, choice: R(level.items[1]) })).http, 409);
 });
 
 // ---------------------------------------------------------------- cards, shelves, search, covers
@@ -698,7 +708,7 @@ test('covers: every playable chapter, For you first with its reason, the hook, o
 
 const dueStates = (cards, at) => cards.map((c) => { const s = schedule(null, 3, at); return { user_id: 'u1', card_id: c.id, subject: 'business_studies', chapter_key: PL, schedule: s.schedule, reps: 1, lapses: 0, due_at: s.due_at, last_review_at: new Date(at).toISOString(), last_rating: 3, added_from: 'chapter', added_at: new Date(at).toISOString(), suspended: false }; });
 const actOn = async (learn, run, item) => (item.type === 'question'
-  ? learn.answer('u1', run.id, { itemId: item.id, choice: 'A' })
+  ? learn.answer('u1', run.id, { itemId: item.id, choice: R(item) })
   : learn.rate('u1', run.id, { itemId: item.id, keep: true }));
 
 test('B7 4: a cover shows the card its feed serves first (hook.id), its name and ref line, and a start from it is kept in start_state', async () => {
@@ -759,13 +769,28 @@ test('B7 2: the feed end says how far it got and how long it took (first event t
   assert.deepEqual((await learn.end('u1', none.id)).body.feed.done, { reached: 0, of: none.items.length, minutes: 1 });
 });
 
+test('R5 Packet A: a run started before the stable order keeps the stored order it was served in, to its end', async () => {
+  const { learn, tables } = setup({ isPro: true });
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'legacy-ord-01' })).body;
+  const stored = runOf(tables, run.id);
+  assert.ok(stored.items.filter((i) => i.type === 'question').every((i) => i.ov === 'stable-1'), 'a new run is served in the stable order');
+  // The same run as one started before the change: its items carry no ov.
+  stored.items = stored.items.map(({ ov, ...rest }) => rest);
+  const again = (await learn.getRun('u1', run.id)).body;
+  const q = again.items.find((i) => i.type === 'question');
+  assert.deepEqual(q.question.options.map((o) => o.text), ['The right one', 'A wrong one', 'Another wrong one', 'The last wrong one']);
+  const ans = (await learn.answer('u1', run.id, { itemId: q.id, choice: 'A' })).body;
+  assert.deepEqual([ans.correct, ans.key, ans.choice], [true, 'A', 'A']);
+  assert.equal(tables.learn_run_events.find((e) => e.item_id === q.id).choice, 'A', 'the stored letter, as before');
+});
+
 test('B7 3: an answer echoes the choice, and a replay echoes the first one', async () => {
   const { learn } = setup({ isPro: true });
   const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'echo-0000001' })).body;
   const q = run.items.find((i) => i.type === 'question');
   const a = (await learn.answer('u1', run.id, { itemId: q.id, choice: 'b' })).body;
   assert.deepEqual([a.choice, a.correct], ['B', false]);
-  const again = (await learn.answer('u1', run.id, { itemId: q.id, choice: 'A' })).body;
+  const again = (await learn.answer('u1', run.id, { itemId: q.id, choice: R(q) })).body;
   assert.equal(again.choice, 'B', 'the first answer stands');
 });
 
@@ -817,7 +842,7 @@ test('B7 6: the run end names the cards it sent to Revise (at most 4, run order)
 test('B7 6: after the Free session is used, the end\'s options still carry kind, title and minutes', async () => {
   const { learn } = setup();
   const a = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'feed', requestKey: 'freeend-00001' })).body;
-  await learn.answer('u1', a.id, { itemId: a.items.find((i) => i.type === 'question').id, choice: 'A' });
+  await learn.answer('u1', a.id, { itemId: a.items.find((i) => i.type === 'question').id, choice: R(a.items.find((i) => i.type === 'question')) });
   const end = (await learn.end('u1', a.id)).body;
   assert.match(end.lead.label, /^Quick recap · \d+ min$/);
   assert.equal(end.lead.line, FREE_END_LINE);

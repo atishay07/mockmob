@@ -13,7 +13,7 @@
 // average and under Rs 0.08 at the worst. That is why a thread includes one follow-up, not five (depth over volume).
 import { createHash } from 'node:crypto';
 import { isPassageLinkedQuestion } from '../../../data/nta_question_selector.js';
-import { optionTextHashes, orderFromHashes, checkQuestionView, markCheck, bankExplanation, familyOf, CHECK_REQUEST_ID } from '../../../data/repair_check.js';
+import { optionTextHashes, orderFromHashes, checkQuestionView, markCheck, bankExplanation, familyOf, CHECK_REQUEST_ID, offeredHashes, explainedRow } from '../../../data/repair_check.js';
 
 export const THREAD_VERSION = 1;
 export const THREAD_CREDIT_COST = 1;
@@ -129,7 +129,7 @@ export async function offerChecks({ threadId, userId, anchor, deps }) {
   const checks = [];
   for (const row of found.rows) {
     try { await deps.recordSeen({ userId, questionId: row.id, mistakeKey: `thread:${threadId}` }); } catch { continue; }
-    const hashes = optionTextHashes(row);
+    const hashes = offeredHashes(row); // the stable option order (R5 Packet A)
     stored.push({ checkQuestionId: row.id, optionHashes: hashes });
     checks.push(threadCheckView(row, hashes));
   }
@@ -295,7 +295,7 @@ export async function answerThreadCheck({ user, threadId, checkQuestionId, pick,
   if (!marked.ok) return { http: marked.reason === 'invalid_pick' ? 422 : 409, body: { ok: false, error: marked.reason, message: THREAD_COPY.notOffered } };
   const result = {
     right: marked.right, pick, key: { index: marked.keyDisplay, text: marked.keyText }, picked: { index: pick, text: marked.pickedText },
-    explanation: bankExplanation(full),
+    explanation: bankExplanation(explainedRow(full, order)),
     line: marked.right ? 'Right. That is the idea from your doubt, used on a new CUET-style question.' : 'Not this time. The key and the book explanation are below.',
     answeredAt: new Date(deps.now()).toISOString(),
   };

@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { openCheck, answerCheck, checkStatus, checkLinks, publicResult } from '../../src/services/recovery/repairCheck.js';
 import { runRepair, mistakeId } from '../../src/services/recovery/repairFlow.js';
-import { storedOrder } from '../repair_check.js';
+import { stableOrder } from '../option_order.js';
 
 const fx = JSON.parse(readFileSync(fileURLToPath(new URL('./fixtures/repair4/pool_goodwill.json', import.meta.url)), 'utf8'));
 const contract = JSON.parse(readFileSync(fileURLToPath(new URL('./fixtures/repair4/contract_check_v1.json', import.meta.url)), 'utf8'));
@@ -69,7 +69,7 @@ function harness(over = {}) {
 const kinds = (calls) => calls.map((c) => c[0]);
 const displayOf = (stored, text) => stored.options.find((o) => o.text === text).index;
 
-test('GET: one fresh question in the bank option order, with no key, no explanation and no marks; the same on a reload; free', async () => {
+test('GET: one fresh question in the stable option order (R5 Packet A), with no key, no explanation and no marks; the same on a reload; free', async () => {
   const h = harness();
   const first = await h.open();
   assert.equal(first.http, 200);
@@ -84,7 +84,7 @@ test('GET: one fresh question in the bank option order, with no key, no explanat
   assert.doesNotMatch(serialised, /correct_answer|correctIndex|"key"|isKey|explanation|Goodwill is super profit divided/);
   const again = await h.open();
   assert.deepEqual(again.body, first.body, 'a reload shows the same question in the same order');
-  assert.deepEqual(first.body.check.options.map((o) => o.text), storedOrder().map((i) => fx.candidates[0].options[i].text));
+  assert.deepEqual(first.body.check.options.map((o) => o.text), stableOrder(fx.candidates[0]).map((i) => fx.candidates[0].options[i].text));
   assert.deepEqual(Object.keys(first.body).sort(), Object.keys(contract.get.ready.body).filter((k) => k !== 'notes').sort());
   assert.deepEqual(Object.keys(first.body.check).sort(), Object.keys(contract.get.ready.body.check).sort());
   assert.deepEqual(first.body, { ...first.body, ...checkLinks('a1', 'q_mistake') });

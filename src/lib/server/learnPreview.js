@@ -16,7 +16,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { loadKeycardsSyllabus } from './keycardsSyllabus.js';
 import { fakeDb } from './keycardsMemoryDb.js';
-import { createLearn, cleanTitle as titleOf, servedOptions } from './learn.js';
+import { createLearn, cleanTitle as titleOf, learnServed } from './learn.js';
 import { schedule, tasteIds } from '../../../data/keycards.js';
 import { isLong } from '../../../data/learn/compose.js';
 
@@ -42,9 +42,10 @@ async function contentOnce() {
   for (const q of fixture.questions || []) {
     const resolved = syllabus.resolveChapter(q.subject, q.chapter);
     if (!resolved || resolved.retired || !q.id) continue;
-    const options = servedOptions(q.options);
+    // Served as production serves it: the stable option order over the full row (data/option_order.js).
+    const { options, order } = learnServed({ id: q.id, question: q.body, options: q.options, correct_answer: q.correct_answer, explanation: q.explanation || '' });
     const entry = {
-      id: q.id, subject: q.subject, chapter: q.chapter, chapterKey: resolved.key, body: q.body, options, words: wordCount(q.body),
+      id: q.id, subject: q.subject, chapter: q.chapter, chapterKey: resolved.key, body: q.body, options, order, words: wordCount(q.body),
       difficulty: q.difficulty || null, cards: q.cards || [], chash: `fixture-${q.id}`, managed: false,
     };
     index.set(q.subject, [...(index.get(q.subject) || []), entry]);
