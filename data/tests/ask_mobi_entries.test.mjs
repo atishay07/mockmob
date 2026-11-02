@@ -232,9 +232,9 @@ test('/mentor is "Your record" with no tabs, the old four-tab hub is gone, and t
   assert.doesNotMatch(view, /role="tablist"|aria-pressed|SECTIONS/, 'no tabs');
   for (const gone of ['src/components/ai/MockMobAIHub.jsx', 'src/components/ai/AIMentorTerminal.jsx']) assert.equal(existsSync(new URL(`../../${gone}`, import.meta.url)), false, gone);
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
-  assert.match(shell, /<Link href=\{previewLinks\?\.wallet \|\| '\/wallet'\} className="arena-chip arena-chip--credits"/, 'the top bar balance opens the wallet (D76)');
-  assert.equal((shell.match(/className="arena-chip arena-chip--(credits|prepos)"/g) || []).length, 1, 'one credits balance, one chip (D78)');
-  assert.match(shell, /amount=\{wallet\.wallet\?\.known \? wallet\.wallet\.total : \(user\?\.creditBalance \?\? 0\)\}/, 'the chip shows the unified total');
+  assert.match(shell, /<Link href=\{previewLinks\?\.wallet \|\| '\/wallet'\} className="arena-acct__credits"/, 'the top bar balance opens the wallet (D76)');
+  assert.equal((shell.match(/className="arena-acct__credits"|className="arena-chip arena-chip--(credits|prepos)"/g) || []).length, 1, 'one credits balance in the bar (D78)');
+  assert.match(shell, /const barCredits = wallet\.wallet\?\.known \? wallet\.wallet\.total : \(user\?\.creditBalance \?\? 0\);/, 'the bar shows the unified total');
 });
 
 test('touch targets in the panel are 44 px: close, chips and their x, the ask rows, the send key; the handle cannot start a text selection', () => {

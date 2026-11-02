@@ -6,7 +6,7 @@ import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 're
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Logo } from '@/components/Logo';
-import { AppIcon, CreditAmount } from '@/components/ui/Glyph';
+import { AppIcon } from '@/components/ui/Glyph';
 import { useWalletSummary } from '@/components/useWalletSummary';
 import { Avatar } from '@/components/ui/Avatar';
 import { useAuth } from '@/components/AuthProvider';
@@ -63,6 +63,9 @@ const ASK_MOBI_NOTE = 'He explains any answer.';
 // The Guide's stops live in src/lib/appTour.mjs (W-093), so the Guide page counts the tour that will run.
 // Pip guides the tour only (rare, so it may have character); it nods on each step.
 const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'encouraging', 'celebrating', 'encouraging', 'thinking', 'celebrating', 'greeting'];
+
+// The balance as a screen reader says it: "108 credits", "1 credit".
+const creditsWords = (n) => `${Number(n).toLocaleString('en-IN')} ${n === 1 ? 'credit' : 'credits'}`;
 
 export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null, studyEnabled = false, mobEnabled = false, contributeEnabled = false, offer = null }) {
   const pathname = usePathname();
@@ -383,6 +386,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const hrefOf = (tab) => (tab.id === 'learn-cards' && previewRoute ? previewFind() : previewLinks?.[tab.id] || tab.href || `/${tab.id}`);
   // The account's name only when it is a real name (release 11 walk; the app's rule, src/lib/displayName.mjs), else "Account".
   const accountName = shownName(user?.name, user?.email);
+  // The top bar's balance: the wallet's live total once it answers, else the account's own total (one balance, D78).
+  const barCredits = wallet.wallet?.known ? wallet.wallet.total : (user?.creditBalance ?? 0);
   const linkClass = (tab) => ['arena-nav-link', tab.place ? 'arena-nav-link--place' : '', tab.sub ? 'arena-nav-link--sub' : ''].filter(Boolean).join(' ');
   const renderNavLink = (tab, onNavigate, index = 0) => (
     <React.Fragment key={tab.id}>
@@ -470,35 +475,34 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 <AppIcon name="moderation" /> Moderator
               </Link>
             )}
-            {/* One credits balance (owner, 18 Oct 2026, D78): one chip. The wallet read is the live total (free this month +
-                bought/held); until it answers, the account's own total from /api/auth/me stands in. */}
-            <Link href={previewLinks?.wallet || '/wallet'} className="arena-chip arena-chip--credits" data-tour="credits-pill" data-state={wallet.wallet?.state || 'unknown'} aria-label={`Credits: ${wallet.wallet?.known ? wallet.wallet.total : (user?.creditBalance ?? 0)}`}>
-              <CreditAmount kind="practice" amount={wallet.wallet?.known ? wallet.wallet.total : (user?.creditBalance ?? 0)} unit={false} />
-            </Link>
-            {user?.isPremium && (
-              <span className="arena-chip arena-chip--pro arena-sm-up">Pro</span>
-            )}
             <span className="arena-theme arena-sm-up"><ThemeToggle /></span>
-            <Link href="/profile" className="arena-profile arena-desktop-only">
-              <Avatar name={accountName || user?.email} size="sm" />
-              <span>{accountName ?? 'Account'}</span>
-            </Link>
+            {/* The account, as one piece (owner LK42, 2 Nov 2026: the Pro badge, the credits and the wallet symbol read as low quality).
+                One capsule, two doors: the balance in words opens the Wallet (D76; one balance, D78: the wallet read is the live total,
+                free this month + bought/held, and until it answers the account's own total stands in), and the person opens Account,
+                with the plan beside the name when it is Pro. No coin glyph: the unit is a word. Free shows no plan tag and no pitch. */}
+            <div className="arena-acct" role="group" aria-label="Your account">
+              <Link href={previewLinks?.wallet || '/wallet'} className="arena-acct__credits" data-tour="credits-pill" data-state={wallet.wallet?.state || 'unknown'} aria-label={`${creditsWords(barCredits)}. Open Wallet`}>
+                <b>{Number(barCredits).toLocaleString('en-IN')}</b><span>{barCredits === 1 ? 'credit' : 'credits'}</span>
+              </Link>
+              <span className="arena-acct__rule" aria-hidden="true" />
+              <Link
+                href={previewLinks?.profile || '/profile'}
+                className="arena-acct__you"
+                aria-label={`Account, ${accountName ?? 'your profile'}${user?.isPremium ? ', Pro' : ''}`}
+                aria-current={isActive('profile') ? 'page' : undefined}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Avatar name={accountName || user?.email} size="sm" />
+                <span className="arena-acct__name arena-desktop-only">{accountName ?? 'Account'}</span>
+                {user?.isPremium ? <span className="arena-acct__plan">Pro</span> : null}
+              </Link>
+            </div>
             {/* Sign out in words, beside the account (owner G29, 19 Oct): an unlabelled glyph was missed. It asks first, with
                 the same confirm as the Account page (release 11 walk). */}
             <SignOutButton className="arena-signout arena-desktop-only">
               <AppIcon name="signout" />
               <span>Sign out</span>
             </SignOutButton>
-            {/* Phones: the account sits where the app puts You. The menu itself is More, on the dock. */}
-            <Link
-              href={previewLinks?.profile || '/profile'}
-              className="arena-you arena-mobile-only"
-              aria-label={`Account, ${accountName ?? 'your profile'}`}
-              aria-current={isActive('profile') ? 'page' : undefined}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <Avatar name={accountName || user?.email} size="sm" />
-            </Link>
           </div>
         </div>
 
