@@ -17,6 +17,7 @@ import {
 import { UNKNOWN_STATE, chapterStates, stateFor, tallyChapters } from '../../../data/chapter_state.js';
 import { readAnsweredProgress } from '../../../data/practice_progress.js';
 import { getCanonicalSubject, isTopSubject } from '../../../data/canonical_syllabus.js';
+import { servedTex } from '../../../data/keycards_tex.js';
 import { chipFor } from './keycardsSyllabus.js';
 
 export const keyCardsEnabled = (env = process.env) => env.KEY_CARDS_ENABLED === 'true';
@@ -64,7 +65,9 @@ export function loadDecks({ dir = path.join(process.cwd(), 'data/keycards'), log
   const add = (subject, deck) => {
     // One warning, only when a deck is actually served without the overlay.
     if (!tiers && !tiersWarned) { tiersWarned = true; log('[keycards] tiers.json missing or invalid: the decks keep the Must-know marks their authors gave'); }
-    const cards = applyTiers((deck.cards || []).filter((c) => c?.id && c.subject === subject), tiers).map(printedCard);
+    const cards = applyTiers((deck.cards || []).filter((c) => c?.id && c.subject === subject), tiers).map(printedCard)
+      // A mathematics or physics card with typeset formulas: its back served as their plain form, and the drawn HTML in texHtml.
+      .map((c) => servedTex(c, { log }));
     bySubject.set(subject, { version: deck.version, cards });
     for (const c of cards) byId.set(c.id, c);
     try { links.set(subject, JSON.parse(read(path.join(dir, 'links', `${subject}.json`)) || '{}')); } catch { links.set(subject, {}); }

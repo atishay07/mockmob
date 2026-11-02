@@ -202,9 +202,37 @@ export function cardFace(card) {
   const front = String(card?.front || '');
   const re = KIND_PREFIX[card?.kind];
   const label = card?.kind === 'entry' && re?.test(front) ? 'Journal entry' : kindLabel(card);
-  if (!re || !re.test(front)) return { label, front };
+  return { label, front: stripKindPrefix(card?.kind, front) };
+}
+
+/** A front without the kind prefix cardFace drops, its first letter raised (the server applies it to tex.front too). */
+export function stripKindPrefix(kind, text) {
+  const front = String(text || '');
+  const re = KIND_PREFIX[kind];
+  if (!re || !re.test(front)) return front;
   const rest = front.replace(re, '');
-  return { label, front: /^\p{Ll}/u.test(rest) ? rest.charAt(0).toUpperCase() + rest.slice(1) : rest };
+  return /^\p{Ll}/u.test(rest) ? rest.charAt(0).toUpperCase() + rest.slice(1) : rest;
+}
+
+/**
+ * How NcertText draws a card's typeset back (card.texHtml.back, from the server's servedTex): the same structure the plain
+ * path gives that kind. { shape: 'list' | 'formula' | 'paras', tag?, bare?, rows: [{ html, marker?, lead }] }, or null when
+ * the card has no typeset back. `lead`: the row starts mid-sentence, so it reads with a leading ellipsis (as withLead).
+ */
+export function texBackRows(card) {
+  const rows = Array.isArray(card?.texHtml?.back) ? card.texHtml.back : [];
+  if (!rows.length) return null;
+  const lead = (r) => startsMidSentence(r.text, card);
+  if (LIST_KINDS.includes(card.kind) && rows.length > 1) {
+    return {
+      shape: 'list',
+      tag: card.kind === 'steps' ? 'ol' : 'ul',
+      bare: rows.some((r) => ownMarker(r.text)),
+      rows: rows.map((r, i) => ({ html: r.html, ...(r.marker ? { marker: r.marker } : {}), lead: i === 0 && !ownMarker(r.text) && lead(r) })),
+    };
+  }
+  if (card.kind === 'formula') return { shape: 'formula', rows: rows.map((r, i) => ({ html: r.html, lead: i === 0 && lead(r) })) };
+  return { shape: 'paras', rows: rows.map((r) => ({ html: r.html, lead: lead(r) })) };
 }
 
 /**

@@ -7,6 +7,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { canonicalJSON } from '../../data/canonical_json.mjs';
 import { ENGLISH_KINDS, NCERT_KINDS, chapterSlug, isStopword } from '../../data/keycards.js';
+import katex from 'katex';
+import { FORBIDDEN_TEX, KATEX_OPTIONS, TEX_SUBJECTS, alnumBag, splitTex, texLines, texToPlain } from '../../data/keycards_tex.js';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 // Paths are read from the environment on every call (tests and the pipeline point them at their own folders).
@@ -211,6 +213,7 @@ export function shapeCheck(card, subject) {
   if (card.front.length > LIMITS.front) r.push('shape:front_too_long');
   if (danglingStart(card.front)) r.push('shape:front_dangling');
   if (card.back.length > (LONG_BACK.has(card.kind) ? LIMITS.backLong : LIMITS.back)) r.push('shape:back_too_long');
+  if (card.tex !== undefined) r.push(...texCheck(card, subject));
   const src = card.source;
   if (!src || typeof src !== 'object') { r.push('shape:source'); return r; }
   if (src.kind === 'ncert') {
@@ -225,6 +228,54 @@ export function shapeCheck(card, subject) {
     if (Array.isArray(card.blanks) && card.blanks.length && isText(card.quote)) r.push(...derivedCheck(card));
   } else {
     r.push('shape:source_kind');
+  }
+  return r;
+}
+
+// Typeset formulas (handoff-1102/MATHTEX-SPEC.md section 3): tex is a faithful rendering of the plain front and back, so
+// its letters and digits must be theirs, line by line. Signs and operators cannot be checked by machine (the image
+// reviewer checks them).
+const TEX_LIMITS = Object.freeze({ front: 400, back: 1500 });
+const plainBack = (tex) => texLines(tex).map(texToPlain).join('\n');
+
+/** The tex field's checks (called from shapeCheck when the card has one). Returns reasons[]. */
+export function texCheck(card, subject) {
+  const tex = card?.tex;
+  if (!tex || typeof tex !== 'object' || Array.isArray(tex) || !Object.keys(tex).length
+    || Object.keys(tex).some((k) => k !== 'front' && k !== 'back') || Object.values(tex).some((v) => !isText(v))) return ['shape:tex_form'];
+  const r = [];
+  const add = (why) => { if (!r.includes(why)) r.push(why); };
+  if (!TEX_SUBJECTS.includes(subject)) add('shape:tex_subject');
+  if (card.kind === 'term' || card.kind === 'key_line' || (Array.isArray(card.blanks) && card.blanks.length)) add('shape:tex_kind');
+  const strings = [tex.front, tex.back].filter((v) => v !== undefined);
+  for (const text of strings) {
+    const split = splitTex(text);
+    const maths = split.parts.filter((p) => p.type === 'math');
+    if (!split.ok || !maths.length) add('shape:tex_delims');
+    // A forbidden command never reaches KaTeX.
+    if (FORBIDDEN_TEX.test(text)) { add('shape:tex_command'); continue; }
+    for (const p of maths) {
+      try { katex.renderToString(p.value, { ...KATEX_OPTIONS, displayMode: p.display }); } catch { add('shape:tex_parse'); }
+    }
+  }
+  const plainFront = tex.front === undefined ? null : texToPlain(tex.front);
+  const plain = tex.back === undefined ? null : plainBack(tex.back);
+  const backLimit = LONG_BACK.has(card.kind) ? LIMITS.backLong : LIMITS.back;
+  if ((tex.front?.length || 0) > TEX_LIMITS.front || (tex.back?.length || 0) > TEX_LIMITS.back
+    || (plainFront?.length || 0) > LIMITS.front || (plain?.length || 0) > backLimit) add('shape:tex_too_long');
+  if ([plainFront, plain].some((t) => t !== null && t.includes('\\'))) add('shape:tex_plain');
+  if (plainFront !== null && alnumBag(plainFront) !== alnumBag(card.front)) add('shape:tex_mismatch');
+  if (tex.back !== undefined) {
+    const texRows = texLines(tex.back);
+    const backRows = texLines(card.back);
+    if (texRows.length !== backRows.length) add('shape:tex_lines');
+    else {
+      texRows.forEach((line, i) => {
+        if (alnumBag(texToPlain(line)) !== alnumBag(backRows[i])) add('shape:tex_mismatch');
+        const back = norm(backRows[i]);
+        if (splitTex(line).parts.some((p) => p.type === 'text' && !back.includes(norm(p.value)))) add('shape:tex_prose');
+      });
+    }
   }
   return r;
 }
