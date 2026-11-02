@@ -17,7 +17,7 @@ import 'package:mockmob/features/keycards/data/keycards_providers.dart';
 import 'package:mockmob/features/learn2/data/learn_models.dart';
 import 'package:mockmob/features/learn2/data/learn_prefs.dart';
 import 'package:mockmob/features/learn2/data/learn_providers.dart';
-import 'package:mockmob/features/learn2/home/learn_home.dart';
+import 'package:mockmob/features/learn2/home/learn_home.dart' show LearnHome;
 import 'package:mockmob/features/practice/data/practice_catalog.dart';
 import 'package:mockmob/features/pro_nudge/pro_nudge.dart' show proNudgesOnProvider;
 
@@ -39,20 +39,29 @@ class HomeSubjectFake extends PracticeSubject {
 /// The fixture server, plus what the home's save changes: the part choice (`chosen`, by part id) shows in the next read of
 /// the subject, and `thin` turns the subject into one with no Key cards (English-like: chapters with questions only).
 class HomeLearnApi extends FixtureLearnApi {
-  HomeLearnApi({super.pro, super.newStudent, super.freeUsed, super.offline, super.error, super.slow, super.failOn, this.thin = false});
+  HomeLearnApi({super.pro, super.newStudent, super.freeUsed, super.offline, super.error, super.slow, super.failOn, this.thin = false, this.subjectsOnly, this.edit});
 
   final Map<String, String> chosen = {};
   bool thin;
 
-  /// Reads of the subject (a refresh is one more).
+  /// The student's subjects as the server lists them (`subjects` of the body), cut to these ids; one id is a student with one subject.
+  List<String>? subjectsOnly;
+
+  /// A change to the recorded body before it is read (the roadmap's rows, a chapter), for a case no recording holds.
+  void Function(Map<String, dynamic> body)? edit;
+
+  /// Reads of Learn home (a refresh is one more): the home is ONE read, the subject body and the shelves together.
   int subjectReads = 0;
 
   @override
-  Future<LearnSubjectData> subject(String subject) async {
-    final data = await super.subject(subject);
+  Future<LearnSubjectData> home(String subject) async {
+    final data = await super.home(subject);
     subjectReads++;
-    if (chosen.isEmpty && !thin) return data;
+    if (chosen.isEmpty && !thin && subjectsOnly == null && edit == null) return data;
     final j = jsonDecode(jsonEncode(data.raw)) as Map<String, dynamic>;
+    final only = subjectsOnly;
+    if (only != null) j['subjects'] = [for (final s in (j['subjects'] as List).cast<Map<String, dynamic>>()) if (only.contains(s['id'])) s];
+    edit?.call(j);
     for (final p in (j['parts'] as List).cast<Map<String, dynamic>>()) {
       final option = p['option'];
       if (option is Map && chosen[p['id']] != null) option['chosen'] = chosen[p['id']];
@@ -76,15 +85,9 @@ class HoldLearnApi extends HomeLearnApi {
   final Completer<void> _hold;
 
   @override
-  Future<LearnSubjectData> subject(String subject) async {
+  Future<LearnSubjectData> home(String subject) async {
     await _hold.future;
-    return super.subject(subject);
-  }
-
-  @override
-  Future<LearnShelves> shelves([String? subject]) async {
-    await _hold.future;
-    return super.shelves(subject);
+    return super.home(subject);
   }
 }
 
@@ -128,7 +131,7 @@ List<Override> homeOverrides(
 
 /// LearnHome in a plain page that scrolls, as Practice's list holds it.
 class HomePage extends StatelessWidget {
-  const HomePage({super.key, this.subject, this.find = false, this.query, this.controller, this.bottom = MmSpace.s32});
+  const HomePage({super.key, this.subject, this.find = false, this.query, this.controller, this.bottom = MmSpace.s32, this.header = 0});
 
   final String? subject;
   final bool find;
@@ -138,6 +141,9 @@ class HomePage extends StatelessWidget {
   /// Room under the page (Practice's list has a lot under the Learn door's blocks).
   final double bottom;
 
+  /// What stands above Learn home in Practice's list (the title and the Learn door's switch), as empty room.
+  final double header;
+
   @override
   Widget build(BuildContext context) => Scaffold(
     backgroundColor: context.mmColors.ground,
@@ -145,7 +151,13 @@ class HomePage extends StatelessWidget {
       child: SingleChildScrollView(
         controller: controller,
         padding: EdgeInsets.only(top: MmSpace.s8, bottom: bottom),
-        child: LearnHome(subject: subject, find: find, query: query),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (header > 0) SizedBox(height: header),
+            LearnHome(subject: subject, find: find, query: query),
+          ],
+        ),
       ),
     ),
   );
@@ -167,11 +179,12 @@ class HomeLanding extends StatelessWidget {
 }
 
 /// A router with Learn home at `/` and a landing page for every place a key can go.
-GoRouter homeRouter({String? subject, bool find = false, String? query, ScrollController? controller, double bottom = MmSpace.s32}) => GoRouter(
+GoRouter homeRouter({String? subject, bool find = false, String? query, ScrollController? controller, double bottom = MmSpace.s32, double header = 0}) => GoRouter(
   routes: [
-    GoRoute(path: '/', builder: (context, state) => HomePage(subject: subject, find: find, query: query, controller: controller, bottom: bottom)),
+    GoRoute(path: '/', builder: (context, state) => HomePage(subject: subject, find: find, query: query, controller: controller, bottom: bottom, header: header)),
     GoRoute(path: '/learn/session', builder: (context, state) => HomeLanding(what: 'a run', uri: state.uri)),
     GoRoute(path: '/explore/feed', builder: (context, state) => HomeLanding(what: 'a feed', uri: state.uri)),
+    GoRoute(path: '/explore', builder: (context, state) => HomeLanding(what: 'Explore', uri: state.uri)),
     GoRoute(path: '/learn/c/:chapterKey', builder: (context, state) => HomeLanding(what: 'a chapter', uri: state.uri)),
     GoRoute(path: '/learn/c/:chapterKey/cards', builder: (context, state) => HomeLanding(what: 'the cards', uri: state.uri)),
     GoRoute(path: '/review/revise', builder: (context, state) => HomeLanding(what: 'Revise', uri: state.uri)),
@@ -191,13 +204,13 @@ Future<GoRouter> pumpHome(
   String? query,
   ScrollController? controller,
   double bottom = MmSpace.s32,
+  double header = 0,
 }) async {
   tester.view.physicalSize = size * 2;
   tester.view.devicePixelRatio = 2;
   addTearDown(tester.view.reset);
-  HomeFreeLine.resetForTests();
   homeVisited.clear();
-  final router = homeRouter(subject: subject, find: find, query: query, controller: controller, bottom: bottom);
+  final router = homeRouter(subject: subject, find: find, query: query, controller: controller, bottom: bottom, header: header);
   addTearDown(router.dispose);
   await tester.pumpWidget(
     ProviderScope(

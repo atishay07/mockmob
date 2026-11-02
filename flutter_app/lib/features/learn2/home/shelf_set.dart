@@ -220,9 +220,8 @@ class _SetRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final ref = chapter.ref;
     return MmPressable(
-      semanticsLabel: [HomeModel.displayTitle(chapter.title), ?ref, HomeCopy.setChapterCount(cards)].join('. '),
+      semanticsLabel: [HomeModel.displayTitle(chapter.title), HomeCopy.setChapterCount(cards)].join('. '),
       focusRadius: MmRadius.smallAll,
       pressedScale: 0.99,
       highlight: true,
@@ -250,10 +249,6 @@ class _SetRow extends StatelessWidget {
                         Text(HomeCopy.setChapterCount(cards), style: type.label.copyWith(fontSize: 13.5, height: 1.35, color: colors.ink2)),
                       ],
                     ),
-                    if (ref != null) ...[
-                      const SizedBox(height: 4),
-                      Text(ref, style: type.caption.copyWith(fontSize: 13, height: 1.4, fontWeight: FontWeight.w500, color: colors.ink2)),
-                    ],
                   ],
                 ),
               ),

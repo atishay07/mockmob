@@ -1,5 +1,5 @@
 // The words of Learn home keep the app's rules (APP-1101 sections 7 and 8): plain, sentence case, no exclamation marks,
-// emoji, middle dots or arrows, no 24-hour times, never "mastered" or a mastery percentage, and no motion the guard bans.
+// emoji or arrows, no 24-hour times, never "mastered" or a mastery percentage, and no motion the guard bans.
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -23,8 +23,8 @@ void main() {
 
   test('the folder has its files', () => expect(files.length, greaterThanOrEqualTo(10)));
 
-  test('no exclamation mark, middle dot, arrow or emoji in a word the student reads', () {
-    final bad = RegExp(r'[!\u00b7\u2190-\u21ff\u2300-\u23ff\u2600-\u27bf\u{1f000}-\u{1faff}]', unicode: true);
+  test('no exclamation mark, arrow or emoji in a word the student reads (the middle dot stays: a label and its length, "Start \u00b7 10 min")', () {
+    final bad = RegExp(r'[!\u2190-\u21ff\u2300-\u23ff\u2600-\u27bf\u{1f000}-\u{1faff}]', unicode: true);
     for (final f in files) {
       for (final s in literals(f)) {
         // A comparison in code ('!=') is not a word.

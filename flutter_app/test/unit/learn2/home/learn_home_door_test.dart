@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/learn2/cards/find_view.dart';
 import 'package:mockmob/features/learn2/data/learn_providers.dart';
+import 'package:mockmob/features/learn2/home/find_home.dart';
 import 'package:mockmob/features/learn2/home/learn_home.dart';
 import 'package:mockmob/features/learn2/learn2_door.dart';
 import 'package:mockmob/features/practice/data/practice_catalog.dart';
@@ -45,7 +46,8 @@ void main() {
   testWidgets('the door shows Learn home when the server has Learn v2 on', (tester) async {
     await _pump(tester, '/');
     expect(find.byType(LearnHome), findsOneWidget);
-    expect(find.text('Search 868 Key cards'), findsOneWidget);
+    expect(find.text('Find a topic, like goodwill'), findsOneWidget);
+    expect(find.text('Pick up Admission of a Partner'), findsOneWidget);
   });
 
   testWidgets('its address names the subject, and Find with its words', (tester) async {
@@ -59,7 +61,8 @@ void main() {
 
   testWidgets('find=1 alone opens it with the field ready to type in', (tester) async {
     await _pump(tester, '/?find=1');
-    expect(find.byType(FindPanel), findsOneWidget);
+    expect(find.byType(FindHome), findsOneWidget, reason: 'nothing typed: Find opens on the sets of the student');
+    expect(find.byType(FindPanel), findsNothing);
     expect(tester.widget<TextField>(find.byKey(const ValueKey('lh-search'))).focusNode!.hasFocus, isTrue);
   });
 
@@ -81,8 +84,12 @@ void main() {
     await _pump(tester, '/?subject=economics');
     final container = ProviderScope.containerOf(tester.element(find.byType(LearnHome)));
     expect(container.read(practiceSubjectProvider), 'economics');
-    await tester.ensureVisible(find.byKey(const ValueKey('lh-subject-english')));
-    await tester.tap(find.byKey(const ValueKey('lh-subject-english')));
+    await tester.tap(find.byKey(const ValueKey('lh-picker')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.tap(find.byKey(const ValueKey('lh-picker-english')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
     await settleHome(tester);
     expect(container.read(practiceSubjectProvider), 'english');
     await settleHome(tester);

@@ -1,45 +1,45 @@
-// The words of Learn home (APP-1101 section 5, H home; the web's learn2/home/*.jsx and homeModel.mjs). Plain words, sentence
-// case, no exclamation marks, no middle dots and no arrows on keys, and never "mastered" or a mastery percentage. Words
-// the rules of homeModel.mjs build (the sort names, the meta lines, the shelf tiles' spoken names) live in home_model.dart.
+// The words of Learn home (APP-1101 section 5, APP-1102-A section 3; the web's learn2/home/*.jsx and homeModel.mjs, rounds 2 to 4).
+// Plain words, sentence case, no exclamation marks and no arrows on keys, and never "mastered" or a mastery percentage; a time after a
+// label is " · N min" (the web's R3 ruling W), and a count that is 0 is never said. The words the server sends (the offer's headline,
+// its keys, its Or rows) are drawn as they come; the words the rules of home_model.dart build (the meta lines, the option line, the
+// Free line) live there.
 
 abstract final class HomeCopy {
-  // ---- The subject row
-  static const String subjectGroup = 'Subject';
-
-  /// "9 due": the Key cards due today in that subject, under its name.
-  static String subjectDue(int due) => '${_grouped(due)} due';
+  // ---- The subject picker (phone, ruling R1)
+  static const String pickerTitle = 'Choose a subject';
+  static const String pickerClose = 'Close';
+  static String pickerLabel(String name, {required bool many}) => many ? 'Subject: $name. Change subject' : 'Subject: $name';
 
   // ---- The search field
   static const String searchClear = 'Clear the search';
   static const String searchCancel = 'Cancel';
 
-  // ---- The shelf tiles
-  static const String shelvesGroup = 'Your cards';
-  static const String shelvesNothing = 'Nothing in Revise yet. Cards you study land here.';
-  static const String shelvesFailed = 'Your cards did not load.';
-  static const String tryAgain = 'Try again';
-
-  // ---- Free's line, at the real limit only
-  static const String seePro = 'See Pro';
-  static const String dismiss = 'Dismiss';
-
-  // ---- The suggestions
-  static const String suggestionsGroup = 'Where to start';
+  // ---- The offer
+  static const String orGroup = 'Or';
+  static const String offerLoading = 'Loading your start';
   static String progressDone(int done, int of) => '$done of $of done';
 
-  // ---- The chapter map
-  static const String chapters = 'Chapters';
+  // ---- Find with nothing typed
+  static const String findHeading = 'Your cards';
+  static const String tryAWord = 'Try a word';
+
+  // ---- Your roadmap
+  static const String roadmap = 'Your roadmap';
   static const String noChapters = 'No chapters here yet.';
   static const String sortTitle = 'Sort chapters';
   static const String sortLabel = 'Sort chapters, now ';
-  static String allNew(int total) => total == 1 ? 'This chapter is new to you.' : 'All $total chapters are new to you.';
-  static const String notStarted = 'Not started';
+
+  /// The pill on the chapter the student is in: a new student starts here, a returning one is up next.
+  static const String hereNew = 'Start here';
+  static const String hereNext = 'Up next';
 
   // ---- The part switch (LK2)
   static const String partSaving = 'Saving your choice';
   static const String partFailed = 'Your choice was not saved. Try again.';
-  static const String partChosen = 'Only your part’s chapters show here and in your practice.';
-  static const String partNone = 'Both parts show until you choose.';
+
+  // ---- Free
+  static const String seePro = 'See Pro';
+  static const String tryAgain = 'Try again';
 
   // ---- Loading and failing
   static const String loading = 'Loading Learn';
@@ -66,15 +66,4 @@ abstract final class HomeCopy {
     'must': (title: 'Nothing here now.', line: 'No Must-know cards are open in this subject yet.'),
   };
   static String setChapterCount(int cards) => cards == 1 ? '1 card' : '$cards cards';
-
-  /// 1234 as "1,234" (the Key cards due in a subject, as the web draws it).
-  static String _grouped(int n) {
-    final s = n.abs().toString();
-    final out = StringBuffer(n < 0 ? '-' : '');
-    for (var i = 0; i < s.length; i++) {
-      if (i > 0 && (s.length - i) % 3 == 0) out.write(',');
-      out.write(s[i]);
-    }
-    return out.toString();
-  }
 }

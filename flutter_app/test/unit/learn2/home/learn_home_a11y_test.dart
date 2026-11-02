@@ -1,6 +1,6 @@
-// Flutter's accessibility guidelines on Learn home (APP-1101 section 7): 48 dp targets, a label on every target and text
-// contrast as rendered, in both themes, on the returning Pro page, on a Free page with its day used, with Find open and
-// with a set open. These read the real render tree.
+// Flutter's accessibility guidelines on Learn home (APP-1101 section 7, APP-1102-A): 48 dp targets, a label on every target and
+// text contrast as rendered, in both themes, on the returning Pro page, a new student's page, a Free page with its day used, with
+// Find open, with a set open and with the subject sheet open. These read the real render tree.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/art/art.dart';
@@ -45,7 +45,7 @@ void main() {
 
     testWidgets('the chapters and the part switch meet the guidelines, $tag', (tester) async {
       await pump(tester, HomeLearnApi());
-      await Scrollable.ensureVisible(tester.element(find.text('Your part')), alignment: 0.04);
+      await Scrollable.ensureVisible(tester.element(find.byKey(const ValueKey('lh-switch-p2'))), alignment: 0.04);
       await tester.pump();
       await _meetsAll(tester);
     });
@@ -62,10 +62,31 @@ void main() {
       await _meetsAll(tester);
     });
 
-    testWidgets('a shelf set open meets the guidelines, $tag', (tester) async {
-      await pump(tester, HomeLearnApi());
-      await tester.tap(find.byKey(const ValueKey('lh-shelf-due')));
+    testWidgets('a new student meets the guidelines, $tag', (tester) async {
+      await pump(tester, HomeLearnApi(newStudent: true));
+      await _meetsAll(tester);
+    });
+
+    testWidgets('Find for a new student (words to try) meets the guidelines, $tag', (tester) async {
+      await pump(tester, HomeLearnApi(newStudent: true));
+      await tester.tap(find.byKey(const ValueKey('lh-search')));
       await settleHome(tester);
+      await _meetsAll(tester);
+    });
+
+    testWidgets('a set open meets the guidelines, $tag', (tester) async {
+      await pump(tester, HomeLearnApi());
+      await tester.tap(find.byKey(const ValueKey('lh-search')));
+      await settleHome(tester);
+      await tester.tap(find.byKey(const ValueKey('lh-find-due')));
+      await settleHome(tester);
+      await _meetsAll(tester);
+    });
+
+    testWidgets('the subject sheet meets the guidelines, $tag', (tester) async {
+      await pump(tester, HomeLearnApi());
+      await tester.tap(find.byKey(const ValueKey('lh-picker')));
+      await tester.pump(const Duration(milliseconds: 600));
       await _meetsAll(tester);
     });
 
