@@ -43,7 +43,7 @@ test('the dock holds Today, Practice, the Start key, Mob and You; every other pa
   assert.match(layout, /className="arena-sheet__lead arena-sheet__lead--ask"[\s\S]{0,1200}?\{sheetGroups\.map[\s\S]{0,700}?<AppearanceSwitch \/>/);
   // And Learn keeps a second home on the Practice page, while the lessons are on.
   const practice = read('src/app/(app)/dashboard/DashboardPageClient.jsx');
-  // R2 phone-clarity 14: with Learn v2 on, Learn is the next tab, so the card leaves Practice; off, it stays.
+  // R2 phone-clarity 14: with Learn v2 on, Learn is a tab in Practice's row, so the card leaves Practice; off, it stays.
   assert.match(practice, /\{studyEnabled && !learn2 && <ConceptsPanel \/>\}/);
   // Named Learn there too (D126, owner H7), with the way to every lesson.
   assert.match(read('src/components/study/ConceptsPanel.jsx'), /<h2 id="pr-concepts">Learn<\/h2>[\s\S]{0,900}href="\/learn"[^>]*>All lessons</);

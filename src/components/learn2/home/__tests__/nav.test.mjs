@@ -7,15 +7,15 @@ import { readFileSync } from 'node:fs';
 const source = readFileSync(new URL('../../../../lib/arenaNavigation.js', import.meta.url), 'utf8').replace("'@/../data/capabilities'", `'${new URL('../../../../../data/capabilities.js', import.meta.url).href}'`);
 const { PRACTICE_PAGES, practicePages, practiceTabs, arenaNavigation, placeTabs } = await import(`data:text/javascript,${encodeURIComponent(source)}`);
 
-test('Practice pages read Practice, Learn, Your papers, Explore, Saved', () => {
-  assert.deepEqual(practicePages({ learn2: true }).map((t) => t.label), ['Practice', 'Learn', 'Your papers', 'Explore', 'Saved']);
+test('Practice pages read Practice, Your papers, Learn, Explore, Saved (LK46)', () => {
+  assert.deepEqual(practicePages({ learn2: true }).map((t) => t.label), ['Practice', 'Your papers', 'Learn', 'Explore', 'Saved']);
   assert.deepEqual(PRACTICE_PAGES.map((t) => t.label), ['Practice', 'Your papers', 'Learn', 'Explore', 'Saved'], 'the live order while Learn v2 is off');
 });
 
-test('the sidebar draws "Learn, Key cards" as the first sub-row of Practice', () => {
+test('the sidebar draws "Learn, Key cards" after Your papers under Practice (LK46)', () => {
   const practice = arenaNavigation(false, { mob: true, learn2: true }).find((g) => g.id === 'practice');
-  assert.deepEqual(practice.items.map((i) => i.label), ['Practice', 'Learn', 'Your papers', 'Explore', 'Saved']);
-  const learn = practice.items[1];
+  assert.deepEqual(practice.items.map((i) => i.label), ['Practice', 'Your papers', 'Learn', 'Explore', 'Saved']);
+  const learn = practice.items[2];
   assert.equal(learn.sub, true);
   assert.equal(learn.hint, 'Key cards');
   assert.equal(learn.href, '/learn');
@@ -35,7 +35,7 @@ test('N1: Learn stands as its own place with one sub-row that opens Find', () =>
 test('the tab row also draws on Learn\'s chapter and Find pages, not on the player', () => {
   for (const path of ['/learn', '/learn/c/accountancy.accounting-ratios', '/learn/find']) {
     const row = placeTabs(path, { study: true, learn2: true });
-    assert.deepEqual(row?.tabs.map((t) => t.short || t.label), ['Practice', 'Learn', 'Explore', 'Papers'], path);
+    assert.deepEqual(row?.tabs.map((t) => t.short || t.label), ['Practice', 'Papers', 'Learn', 'Explore'], path);
   }
   assert.equal(placeTabs('/learn/run', { study: true, learn2: true }), null);
   assert.equal(placeTabs('/learn/c/x', { study: true }), null, 'only with Learn v2 on');
@@ -44,7 +44,7 @@ test('the tab row also draws on Learn\'s chapter and Find pages, not on the play
 
 test('R2 ruling 10 (LK26): the phone row is four equal tabs; Saved moved into Explore, not removed', () => {
   const tabs = practiceTabs({ learn2: true });
-  assert.deepEqual(tabs.map((t) => t.short || t.label), ['Practice', 'Learn', 'Explore', 'Papers']);
+  assert.deepEqual(tabs.map((t) => t.short || t.label), ['Practice', 'Papers', 'Learn', 'Explore']);
   assert.ok(tabs.length <= 4, 'four tabs that fit at 390 without scrolling');
   const explore = tabs.find((t) => t.id === 'explore');
   assert.deepEqual(explore.within, ['saved'], 'Explore stands for Saved in the row');
@@ -53,9 +53,9 @@ test('R2 ruling 10 (LK26): the phone row is four equal tabs; Saved moved into Ex
   assert.equal(placeTabs('/saved', { study: true, learn2: true })?.id, 'practice', 'Saved still draws the row, with Explore marked');
   // Moved, not removed: the sidebar still lists Saved and Your papers under Practice.
   const practice = arenaNavigation(false, { mob: true, learn2: true }).find((g) => g.id === 'practice');
-  assert.deepEqual(practice.items.map((i) => i.label), ['Practice', 'Learn', 'Your papers', 'Explore', 'Saved']);
+  assert.deepEqual(practice.items.map((i) => i.label), ['Practice', 'Your papers', 'Learn', 'Explore', 'Saved']);
   // Without the lessons, Learn leaves the row; with Learn v2 off, the live five-tab row stays as it was.
-  assert.deepEqual(practiceTabs({ learn2: true, study: false }).map((t) => t.short || t.label), ['Practice', 'Explore', 'Papers']);
+  assert.deepEqual(practiceTabs({ learn2: true, study: false }).map((t) => t.short || t.label), ['Practice', 'Papers', 'Explore']);
   assert.equal(placeTabs('/saved', { study: true, learn2: false }).fit, undefined);
 });
 

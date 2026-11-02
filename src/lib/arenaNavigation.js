@@ -16,9 +16,10 @@ const TODAY = item('today', 'Today');
 const PRACTICE = item('dashboard', 'Practice', 'practice', CAPABILITIES.practice.href);
 // Review keeps /review; its name is "Your papers", the word the app uses (D106).
 const PAPERS = item('review', 'Your papers', 'review', CAPABILITIES.review.href);
-// Learn v2 (NEXT_PUBLIC_LEARN2 = 'on'; the development preview passes learn2 itself): Learn sits first among Practice's pages and says
-// what is in it, in the rail's own two-part pattern ("Mob, with friends"): "Learn, Key cards" (LK1, DESIGN-SPEC A8). The Key cards due
-// count is drawn beside it by the shell. Off, the live site keeps its Learn row exactly as it was: plain "Learn", after Your papers.
+// Learn v2 (NEXT_PUBLIC_LEARN2 = 'on'; the development preview passes learn2 itself): Learn says what is in it, in the rail's own
+// two-part pattern ("Mob, with friends"): "Learn, Key cards" (LK1, DESIGN-SPEC A8). The Key cards due count is drawn beside it by the
+// shell. It sits after Your papers, in the owner's order Practice, Papers, Learn, Explore (LK46, 2 Nov 2026). Off, the live site keeps
+// its Learn row exactly as it was: plain "Learn", after Your papers.
 const LEARN2_NAV = process.env.NEXT_PUBLIC_LEARN2 === 'on';
 const LEARN = item('learn', 'Learn', 'learn', '/learn', 'Key cards');
 const LEARN_V1 = item('learn', 'Learn');
@@ -38,10 +39,10 @@ const WALLET = item('wallet', 'Wallet', 'wallet');
 const GUIDE = item('help', 'Guide', 'help');
 const ASK_MOBI = item('mentor', 'Ask Mobi', 'prepos');
 
-/** The pages inside Practice, in the order of its row of tabs on a phone and its rows in the sidebar. Learn v2: Practice, Learn,
- *  Your papers, Explore, Saved. Off: Practice, Your papers, Learn, Explore, Saved (the live order). */
+/** The pages inside Practice, in the order of its row of tabs on a phone and its rows in the sidebar: Practice, Your papers, Learn,
+ *  Explore, Saved (the owner's order, LK46, 2 Nov 2026). Learn v2 names Learn "Learn, Key cards"; off, a plain "Learn". */
 export function practicePages({ learn2 = LEARN2_NAV } = {}) {
-  return learn2 ? [PRACTICE, LEARN, PAPERS, EXPLORE, SAVED] : [PRACTICE, PAPERS, LEARN_V1, EXPLORE, SAVED];
+  return [PRACTICE, PAPERS, learn2 ? LEARN : LEARN_V1, EXPLORE, SAVED];
 }
 export const PRACTICE_PAGES = Object.freeze(practicePages());
 /** The pages inside the Mob. */
@@ -93,12 +94,12 @@ export function youSheetGroups(moderator = false, { mob = false, contribute = fa
 
 /**
  * The Practice row of tabs on a phone. Learn v2 (R2 ruling 10, LK26): four equal tabs that always fit and never scroll, in the
- * order "Practice · Learn · Explore · Papers". Your papers reads "Papers" in the row (`short`; the top bar keeps "Your papers"),
+ * order Practice, Papers, Learn, Explore (the owner's order, LK46, 2 Nov 2026). Your papers reads "Papers" in the row (`short`; the top bar keeps "Your papers"),
  * and Saved is not a tab of its own: it moved into Explore's header ("Saved 2"), so Explore stays marked while on /saved
  * (`within`). Moved, not removed: Saved keeps its address and its sidebar row. Off: the live row, all five pages.
  */
 export function practiceTabs({ learn2 = LEARN2_NAV, study = true } = {}) {
-  const tabs = learn2 ? [PRACTICE, LEARN, { ...EXPLORE, within: ['saved'] }, { ...PAPERS, short: 'Papers' }] : practicePages({ learn2 });
+  const tabs = learn2 ? [PRACTICE, { ...PAPERS, short: 'Papers' }, LEARN, { ...EXPLORE, within: ['saved'] }] : practicePages({ learn2 });
   return tabs.filter((tab) => study || tab.id !== 'learn');
 }
 
