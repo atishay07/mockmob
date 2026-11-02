@@ -4,6 +4,7 @@ import { auth } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
 import { readRowsCached } from '@/../data/question_row_cache';
+import { feedServed } from '@/../data/explore_served';
 
 export const dynamic = 'force-dynamic';
 
@@ -55,9 +56,8 @@ export async function GET(request) {
           chapter: row.chapter,
           difficulty: row.difficulty,
           body: row.question ?? row.body,
-          options: row.options || [],
-          correct_answer: row.correct_answer,
-          explanation: row.explanation,
+          // Options, key and explanation in the stable option order every surface serves (data/option_order.js).
+          ...feedServed(row),
           tags: row.tags || [],
           upvotes: row.upvotes || 0,
           downvotes: row.downvotes || 0,

@@ -10,6 +10,7 @@ import { auth } from '@/lib/auth'
 import { Database } from '@/../data/db'
 import { checkPersistentRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit'
 import { REPORT_POLICY, handleQuestionReport } from '@/lib/server/questionReports'
+import { storedAnswerOf } from '@/../data/explore_served'
 
 const VALID_INTERACTION_TYPES = new Set([
   'seen', 'attempted', 'like', 'unlike', 'save', 'unsave',
@@ -149,6 +150,15 @@ export async function POST(request, { params }) {
     }
   }
 
+  // ---- An answer posted in the stable option order (R5 Packet A) is graded and kept as the stored option's letter ----
+  // Explore and Saved (website and app) serve data/option_order.js's order and post the served letter. The answer's own row is
+  // read for it (the order needs the stem, key and explanation); the interaction keeps both letters.
+  let answer = null
+  if (interaction_type === 'attempted' && metadata?.selected_key != null) {
+    const { data: full } = await supabase.from('questions').select('id, question, body, options, correct_index, correct_answer, explanation').eq('id', questionId).single()
+    answer = full ? storedAnswerOf(full, metadata) : { selectedKey: null, correct: null }
+  }
+
   const interactionRow = {
     question_id:      questionId,
     user_id,
@@ -156,7 +166,7 @@ export async function POST(request, { params }) {
     session_id,
     flow_context,
     dwell_ms:  typeof dwell_ms === 'number' ? dwell_ms : null,
-    metadata:  metadata ?? {},
+    metadata:  answer ? { ...metadata, selected_key: answer.selectedKey, served_key: metadata.selected_key } : metadata ?? {},
   }
 
   // ---- Reports: once per account per question, rate-limited, never unlist on their own ----
@@ -217,7 +227,7 @@ export async function POST(request, { params }) {
     question,
     interaction_type,
     dwell_ms,
-    metadata,
+    answer,
   })
 
   return Response.json({ interaction_id: interaction.id }, { status: 201 })
@@ -274,13 +284,13 @@ async function checkQualifiedSignal(userId, questionId, flowContext) {
   return 'Account too new. Complete 2 mocks or wait 24 hours before liking questions.'
 }
 
-async function updateLearningProgress({ user_id, question, interaction_type, dwell_ms, metadata }) {
+async function updateLearningProgress({ user_id, question, interaction_type, dwell_ms, answer }) {
   if (!['seen', 'attempted', 'skip'].includes(interaction_type)) return
 
-  const selectedKey = metadata?.selected_key == null ? null : String(metadata.selected_key)
-  const correctKey = question.correct_answer == null ? null : String(question.correct_answer)
+  // The stored letter and its grade (storedAnswerOf): never a served letter.
+  const selectedKey = answer?.selectedKey ?? null
   const isAttempt = interaction_type === 'attempted'
-  const isCorrect = isAttempt && selectedKey !== null && correctKey !== null && selectedKey === correctKey
+  const isCorrect = isAttempt && selectedKey !== null && answer?.correct === true
 
   const patch = {
     user_id,
