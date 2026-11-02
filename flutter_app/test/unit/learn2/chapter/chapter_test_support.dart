@@ -16,7 +16,7 @@ import 'package:mockmob/features/pro_nudge/pro_nudge.dart' show proNudgesOnProvi
 
 import '../support/fixture_learn_api.dart';
 
-export '../support/fixture_learn_api.dart' show FixtureLearnApi, LearnFixtures, l2Aop, l2Cpsr, l2Missing, l2Pf;
+export '../support/fixture_learn_api.dart' show FixtureLearnApi, LearnFixtures, l2Aop, l2Ccss, l2Cpsr, l2Missing, l2Pf;
 
 /// The fixture server with the chapter page's variants of the recordings: [pick] names the recording an ask is answered
 /// with and [edit] may change the body (a copy of the recording, as the server sent it).

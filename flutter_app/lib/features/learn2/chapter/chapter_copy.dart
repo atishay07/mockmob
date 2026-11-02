@@ -1,7 +1,7 @@
 /// Every word the chapter page draws that is not the server's (APP-1101 section 8: plain words, sentence case, no exclamation
-/// marks, no emoji, no middle dots, no arrows on keys, 12-hour time, never "mastered"). The server's own lines (the pile
-/// minutes, the Start label, the recap, Free's lines) are shown as it sends them. The words of the page's rules live with
-/// them, in chapter_model.dart.
+/// marks, no emoji, no arrows on keys, 12-hour time, never "mastered"; a time after a label is " · N min", the web's ruling W).
+/// The server's own lines (the pile minutes, the Free lines) are shown as it sends them. The words of the page's rules live with
+/// them, in chapter_model.dart (the Start, Continue and recap keys, the place, the shelf lines).
 library;
 
 abstract final class ChapterCopy {
@@ -9,15 +9,24 @@ abstract final class ChapterCopy {
   static const String back = 'Learn';
   static const String backLabel = 'Back to Learn';
 
+  /// The back key's spoken name once the subject is known: it goes to that subject's Learn home.
+  static String backTo(String subject) => 'Back to $subject';
+
   static const String lengthHead = 'How long have you got?';
   static const String lastPileIn = 'Keep at least one pile in.';
   static const String coach = 'Tap a pile to leave it out.';
   static const String listLabel = 'Lined up for this run';
 
-  static const String resumeKey = 'Pick up where you stopped';
   static String resumeHead(int done, int of) => 'You stopped at $done of $of today.';
-  static String resumeLeft(int minutes) => 'About $minutes min left.';
-  static String resumeLabel(int done, int of) => '$resumeKey, $done of $of done';
+
+  /// The spoken name of the Continue key: "Continue · 5 min, 6 of 16 done".
+  static String resumeLabel(String key, int done, int of) => '$key, $done of $of done';
+
+  /// The text key under an unfinished run's Continue: it opens the length picker for a new run.
+  static const String freshKey = 'Start fresh instead';
+
+  /// "First up": the first three real card fronts the run opens with.
+  static const String firstUp = 'First up';
 
   /// A new length could not be lined up: the last numbers stay.
   static const String stale = 'We could not update this. The last lined-up run is shown.';

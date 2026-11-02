@@ -1,18 +1,21 @@
 // Learn v2, the chapter page (APP-1101 section 5 C; the website's ChapterPage.jsx, chapterModel.mjs and chapter.css, phone
 // band; BUILD-1101 B2 and B7; A4-chapter-run.md 3.2).
 //
-//   Head     a back key that says where it goes ("Learn"), the unit only when it does not repeat the title, the title, "Part 1,
-//            Ch 1" and the state line, and the subject's object (it appears once, here)
-//   Resume   when today's run of this chapter is unfinished: "You stopped at 6 of 16 today." and the volt "Pick up where you
-//            stopped"; the Start key then turns into a line key, "Start a new 10 minutes", that sends `fresh`
-//   Length   "How long have you got?": 5 min | 10 min | 20 min | Your own. The chosen segment never rewrites itself: the real
+//   Head     a back key that says where it goes ("Learn") with the subject's object (48 dp, once) on its row, the unit only when
+//            it does not repeat the title, the title (32 dp, 28 or 25 by length, two lines at most), "Chapter 5 of 14" (the place,
+//            never the NCERT number) and the one verdict, "Needs work" (rounds 2 to 4 of the web)
+//   Resume   when today's run of this chapter is unfinished: "You stopped at 6 of 16 today." and the one volt key "Continue · 5
+//            min"; under it the text key "Start fresh instead" opens the length picker, whose Start key then reads "Start fresh ·
+//            10 min" and sends `fresh`
+//   Length   "How long have you got?": 5 min | 10 min | 20 min | Other. The chosen segment never rewrites itself: the real
 //            length is on the Start key and the reason in one quiet line under it
 //   Piles    up to four paper fans (Key cards, Questions, Your mistakes, Lesson) whose minutes add up to the Start key. A tap
 //            leaves a pile out; the last one in shakes and says so. Free's held piles are not buttons. A short chapter offers
 //            "Add the next chapter".
-//   Start    the one volt key, with the real length. It never sits under the edge of the screen: it rides there while the
-//            lined-up block is on screen. One quiet line under it by priority; the quick recap as a text key.
-//   Shelf    "Everything in this chapter": only rows that lead somewhere; what is missing is one quiet line.
+//   Start    the one volt key, "Start · 10 min": the real length. It never sits under the edge of the screen: it rides there while
+//            the lined-up block is on screen. One quiet line under it by priority; "Quick recap · 2 min" as a quiet key, only
+//            after the student has seen a card here; "First up", the first three real card fronts the run opens with.
+//   Shelf    "Everything in this chapter": only rows that lead somewhere; what is missing is never announced.
 //
 // Every number on screen comes from the preview answer (chapter_preview.dart). Places come from Learn2Links, never built here.
 import 'dart:async';
@@ -22,20 +25,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../core/art/art.dart' show EmblemSizes, SubjectEmblem;
+import '../../../core/art/art.dart' show SubjectEmblem;
 import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../keycards/data/keycards_models.dart' show KcChapterState;
 import '../../keycards/widgets/key_card_parts.dart' show KcLinkAction, KcStateLine;
+import '../../practice/data/practice_catalog.dart' show subjectNameFor;
 import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
 import '../data/learn_api.dart' show LearnError;
 import '../data/learn_models.dart';
 import '../data/learn_prefs.dart';
 import '../data/learn_providers.dart' show learnChapterMinutesProvider;
+import '../data/learn_words.dart';
+import '../learn2_balance.dart';
 import '../learn2_links.dart';
 import 'chapter_copy.dart';
+import 'chapter_first_up.dart';
 import 'chapter_length.dart';
 import 'chapter_model.dart';
 import 'chapter_piles.dart';
@@ -56,7 +63,7 @@ class ChapterPage extends ConsumerStatefulWidget {
   ConsumerState<ChapterPage> createState() => _ChapterPageState();
 }
 
-/// "Tap a pile to leave it out." is said once, on the first visit, and goes quiet at the first tap.
+/// "Tap a pile to leave it out." is said once per student, the first time the piles are drawn, and goes quiet at the first tap.
 enum _Coach { hidden, shown, done }
 
 class _ChapterPageState extends ConsumerState<ChapterPage> {
@@ -69,6 +76,13 @@ class _ChapterPageState extends ConsumerState<ChapterPage> {
   bool _lastIn = false;
   Timer? _lastTimer;
   _Coach _coach = _Coach.hidden;
+
+  /// The tip has not been shown yet on this phone: it is shown (and marked) the first time the piles are really drawn, never
+  /// used up by a page that hides them (an unfinished run keeps the picker closed).
+  bool _coachPending = false;
+
+  /// "Start fresh instead" is open: beside an unfinished run the length picker waits behind it (one main key, R2 ruling 9).
+  bool _fresh = false;
 
   /// The run's length without the next chapter, so the added pile can say what it adds ("+3 min").
   int? _baseMinutes;
@@ -105,11 +119,22 @@ class _ChapterPageState extends ConsumerState<ChapterPage> {
     if (!mounted) return;
     setState(() {
       if (!_chose && ChapterModel.validMinutes(kept)) _minutes = kept!;
-      if (!seen) _coach = _Coach.shown;
+      _coachPending = !seen;
       _phoneRead = true;
     });
     _want(immediate: true);
-    if (!seen) await prefs.markCoachSeen(_coachId);
+  }
+
+  /// The tip is due the first time the piles are drawn (the picker is open and there is more than one pile): shown now, marked
+  /// as seen on the phone, and never again.
+  void _coachIfDue(bool due) {
+    if (!due || !_coachPending) return;
+    _coachPending = false;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      setState(() => _coach = _Coach.shown);
+      unawaited(ref.read(learnPrefsProvider).markCoachSeen(_coachId));
+    });
   }
 
   static const String _coachId = 'piles';
@@ -272,15 +297,20 @@ class _ChapterPageState extends ConsumerState<ChapterPage> {
     final bottom = MediaQuery.paddingOf(context).bottom;
     final failed = status == ChapterReadStatus.error;
     final pileCount = piles.length + (next != null || added != null ? 1 : 0);
+    // With an unfinished run the picker waits under "Start fresh instead", so the page has one main key.
+    final picker = resume == null || _fresh;
+    _coachIfDue(picker && pileCount > 1);
     // The Print sheet does not promise a name until the app builds the watermarked sheet.
     final shelf = data == null ? null : ChapterModel.shelfView(data, mistakeMinutes: (n) => ChapterModel.minutesFor(n * 60), namedSheet: false);
+    final recap = ChapterModel.recapLabel(data?.recap, seen: ChapterModel.hasSeenCards(data));
+    final firstUp = ChapterModel.firstUpCards(data);
 
     final cells = <Widget>[
       for (final p in piles)
         PileCell(
           key: ValueKey('pile-${p.id}'),
           pile: p,
-          view: ChapterModel.pileView(p),
+          view: ChapterModel.pileView(p, minutes: _minutes),
           busy: refreshing,
           refuses: ChapterModel.tapOn(p, piles) == PileTap.refused,
           shakeKey: _shakeKeyOf(p.id),
@@ -290,7 +320,11 @@ class _ChapterPageState extends ConsumerState<ChapterPage> {
       if (next != null || added != null)
         NextPileCell(
           key: const ValueKey('pile-next'),
-          ref: added?.ref ?? next?.ref,
+          // A chapter is named by its place ("Chapter 6"), never its NCERT number; no place, no label (R4 ruling N).
+          ref: () {
+            final short = LearnWords.chapterShort(added?.place ?? next?.place);
+            return short.isEmpty ? null : short;
+          }(),
           title: added?.title ?? next?.title ?? '',
           added: added != null,
           plus: plus,
@@ -315,75 +349,91 @@ class _ChapterPageState extends ConsumerState<ChapterPage> {
 
     final resumeRow = resume == null ? null : _ResumeRow(resume: resume, onTap: () => _resume(resume));
     final head = chapter == null ? null : ChapterModel.headLines(chapter);
+    final verdict = ChapterModel.chapterVerdict(chapter?.state);
+
+    final lined = Column(
+      key: _block,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+          child: Semantics(
+            header: true,
+            child: Text(ChapterCopy.lengthHead, style: context.mmType.title.copyWith(fontSize: 17, height: 1.25, letterSpacing: -0.2)),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+          child: LengthControl(minutes: _minutes, onChange: _choose, onOwn: () => unawaited(_openOwn())),
+        ),
+        if (failed && data == null)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, 0),
+            child: _ReadFailed(error: read.error, onRetry: _preview.retry),
+          )
+        else ...[
+          const SizedBox(height: 26),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+            child: Semantics(container: true, label: ChapterCopy.listLabel, child: PileGrid(cells: cells)),
+          ),
+          if (_coach != _Coach.hidden && pileCount > 1)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 6, MmSpace.gutter, 0),
+              child: AnimatedOpacity(
+                opacity: _coach == _Coach.done ? 0 : 1,
+                duration: Motion.of(context, const Duration(milliseconds: 200)),
+                child: ExcludeSemantics(
+                  excluding: _coach == _Coach.done,
+                  child: Text(ChapterCopy.coach, style: context.mmType.caption.copyWith(fontSize: 13, height: 1.4, color: colors.ink3, fontWeight: FontWeight.w500)),
+                ),
+              ),
+            ),
+          if (status == ChapterReadStatus.stale)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, 0),
+              child: Semantics(liveRegion: true, child: Text(ChapterCopy.stale, style: context.mmType.small.copyWith(color: colors.ink2))),
+            ),
+          const SizedBox(height: MmSpace.s16),
+          // The Start strip rides at the edge of the screen while this block is on screen; while a fresh start is offered
+          // beside a run to pick up it stays where it lies.
+          if (resume == null) StickyBottom(container: _block, bottomInset: bottom, child: strip) else strip,
+          if (recap != null && data?.recap != null)
+            _Recap(
+              label: recap,
+              spoken: 'Quick recap of the ${data!.recap!.count} Must-know ${data.recap!.count == 1 ? 'line' : 'lines'}, about ${data.recap!.minutes} min',
+              onTap: () => unawaited(_open(Learn2Links.run(RunLaunch(chapterKey: widget.chapterKey, minutes: data.recap!.minutes, kind: LearnKinds.recap)))),
+            ),
+          if (firstUp.isNotEmpty) FirstUp(key: ValueKey('first-up-$_minutes|${_leaveOut.join(',')}'), cards: firstUp),
+        ],
+      ],
+    );
 
     return SingleChildScrollView(
       padding: EdgeInsets.only(bottom: MmSpace.s32 + bottom),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _BackRow(onBack: _back),
-          const SizedBox(height: 2),
+          _BackRow(onBack: _back, subject: chapter == null ? null : _subject),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-            child: _Head(subject: _subject, chapter: chapter, eyebrow: head?.eyebrow, refLine: head?.ref),
+            child: _Head(chapter: chapter, eyebrow: head?.eyebrow, refLine: head?.ref, verdict: verdict),
           ),
           const SizedBox(height: MmSpace.s20),
-          if (resumeRow != null) ...[Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: resumeRow), const SizedBox(height: MmSpace.s20)],
-          Column(
-            key: _block,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-                child: Semantics(
-                  header: true,
-                  child: Text(ChapterCopy.lengthHead, style: context.mmType.title.copyWith(fontSize: 17, height: 1.25, letterSpacing: -0.2)),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-                child: LengthControl(minutes: _minutes, onChange: _choose, onOwn: () => unawaited(_openOwn())),
-              ),
-              if (failed && data == null)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, 0),
-                  child: _ReadFailed(error: read.error, onRetry: _preview.retry),
-                )
-              else ...[
-                const SizedBox(height: 26),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-                  child: Semantics(container: true, label: ChapterCopy.listLabel, child: PileGrid(cells: cells)),
-                ),
-                if (_coach != _Coach.hidden && pileCount > 1)
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, 0),
-                    child: AnimatedOpacity(
-                      opacity: _coach == _Coach.done ? 0 : 1,
-                      duration: Motion.of(context, const Duration(milliseconds: 200)),
-                      child: ExcludeSemantics(
-                        excluding: _coach == _Coach.done,
-                        child: Text(ChapterCopy.coach, style: context.mmType.caption.copyWith(fontSize: 13.5, height: 1.4, color: colors.ink2, fontWeight: FontWeight.w500)),
-                      ),
-                    ),
-                  ),
-                if (status == ChapterReadStatus.stale)
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, 0),
-                    child: Semantics(liveRegion: true, child: Text(ChapterCopy.stale, style: context.mmType.small.copyWith(color: colors.ink2))),
-                  ),
-                const SizedBox(height: MmSpace.s16),
-                // The Start strip rides at the edge of the screen while this block is on screen; beside a run to pick up it
-                // stays where it lies.
-                if (resume == null) StickyBottom(container: _block, bottomInset: bottom, child: strip) else strip,
-                if (data?.recap != null && data!.recap!.count > 0 && data.recap!.label != null)
-                  _Recap(
-                    label: data.recap!.label!,
-                    onTap: () => unawaited(_open(Learn2Links.run(RunLaunch(chapterKey: widget.chapterKey, minutes: data.recap!.minutes, kind: LearnKinds.recap)))),
-                  ),
-              ],
-            ],
+          if (resumeRow != null) ...[
+            Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: resumeRow),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(MmSpace.gutter - 10, 0, MmSpace.gutter, 0),
+              child: Align(alignment: Alignment.centerLeft, child: _FreshKey(open: _fresh, onTap: () => setState(() => _fresh = !_fresh))),
+            ),
+            const SizedBox(height: MmSpace.s8),
+          ],
+          MmSizeEase(
+            duration: Motion.of(context, const Duration(milliseconds: 240)),
+            curve: Motion.out,
+            alignment: Alignment.topCenter,
+            child: picker ? lined : const SizedBox(width: double.infinity),
           ),
           const SizedBox(height: MmSpace.group),
           if (shelf != null)
@@ -402,112 +452,115 @@ class _ChapterPageState extends ConsumerState<ChapterPage> {
 
 // ---------------------------------------------------------------- pieces
 
-/// The back key: a chevron and where it goes. A 48 dp target.
+/// The back key: a chevron and where it goes (a 48 dp target), and on the same row the subject's object, small (48 dp), once.
 class _BackRow extends StatelessWidget {
-  const _BackRow({required this.onBack});
+  const _BackRow({required this.onBack, required this.subject});
 
   final VoidCallback onBack;
+
+  /// The subject whose object is drawn at the end of the row; none while the page has no chapter yet.
+  final String? subject;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Padding(
-        padding: const EdgeInsets.only(left: MmSpace.s8),
-        child: MmPressable(
-          onTap: onBack,
-          pressedScale: 0.97,
-          lift: false,
-          focusRadius: MmRadius.smallAll,
-          haptic: MmPressHaptic.selection,
-          semanticsLabel: ChapterCopy.backLabel,
-          builder: (context, pressed, focused) => ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: MmTarget.min, minWidth: MmTarget.min),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(LucideIcons.chevronLeft, size: 18, color: pressed ? colors.ink3 : colors.ink2),
-                  const SizedBox(width: MmSpace.s6),
-                  Text(ChapterCopy.back, style: type.labelLarge.copyWith(fontSize: 14, color: pressed ? colors.ink3 : colors.ink2)),
-                ],
+    // The back key names where it goes, as the web's: the subject ("Accountancy"); "Learn" while the page has no chapter yet.
+    final back = subject == null ? ChapterCopy.back : subjectNameFor(subject!, null);
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: MmSpace.s8),
+          child: MmPressable(
+            onTap: onBack,
+            pressedScale: 0.97,
+            lift: false,
+            focusRadius: MmRadius.smallAll,
+            haptic: MmPressHaptic.selection,
+            semanticsLabel: subject == null ? ChapterCopy.backLabel : ChapterCopy.backTo(back),
+            builder: (context, pressed, focused) => ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: MmTarget.min, minWidth: MmTarget.min),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(LucideIcons.chevronLeft, size: 18, color: pressed ? colors.ink3 : colors.ink2),
+                    const SizedBox(width: MmSpace.s6),
+                    Text(back, style: type.labelLarge.copyWith(fontSize: 14, color: pressed ? colors.ink3 : colors.ink2)),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
+        const Spacer(),
+        if (subject != null)
+          Padding(
+            padding: const EdgeInsets.only(right: MmSpace.gutter),
+            child: ExcludeSemantics(child: SubjectEmblem(subject: subject!, size: 48, framed: false)),
+          ),
+      ],
     );
   }
 }
 
-/// The head: the unit (only when it adds something), the title, the ref line with the chapter's state, and the subject's
-/// object, once.
+/// The head: the unit (only when it adds something), the title (32 dp, 28 or 25 by length, two lines at most), the place "Chapter 5 of
+/// 14" and, when the server says the chapter is weak above its evidence floor, the one verdict "Needs work".
 class _Head extends StatelessWidget {
-  const _Head({required this.subject, required this.chapter, required this.eyebrow, required this.refLine});
+  const _Head({required this.chapter, required this.eyebrow, required this.refLine, required this.verdict});
 
-  final String subject;
   final LearnChapterHead? chapter;
   final String? eyebrow;
   final String? refLine;
+  final String? verdict;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final narrow = MediaQuery.sizeOf(context).width < 375;
-    final shape = ChapterModel.stateShape(chapter?.state.key);
-    final stateColor = switch (shape) {
-      'weak' => colors.warnText,
-      'strong' => colors.goodText,
-      'none' || 'thin' => colors.ink3,
-      _ => colors.ink2,
-    };
-    final label = chapter?.state.label ?? '';
-    return Row(
+    final width = MediaQuery.sizeOf(context).width;
+    final title = chapter?.title ?? ChapterCopy.missingTitle;
+    final size = width < 375
+        ? 23.0
+        : switch (ChapterModel.titleSize(title)) {
+            'l' => 28.0,
+            'xl' => 25.0,
+            _ => 32.0,
+          };
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (eyebrow != null) ...[
-                Text(eyebrow!, style: type.label.copyWith(color: colors.ink3)),
-                const SizedBox(height: MmSpace.s6),
-              ],
-              Semantics(
-                header: true,
-                child: Text(
-                  chapter?.title ?? ChapterCopy.missingTitle,
-                  style: type.screenTitle.copyWith(fontSize: narrow ? 25 : 26, height: 1.12, letterSpacing: -0.3),
-                ),
-              ),
-              if (chapter != null) ...[
-                const SizedBox(height: 10),
-                Wrap(
-                  spacing: 14,
-                  runSpacing: MmSpace.s6,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    if (refLine != null) Text(refLine!, style: type.small.copyWith(fontWeight: FontWeight.w500, height: 1.4, color: colors.ink2)),
-                    if (label.isNotEmpty)
-                      KcStateLine(
-                        state: KcChapterState(state: shape, label: label),
-                        style: type.label.copyWith(fontSize: 14, height: 1.3, color: stateColor),
-                      ),
-                  ],
-                ),
-              ],
-            ],
+        if (eyebrow != null) ...[
+          BalancedText(eyebrow!, style: type.label.copyWith(color: colors.ink3)),
+          const SizedBox(height: MmSpace.s6),
+        ],
+        Semantics(
+          header: true,
+          child: BalancedText(
+            title,
+            key: const ValueKey('chapter-title'),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: type.screenTitle.copyWith(fontSize: size, height: 1.08, letterSpacing: -0.03 * size),
           ),
         ),
-        const SizedBox(width: 10),
-        Padding(
-          padding: const EdgeInsets.only(top: 2),
-          child: ExcludeSemantics(child: SubjectEmblem(subject: subject, size: EmblemSizes.tile, framed: false)),
-        ),
+        if (chapter != null && (refLine != null || verdict != null)) ...[
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 14,
+            runSpacing: MmSpace.s6,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              if (refLine != null) Text(refLine!, key: const ValueKey('chapter-place'), style: type.small.copyWith(fontWeight: FontWeight.w500, height: 1.4, color: colors.ink2)),
+              if (verdict != null)
+                KcStateLine(
+                  state: KcChapterState(state: 'weak', label: verdict!),
+                  style: type.label.copyWith(fontSize: 14, height: 1.3, color: colors.warnText),
+                ),
+            ],
+          ),
+        ],
       ],
     );
   }
@@ -535,12 +588,13 @@ class _ResumeRow extends StatelessWidget {
               header: true,
               child: Text(ChapterCopy.resumeHead(resume.done, resume.of), style: type.labelLarge.copyWith(height: 1.4, color: colors.ink)),
             ),
-            if (resume.minutesLeft > 0) ...[
-              const SizedBox(height: 2),
-              Text(ChapterCopy.resumeLeft(resume.minutesLeft), style: type.caption.copyWith(fontSize: 13.5, height: 1.45, color: colors.ink2)),
-            ],
             const SizedBox(height: MmSpace.s12),
-            KeyButton(label: ChapterCopy.resumeKey, minHeight: 52, semanticsLabel: ChapterCopy.resumeLabel(resume.done, resume.of), onPressed: onTap),
+            KeyButton(
+              label: ChapterModel.continueLabel(resume),
+              minHeight: 52,
+              semanticsLabel: ChapterCopy.resumeLabel(ChapterModel.continueLabel(resume), resume.done, resume.of),
+              onPressed: onTap,
+            ),
           ],
         ),
       ),
@@ -600,11 +654,55 @@ class _StartStrip extends ConsumerWidget {
   }
 }
 
-/// "Or a quick recap: the 12 Must-know lines, about 2 min": a text key under the Start key.
+/// "Start fresh instead": the text key under an unfinished run's one main key. It opens the length picker (a chevron turns over).
+class _FreshKey extends StatelessWidget {
+  const _FreshKey({required this.open, required this.onTap});
+
+  final bool open;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmPressable(
+      key: const ValueKey('chapter-fresh'),
+      onTap: onTap,
+      pressedScale: 0.985,
+      lift: false,
+      focusRadius: BorderRadius.circular(10),
+      haptic: MmPressHaptic.selection,
+      highlight: true,
+      semanticsLabel: ChapterCopy.freshKey,
+      builder: (context, pressed, focused) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: MmTarget.min),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(ChapterCopy.freshKey, style: type.labelLarge.copyWith(fontSize: 14.5, height: 1, color: colors.ink2)),
+              const SizedBox(width: 6),
+              AnimatedRotation(
+                turns: open ? 0.5 : 0,
+                duration: Motion.of(context, const Duration(milliseconds: 220)),
+                curve: Motion.out,
+                child: Icon(LucideIcons.chevronDown, size: 16, color: colors.ink2),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// "Quick recap · 2 min": a quiet key under the Start key, on one line, with a chevron.
 class _Recap extends StatelessWidget {
-  const _Recap({required this.label, required this.onTap});
+  const _Recap({required this.label, required this.spoken, required this.onTap});
 
   final String label;
+  final String spoken;
   final VoidCallback onTap;
 
   @override
@@ -614,22 +712,27 @@ class _Recap extends StatelessWidget {
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(6, 4, MmSpace.gutter, 0),
+        padding: const EdgeInsets.fromLTRB(6, 2, MmSpace.gutter, 0),
         child: MmPressable(
+          key: const ValueKey('chapter-recap'),
           onTap: onTap,
           pressedScale: 0.985,
           lift: false,
           focusRadius: BorderRadius.circular(10),
           haptic: MmPressHaptic.selection,
           highlight: true,
-          semanticsLabel: label,
+          semanticsLabel: spoken,
           builder: (context, pressed, focused) => ConstrainedBox(
             constraints: const BoxConstraints(minHeight: MmTarget.min),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: MmSpace.s8),
-              child: Text(
-                label,
-                style: type.labelLarge.copyWith(fontSize: 14.5, height: 1.35, color: colors.ink2, decoration: TextDecoration.underline, decorationColor: colors.lineStrong),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(label, style: type.labelLarge.copyWith(fontSize: 15, height: 1, color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()])),
+                  const SizedBox(width: 4),
+                  Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
+                ],
               ),
             ),
           ),
@@ -674,7 +777,7 @@ class _Missing extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _BackRow(onBack: onBack),
+          _BackRow(onBack: onBack, subject: null),
           const SizedBox(height: 2),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
@@ -714,7 +817,7 @@ class _Skeleton extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _BackRow(onBack: onBack),
+            _BackRow(onBack: onBack, subject: null),
             const SizedBox(height: 2),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: MmSpace.gutter),

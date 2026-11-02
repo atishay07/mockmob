@@ -10,9 +10,9 @@ import '../../../core/widgets/mm_sheet.dart';
 import '../../../core/widgets/pressable.dart';
 import 'chapter_model.dart';
 
-/// "How long have you got?": the app's segmented control, 5 min | 10 min | 20 min | Your own. The segment keeps what was
+/// "How long have you got?": the app's segmented control, 5 min | 10 min | 20 min | Other. The segment keeps what was
 /// chosen (`35 min` stays `35 min`); the real length is on the Start key and the reason in the quiet line under it. Pressing
-/// "Your own" again opens its sheet again.
+/// "Other" again opens its sheet again.
 class LengthControl extends StatelessWidget {
   const LengthControl({super.key, required this.minutes, required this.onChange, required this.onOwn, this.semanticsLabel = 'How long have you got?'});
 
@@ -21,7 +21,7 @@ class LengthControl extends StatelessWidget {
   /// One of the three ready lengths.
   final ValueChanged<int> onChange;
 
-  /// "Your own" was pressed: the page opens its sheet.
+  /// "Other" was pressed: the page opens its sheet.
   final VoidCallback onOwn;
   final String semanticsLabel;
 
@@ -38,7 +38,7 @@ class LengthControl extends StatelessWidget {
       semanticsLabel: semanticsLabel,
       segments: [
         for (final m in ChapterModel.lengths) MmSegment<Object>(m, '$m min'),
-        MmSegment<Object>(ownValue, own ? ChapterModel.minutesLabel(minutes) : 'Your own'),
+        MmSegment<Object>(ownValue, own ? ChapterModel.minutesLabel(minutes) : 'Other'),
       ],
       value: own ? ownValue : minutes,
       onChanged: (v) => v == ownValue ? onOwn() : onChange(v as int),

@@ -5,12 +5,16 @@
 // by tool/learn2_parity/chapter_model.mjs from the web's own module) can hold every word.
 //
 // Every number on the page comes from the preview answer; this file only chooses words. The web's `withFlag` (one more
-// query flag on a run link) has no twin: the app's RunLaunch carries `next` and `fresh` as fields.
+// query flag on a run link) has no twin: the app's RunLaunch carries `next` and `fresh` as fields. Rounds 2 to 4 of the web
+// (R2 ruling 9, R3 ruling W and X6, R4 rulings N and owner-eye#9): the words come from learn_words.dart, a chapter is named by its
+// place ("Chapter 5 of 14"), the first-visit line and "No lesson yet." are gone, Start reads "Start · 10 min", the recap is a
+// quiet key after the first card seen, and "First up" shows the first three real card fronts.
 import 'dart:math' as math;
 
 import '../../../core/models/json_helpers.dart';
 import '../data/learn_api.dart' show LearnError, LearnErrorKind;
 import '../data/learn_models.dart';
+import '../data/learn_words.dart';
 
 String _plural(int n, String one, [String? many]) => '$n ${n == 1 ? one : (many ?? '${one}s')}';
 
@@ -66,7 +70,7 @@ class ChapterPile {
   /// The mistakes pile when the run takes only some of the open ones: "2" on the paper, then "of 3".
   final int? of;
 
-  /// The server's note on the pile ("Revise first: 46 due").
+  /// The server's note on the pile ("Revise first: 46 due"; shown as "46 due cards").
   final String? note;
   final bool left;
   final bool held;
@@ -112,14 +116,22 @@ class ShelfRowModel {
   final String? action;
 }
 
-/// The rows of the shelf and the one quiet line for what is missing.
+/// The rows of the shelf. What is missing is never announced (R2 ruling 9: "No lesson yet. No open mistakes." is gone), so
+/// [missing] is always null; it stays so a caller that read it keeps compiling.
 class ShelfView {
   const ShelfView({required this.rows, this.missing});
 
   final List<ShelfRowModel> rows;
-
-  /// "No lesson yet. No open mistakes." or null.
   final String? missing;
+}
+
+/// One of "First up": a real card front the run opens with.
+class FirstUpCard {
+  const FirstUpCard({this.id, required this.front, this.mustKnow = false});
+
+  final String? id;
+  final String front;
+  final bool mustKnow;
 }
 
 /// What a tap on a pile does.
@@ -156,11 +168,17 @@ enum ChapterReadStatus {
 }
 
 abstract final class ChapterModel {
+  /// Kept as a name only: since R2 ruling 9 the first-visit line is never shown (the run's own first card says how it works).
   static const String firstVisitLine = 'Cards and questions, one at a time. Stop whenever you like; what you do is saved.';
   static const String onlyCardsLine = "Only Key cards here for now. This chapter's questions are still being checked.";
   static const String onlyQuestionsLine = "Only questions here for now. This chapter's Key cards are not ready yet.";
   static const String ratingsUsedLine = "You've used today's 10 free card ratings. Cards in this run show their answers but won't be added to Revise.";
-  static const String _oldNoteFirst = 'Ratings join Revise, so cards come back when they are due.';
+
+  /// R3 ruling W: due Key cards are never a bare "46 due"; the server's "Revise first: 46 due" reads "Revise first: 46 due cards".
+  static String dueWords(String? text) => (text ?? '').replaceAllMapped(RegExp(r'\b(\d[\d,]*) due\b(?! cards?)'), (m) {
+    final n = int.tryParse(m[1]!.replaceAll(',', '')) ?? 0;
+    return '${m[1]} due ${n == 1 ? 'card' : 'cards'}';
+  });
 
   /// The least and most minutes "Your own" can hold, and its step.
   static const int ownMin = 5;
@@ -185,14 +203,16 @@ abstract final class ChapterModel {
     return RegExp(r'^Part \d+').firstMatch(title)?.group(0) ?? title;
   }
 
-  /// The eyebrow and the ref line (A4 3.2.1): the unit only when it does not repeat the title's start; the ref "Part 1, Ch 1".
+  /// The eyebrow and the ref line (A4 3.2.1): the unit only when it does not repeat the title's start; the ref is the chapter's
+  /// place in the roadmap, "Chapter 5 of 14" (R4 ruling N). The NCERT number ("Part 1, Ch 2") is never the label: three chapters
+  /// share "Ch 2". With no `place` from the server the page draws no ref (never "Ch N").
   static ({String? eyebrow, String? ref}) headLines(LearnChapterHead? chapter) {
     if (chapter == null) return (eyebrow: null, ref: null);
     final unitTitle = chapter.unitTitle;
     final unit = unitTitle != null && unitTitle.isNotEmpty && unitTitle != chapter.title ? unitTitle : null;
     final echoes = unit != null && chapter.title.toLowerCase().startsWith(unit.toLowerCase());
-    final bits = [partShort(chapter.partTitle), chapter.ref].where((s) => s != null && s.isNotEmpty).join(', ');
-    return (eyebrow: unit != null && !echoes ? unit : null, ref: bits.isEmpty ? null : bits);
+    final place = LearnWords.chapterPlace(chapter.place);
+    return (eyebrow: unit != null && !echoes ? unit : null, ref: place.isEmpty ? null : place);
   }
 
   /// The Kc state shape of a Learn chapter state (`getting_there` is a ring with a dot): the word is the first cue, the
@@ -213,14 +233,16 @@ abstract final class ChapterModel {
   }
 
   /// How one pile is drawn (A4 3.2.4): its state, the line under it, the "of 3" on the paper, its spoken label and the
-  /// server's note ("Revise first: 46 due"). A held pile (Free, Key cards only today) is not a button.
-  static PileView pileView(ChapterPile pile) {
+  /// server's note ("Revise first: 46 due cards"). A held pile (Free, Key cards only today) is not a button. A mistakes pile that
+  /// holds fewer than the chapter has says why ("2 fit in 10 min", R4 owner-eye#9), so its "2 of 3" never reads as a different
+  /// number from the "Fix 3 open mistakes" row under it ([minutes] is the length the page asks).
+  static PileView pileView(ChapterPile pile, {int? minutes}) {
     final label = pile.label;
     if (pile.held) return PileView(state: PileState.held, line: 'Back tomorrow', aria: '$label, back tomorrow');
     if (pile.left) return PileView(state: PileState.left, line: 'Tap to put back', aria: '$label, left out. Tap to put it back');
-    final line = pileMinutes(pile);
     final of = pile.id == 'mistakes' && pile.of != null && pile.of! > pile.count ? pile.of : null;
-    final note = pile.note;
+    final line = of != null && minutes != null && minutes != 0 ? '${pile.count} fit in ${LearnWords.wholeMinutes(minutes)} min' : pileMinutes(pile);
+    final note = pile.note == null ? null : dueWords(pile.note);
     return PileView(
       state: PileState.inRun,
       line: line,
@@ -231,8 +253,8 @@ abstract final class ChapterModel {
   }
 
   /// The one quiet line under the Start key, by priority (A4 3.2.5): Free's Key-cards-only day, Free's 10-minute cap (only
-  /// when more was chosen), a short chapter, Free's ratings used, one kind only, a first visit; else null. The old "Ratings
-  /// join Revise" note is never shown.
+  /// when more was chosen), a short chapter, Free's ratings used, one kind only; else null. The old "Ratings join Revise" note
+  /// and, since R2 ruling 9, the first-visit line are never shown.
   static String? quietLine(LearnPreview? data) {
     if (data == null) return null;
     final freeText = data.free?.text;
@@ -240,20 +262,17 @@ abstract final class ChapterModel {
     final cappedText = data.capped?.text;
     if (cappedText != null) return cappedText;
     final shrinkText = data.shrink?.text;
-    if (shrinkText != null && data.added == null) return shrinkText;
+    if (shrinkText != null && data.added == null) return dueWords(shrinkText);
     if (RegExp('ratings are used', caseSensitive: false).hasMatch(freeText ?? '')) return ratingsUsedLine;
     final cards = data.shelf.cards.count;
     final questions = data.shelf.questions.total;
     if (cards > 0 && questions == 0) return onlyCardsLine;
     if (cards == 0 && questions > 0) return onlyQuestionsLine;
-    // An older server sends no firstVisit: its first-visit note says it.
-    final first = data.raw['firstVisit'];
-    if (first == true || (!data.raw.containsKey('firstVisit') && data.note == _oldNoteFirst)) return firstVisitLine;
     return null;
   }
 
-  /// "Everything in this chapter" (A4 3.2.6): only rows that lead somewhere, with plain lines; what is missing becomes one
-  /// quiet line. Free's taste is said here only ("Free opens 5"). [mistakeMinutes] gives the minutes n mistakes take. The
+  /// "Everything in this chapter" (A4 3.2.6): only rows that lead somewhere, with plain lines. What is missing is never announced
+  /// (R2 ruling 9). Free's taste is said here only ("46 cards. 5 open on Free."). [mistakeMinutes] gives the minutes n mistakes take. The
   /// Print sheet's "with your name" is the watermark of the website's sheet: [namedSheet] false leaves it out until the app
   /// builds that sheet.
   static ShelfView shelfView(LearnPreview? data, {int Function(int n) mistakeMinutes = _same, bool namedSheet = true}) {
@@ -266,7 +285,7 @@ abstract final class ChapterModel {
     if (cards > 0) {
       final open = shelf.cards.open;
       final inRevise = shelf.cards.inRevise;
-      final line = !isPro && open < cards ? '${_plural(cards, 'card')}, Free opens $open' : (inRevise > 0 ? 'All $cards, $inRevise in Revise' : 'All $cards, by section');
+      final line = !isPro && open < cards ? '${_plural(cards, 'card')}. $open open on Free.' : (inRevise > 0 ? 'All $cards, $inRevise in Revise' : 'All $cards, by section');
       rows.add(ShelfRowModel(id: 'cards', title: 'Key cards', line: line));
     } else {
       missing.add('Key cards are not ready yet.');
@@ -281,13 +300,13 @@ abstract final class ChapterModel {
     if (lesson != null) {
       final m = lesson.minutes != null && lesson.minutes! > 0 ? lesson.minutes : null;
       final title = lesson.title;
-      rows.add(ShelfRowModel(id: 'lesson', title: title != null && title.isNotEmpty ? title : 'Lesson', line: '${m != null ? '$m-minute lesson' : 'Lesson'}, ${lesson.read ? 'read' : 'not read yet'}'));
+      rows.add(ShelfRowModel(id: 'lesson', title: title != null && title.isNotEmpty ? title : 'Lesson', line: '${m != null ? LearnWords.withMinutes('Lesson', m) : 'Lesson'}, ${lesson.read ? 'read' : 'not read yet'}'));
     } else {
       missing.add('No lesson yet.');
     }
     final mistakes = shelf.mistakes.open;
     if (mistakes > 0) {
-      rows.add(ShelfRowModel(id: 'mistakes', title: 'Your mistakes', line: used ? '$mistakes open, back tomorrow' : '$mistakes open. Fix them in about ${math.max(1, mistakeMinutes(mistakes))} min', link: !used));
+      rows.add(ShelfRowModel(id: 'mistakes', title: 'Your mistakes', line: used ? '${_plural(mistakes, 'open mistake')}, back tomorrow' : LearnWords.fixMistakes(mistakes, mistakeMinutes(mistakes)), link: !used));
     } else {
       missing.add('No open mistakes.');
     }
@@ -305,8 +324,59 @@ abstract final class ChapterModel {
         ),
       );
     }
-    return ShelfView(rows: _stableSorted(rows, (r) => kShelfOrder.indexOf(r.id)), missing: missing.isEmpty ? null : missing.join(' '));
+    // What is missing is collected for reading and never drawn (R2 ruling 9).
+    return ShelfView(rows: _stableSorted(rows, (r) => kShelfOrder.indexOf(r.id)));
   }
+
+  /// The chapter's verdict beside its place (R2 ruling 2): only "Needs work", and only when the server says the chapter is weak
+  /// above its evidence floor (state key needs_work). Not started, Too few answers, Getting there and Holding are never shown.
+  static String? chapterVerdict(LearnState? state) {
+    if (state == null || state.key != 'needs_work') return null;
+    return state.label.isEmpty ? 'Needs work' : state.label;
+  }
+
+  /// The quick recap as a quiet key: "Quick recap · 1 min" (the server's minutes). Null when the chapter has no Must-know line,
+  /// and (R3 X6) until the student has seen at least 1 card in this chapter: a recap of what they have not met is not a recap.
+  static String? recapLabel(LearnRecap? recap, {bool seen = true}) =>
+      recap != null && recap.count > 0 && seen ? LearnWords.withMinutes(LearnWords.quickRecap, recap.minutes) : null;
+
+  /// Whether the student has seen at least 1 card of this chapter: the dry run's `cardsSeen`, else (an older server) "not a first visit".
+  static bool hasSeenCards(LearnPreview? data) {
+    if (data == null) return false;
+    final seen = data.cardsSeen;
+    return seen != null ? seen > 0 : !data.firstVisit;
+  }
+
+  /// The Start key (R3 ruling W: " · N min" after a label). The server's "Start 10 minutes" becomes "Start · 10 min"; with a run to
+  /// continue the new-run key is "Start fresh · 10 min". Any other server label ("Start the 7-minute lesson") is kept as it is.
+  static String startKeyLabel(String? serverLabel, int minutes, {bool fresh = false}) {
+    final m = RegExp(r'^Start (\d+) minutes?$').firstMatch(serverLabel ?? '');
+    final int? n = m != null ? int.parse(m[1]!) : ((serverLabel == null || serverLabel.isEmpty) ? minutes : null);
+    if (n != null) return LearnWords.withMinutes(fresh ? 'Start fresh' : 'Start', n);
+    return fresh ? serverLabel!.replaceFirst(RegExp(r'^Start '), 'Start fresh: ') : serverLabel!;
+  }
+
+  /// The key that continues today's unfinished run: "Continue · 6 min" (R3 ruling W).
+  static String continueLabel(LearnOpenRun? resume) {
+    final left = resume?.minutesLeft ?? 0;
+    return LearnWords.withMinutes(LearnWords.continueWord, left == 0 ? 1 : left);
+  }
+
+  /// The pile tip's storage key: once per student, so a new account on the same device sees it again.
+  static String coachKeyFor(String? userId) => 'mm:learn2:coach:piles:${userId == null || userId.isEmpty ? 'anon' : userId}';
+
+  /// The title's size step by length, so a long title keeps to 2 lines on a phone (R2 ruling 9): `m` (32), `l` (28), `xl` (25).
+  static String titleSize(String? title) {
+    final n = (title ?? '').length;
+    return n <= 24 ? 'm' : (n <= 40 ? 'l' : 'xl');
+  }
+
+  /// "First up" (R2 ruling 9): up to 3 real card fronts from the dry run's `firstUp`, cleaned; none when there is nothing to show
+  /// (the cards pile left out, or none open), so the row is not drawn.
+  static List<FirstUpCard> firstUpCards(LearnPreview? data) => [
+    for (final c in data?.firstUp ?? const <LearnCardFace>[])
+      if ((c.front ?? '').trim().isNotEmpty) FirstUpCard(id: c.id, front: c.front!.trim(), mustKnow: c.mustKnow),
+  ].take(3).toList();
 
   static int _same(int n) => n;
 
@@ -354,12 +424,8 @@ abstract final class ChapterModel {
     return PileTap.leaveOut;
   }
 
-  /// The Start key's words: the server's, or "Start 10 minutes" before it has said; "Start a new 10 minutes" beside a run
-  /// to pick up (the key turns into a line key that sends `fresh`).
-  static String startLabel(LearnPreview? data, int minutes, {bool resume = false}) {
-    final now = data?.startLabel ?? 'Start $minutes minutes';
-    return resume ? now.replaceFirst(RegExp(r'^Start '), 'Start a new ') : now;
-  }
+  /// The Start key's words for a preview: [startKeyLabel] of the server's label.
+  static String startLabel(LearnPreview? data, int minutes, {bool resume = false}) => startKeyLabel(data?.startLabel, minutes, fresh: resume);
 
   /// Today's unfinished run of this chapter, when it has something left to do.
   static LearnOpenRun? openRun(LearnPreview? data) {

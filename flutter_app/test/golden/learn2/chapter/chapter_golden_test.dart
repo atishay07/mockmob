@@ -77,13 +77,13 @@ void main() {
   );
 
   // A short chapter at 20 minutes: "Add the next chapter" as a fourth paper, two by two.
-  _golden('chapter_add_next', ChapterApi.new, chapter: l2Cpsr, minutes: 20);
+  _golden('chapter_add_next', ChapterApi.new, chapter: l2Ccss, minutes: 20);
 
-  // The next chapter added: "Ch 2 added", "+1 min", "Tap to remove".
+  // The next chapter added: "Chapter 13 added", "+11 min", "Tap to remove".
   _golden(
     'chapter_next_added',
     ChapterApi.new,
-    chapter: l2Cpsr,
+    chapter: l2Ccss,
     minutes: 20,
     after: (tester) async {
       await tester.tap(pileFinder('next'));
@@ -100,7 +100,7 @@ void main() {
   // A wider phone (412 dp), and large text (1.3) on the narrow one.
   _golden('chapter_10min_pro_412', ChapterApi.new, size: const Size(412, 915));
   _golden('chapter_10min_pro_text13', ChapterApi.new, textScale: 1.3, size: const Size(360, 900));
-  _golden('chapter_add_next_text13', ChapterApi.new, chapter: l2Cpsr, minutes: 20, textScale: 1.3, size: const Size(360, 900));
+  _golden('chapter_add_next_text13', ChapterApi.new, chapter: l2Ccss, minutes: 20, textScale: 1.3, size: const Size(360, 900));
 
   // A new student's first visit to a chapter.
   _golden('chapter_first_visit', () => ChapterApi(newStudent: true), chapter: l2Aop);

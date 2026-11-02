@@ -11,6 +11,7 @@ import '../../../core/widgets/materials/edge_light.dart';
 import '../../../core/widgets/materials/shape.dart';
 import '../../../core/widgets/pressable.dart';
 import '../../../core/widgets/skeleton.dart';
+import '../learn2_balance.dart';
 import 'chapter_model.dart';
 
 /// What the paper of a pile has printed on its top sheet, faint, so the pile reads as that kind of paper before its label
@@ -451,9 +452,9 @@ class PileCell extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(pile.label, style: type.label.copyWith(fontSize: 14, height: 1.25, color: colors.ink)),
-        Text(view.line, style: type.caption.copyWith(fontSize: 12.5, height: 1.3, color: colors.ink3)),
-        if (view.note != null) Text(view.note!, style: type.label.copyWith(fontSize: 12.5, height: 1.3, color: colors.warnText)),
+        BalancedText(pile.label, style: type.label.copyWith(fontSize: 14, height: 1.25, color: colors.ink)),
+        BalancedText(view.line, style: type.caption.copyWith(fontSize: 12.5, height: 1.3, color: colors.ink3)),
+        if (view.note != null) BalancedText(view.note!, style: type.label.copyWith(fontSize: 12.5, height: 1.3, color: colors.warnText)),
       ],
     );
     final body = AnimatedOpacity(
@@ -542,8 +543,8 @@ class NextPileCell extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(label, style: type.label.copyWith(fontSize: 14, height: 1.25, color: colors.ink)),
-                  Text(line, style: type.caption.copyWith(fontSize: 12.5, height: 1.3, color: colors.ink3)),
+                  BalancedText(label, style: type.label.copyWith(fontSize: 14, height: 1.25, color: colors.ink)),
+                  BalancedText(line, style: type.caption.copyWith(fontSize: 12.5, height: 1.3, color: colors.ink3)),
                 ],
               ),
             ),
@@ -564,7 +565,8 @@ class PileGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final columns = cells.length == 4 ? 2 : 3;
+    // At 390 a chapter with one or two piles shares the full row (two columns); three share it in thirds, four in two columns of two.
+    final columns = cells.length == 4 || cells.length <= 2 ? 2 : 3;
     final hGap = columns == 2 ? 14.0 : 12.0;
     final rows = <Widget>[];
     for (var start = 0; start < cells.length; start += columns) {
