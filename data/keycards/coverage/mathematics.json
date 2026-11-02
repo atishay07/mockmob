@@ -18,18 +18,20 @@
       "belowMinimum": false
     },
     "mathematics.application-of-integrals": {
-      "published": 6,
-      "quarantined": 6,
+      "published": 11,
+      "quarantined": 10,
       "byKind": {
-        "fact": 6
+        "fact": 7,
+        "definition": 1,
+        "formula": 3
       },
       "byImportance": {
-        "must": 2,
-        "good": 4
+        "must": 6,
+        "good": 5
       },
-      "coverage_note": null,
-      "mustShare": 0.33,
-      "belowMinimum": true
+      "coverage_note": "Short NCERT chapter since the 2023 rationalisation (8 pages: area under simple curves, the circle and the ellipse); every result it states has a card or was held by review.",
+      "mustShare": 0.55,
+      "belowMinimum": false
     },
     "mathematics.continuity-and-differentiability": {
       "published": 33,
@@ -104,20 +106,21 @@
       "belowMinimum": false
     },
     "mathematics.inverse-trigonometric-functions": {
-      "published": 7,
-      "quarantined": 16,
+      "published": 21,
+      "quarantined": 25,
       "byKind": {
-        "fact": 5,
+        "fact": 9,
+        "formula": 10,
         "definition": 1,
         "key_line": 1
       },
       "byImportance": {
-        "must": 4,
-        "good": 3
+        "must": 12,
+        "good": 9
       },
       "coverage_note": null,
       "mustShare": 0.57,
-      "belowMinimum": true
+      "belowMinimum": false
     },
     "mathematics.linear-programming": {
       "published": 20,
@@ -153,21 +156,23 @@
       "belowMinimum": false
     },
     "mathematics.probability": {
-      "published": 9,
-      "quarantined": 21,
+      "published": 29,
+      "quarantined": 19,
       "byKind": {
-        "fact": 4,
-        "definition": 3,
+        "fact": 6,
+        "formula": 13,
+        "definition": 7,
         "difference": 1,
+        "list": 1,
         "term": 1
       },
       "byImportance": {
-        "must": 2,
-        "good": 7
+        "must": 14,
+        "good": 15
       },
       "coverage_note": null,
-      "mustShare": 0.22,
-      "belowMinimum": true
+      "mustShare": 0.48,
+      "belowMinimum": false
     },
     "mathematics.probability-distributions": {
       "published": 1,
@@ -179,9 +184,9 @@
         "must": 0,
         "good": 1
       },
-      "coverage_note": null,
+      "coverage_note": "NCERT 2026-27 no longer teaches random variables or probability distributions (removed in the 2023 rationalisation); only the one-paragraph remark defining a random variable (p. 430) remains, and it has a card.",
       "mustShare": 0,
-      "belowMinimum": true
+      "belowMinimum": false
     },
     "mathematics.relations-and-functions": {
       "published": 25,

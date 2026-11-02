@@ -1,6 +1,6 @@
 {
   "subject": "mathematics",
-  "version": 3,
+  "version": 4,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -583,6 +583,102 @@
       "order": 50
     },
     {
+      "v": 3,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.application-of-integrals",
+      "chapter": "Application of Integrals",
+      "unit": "Calculus",
+      "blanks": [],
+      "asked": 0,
+      "id": "kc.mathematics.application-of-integrals.def-elementary-area",
+      "kind": "definition",
+      "front": "Define the elementary area dA of a thin vertical strip under y = f(x).",
+      "back": "Consider an arbitrary strip of height y and width dx, then dA (area of the elementary strip)= ydx, where, y = f(x).",
+      "quote": "Consider an arbitrary strip of height y and width dx, then dA (area of the elementary strip)= ydx, where, y = f(x).",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh202",
+        "chapterNo": 8,
+        "page": 292,
+        "section": "8.2 Area under Simple Curves"
+      },
+      "importance": "must",
+      "tags": [
+        "elementary-area",
+        "strip"
+      ],
+      "order": 60,
+      "tex": {
+        "back": "Consider an arbitrary strip of height $y$ and width $dx$, then $dA$ (area of the elementary strip) $= y\\,dx$, where, $y = f(x)$."
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.application-of-integrals",
+      "chapter": "Application of Integrals",
+      "unit": "Calculus",
+      "blanks": [],
+      "asked": 0,
+      "id": "kc.mathematics.application-of-integrals.formula-area-under-curve-vertical",
+      "kind": "formula",
+      "front": "Formula: total area A under y = f(x) between x = a and x = b, as a sum of elementary areas",
+      "back": "We can think of the total area A of the region between x-axis, ordinates x = a, x = b and the curve y = f (x) as the result of adding up the elementary areas of thin strips across the region PQRSP. Symbolically, we express\nA = ∫ b dA = ∫ b ydx = ∫ b f (x) dx a a a",
+      "quote": "We can think of the total area A of the region between x-axis, ordinates x = a, x = b and the curve y = f (x) as the result of adding up the elementary areas of thin strips across the region PQRSP. Symbolically, we express A = ∫ b dA = ∫ b ydx = ∫ b f (x) dx a a a",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh202",
+        "chapterNo": 8,
+        "page": 293,
+        "section": "8.2 Area under Simple Curves"
+      },
+      "importance": "must",
+      "tags": [
+        "area-under-curve",
+        "definite-integral"
+      ],
+      "order": 62,
+      "tex": {
+        "back": "We can think of the total area $A$ of the region between $x$-axis, ordinates $x = a$, $x = b$ and the curve $y = f(x)$ as the result of adding up the elementary areas of thin strips across the region PQRSP. Symbolically, we express\n$$A = \\int_a^b dA = \\int_a^b y\\,dx = \\int_a^b f(x)\\,dx$$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.application-of-integrals",
+      "chapter": "Application of Integrals",
+      "unit": "Calculus",
+      "blanks": [],
+      "asked": 0,
+      "id": "kc.mathematics.application-of-integrals.formula-area-horizontal-strips",
+      "kind": "formula",
+      "front": "Formula: area A bounded by x = g(y), the y-axis and the lines y = c and y = d",
+      "back": "The area A of the region bounded by the curve x = g (y), y-axis and the lines y = c, y = d is given by\nA = ∫ d xdy = ∫ d g( y) dy c c",
+      "quote": "The area A of the region bounded by the curve x = g (y), y-axis and the lines y = c, y = d is given by A = ∫ d xdy = ∫ d g( y) dy c c",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh202",
+        "chapterNo": 8,
+        "page": 293,
+        "section": "8.2 Area under Simple Curves"
+      },
+      "importance": "must",
+      "tags": [
+        "area-under-curve",
+        "horizontal-strips"
+      ],
+      "order": 65,
+      "tex": {
+        "back": "The area $A$ of the region bounded by the curve $x = g(y)$, $y$-axis and the lines $y = c$, $y = d$ is given by\n$$A = \\int_c^d x\\,dy = \\int_c^d g(y)\\,dy$$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
       "id": "kc.mathematics.application-of-integrals.fact-horizontal-strips",
       "v": 1,
       "subject": "mathematics",
@@ -609,6 +705,38 @@
         "y-axis"
       ],
       "order": 70
+    },
+    {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.application-of-integrals",
+      "chapter": "Application of Integrals",
+      "unit": "Calculus",
+      "blanks": [],
+      "asked": 0,
+      "id": "kc.mathematics.application-of-integrals.fact-curve-below-axis-negative",
+      "kind": "fact",
+      "front": "Why does the area bounded by a curve lying below the x-axis come out negative?",
+      "back": "If the position of the curve under consideration is below the x-axis, then since f (x) < 0 from x = a to x = b, as shown in Fig 8.3, the area bounded by the curve, x-axis and the ordinates x = a, x = b come out to be negative.",
+      "quote": "If the position of the curve under consideration is below the x-axis, then since f (x) < 0 from x = a to x = b, as shown in Fig 8.3, the area bounded by the curve, x-axis and the ordinates x = a, x = b come out to be negative.",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh202",
+        "chapterNo": 8,
+        "page": 293,
+        "section": "8.2 Area under Simple Curves"
+      },
+      "importance": "good",
+      "tags": [
+        "negative-area",
+        "x-axis"
+      ],
+      "order": 80,
+      "tex": {
+        "back": "If the position of the curve under consideration is below the $x$-axis, then since $f(x) < 0$ from $x = a$ to $x = b$, as shown in Fig 8.3, the area bounded by the curve, $x$-axis and the ordinates $x = a$, $x = b$ come out to be negative."
+      },
+      "addedIn": "tex-1102"
     },
     {
       "id": "kc.mathematics.application-of-integrals.fact-negative-area-absolute",
@@ -665,6 +793,38 @@
         "symmetry"
       ],
       "order": 100
+    },
+    {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.application-of-integrals",
+      "chapter": "Application of Integrals",
+      "unit": "Calculus",
+      "blanks": [],
+      "asked": 0,
+      "id": "kc.mathematics.application-of-integrals.formula-circle-area",
+      "kind": "formula",
+      "front": "Formula: area enclosed by the circle x² + y² = a²",
+      "back": "the whole area of the region enclosed by circle\na2 4 π = πa2 22",
+      "quote": "the whole area of the region enclosed by circle ∫ ∫ = 4 a xdy = 4 a a2 − y2 dy 0 0 = 4 y a2 − y2 + a2 sin −1 y a 2 2 a 0 (Why?) = = a2 4 π = πa2 22",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh202",
+        "chapterNo": 8,
+        "page": 295,
+        "section": "Example 1"
+      },
+      "importance": "must",
+      "tags": [
+        "circle",
+        "area"
+      ],
+      "order": 115,
+      "tex": {
+        "back": "the whole area of the region enclosed by circle\n$$= 4\\,\\frac{a^2}{2}\\,\\frac{\\pi}{2} = \\pi a^2$$"
+      },
+      "addedIn": "tex-1102"
     },
     {
       "id": "kc.mathematics.continuity-and-differentiability.def-continuity-naive",
@@ -4072,6 +4232,70 @@
       "order": 40
     },
     {
+      "id": "kc.mathematics.inverse-trigonometric-functions.formula-inverse-of-inverse",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Relations and Functions",
+      "kind": "formula",
+      "front": "Formula: if g is the inverse of f, what are g⁻¹ and (f⁻¹)⁻¹ equal to?",
+      "back": "Further, g is also one-one and onto and inverse of g is f.\nThus, g –1 = (f –1) –1 = f.",
+      "quote": "Further, g is also one-one and onto and inverse of g is f. Thus, g –1 = (f –1) –1 = f.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 19,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "inverse",
+        "composition"
+      ],
+      "order": 52,
+      "tex": {
+        "back": "Further, $g$ is also one-one and onto and inverse of $g$ is $f$.\nThus, $g^{-1} = (f^{-1})^{-1} = f$."
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.formula-compose-with-inverse",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Relations and Functions",
+      "kind": "formula",
+      "front": "Formula: what do (f⁻¹ o f)(x) and (f o f⁻¹)(y) simplify to?",
+      "back": "(f –1 o f ) (x) = f –1 (f (x)) = f –1(y) = x\n(f o f –1) (y) = f (f –1(y)) = f(x) = y",
+      "quote": "(f –1 o f ) (x) = f –1 (f (x)) = f –1(y) = x and (f o f –1) (y) = f (f –1(y)) = f(x) = y",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 19,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "inverse",
+        "composition"
+      ],
+      "order": 55,
+      "tex": {
+        "back": "$$(f^{-1} \\;\\mathrm{o}\\; f)(x) = f^{-1}(f(x)) = f^{-1}(y) = x$$\n$$(f \\;\\mathrm{o}\\; f^{-1})(y) = f(f^{-1}(y)) = f(x) = y$$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
       "id": "kc.mathematics.inverse-trigonometric-functions.fact-sine-domain-range",
       "v": 1,
       "subject": "mathematics",
@@ -4099,6 +4323,38 @@
         "range"
       ],
       "order": 60
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.formula-sin-inverse-branch",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Relations and Functions",
+      "kind": "formula",
+      "front": "Formula: domain and principal value branch (range) of sin⁻¹",
+      "back": "When we refer to the function sin–1, we take it as the function whose domain is [–1, 1] and range is , 2 2 −π π .\nsin–1 : [–1, 1] → , 2 2 −π π",
+      "quote": "When we refer to the function sin–1, we take it as the function whose domain is [–1, 1] and range is , 2 2 −π π . We write sin–1 : [–1, 1] → , 2 2 −π π",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 19,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "principal-branch",
+        "sin-inverse"
+      ],
+      "order": 75,
+      "tex": {
+        "back": "When we refer to the function $\\sin^{-1}$, we take it as the function whose domain is $[-1, 1]$ and range is $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$.\n$$\\sin^{-1} : [-1, 1] \\to \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$$"
+      },
+      "addedIn": "tex-1102"
     },
     {
       "id": "kc.mathematics.inverse-trigonometric-functions.fact-graph-point-swap",
@@ -4187,6 +4443,330 @@
       "order": 120
     },
     {
+      "id": "kc.mathematics.inverse-trigonometric-functions.formula-cos-inverse-branch",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Relations and Functions",
+      "kind": "formula",
+      "front": "Formula: domain and principal value branch (range) of cos⁻¹",
+      "back": "The branch with range [0, π] is called the principal value branch of the function cos–1\ncos–1 : [–1, 1] → [0, π]",
+      "quote": "The branch with range [0, π] is called the principal value branch of the function cos–1 . We write cos–1 : [–1, 1] → [0, π]",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 21,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "principal-branch",
+        "cos-inverse"
+      ],
+      "order": 135,
+      "tex": {
+        "back": "The branch with range $[0, \\pi]$ is called the principal value branch of the function $\\cos^{-1}$\n$$\\cos^{-1} : [-1, 1] \\to [0, \\pi]$$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-cosec-domain-range",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Relations and Functions",
+      "kind": "fact",
+      "front": "What are the domain and the range of the cosec function y = cosec x?",
+      "back": "the domain of the cosec function is the set {x : x ∈ R and x ≠ nπ, n ∈ Z} and the range is the set {y : y ∈ R, y ≥ 1 or y ≤ –1} i.e., the set R – (–1, 1).",
+      "quote": "the domain of the cosec function is the set {x : x ∈ R and x ≠ nπ, n ∈ Z} and the range is the set {y : y ∈ R, y ≥ 1 or y ≤ –1} i.e., the set R – (–1, 1).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 21,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "cosec",
+        "domain",
+        "range"
+      ],
+      "order": 145,
+      "tex": {
+        "back": "the domain of the cosec function is the set $\\{x : x \\in \\mathbf{R} \\text{ and } x \\neq n\\pi, n \\in \\mathbf{Z}\\}$ and the range is the set $\\{y : y \\in \\mathbf{R}, y \\ge 1 \\text{ or } y \\le -1\\}$ i.e., the set $\\mathbf{R} - (-1, 1)$."
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.formula-cosec-inverse-branch",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Relations and Functions",
+      "kind": "formula",
+      "front": "Formula: domain and principal value branch (range) of cosec⁻¹",
+      "back": "The function corresponding to the range , {0} 2 2 −π π − is called the principal value branch of cosec–1\ncosec–1 : R – (–1, 1) → , {0} 2 2 −π π −",
+      "quote": "The function corresponding to the range , {0} 2 2 −π π − is called the principal value branch of cosec–1 . We thus have principal branch as cosec–1 : R – (–1, 1) → , {0} 2 2 −π π −",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 22,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "principal-branch",
+        "cosec-inverse"
+      ],
+      "order": 155,
+      "tex": {
+        "back": "The function corresponding to the range $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right] - \\{0\\}$ is called the principal value branch of $\\operatorname{cosec}^{-1}$\n$$\\operatorname{cosec}^{-1} : \\mathbf{R} - (-1, 1) \\to \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right] - \\{0\\}$$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-sec-domain-range",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Relations and Functions",
+      "kind": "fact",
+      "front": "What are the domain and the range of the secant function y = sec x?",
+      "back": "the domain of y = sec x is the set R – {x : x = (2n + 1) 2 π , n ∈ Z} and range is the set R – (–1, 1).",
+      "quote": "the domain of y = sec x is the set R – {x : x = (2n + 1) 2 π , n ∈ Z} and range is the set R – (–1, 1).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 22,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "sec",
+        "domain",
+        "range"
+      ],
+      "order": 158,
+      "tex": {
+        "back": "the domain of $y = \\sec x$ is the set $\\mathbf{R} - \\{x : x = (2n + 1)\\frac{\\pi}{2}, n \\in \\mathbf{Z}\\}$ and range is the set $\\mathbf{R} - (-1, 1)$."
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.formula-sec-inverse-branch",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Relations and Functions",
+      "kind": "formula",
+      "front": "Formula: domain and principal value branch (range) of sec⁻¹",
+      "back": "The branch with range [0, π] – { 2 π } is called the principal value branch of the function sec–1\nsec–1 : R – (–1,1) → [0, π] – { 2 π }",
+      "quote": "The branch with range [0, π] – { 2 π } is called the principal value branch of the function sec–1 . We thus have sec–1 : R – (–1,1) → [0, π] – { 2 π }",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 23,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "principal-branch",
+        "sec-inverse"
+      ],
+      "order": 165,
+      "tex": {
+        "back": "The branch with range $[0, \\pi] - \\left\\{\\frac{\\pi}{2}\\right\\}$ is called the principal value branch of the function $\\sec^{-1}$\n$$\\sec^{-1} : \\mathbf{R} - (-1, 1) \\to [0, \\pi] - \\left\\{\\frac{\\pi}{2}\\right\\}$$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-tan-domain-range",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Relations and Functions",
+      "kind": "fact",
+      "front": "What are the domain and the range of the tangent function y = tan x?",
+      "back": "the domain of the tan function (tangent function) is the set {x : x ∈ R and x ≠ (2n +1) 2 π , n ∈ Z} and the range is R.",
+      "quote": "the domain of the tan function (tangent function) is the set {x : x ∈ R and x ≠ (2n +1) 2 π , n ∈ Z} and the range is R.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 23,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tan",
+        "domain",
+        "range"
+      ],
+      "order": 175,
+      "tex": {
+        "back": "the domain of the tan function (tangent function) is the set $\\{x : x \\in \\mathbf{R} \\text{ and } x \\neq (2n + 1)\\frac{\\pi}{2}, n \\in \\mathbf{Z}\\}$ and the range is $\\mathbf{R}$."
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.formula-tan-inverse-branch",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Relations and Functions",
+      "kind": "formula",
+      "front": "Formula: domain and principal value branch (range) of tan⁻¹",
+      "back": "The branch with range , 2 2 −π π is called the principal value branch of the function tan–1\ntan–1 : R → , 2 2 −π π",
+      "quote": "The branch with range , 2 2 −π π is called the principal value branch of the function tan–1 . We thus have tan–1 : R → , 2 2 −π π",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 24,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "principal-branch",
+        "tan-inverse"
+      ],
+      "order": 185,
+      "tex": {
+        "back": "The branch with range $\\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$ is called the principal value branch of the function $\\tan^{-1}$\n$$\\tan^{-1} : \\mathbf{R} \\to \\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-cot-domain-range",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Relations and Functions",
+      "kind": "fact",
+      "front": "What are the domain and the range of the cotangent function y = cot x?",
+      "back": "domain of the cot function (cotangent function) is the set {x : x ∈ R and x ≠ nπ, n ∈ Z} and range is R.",
+      "quote": "domain of the cot function (cotangent function) is the set {x : x ∈ R and x ≠ nπ, n ∈ Z} and range is R.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 24,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "cot",
+        "domain",
+        "range"
+      ],
+      "order": 187,
+      "tex": {
+        "back": "domain of the cot function (cotangent function) is the set $\\{x : x \\in \\mathbf{R} \\text{ and } x \\neq n\\pi, n \\in \\mathbf{Z}\\}$ and range is $\\mathbf{R}$."
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.formula-cot-inverse-branch",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Relations and Functions",
+      "kind": "formula",
+      "front": "Formula: domain and principal value branch (range) of cot⁻¹",
+      "back": "The function with range (0, π) is called the principal value branch of the function cot –1\ncot–1 : R → (0, π)",
+      "quote": "The function with range (0, π) is called the principal value branch of the function cot –1 . We thus have cot–1 : R → (0, π)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 25,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "principal-branch",
+        "cot-inverse"
+      ],
+      "order": 195,
+      "tex": {
+        "back": "The function with range $(0, \\pi)$ is called the principal value branch of the function $\\cot^{-1}$\n$$\\cot^{-1} : \\mathbf{R} \\to (0, \\pi)$$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.formula-sin-inverse-vs-reciprocal",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Relations and Functions",
+      "kind": "formula",
+      "front": "Formula: what is (sin x)⁻¹, and how is it different from sin⁻¹ x?",
+      "back": "sin–1x should not be confused with (sin x) –1.\nIn fact (sin x) –1 = 1 sin x",
+      "quote": "sin–1x should not be confused with (sin x) –1. In fact (sin x) –1 = 1 sin x",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 26,
+        "section": "A Note"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "notation",
+        "reciprocal"
+      ],
+      "order": 205,
+      "tex": {
+        "back": "$\\sin^{-1} x$ should not be confused with $(\\sin x)^{-1}$.\nIn fact $(\\sin x)^{-1} = \\frac{1}{\\sin x}$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
       "id": "kc.mathematics.inverse-trigonometric-functions.def-principal-value",
       "v": 1,
       "subject": "mathematics",
@@ -4243,6 +4823,38 @@
       ],
       "order": 220,
       "note": "If no branch is named, the principal value branch is meant."
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.formula-sin-sin-inverse",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Relations and Functions",
+      "kind": "formula",
+      "front": "Formula: sin(sin⁻¹ x) = x and sin⁻¹(sin x) = x hold for which x?",
+      "back": "sin (sin–1 x) = x, x ∈ [– 1, 1]\nsin–1 (sin x) = x, x ∈ , 2 2 −π π",
+      "quote": "sin (sin–1 x) = x, x ∈ [– 1, 1] and sin–1 (sin x) = x, x ∈ , 2 2 −π π",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 27,
+        "section": "2.3 Properties of Inverse Trigonometric Functions"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "inverse",
+        "sin-inverse"
+      ],
+      "order": 226,
+      "tex": {
+        "back": "$$\\sin(\\sin^{-1} x) = x, \\; x \\in [-1, 1]$$\n$$\\sin^{-1}(\\sin x) = x, \\; x \\in \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$$"
+      },
+      "addedIn": "tex-1102"
     },
     {
       "id": "kc.mathematics.linear-programming.kl-special-class-lpp",
@@ -5946,6 +6558,197 @@
       "note": "Knowing F happened shrinks the sample space to F."
     },
     {
+      "id": "kc.mathematics.probability.formula-conditional-probability-counts",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "formula",
+      "front": "Formula: conditional probability P(E|F) for equally likely outcomes, as a ratio of numbers of elementary events",
+      "back": "Number of elementary eventsfavourable to E ∩F P(E|F) = Number of elementaryevents which arefavourable to F n (E ∩ F) = n (F)",
+      "quote": "Number of elementary eventsfavourable to E ∩F P(E|F) = Number of elementaryevents which arefavourable to F n (E ∩ F) = n (F)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 408,
+        "section": "Conditional Probability"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "conditional probability"
+      ],
+      "order": 42,
+      "tex": {
+        "back": "$$P(E|F) = \\frac{\\text{Number of elementary events favourable to } E \\cap F}{\\text{Number of elementary events which are favourable to } F} = \\frac{n(E \\cap F)}{n(F)}$$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.probability.formula-conditional-probability-definition",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "formula",
+      "front": "Formula: conditional probability of E given that F has occurred (Definition 1)",
+      "back": "the conditional probability of the event E given that F has occurred, i.e. P (E|F) is given by\nP(E|F) = P(E F) P(F) ∩ provided P(F) ≠ 0",
+      "quote": "If E and F are two events associated with the same sample space of a random experiment, the conditional probability of the event E given that F has occurred, i.e. P (E|F) is given by P(E|F) = P(E F) P(F) ∩ provided P(F) ≠ 0",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 408,
+        "section": "Conditional Probability"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "conditional probability",
+        "definition"
+      ],
+      "order": 45,
+      "tex": {
+        "back": "the conditional probability of the event $E$ given that $F$ has occurred, i.e. $P(E|F)$ is given by\n$$P(E|F) = \\frac{P(E \\cap F)}{P(F)} \\quad \\text{provided } P(F) \\neq 0$$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.probability.formula-conditional-property-1",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "formula",
+      "front": "Formula: Property 1 of conditional probability, the value of P(S|F) and P(F|F)",
+      "back": "Let E and F be events of a sample space S of an experiment, then we have\nProperty 1 P(S|F) = P(F|F) = 1",
+      "quote": "Let E and F be events of a sample space S of an experiment, then we have Property 1 P(S|F) = P(F|F) = 1",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 408,
+        "section": "Properties of conditional probability"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "conditional probability",
+        "properties"
+      ],
+      "order": 46,
+      "tex": {
+        "back": "Let $E$ and $F$ be events of a sample space $S$ of an experiment, then we have\nProperty 1 $P(S|F) = P(F|F) = 1$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.probability.formula-conditional-property-2-union",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "formula",
+      "front": "Formula: Property 2 of conditional probability, P((A ∪ B)|F) for any two events A and B",
+      "back": "If A and B are any two events of a sample space S and F is an event of S such that P(F) ≠ 0, then\nP((A ∪ B)|F) = P(A|F) + P(B|F) – P((A ∩ B)|F)",
+      "quote": "If A and B are any two events of a sample space S and F is an event of S such that P(F) ≠ 0, then P((A ∪ B)|F) = P(A|F) + P(B|F) – P((A ∩ B)|F)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 408,
+        "section": "Properties of conditional probability"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "conditional probability",
+        "properties"
+      ],
+      "order": 47,
+      "tex": {
+        "back": "If $A$ and $B$ are any two events of a sample space $S$ and $F$ is an event of $S$ such that $P(F) \\neq 0$, then\n$$P((A \\cup B)|F) = P(A|F) + P(B|F) - P((A \\cap B)|F)$$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.probability.formula-conditional-property-2-disjoint",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "formula",
+      "front": "Formula: P((A ∪ B)|F) when A and B are disjoint events",
+      "back": "In particular, if A and B are disjoint events, then\nP((A∪B)|F) = P(A|F) + P(B|F)",
+      "quote": "In particular, if A and B are disjoint events, then P((A∪B)|F) = P(A|F) + P(B|F)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 409,
+        "section": "Properties of conditional probability"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "conditional probability",
+        "properties"
+      ],
+      "order": 48,
+      "tex": {
+        "back": "In particular, if $A$ and $B$ are disjoint events, then\n$$P((A \\cup B)|F) = P(A|F) + P(B|F)$$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.probability.formula-conditional-property-3-complement",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "formula",
+      "front": "Formula: Property 3 of conditional probability, P(E′|F) in terms of P(E|F)",
+      "back": "Property 3 P(E′|F) = 1 − P(E|F)",
+      "quote": "Property 3 P(E′|F) = 1 − P(E|F)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 409,
+        "section": "Properties of conditional probability"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "conditional probability",
+        "complement"
+      ],
+      "order": 49,
+      "tex": {
+        "back": "Property 3 $P(E\\prime|F) = 1 - P(E|F)$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
       "id": "kc.mathematics.probability.fact-definition-general-case",
       "v": 1,
       "subject": "mathematics",
@@ -5973,6 +6776,69 @@
       "order": 50
     },
     {
+      "id": "kc.mathematics.probability.formula-multiplication-rule",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "formula",
+      "front": "Formula: multiplication rule of probability for P(E ∩ F)",
+      "back": "P(E ∩ F) = P(E) P(F|E)\n= P(F) P(E|F) provided P(E) ≠ 0 and P(F) ≠ 0.\nThe above result is known as the multiplication rule of probability.",
+      "quote": "P(E ∩ F) = P(E) P(F|E) = P(F) P(E|F) provided P(E) ≠ 0 and P(F) ≠ 0. The above result is known as the multiplication rule of probability.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 415,
+        "section": "Multiplication Theorem on Probability"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "multiplication rule",
+        "conditional probability"
+      ],
+      "order": 65,
+      "tex": {
+        "back": "$$P(E \\cap F) = P(E)\\,P(F|E)$$\n$$= P(F)\\,P(E|F) \\quad \\text{provided } P(E) \\neq 0 \\text{ and } P(F) \\neq 0.$$\nThe above result is known as the multiplication rule of probability."
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.probability.formula-multiplication-rule-three-events",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "formula",
+      "front": "Formula: multiplication rule of probability for three events E, F and G",
+      "back": "If E, F and G are three events of sample space, we have\nP(E ∩ F ∩ G) = P(E) P(F|E) P(G|(E ∩ F)) = P(E) P(F|E) P(G|EF)",
+      "quote": "If E, F and G are three events of sample space, we have P(E ∩ F ∩ G) = P(E) P(F|E) P(G|(E ∩ F)) = P(E) P(F|E) P(G|EF)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 416,
+        "section": "Multiplication Theorem on Probability"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "multiplication rule"
+      ],
+      "order": 68,
+      "tex": {
+        "back": "If $E$, $F$ and $G$ are three events of sample space, we have\n$$P(E \\cap F \\cap G) = P(E)\\,P(F|E)\\,P(G|(E \\cap F)) = P(E)\\,P(F|E)\\,P(G|EF)$$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
       "id": "kc.mathematics.probability.def-independent-events",
       "v": 1,
       "subject": "mathematics",
@@ -5998,6 +6864,70 @@
         "independent events"
       ],
       "order": 90
+    },
+    {
+      "id": "kc.mathematics.probability.formula-independent-definition-2",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "formula",
+      "front": "Formula: independence of E and F through P(F|E) and P(E|F) (Definition 2)",
+      "back": "Two events E and F are said to be independent, if\nP(F|E) = P (F) provided P (E) ≠ 0\nand P (E|F) = P (E) provided P (F) ≠ 0",
+      "quote": "Two events E and F are said to be independent, if P(F|E) = P (F) provided P (E) ≠ 0 and P (E|F) = P (E) provided P (F) ≠ 0",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 418,
+        "section": "Independent Events"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "independent events",
+        "definition"
+      ],
+      "order": 95,
+      "tex": {
+        "back": "Two events $E$ and $F$ are said to be independent, if\n$$P(F|E) = P(F) \\quad \\text{provided } P(E) \\neq 0$$\n$$\\text{and}\\quad P(E|F) = P(E) \\quad \\text{provided } P(F) \\neq 0$$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.probability.formula-independent-definition-3",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "formula",
+      "front": "Formula: the product condition for two events E and F to be independent (Definition 3)",
+      "back": "Let E and F be two events associated with the same random experiment, then E and F are said to be independent if\nP(E ∩ F) = P(E) . P (F)",
+      "quote": "Let E and F be two events associated with the same random experiment, then E and F are said to be independent if P(E ∩ F) = P(E) . P (F)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 418,
+        "section": "Independent Events"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "independent events",
+        "definition"
+      ],
+      "order": 96,
+      "tex": {
+        "back": "Let $E$ and $F$ be two events associated with the same random experiment, then $E$ and $F$ are said to be independent if\n$$P(E \\cap F) = P(E) \\cdot P(F)$$"
+      },
+      "addedIn": "tex-1102"
     },
     {
       "id": "kc.mathematics.probability.def-dependent-events",
@@ -6110,6 +7040,134 @@
       "order": 150
     },
     {
+      "id": "kc.mathematics.probability.list-mutually-independent-three-events",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "list",
+      "front": "State the four conditions for three events A, B and C to be mutually independent.",
+      "back": "Three events A, B and C are said to be mutually independent, if\nP(A ∩ B) = P(A) P(B)\nP(A ∩ C) = P(A) P(C)\nP (B ∩ C) = P(B) P(C)\nand P(A ∩ B ∩ C) = P(A) P (B) P(C)",
+      "quote": "Three events A, B and C are said to be mutually independent, if P(A ∩ B) = P(A) P(B) P(A ∩ C) = P(A) P(C) P (B ∩ C) = P(B) P(C) and P(A ∩ B ∩ C) = P(A) P (B) P(C)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 418,
+        "section": "Independent Events"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "independent events",
+        "three events"
+      ],
+      "order": 155,
+      "tex": {
+        "back": "Three events $A$, $B$ and $C$ are said to be mutually independent, if\n$$P(A \\cap B) = P(A)\\,P(B)$$\n$$P(A \\cap C) = P(A)\\,P(C)$$\n$$P(B \\cap C) = P(B)\\,P(C)$$\n$$\\text{and}\\quad P(A \\cap B \\cap C) = P(A)\\,P(B)\\,P(C)$$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.probability.formula-at-least-one-independent",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "formula",
+      "front": "Formula: probability that at least one of two independent events A and B occurs",
+      "back": "If A and B are two independent events, then the probability of occurrence of at least one of A and B is given by 1– P(A′) P(B′)",
+      "quote": "If A and B are two independent events, then the probability of occurrence of at least one of A and B is given by 1– P(A′) P(B′)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 421,
+        "section": "Independent Events"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "independent events"
+      ],
+      "order": 196,
+      "tex": {
+        "back": "If $A$ and $B$ are two independent events, then the probability of occurrence of at least one of $A$ and $B$ is given by $1 - P(A\\prime)\\,P(B\\prime)$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.probability.def-partition-of-sample-space",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "definition",
+      "front": "When do events E1, E2, ..., En represent a partition of the sample space S?",
+      "back": "In other words, the events E1 , E2 , ..., En represent a partition of the sample space S if they are pairwise disjoint, exhaustive and have nonzero probabilities.",
+      "quote": "In other words, the events E1 , E2 , ..., En represent a partition of the sample space S if they are pairwise disjoint, exhaustive and have nonzero probabilities.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 424,
+        "section": "Partition of a Sample Space"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "partition",
+        "sample space"
+      ],
+      "order": 220,
+      "tex": {
+        "front": "When do events $E_1, E_2, \\ldots, E_n$ represent a partition of the sample space $S$?",
+        "back": "In other words, the events $E_1, E_2, \\ldots, E_n$ represent a partition of the sample space $S$ if they are pairwise disjoint, exhaustive and have nonzero probabilities."
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.probability.fact-event-and-complement-partition",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "fact",
+      "front": "Which pair of events always forms a partition of the sample space S, for any nonempty event E?",
+      "back": "As an example, we see that any nonempty event E and its complement E′ form a partition of the sample space S since they satisfy E ∩ E′ = φ and E ∪ E′ = S.",
+      "quote": "As an example, we see that any nonempty event E and its complement E′ form a partition of the sample space S since they satisfy E ∩ E′ = φ and E ∪ E′ = S.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 424,
+        "section": "Partition of a sample space"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "partition",
+        "complement"
+      ],
+      "order": 225,
+      "tex": {
+        "back": "As an example, we see that any nonempty event $E$ and its complement $E\\prime$ form a partition of the sample space $S$ since they satisfy $E \\cap E\\prime = \\phi$ and $E \\cup E\\prime = S$."
+      },
+      "addedIn": "tex-1102"
+    },
+    {
       "id": "kc.mathematics.probability.fact-partition-not-unique",
       "v": 1,
       "subject": "mathematics",
@@ -6136,6 +7194,71 @@
         "sample space"
       ],
       "order": 230
+    },
+    {
+      "id": "kc.mathematics.probability.formula-total-probability",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "formula",
+      "front": "Formula: theorem of total probability for P(A)",
+      "back": "Let {E1 , E2 ,...,En } be a partition of the sample space S, and suppose that each of the events E1 , E2 ,..., En has nonzero probability of occurrence. Let A be any event associated with S, then\nP(A) = P(E1 ) P(A|E1 ) + P(E2 ) P(A|E2 ) + ... + P(En ) P(A|En )\n= 1 P(E ) P(A|E ) n j j j= ∑",
+      "quote": "Let {E1 , E2 ,...,En } be a partition of the sample space S, and suppose that each of the events E1 , E2 ,..., En has nonzero probability of occurrence. Let A be any event associated with S, then P(A) = P(E1 ) P(A|E1 ) + P(E2 ) P(A|E2 ) + ... + P(En ) P(A|En ) = 1 P(E ) P(A|E ) n j j j= ∑",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 424,
+        "section": "Theorem of total probability"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "total probability",
+        "partition"
+      ],
+      "order": 235,
+      "tex": {
+        "back": "Let $\\{E_1, E_2, \\ldots, E_n\\}$ be a partition of the sample space $S$, and suppose that each of the events $E_1, E_2, \\ldots, E_n$ has nonzero probability of occurrence. Let $A$ be any event associated with $S$, then\n$$P(A) = P(E_1)\\,P(A|E_1) + P(E_2)\\,P(A|E_2) + \\ldots + P(E_n)\\,P(A|E_n)$$\n$$= \\sum_{j=1}^{n} P(E_j)\\,P(A|E_j)$$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.probability.formula-bayes-theorem",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "formula",
+      "front": "Formula: Bayes' theorem for P(Ei|A)",
+      "back": "If E1 , E2 ,..., En are n non empty events which constitute a partition of sample space S, i.e. E1 , E2 ,..., En are pairwise disjoint and E1∪ E2∪ ... ∪ En = S and A is any event of nonzero probability, then\nP(Ei |A) = 1 P(E ) P(A|E ) P(E ) P(A|E ) i i n j j j= ∑ for any i = 1, 2, 3, ..., n",
+      "quote": "If E1 , E2 ,..., En are n non empty events which constitute a partition of sample space S, i.e. E1 , E2 ,..., En are pairwise disjoint and E1∪ E2∪ ... ∪ En = S and A is any event of nonzero probability, then P(Ei |A) = 1 P(E ) P(A|E ) P(E ) P(A|E ) i i n j j j= ∑ for any i = 1, 2, 3, ..., n",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 425,
+        "section": "Bayes' Theorem"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "bayes theorem",
+        "conditional probability"
+      ],
+      "order": 245,
+      "tex": {
+        "front": "Formula: Bayes' theorem for $P(E_i|A)$",
+        "back": "If $E_1, E_2, \\ldots, E_n$ are $n$ non empty events which constitute a partition of sample space $S$, i.e. $E_1, E_2, \\ldots, E_n$ are pairwise disjoint and $E_1 \\cup E_2 \\cup \\ldots \\cup E_n = S$ and $A$ is any event of nonzero probability, then\n$$P(E_i|A) = \\frac{P(E_i)\\,P(A|E_i)}{\\sum_{j=1}^{n} P(E_j)\\,P(A|E_j)} \\quad \\text{for any } i = 1, 2, 3, \\ldots, n$$"
+      },
+      "addedIn": "tex-1102"
     },
     {
       "id": "kc.mathematics.probability.term-bayes-formula-causes",
@@ -6165,6 +7288,136 @@
         "bayes theorem"
       ],
       "order": 250
+    },
+    {
+      "id": "kc.mathematics.probability.def-hypotheses",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "definition",
+      "front": "In Bayes' theorem, what are the events E1, E2, ..., En called?",
+      "back": "The events E1, E2, ..., En are called hypotheses.",
+      "quote": "The events E1, E2, ..., En are called hypotheses.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 426,
+        "section": "Bayes' Theorem"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "bayes theorem",
+        "hypotheses"
+      ],
+      "order": 260,
+      "tex": {
+        "front": "In Bayes' theorem, what are the events $E_1, E_2, \\ldots, E_n$ called?",
+        "back": "The events $E_1, E_2, \\ldots, E_n$ are called hypotheses."
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.probability.def-priori-probability",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "definition",
+      "front": "In Bayes' theorem, what is the probability P(Ei) of the hypothesis Ei called?",
+      "back": "The probability P(Ei) is called the priori probability of the hypothesis Ei",
+      "quote": "The probability P(Ei) is called the priori probability of the hypothesis Ei",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 426,
+        "section": "Bayes' Theorem"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "bayes theorem",
+        "priori probability"
+      ],
+      "order": 270,
+      "tex": {
+        "front": "In Bayes' theorem, what is the probability $P(E_i)$ of the hypothesis $E_i$ called?",
+        "back": "The probability $P(E_i)$ is called the priori probability of the hypothesis $E_i$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.probability.def-posteriori-probability",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "definition",
+      "front": "In Bayes' theorem, what is the conditional probability P(Ei|A) called?",
+      "back": "The conditional probability P(Ei |A) is called a posteriori probability of the hypothesis Ei.",
+      "quote": "The conditional probability P(Ei |A) is called a posteriori probability of the hypothesis Ei.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 426,
+        "section": "Bayes' Theorem"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "bayes theorem",
+        "posteriori probability"
+      ],
+      "order": 280,
+      "tex": {
+        "front": "In Bayes' theorem, what is the conditional probability $P(E_i|A)$ called?",
+        "back": "The conditional probability $P(E_i|A)$ is called a posteriori probability of the hypothesis $E_i$."
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.probability.fact-conditional-probability-range",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "fact",
+      "front": "Between which two values does every conditional probability P(E|F) lie?",
+      "back": "0 ≤ P (E|F) ≤ 1,",
+      "quote": "0 ≤ P (E|F) ≤ 1,",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 437,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "conditional probability"
+      ],
+      "order": 340,
+      "tex": {
+        "back": "$0 \\le P(E|F) \\le 1$,"
+      },
+      "addedIn": "tex-1102"
     },
     {
       "id": "kc.mathematics.probability-distributions.def-random-variable",

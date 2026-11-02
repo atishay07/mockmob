@@ -1,7 +1,7 @@
 {
  "version": 1,
  "rule": "Per chapter, the top 25% of cards (at least 6, at most 40) by score = 3 x min(linked questions, 3) + kind weight + 1 for a Summary or Recap section; ties in book order",
- "built": "2026-11-02T03:53:38.719Z",
+ "built": "2026-11-02T05:25:02.909Z",
  "must": {
   "accountancy.accounting-ratios": [
    "kc.accountancy.accounting-ratios.def-a-ratio",
@@ -2876,10 +2876,10 @@
   "mathematics.application-of-integrals": [
    "kc.mathematics.application-of-integrals.fact-calculus-for-curves",
    "kc.mathematics.application-of-integrals.fact-chapter-scope",
-   "kc.mathematics.application-of-integrals.fact-area-thin-strips",
-   "kc.mathematics.application-of-integrals.fact-horizontal-strips",
-   "kc.mathematics.application-of-integrals.fact-negative-area-absolute",
-   "kc.mathematics.application-of-integrals.fact-circle-symmetry"
+   "kc.mathematics.application-of-integrals.def-elementary-area",
+   "kc.mathematics.application-of-integrals.formula-area-under-curve-vertical",
+   "kc.mathematics.application-of-integrals.formula-area-horizontal-strips",
+   "kc.mathematics.application-of-integrals.formula-circle-area"
   ],
   "mathematics.continuity-and-differentiability": [
    "kc.mathematics.continuity-and-differentiability.def-continuity-naive",
@@ -2923,12 +2923,12 @@
    "kc.mathematics.integrals.def-general-integrals-name"
   ],
   "mathematics.inverse-trigonometric-functions": [
-   "kc.mathematics.inverse-trigonometric-functions.fact-inverse-domain-range",
-   "kc.mathematics.inverse-trigonometric-functions.fact-sine-domain-range",
-   "kc.mathematics.inverse-trigonometric-functions.fact-graph-point-swap",
-   "kc.mathematics.inverse-trigonometric-functions.fact-inverse-graph-mirror-image",
-   "kc.mathematics.inverse-trigonometric-functions.fact-cos-domain-range",
-   "kc.mathematics.inverse-trigonometric-functions.def-principal-value"
+   "kc.mathematics.inverse-trigonometric-functions.formula-inverse-of-inverse",
+   "kc.mathematics.inverse-trigonometric-functions.formula-compose-with-inverse",
+   "kc.mathematics.inverse-trigonometric-functions.formula-sin-inverse-branch",
+   "kc.mathematics.inverse-trigonometric-functions.formula-cos-inverse-branch",
+   "kc.mathematics.inverse-trigonometric-functions.formula-cosec-inverse-branch",
+   "kc.mathematics.inverse-trigonometric-functions.formula-sec-inverse-branch"
   ],
   "mathematics.linear-programming": [
    "kc.mathematics.linear-programming.def-linear-programming-problem",
@@ -2951,12 +2951,14 @@
    "kc.mathematics.matrices.def-sum"
   ],
   "mathematics.probability": [
-   "kc.mathematics.probability.fact-sample-space-reduced",
-   "kc.mathematics.probability.fact-definition-general-case",
-   "kc.mathematics.probability.def-independent-events",
-   "kc.mathematics.probability.def-dependent-events",
-   "kc.mathematics.probability.diff-independent-vs-mutually-exclusive-outcome",
-   "kc.mathematics.probability.def-independent-experiments"
+   "kc.mathematics.probability.formula-conditional-probability-counts",
+   "kc.mathematics.probability.formula-conditional-probability-definition",
+   "kc.mathematics.probability.formula-conditional-property-1",
+   "kc.mathematics.probability.formula-conditional-property-2-union",
+   "kc.mathematics.probability.formula-conditional-property-2-disjoint",
+   "kc.mathematics.probability.formula-conditional-property-3-complement",
+   "kc.mathematics.probability.formula-multiplication-rule",
+   "kc.mathematics.probability.formula-multiplication-rule-three-events"
   ],
   "mathematics.probability-distributions": [
    "kc.mathematics.probability-distributions.def-random-variable"

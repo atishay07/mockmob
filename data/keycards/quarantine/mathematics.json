@@ -430,6 +430,41 @@
       ]
     },
     {
+      "id": "kc.mathematics.inverse-trigonometric-functions.list-trig-functions-defined",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Inverse Trigonometric Functions",
+      "kind": "list",
+      "front": "Name the domain and codomain of each of the six trigonometric functions, as defined in Class XI.",
+      "back": "sine function, i.e., sine : R → [– 1, 1]\ncosine function, i.e., cos : R → [– 1, 1]\ntangent function, i.e., tan : R – { x : x = (2n + 1) 2 π , n ∈ Z} → R\ncotangent function, i.e., cot : R – { x : x = nπ, n ∈ Z} → R\nsecant function, i.e., sec : R – { x : x = (2n + 1) 2 π , n ∈ Z} → R – (– 1, 1)\ncosecant function, i.e., cosec : R – { x : x = nπ, n ∈ Z} → R – (– 1, 1)",
+      "quote": "sine function, i.e., sine : R → [– 1, 1] cosine function, i.e., cos : R → [– 1, 1] tangent function, i.e., tan : R – { x : x = (2n + 1) 2 π , n ∈ Z} → R cotangent function, i.e., cot : R – { x : x = nπ, n ∈ Z} → R secant function, i.e., sec : R – { x : x = (2n + 1) 2 π , n ∈ Z} → R – (– 1, 1) cosecant function, i.e., cosec : R – { x : x = nπ, n ∈ Z} → R – (– 1, 1)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 18,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "trig-functions",
+        "domain"
+      ],
+      "order": 35,
+      "tex": {
+        "back": "sine function, i.e., $\\text{sine} : \\mathbf{R} \\to [-1, 1]$\ncosine function, i.e., $\\cos : \\mathbf{R} \\to [-1, 1]$\ntangent function, i.e., $\\tan : \\mathbf{R} - \\{x : x = (2n + 1)\\frac{\\pi}{2}, n \\in \\mathbf{Z}\\} \\to \\mathbf{R}$\ncotangent function, i.e., $\\cot : \\mathbf{R} - \\{x : x = n\\pi, n \\in \\mathbf{Z}\\} \\to \\mathbf{R}$\nsecant function, i.e., $\\sec : \\mathbf{R} - \\{x : x = (2n + 1)\\frac{\\pi}{2}, n \\in \\mathbf{Z}\\} \\to \\mathbf{R} - (-1, 1)$\ncosecant function, i.e., $\\operatorname{cosec} : \\mathbf{R} - \\{x : x = n\\pi, n \\in \\mathbf{Z}\\} \\to \\mathbf{R} - (-1, 1)$"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "shape:tex_inline_long"
+      ]
+    },
+    {
       "id": "kc.mathematics.inverse-trigonometric-functions.kl-inverse-bijective",
       "v": 1,
       "subject": "mathematics",
@@ -463,14 +498,50 @@
       ]
     },
     {
-      "id": "kc.mathematics.inverse-trigonometric-functions.fact-sin-inv-domain",
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-sine-restricted",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.inverse-trigonometric-functions",
       "chapter": "Inverse Trigonometric Functions",
       "unit": "Inverse Trigonometric Functions",
       "kind": "fact",
-      "front": "What is the domain of sin-1 (arc sine function)?",
+      "front": "Sine is restricted to which interval (the principal branch) to become one-one and onto with range [−1, 1]?",
+      "back": "If we restrict its domain to , 2 2 −π π , then it becomes one-one and onto with range [– 1, 1].",
+      "quote": "If we restrict its domain to , 2 2 −π π , then it becomes one-one and onto with range [– 1, 1].",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 19,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "sine",
+        "restriction"
+      ],
+      "order": 62,
+      "tex": {
+        "back": "If we restrict its domain to $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$, then it becomes one-one and onto with range $[-1, 1]$."
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: the interval [-pi/2, pi/2] is the range of sin^-1 already on formula-sin-inverse-branch and list-principal-branch-table"
+      ]
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-sin-inv-domain",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Inverse Trigonometric Functions",
+      "kind": "fact",
+      "front": "What is the domain of sin⁻¹ (the arc sine function)?",
       "back": "Thus, sin-1 is a function whose domain is [-1, 1]",
       "quote": "Thus, sin-1 is a function whose domain is [-1, 1]",
       "blanks": [],
@@ -489,9 +560,13 @@
         "domain"
       ],
       "order": 70,
+      "tex": {
+        "back": "Thus, $\\sin^{-1}$ is a function whose domain is $[-1, 1]$"
+      },
+      "addedIn": "tex-1102",
       "reasons": [
-        "review:not_exact",
-        "review:front/back carry the inverse-function superscript flattened to plain 'sin-1' style text (reads as sin minus 1); notation garbled in plain text; domain of sin-1 stated with the flattened symbol."
+        "review:not_important",
+        "review:duplicate: domain [-1, 1] is already on formula-sin-inverse-branch and the table; also marked must while cos-inv-domain is good, so inconsistent"
       ]
     },
     {
@@ -562,14 +637,50 @@
       ]
     },
     {
-      "id": "kc.mathematics.inverse-trigonometric-functions.fact-cos-inv-domain",
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-cosine-restricted",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.inverse-trigonometric-functions",
       "chapter": "Inverse Trigonometric Functions",
       "unit": "Inverse Trigonometric Functions",
       "kind": "fact",
-      "front": "What is the domain of cos-1 (arc cosine function)?",
+      "front": "Cosine is restricted to which interval (the principal branch) to become one-one and onto with range [−1, 1]?",
+      "back": "If we restrict the domain of cosine function to [0, π], then it becomes one-one and onto with range [–1, 1].",
+      "quote": "If we restrict the domain of cosine function to [0, π], then it becomes one-one and onto with range [–1, 1].",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 20,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "cosine",
+        "restriction"
+      ],
+      "order": 125,
+      "tex": {
+        "back": "If we restrict the domain of cosine function to $[0, \\pi]$, then it becomes one-one and onto with range $[-1, 1]$."
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: [0, pi] is the principal branch already on formula-cos-inverse-branch"
+      ]
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-cos-inv-domain",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Inverse Trigonometric Functions",
+      "kind": "fact",
+      "front": "What is the domain of cos⁻¹ (the arc cosine function)?",
       "back": "Thus, cos-1 is a function whose domain is [-1, 1]",
       "quote": "Thus, cos-1 is a function whose domain is [-1, 1]",
       "blanks": [],
@@ -588,9 +699,13 @@
         "domain"
       ],
       "order": 130,
+      "tex": {
+        "back": "Thus, $\\cos^{-1}$ is a function whose domain is $[-1, 1]$"
+      },
+      "addedIn": "tex-1102",
       "reasons": [
-        "review:not_exact",
-        "review:front/back carry the inverse-function superscript flattened to plain 'sin-1' style text (reads as sin minus 1); notation garbled in plain text."
+        "review:not_important",
+        "review:duplicate: domain [-1, 1] is already on formula-cos-inverse-branch"
       ]
     },
     {
@@ -629,14 +744,50 @@
       ]
     },
     {
-      "id": "kc.mathematics.inverse-trigonometric-functions.fact-cosec-inv-domain",
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-cosec-restricted",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.inverse-trigonometric-functions",
       "chapter": "Inverse Trigonometric Functions",
       "unit": "Inverse Trigonometric Functions",
       "kind": "fact",
-      "front": "What is the domain of cosec-1?",
+      "front": "Cosec is restricted to which domain (the principal branch) to become one-one and onto with range R − (−1, 1)?",
+      "back": "If we restrict the domain of cosec function to , 2 2 π π − – {0}, then it is one to one and onto with its range as the set R – (– 1, 1).",
+      "quote": "If we restrict the domain of cosec function to , 2 2 π π − – {0}, then it is one to one and onto with its range as the set R – (– 1, 1).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 21,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "cosec",
+        "restriction"
+      ],
+      "order": 147,
+      "tex": {
+        "back": "If we restrict the domain of cosec function to $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right] - \\{0\\}$, then it is one to one and onto with its range as the set $\\mathbf{R} - (-1, 1)$."
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: [-pi/2, pi/2] - {0} is the principal branch already on formula-cosec-inverse-branch"
+      ]
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-cosec-inv-domain",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Inverse Trigonometric Functions",
+      "kind": "fact",
+      "front": "What is the domain of cosec⁻¹?",
       "back": "Thus cosec-1 can be defined as a function whose domain is R - (-1, 1)",
       "quote": "Thus cosec-1 can be defined as a function whose domain is R - (-1, 1)",
       "blanks": [],
@@ -655,20 +806,24 @@
         "domain"
       ],
       "order": 150,
+      "tex": {
+        "back": "Thus $\\operatorname{cosec}^{-1}$ can be defined as a function whose domain is $\\mathbf{R} - (-1, 1)$"
+      },
+      "addedIn": "tex-1102",
       "reasons": [
-        "review:not_exact",
-        "review:front/back carry the inverse-function superscript flattened to plain 'sin-1' style text (reads as sin minus 1); notation garbled in plain text ('cosec-1'); domain 'R - (-1, 1)' is a flattened set-difference expression."
+        "review:not_important",
+        "review:duplicate: domain R - (-1, 1) is already on formula-cosec-inverse-branch and fact-cosec-domain-range"
       ]
     },
     {
       "id": "kc.mathematics.inverse-trigonometric-functions.fact-sec-inv-domain",
-      "v": 1,
+      "v": 2,
       "subject": "mathematics",
       "chapterKey": "mathematics.inverse-trigonometric-functions",
       "chapter": "Inverse Trigonometric Functions",
       "unit": "Inverse Trigonometric Functions",
       "kind": "fact",
-      "front": "What is the domain of sec-1?",
+      "front": "What is the domain of sec⁻¹?",
       "back": "Thus sec-1 can be defined as a function whose domain is R- (-1, 1)",
       "quote": "Thus sec-1 can be defined as a function whose domain is R- (-1, 1)",
       "blanks": [],
@@ -687,9 +842,13 @@
         "domain"
       ],
       "order": 160,
+      "tex": {
+        "back": "Thus $\\sec^{-1}$ can be defined as a function whose domain is $\\mathbf{R} - (-1, 1)$"
+      },
+      "addedIn": "tex-1102",
       "reasons": [
-        "review:not_exact",
-        "review:front/back carry the inverse-function superscript flattened to plain 'sin-1' style text (reads as sin minus 1); notation garbled in plain text ('sec-1'); domain 'R- (-1, 1)' is a flattened set-difference expression."
+        "review:not_important",
+        "review:duplicate: domain R - (-1, 1) is already on formula-sec-inverse-branch and fact-sec-domain-range"
       ]
     },
     {
@@ -729,14 +888,50 @@
       ]
     },
     {
-      "id": "kc.mathematics.inverse-trigonometric-functions.fact-tan-inv-domain",
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-tan-restricted",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.inverse-trigonometric-functions",
       "chapter": "Inverse Trigonometric Functions",
       "unit": "Inverse Trigonometric Functions",
       "kind": "fact",
-      "front": "What is the domain of tan-1?",
+      "front": "Tangent is restricted to which interval (the principal branch) to become one-one and onto with range R?",
+      "back": ", 2 2 −π π , then it is one-one and onto with its range as R.",
+      "quote": ", 2 2 −π π , then it is one-one and onto with its range as R.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 24,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tan",
+        "restriction"
+      ],
+      "order": 177,
+      "tex": {
+        "back": "$\\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$, then it is one-one and onto with its range as $\\mathbf{R}$."
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: (-pi/2, pi/2) is the principal branch already on formula-tan-inverse-branch; also the quote is a mid-sentence fragment, so the back opens with a bare interval and 'then'"
+      ]
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-tan-inv-domain",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Inverse Trigonometric Functions",
+      "kind": "fact",
+      "front": "What is the domain of tan⁻¹?",
       "back": "Thus tan-1 can be defined as a function whose domain is R",
       "quote": "Thus tan-1 can be defined as a function whose domain is R",
       "blanks": [],
@@ -755,20 +950,60 @@
         "domain"
       ],
       "order": 180,
+      "tex": {
+        "back": "Thus $\\tan^{-1}$ can be defined as a function whose domain is $\\mathbf{R}$"
+      },
+      "addedIn": "tex-1102",
       "reasons": [
-        "review:not_exact",
-        "review:front/back carry the inverse-function superscript flattened to plain 'sin-1' style text (reads as sin minus 1); notation garbled in plain text ('tan-1')."
+        "review:not_important",
+        "review:duplicate: domain R is already on formula-tan-inverse-branch"
       ]
     },
     {
-      "id": "kc.mathematics.inverse-trigonometric-functions.fact-cot-inv-domain",
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-cot-restricted",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.inverse-trigonometric-functions",
       "chapter": "Inverse Trigonometric Functions",
       "unit": "Inverse Trigonometric Functions",
       "kind": "fact",
-      "front": "What is the domain of cot-1?",
+      "front": "Cotangent is restricted to which interval (the principal branch) to become bijective?",
+      "back": "If we restrict the domain of cotangent function to (0, π), then it is bijective",
+      "quote": "If we restrict the domain of cotangent function to (0, π), then it is bijective",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 24,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "cot",
+        "restriction"
+      ],
+      "order": 188,
+      "tex": {
+        "back": "If we restrict the domain of cotangent function to $(0, \\pi)$, then it is bijective"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: (0, pi) is the principal branch already on formula-cot-inverse-branch; quote also cut off before NCERT's 'range as R'"
+      ]
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-cot-inv-domain",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Inverse Trigonometric Functions",
+      "kind": "fact",
+      "front": "What is the domain of cot⁻¹?",
       "back": "Thus cot-1 can be defined as a function whose domain is the R",
       "quote": "Thus cot -1 can be defined as a function whose domain is the R",
       "blanks": [],
@@ -787,9 +1022,49 @@
         "domain"
       ],
       "order": 190,
+      "tex": {
+        "back": "Thus $\\cot^{-1}$ can be defined as a function whose domain is the $\\mathbf{R}$"
+      },
+      "addedIn": "tex-1102",
       "reasons": [
-        "review:not_exact",
-        "review:front/back carry the inverse-function superscript flattened to plain 'sin-1' style text (reads as sin minus 1); notation garbled in plain text ('cot -1'); quote has stray spacing and 'the R' wording; cited page 25 is wrong, the sentence is on printed page 24."
+        "review:not_important",
+        "review:duplicate: domain R is already on formula-cot-inverse-branch"
+      ]
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.list-principal-branch-table",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Inverse Trigonometric Functions",
+      "kind": "list",
+      "front": "List the principal value branch (domain → range) of each of the six inverse trigonometric functions.",
+      "back": "sin–1 : [–1, 1] → , 2 2 π π −\ncos–1 : [–1, 1] → [0, π]\ncosec–1 : R – (–1,1) → , 2 2 π π − – {0}\nsec–1 : R – (–1, 1) → [0, π] – { } 2 π\ntan–1 : R → , 2 2 −π π\ncot–1 : R → (0, π)",
+      "quote": "sin–1 : [–1, 1] → , 2 2 π π − cos–1 : [–1, 1] → [0, π] cosec–1 : R – (–1,1) → , 2 2 π π − – {0} sec–1 : R – (–1, 1) → [0, π] – { } 2 π tan–1 : R → , 2 2 −π π cot–1 : R → (0, π)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 25,
+        "section": "2.2 Basic Concepts"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "principal-branch",
+        "table"
+      ],
+      "order": 197,
+      "tex": {
+        "back": "$$\\sin^{-1} : [-1, 1] \\to \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$$\n$$\\cos^{-1} : [-1, 1] \\to [0, \\pi]$$\n$$\\operatorname{cosec}^{-1} : \\mathbf{R} - (-1, 1) \\to \\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right] - \\{0\\}$$\n$$\\sec^{-1} : \\mathbf{R} - (-1, 1) \\to [0, \\pi] - \\left\\{\\frac{\\pi}{2}\\right\\}$$\n$$\\tan^{-1} : \\mathbf{R} \\to \\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$$\n$$\\cot^{-1} : \\mathbf{R} \\to (0, \\pi)$$"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: the six branches repeat formula-sin/cos/cosec/sec/tan/cot-inverse-branch card for card; six-line table also breaks one idea per card"
       ]
     },
     {
@@ -824,6 +1099,77 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:NOTATION: Back/front carry 'sin-1'/'cot-1', a flattened superscript that plain text reads as sin minus 1; say 'inverse sine'/'inverse cotangent' in words. Front says 'the different intervals allowed' pointing at unseen text, and the answer 'different branches' is circular; the exam fact is the princ"
+      ]
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.fact-properties-valid-in-branch",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Inverse Trigonometric Functions",
+      "kind": "fact",
+      "front": "Within which branches are the properties of inverse trigonometric functions valid, as NCERT states?",
+      "back": "these results are valid within the principal value branches of the corresponding inverse trigonometric functions and wherever they are defined",
+      "quote": "these results are valid within the principal value branches of the corresponding inverse trigonometric functions and wherever they are defined",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 27,
+        "section": "2.3 Properties of Inverse Trigonometric Functions"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "properties",
+        "principal-branch"
+      ],
+      "order": 222,
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:scope disclaimer, not a memorisable fact; front says 'as NCERT states' and 'the properties' with no property shown, back 'these results' points at unseen text; no tex block for it"
+      ]
+    },
+    {
+      "id": "kc.mathematics.inverse-trigonometric-functions.formula-sin-inverse-relation",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.inverse-trigonometric-functions",
+      "chapter": "Inverse Trigonometric Functions",
+      "unit": "Inverse Trigonometric Functions",
+      "kind": "formula",
+      "front": "Formula: how are y = sin⁻¹ x and x = sin y related?",
+      "back": "if y = sin–1x, then x = sin y\nif x = sin y, then y = sin–1x",
+      "quote": "if y = sin–1x, then x = sin y and if x = sin y, then y = sin–1x.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh102",
+        "chapterNo": 2,
+        "page": 27,
+        "section": "2.3 Properties of Inverse Trigonometric Functions"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "inverse",
+        "sin-inverse"
+      ],
+      "order": 224,
+      "tex": {
+        "back": "if $y = \\sin^{-1} x$, then $x = \\sin y$\nif $x = \\sin y$, then $y = \\sin^{-1} x$"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:duplicate: NCERT says it is equivalent to sin(sin^-1 x) = x, which formula-sin-sin-inverse already holds; front 'how are they related' is open ended (inverse of each other, etc.); must is too strong for a restatement of the inverse definition"
       ]
     },
     {
@@ -3128,17 +3474,54 @@
       ]
     },
     {
-      "id": "kc.mathematics.application-of-integrals.def-elementary-area",
-      "v": 2,
+      "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.application-of-integrals",
       "chapter": "Application of Integrals",
       "unit": "Application of Integrals",
-      "kind": "definition",
-      "front": "Define the elementary area (the area of one thin strip, when finding the area under a curve).",
-      "back": "elementary area which is located at an arbitrary position within the region which is specified by some value of x between a and b.",
-      "quote": "This area is called the elementary area which is located at an arbitrary position within the region which is specified by some value of x between a and b.",
       "blanks": [],
+      "asked": 0,
+      "id": "kc.mathematics.application-of-integrals.formula-negative-area-absolute",
+      "kind": "formula",
+      "front": "Formula: numerical area under a curve below the x-axis, between the ordinates x = a and x = b",
+      "back": "Thus, if the area is negative, we take its absolute value, i.e.,\n∫ b f (x) dx . a",
+      "quote": "Thus, if the area is negative, we take its absolute value, i.e., ∫ b f (x) dx . a",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh202",
+        "chapterNo": 8,
+        "page": 293,
+        "section": "8.2 Area under Simple Curves"
+      },
+      "importance": "good",
+      "tags": [
+        "negative-area",
+        "absolute-value"
+      ],
+      "order": 95,
+      "tex": {
+        "back": "Thus, if the area is negative, we take its absolute value, i.e.,\n$$\\left|\\int_a^b f(x)\\,dx\\right|.$$"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: same point as published fact-negative-area-absolute (take the absolute value when the area is negative); this card only adds the modulus form of the same statement"
+      ]
+    },
+    {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.application-of-integrals",
+      "chapter": "Application of Integrals",
+      "unit": "Application of Integrals",
+      "blanks": [],
+      "asked": 0,
+      "id": "kc.mathematics.application-of-integrals.formula-area-above-and-below",
+      "kind": "formula",
+      "front": "Formula: area A when part of the curve y = f(x) is above the x-axis and part is below it",
+      "back": "Here, A1 < 0 and A2 > 0. Therefore, the area A bounded by the curve y = f (x), x-axis and the ordinates x = a and x = b is given by\nA = | A1| + A2.",
+      "quote": "Here, A1 < 0 and A2 > 0. Therefore, the area A bounded by the curve y = f (x), x-axis and the ordinates x = a and x = b is given by A = | A1| + A2.",
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part II",
@@ -3148,15 +3531,53 @@
         "section": "8.2 Area under Simple Curves"
       },
       "importance": "must",
-      "asked": 0,
       "tags": [
-        "elementary-area",
-        "strip"
+        "negative-area",
+        "area-under-curve"
       ],
-      "order": 60,
+      "order": 97,
+      "tex": {
+        "back": "Here, $A_1 < 0$ and $A_2 > 0$. Therefore, the area $A$ bounded by the curve $y = f(x)$, $x$-axis and the ordinates $x = a$ and $x = b$ is given by\n$$A = |A_1| + A_2.$$"
+      },
+      "addedIn": "tex-1102",
       "reasons": [
         "review:not_unambiguous",
-        "review:Back is a mid-sentence fragment ('elementary area which is located at an arbitrary position...') that never says it is the area of a thin strip (dA = y dx, printed on p292); the 'thin strip' meaning sits only in the front's paraphrase, so the back does not answer the front. The 'This area' referent "
+        "review:front does not define A1 and A2 (areas of the parts below and above the x-axis, shown only in Fig 8.4); back opens with \"Here, A1 < 0 and A2 > 0\" pointing at the unseen figure, so |A1| + A2 cannot be reached from the front alone"
+      ]
+    },
+    {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.application-of-integrals",
+      "chapter": "Application of Integrals",
+      "unit": "Application of Integrals",
+      "blanks": [],
+      "asked": 0,
+      "id": "kc.mathematics.application-of-integrals.formula-circle-y-from-equation",
+      "kind": "formula",
+      "front": "Formula: from the circle x² + y² = a², what is y in terms of x?",
+      "back": "Since x2 + y2 = a2 gives\ny = ± a2 − x2",
+      "quote": "Since x2 + y2 = a2 gives y = ± a2 − x2",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh202",
+        "chapterNo": 8,
+        "page": 294,
+        "section": "Example 1"
+      },
+      "importance": "good",
+      "tags": [
+        "circle"
+      ],
+      "order": 105,
+      "tex": {
+        "back": "Since $x^2 + y^2 = a^2$ gives\n$$y = \\pm\\sqrt{a^2 - x^2}$$"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:not worth memorising: routine rearrangement of x^2 + y^2 = a^2 inside Worked Example 1, no new formula or property; back opens with dangling \"Since\""
       ]
     },
     {
@@ -3225,6 +3646,41 @@
       ]
     },
     {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.application-of-integrals",
+      "chapter": "Application of Integrals",
+      "unit": "Application of Integrals",
+      "blanks": [],
+      "asked": 0,
+      "id": "kc.mathematics.application-of-integrals.formula-ellipse-y-from-equation",
+      "kind": "formula",
+      "front": "Formula: from the ellipse x²/a² + y²/b² = 1, what is y in terms of x?",
+      "back": "Now x2 + y2 a2 b2 = 1 gives\ny=± b a a2 − x2",
+      "quote": "Now x2 + y2 a2 b2 = 1 gives y=± b a a2 − x2",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh202",
+        "chapterNo": 8,
+        "page": 295,
+        "section": "Example 2"
+      },
+      "importance": "good",
+      "tags": [
+        "ellipse"
+      ],
+      "order": 125,
+      "tex": {
+        "back": "Now $\\frac{x^2}{a^2} + \\frac{y^2}{b^2} = 1$ gives\n$$y = \\pm\\frac{b}{a}\\sqrt{a^2 - x^2}$$"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:not worth memorising: routine rearrangement of the ellipse equation inside Worked Example 2, an exercise step; back opens with dangling \"Now\""
+      ]
+    },
+    {
       "id": "kc.mathematics.application-of-integrals.fact-ellipse-y-positive",
       "v": 1,
       "subject": "mathematics",
@@ -3255,6 +3711,42 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:Back starts mid-sentence with 'but'; depends on the figure label AOBA (Fig 8.7, not shown); duplicates the circle y-positive card."
+      ]
+    },
+    {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.application-of-integrals",
+      "chapter": "Application of Integrals",
+      "unit": "Application of Integrals",
+      "blanks": [],
+      "asked": 0,
+      "id": "kc.mathematics.application-of-integrals.formula-ellipse-area",
+      "kind": "formula",
+      "front": "Formula: area enclosed by the ellipse x²/a² + y²/b² = 1",
+      "back": "the area of the region ABA′B′A bounded by the ellipse\n4b a a2 2 π = π ab 2",
+      "quote": "the area of the region ABA′B′A bounded by the ellipse area of the region AOBAin the first quadrant bounded = 4 by the curve, x − axis and the ordinates x = 0, x = a (as the ellipse is symmetrical about both x-axis and y-axis) = 4∫ a ydx (taking verticalstrips) 0 Now x2 + y2 a2 b2 = 1 gives y=± b a a2 − x2 , but as the region AOBA lies in the first quadrant, y is taken as positive. So, the required area is ∫ = 4 a b a2 − x2 dx 0a = 4b x a2 − x2 + a2 sin –1 x a (Why?) a 2 2 a 0 = 4b a ×0 + a2 sin −1 1 − 0 a 2 2 = 4b a a2 2 π = π ab 2",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh202",
+        "chapterNo": 8,
+        "page": 295,
+        "section": "Example 2"
+      },
+      "importance": "must",
+      "tags": [
+        "ellipse",
+        "area"
+      ],
+      "order": 135,
+      "tex": {
+        "back": "the area of the region $ABA'B'A$ bounded by the ellipse\n$$= \\frac{4b}{a}\\cdot\\frac{a^2}{2}\\cdot\\frac{\\pi}{2} = \\pi ab$$"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_exact",
+        "review:FORMULA: p295 last line prints 4b/a  a^2/2  pi/2 = pi ab with the factors side by side and no multiplication dots; tex inserts \\cdot between them (\\frac{4b}{a}\\cdot\\frac{a^2}{2}\\cdot\\frac{\\pi}{2}), symbols the book does not have, and the phone line becomes '(4b)/a·(a²)/2·π/2 = π ab', a run of slashe"
       ]
     },
     {
@@ -4991,6 +5483,41 @@
       ]
     },
     {
+      "id": "kc.mathematics.probability.formula-dependent-criterion",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "formula",
+      "front": "Formula: the condition for two events E and F to be dependent",
+      "back": "Two events E and F are said to be dependent if they are not independent, i.e. if\nP(E ∩ F ) ≠ P(E) . P (F)",
+      "quote": "Two events E and F are said to be dependent if they are not independent, i.e. if P(E ∩ F ) ≠ P(E) . P (F)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 418,
+        "section": "Independent Events"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "dependent events"
+      ],
+      "order": 101,
+      "tex": {
+        "back": "Two events $E$ and $F$ are said to be dependent if they are not independent, i.e. if\n$$P(E \\cap F) \\neq P(E) \\cdot P(F)$$"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: restates published def-dependent-events (its quote is the whole of that card) and is only the negation of the Definition 3 card; adds no separate fact"
+      ]
+    },
+    {
       "id": "kc.mathematics.probability.diff-independent-vs-mutually-exclusive-defined",
       "v": 1,
       "subject": "mathematics",
@@ -5189,6 +5716,42 @@
       ]
     },
     {
+      "id": "kc.mathematics.probability.list-independent-complements",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.probability",
+      "chapter": "Probability",
+      "unit": "Probability",
+      "kind": "list",
+      "front": "If events E and F are independent, which pairs formed with their complements E′ and F′ are also independent?",
+      "back": "In a similar manner, it can be shown that if the events E and F are independent, then\n(a) E′ and F are independent,\n(b) E′ and F′ are independent",
+      "quote": "In a similar manner, it can be shown that if the events E and F are independent, then (a) E′ and F are independent, (b) E′ and F′ are independent",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh207",
+        "chapterNo": 13,
+        "page": 421,
+        "section": "Independent Events"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "independent events",
+        "complement"
+      ],
+      "order": 195,
+      "tex": {
+        "back": "In a similar manner, it can be shown that if the events $E$ and $F$ are independent, then\n(a) $E\\prime$ and $F$ are independent,\n(b) $E\\prime$ and $F\\prime$ are independent"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:front asks which pairs with complements are independent but E and F' is also independent (NCERT Example 13, p.420), so the one-answer (a),(b) back is incomplete; a student answering E and F' is right yet marked wrong"
+      ]
+    },
+    {
       "id": "kc.mathematics.probability.fact-john-bayes-reverse-probability",
       "v": 1,
       "subject": "mathematics",
@@ -5253,38 +5816,6 @@
       ]
     },
     {
-      "id": "kc.mathematics.probability.def-partition-of-sample-space",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.probability",
-      "chapter": "Probability",
-      "unit": "Probability",
-      "kind": "definition",
-      "front": "When do events E1, E2, ..., En represent a partition of the sample space S?",
-      "back": "In other words, the events E1, E2, ..., En represent a partition of the sample space S if they are pairwise disjoint, exhaustive and have nonzero probabilities.",
-      "quote": "In other words, the events E1, E2, ..., En represent a partition of the sample space S if they are pairwise disjoint, exhaustive and have nonzero probabilities.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh207",
-        "chapterNo": 13,
-        "page": 424,
-        "section": "Partition of a Sample Space"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "partition",
-        "sample space"
-      ],
-      "order": 220,
-      "reasons": [
-        "review:not_exact",
-        "review:subscripts (E1..En / Ei / B1..B3 / P(Ei|A)) are flattened to plain digits or letters by extraction"
-      ]
-    },
-    {
       "id": "kc.mathematics.probability.ex-construction-job-on-time",
       "v": 1,
       "subject": "mathematics",
@@ -5314,102 +5845,6 @@
       "reasons": [
         "review:not_important",
         "review:example card tests a computed number (0.488); case-story filler"
-      ]
-    },
-    {
-      "id": "kc.mathematics.probability.def-hypotheses",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.probability",
-      "chapter": "Probability",
-      "unit": "Probability",
-      "kind": "definition",
-      "front": "In Bayes' theorem, what are the events E1, E2, ..., En called?",
-      "back": "The events E1, E2, ..., En are called hypotheses.",
-      "quote": "The events E1, E2, ..., En are called hypotheses.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh207",
-        "chapterNo": 13,
-        "page": 426,
-        "section": "Bayes' Theorem"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "bayes theorem",
-        "hypotheses"
-      ],
-      "order": 260,
-      "reasons": [
-        "review:not_exact",
-        "review:subscripts (E1..En / Ei / B1..B3 / P(Ei|A)) are flattened to plain digits or letters by extraction"
-      ]
-    },
-    {
-      "id": "kc.mathematics.probability.def-priori-probability",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.probability",
-      "chapter": "Probability",
-      "unit": "Probability",
-      "kind": "definition",
-      "front": "In Bayes' theorem, what is the probability P(Ei) of the hypothesis Ei called?",
-      "back": "The probability P(Ei) is called the priori probability of the hypothesis Ei",
-      "quote": "The probability P(Ei) is called the priori probability of the hypothesis Ei",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh207",
-        "chapterNo": 13,
-        "page": 426,
-        "section": "Bayes' Theorem"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "bayes theorem",
-        "priori probability"
-      ],
-      "order": 270,
-      "reasons": [
-        "review:not_exact",
-        "review:subscripts (E1..En / Ei / B1..B3 / P(Ei|A)) are flattened to plain digits or letters by extraction; priori/posteriori are tested terms so 'good' is too low (hypotheses card is 'must')"
-      ]
-    },
-    {
-      "id": "kc.mathematics.probability.def-posteriori-probability",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.probability",
-      "chapter": "Probability",
-      "unit": "Probability",
-      "kind": "definition",
-      "front": "In Bayes' theorem, what is the conditional probability P(Ei |A) called?",
-      "back": "The conditional probability P(Ei |A) is called a posteriori probability of the hypothesis Ei.",
-      "quote": "The conditional probability P(Ei |A) is called a posteriori probability of the hypothesis Ei.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh207",
-        "chapterNo": 13,
-        "page": 426,
-        "section": "Bayes' Theorem"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "bayes theorem",
-        "posteriori probability"
-      ],
-      "order": 280,
-      "reasons": [
-        "review:not_exact",
-        "review:subscripts (E1..En / Ei / B1..B3 / P(Ei|A)) are flattened to plain digits or letters by extraction; priori/posteriori are tested terms so 'good' is too low"
       ]
     },
     {
