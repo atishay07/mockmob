@@ -2,8 +2,8 @@
    SCROLL STORY (landing): .ss, the primitive behind every held section.
    The stage is sticky inside a taller track. Track height = one window + one beat per step, so the
    hold lasts steps x beat. Each step rests at one point of the hold (the first at its start, the last
-   at its end, the rest evenly between, --ss-gap apart): a gesture glides the page from one resting
-   place to the next, and from the last a new gesture carries straight on out of the story.
+   at its end, the rest evenly between, --ss-gap apart). The reader scrolls through the hold at their
+   own speed (nothing catches the wheel or a swipe, LK47); picking a step glides the page to its place.
    Beats (invisible) are what the IntersectionObserver watches: each covers the band around its step's
    resting place, the first reaching back to the track's top and the last running to its end, so the
    edge steps also own the approach and the exit.
