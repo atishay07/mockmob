@@ -71,7 +71,7 @@ export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, 
       setReact(prefs.celebrations === 'quiet' ? 'nod' : act);
     }
     if (keyboard) requestAnimationFrame(() => feedbackNode.current?.focus({ preventScroll: true }));
-    interactWithQuestion(q.id, { interaction_type: key == null ? 'skip' : 'attempted', dwell_ms: Math.max(0, Date.now() - (startedAt.current ?? Date.now())), metadata: key == null ? {} : { selected_key: key } }).then((result) => {
+    interactWithQuestion(q.id, { interaction_type: key == null ? 'skip' : 'attempted', dwell_ms: Math.max(0, Date.now() - (startedAt.current ?? Date.now())), metadata: key == null ? {} : { selected_key: key, ...(q.option_order ? { option_order: q.option_order } : {}) } }).then((result) => {
       if (!result) setRecordError(true);
       else onProgressChange?.({ type: key == null ? 'skip' : 'attempted', questionId: q.id });
     }).catch(() => setRecordError(true));

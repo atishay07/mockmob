@@ -1,3 +1,18 @@
+## 2 Nov 2026, about 11 am IST: Learn v2 round 5, first wave (owner LK38, LK40, LK44-LK47): every answer was A; the three keys say what they do
+
+**Owner, ~10 am** (verbatim in mockmob-next docs/brain/OWNER-FEEDBACK-2026-10-31-LEARN.md, "2 Nov 2026, about 10 am"): every answer in the Explore feed seems to be A; nobody can tell what Missed it / Got it / Easy do; a scroll over the question does not scroll the page; do fixes 2, 3 and 4; tabs Practice, Papers, Learn, Explore; the landing's first section scrolls too fast.
+
+**What shipped (web/1102-r5 = web/1102-shuffle + web/1102-stage-r5 + three web/1102-chrome commits; spec docs/brain/learn-1031/r5/R5-SPEC.md):**
+- **LK44 options:** verified keys were 68% A (Accountancy 84%). One stable order per question (`data/option_order.js`, the NTA engine's own blockers, seeded by the id) on every non-NTA surface: Learn, Explore and Saved, practice and recovery papers, Revise, Rival, repair and Mobi checks; the stored letter is what is saved; runs started before keep the stored order; Mob papers switch from the week of 9 Nov (`STABLE_ORDER_FROM_WEEK`). After: 27/25/24/24 (`docs/brain/learn-1031/r5/A-OPTIONS.md`). No database write, no migration.
+- **LK38 keys:** each key says when the card returns ("Got it / back in 3 days"), the stamp after a rating says where it went, a once-per-student line explains the three, and In Revise counts all three ratings.
+- **LK45 fixes 2 and 4:** the stop sheet and the end count done the same way; a run over several chapters is headed Revise. (Fix 3 is the app's.)
+- **LK40:** the run's item area and card face no longer trap the wheel.
+- **LK46:** Practice's tabs read Practice, Papers, Learn, Explore. **LK47:** the landing's held stories no longer catch the wheel (one notch moved 864 px; now 100).
+- **Held for his live look:** the top bar capsule (web/1102-chrome 53b500e62, LK42).
+
+**Verified before the push:** test:learn 403, option-order 7, app 987, keycards 82, keycards-ui 40, recovery 637, billing 453, nta 229, learning 357, dock 55, egress 101, today 146, auth 141, all 0 failures; mob 344/7 and study 61/1 fail the same on a16fbd62e (not this change). `next build` compiled. Stage looked at 390 and 1440, Night and Day, with real wheel events (agent B1); landing and tabs likewise (agent C1). The option order was not looked at in a browser before the push.
+**Risk:** a page loaded before the deploy and answered after it can be mis-graded once (Explore progress, Revise).
+
 ## 2 Nov 2026, about 9:45 am IST: Key cards +668 to production (owner LK34): recovery round 2 (cards held as ambiguous, and Computer Science front wording)
 
 **What shipped (15,469 cards, from 14,801):**

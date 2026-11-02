@@ -108,6 +108,19 @@ export function checkpointLines({ answered = 0, right = 0, seen = 0, kept = 0 } 
   return { big, line };
 }
 
+/**
+ * The one count of "done" (R5 LK45 fix 2), the server's rule: the end's "9 of 18 done" is the place of the last item the server
+ * holds an event for (runDone().reached in src/lib/server/learn.js). The stop sheet and the feed's stopped end count the same way,
+ * so one moment never reads two numbers. `base` is the items already done before this page's list (a resumed run's prefix);
+ * `held(item, index)` says whether the server holds an event for the item: a rated or looked-at card, an answered question, a
+ * lesson read or skipped, a feed card kept. A question skipped, and a feed card only turned over, hold none.
+ */
+export function reachedPlace(items, held, base = 0) {
+  let last = -1;
+  (Array.isArray(items) ? items : []).forEach((item, i) => { if (held(item, i)) last = i; });
+  return num(base) + last + 1;
+}
+
 /** The stop sheet's line (R2 ruling 6): "5 of 20 done. It's all saved." */
 export const stopSheetLine = (done, of) => (num(of) ? `${num(done)} of ${num(of)} done. It’s all saved.` : 'It’s all saved.');
 

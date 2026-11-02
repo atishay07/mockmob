@@ -38,7 +38,7 @@ test('the sidebar draws four places, each with its pages under it: no group head
   assert.deepEqual(groups.map((group) => group.id), ['today', 'practice', 'mob', 'you']);
   assert.deepEqual(groups.map((group) => group.items.map((item) => item.label)), [
     ['Today'],
-    ['Practice', 'Learn', 'Your papers', 'Explore', 'Saved'],
+    ['Practice', 'Your papers', 'Learn', 'Explore', 'Saved'],
     ['Mob', 'Your standing'],
     ['You', 'Progress', 'Marks trend', 'Colleges', 'Wallet', 'Guide'],
   ]);
@@ -159,13 +159,13 @@ test('Mobi’s door sits at the sidebar’s foot above Night and Day, is the ord
   assert.doesNotMatch(read('src/components/ai/AskMobiHost.jsx'), /data-tour="nav-mentor"/, 'the door is a plain link: it opens /mentor, Ask Mobi’s own page, and no longer the panel in place (1019 option B)');
 });
 
-test('Practice and the Mob get a row of tabs on a phone: Practice, Learn, Explore, Papers (Learn v2); Your Mob, Your standing', () => {
+test('Practice and the Mob get a row of tabs on a phone: Practice, Papers, Learn, Explore (Learn v2, LK46); Your Mob, Your standing', () => {
   for (const path of ['/dashboard', '/review', '/learn', '/explore', '/saved']) {
     assert.deepEqual(placeTabs(path, { mob: true, study: true }).tabs.map((tab) => tab.label), ['Practice', 'Your papers', 'Learn', 'Explore', 'Saved'], 'the live order while Learn v2 is off');
     const row = placeTabs(path, { mob: true, study: true, learn2: true });
     assert.equal(row.id, 'practice', path);
     // R2 ruling 10 (LK26): four equal tabs, Saved moved into Explore's head (Explore stands for /saved), Your papers reads "Papers".
-    assert.deepEqual(row.tabs.map((tab) => tab.short || tab.label), ['Practice', 'Learn', 'Explore', 'Papers']);
+    assert.deepEqual(row.tabs.map((tab) => tab.short || tab.label), ['Practice', 'Papers', 'Learn', 'Explore']);
     assert.equal(row.fit, true);
   }
   assert.deepEqual(placeTabs('/dashboard', { study: false }).tabs.map((tab) => tab.label), ['Practice', 'Your papers', 'Explore', 'Saved'], 'Learn only while the lessons are on');

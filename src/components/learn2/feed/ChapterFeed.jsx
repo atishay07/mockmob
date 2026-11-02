@@ -33,7 +33,7 @@ import { CardFace } from '../stage/CardFace';
 import { QuestionView, letterOf } from '../stage/Question';
 import { EndKey, EndScreen, KeptFan } from '../stage/EndForm';
 import FreeUsed from '../stage/FreeUsed';
-import { endHeadline, endNumbers, endProgress, reviseLabel } from '../stage/endModel.mjs';
+import { endHeadline, endNumbers, endProgress, reachedPlace, reviseLabel } from '../stage/endModel.mjs';
 import { Sheet, StopSheet } from '../stage/Sheet';
 import { usePager } from '../stage/usePager';
 import { keyAction, scrollerThatCanMove } from '../stage/pagerModel.mjs';
@@ -338,10 +338,9 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   const close = useCallback(() => (window.history.length > 1 ? router.back() : router.push(links.explore())), [router, links]);
   // The one stop rule (critic 2 row 9): before any item is done, Close leaves; after at least one, Close and Escape open the
   // "Stop for now?" sheet. The end is past the items, so its own Close leaves.
-  const itemsDone = base + items.reduce((n, i) => {
-    const st = states[i.id] || {};
-    return n + (i.type === 'card' ? (st.seenBack || st.kept ? 1 : 0) : st.answer?.res ? 1 : 0);
-  }, 0);
+  // R5 LK45 fix 2: "N of M done" is the end's own count (the place of the last item the server holds an event for: a card kept, a
+  // question answered). A card only turned over writes nothing, so it is not counted here and not at the end.
+  const itemsDone = reachedPlace(items, (i) => { const st = states[i.id] || {}; return i.type === 'card' ? Boolean(st.kept) : Boolean(st.answer?.res); }, base);
   const askClose = useCallback(() => {
     if (mode === 'items' && itemsDone > 0) setSheet('stop');
     else close();
@@ -577,7 +576,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   let endView = null;
   if (mode === 'end') {
     const stopped = stoppedHere;
-    const reached = onlyEnd ? f?.done?.reached || 0 : stopped ? Math.min(of, base + furthest) : of;
+    const reached = onlyEnd ? f?.done?.reached || 0 : stopped ? Math.min(of, itemsDone) : of;
     const qLine = (f?.lines || []).find((l) => l.label === 'Questions')?.text || '';
     const n = onlyEnd
       ? { answered: Number((qLine.match(/of (\d+)/) || [])[1]) || 0, right: Number((qLine.match(/^(\d+) of/) || [])[1]) || 0, mistakes: Number(d?.numbers?.mistakes) || 0, fixed: Number(d?.numbers?.fixed) || 0, seen: 0 }

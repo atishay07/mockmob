@@ -11,6 +11,9 @@ export const WORDS = Object.freeze({
   nextChapter: 'Next chapter',
   reviseLater: 'Revise later',
   inRevise: 'In Revise',
+  revise: 'Revise',
+  missedIt: 'Missed it',
+  coachRatings: 'Missed it brings a card back soonest. Easy sends it furthest away.',
   save: 'Save',
   saved: 'Saved',
   skipKnown: 'Skip what you already know',
@@ -64,3 +67,29 @@ export function chapterShort(place) {
   const n = count(place?.n);
   return n ? `Chapter ${n}` : '';
 }
+
+/**
+ * When a rated card comes back, in words (R5 LK38), from the days FSRS gives it: under 1.5 days "tomorrow", then "in N days" to
+ * 13, "in N weeks" to 8 weeks, then "in N months". One function for the keys' second line, the stamp after a rating and the
+ * tests, so what a key promises is what the stamp says.
+ */
+export function returnWords(days) {
+  const d = Math.max(0, Number(days) || 0);
+  if (d < 1.5) return 'tomorrow';
+  const n = Math.round(d);
+  if (n <= 13) return `in ${n} days`;
+  if (n < 56) return `in ${plural(Math.round(n / 7), 'week')}`;
+  return `in ${plural(Math.round(n / 30.4), 'month')}`;
+}
+
+/** "Back tomorrow", "Back in 3 days": the stamp after a rating (the words are returnWords). */
+export const backStamp = (words) => `Back ${words}`;
+
+/** "back tomorrow": a rating key's second line. */
+export const backLine = (words) => `back ${words}`;
+
+/**
+ * The words for a Missed card. FSRS always schedules it; when the run also shows it again (a missed card comes back 3 items on,
+ * once per card per run) the words say so: "in this run, then tomorrow". `scheduled` is the returnWords of its schedule.
+ */
+export const missedWords = (scheduled, inRun) => (inRun ? `in this run, then ${scheduled}` : scheduled);

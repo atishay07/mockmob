@@ -14,14 +14,16 @@ import COPY from '../../../data/mistake_lab.copy.json' with { type: 'json' };
 import { mergeQueue, headLine, mixLine } from '../../components/revise/reviseQueue.js';
 import { stampWhen } from '../../../data/review_input.mjs';
 import { readHeldMobPapersSafe } from './answerHold.js';
+import { servedRow, servedIndexOf, storedIndexOf } from '../../../data/option_order.js';
 
 const BATCH = 100;
 const CARD_COLUMNS = 'question_id,box,due_day,state,right_total,last_recalled_day,key_hash,wrong_at,created_at,updated_at';
 const QUESTION_COLUMNS = 'id,subject,chapter,question,body,options,correct_index,correct_answer,status,is_deleted,verification_state,explanation,passage_text';
 // What each read of the questions needs (egress F15): seeding reads only eligibility, the key hash and nothing it shows; the items a
-// student is asked add the passage; only answering reads the explanation.
+// student is asked add the passage and the explanation (R5 Packet A: the stable option order of data/option_order.js keeps an item
+// whose explanation names an option in a way it cannot rewrite in the stored order, so the order needs it; it is never sent here).
 export const SEED_COLUMNS = 'id,subject,chapter,question,body,options,correct_index,correct_answer,status,is_deleted,verification_state';
-export const ITEM_COLUMNS = `${SEED_COLUMNS},passage_text`;
+export const ITEM_COLUMNS = `${SEED_COLUMNS},passage_text,explanation`;
 /** How many due cards one read of the questions asks for: the room left, and a few extra for cards whose question cannot be asked. */
 export const itemChunk = (room, have, batch = 100) => Math.max(1, Math.min(batch, room - have + 4));
 
@@ -41,7 +43,7 @@ export function eligibleQuestion(row) {
     && Array.isArray(row.options) && row.options.length >= 2 && keyOf(row) >= 0;
 }
 
-/** One question as the student sees it in Revise: the stem and the options in stored order. Never the key. */
+/** One question as the student sees it in Revise: the stem and the options in the stable order every surface serves. Never the key. */
 export function reviseItem(row, card) {
   const passage = typeof row.passage_text === 'string' && row.passage_text.trim() ? { text: row.passage_text.trim() } : null;
   return {
@@ -50,7 +52,7 @@ export function reviseItem(row, card) {
     chapter: row.chapter ?? null,
     question: String(row.question ?? row.body ?? ''),
     passage,
-    options: row.options.map((o) => optionText(o)),
+    options: servedRow(row).row.options.map((o) => optionText(o)),
     box: card.box,
   };
 }
@@ -250,8 +252,11 @@ export async function answerRevise(userId, { questionId, choice } = {}, { db, no
     await client_.from('revise_cards').update({ state: 'retired', updated_at: stamp }).eq('user_id', userId).eq('question_id', questionId);
     return { http: 409, body: { ok: false, error: 'key_changed', message: COPY.revise.notDue } };
   }
-  const keyIndex = keyOf(question);
-  const correct = choice === keyIndex;
+  // choice is a served index (the stable order); it is graded as the stored option, and the key goes back as served.
+  const served = servedRow(question);
+  const stored = keyOf(question);
+  const correct = storedIndexOf(served.order, choice) === stored;
+  const keyIndex = servedIndexOf(served.order, stored);
   const next = gradeCard(card, correct, today);
   const moved = await client_.from('revise_cards')
     .update({ box: next.box, due_day: next.due_day, state: next.state, right_total: next.right_total, last_recalled_day: today, updated_at: stamp })
@@ -259,7 +264,8 @@ export async function answerRevise(userId, { questionId, choice } = {}, { db, no
     .select('question_id');
   if (moved.error) return unavailable(moved.error);
   if (!moved.data?.length) return { http: 409, body: { ok: false, error: 'not_due', message: COPY.revise.notDue } };
-  const explanation = typeof question.explanation === 'string' ? question.explanation.trim() : typeof question.explanation?.text === 'string' ? question.explanation.text.trim() : '';
+  const said = served.row.explanation;
+  const explanation = typeof said === 'string' ? said.trim() : typeof said?.text === 'string' ? said.text.trim() : '';
   return {
     http: 200,
     body: {

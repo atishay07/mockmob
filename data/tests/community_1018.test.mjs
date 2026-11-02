@@ -100,7 +100,7 @@ test('Learn has its own row and tab inside Practice and its own guide stop (D20)
   const layout = read('src/app/(app)/AppLayoutClient.jsx');
   const practice = arenaNavigation(false).find((g) => g.id === 'practice').items;
   assert.deepEqual(practice.map((i) => i.id), ['dashboard', 'review', 'learn', 'explore', 'saved'], 'the sidebar draws Learn under Practice');
-  assert.deepEqual(arenaNavigation(false, { learn2: true }).find((g) => g.id === 'practice').items.map((i) => i.id), ['dashboard', 'learn', 'review', 'explore', 'saved'], 'Learn v2 puts it first');
+  assert.deepEqual(arenaNavigation(false, { learn2: true }).find((g) => g.id === 'practice').items.map((i) => i.id), ['dashboard', 'review', 'learn', 'explore', 'saved'], 'Learn v2 keeps the owner’s order (LK46): Practice, Papers, Learn, Explore');
   assert.deepEqual(PRACTICE_PAGES.map((t) => t.id), ['dashboard', 'review', 'learn', 'explore', 'saved'], 'and the phone draws it in Practice’s row of tabs');
   // The lessons are optional (STUDY_CONTENT_ENABLED): the row and the sidebar leave Learn out while they are off.
   assert.ok(placeTabs('/learn', { study: true }).tabs.some((t) => t.id === 'learn'));

@@ -18,6 +18,9 @@ export const IN_CHUNK = 100;
 /** The card states without their schedule JSON: four json-path stubs are all retrievability needs. */
 export const STATE_COLUMNS = 'card_id,subject,chapter_key,reps,lapses,due_at,last_review_at,last_rating,added_from,suspended,'
   + 'st:schedule->stability,lr:schedule->>last_review,sst:schedule->state,sdue:schedule->>due';
+/** The state rows with every schedule field FSRS reads (the keys' words), as json-path stubs. */
+export const FULL_STATE_COLUMNS = 'card_id,reps,lapses,due_at,suspended,st:schedule->stability,df:schedule->difficulty,es:schedule->elapsed_days,'
+  + 'sd:schedule->scheduled_days,ls:schedule->learning_steps,sst:schedule->state,sdue:schedule->>due,lr:schedule->>last_review,srp:schedule->reps,slp:schedule->lapses';
 export const PROGRESS_COLUMNS = 'question_id,subject,chapter,attempt_count,last_correct,last_selected_key,last_attempted_at';
 export const ALLOWANCE_KINDS = Object.freeze(['keycard_review', 'keycard_new', 'keycard_line', 'learn_session']);
 export const RUN_LIST_COLUMNS = 'id,kind,subject,chapter_key,asked_minutes,minutes,leave_out,item_count,done_count,seconds_left,session_claimed,created_at,ended_at';
@@ -26,8 +29,12 @@ export const RUN_COLUMNS = 'id,user_id,request_key,kind,subject,chapter_key,aske
 export const EVENT_COLUMNS = 'item_id,kind,question_id,card_id,choice,correct,fixed,origin,rating,due_at,body,created_at';
 /** The one question read at answer time: the live row's key, never every column. */
 export const ANSWER_COLUMNS = 'id,subject,chapter,question,body,options,correct_index,correct_answer,explanation,status,is_deleted,verification_state,content_hash,updated_at';
-/** A question's served content (a run reloaded after the pool moved on): no key, no explanation. */
-export const CONTENT_COLUMNS = 'id,subject,chapter,question,body,options,status,is_deleted,verification_state,content_hash,updated_at';
+/**
+ * A question's served content (a run reloaded after the pool moved on). The key and the explanation are read only to put
+ * the options in their stable order (data/option_order.js needs them to decide whether the order may move); neither
+ * leaves the server here.
+ */
+export const CONTENT_COLUMNS = 'id,subject,chapter,question,body,options,correct_index,correct_answer,explanation,status,is_deleted,verification_state,content_hash,updated_at';
 export const REVISE_COLUMNS = 'question_id,box,due_day,state,right_total,updated_at';
 
 const fail = (cause, what) => Object.assign(new Error('LEARN_UNAVAILABLE'), { code: 'LEARN_UNAVAILABLE', cause, what });
@@ -41,6 +48,19 @@ export function toState(row) {
   const schedule = st === undefined && lr === undefined && sst === undefined && sdue === undefined
     ? null
     : { stability: st == null ? null : Number(st), last_review: lr ?? null, state: sst == null ? null : Number(sst), due: sdue ?? rest.due_at ?? null };
+  return { ...rest, schedule };
+}
+
+/** A full state row with its schedule rebuilt from FULL_STATE_COLUMNS' stubs (or kept, when a full row was read). */
+export function toFullState(row) {
+  if (!row || (row.schedule && typeof row.schedule === 'object')) return row;
+  const { st, df, es, sd, ls, sst, sdue, lr, srp, slp, ...rest } = row;
+  const has = [st, df, sst, sdue, lr].some((v) => v !== undefined && v !== null);
+  const schedule = has ? {
+    due: sdue ?? rest.due_at ?? null, stability: st == null ? null : Number(st), difficulty: df == null ? null : Number(df), elapsed_days: Number(es) || 0,
+    scheduled_days: Number(sd) || 0, reps: Number(srp) || Number(rest.reps) || 0, lapses: Number(slp) || Number(rest.lapses) || 0, learning_steps: Number(ls) || 0,
+    state: sst == null ? null : Number(sst), last_review: lr ?? null,
+  } : null;
   return { ...rest, schedule };
 }
 
@@ -130,6 +150,20 @@ export function createLearnStore(db, { now = () => Date.now(), warn = console.wa
         if (res.error) return [];
         return (res.data || []).filter((r) => Date.parse(r.created_at) >= Date.parse(since));
       } catch { return []; }
+    },
+
+    /**
+     * R5 LK38: the card states of the given cards with every field FSRS reads, for the words on a run's Missed it, Got it and
+     * Easy keys (schedule() over the stored state). Json-path stubs, never the bare schedule column (learn_egress.test.mjs);
+     * `schedule` is rebuilt from them. A failed read is unknown (503); the caller shows no words rather than guess.
+     */
+    async fullStates(userId, cardIds) {
+      const out = [];
+      for (const part of chunks([...new Set(cardIds || [])])) {
+        const rows = await must(db.from('key_card_states').select(FULL_STATE_COLUMNS).eq('user_id', userId).in('card_id', part), 'card schedules');
+        out.push(...(rows || []).map(toFullState));
+      }
+      return out;
     },
 
     /** One card's state row (Keep), or null. */

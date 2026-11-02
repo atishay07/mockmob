@@ -111,7 +111,10 @@
   .lr-frame { width: min(100% - 32px, 600px); margin-inline: auto; justify-content: flex-start; padding: max(16px, calc((100dvh - var(--lr-top-h) - clamp(300px, 46dvh, 380px) - 120px) / 2)) 0 24px; }
   .lr-stagecol { flex: none; }
   .lr.kc { --lr-face-max: calc(100dvh - var(--lr-top-h) - var(--lr-bar-h) - 56px); }
-  .lr-area { flex: none; padding: 0; max-height: calc(100dvh - var(--lr-top-h) - var(--lr-bar-h) - 56px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+  /* R5 LK40: the item's own scrollers chain to the stage (.lr-body) once they cannot move: `overscroll-behavior: contain` on them
+     trapped the wheel (a question that fits would not scroll the stage under the mouse; only the margins did). The stage's own
+     body keeps `contain`, so nothing reaches the page behind. */
+  .lr-area { flex: none; padding: 0; max-height: calc(100dvh - var(--lr-top-h) - var(--lr-bar-h) - 56px); overflow-y: auto; overscroll-behavior: auto; scrollbar-width: thin; }
   .lr-enter { flex: none; }
   .lr-area[data-type='question'] + .lr-bar { margin-top: 0; }
   .lr-area[data-type='question'] { flex: none; padding: 4px 2px 8px; }
@@ -217,7 +220,7 @@
 /* R3-SPEC L1: the type label and the menu at the top, the source pinned to the foot, the words centred between them; a face
    that does not fit is top-aligned and scrolls inside the card (auto margins fall to 0 on overflow). */
 .lr-face {
-  grid-area: 1 / 1; display: flex; flex-direction: column; gap: 14px; min-width: 0; min-height: 0; max-height: var(--lr-face-max); overflow-y: auto; overscroll-behavior: contain;
+  grid-area: 1 / 1; display: flex; flex-direction: column; gap: 14px; min-width: 0; min-height: 0; max-height: var(--lr-face-max); overflow-y: auto; overscroll-behavior: auto;
   scrollbar-width: thin; scrollbar-color: var(--a-line-strong) transparent; padding: 20px 20px 18px; border-radius: 24px;
   border: 1px solid var(--a-line-strong); background: var(--kc-surface); box-shadow: var(--a-shadow-1); backface-visibility: hidden; -webkit-backface-visibility: hidden;
 }
@@ -359,6 +362,11 @@
 .lr-keys { display: grid; width: 100%; gap: 8px; }
 .lr-keys .kc-btn, .lr-keys .kc-rate__btn { min-height: 52px; font-size: 16px; }
 .lr-keys--rate { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+/* R5 LK38: a rating key names the rating and, under it, when the card would come back (the server's words from FSRS). */
+.lr-keys .lr-rate { flex-direction: column; gap: 3px; padding: 8px 6px; min-height: 60px; }
+.lr-rate__name { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.lr-rate__when { max-width: 100%; font: 500 11.5px/1.25 var(--font-body); color: var(--a-ink-2); text-align: center; text-wrap: balance; overflow-wrap: anywhere; }
+.lr-rate[data-rating='3'] .lr-rate__when { color: rgb(16 20 14 / 0.78); }
 .lr-keys--two { grid-template-columns: 1fr 1fr; }
 .lr-keys--lesson { grid-template-columns: 1fr 2fr; }
 .lr-keys--next { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; }

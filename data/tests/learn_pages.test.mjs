@@ -144,7 +144,7 @@ test('focus routes: /learn/run and /explore/run are listed, draw no shell, and n
   // The Learn row and the navigation are untouched: Learn stays a row under Practice.
   const nav = read('src/lib/arenaNavigation.js');
   assert.match(nav, /const LEARN = item\('learn', 'Learn', 'learn', '\/learn', 'Key cards'\)/);
-  assert.match(nav, /\[PRACTICE, LEARN, PAPERS, EXPLORE, SAVED\]/);
+  assert.match(nav, /\[PRACTICE, PAPERS, learn2 \? LEARN : LEARN_V1, EXPLORE, SAVED\]/, 'the owner’s order (LK46): Practice, Papers, Learn, Explore');
 });
 
 // links.js is a client module that imports next/navigation; run it with those two hooks stubbed.

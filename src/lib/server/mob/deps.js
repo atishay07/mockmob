@@ -96,11 +96,13 @@ const validChapter = (subject, chapter) => isValidTopSyllabusPair(subject, chapt
 export const forgetChapterCounts = (subject) => forgetChapterCountsFor(supabaseAdmin(), subject);
 const chapterCounts = (subject) => cachedChapterCounts(supabaseAdmin(), subject);
 
-// The frozen paper's questions in paper order, canonical option order (quick papers never shuffle options). Two loaders, because only the
+// The frozen paper's questions in paper order. Two loaders, because only the
 // start paths hand the rows to the practice session (data/mob_question_reads.js has the rule): `loadQuestions` reads the full rows
 // through the stamp cache, `loadQuestionsLight` serves every other read (keys, review, the race's next question, comparisons) from
 // the light columns kept two minutes.
 const questionLoaders = createMobQuestionLoaders({ db: () => supabaseAdmin(), attach: (rows) => Database._attachPassageMetadata(rows), toOut: questionOut });
+// Both loaders give the stored order; the start paths put a paper of a week from STABLE_ORDER_FROM_WEEK in the stable option
+// order (src/lib/server/mob/service.js and games.js, R5 Packet A).
 const loadQuestions = (ids) => questionLoaders.loadFull(ids);
 const loadQuestionsLight = (ids, options) => questionLoaders.loadLight(ids, options);
 

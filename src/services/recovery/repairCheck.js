@@ -23,7 +23,7 @@ import { repairEligibility } from '../../../data/mistake_repair.js';
 import { isPassageLinkedQuestion } from '../../../data/nta_question_selector.js';
 import {
   CHECK_REQUEST_ID, CHECK_VERSION, checkReasonMessage, selectCheckQuestion, chooseVerified, checkIsStillOffered,
-  checkQuestionView, markCheck, bankExplanation, outcomeLine, planReviseCards, reviseSummary, ruleOf, optionTextHashes, orderFromHashes,
+  checkQuestionView, markCheck, bankExplanation, offeredHashes, explainedRow, outcomeLine, planReviseCards, reviseSummary, ruleOf, optionTextHashes, orderFromHashes,
   NOT_OFFERED_MESSAGE,
 } from '../../../data/repair_check.js';
 import { mistakeId } from './repairFlow.js';
@@ -220,7 +220,7 @@ export async function openCheck({ user, attemptId, questionId, deps, preloaded, 
     const found = await findCheck({ user, p, deps, slot });
     if (!found.ok && found.status === 'failed') return failure(503, 'none', found.reason, links);
     if (!found.ok) return out(200, { ok: true, status: 'none', charged: 0, reason: found.reason, message: checkReasonMessage(found.reason), pool: found.pool, ...(slot === 2 ? heldOf(p.reservation.receipt, { secondOffered: false }) : {}), ...links });
-    const fresh = { checkQuestionId: found.chosen.id, optionHashes: optionTextHashes(found.full), offeredAt: new Date(deps.now()).toISOString(), recorded: false };
+    const fresh = { checkQuestionId: found.chosen.id, optionHashes: offeredHashes(found.full), offeredAt: new Date(deps.now()).toISOString(), recorded: false };
     let claimed;
     try { claimed = await deps.claimOffer({ operationKey: p.reservation.operation_key, userId: user.id, offer: fresh, replaces: offer?.checkQuestionId ?? null, ...(slot === 2 ? { slot } : {}) }); }
     catch { return failure(503, 'none', 'check_unavailable', links); }
@@ -313,7 +313,7 @@ export async function answerCheck({ user, attemptId, questionId, checkQuestionId
     subject: view.subject, chapter: view.chapter, topic: view.topic, format: view.format, question: view.question,
     basis: found.basis, basisLine: found.basisLine,
     right: marked.right, pick, key: { index: marked.keyDisplay, text: marked.keyText }, picked: { index: pick, text: marked.pickedText },
-    explanation: bankExplanation(found.full), ruleLine: rule,
+    explanation: bankExplanation(explainedRow(found.full, order)), ruleLine: rule,
     options: view.options.map((o) => ({ ...o, isKey: o.index === marked.keyDisplay, isPick: o.index === pick })),
     answeredAt: new Date(nowMs).toISOString(), revise: null, progressRecorded: false,
   };

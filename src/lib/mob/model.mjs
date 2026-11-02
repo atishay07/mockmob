@@ -274,6 +274,15 @@ export function computeTrap(sittings, keys) {
 
 export const letterFor = (i) => LETTERS[i] || String(i + 1);
 
+/**
+ * R5 Packet A: Mob papers, extra papers and games of weeks starting on or after this Monday (IST) serve the stable option order
+ * of data/option_order.js, the same for every member; papers of earlier weeks keep the stored order they were frozen with, so no
+ * paper changes order while the Mob is still sitting it and an old week's side-by-side shows the letters its members saw. If this
+ * ships after this date, move it to the first Monday after the deploy.
+ */
+export const STABLE_ORDER_FROM_WEEK = '2026-11-09';
+export const stableOrderWeek = (weekStart) => String(weekStart || '').slice(0, 10) >= STABLE_ORDER_FROM_WEEK;
+
 // ---------- Together: what a Mob of two can compare (P5, P7) ----------
 
 /**
@@ -467,12 +476,13 @@ export function buildView(state, { userId, now, memberIdFor, cost = null, trap =
 }
 
 /** The trap payload a member who sat receives (no member ids, no names). */
-export function trapPayload(raw, { questionId, trapName = null, youPicked = null, key = null } = {}) {
+export function trapPayload(raw, { questionId, trapName = null, youPicked = null, key = null, order = null } = {}) {
   if (!raw) return null;
   return {
     questionNumber: raw.questionNumber,
     questionId,
-    option: letterFor(raw.optionIndex),
+    // The letter as the paper serves it (order: served position i shows stored option order[i]); picks and keys are stored.
+    option: letterFor(Array.isArray(order) && order.includes(raw.optionIndex) ? order.indexOf(raw.optionIndex) : raw.optionIndex),
     count: raw.count,
     of: raw.of,
     trapName: trapName || null,
@@ -481,10 +491,22 @@ export function trapPayload(raw, { questionId, trapName = null, youPicked = null
   };
 }
 
-/** Sitting picks from a finished attempt, in the paper's order (-1 for blank or missing). */
+/**
+ * Sitting picks from a finished attempt, in the paper's order (-1 for blank or missing), as STORED option indices (R5 Packet A):
+ * a paper served in the stable option order keeps each shuffled question's order on selection_meta.mobPaper.optionOrders
+ * (served position i shows stored option order[i]), and the served pick goes back through it. An attempt without orders (every
+ * paper started before the change) was served in the stored order, so its picks are stored indices already.
+ */
 export function picksFromAttempt(questionIds, attempt) {
   const given = new Map((attempt?.details || []).map((d) => [d?.qid, d?.givenIndex]));
-  return (questionIds || []).map((id) => (Number.isInteger(given.get(id)) && given.get(id) >= 0 ? given.get(id) : -1));
+  const orders = attempt?.selectionMeta?.mobPaper?.optionOrders || attempt?.selection_meta?.mobPaper?.optionOrders || {};
+  return (questionIds || []).map((id) => {
+    const pick = given.get(id);
+    if (!Number.isInteger(pick) || pick < 0) return -1;
+    const order = orders[id];
+    if (!Array.isArray(order)) return pick;
+    return Number.isInteger(order[pick]) ? order[pick] : -1;
+  });
 }
 
 /** The runner link for this week's Mob paper. The key only names this device's draft; the server derives its own. */

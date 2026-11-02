@@ -6,8 +6,11 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { previewAnswer } from '../../src/lib/server/keycardsPreview.js';
+import { learnServed } from '../../src/lib/server/learn.js';
 
-const KEYS = Object.fromEntries(JSON.parse(readFileSync(path.join(process.cwd(), 'data/fixtures/learn-preview-questions.json'), 'utf8')).questions.map((q) => [q.id, q.correct_answer]));
+// The key letter as served (R5 Packet A: the stable option order of data/option_order.js), from the fixture's stored rows.
+const KEYS = Object.fromEntries(JSON.parse(readFileSync(path.join(process.cwd(), 'data/fixtures/learn-preview-questions.json'), 'utf8')).questions
+  .map((q) => [q.id, learnServed({ id: q.id, question: q.body, options: q.options, correct_answer: q.correct_answer, explanation: q.explanation || '' }).key]));
 let n = 0;
 function student(plan, who = 'commerce') {
   const session = `learn-test-${plan}-${who}-${(n += 1)}`;
@@ -100,12 +103,12 @@ test('a run end to end: no keys before an answer, a fixed mistake, the line you 
   // Got it on the first card: a real return day.
   const got = (await call(`/api/learn/runs/${run.id}/rate`, { method: 'POST', body: { itemId: items[0].id, rating: 3 } })).body;
   assert.equal(got.ok, true);
-  assert.match(got.stamp, /^Back (Mon|Tue|Wed|Thu|Fri|Sat|Sun|tomorrow|later today|in \d+ days)$/);
+  assert.match(got.stamp, /^Back (tomorrow|in \d+ (days|weeks|months))$/);
   assert.equal(got.revisePile.count, 1);
   // Missed: back later in this run, 3 items on.
   const second = items.findIndex((i, k) => k > 0 && i.type === 'card');
   const missed = (await call(`/api/learn/runs/${run.id}/rate`, { method: 'POST', body: { itemId: items[second].id, rating: 1 } })).body;
-  assert.equal(missed.stamp, 'Back later in this run');
+  assert.equal(missed.stamp, 'Back in this run, then tomorrow');
   assert.equal(missed.reinsert.at, second + 3);
   assert.equal(missed.reinsert.item.stage, 'again');
   // The first mistake answered right: fixed, with the line collapsed under it.
