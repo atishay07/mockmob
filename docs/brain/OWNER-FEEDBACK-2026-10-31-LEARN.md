@@ -198,3 +198,34 @@ Reading (dictation): "barware" is likely "the bar where" (the top bar showing cr
 
 Reading: "the form" is likely the four lanes of the new-account prompt (A Physics, B app 1.0.20+18, C web, D English); "fixture" is likely "finish" or "fixing". The message ends mid-sentence at "should be sent to": asked him where (running question list).
 What this changes: the rule "ship each web change only after his live look" is lifted for this round. He judges on the live site and the Play build; no LAN links, no prototype APKs. The CTO decides the UI against his past feedback (LK24-LK62) and ships it to www.mockmob.in after the usual gates (suites, eslint, both builds, the look at 390 and 1440 Night and Day, deploy check).
+
+## 4 Nov 2026, about 2:05 am IST: the home page hero reads as AI slop; one scroll, one step; a stronger brand of our own (verbatim)
+
+(With a screenshot of PowerShell in C:\Users\atish\Desktop\mockmob copy: `git push origin archive/uncommitted-1104-main:refs/archive/uncommitted-1104-main` -> "fatal: not a git repository (or any of the parent directories): .git", three times.)
+
+> Firstly, that one command that you told me is returning this error.
+>
+> Now, coming onto the website, the hero section is starting to give me more and more of a slop vibe. There are many factors adding up to this:
+>
+> * In general, if you see the mobile animation of Mobby, tapping it, and changing that bubble, all that is a bit weird on mobile. It is completely missing from the hero section of desktop, so there is a huge parity issue between the hero sections of both.
+> * The dark mode hero section has an extreme AI slop look because of too much neon highlighting, neon edges, that kind of stuff. You can research what AI slop looks like. That is happening here with us.
+> * In the other parts, the desktop side feels way better than the mobile side. It lags a bit, and the scrolling feels very inconsistent. Sometimes it switches things, sometimes it doesn't. One rule should be: one action, one finger scroll. It should not detect speed. If I scroll very fast, it goes up extremely and skips many things. If I go slow, very slow, then it will do half a slide. It should have consistency in detecting what one single scroll is like, or think of something to fix that overall scroll thing.
+> * In the hero section of mobile, more than half of the screen space is covered by just the mobi and stuff around it, but there is no mention of CUET or exams, or, in general, anything that tells the student anything about us. Mobi as a mascot is good, but the main hero section needs to have something more. I don't know if removing this or keeping this is the right direction, but it needs changing and refinement for sure.
+> * As discussed previously, there are some AI flaw characteristics present clearly on the home page, which should not exist. Some of the text walls and stuff are too long, which again needs fixing. A small example is in the exam screen. I don't know what to do exactly in this. It's a bit too tall. We can't make it tall. It's fine but I don't know if the MockMob screen is exactly depicting the real MockMob screen or if it's just a copy. I don't know if we have, in our MockMob screen, also copied the exact NT interface. I think our interface should be better and unique and that NT-style interfaces went to copy exactly the NT interface.
+> *  Anyway these are the small things that you have to take care of and refine upon automatically yourselves. Think this through and overall work on making a better stronger brand identity, not using AI slop.
+>
+> Typography and fonts: we don't have a huge AI slop problem on our overall landing page. Dark mode has a lot more issues, just inherently because of how the AI websites look. Still overall, I would rate the website for AI flop on overall brand assessment as 7/10 right now. Black mode especially is 6/10 but overall can be 7 or even 8/10 because the logo and all those things which we have fixed are very distinct and nice.
+>
+> Some fonts are really good with the MockMob word mark and MockMob mascot, and we are not using the extremely popular AI fonts like:
+>    * Inter
+>    * Ghost Sans
+>    * Space Grotesque
+>    * Plus Jakarta Sans
+>    * Poppins
+>    * DM Sans
+>  Stuff like this. It's not like all is bad. Much stuff is good also. Overall, both in terms of the visuals and the stronger brand identity, we need to focus on the branding improvements, illustrations, typography hierarchy, and consistent use of mobi stuff, which will make it look like our own.
+>
+> Again, I will quote the example of Preprou website here. Even from the loading, they have a loading animation on the website when someone enters, and all the stuff is very refined. Even our typing animation is on. You can see how Preparoo does the typing animation on the home page. That's the direction we are looking forward to.
+
+Reading (dictation): "Mobby" is Mobi; "AI flop" is "AI slop"; "Black mode" is Night (dark) mode; "Ghost Sans" is likely Geist Sans; "Space Grotesque" is Space Grotesk; "NT interface" is the NTA (exam) interface; "Preprou"/"Preparoo" is ug.preparoo.app (studied 4 Oct: MOBILE-REFINEMENT-PLAN-2026-10-04.md). The command failed because it ran in the parent folder, which is not a git repository (it must run in mockmob-next or with git -C).
+His scores: overall brand vs AI slop 7/10; Night 6/10; the logo and wordmark are distinct and good; the fonts are not the common AI fonts (keep that).

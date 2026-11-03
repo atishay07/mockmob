@@ -695,3 +695,19 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | IN PROGRESS | **LK64** No prototype links or test builds: a final AAB he uploads straight to Google Play, and the final web changes deployed to www.mockmob.in so he sees them on every device. Supersedes "ship each web change only after his live look" for this round. |
 | IN PROGRESS | **LK65** Commit all uncommitted work; the project final and up to date today, recorded as a proper checkpoint, for handing over and onboarding other members. |
 | ANSWERED 4 Nov ~12:10 am: "Push branches to GitHub" (his button answer) | **LK66** His message ends "Everything then should be sent to": where? Push every branch to GitHub, after the production web deploy so preview builds do not queue ahead of it. Vercel is on Hobby (100 deployments a day, one build at a time): 438 branch pushes would block production for up to a day, so the ~15 current branches go up as branches and the older ones as archive/<branch> tags (tags start no Vercel build; checked on one first). |
+
+## Home page hero and brand, 4 Nov about 2:05 am (LK67-LK76; verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md, section "4 Nov 2026, about 2:05 am"). His scores: brand vs AI slop 7/10 overall, Night 6/10; logo and fonts are good.
+
+| Status | Item |
+| --- | --- |
+| OPEN | **LK67** Hero parity: the phone hero's Mobi tap animation and changing bubble feel weird on a phone, and the desktop hero has none of it. One hero idea on both. |
+| OPEN | **LK68** Night hero looks like AI slop: too much neon highlighting and neon edges. Research what AI slop looks like and remove it. |
+| OPEN | **LK69** Phone scroll on the home page is inconsistent and laggy: one gesture = one step, never speed-dependent (a fast flick must not skip several, a slow drag must not stop half way). |
+| OPEN | **LK70** Phone hero: over half the screen is Mobi and decoration, with no word of CUET, exams or what MockMob is. Keep Mobi, but the hero must say what we are. |
+| OPEN | **LK71** AI-slop traits and text walls on the home page; shorten. |
+| OPEN | **LK72** The exam screen on the home page is too tall, and must show the real MockMob exam screen (better and unique), not a copy of the NTA interface. |
+| OPEN | **LK73** A stronger brand identity of our own: illustrations, typography hierarchy, consistent use of Mobi. Keep the fonts and the logo (not the common AI fonts). |
+| OPEN | **LK74** Reference ug.preparoo.app: a refined loading animation on entry and a refined typing animation on the home page; that level of refinement. |
+| STANDING | **LK75** Refine these small things automatically, ourselves; think it through. |
+| DONE 4 Nov ~2:10 am | **LK76** The push command failed: it ran in the parent folder, which is not a git repository. Gave him a one-line command that names the repository. |
+
