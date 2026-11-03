@@ -8,41 +8,48 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/practice_door.dart';
 
-/// The switch under Practice's title (19 Oct PM, owner D126, Practice C): Practise, Your papers and Learn as three
-/// doors of one place. A sunken track with one raised thumb that slides to the chosen door (ease-out, 240 ms; at once
-/// under reduced motion). Your papers carries the open mistakes as a small count, the same number as the bar's badge.
+/// The switch under Practice's title (19 Oct PM, owner D126, Practice C; Explore is the fourth since 3 Nov, LK51): Practise,
+/// Papers, Learn and Explore as the doors of one place, in the website's words and order. A sunken track with one raised
+/// thumb that slides to the chosen door (ease-out, 240 ms; at once under reduced motion). Papers carries the open mistakes as
+/// a small count, the same number as the bar's badge.
 ///
-/// Each door is as wide as its words need, and the room left over is shared out evenly, so "Your papers" with its count
-/// never squeezes "Learn". At large text a word wraps instead of being cut, and the track grows. Every door is a 48 dp
-/// target with the app's focus ring, a button that says whether it is chosen, and a selection tick on change.
+/// Each door is as wide as its words need, and the room left over is shared out evenly, so "Papers" with its count never
+/// squeezes "Learn". With four doors the side air is tighter and, at large text, the words are set no larger than the
+/// track holds, so a label is never broken mid-word (a word wraps only when even normal-size text cannot fit). Every door is
+/// a 48 dp target with the app's focus ring, a button that says whether it is chosen, and a selection tick on change.
 class PracticeDoorSwitch extends StatelessWidget {
-  const PracticeDoorSwitch({super.key, required this.door, required this.onChanged, this.papersCount, this.showLearn = true});
+  const PracticeDoorSwitch({super.key, required this.door, required this.onChanged, this.papersCount, this.showLearn = true, this.showExplore = false});
 
   final PracticeDoor door;
   final ValueChanged<PracticeDoor> onChanged;
 
-  /// The open mistakes the Your papers door counts; none or zero draws no count.
+  /// The open mistakes the Papers door counts; none or zero draws no count.
   final int? papersCount;
 
   /// False only while Learn is switched off on the server: the switch then has two doors.
   final bool showLearn;
 
+  /// True while Learn v2 is on: Explore (its covers) is the fourth door.
+  final bool showExplore;
+
   /// The painted track and the thumb inside it.
   static const double trackHeight = 52;
   static const double inset = 4;
 
-  /// Room either side of a door's words.
+  /// Room either side of a door's words (three doors; four take [tightPad]).
   static const double sidePad = 14;
+  static const double tightPad = 7;
 
   /// The slide: the app's ease-out, a quarter of a second.
   static const Duration slide = Duration(milliseconds: 240);
 
-  List<PracticeDoor> get _doors => [PracticeDoor.practise, PracticeDoor.papers, if (showLearn) PracticeDoor.learn];
+  List<PracticeDoor> get _doors => [PracticeDoor.practise, PracticeDoor.papers, if (showLearn) PracticeDoor.learn, if (showExplore) PracticeDoor.explore];
 
   static String labelOf(PracticeDoor d) => switch (d) {
     PracticeDoor.practise => PracticeCopy.doorPractise,
     PracticeDoor.papers => PracticeCopy.doorPapers,
     PracticeDoor.learn => PracticeCopy.doorLearn,
+    PracticeDoor.explore => PracticeCopy.doorExplore,
   };
 
   @override
@@ -52,8 +59,10 @@ class PracticeDoorSwitch extends StatelessWidget {
     final doors = _doors;
     final chosen = math.max(0, doors.indexOf(door));
     final count = (papersCount ?? 0) > 0 ? papersCount! : null;
-    final scaler = MediaQuery.textScalerOf(context);
-    final labelStyle = type.labelLarge.copyWith(fontSize: 15, height: 20 / 15);
+    final requested = MediaQuery.textScalerOf(context);
+    final pad = doors.length > 3 ? tightPad : sidePad;
+    final labelSize = doors.length > 3 ? 14.0 : 15.0;
+    final labelStyle = type.labelLarge.copyWith(fontSize: labelSize, height: 20 / labelSize);
     final badgeStyle = type.labelLarge.copyWith(fontSize: 12.5, height: 1, fontWeight: FontWeight.w700, fontFeatures: const [FontFeature.tabularFigures()]);
 
     return Semantics(
@@ -62,19 +71,40 @@ class PracticeDoorSwitch extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, box) {
           final inner = box.maxWidth - inset * 2;
-          // What each door needs: its words, its count, and air either side.
-          double textWidth(String text, TextStyle style) {
+          // What each door needs: its words, its count, and air either side, at a text scale.
+          double textWidth(String text, TextStyle style, TextScaler scaler) {
             final tp = TextPainter(text: TextSpan(text: text, style: style.copyWith(fontWeight: FontWeight.w700)), textDirection: TextDirection.ltr, textScaler: scaler, maxLines: 1)..layout();
             final w = tp.width;
             tp.dispose();
             return w;
           }
 
-          final needs = [
+          List<double> needsAt(TextScaler scaler) => [
             for (final d in doors)
-              textWidth(labelOf(d), labelStyle) + sidePad * 2 + (d == PracticeDoor.papers && count != null ? 6 + math.max(22.0, textWidth('$count', badgeStyle) + 12) : 0),
+              textWidth(labelOf(d), labelStyle, scaler) + pad * 2 + (d == PracticeDoor.papers && count != null ? 6 + math.max(22.0, textWidth('$count', badgeStyle, scaler) + 12) : 0),
           ];
-          final total = needs.fold<double>(0, (a, b) => a + b);
+          double sum(List<double> v) => v.fold<double>(0, (a, b) => a + b);
+
+          // The words are set as large as the student asked for while every door still fits on one line; past that they are set
+          // no larger than fits (never under normal size), so a word is not cut at large text.
+          var scaler = requested;
+          if (doors.length > 3 && sum(needsAt(scaler)) > inner) {
+            var lo = 1.0;
+            var hi = math.max(1.0, requested.scale(14) / 14);
+            if (sum(needsAt(const TextScaler.linear(1))) <= inner) {
+              for (var k = 0; k < 10; k++) {
+                final mid = (lo + hi) / 2;
+                if (sum(needsAt(TextScaler.linear(mid))) <= inner) {
+                  lo = mid;
+                } else {
+                  hi = mid;
+                }
+              }
+            }
+            scaler = TextScaler.linear(lo);
+          }
+          final needs = needsAt(scaler);
+          final total = sum(needs);
           // Enough room: each door gets what it needs and an even share of the rest. Not enough (large text): each gets
           // its share of the width, and its words wrap.
           final widths = total <= inner ? [for (final n in needs) n + (inner - total) / doors.length] : [for (final n in needs) inner * n / total];
@@ -112,23 +142,27 @@ class PracticeDoorSwitch extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Row(
-                        children: [
-                          for (final (i, d) in doors.indexed)
-                            SizedBox(
-                              width: widths[i],
-                              child: _Door(
-                                key: ValueKey('practice-door-${d.name}'),
-                                label: labelOf(d),
-                                count: d == PracticeDoor.papers ? count : null,
-                                chosen: i == chosen,
-                                semanticsLabel: d == PracticeDoor.papers ? PracticeCopy.doorPapersSemantics(count ?? 0) : labelOf(d),
-                                style: labelStyle,
-                                badgeStyle: badgeStyle,
-                                onTap: i == chosen ? null : () => onChanged(d),
+                      MediaQuery(
+                        data: MediaQuery.of(context).copyWith(textScaler: scaler),
+                        child: Row(
+                          children: [
+                            for (final (i, d) in doors.indexed)
+                              SizedBox(
+                                width: widths[i],
+                                child: _Door(
+                                  key: ValueKey('practice-door-${d.name}'),
+                                  label: labelOf(d),
+                                  count: d == PracticeDoor.papers ? count : null,
+                                  chosen: i == chosen,
+                                  semanticsLabel: d == PracticeDoor.papers ? PracticeCopy.doorPapersSemantics(count ?? 0) : labelOf(d),
+                                  style: labelStyle,
+                                  badgeStyle: badgeStyle,
+                                  sidePad: pad,
+                                  onTap: i == chosen ? null : () => onChanged(d),
+                                ),
                               ),
-                            ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -150,6 +184,7 @@ class _Door extends StatelessWidget {
     required this.semanticsLabel,
     required this.style,
     required this.badgeStyle,
+    required this.sidePad,
     required this.onTap,
   });
 
@@ -159,6 +194,7 @@ class _Door extends StatelessWidget {
   final String semanticsLabel;
   final TextStyle style;
   final TextStyle badgeStyle;
+  final double sidePad;
 
   /// Null on the chosen door: a tap there does nothing, but it stays a focusable, announced button.
   final VoidCallback? onTap;
@@ -179,7 +215,7 @@ class _Door extends StatelessWidget {
       builder: (context, pressed, focused) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 44),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: PracticeDoorSwitch.sidePad - 4, vertical: 6),
+          padding: EdgeInsets.symmetric(horizontal: sidePad - 4, vertical: 6),
           child: Center(
             child: Row(
               mainAxisSize: MainAxisSize.min,

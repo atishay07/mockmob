@@ -15,8 +15,11 @@ import '../../core/widgets/widgets.dart';
 import '../insights/ask_mobi.dart' show AskMobiButton, AskMobiCard;
 import '../learn/data/catalog_repository.dart' show learnCatalogProvider;
 import '../learn/screens/learn_screen.dart' show pendingRunIdsProvider;
-import '../learn2/data/learn_providers.dart' show invalidateLearnReads, learnOnProvider, learnSubjectIdProvider, learnSubjectProvider;
+import '../learn2/data/learn_api.dart' show OffLearnApi;
+import '../learn2/data/learn_providers.dart' show invalidateLearnReads, learnApiProvider, learnCoversProvider, learnOnProvider, learnSubjectIdProvider, learnSubjectProvider;
+import '../learn2/explore/explore_screen.dart' show ExploreScreen;
 import '../learn2/learn2_door.dart' show Learn2Door;
+import '../today/logic/subjects.dart' show canonicalSubject;
 import '../review/data/review_providers.dart' show openRepairsProvider;
 import '../review/screens/review_screen.dart' show ReviewScreen;
 import '../pro_nudge/pro_nudge.dart';
@@ -57,11 +60,12 @@ import 'widgets/practice_credit_line.dart';
 /// it off a calm sheet that says Pro is coming to the app soon and offers the open mode instead. Only a
 /// server that says a mode is not offered at all takes its tile away.
 ///
-/// Three doors (19 Oct PM, owner D126, Practice C): a switch under the title chooses Practise (the subjects, the ways to
-/// practise on top as H6 asked, up next, Ask Mobi and More ways in), Your papers (the Review screen, in place) or Learn
-/// (the lesson library, in place), so neither of the two reads as "something extra" (H7). [door] comes from the
-/// address (`?door=`), so the last door chosen is where a tab switch or a Back returns this session; [focusPaper] is
-/// Your papers' `?paper=`.
+/// Four doors (19 Oct PM, owner D126, Practice C; Explore is the fourth since 3 Nov, LK51): a switch under the title chooses
+/// Practise (the subjects, the ways to practise on top as H6 asked, up next, Ask Mobi and More ways in), Papers (the Review
+/// screen, in place), Learn (the lesson library or Learn v2's home, in place) or Explore (the chapter feed covers and the way to
+/// the untimed questions, in place, while Learn v2 is on), so none of them reads as "something extra" (H7). [door] comes from
+/// the address (`?door=`), so the last door chosen is where a tab switch or a Back returns this session; [focusPaper] is
+/// Papers' `?paper=`.
 class PracticeScreen extends ConsumerStatefulWidget {
   const PracticeScreen({super.key, this.door = PracticeDoor.practise, this.focusPaper});
 
@@ -94,6 +98,10 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
   bool _entered = false;
   static const int _deckSlot = 3;
 
+  /// The kept answer to "is Learn v2 on" has been read (or there is none to wait for): until then an address that names the
+  /// Explore door is waited for, not sent to Practise, so a deep link to it does not flash the wrong door on a cold start.
+  bool _learnRestored = false;
+
   /// Mobi lives in the header: the screen drives his looks and his thinking, the widget owns his
   /// quiet clock and his tap. The entrance is decided once (a wave the first time today).
   final MobiController _mobi = MobiController();
@@ -113,6 +121,13 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     super.initState();
     // Asked once, here: asking consumes the day's hello.
     _entrance = MobiRation.greeting('practice');
+    if (ref.read(learnApiProvider) is OffLearnApi) {
+      _learnRestored = true;
+    } else {
+      unawaited(ref.read(learnOnProvider.notifier).restored.then((_) {
+        if (mounted) setState(() => _learnRestored = true);
+      }));
+    }
   }
 
   @override
@@ -137,8 +152,13 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
       // Learn v2 (APP-1101) keeps the door open on its own switch: Key cards and questions live without lessons.
       ref.watch(learnOnProvider) || !(ref.watch(learnCatalogProvider.select((s) => s.value?.isDisabled ?? false)));
 
-  /// The door on show: the address's, unless it names Learn while Learn is switched off.
-  PracticeDoor _doorShown(bool learnOpen) => widget.door == PracticeDoor.learn && !learnOpen ? PracticeDoor.practise : widget.door;
+  /// The door on show: the address's, unless it names Learn while Learn is switched off, or Explore while Learn v2 is off (once the
+  /// kept answer is known: a cold start waits for it).
+  PracticeDoor _doorShown(bool learnOpen, bool exploreOpen) {
+    if (widget.door == PracticeDoor.learn && !learnOpen) return PracticeDoor.practise;
+    if (widget.door == PracticeDoor.explore && !exploreOpen && _learnRestored) return PracticeDoor.practise;
+    return widget.door;
+  }
 
   /// A door chosen on the switch: the address changes, so the shell, Back and a later tab switch all keep it.
   void _choose(PracticeDoor door) => context.go(door.location);
@@ -161,6 +181,11 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
         await ref.read(learnCatalogProvider.notifier).refresh();
         final error = ref.read(learnCatalogProvider).error;
         if (error != null) throw error;
+      case PracticeDoor.explore:
+        // Explore: read the covers of the subject again (the read keeps its previous value on screen while it reloads).
+        final subject = canonicalSubject(ref.read(practiceSubjectProvider));
+        ref.invalidate(learnCoversProvider(subject));
+        await ref.read(learnCoversProvider(subject).future);
     }
   }
 
@@ -302,7 +327,8 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     final deckDelay = _entered ? Duration.zero : Motion.staggerStep * _deckSlot;
     _entered = true;
     final learnOpen = _learnOpen(ref);
-    final door = _doorShown(learnOpen);
+    final exploreOpen = ref.watch(learnOnProvider);
+    final door = _doorShown(learnOpen, exploreOpen);
 
     Widget practiseDoor() => Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -562,8 +588,8 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                             ),
                           ),
                           const SizedBox(height: MmSpace.s12),
-                          // The three doors (D126): Practise, Your papers (with the open mistakes, the
-                          // bar badge's number) and Learn.
+                          // The four doors (D126, LK51): Practise, Papers (with the open mistakes, the
+                          // bar badge's number), Learn and Explore (while Learn v2 is on).
                           MmStaggerItem(
                             index: 1,
                             child: Padding(
@@ -573,6 +599,7 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                                 onChanged: _choose,
                                 papersCount: ref.watch(openRepairsProvider),
                                 showLearn: learnOpen,
+                                showExplore: exploreOpen,
                               ),
                             ),
                           ),
@@ -583,6 +610,7 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                               PracticeDoor.practise => practiseDoor(),
                               PracticeDoor.papers => ReviewScreen(embedded: true, focusPaper: widget.focusPaper),
                               PracticeDoor.learn => const Learn2Door(),
+                              PracticeDoor.explore => ExploreScreen(embedded: true, subject: GoRouterState.of(context).uri.queryParameters['subject']),
                             },
                           ),
                         ],

@@ -198,7 +198,13 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
 
   void _push(String location) {
     final router = _router;
-    if (router != null) unawaited(router.push<void>(location));
+    if (router == null) return;
+    // A door of Practice (Explore, Learn) opens in place; everything else is pushed.
+    if (Learn2Links.opensInPlace(location)) {
+      router.go(location);
+    } else {
+      unawaited(router.push<void>(location));
+    }
   }
 
   void _replace(String location) {
@@ -218,7 +224,8 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
       return;
     }
     final key = _c.chapterKey;
-    router.go(key != null ? Learn2Links.chapter(key) : Learn2Links.home());
+    // A run over several chapters belongs to no one chapter (round 5, LK45 fix 4): Close goes to Learn home.
+    router.go(key != null && !_c.spans ? Learn2Links.chapter(key) : Learn2Links.home());
   }
 
   /// Whether the page under this one is [key]'s chapter page.
@@ -236,7 +243,7 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
   void _toChapter() {
     final router = _router;
     final key = _c.chapterKey;
-    if (router == null || key == null) {
+    if (router == null || key == null || _c.spans) {
       _leave();
       return;
     }
@@ -596,7 +603,7 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
         } else if (c.isLook(it)) {
           keys = StageStepKey(key: ValueKey('look-${it.id}'), label: nextLabel, onTap: c.leaving ? null : () => unawaited(c.lookNext()));
         } else {
-          keys = RunRateKeys(busy: c.busy, disabled: c.leaving, onRate: (r) => unawaited(c.rate(r)));
+          keys = RunRateKeys(returns: it.returns, busy: c.busy, disabled: c.leaving, onRate: (r) => unawaited(c.rate(r)));
         }
       case LearnLessonItem():
         keys = RunKeyRow(

@@ -293,11 +293,15 @@ String? _keyCardsToLearn2(BuildContext context, GoRouterState state) {
   return on ? Learn2Links.fromKeyCards(state.uri) : null;
 }
 
-/// Explore's covers are Learn v2's (APP-1101 6): while it is off, /explore is the question stream it was before.
-String? _exploreWhileLearn2Off(BuildContext context, GoRouterState state) {
+/// Explore's covers are Learn v2's (APP-1101 6) and Practice's fourth door (LK51): while Learn v2 is on, `/explore` opens that door
+/// in place (`/practice?door=explore`, with its `?subject=`); while it is off, `/explore` is the question stream it was before.
+/// A feed (`/explore/feed`) keeps its own path.
+String? _exploreRedirect(BuildContext context, GoRouterState state) {
   if (state.uri.path != AppRoutes.explore) return null;
-  if (ProviderScope.containerOf(context, listen: false).read(learnOnProvider)) return null;
   final subject = state.uri.queryParameters['subject'];
+  if (ProviderScope.containerOf(context, listen: false).read(learnOnProvider)) {
+    return AppRoutes.practiceDoorLocation('explore', from: Uri(queryParameters: {'subject': ?subject}));
+  }
   return Uri(path: AppRoutes.practiceStream, queryParameters: subject == null ? null : {'subject': subject}).toString();
 }
 
@@ -531,9 +535,9 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey, Set<RouteBase> sheets
       page(':unitId', learnUnitScreen, root: true),
     ]),
 
-    // Explore (APP-1101): the chapter feed covers, pushed over the shell from Practise's More ways in; a feed is a
-    // full-screen page over it that fades in like the runner.
-    page(AppRoutes.explore, learn2ExploreScreen, root: true, redirect: _exploreWhileLearn2Off, routes: [
+    // Explore (APP-1101, LK51): the chapter feed covers are Practice's fourth door, so `/explore` alone redirects to that door; a
+    // feed is a full-screen page over it that fades in like the runner.
+    page(AppRoutes.explore, learn2ExploreScreen, root: true, redirect: _exploreRedirect, routes: [
       page('feed', learn2FeedScreen, transition: MmTransition.fade, root: true),
     ]),
 

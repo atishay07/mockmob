@@ -1046,16 +1046,29 @@ class LearnPreview {
 
 /// A run's chapter: `{ key, title, ref, partTitle, number }`.
 class LearnRunChapter {
-  const LearnRunChapter({required this.key, required this.title, this.ref, this.partTitle, this.number, this.place, this.raw = const {}});
+  const LearnRunChapter({required this.key, required this.title, this.ref, this.partTitle, this.number, this.place, this.spans = false, this.raw = const {}});
 
   static LearnRunChapter parse(Object? raw) {
     final j = asJson(raw);
     final key = _text(j['key']) ?? '';
-    return LearnRunChapter(key: key, title: _text(j['title']) ?? key, ref: _text(j['ref']), partTitle: _text(j['partTitle']), number: asInt(j['number']), place: LearnPlace.tryParse(j['place']), raw: j);
+    return LearnRunChapter(
+      key: key,
+      title: _text(j['title']) ?? key,
+      ref: _text(j['ref']),
+      partTitle: _text(j['partTitle']),
+      number: asInt(j['number']),
+      place: LearnPlace.tryParse(j['place']),
+      spans: _bool(j['spans']),
+      raw: j,
+    );
   }
 
   final String key;
   final String title;
+
+  /// A run over several chapters (Revise's due cards, a Find set): the server heads it "Revise" with no place, no ref and no
+  /// chapter bar, and its Close goes to Learn home (round 5, LK45 fix 4). `key` stays the first card's, for routing only.
+  final bool spans;
 
   /// "Ch 2": the NCERT number, for source lines only.
   final String? ref;
@@ -1136,6 +1149,7 @@ sealed class LearnItem {
           look: _bool(j['look']),
           recap: _bool(j['recap']),
           reason: _text(j['reason']),
+          returns: LearnReturns.tryParse(j['returns']),
           seconds: seconds,
           raw: j,
         );
@@ -1163,7 +1177,37 @@ sealed class LearnItem {
   final Json raw;
 }
 
-/// A Key card: `{ id, type: 'card', stage, card, look, recap, reason?, seconds }`.
+/// When each rating would bring a card back, in the server's words (round 5, LK38; the web's `returnWords`):
+/// `{ missed, got, easy }`, e.g. `{ missed: 'in this run, then tomorrow', got: 'in 3 days', easy: 'in 8 days' }`. A key's second line is
+/// "back " and these words; the stamp after a rating is "Back " and them. Absent for a look, a recap, a feed and a card back from
+/// earlier: those keys have no second line.
+class LearnReturns {
+  const LearnReturns({this.missed, this.got, this.easy});
+
+  static LearnReturns? tryParse(Object? raw) {
+    if (raw is! Map) return null;
+    final j = asJson(raw);
+    final missed = _text(j['missed']);
+    final got = _text(j['got']);
+    final easy = _text(j['easy']);
+    if (missed == null && got == null && easy == null) return null;
+    return LearnReturns(missed: missed, got: got, easy: easy);
+  }
+
+  final String? missed;
+  final String? got;
+  final String? easy;
+
+  /// The words for a rating (1 Missed it, 3 Got it, 4 Easy); null when the server gave none.
+  String? forRating(int rating) => switch (rating) {
+    1 => missed,
+    3 => got,
+    4 => easy,
+    _ => null,
+  };
+}
+
+/// A Key card: `{ id, type: 'card', stage, card, look, recap, reason?, returns?, seconds }`.
 class LearnCardItem extends LearnItem {
   const LearnCardItem({
     required super.id,
@@ -1172,6 +1216,7 @@ class LearnCardItem extends LearnItem {
     this.look = false,
     this.recap = false,
     this.reason,
+    this.returns,
     super.seconds,
     super.raw,
   });
@@ -1187,6 +1232,13 @@ class LearnCardItem extends LearnItem {
 
   /// A copy put back in: `earlier` ("Back from earlier") or `line` ("The line you needed").
   final String? reason;
+
+  /// What each rating key promises (see [LearnReturns]); null when the card has no words.
+  final LearnReturns? returns;
+
+  /// This card with other rating words (a card moved closer after Missed: the server's fresh words).
+  LearnCardItem withReturns(LearnReturns? words) =>
+      LearnCardItem(id: id, card: card, stage: stage, look: look, recap: recap, reason: reason, returns: words, seconds: seconds, raw: raw);
 }
 
 /// A question: `{ id, type: 'question', origin: mistake | linked | chapter, question, mistake, seconds }`.
@@ -1259,7 +1311,7 @@ class LearnRun {
   final int asked;
   final List<LearnItem> items;
 
-  /// `revisePile.count`: the cards this run sent to Revise (Got it and Easy).
+  /// `revisePile.count`: the cards this run sent to Revise (every rated card: Missed it, Got it and Easy all schedule it).
   final int revisePile;
 
   /// A pick-up: `{ done, of }` over the whole run; [items] are only the ones not done.
@@ -1762,19 +1814,22 @@ class LearnEndProgress {
 
 /// The end's chapter: `{ key, title, place }`.
 class LearnEndChapter {
-  const LearnEndChapter({required this.key, required this.title, this.place, this.raw = const {}});
+  const LearnEndChapter({required this.key, required this.title, this.place, this.spans = false, this.raw = const {}});
 
   static LearnEndChapter? tryParse(Object? raw) {
     if (raw is! Map) return null;
     final j = asJson(raw);
     final key = _text(j['key']);
     if (key == null) return null;
-    return LearnEndChapter(key: key, title: _text(j['title']) ?? key, place: LearnPlace.tryParse(j['place']), raw: j);
+    return LearnEndChapter(key: key, title: _text(j['title']) ?? key, place: LearnPlace.tryParse(j['place']), spans: _bool(j['spans']), raw: j);
   }
 
   final String key;
   final String title;
   final LearnPlace? place;
+
+  /// A run over several chapters: "Revise", no place (see [LearnRunChapter.spans]).
+  final bool spans;
   final Json raw;
 }
 

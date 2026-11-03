@@ -389,17 +389,15 @@ abstract final class FeedModel {
     return said.isNotEmpty ? said : FeedCopy.endTitleFallback;
   }
 
-  /// Items done for the stop rule: a card once its back was read or it was kept, a question once it was graded.
-  static int itemsDone(List<LearnItem> items, Map<String, FeedItemState> states, {int base = 0}) {
-    var n = base;
-    for (final item in items) {
+  /// Items done, for the stop rule, the stop sheet and a stopped end: the server's own count (round 5, LK45 fix 2), the place of the
+  /// last item it holds an event for, a card kept or a question answered. A card only turned over writes nothing, so it is not
+  /// counted here and not at the end.
+  static int itemsDone(List<LearnItem> items, Map<String, FeedItemState> states, {int base = 0}) => StageEndModel.reachedPlace<LearnItem>(
+    items,
+    (item, _) {
       final st = states[item.id] ?? const FeedItemState();
-      if (item is LearnCardItem) {
-        if (st.seenBack || st.kept) n += 1;
-      } else if (st.res != null) {
-        n += 1;
-      }
-    }
-    return n;
-  }
+      return item is LearnCardItem ? st.kept : st.res != null;
+    },
+    base,
+  );
 }

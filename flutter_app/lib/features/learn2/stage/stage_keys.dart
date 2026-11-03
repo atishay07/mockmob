@@ -391,12 +391,22 @@ class StageStepKey extends StatelessWidget {
     this.quiet = false,
     this.minHeight = 52,
     this.sub,
+    this.subLines = 1,
+    this.subSize = 13,
+    this.padX = 18,
   });
 
   final String label;
 
-  /// A second line inside the key (13 medium, the key's ink at 70%): the end's next chapter name.
+  /// A second line inside the key (13 medium, the key's ink at 70%): the end's next chapter name, or a rating key's "back tomorrow".
   final String? sub;
+
+  /// The second line wraps on its words up to this many lines (a rating key's "back in this run, then tomorrow" takes two).
+  final int subLines;
+  final double subSize;
+
+  /// The key's own side padding (a rating key is a third of the width, so it keeps 8).
+  final double padX;
 
   /// Null disables the key (opacity 0.55, no lip).
   final VoidCallback? onTap;
@@ -486,7 +496,7 @@ class StageStepKey extends StatelessWidget {
       return ConstrainedBox(
         constraints: BoxConstraints(minHeight: minHeight, minWidth: double.infinity),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: MmSpace.s8),
+          padding: EdgeInsets.symmetric(horizontal: padX, vertical: MmSpace.s8),
           child: Center(
             child: second == null
                 ? words
@@ -497,11 +507,16 @@ class StageStepKey extends StatelessWidget {
                       const SizedBox(height: 2),
                       Text(
                         second,
-                        maxLines: 1,
-                        softWrap: false,
+                        maxLines: subLines,
+                        softWrap: subLines > 1,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
-                        style: context.mmType.body.copyWith(fontSize: 13, height: 1.3, fontWeight: FontWeight.w500, color: colors.voltInk.withValues(alpha: 0.7)),
+                        style: context.mmType.body.copyWith(
+                          fontSize: subSize,
+                          height: 1.3,
+                          fontWeight: FontWeight.w500,
+                          color: tone == StageTone.volt ? colors.voltInk.withValues(alpha: 0.7) : colors.ink2,
+                        ),
                       ),
                     ],
                   ),

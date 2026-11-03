@@ -161,6 +161,17 @@ abstract final class RunView {
     return at + (item != null && ((item is LearnQuestionItem && answered) || acted) ? 1 : 0);
   }
 
+  /// Whether the server holds an event for an item of the run (round 5, LK45 fix 2: the stop sheet counts as the end does, by
+  /// `StageEndModel.reachedPlace`). An item before the one on screen holds one when it is a card (rated or looked at), a lesson
+  /// (read or skipped) or an answered question ([answered]); a skipped question writes nothing. The item on screen holds one once
+  /// its rating or look is in the server's hands ([acted]: a card that is flying away). A lesson on screen holds none yet.
+  static bool itemHeld({required LearnItem item, required int index, required int at, bool answered = false, bool acted = false}) {
+    if (index > at) return false;
+    if (item is LearnQuestionItem) return answered;
+    if (index < at) return true;
+    return item is LearnCardItem && acted;
+  }
+
   /// A copy of [item] under another id (a put-back item).
   static LearnItem withId(LearnItem item, String id) => switch (item) {
     LearnCardItem() => LearnCardItem(
@@ -170,6 +181,7 @@ abstract final class RunView {
       look: item.look,
       recap: item.recap,
       reason: item.reason,
+      returns: item.returns,
       seconds: item.seconds,
       raw: {...item.raw, 'id': id},
     ),
@@ -194,6 +206,7 @@ abstract final class RunView {
           look: item.look,
           recap: item.recap,
           reason: item.reason,
+          returns: item.returns,
           seconds: item.seconds,
           raw: item.raw,
         )
@@ -221,7 +234,11 @@ abstract final class RunView {
           if (x.id != itemId) x,
       ];
       final i = math.max(current + 1, math.min(rest.length, want));
-      return [...rest.take(i), list[has], ...rest.skip(i)];
+      // Round 5, LK38: the card has now used its one second showing, so its Missed words are the server's fresh ones (no "in this run").
+      final held = list[has];
+      final fresh = item is LearnCardItem ? item.returns : null;
+      final moved_ = held is LearnCardItem && fresh != null ? held.withReturns(fresh) : held;
+      return [...rest.take(i), moved_, ...rest.skip(i)];
     }
     if (item == null) return list;
     final i = math.max(current + 1, math.min(list.length, want));

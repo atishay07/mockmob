@@ -112,7 +112,7 @@ class ShelfRowModel {
   /// The row leads somewhere (a quiet row without a link is shown but not pressed: Free's day is used).
   final bool link;
 
-  /// `print` on Pro's Print sheet row (the website builds the watermarked sheet there); null elsewhere.
+  /// `print` on Pro's Must-know row (the website prints the watermarked sheet there; the app opens the Must-know cards); null elsewhere.
   final String? action;
 }
 
@@ -273,9 +273,10 @@ abstract final class ChapterModel {
 
   /// "Everything in this chapter" (A4 3.2.6): only rows that lead somewhere, with plain lines. What is missing is never announced
   /// (R2 ruling 9). Free's taste is said here only ("46 cards. 5 open on Free."). [mistakeMinutes] gives the minutes n mistakes take. The
-  /// Print sheet's "with your name" is the watermark of the website's sheet: [namedSheet] false leaves it out until the app
-  /// builds that sheet.
-  static ShelfView shelfView(LearnPreview? data, {int Function(int n) mistakeMinutes = _same, bool namedSheet = true}) {
+  /// The last row is the website's "Print sheet" ("12 Must-know lines, with your name": it prints the watermarked sheet). The app
+  /// builds no such sheet, so with [webSheet] false (the app's page) the row is named for what it opens, "Must-know lines", with
+  /// its count as the note ("12 lines"): round 5, LK45 fix 3. The default is the web's words, which the parity test holds.
+  static ShelfView shelfView(LearnPreview? data, {int Function(int n) mistakeMinutes = _same, bool webSheet = true}) {
     final shelf = data?.shelf ?? const LearnShelf();
     final isPro = !shelf.print.locked;
     final used = data?.freeSession?.used ?? false;
@@ -316,8 +317,8 @@ abstract final class ChapterModel {
       rows.add(
         ShelfRowModel(
           id: 'print',
-          title: 'Print sheet',
-          line: locked ? 'Part of Pro' : '${_plural(must, 'Must-know line')}${namedSheet ? ', with your name' : ''}',
+          title: webSheet ? 'Print sheet' : 'Must-know lines',
+          line: locked ? 'Part of Pro' : (webSheet ? '${_plural(must, 'Must-know line')}, with your name' : _plural(must, 'line')),
           locked: locked,
           link: locked,
           action: locked ? null : 'print',

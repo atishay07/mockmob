@@ -8,7 +8,7 @@
 //   /learn/c/<key>              /learn/c/<key>                 the chapter page
 //   /learn/c/<key>/cards        /learn/c/<key>/cards           the Cards view
 //   /learn/run?...              /learn/session?...             a run (the app's /learn/run/<id> is the lesson run)
-//   /explore                    /explore                       Explore: the chapter feed covers
+//   /explore                    /practice?door=explore         Explore: the chapter feed covers, Practice's fourth door (/explore redirects)
 //   /explore/run?...            /explore/feed?...              a feed
 //   /review/revise              /review/revise                 Revise
 
@@ -129,8 +129,12 @@ abstract final class Learn2Links {
   /// A feed.
   static String feed(FeedLaunch launch) => _with(AppRoutes.exploreFeed, launch.toQuery());
 
-  /// Explore: the chapter feed covers (and the way to Untimed questions).
-  static String explore({String? subject}) => _with(AppRoutes.explore, {'subject': ?subject});
+  /// Whether [location] is a place of the Practice tab (a door: Learn, Explore), which opens with `go`, never a push.
+  static bool opensInPlace(String location) => AppRoutes.opensWithGo(location);
+
+  /// Explore: Practice's fourth door, the chapter feed covers (and the way to Untimed questions), on [subject] when given. Open it
+  /// with `go` ([openLearn2Place] does), never a push: it is a door of the Practice tab. `/explore` itself redirects here.
+  static String explore({String? subject}) => AppRoutes.practiceDoorLocation('explore', from: Uri(queryParameters: {'subject': ?subject}));
 
   /// Revise.
   static String revise() => AppRoutes.reviewRevise;

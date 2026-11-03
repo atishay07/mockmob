@@ -23,6 +23,15 @@ abstract final class LearnWords {
   static const String reviseLater = 'Revise later';
   static const String inRevise = 'In Revise';
 
+  /// The head line of a run over several chapters (Revise's due cards, a Find set): no chapter, no place (round 5, LK45 fix 4).
+  static const String revise = 'Revise';
+
+  /// The first rating key (round 5, LK38): "Missed it", never "Missed" alone.
+  static const String missedIt = 'Missed it';
+
+  /// The one coach line under the rating keys, once per student, on the first card they can rate (round 5, LK38).
+  static const String coachRatings = 'Missed it brings a card back soonest. Easy sends it furthest away.';
+
   /// A question to Saved (questions only, by design).
   static const String save = 'Save';
   static const String saved = 'Saved';
@@ -65,6 +74,28 @@ abstract final class LearnWords {
 
   /// "Chapter 5 of 14": a chapter's place among the student's playable chapters; empty without one.
   static String chapterPlace(LearnPlace? place) => place == null || place.n <= 0 || place.of <= 0 ? '' : place.label;
+
+  /// When a rated card comes back, in words (round 5, LK38), from the days FSRS gives it: under 1.5 days "tomorrow", then "in N
+  /// days" to 13, "in N weeks" to 8 weeks, then "in N months". The server writes these words (`returns`); this port is held to
+  /// the web's by the parity test, so the keys, the stamp and the tests cannot drift apart.
+  static String returnWords(num? days) {
+    final raw = days == null || days.isNaN ? 0 : days;
+    final d = raw < 0 ? 0 : raw;
+    if (d < 1.5) return 'tomorrow';
+    final n = d.round();
+    if (n <= 13) return 'in $n days';
+    if (n < 56) return 'in ${_plural((n / 7).round(), 'week')}';
+    return 'in ${_plural((n / 30.4).round(), 'month')}';
+  }
+
+  /// "Back tomorrow", "Back in 3 days": the stamp after a rating (the words are [returnWords]).
+  static String backStamp(String words) => 'Back $words';
+
+  /// "back tomorrow": a rating key's second line.
+  static String backLine(String words) => 'back $words';
+
+  /// The words for a Missed card: when the run also shows it again, "in this run, then tomorrow".
+  static String missedWords(String scheduled, bool inRun) => inRun ? 'in this run, then $scheduled' : scheduled;
 
   /// "Chapter 5": the short form for tight spots.
   static String chapterShort(LearnPlace? place) => place == null || place.n <= 0 ? '' : place.short;

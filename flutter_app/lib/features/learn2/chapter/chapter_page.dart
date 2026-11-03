@@ -300,8 +300,8 @@ class _ChapterPageState extends ConsumerState<ChapterPage> {
     // With an unfinished run the picker waits under "Start fresh instead", so the page has one main key.
     final picker = resume == null || _fresh;
     _coachIfDue(picker && pileCount > 1);
-    // The Print sheet does not promise a name until the app builds the watermarked sheet.
-    final shelf = data == null ? null : ChapterModel.shelfView(data, mistakeMinutes: (n) => ChapterModel.minutesFor(n * 60), namedSheet: false);
+    // The app builds no watermarked sheet: its last row is "Must-know lines" and opens the cards (round 5, LK45 fix 3).
+    final shelf = data == null ? null : ChapterModel.shelfView(data, mistakeMinutes: (n) => ChapterModel.minutesFor(n * 60), webSheet: false);
     final recap = ChapterModel.recapLabel(data?.recap, seen: ChapterModel.hasSeenCards(data));
     final firstUp = ChapterModel.firstUpCards(data);
 
