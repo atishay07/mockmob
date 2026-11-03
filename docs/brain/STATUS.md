@@ -1,4 +1,4 @@
-## 4 Nov 2026, about 12:20 am IST: Physics formula cards (owner LK34): Physics 1,090 to 1,403 cards, about 5.5 to 7.2 hours
+## 3 Nov 2026, about 11:59 pm IST: Physics formula cards (owner LK34): Physics 1,090 to 1,403 cards, about 5.5 to 7.2 hours
 
 **What shipped:**
 - **Physics: 1,090 to 1,403 cards** (312 with typeset formulas), all 14 NCERT chapters (leph101-108, leph201-206). Each new or reworked card passed an Opus formula reviewer against the page image and a Sonnet content reviewer (handoff-1102/ptex-wave-1103.js, 42 agents; fix round ptex-fix-wave-1103.js, 15 agents; merged with merge-ptex-reviews-1103.mjs). Hours (handoff-1102/deck-hours-1103.mjs): 7.23 h.
