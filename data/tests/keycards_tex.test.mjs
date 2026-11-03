@@ -269,6 +269,20 @@ test('alnumBag: real pdftotext strings match their tex (spacing hat, ∆, Symbol
   assert.notEqual(alnumBag('x Î A'), alnumBag('x ∈ B'), 'a real letter still counts');
 });
 
+test('alnumBag: Physics inline Greek in the Symbol font reads as its Latin key', () => {
+  const rows = [
+    ['k = 1/4pe0', '$k = 1/4\\pi\\varepsilon_0$'],
+    ['1 mC', '$1\\ \\mu\\text{C}$'],
+    ['l = h/p', '$\\lambda = h/p$'],
+    ['w = 2pn', '$\\omega = 2\\pi\\nu$'],
+    ['F = BA cos q', '$\\Phi = BA \\cos \\theta$'],
+    ['4 π ε0', '$4\\pi\\varepsilon_0$'],
+  ];
+  for (const [pdf, tex] of rows) assert.equal(alnumBag(texToPlain(tex)), alnumBag(pdf), pdf);
+  assert.equal(alnumBag('µ'), alnumBag('μ'), 'micro sign');
+  assert.notEqual(alnumBag('l = h/p'), alnumBag('λ = h/q'), 'a different letter still counts');
+});
+
 // ---------------------------------------------------------------- texCheck
 
 test('texCheck: the passing card, and shapeCheck runs it', () => {

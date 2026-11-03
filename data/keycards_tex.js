@@ -377,14 +377,20 @@ export function texToPlain(str) {
 
 // pdftotext reads the book's Symbol-font glyphs as Latin-1 stand-ins: Î for ∈, Þ for ⇒, ¢ for a prime. They are not letters.
 const SYMBOL_FONT = /[ÎÞ¢]/g;
+// In inline text the Physics books set Greek in the Symbol font too, so both extractions give its Latin key: "k = 1/4pe0"
+// for 1/4πε₀, "1 mC" for 1 μC. The bag reads every Greek letter as that key (the image reviewer checks which is meant).
+const GREEK_KEY = Object.freeze({
+  α: 'a', β: 'b', χ: 'c', δ: 'd', ε: 'e', ϵ: 'e', φ: 'f', ϕ: 'f', γ: 'g', η: 'h', ι: 'i', κ: 'k', λ: 'l', μ: 'm', ν: 'n',
+  ο: 'o', π: 'p', ϖ: 'v', θ: 'q', ϑ: 'q', ρ: 'r', σ: 's', ς: 's', τ: 't', υ: 'u', ω: 'w', ξ: 'x', ψ: 'y', ζ: 'z',
+});
 
 /**
  * The letters and digits of a text as a sorted string (a multiset; order ignored, since pdftotext scrambles the order of
  * limits, fractions and superscripts): Symbol-font stand-ins dropped, NFKD, combining marks and modifier letters (the
- * spacing hat ˆ of "xiˆ") dropped, ∆ read as Δ, lowercase.
+ * spacing hat ˆ of "xiˆ") dropped, ∆ read as Δ, lowercase, each Greek letter read as its Symbol-font key.
  */
 export const alnumBag = (text) => [...String(text ?? '').replace(SYMBOL_FONT, '').normalize('NFKD').replace(/[\p{M}\p{Lm}]/gu, '').replace(/\u2206/g, 'Δ').toLowerCase()]
-  .filter((c) => /[\p{L}\p{N}]/u.test(c)).sort().join('');
+  .filter((c) => /[\p{L}\p{N}]/u.test(c)).map((c) => GREEK_KEY[c] || c).sort().join('');
 
 // ---------------------------------------------------------------- serving
 
