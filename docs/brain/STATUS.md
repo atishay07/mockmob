@@ -1,3 +1,19 @@
+## 3 Nov 2026, about 2:35 pm IST: Mathematics 349 to 548 formula cards (owner LK34); every Google font self-hosted (production builds no longer fail on the font fetch)
+
+**What shipped:**
+- **Mathematics: 349 to 548 cards** (221 with typeset formulas), from the other 10 NCERT chapters (handoff-1102/mtex-wave-1102.js, 30 agents) and a fix round on cards held only for a formula point or only as ambiguous (handoff-1102/mtex-fix-wave-1103.js, 12 agents). Each new or changed card passed an Opus formula reviewer comparing every symbol with the page image and a Sonnet content reviewer. Per chapter: Integrals 82, Matrices 58, Continuity & Differentiability 57, Vector Algebra 56, Determinants 47, Three Dimensional Geometry 41, Application of Derivatives 37, Relations & Functions 35, Differential Equations 30, Probability 29, Linear Programming 26, Inverse Trigonometric Functions 21, Application of Integrals 11 and Probability Distributions 1 (both with coverage notes: NCERT 2026-27 shortened or removed them). About 2.9 hours by data/learn/seconds.js, just under the 3-hour bar; NCERT's text supports about this much.
+- **Fonts:** Bricolage Grotesque, Gabarito, Hanken Grotesk and Literata (the NCERT reading face) are now served from src/app/fonts (Fontsource 5.3.0, OFL), as Geist Mono already was. Vercel runs `next build` (Turbopack), whose Google-font loader failed intermittently (2152e0b74's first build: "next/font/google queries have exactly one entry", Gabarito); with no next/font/google left it cannot recur. Production and local home pages compared at 390 Night and 1440 Day: same faces, weights and line breaks.
+- **Formula fit:** a display formula is fitted again when its glyph runs change size, so the fit holds on a first visit while KaTeX's fonts load (measured in fresh browsers: Matrices, Determinants, Vector Algebra and Integrals fit every wide formula; two Probability formulas with worded fractions stay at the 60% floor and scroll inside their line; their rework is queued).
+- **Safety:** no published card was removed or changed (deck comparison with HEAD; check-drafts-mtex-1102.mjs OK for both rounds after the 5 pilot cards were confirmed identical to their live versions).
+
+**Verified:**
+- Suites: keycards 124, keycards-ui 40, learn 403, option-order 7, today 146, app 987, learning 357, syllabus 24 pass.
+- `eslint .` is clean; `next build` (Turbopack) and `next build --webpack` both exit 0; no KaTeX JS and no Google Fonts reference in the build output.
+- Looked at: the home page (production vs local fonts), formula cards in Determinants (feed, 390 Night), and the Read view of Matrices, Determinants, Vector Algebra, Integrals and Probability (390 Night) in fresh browsers; no page errors.
+- 2152e0b74 went live through a redeploy (dpl_9v6kS4VjVk9k5pArAts6kbpkFS2A) after its first build failed on the Turbopack font loader; no runtime errors.
+
+**Rollback:** the previous production deployment.
+
 ## 2 Nov 2026, about 11:20 am IST: Maths formula cards to production (owner LK34, his "Yes, start it"): typeset formulas on Key cards; Mathematics 310 to 349; Geist Mono self-hosted
 
 **What shipped:**
