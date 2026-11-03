@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart' show AppLifecycleListener;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../analytics/analytics_client.dart' show appVersionProvider;
@@ -26,6 +27,8 @@ import 'session/session_api.dart';
 import 'session/session_engine.dart';
 import 'session/session_notifications.dart';
 import 'session/session_submitter.dart';
+import 'session/session_work_scheduler.dart';
+import 'session/stale_submit_settler.dart';
 
 /// WorkManager-backed scheduler. Initialise WorkManager once with [initializeBackgroundWork]
 /// after the first frame.
@@ -131,6 +134,7 @@ final sessionEngineServicesProvider = Provider<SessionEngineServices>((ref) {
   final api = OldServerFallbackApi(ApiSessionApi(ref.watch(apiClientProvider), userId: userId));
   final drafts = ref.watch(sessionDraftRepositoryProvider);
   final registry = ref.read(pendingWorkRegistryProvider.notifier);
+  final retries = ref.read(submitRetryRegistryProvider.notifier);
   final scope = ref.watch(localScopeProvider);
   return SessionEngineServices(
     db: ref.watch(appDatabaseProvider),
@@ -156,11 +160,53 @@ final sessionEngineServicesProvider = Provider<SessionEngineServices>((ref) {
       appVersion: () => ref.read(appVersionProvider).value ?? '',
       now: ref.watch(nowProvider),
     ),
-    scheduler: ref.watch(workmanagerSchedulerProvider),
+    // The strip says "Sending your answers" only while a retry is really queued (LK50).
+    scheduler: TrackedSessionWorkScheduler(ref.watch(workmanagerSchedulerProvider), onTracked: (id, queued) => retries.set(id, live: queued)),
     status: NotificationSessionStatusNotifier(ref.watch(notificationServiceProvider)),
     onPendingWork: (key, pending) => registry.set(key, pending: pending),
     now: ref.watch(nowProvider),
   );
+});
+
+/// Settles submits an earlier run left owed (LK50, [StaleSubmitSettler]): on start, whenever the app
+/// comes back to the front, and when the network returns. Null while signed out.
+final staleSubmitSettlerProvider = Provider<StaleSubmitSettler?>((ref) {
+  final userId = ref.watch(userIdProvider);
+  if (userId == null) return null;
+  final SessionEngineServices services;
+  try {
+    services = ref.watch(sessionEngineServicesProvider);
+  } on Object {
+    return null;
+  }
+  final retries = ref.read(submitRetryRegistryProvider.notifier);
+  final monitor = ref.watch(connectivityMonitorProvider);
+  final settler = StaleSubmitSettler(
+    db: services.db,
+    userId: userId,
+    drafts: services.drafts,
+    submitter: services.submitter,
+    scheduler: services.scheduler,
+    isOnline: () => monitor.status.value != NetworkStatus.offline,
+    onRetryLive: (id, live) => retries.set(id, live: live),
+    now: ref.watch(nowProvider),
+  );
+  var alive = true;
+  ref.onDispose(() => alive = false);
+  void run() {
+    if (alive) unawaited(settler.settle().then((_) {}, onError: (Object _) {}));
+  }
+
+  Future<void>.microtask(run);
+  final sub = monitor.restored.listen((_) => run());
+  ref.onDispose(sub.cancel);
+  try {
+    final life = AppLifecycleListener(onResume: run);
+    ref.onDispose(life.dispose);
+  } on Object {
+    // No widgets binding (a plain unit test): start and reconnect still settle.
+  }
+  return settler;
 });
 
 /// What the runner knows when a session has just been started.

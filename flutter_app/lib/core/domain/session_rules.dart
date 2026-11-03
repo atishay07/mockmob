@@ -47,3 +47,21 @@ EndedMockOutcome endedMockOutcome({required bool? attemptExistsOnServer, require
   if (attemptExistsOnServer) return EndedMockOutcome.recorded;
   return submissionWindowOpen(endsAtMs: endsAtMs, nowMs: nowMs) ? EndedMockOutcome.beingSent : EndedMockOutcome.windowClosed;
 }
+
+/// True when a submit owed by [draft] can still happen (LK50): the flag is set, the paper was not
+/// settled as window-closed or refused, the server's window (`endsAt` + [submissionGraceMs]) is still
+/// open, and a retry is really scheduled or running ([retryLive]). The "Sending your answers" strip
+/// shows only then; a flag left behind by a submit that can no longer run never says "Sending".
+bool submitCanStillHappen(SessionDraft? draft, {required int nowMs, required bool retryLive}) {
+  if (draft == null || !draft.pendingSubmission || draft.windowClosed || draft.rejected) return false;
+  if (draft.endsAtWallMs <= 0 || nowMs >= draft.endsAtWallMs + submissionGraceMs) return false;
+  return retryLive;
+}
+
+/// True when [draft] still owes a submit the server may accept, whether or not a retry is running:
+/// the flag is set, nothing settled it, and the window is open. A flag past its window is a stale
+/// draft for the settler to ask the server about, not work for the network to carry.
+bool submitStillOwed(SessionDraft? draft, {required int nowMs}) {
+  if (draft == null || !draft.pendingSubmission || draft.windowClosed || draft.rejected) return false;
+  return draft.endsAtWallMs > 0 && nowMs < draft.endsAtWallMs + submissionGraceMs;
+}

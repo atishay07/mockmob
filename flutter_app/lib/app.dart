@@ -9,6 +9,7 @@ import 'core/motion/mm_scroll_behavior.dart';
 import 'core/motion/reduced_motion.dart';
 import 'core/platform/native_touches.dart';
 import 'core/router/router.dart';
+import 'core/sync/sync_providers.dart' show staleSubmitSettlerProvider;
 import 'core/settings/appearance_settings.dart';
 import 'core/settings/theme_cross_fade.dart';
 import 'core/theme/theme.dart';
@@ -57,6 +58,9 @@ class _AppServices extends ConsumerWidget {
     ref.watch(rhythmWatcherProvider);
     ref.watch(nativeTouchesProvider);
     ref.watch(homeWidgetSyncProvider);
+    // A submit an earlier run left owed is settled with the server, so no screen says "Sending your
+    // answers" for a paper nothing is sending (LK50).
+    ref.watch(staleSubmitSettlerProvider);
     // A friend's invite kept from a link is handed to the server as soon as a student is signed in (owner D165).
     ref.watch(referralClaimerProvider);
     // The device demo's welcome-credits fixture; nothing in the app.

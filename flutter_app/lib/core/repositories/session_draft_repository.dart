@@ -285,6 +285,20 @@ class SessionDraftRepository {
     return [for (final row in rows) ?_decode(row)];
   }
 
+  /// Every draft of the signed-in student that still carries `pendingSubmission` and was not
+  /// settled (window closed or refused), archived rows included, newest first. The start/resume
+  /// settler asks the server about each (LK50).
+  Future<List<SessionDraft>> owedSubmits() async {
+    final id = _scope.userIdOrNull;
+    if (id == null) return const [];
+    final owed = [
+      for (final d in await _allDrafts(id))
+        if (d.pendingSubmission && !d.windowClosed && !d.rejected) d,
+    ];
+    owed.sort((a, b) => b.updatedAtMs.compareTo(a.updatedAtMs));
+    return owed;
+  }
+
   /// The papers still running on this phone (newest first): not rejected, not already handed in,
   /// and with time left. An archived row (a rejected or still-owed paper moved out of its selection)
   /// is a paper the student is done with, so it never counts. This is what stops a second paid

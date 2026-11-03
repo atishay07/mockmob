@@ -1,14 +1,17 @@
+import 'dart:async' show Timer;
+
 import 'package:flutter_riverpod/misc.dart' show Override;
 
 import 'core/connectivity/connectivity_monitor.dart' show NetworkStatus;
 import 'core/connectivity/connectivity_providers.dart' show networkStatusProvider;
 import 'core/repositories/repositories.dart';
 import 'core/router/quick_start.dart';
-import 'core/sync/pending_work.dart' show pendingWorkProvider, pendingWorkCountProvider;
+import 'core/domain/session_rules.dart' show submissionGraceMs, submitCanStillHappen;
+import 'core/sync/pending_work.dart' show pendingWorkProvider, pendingWorkCountProvider, submitRetryLive;
 import 'core/sync/sync_attention.dart' show syncStaleProvider;
 import 'core/widgets/bar/bar_badges.dart';
 import 'core/widgets/bar/bar_live.dart';
-import 'core/api/api_providers.dart' show apiClientProvider;
+import 'core/api/api_providers.dart' show apiClientProvider, nowProvider;
 import 'core/auth/auth_state.dart' show authSnapshotProvider;
 import 'core/sync/sync_providers.dart' show syncCoordinatorProvider;
 import 'features/keycards/data/keycards_api.dart' show HttpKeyCardsApi;
@@ -82,10 +85,19 @@ List<Override> liveAppOverrides({bool keyCards = true, bool learn = true}) => [
   }),
   startDefaultSubjectProvider.overrideWith((ref) => ref.watch(practiceSubjectProvider)),
   // The bar's live capsule and badges, each from its real source.
+  // "Sending your answers" only for a submit that can still happen (LK50): pending, not settled, inside
+  // the server's window and with a retry really queued or running. A flag an earlier run left behind
+  // never says "Sending"; the start/resume settler asks the server about it instead.
   barSendingInputProvider.overrideWith((ref) {
     final draft = ref.watch(latestSessionDraftProvider).value;
     if (draft == null || !draft.pendingSubmission) return null;
     if (ref.watch(networkStatusProvider) == NetworkStatus.offline) return null;
+    final nowMs = ref.watch(nowProvider)().millisecondsSinceEpoch;
+    if (!submitCanStillHappen(draft, nowMs: nowMs, retryLive: submitRetryLive(ref, draft.sessionId))) return null;
+    // The strip leaves by itself when the window closes, even with nothing else changing.
+    final left = draft.endsAtWallMs + submissionGraceMs - nowMs;
+    final timer = Timer(Duration(milliseconds: left + 1), ref.invalidateSelf);
+    ref.onDispose(timer.cancel);
     return _paper(draft.subject, mock: draft.isMock);
   }),
   barMarkedInputProvider.overrideWith((ref) {

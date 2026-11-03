@@ -172,6 +172,12 @@ class SessionSubmitter {
     }
   }
 
+  /// A submit owed from an earlier run whose window has closed (LK50): nothing can send it now, so
+  /// ask the server whether it arrived (`GET /api/attempts/{id}`). Found: received, the draft is
+  /// cleared and the result opens as usual. Not found: window closed, the draft keeps its answers
+  /// with `windowClosed` set. Could not ask (offline): pending, nothing changes.
+  Future<SubmitOutcome> settleAfterWindow(SessionDraft draft) => _afterExpiry(draft);
+
   /// `SESSION_EXPIRED`: read the attempt first. A 200 means the server finalised the session
   /// (the result opens), a 404 means the window really closed.
   Future<SubmitOutcome> _afterExpiry(SessionDraft draft) async {

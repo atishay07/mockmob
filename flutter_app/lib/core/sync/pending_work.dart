@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../api/api_providers.dart' show nowProvider;
+import '../domain/session_rules.dart' show submitStillOwed;
 import '../repositories/session_draft_repository.dart';
 import '../storage/prefs_store.dart';
 import 'outbox_repository.dart';
@@ -19,11 +21,33 @@ class PendingWorkRegistry extends Notifier<Set<String>> {
 
 final pendingWorkRegistryProvider = NotifierProvider<PendingWorkRegistry, Set<String>>(PendingWorkRegistry.new);
 
+/// Session ids whose owed submit has a retry scheduled (the backup job, queued from this run) or
+/// running (the start/resume settler sending it now). A live engine counts through
+/// [pendingWorkRegistryProvider] instead. The "Sending your answers" strip shows only for a submit
+/// in one of these (LK50): a flag left on a draft by a run that is gone is not a send.
+class SubmitRetryRegistry extends Notifier<Set<String>> {
+  @override
+  Set<String> build() => const {};
+
+  void set(String sessionId, {required bool live}) {
+    if (live == state.contains(sessionId)) return;
+    state = live ? {...state, sessionId} : ({...state}..remove(sessionId));
+  }
+}
+
+final submitRetryRegistryProvider = NotifierProvider<SubmitRetryRegistry, Set<String>>(SubmitRetryRegistry.new);
+
+/// True when a submit for [sessionId] is really being retried: a live engine owns it, the backup job
+/// was queued for it in this run, or the settler is sending it.
+bool submitRetryLive(Ref ref, String sessionId) =>
+    ref.watch(submitRetryRegistryProvider).contains(sessionId) || ref.watch(pendingWorkRegistryProvider).contains('session:$sessionId');
+
 /// True while anything is waiting to be sent: outbox writes, an unsent submit, or answers the
 /// server has not acknowledged. Connectivity pings only while this is true.
 final pendingWorkProvider = Provider<bool>((ref) {
   final outbox = ref.watch(outboxPendingCountProvider).value ?? 0;
-  final submitOwed = ref.watch(latestSessionDraftProvider).value?.pendingSubmission ?? false;
+  // A flag past its window is a stale draft (the settler asks the server about it), not work to carry.
+  final submitOwed = submitStillOwed(ref.watch(latestSessionDraftProvider).value, nowMs: ref.read(nowProvider)().millisecondsSinceEpoch);
   final live = ref.watch(pendingWorkRegistryProvider).isNotEmpty;
   return outbox > 0 || submitOwed || live;
 });
