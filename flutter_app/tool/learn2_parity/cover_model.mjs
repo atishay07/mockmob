@@ -21,7 +21,7 @@ const load = (rel) => import(pathToFileURL(resolve(web, rel)).href);
 const model = await load('src/components/learn2/feed/coverModel.js');
 const { KIND_LABELS } = await load('src/components/keycards/kinds.js');
 
-let commit = 'unknown';
+let commit = process.env.LEARN2_WEB_COMMIT || 'unknown';
 try { commit = execSync('git rev-parse --short=9 HEAD', { cwd: web }).toString().trim(); } catch { /* not a git folder */ }
 
 const FILES = [
@@ -211,7 +211,7 @@ const chapterNames = [
 const slugs = ['accountancy.partnership-fundamentals', 'Admission of Partner', 'Profit & Loss Appropriation Account', 'business_studies.x', '  Odd -- Name!! ', '', 'a.b.c'].map((text) => ({ text, out: model.slugOf(text) }));
 
 const out = {
-  web: `wt-1102-web ${commit}`,
+  web: `${process.env.LEARN2_WEB_NAME || 'wt-1102-web'} ${commit}`,
   note: 'Written by tool/learn2_parity/cover_model.mjs from the web\'s own coverModel.js. Do not edit by hand.',
   lengths: model.LENGTHS,
   minutes: MINUTES,

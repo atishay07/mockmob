@@ -357,7 +357,7 @@ void main() {
       expect(CardsModel.ids(groups).length, 10);
       expect(find.text('10 cards in 3 chapters'), findsOneWidget);
       expect(find.byWidgetPredicate((w) => w.key is ValueKey<String> && (w.key! as ValueKey<String>).value.startsWith('card-row-')), findsNWidgets(10));
-      expect(find.text('40 more cards match in cards Pro opens. ${KeyCardsCopy.proLine}'), findsOneWidget);
+      expect(find.text('40 more matching cards are part of Pro. ${KeyCardsCopy.proLine}'), findsOneWidget);
       expect(find.byKey(const ValueKey('cards-see-pro')), findsOneWidget);
       // One lock for the one line, not one for every card.
       expect(find.byIcon(LucideIcons.lock), findsOneWidget);
@@ -369,7 +369,7 @@ void main() {
     testWidgets('has no See Pro key where Pro nudges are off, but the line stays', (tester) async {
       await pumpFind(tester, FixtureLearnApi(pro: false));
       expect(find.byKey(const ValueKey('cards-see-pro')), findsNothing);
-      expect(find.textContaining('40 more cards match'), findsOneWidget);
+      expect(find.textContaining('40 more matching cards are part of Pro'), findsOneWidget);
     });
 
     testWidgets('says so alone when every match is locked', (tester) async {
@@ -380,7 +380,7 @@ void main() {
         },
       );
       await pumpFind(tester, api);
-      expect(find.textContaining('40 more cards match'), findsOneWidget);
+      expect(find.textContaining('40 more matching cards are part of Pro'), findsOneWidget);
       expect(find.byType(KeyButton), findsNothing);
     });
   });

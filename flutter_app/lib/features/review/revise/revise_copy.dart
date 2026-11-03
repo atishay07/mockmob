@@ -41,7 +41,7 @@ abstract final class ReviseCopy {
   /// Under the end's key: the mistakes the student repaired, asked once more on the phone.
   static String reviewAgainMore(int n) => 'Review again: $n more you repaired';
   static const String checking = 'Checking your answer';
-  static const String sendFailed = 'Your answer was not saved. Try again.';
+  static const String sendFailed = "Your answer wasn't saved. Try again.";
   static const String tryAgain = 'Try again';
   static const String nextQuestion = 'Next question';
   static const String finish = 'Finish';

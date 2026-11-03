@@ -16,7 +16,7 @@ abstract final class HomeCopy {
 
   // ---- The offer
   static const String orGroup = 'Or';
-  static const String offerLoading = 'Loading your start';
+  static const String offerLoading = "Getting today's plan";
   static String progressDone(int done, int of) => '$done of $of done';
 
   // ---- Find with nothing typed
@@ -35,7 +35,7 @@ abstract final class HomeCopy {
 
   // ---- The part switch (LK2)
   static const String partSaving = 'Saving your choice';
-  static const String partFailed = 'Your choice was not saved. Try again.';
+  static const String partFailed = "Your choice wasn't saved. Try again.";
 
   // ---- Free
   static const String seePro = 'See Pro';
@@ -43,7 +43,7 @@ abstract final class HomeCopy {
 
   // ---- Loading and failing
   static const String loading = 'Loading Learn';
-  static const String errorTitle = 'Learn did not load';
+  static const String errorTitle = "Learn didn't load";
   static const String errorLine = 'Check your connection and try again. Your cards and their schedule are safe.';
 
   // ---- An opened shelf set
@@ -54,15 +54,15 @@ abstract final class HomeCopy {
   static const String setRevise = 'In Revise';
   static const String setMust = 'Must-know';
   static const String setLoading = 'Loading the cards';
-  static const String setFailedTitle = 'The cards did not load';
+  static const String setFailedTitle = "The cards didn't load";
   static const String setFailedLine = 'Check your connection and try again.';
   static String setKeyDue(int n) => 'Revise these $n';
   static String setKeyStudy(int n) => 'Study these $n';
   static String setOver(int n, int max) => '$n cards in this set. Open a chapter to study them, $max at a time.';
   static const Map<String, ({String title, String line})> setEmpty = {
-    'due': (title: 'Nothing here now.', line: 'Cards you rate in a run come back here on the day they are due.'),
-    'missed': (title: 'Nothing here now.', line: 'A card you miss in a run shows here until you get it right.'),
-    'revise': (title: 'Nothing here now.', line: 'Rate a card in a run and it joins Revise.'),
+    'due': (title: 'Nothing here now.', line: "Cards you rate come back here on the day they're due."),
+    'missed': (title: 'Nothing here now.', line: 'A card you miss shows here until you get it right.'),
+    'revise': (title: 'Nothing here now.', line: 'Rate a card and it goes into Revise.'),
     'must': (title: 'Nothing here now.', line: 'No Must-know cards are open in this subject yet.'),
   };
   static String setChapterCount(int cards) => cards == 1 ? '1 card' : '$cards cards';

@@ -11,7 +11,7 @@ abstract final class CardsCopy {
   static const String title = 'Key cards';
   static const String backFallback = 'Chapter';
   static const String loading = 'Loading the cards';
-  static const String loadFailedTitle = 'The cards did not load';
+  static const String loadFailedTitle = "The cards didn't load";
   static const String loadFailedLine = 'Check your connection and try again.';
   static const String tryAgain = 'Try again';
 
@@ -31,9 +31,9 @@ abstract final class CardsCopy {
 
   /// Under a filter with nothing in it: [title] then [line].
   static const Map<String, ({String title, String line})> empty = {
-    'must': (title: 'No Must-know cards in this chapter.', line: 'Every card here is a good one to know; none is marked Must-know yet.'),
-    'revise': (title: 'No cards from this chapter are in Revise yet.', line: 'Rate a card in a run and it joins.'),
-    'missed': (title: 'No missed cards in the last 14 days.', line: 'A card you miss in a run shows here until you get it right.'),
+    'must': (title: 'No Must-know cards in this chapter.', line: "None of this chapter's cards is marked Must-know yet."),
+    'revise': (title: 'No cards from this chapter are in Revise yet.', line: 'Rate a card and it goes into Revise.'),
+    'missed': (title: 'No missed cards in the last 14 days.', line: 'A card you miss shows here until you get it right.'),
     'all': (title: 'No cards for this chapter yet.', line: 'Cards are written from the NCERT book and checked before they open here.'),
   };
 
@@ -74,13 +74,13 @@ abstract final class CardsCopy {
   static String resultsFor(String query) => 'Results for “$query”';
   static const String findHint = 'Type at least 2 letters to search.';
   static const String findLoading = 'Loading the cards';
-  static const String findFailedTitle = 'Search did not load';
+  static const String findFailedTitle = "Search didn't load";
   static const String findFailedLine = 'Check your connection and try again.';
   static String noMatchTitle(String query) => 'Nothing matches “$query”.';
   static const String noMatchLine = 'Check the spelling, or try a term from the book.';
-  static String over(int n, int max) => '$n cards match. Pick up to $max to study them, or add a word.';
-  static String more(int n) => '${CardsShared.countWord(n, 'more card')} match. Add a word to narrow it.';
-  static String lockedMatches(int n) => '$n more ${n == 1 ? 'card matches' : 'cards match'} in cards Pro opens. ${KeyCardsCopy.proLine}';
+  static String over(int n, int max) => '$n cards match. Pick up to $max to study, or type another word to narrow it.';
+  static String more(int n) => '${CardsShared.countWord(n, 'more card')} match. Type another word to narrow it.';
+  static String lockedMatches(int n) => '$n more matching ${n == 1 ? 'card is' : 'cards are'} part of Pro. ${KeyCardsCopy.proLine}';
   static String showAll(int n, String noun) => 'Show all $n $noun';
   static const String chaptersGroup = 'Chapters';
   static const String lessonsGroup = 'Lessons';

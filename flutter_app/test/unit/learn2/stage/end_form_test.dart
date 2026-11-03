@@ -178,10 +178,10 @@ void main() {
     expect(find.byType(StageCloseKey), findsOneWidget, reason: 'Close is the only way out, so the loading end keeps it');
     expect(find.byType(StageEndKey), findsNothing);
 
-    await pumpStage(tester, _end(taps, error: (title: 'Your feed is saved', line: 'Its summary did not load.')));
+    await pumpStage(tester, _end(taps, error: (title: 'Your feed is saved', line: 'The summary didn\'t load, but everything you did is saved.')));
     await tester.pumpAndSettle();
     expect(find.text('Your feed is saved'), findsOneWidget);
-    expect(find.text('Its summary did not load.'), findsOneWidget);
+    expect(find.text('The summary didn\'t load, but everything you did is saved.'), findsOneWidget);
     expect(find.text('14'), findsNothing, reason: 'never invented numbers');
     expect(find.text('Back to Explore'), findsOneWidget);
     await tester.tap(find.text('Try again'));

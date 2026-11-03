@@ -267,7 +267,7 @@ void main() {
       final api = FixtureLearnApi(failOn: {'rate': FixtureLearnApi.offlineError});
       final c = await started(api);
       await c.rate(3);
-      expect(c.error, 'That rating was not saved. Try again.');
+      expect(c.error, 'That rating wasn\'t saved. Try again.');
       expect(c.statusLine?.bad, isTrue);
       expect(c.at, 0);
       expect(c.busy, isNull);
@@ -430,9 +430,9 @@ void main() {
       goTo(c, 4);
       final q = c.item! as LearnQuestionItem;
       await c.pick('A');
-      expect(c.stateOf(q.id).skipped, 'This question was updated, so it was skipped.');
+      expect(c.stateOf(q.id).skipped, 'This question was just updated, so we skipped it.');
       expect(c.isAnswered(q), isTrue);
-      expect(c.statusLine?.text, 'This question was updated, so it was skipped.');
+      expect(c.statusLine?.text, 'This question was just updated, so we skipped it.');
       final held = FixtureLearnApi(
         failOn: {
           'answer': LearnError.fromResponse(409, {'error': 'QUESTION_HELD'}),
@@ -441,7 +441,7 @@ void main() {
       final h = await started(held);
       goTo(h, 4);
       await h.pick('A');
-      expect(h.stateOf(h.item!.id).skipped, 'This question is in a paper that is still open, so it was skipped.');
+      expect(h.stateOf(h.item!.id).skipped, "This question is in a Mob paper that's still open, so we skipped it for now.");
     });
 
     test('a failed answer says so and the options answer again', () async {
@@ -450,7 +450,7 @@ void main() {
       goTo(c, 4);
       final q = c.item! as LearnQuestionItem;
       await c.pick('A');
-      expect(c.stateOf(q.id).error, 'That answer was not saved. Try again.');
+      expect(c.stateOf(q.id).error, 'That answer wasn\'t saved. Try again.');
       expect(c.stateOf(q.id).answer, isNull);
       expect(c.isAnswered(q), isFalse);
       api.failOn.clear();
@@ -512,7 +512,7 @@ void main() {
       goTo(b, 4);
       await b.save(b.item! as LearnQuestionItem);
       expect(b.saveOf((b.items[4] as LearnQuestionItem).question.id), isNull);
-      expect(b.note, 'That question was not saved. Try again.');
+      expect(b.note, 'That question wasn\'t saved. Try again.');
     });
   });
 
@@ -752,7 +752,7 @@ void main() {
       c.advance();
       c.turn(c.item! as LearnCardItem);
       expect(c.statusLine?.text, RunCopy.coachRate);
-      expect(RunCopy.coachRate, 'Missed it brings a card back soonest. Easy sends it furthest away.');
+      expect(RunCopy.coachRate, 'How well did you know it? Missed it brings the card back soon. Got it, in a few days. Easy, much later.');
     });
   });
 

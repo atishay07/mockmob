@@ -23,7 +23,7 @@ const load = (rel) => import(pathToFileURL(resolve(web, rel)).href);
 const math = await load('src/components/learn2/run/runMath.js');
 const view = await load('src/components/learn2/run/runView.mjs');
 
-let commit = 'unknown';
+let commit = process.env.LEARN2_WEB_COMMIT || 'unknown';
 try { commit = execSync('git rev-parse --short=9 HEAD', { cwd: web }).toString().trim(); } catch { /* not a git folder */ }
 
 const fixture = (name) => JSON.parse(readFileSync(resolve(app, 'test/fixtures/learn2', `${name}.json`), 'utf8'));

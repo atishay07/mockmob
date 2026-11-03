@@ -22,7 +22,7 @@ void main() {
       tester,
       Center(
         child: StageCentre(
-          title: 'The feed did not start',
+          title: 'The feed didn\'t start',
           line: 'Check your connection and try again.',
           keys: [
             StageStepKey(label: 'Try again', onTap: () => tries++),
@@ -31,7 +31,7 @@ void main() {
         ),
       ),
     );
-    expect(find.text('The feed did not start'), findsOneWidget);
+    expect(find.text('The feed didn\'t start'), findsOneWidget);
     expect(find.text('Check your connection and try again.'), findsOneWidget);
     await tester.tap(find.text('Try again'));
     expect(tries, 1);
@@ -53,7 +53,7 @@ void main() {
     expect(find.text('8 of 17 done, about 6 min left.'), findsOneWidget);
     expect(find.byType(StageKeptFan), findsOneWidget);
     expect(find.text('The sacrifice by a partner.'), findsOneWidget);
-    expect(find.textContaining('Keep going, or end here'), findsNothing, reason: 'the third line is gone');
+    expect(find.textContaining('Keep going, or stop here'), findsNothing, reason: 'the third line is gone');
     await pumpStage(tester, const Center(child: StageCheckpoint(big: '6 cards seen', status: '8 of 21 done.')));
     expect(find.byType(StageKeptFan), findsNothing);
     expect(find.textContaining('kept'), findsNothing, reason: 'no "0 kept"');

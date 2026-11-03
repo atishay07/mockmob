@@ -74,7 +74,7 @@ void main() {
       expect(find.text(KeyCardsCopy.reviewsLeft(10)), findsOneWidget);
       await _pump(tester, const KeyCardsHomeScreen(), keyCardsOverrides(FakeKeyCardsApi.withProgress(isPro: true)));
       expect(find.text(KeyCardsCopy.openOf(5, 8)), findsNothing);
-      expect(find.textContaining('reviews left'), findsNothing);
+      expect(find.textContaining('ratings left'), findsNothing);
 
       await _pump(tester, const KeyCardsDeckScreen(chapterKey: kcChapter1), keyCardsOverrides(FakeKeyCardsApi()), size: const Size(360, 2400));
       // Read builds its rows as they scroll into view (a chapter can hold 165 cards).

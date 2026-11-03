@@ -511,7 +511,7 @@ class NextPileCell extends StatelessWidget {
     final type = context.mmType;
     final label = added ? '${ref ?? 'Next chapter'} added' : 'Add the next chapter';
     final line = added ? 'Tap to remove' : '${ref != null ? '$ref, fills' : 'Fills'} your $minutes min';
-    final semantics = added ? '$title added to this run. Tap to remove it' : 'Add the next chapter, $title, to fill your $minutes minutes';
+    final semantics = added ? '$title added to this session. Tap to remove it' : 'Add the next chapter, $title, to fill your $minutes minutes';
     final fan = PileFan(
       kind: PaperKind.next,
       animateKey: added ? 'added-$plus' : 'empty',

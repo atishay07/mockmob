@@ -84,7 +84,7 @@ void main() {
       for (final c in all)
         for (final l in (c['byLength'] as Map<String, dynamic>).values) (((l as Map<String, dynamic>)['key'] as Map<String, dynamic>)['open'] as String).split(' ').first,
     };
-    expect(keys, containsAll(['Play', 'Continue']));
+    expect(keys, containsAll(['Start', 'Continue']));
     // A front over 105 characters is never a cover's line now (it is not readable cold), so the longest tier is reached only by the size test below.
     expect({for (final c in all) c['tier']}, containsAll(['s', 'm', 'l', 'xl']));
   });

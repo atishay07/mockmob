@@ -1,5 +1,5 @@
 {
- "web": "wt-1102-web 4b5f67e34",
+ "web": "web/1104-english 39e0b0478",
  "note": "Written by tool/learn2_parity/words.mjs from the web's own words.js and allowance.js. Do not edit by hand.",
  "words": {
   "turnOver": "Turn over",
@@ -12,7 +12,7 @@
   "inRevise": "In Revise",
   "revise": "Revise",
   "missedIt": "Missed it",
-  "coachRatings": "Missed it brings a card back soonest. Easy sends it furthest away.",
+  "coachRatings": "How well did you know it? Missed it brings the card back soon. Got it, in a few days. Easy, much later.",
   "save": "Save",
   "saved": "Saved",
   "skipKnown": "Skip what you already know",
@@ -25,7 +25,7 @@
   "doneLine": "Questions come back tomorrow. Your Key cards stay open.",
   "sessionDone": "That was today's free session. Questions come back tomorrow. Your Key cards stay open.",
   "endLine": "That was today's free session. Questions come back tomorrow.",
-  "capped": "Free sessions are up to 10 minutes. Pro has any length.",
+  "capped": "On Free, a session is up to 10 minutes. With Pro, pick any length.",
   "cardsOnly": "That was today's free session, so this one is Key cards only. Questions come back tomorrow."
  },
  "whole": [
@@ -683,95 +683,95 @@
  "reviseQuestions": [
   {
    "n": 0,
-   "out": "Revise · 0 questions"
+   "out": "Revise 0 questions"
   },
   {
    "n": 1,
-   "out": "Revise · 1 question"
+   "out": "Revise 1 question"
   },
   {
    "n": 2,
-   "out": "Revise · 2 questions"
+   "out": "Revise 2 questions"
   },
   {
    "n": 3,
-   "out": "Revise · 3 questions"
+   "out": "Revise 3 questions"
   },
   {
    "n": 5,
-   "out": "Revise · 5 questions"
+   "out": "Revise 5 questions"
   },
   {
    "n": 9,
-   "out": "Revise · 9 questions"
+   "out": "Revise 9 questions"
   },
   {
    "n": 10,
-   "out": "Revise · 10 questions"
+   "out": "Revise 10 questions"
   },
   {
    "n": 12,
-   "out": "Revise · 12 questions"
+   "out": "Revise 12 questions"
   },
   {
    "n": 46,
-   "out": "Revise · 46 questions"
+   "out": "Revise 46 questions"
   },
   {
    "n": 100,
-   "out": "Revise · 100 questions"
+   "out": "Revise 100 questions"
   },
   {
    "n": 0.2,
-   "out": "Revise · 0 questions"
+   "out": "Revise 0 questions"
   },
   {
    "n": 0.5,
-   "out": "Revise · 0 questions"
+   "out": "Revise 0 questions"
   },
   {
    "n": 1.2,
-   "out": "Revise · 1 question"
+   "out": "Revise 1 question"
   },
   {
    "n": 2.7,
-   "out": "Revise · 2 questions"
+   "out": "Revise 2 questions"
   },
   {
    "n": 6.2,
-   "out": "Revise · 6 questions"
+   "out": "Revise 6 questions"
   },
   {
    "n": 59.9,
-   "out": "Revise · 59 questions"
+   "out": "Revise 59 questions"
   },
   {
    "n": -3,
-   "out": "Revise · 0 questions"
+   "out": "Revise 0 questions"
   },
   {
    "n": -0.5,
-   "out": "Revise · 0 questions"
+   "out": "Revise 0 questions"
   },
   {
    "n": "NaN",
-   "out": "Revise · 0 questions"
+   "out": "Revise 0 questions"
   },
   {
    "n": null,
-   "out": "Revise · 0 questions"
+   "out": "Revise 0 questions"
   },
   {
    "n": null,
-   "out": "Revise · 0 questions"
+   "out": "Revise 0 questions"
   },
   {
    "n": "4",
-   "out": "Revise · 4 questions"
+   "out": "Revise 4 questions"
   },
   {
    "n": "x",
-   "out": "Revise · 0 questions"
+   "out": "Revise 0 questions"
   }
  ],
  "pileLabel": [
@@ -967,21 +967,21 @@
    "words": "tomorrow",
    "stamp": "Back tomorrow",
    "line": "back tomorrow",
-   "missedInRun": "in this run, then tomorrow",
+   "missedInRun": "in this session, then tomorrow",
    "missed": "tomorrow"
   },
   {
    "words": "in 3 days",
    "stamp": "Back in 3 days",
    "line": "back in 3 days",
-   "missedInRun": "in this run, then in 3 days",
+   "missedInRun": "in this session, then in 3 days",
    "missed": "in 3 days"
   },
   {
    "words": "in 2 weeks",
    "stamp": "Back in 2 weeks",
    "line": "back in 2 weeks",
-   "missedInRun": "in this run, then in 2 weeks",
+   "missedInRun": "in this session, then in 2 weeks",
    "missed": "in 2 weeks"
   }
  ],

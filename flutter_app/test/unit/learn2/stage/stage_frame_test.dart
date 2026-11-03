@@ -104,14 +104,14 @@ void main() {
 
   testWidgets('a title note stands in for the title for 2.4 s', (tester) async {
     final taps = _Taps();
-    await pumpStage(tester, _frame(taps, note: 'Picked up at 7 of 21'));
+    await pumpStage(tester, _frame(taps, note: 'Carrying on from 7 of 21'));
     await tester.pump(const Duration(milliseconds: 300));
-    expect(find.text('Picked up at 7 of 21'), findsOneWidget);
+    expect(find.text('Carrying on from 7 of 21'), findsOneWidget);
     expect(find.text('Admission of a Partner'), findsNothing);
     await tester.pump(const Duration(milliseconds: 2200));
     await tester.pumpAndSettle();
     expect(find.text('Admission of a Partner'), findsOneWidget);
-    expect(find.text('Picked up at 7 of 21'), findsNothing);
+    expect(find.text('Carrying on from 7 of 21'), findsNothing);
   });
 
   testWidgets('wide: the middle takes the whole bar for two keys, 10 dp apart', (tester) async {

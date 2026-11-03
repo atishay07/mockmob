@@ -73,14 +73,14 @@ void main() {
       'counts': {'5': counts(8, 2, 5), '10': counts(16, 5, 10), '20': counts(16, 0, 4)},
     });
     expect(CoverModel.mixLineOf(c, 10), '16 Key cards, 5 questions');
-    expect(CoverModel.mixLineOf(c, 20), '16 Key cards, all it has today');
+    expect(CoverModel.mixLineOf(c, 20), '16 Key cards, that\'s all for today');
     expect(CoverModel.mixLineOf(cover({'counts': {'10': counts(0, 8, 10)}}), 10), '8 questions');
     expect(CoverModel.mixLineOf(cover({'counts': {'10': counts(1, 1, 10)}}), 10), '1 Key card, 1 question');
     expect(CoverModel.mixLineOf(cover({'counts': {'10': counts(5, 0, 1)}}), 10, free: true), '5 Key cards');
     expect(CoverModel.mixLineOf(cover({'counts': {'20': counts(5, 7, 9, capped: true)}}), 20), '5 Key cards, 7 questions');
-    expect(CoverModel.keyLabelOf(c, 10), 'Play · 10 min');
-    expect(CoverModel.keyLabelOf(c, 20), 'Play · 4 min');
-    expect(CoverModel.keyLabelOf(cover({'counts': {'10': counts(5, 0, 1)}}), 10), 'Play · 1 min');
+    expect(CoverModel.keyLabelOf(c, 10), 'Start · 10 min');
+    expect(CoverModel.keyLabelOf(c, 20), 'Start · 4 min');
+    expect(CoverModel.keyLabelOf(cover({'counts': {'10': counts(5, 0, 1)}}), 10), 'Start · 1 min');
     // A first visit says what a feed holds in plain words (phone-clarity 18).
     expect(CoverModel.mixLineOf(c, 10, history: false), 'Cards and questions');
     expect(CoverModel.mixLineOf(cover({'counts': {'10': counts(0, 8, 10)}}), 10, history: false), 'Questions, one at a time');

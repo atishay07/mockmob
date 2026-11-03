@@ -209,7 +209,7 @@ abstract final class HomeModel {
     return m != null && m.isFinite && m != 0 ? m.abs() : null;
   }
 
-  /// Marks open: every chapter in one list, the most marks open first; chapters with no figure last, each group in book order.
+  /// Most marks left: every chapter in one list, the most marks open first; chapters with no figure last, each group in book order.
   static List<HomeFlatRow> marksOrder(List<LearnPart> parts) {
     return flatRows(parts)..sort((a, b) {
       final x = _figure(a.row);
@@ -228,7 +228,7 @@ abstract final class HomeModel {
     HomeSort('book', 'Book order'),
     HomeSort('due', 'Due first'),
     HomeSort('needs', 'Needs work first'),
-    HomeSort('marks', 'Marks open'),
+    HomeSort('marks', 'Most marks left'),
   ];
 
   static bool hasMarks(List<LearnPart> parts) => flatRows(parts).any((f) => marksText(f.row).isNotEmpty);
@@ -272,12 +272,12 @@ abstract final class HomeModel {
   static int optionChapterCount(List<LearnPartUnit> units, String optionId) =>
       units.where((u) => u.optionId == optionId).fold(0, (n, u) => n + u.chapters.length);
 
-  /// "−35": the marks a chapter still has open, with a real minus sign. Empty when the server has no figure.
+  /// "35 marks": the marks a chapter still has open, said with a word (a bare minus reads as a penalty). Empty when the server has no figure.
   static String marksText(LearnChapterRow row) {
     final m = row.marksOpen;
     if (m == null || !m.isFinite || m == 0) return '';
     final a = m.abs();
-    return '−${a == a.roundToDouble() ? a.toInt().toString() : a.toString()}';
+    return '${a == a.roundToDouble() ? a.toInt().toString() : a.toString()} ${a == 1 ? 'mark' : 'marks'}';
   }
 
   /// A name as it is read: the book's slash between two words is "and" ("Retirement/Death of a Partner"), a " / " is a
@@ -312,7 +312,7 @@ abstract final class HomeModel {
     if (row == null) return null;
     final word = row.verdict ?? verdictOf(row.state.key);
     if (word == null || word.isEmpty) return null;
-    return row.needsWorkFrom == 'papers' ? '$word · from your papers' : word;
+    return row.needsWorkFrom == 'papers' ? '$word, from your papers' : word;
   }
 
   /// A roadmap row: the coverage line, the 3 dp bar's share and the verdict. The size is the chapter's real card count (`row.cards`)

@@ -21,7 +21,7 @@ typedef FreeUsedRow = ({String id, String label});
 
 abstract final class StageEndModel {
   /// The Free bar's tail once every free card is seen (R4 first-timer#4): one line, no extra block.
-  static const String freeRestPro = 'the rest open with Pro';
+  static const String freeRestPro = 'The rest open with Pro.';
 
   /// The one quiet line of a Free end after the day's session (ruling F).
   static const String freeEndLine = LearnFreeWords.endLine;
@@ -117,14 +117,14 @@ abstract final class StageEndModel {
   }
 
   /// The bar's label: "20 of 45 cards seen". On Free ([open], the cards Free opens in this chapter, is sent and is fewer than
-  /// the chapter's cards) once the seen cards reach the free count: "5 of 45 cards seen · the rest open with Pro". Pro never
+  /// the chapter's cards) once the seen cards reach the free count: "5 of 45 cards seen. The rest open with Pro.". Pro never
   /// sends [open] (or sends the whole chapter), so it never reads the tail.
   static String progressLabel({Object? seen = 0, Object? of = 0, Object? open}) {
     final s = whole(seen);
     final o = whole(of);
     final base = '$s of $o cards seen';
     final free = open == null || open == '' ? null : whole(open);
-    return free != null && free > 0 && free < o && s >= free ? '$base · $freeRestPro' : base;
+    return free != null && free > 0 && free < o && s >= free ? '$base. $freeRestPro' : base;
   }
 
   /// A fan mini's front, cut at a word boundary (R4 owner-eye#14): at most [max] characters (about 3 lines of 18), ending on a

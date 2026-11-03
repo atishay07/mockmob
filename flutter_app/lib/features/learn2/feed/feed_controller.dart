@@ -479,7 +479,7 @@ class FeedController extends ChangeNotifier {
     final n = i.clamp(0, endAt);
     final moved = n != active;
     active = n;
-    if (note != null && note!.startsWith('Picked up')) note = null;
+    if (note != null && note!.startsWith('Carrying on')) note = null;
     final s = n < endAt ? _slots[n] : null;
     if (s is FeedItemSlot) {
       furthest = math.max(furthest, s.n);

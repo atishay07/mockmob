@@ -19,7 +19,7 @@ const app = resolve(here, '..', '..');
 const web = resolve(process.env.LEARN2_WEB || resolve(app, '..', '..', 'wt-1102-web'));
 const model = await import(pathToFileURL(resolve(web, 'src/components/learn2/home/homeModel.mjs')).href);
 
-let commit = 'unknown';
+let commit = process.env.LEARN2_WEB_COMMIT || 'unknown';
 try { commit = execSync('git rev-parse --short=9 HEAD', { cwd: web }).toString().trim(); } catch { /* not a git folder */ }
 
 const fixtures = resolve(app, 'test/fixtures/learn2');
@@ -193,7 +193,7 @@ const days = [0, 1730419200000, Date.UTC(2026, 10, 1, 18, 29, 59), Date.UTC(2026
   .map((ms) => ({ ms, out: model.istDay(ms) }));
 
 const out = {
-  web: `wt-1102-web ${commit}`,
+  web: `${process.env.LEARN2_WEB_NAME || 'wt-1102-web'} ${commit}`,
   note: 'Written by tool/learn2_parity/home_model.mjs from the web\'s own homeModel.mjs (rounds 2 to 4). Do not edit by hand.',
   counts: {
     subjects: subjects.length,

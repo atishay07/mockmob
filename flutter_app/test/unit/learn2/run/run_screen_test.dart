@@ -181,7 +181,7 @@ void main() {
       expect(find.text('Got it'), findsOneWidget);
       expect(find.text('Easy'), findsOneWidget);
       expect(find.text('Turn over'), findsNothing);
-      expect(find.text('Missed it brings a card back soonest. Easy sends it furthest away.'), findsOneWidget);
+      expect(find.text('How well did you know it? Missed it brings the card back soon. Got it, in a few days. Easy, much later.'), findsOneWidget);
       expect(voltKeys(tester), 1);
       final volt = tester.widgetList<StageStepKey>(find.byType(StageStepKey)).singleWhere((k) => k.tone == StageTone.volt);
       expect(volt.label, 'Got it');
@@ -258,12 +258,12 @@ void main() {
       await pumpRun(tester, api);
       await tap(tester, find.text('Turn over'));
       await tap(tester, find.text('Got it'));
-      expect(find.text('That rating was not saved. Try again.'), findsOneWidget);
+      expect(find.text('That rating wasn\'t saved. Try again.'), findsOneWidget);
       expect(find.text('Got it'), findsOneWidget);
       expect(counterAt(1, n), findsOneWidget);
       api.failOn.clear();
       await tap(tester, find.text('Got it'));
-      expect(find.text('That rating was not saved. Try again.'), findsNothing);
+      expect(find.text('That rating wasn\'t saved. Try again.'), findsNothing);
       expect(counterAt(2, n), findsOneWidget);
       await finish(tester);
     });
@@ -320,7 +320,7 @@ void main() {
       await finish(tester);
     });
 
-    testWidgets('a wrong answer: the row, "Not quite. It’s C." and NCERT\'s line in place; Save and Next (the volt key) replace Skip', (tester) async {
+    testWidgets('a wrong answer: the row, "Not quite. The answer is C." and NCERT\'s line in place; Save and Next (the volt key) replace Skip', (tester) async {
       final haptics = RunHaptics();
       await pumpRun(tester, FixtureLearnApi(), haptics: haptics);
       await goTo(tester, firstMistake);
@@ -329,8 +329,8 @@ void main() {
       await tap(tester, find.text(optionOf(tester, wrongKey(q))));
       await runSettle(tester);
       await runSettle(tester);
-      expect(find.text('Not quite. It’s ${rightKey(q)}.'), findsOneWidget);
-      expect(find.textContaining('The answer is'), findsNothing);
+      expect(find.text('Not quite. The answer is ${rightKey(q)}.'), findsOneWidget);
+      expect(find.textContaining(RegExp(r'The answer is [A-D],')), findsNothing, reason: 'the long form with the option is for a screen reader only');
       expect(find.text('The line you needed'), findsOneWidget);
       expect(find.text('Skip'), findsNothing);
       expect(find.text('Save'), findsOneWidget);
@@ -392,14 +392,14 @@ void main() {
       await pumpRun(tester, FixtureLearnApi(failOn: {'answer': FixtureLearnApi.questionChanged}));
       await goTo(tester, firstMistake);
       await tap(tester, find.text(optionOf(tester, 'A')));
-      expect(find.text('This question was updated, so it was skipped.'), findsWidgets);
+      expect(find.text('This question was just updated, so we skipped it.'), findsWidgets);
       expect(find.text('Next'), findsOneWidget);
       expect(find.text('Save'), findsNothing);
       await finish(tester);
       await pumpRun(tester, FixtureLearnApi(failOn: {'answer': FixtureLearnApi.offlineError}));
       await goTo(tester, firstMistake);
       await tap(tester, find.text(optionOf(tester, 'A')));
-      expect(find.text('That answer was not saved. Try again.'), findsOneWidget);
+      expect(find.text('That answer wasn\'t saved. Try again.'), findsOneWidget);
       expect(find.text('Skip'), findsOneWidget);
       await finish(tester);
     });
@@ -411,7 +411,7 @@ void main() {
       final router = await pumpRun(tester, api, launch: const RunLaunch(chapterKey: l2Aop, minutes: 20));
       expect(find.text('Lesson, 7 min'), findsOneWidget);
       expect(find.text('Revaluation of assets and liabilities'), findsOneWidget);
-      expect(find.text('Read this first. Its cards come next in this run.'), findsOneWidget);
+      expect(find.text('Read this first. Its cards come next.'), findsOneWidget);
       expect(find.text('Skip it'), findsOneWidget);
       expect(voltKeys(tester), 1);
       await tap(tester, find.text('Read the lesson'));
@@ -430,7 +430,7 @@ void main() {
         api,
         launch: const RunLaunch(chapterKey: l2Pf, kind: 'recap', minutes: 5),
       );
-      expect(find.text('Answers are showing. Nothing is scheduled.'), findsOneWidget);
+      expect(find.text('Answers are shown. This won\'t change when your cards come back.'), findsOneWidget);
       expect(find.text('Previous'), findsOneWidget);
       expect(find.text('Turn over'), findsNothing, reason: 'a recap shows its answers');
       expect(find.textContaining('In Revise'), findsNothing, reason: 'a recap schedules nothing, so nothing flies to Revise');
@@ -455,7 +455,7 @@ void main() {
       await finish(tester);
     });
 
-    testWidgets('a cards run pauses after 20: "20 cards rated", "5 more are lined up.", Next round (volt) and Finish here', (tester) async {
+    testWidgets('a cards run pauses after 20: "20 cards rated", "5 more to go.", Next round (volt) and Finish here', (tester) async {
       final api = _Many();
       await pumpRun(
         tester,
@@ -468,7 +468,7 @@ void main() {
       }
       expect(tester.widget<RunRound>(find.byType(RunRound)).rated, 20);
       expect(find.text('cards rated'), findsOneWidget);
-      expect(find.text('5 more are lined up.'), findsOneWidget);
+      expect(find.text('5 more to go.'), findsOneWidget);
       expect(voltKeys(tester), 1);
       await tap(tester, find.text('Next round'));
       expect(find.text('Turn over'), findsOneWidget);
@@ -630,11 +630,11 @@ void main() {
       await finish(tester);
     });
 
-    testWidgets('a failed end read says "Your run is saved" with Try again; Try again reads it again', (tester) async {
+    testWidgets('a failed end read says "Your session is saved" with Try again; Try again reads it again', (tester) async {
       final api = FixtureLearnApi(failOn: {'end': FixtureLearnApi.offlineError});
       await toEnd(tester, api);
-      expect(find.text('Your run is saved'), findsOneWidget);
-      expect(find.text('Its summary did not load. Every rating and answer is already in.'), findsOneWidget);
+      expect(find.text('Your session is saved'), findsOneWidget);
+      expect(find.text('The summary didn\'t load, but every rating and answer is saved.'), findsOneWidget);
       expect(find.text('Keep going · 10 min'), findsNothing);
       expect(voltKeys(tester), 1);
       api.failOn.clear();
@@ -656,7 +656,7 @@ void main() {
       await runSettle(tester);
       expect(find.byType(StageKeptFan), findsNothing);
       expect(find.text('in Revise'), findsNothing);
-      expect(find.text('Your lowest score: 2 of 6 right'), findsOneWidget, reason: 'the second line inside the key');
+      expect(find.text('Your weakest part: 2 of 6 right'), findsOneWidget, reason: 'the second line inside the key');
       expect(voltKeys(tester), 1);
       await finish(tester);
     });
@@ -694,7 +694,7 @@ void main() {
     testWidgets('the run did not start: its line and Try again (volt); Try again starts it', (tester) async {
       final api = FixtureLearnApi(error: true);
       await pumpRun(tester, api);
-      expect(find.text('This run did not start'), findsOneWidget);
+      expect(find.text('This session didn\'t start'), findsOneWidget);
       expect(find.text('Nothing was lost. Check your connection and try again.'), findsOneWidget);
       expect(voltKeys(tester), 1);
       api.error = false;
@@ -714,8 +714,8 @@ void main() {
 
     testWidgets('nothing to line up: its line and Back to the chapter', (tester) async {
       await pumpRun(tester, _Empty());
-      expect(find.text('Nothing to line up here yet'), findsOneWidget);
-      expect(find.text('This chapter has no cards or questions for this run.'), findsOneWidget);
+      expect(find.text('Nothing here yet'), findsOneWidget);
+      expect(find.text('This chapter has no cards or questions for this session.'), findsOneWidget);
       expect(find.text('Back to the chapter'), findsOneWidget);
       expect(voltKeys(tester), 1);
       await finish(tester);
@@ -744,7 +744,7 @@ void main() {
     testWidgets('loading is the run at its final shape: Close, one hairline, a card block and a key block, no numbers', (tester) async {
       final handle = tester.ensureSemantics();
       await pumpRun(tester, _Waiting());
-      expect(find.bySemanticsLabel('Lining up your run'), findsWidgets);
+      expect(find.bySemanticsLabel('Getting your session ready'), findsWidgets);
       expect(counterAt(1, n), findsNothing);
       expect(find.text('Turn over'), findsNothing);
       handle.dispose();
@@ -888,11 +888,11 @@ void main() {
     testWidgets('the stage says where it is: a labelled stage, "Card 1 of 18" on the item and the rating group', (tester) async {
       final handle = tester.ensureSemantics();
       await pumpRun(tester, FixtureLearnApi());
-      expect(find.bySemanticsLabel('Accounting for Partnership: Basic Concepts run'), findsOneWidget);
+      expect(find.bySemanticsLabel('Accounting for Partnership: Basic Concepts session'), findsOneWidget);
       expect(find.bySemanticsLabel('Card 1 of $n'), findsOneWidget);
       expect(find.bySemanticsLabel('1 of $n'), findsOneWidget, reason: 'the counter, as a screen reader says it');
       await tap(tester, find.text('Turn over'));
-      expect(find.bySemanticsLabel('How well did you recall it?'), findsOneWidget);
+      expect(find.bySemanticsLabel('How well did you know it?'), findsOneWidget);
       handle.dispose();
       await finish(tester);
     });

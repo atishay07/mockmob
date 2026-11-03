@@ -212,10 +212,10 @@ abstract final class FeedModel {
   static const int checkpointMinAfter = 4;
 
   /// The checkpoint's line when something was kept (`CHECKPOINT_LINE`).
-  static const String checkpointLine = 'Keep going, or end here. What you kept is already in Revise.';
+  static const String checkpointLine = 'Keep going, or stop here. The cards you kept are already in Revise.';
 
   /// The checkpoint's line when nothing was kept.
-  static const String checkpointLineQuiet = 'Keep going, or end here.';
+  static const String checkpointLineQuiet = 'Keep going, or stop here.';
 
   static String _plural(int n, String one, [String? many]) => '$n ${n == 1 ? one : (many ?? '${one}s')}';
 
@@ -237,8 +237,8 @@ abstract final class FeedModel {
     return '${_plural(seen, 'card')} seen, $kept kept';
   }
 
-  /// `keptLine`: "6 kept. They are first in Revise." (no return day: none is scheduled yet), null at 0.
-  static String? keptLine(int count) => count > 0 ? '$count kept. They are first in Revise.' : null;
+  /// `keptLine`: "6 cards kept. They'll come first in Revise." (no return day: none is scheduled yet), null at 0.
+  static String? keptLine(int count) => count > 0 ? "$count ${count == 1 ? 'card' : 'cards'} kept. They'll come first in Revise." : null;
 
   /// An item's own seconds, or 60 for a question and 15 for a card when it has none.
   static int secondsOf(LearnItem item) {

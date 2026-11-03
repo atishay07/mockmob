@@ -20,7 +20,7 @@ const load = (rel) => import(pathToFileURL(resolve(web, rel)).href);
 const model = await load('src/components/learn2/chapter/chapterModel.mjs');
 const { minutesFor } = await load('src/components/learn2/run/runMath.js');
 
-let commit = 'unknown';
+let commit = process.env.LEARN2_WEB_COMMIT || 'unknown';
 try { commit = execSync('git rev-parse --short=9 HEAD', { cwd: web }).toString().trim(); } catch { /* not a git folder */ }
 
 const fixtures = resolve(app, 'test/fixtures/learn2');
@@ -186,7 +186,7 @@ const secondsList = [0, -5, 1, 29, 30, 54, 55, 60, 90, 120, 180, 196, 240, 330, 
 const minutes = secondsList.map((seconds) => ({ seconds, out: minutesFor(seconds) }));
 
 const out = {
-  web: `wt-1102-web ${commit}`,
+  web: `${process.env.LEARN2_WEB_NAME || 'wt-1102-web'} ${commit}`,
   note: "Written by tool/learn2_parity/chapter_model.mjs from the web's own chapterModel.mjs and runMath.js minutesFor. Do not edit by hand.",
   counts: { previews: previews.length, chapters: chapters.length, piles: piles.length, quiet: quiet.length, shelves: shelves.length, errors: errors.length },
   chapters,

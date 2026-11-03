@@ -1,5 +1,5 @@
 {
- "web": "wt-1102-web 4b5f67e34",
+ "web": "web/1104-english 39e0b0478",
  "note": "Written by tool/learn2_parity/home_model.mjs from the web's own homeModel.mjs (rounds 2 to 4). Do not edit by hand.",
  "counts": {
   "subjects": 17,
@@ -23,7 +23,7 @@
   },
   {
    "id": "marks",
-   "label": "Marks open"
+   "label": "Most marks left"
   }
  ],
  "noOptionComing": "Cards for this option are coming.",
@@ -309,12 +309,12 @@
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Change in Profit Sharing Ratio",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "11 cards · 7 questions",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 11
       }
      },
@@ -421,12 +421,12 @@
       "metaLine": "",
       "marksText": "",
       "title": "Financial Statements of a Company",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "85 cards",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 85
       }
      },
@@ -869,12 +869,12 @@
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Change in Profit Sharing Ratio",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "11 cards · 7 questions",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 11
       }
      },
@@ -981,12 +981,12 @@
       "metaLine": "",
       "marksText": "",
       "title": "Financial Statements of a Company",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "85 cards",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 85
       }
      },
@@ -1429,12 +1429,12 @@
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Change in Profit Sharing Ratio",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "11 cards · 7 questions",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 11
       }
      },
@@ -1541,12 +1541,12 @@
       "metaLine": "",
       "marksText": "",
       "title": "Financial Statements of a Company",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "85 cards",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 85
       }
      },
@@ -3199,12 +3199,12 @@
       "metaLine": "",
       "marksText": "",
       "title": "The Theory of the Firm under Perfect Competition",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "67 cards",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 67
       }
      },
@@ -3311,12 +3311,12 @@
       "metaLine": "",
       "marksText": "",
       "title": "Indian Economy on the Eve of Independence",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "51 cards",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 51
       }
      },
@@ -3391,12 +3391,12 @@
       "metaLine": "",
       "marksText": "",
       "title": "Employment: Growth, Informalisation and Other Issues",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "58 cards",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 58
       }
      },
@@ -3846,12 +3846,12 @@
       "metaLine": "",
       "marksText": "",
       "title": "Business Environment",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "38 cards",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 38
       }
      },
@@ -4510,12 +4510,12 @@
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Change in Profit Sharing Ratio",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "11 cards · 7 questions",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 11
       }
      },
@@ -4622,12 +4622,12 @@
       "metaLine": "",
       "marksText": "",
       "title": "Financial Statements of a Company",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "85 cards",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 85
       }
      },
@@ -5070,12 +5070,12 @@
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Change in Profit Sharing Ratio",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "11 cards · 7 questions",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 11
       }
      },
@@ -5182,12 +5182,12 @@
       "metaLine": "",
       "marksText": "",
       "title": "Financial Statements of a Company",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "85 cards",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 85
       }
      },
@@ -5630,12 +5630,12 @@
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Change in Profit Sharing Ratio",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "11 cards · 7 questions",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 11
       }
      },
@@ -5742,12 +5742,12 @@
       "metaLine": "",
       "marksText": "",
       "title": "Financial Statements of a Company",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "85 cards",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 85
       }
      },
@@ -7400,12 +7400,12 @@
       "metaLine": "",
       "marksText": "",
       "title": "The Theory of the Firm under Perfect Competition",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "67 cards",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 67
       }
      },
@@ -7512,12 +7512,12 @@
       "metaLine": "",
       "marksText": "",
       "title": "Indian Economy on the Eve of Independence",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "51 cards",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 51
       }
      },
@@ -7592,12 +7592,12 @@
       "metaLine": "",
       "marksText": "",
       "title": "Employment: Growth, Informalisation and Other Issues",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "58 cards",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 58
       }
      },
@@ -8131,12 +8131,12 @@
       "metaLine": "",
       "marksText": "",
       "title": "The Theory of the Firm under Perfect Competition",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "67 cards",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 67
       }
      },
@@ -8243,12 +8243,12 @@
       "metaLine": "",
       "marksText": "",
       "title": "Indian Economy on the Eve of Independence",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "51 cards",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 51
       }
      },
@@ -8323,12 +8323,12 @@
       "metaLine": "",
       "marksText": "",
       "title": "Employment: Growth, Informalisation and Other Issues",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "58 cards",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 58
       }
      },
@@ -8778,12 +8778,12 @@
       "metaLine": "",
       "marksText": "",
       "title": "Business Environment",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "38 cards",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 38
       }
      },
@@ -9546,14 +9546,14 @@
       "cardsText": "45 cards",
       "nothingToPlay": false,
       "metaLine": "",
-      "marksText": "−35",
+      "marksText": "35 marks",
       "title": "Chapter m.one",
-      "verdictText": "Needs work · from your papers",
+      "verdictText": "Needs work, from your papers",
       "road": {
        "line": "45 cards · 10 questions",
        "share": 0,
        "seen": 0,
-       "verdict": "Needs work · from your papers",
+       "verdict": "Needs work, from your papers",
        "total": 45
       }
      },
@@ -9562,7 +9562,7 @@
       "cardsText": "42 cards",
       "nothingToPlay": false,
       "metaLine": "",
-      "marksText": "−12",
+      "marksText": "12 marks",
       "title": "Chapter m.two",
       "verdictText": null,
       "road": {
@@ -9594,7 +9594,7 @@
       "cardsText": "8 cards",
       "nothingToPlay": false,
       "metaLine": "One true line.",
-      "marksText": "−7.5",
+      "marksText": "7.5 marks",
       "title": "Chapter m.four",
       "verdictText": null,
       "road": {
@@ -9610,7 +9610,7 @@
       "cardsText": "30 cards",
       "nothingToPlay": false,
       "metaLine": "",
-      "marksText": "−35",
+      "marksText": "35 marks",
       "title": "Chapter m.five",
       "verdictText": null,
       "road": {

@@ -153,7 +153,7 @@ abstract final class CoverModel {
       c.counts[minutes] ?? c.counts[defaultLength] ?? LearnCoverCount(minutes: minutes);
 
   /// The mix line (a first visit: "Cards and questions"): "16 Key cards, 5 questions", "36 Key cards", "8 questions", "16 Key
-  /// cards, all it has today"; empty on resume (the key carries the time). Free never gets "all it has today" (its five open
+  /// cards, that's all for today"; empty on resume (the key carries the time). Free never gets "that's all for today" (its five open
   /// cards are Free's rule, not the chapter's size). With no history in the subject it says what a feed holds in plain words, since
   /// "Key card" means nothing yet.
   static String mixLineOf(LearnCover c, int minutes, {bool free = false, bool history = true}) {
@@ -172,17 +172,17 @@ abstract final class CoverModel {
     ];
     if (parts.isEmpty) return '';
     final short = !free && !n.capped && n.minutes < minutes;
-    return '${parts.join(', ')}${short ? ', all it has today' : ''}';
+    return '${parts.join(', ')}${short ? ", that's all for today" : ''}';
   }
 
-  /// The key's words (R3 ruling W): "Play · 10 min", "Continue · 4 min" (also at Free's daily limit: the feed resumes its own
+  /// The key's words (R3 ruling W): "Start · 10 min", "Continue · 4 min" (also at Free's daily limit: the feed resumes its own
   /// run), or at Free's daily limit, for a chapter with no feed to resume, "Questions on this chapter".
   static String keyLabelOf(LearnCover c, int minutes, {bool freeDone = false}) {
     final resume = c.resume;
     if (resume != null && resume.of > 0) return LearnWords.withMinutes(LearnWords.continueWord, _minutesLeft(resume));
     if (freeDone) return 'Questions on this chapter';
     final composed = countsOf(c, minutes).minutes;
-    return LearnWords.withMinutes('Play', composed == 0 ? minutes : composed);
+    return LearnWords.withMinutes('Start', composed == 0 ? minutes : composed);
   }
 
   static final RegExp _cloze = RegExp(r'_{2,}|\[\s*(?:\.{2,}|…)\s*\]|[-–]{4,}');

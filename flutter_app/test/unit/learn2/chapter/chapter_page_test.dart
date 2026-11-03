@@ -94,7 +94,7 @@ void main() {
       // Round 5, fix 3: the row is named for what it opens in the app, its count is the note (the web's "Print sheet" prints).
       expect(find.text('Must-know lines'), findsOneWidget);
       expect(find.text('12 lines'), findsOneWidget);
-      expect(find.text('Print sheet'), findsNothing);
+      expect(find.text('Chapter sheet'), findsNothing);
       expect(find.text('No lesson yet.'), findsNothing);
     });
 
@@ -279,7 +279,7 @@ void main() {
       await tester.pump();
       // At once: the pile reads left out and is dimmed to 35%; the numbers have not moved yet.
       expect(find.descendant(of: pileFinder('questions'), matching: find.text('Left out')), findsOneWidget);
-      expect(find.descendant(of: pileFinder('questions'), matching: find.text('Tap to put back')), findsOneWidget);
+      expect(find.descendant(of: pileFinder('questions'), matching: find.text('Tap to add it back')), findsOneWidget);
       final dim = tester.widget<AnimatedOpacity>(find.descendant(of: pileFinder('questions'), matching: find.byType(AnimatedOpacity)).first);
       expect(dim.opacity, PileCell.dim);
       expect(find.text('16'), findsOneWidget);
@@ -781,7 +781,7 @@ void main() {
       expect(find.bySemanticsLabel('Key cards: 16, about 5 min. Tap to leave it out'), findsOneWidget);
       await tester.tap(pileFinder('questions'));
       await settleChapter(tester);
-      expect(find.bySemanticsLabel('Questions, left out. Tap to put it back'), findsOneWidget);
+      expect(find.bySemanticsLabel('Questions, left out. Tap to add it back'), findsOneWidget);
       handle.dispose();
     });
 

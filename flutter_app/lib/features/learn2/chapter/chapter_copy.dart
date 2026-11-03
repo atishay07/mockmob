@@ -15,7 +15,7 @@ abstract final class ChapterCopy {
   static const String lengthHead = 'How long have you got?';
   static const String lastPileIn = 'Keep at least one pile in.';
   static const String coach = 'Tap a pile to leave it out.';
-  static const String listLabel = 'Lined up for this run';
+  static const String listLabel = "What's in this session";
 
   static String resumeHead(int done, int of) => 'You stopped at $done of $of today.';
 
@@ -28,12 +28,12 @@ abstract final class ChapterCopy {
   /// "First up": the first three real card fronts the run opens with.
   static const String firstUp = 'First up';
 
-  /// A new length could not be lined up: the last numbers stay.
-  static const String stale = 'We could not update this. The last lined-up run is shown.';
-  static const String failed = 'We could not line this up.';
-  static const String offline = 'You are offline. This chapter needs a connection to line up.';
+  /// A new length could not be set: the last plan stays.
+  static const String stale = "We couldn't update the plan. You're seeing the last one.";
+  static const String failed = "We couldn't set up this session.";
+  static const String offline = "You're offline. Connect to the internet to start this chapter.";
   static const String tryAgain = 'Try again';
-  static const String loading = 'Lining up this chapter';
+  static const String loading = 'Getting this chapter ready';
 
   /// A chapter the book list does not hold (404).
   static const String missingTitle = 'Chapter';

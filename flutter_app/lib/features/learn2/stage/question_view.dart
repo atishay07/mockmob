@@ -751,7 +751,7 @@ class StageVerdict extends StatelessWidget {
         words = Text('Right.', style: style);
       }
     } else {
-      words = Text('Not quite. It’s $letter.', style: style);
+      words = Text('Not quite. The answer is $letter.', style: style);
     }
     return StageIn(
       delay: const Duration(milliseconds: 120),
