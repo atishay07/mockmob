@@ -105,7 +105,7 @@ void main() {
     });
 
     test('each minutes value is cached separately and sent as a query', () async {
-      http.handler = (o) => FakeReply(200, {...planJson, 'minutes': o.queryParameters['minutes']});
+      http.handler = (o) => FakeReply(200, {...planJson, 'minutes': int.parse(o.queryParameters['minutes'] as String)});
       container.read(planRepositoryProvider(10));
       container.read(planRepositoryProvider(30));
       await until(() => container.read(planRepositoryProvider(10)).value != null && container.read(planRepositoryProvider(30)).value != null);

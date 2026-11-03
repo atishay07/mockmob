@@ -114,7 +114,7 @@ class ScriptedAdapter implements HttpClientAdapter {
     final body = reply.body;
     final text = body is String ? body : jsonEncode(body ?? {});
     return ResponseBody.fromString(text, reply.status, headers: {
-      Headers.contentTypeHeader: [body is String ? 'text/html' : Headers.jsonContentType],
+      Headers.contentTypeHeader: [body is String && !(body.trimLeft().startsWith('[') || body.trimLeft().startsWith('{')) ? 'text/html' : Headers.jsonContentType],
     });
   }
 
