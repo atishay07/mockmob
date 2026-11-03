@@ -189,6 +189,7 @@ final staleSubmitSettlerProvider = Provider<StaleSubmitSettler?>((ref) {
     scheduler: services.scheduler,
     isOnline: () => monitor.status.value != NetworkStatus.offline,
     onRetryLive: (id, live) => retries.set(id, live: live),
+    notifications: ref.watch(notificationServiceProvider),
     now: ref.watch(nowProvider),
   );
   var alive = true;

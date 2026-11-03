@@ -42,7 +42,7 @@ class _BrokenSubmitter extends SessionSubmitter {
     : super(api: real.api, drafts: drafts, pendingResults: pending, cacheAttempt: (_) async {});
 
   @override
-  Future<SubmitOutcome> submit({required draft, required SessionJournal journal, required int durationMs}) async =>
+  Future<SubmitOutcome> submit({required draft, required SessionJournal journal, required int durationMs, bool keepUpdatedAt = false}) async =>
       throw StateError('disk full');
 }
 

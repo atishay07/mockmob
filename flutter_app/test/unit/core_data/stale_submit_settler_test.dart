@@ -11,6 +11,12 @@ import 'package:mockmob/core/connectivity/connectivity_monitor.dart' show Networ
 import 'package:mockmob/core/connectivity/connectivity_providers.dart' show networkStatusProvider, NetworkStatusNotifier;
 import 'package:mockmob/core/domain/session_rules.dart';
 import 'package:mockmob/core/models/session_draft.dart';
+import 'package:mockmob/core/notifications/notification_channels.dart';
+import 'package:mockmob/core/notifications/notification_gateway.dart';
+import 'package:mockmob/core/notifications/notification_ids.dart';
+import 'package:mockmob/core/notifications/notification_planner.dart' show NotificationActionSpec;
+import 'package:mockmob/core/notifications/notification_service.dart';
+import 'package:timezone/timezone.dart' as tz;
 import 'package:mockmob/core/repositories/local_scope.dart';
 import 'package:mockmob/core/repositories/pending_result_repository.dart';
 import 'package:mockmob/core/repositories/session_draft_repository.dart';
@@ -18,12 +24,14 @@ import 'package:mockmob/core/storage/app_database.dart';
 import 'package:mockmob/core/sync/pending_work.dart';
 import 'package:mockmob/core/sync/session/session_heartbeat.dart';
 import 'package:mockmob/core/sync/session/session_journal.dart';
+import 'package:mockmob/core/sync/session/session_notifications.dart';
 import 'package:mockmob/core/sync/session/session_clock.dart';
 import 'package:mockmob/core/sync/session/session_submitter.dart';
 import 'package:mockmob/core/sync/session/session_work_scheduler.dart';
 import 'package:mockmob/core/sync/session/stale_submit_settler.dart';
 import 'package:mockmob/core/widgets/bar/bar_live.dart';
 
+import '../notifications/support.dart' show prefsWith;
 import 'support/fakes.dart';
 import 'support/fixtures.dart';
 import 'support/test_db.dart';
@@ -57,6 +65,78 @@ class _Api extends FakeSessionApi {
   }
 }
 
+/// A gateway that keeps the shade in order: what was shown (and whether it was pinned) and cancelled.
+class _Gateway implements LocalNotificationsGateway {
+  final events = <({String op, int id, String? title, bool ongoing})>[];
+
+  /// What the shade holds under [id] now: the last show that no cancel followed, else null.
+  ({String title, bool ongoing})? shade(int id) {
+    ({String title, bool ongoing})? out;
+    for (final e in events) {
+      if (e.id != id) continue;
+      out = e.op == 'show' ? (title: e.title!, ongoing: e.ongoing) : null;
+    }
+    return out;
+  }
+
+  @override
+  Future<void> initialize({void Function(NotificationTap tap)? onTap}) async {}
+
+  @override
+  Future<void> createChannel(NotificationChannelSpec spec) async {}
+
+  @override
+  Future<void> schedule({
+    required int id,
+    required NotificationChannelSpec channel,
+    required tz.TZDateTime at,
+    required String title,
+    required String body,
+    String? payload,
+    bool silent = false,
+    List<NotificationActionSpec> actions = const [],
+  }) async {}
+
+  @override
+  Future<void> show({
+    required int id,
+    required NotificationChannelSpec channel,
+    required String title,
+    required String body,
+    String? payload,
+    bool silent = false,
+    bool ongoing = false,
+    List<NotificationActionSpec> actions = const [],
+  }) async => events.add((op: 'show', id: id, title: title, ongoing: ongoing));
+
+  @override
+  Future<void> cancel(int id) async => events.add((op: 'cancel', id: id, title: null, ongoing: false));
+
+  @override
+  Future<void> cancelAll() async {}
+
+  @override
+  Future<bool> areNotificationsEnabled() async => true;
+}
+
+/// A shade that fails on every call, like a plugin that is not ready.
+class _ThrowingGateway extends _Gateway {
+  @override
+  Future<void> show({
+    required int id,
+    required NotificationChannelSpec channel,
+    required String title,
+    required String body,
+    String? payload,
+    bool silent = false,
+    bool ongoing = false,
+    List<NotificationActionSpec> actions = const [],
+  }) async => throw StateError('plugin');
+
+  @override
+  Future<void> cancel(int id) async => throw StateError('plugin');
+}
+
 class _Network extends NetworkStatusNotifier {
   _Network(this.value);
   final NetworkStatus value;
@@ -75,6 +155,8 @@ void main() {
   late SessionDraftRepository drafts;
   late PendingResultRepository pending;
   late _Scheduler scheduler;
+  late _Gateway gateway;
+  late NotificationService notifications;
   late Map<String, bool> live;
   var online = true;
 
@@ -86,6 +168,19 @@ void main() {
         scheduler: scheduler,
         isOnline: () => online,
         onRetryLive: (id, l) => live[id] = l,
+        notifications: notifications,
+        now: () => now,
+      );
+
+  final statusId = notificationIdFor(mockInProgressTaskId);
+
+  NotificationService serviceOn(LocalNotificationsGateway g) => NotificationService(
+        gateway: g,
+        ledger: MemoryNotificationLedgerStore(),
+        prefs: () => prefsWith(),
+        weeklyCap: () async => 3,
+        createdChannels: () async => {},
+        saveCreatedChannels: (_) async {},
         now: () => now,
       );
 
@@ -107,6 +202,8 @@ void main() {
     drafts = SessionDraftRepository(scope);
     pending = PendingResultRepository(scope);
     scheduler = _Scheduler();
+    gateway = _Gateway();
+    notifications = serviceOn(gateway);
     live = {};
     online = true;
   });
@@ -190,12 +287,13 @@ void main() {
   group('the start/resume settler', () {
     test('his state, received by the server: the draft clears and the result path takes over', () async {
       await hisDraft(endsAtWallMs: hourAgo);
+      api.submitFailure = const ApiError(kind: ApiErrorKind.conflict, code: 'SESSION_EXPIRED');
       api.attemptOnFetch = {'id': 'sess-1', 'subject': 'computer_science', 'correct': 1, 'total': 3};
       final settled = await settler().settle();
       expect(settled.single.outcome, isA<SubmitReceived>());
+      // The server judges the window: the POST goes first, its SESSION_EXPIRED leads to the read.
+      expect(api.submits, hasLength(1));
       expect(api.fetchCalls, 1);
-      // Past the window nothing is posted again: the server is only asked.
-      expect(api.submits, isEmpty);
       expect(await drafts.bySessionId('sess-1'), isNull);
       expect((await pending.unopened()).single.attemptId, 'sess-1');
       expect(scheduler.cancelled, ['sess-1']);
@@ -203,6 +301,7 @@ void main() {
 
     test('his state, not received and the window closed: marked window-closed, never "Sending"', () async {
       await hisDraft(endsAtWallMs: hourAgo);
+      api.submitFailure = const ApiError(kind: ApiErrorKind.conflict, code: 'SESSION_EXPIRED');
       api.attemptOnFetch = null;
       final settled = await settler().settle();
       expect(settled.single.outcome, isA<SubmitWindowClosed>());
@@ -221,8 +320,10 @@ void main() {
       online = false;
       expect(await settler().settle(), isEmpty);
       expect(api.fetchCalls, 0);
+      expect(api.submits, isEmpty);
       expect((await drafts.bySessionId('sess-1'))!.pendingSubmission, isTrue);
       online = true;
+      api.submitFailure = const ApiError(kind: ApiErrorKind.conflict, code: 'SESSION_EXPIRED');
       api.attemptOnFetch = null;
       await settler().settle();
       expect((await drafts.bySessionId('sess-1'))!.windowClosed, isTrue);
@@ -230,7 +331,7 @@ void main() {
 
     test('the server could not be asked: the draft is kept as it was', () async {
       await hisDraft(endsAtWallMs: hourAgo);
-      api.fetchFailure = const ApiError(kind: ApiErrorKind.network, code: 'network');
+      api.submitFailure = const ApiError(kind: ApiErrorKind.network, code: 'network');
       final settled = await settler().settle();
       expect(settled.single.outcome, isA<SubmitPending>());
       final saved = (await drafts.bySessionId('sess-1'))!;
@@ -277,10 +378,136 @@ void main() {
       final draft = await hisDraft(endsAtWallMs: hourAgo);
       await drafts.archive(draft);
       await drafts.save(draftOf(endsAtWallMs: hourAgo, sessionId: 'sess-2', windowClosed: true, generationKey: 'g2'));
+      api.submitFailure = const ApiError(kind: ApiErrorKind.conflict, code: 'SESSION_EXPIRED');
       api.attemptOnFetch = null;
       final settled = await settler().settle();
       expect([for (final s in settled) s.sessionId], ['sess-1']);
       expect(await drafts.owedSubmits(), isEmpty);
+    });
+  });
+
+  group('settling the paper also settles the pinned "Sending" status and keeps the draft order', () {
+    /// The shade as an engine left it when the app went to the background mid-send.
+    Future<SessionDraft> pinnedSending({required int endsAtWallMs}) async {
+      final draft = await hisDraft(endsAtWallMs: endsAtWallMs);
+      await NotificationSessionStatusNotifier(notifications).showSending(draft);
+      expect(gateway.shade(statusId)!.ongoing, isTrue);
+      return draft;
+    }
+
+    const expired = ApiError(kind: ApiErrorKind.conflict, code: 'SESSION_EXPIRED');
+
+    test('received: the pinned "Sending" is cancelled (sending-strip-1)', () async {
+      await pinnedSending(endsAtWallMs: hourAgo);
+      api.submitFailure = expired;
+      api.attemptOnFetch = {'id': 'sess-1', 'subject': 'computer_science', 'correct': 1, 'total': 3};
+      expect((await settler().settle()).single.outcome, isA<SubmitReceived>());
+      expect(gateway.shade(statusId), isNull);
+      expect(scheduler.cancelled, ['sess-1']);
+    });
+
+    test('received inside the window: the pinned "Sending" is cancelled too', () async {
+      await pinnedSending(endsAtWallMs: nowMs - 30000);
+      expect((await settler().settle()).single.outcome, isA<SubmitReceived>());
+      expect(gateway.shade(statusId), isNull);
+    });
+
+    test('window closed: "Sending" is replaced by the not-recorded post, which can be swiped away', () async {
+      await pinnedSending(endsAtWallMs: hourAgo);
+      api.submitFailure = expired;
+      api.attemptOnFetch = null;
+      expect((await settler().settle()).single.outcome, isA<SubmitWindowClosed>());
+      final shade = gateway.shade(statusId)!;
+      expect(shade.title, 'Mock 7 not recorded');
+      expect(shade.ongoing, isFalse);
+    });
+
+    test('rejected: replaced by the could-not-accept post', () async {
+      await pinnedSending(endsAtWallMs: nowMs - 30000);
+      api.submitFailure = const ApiError(kind: ApiErrorKind.validation, code: 'validation', status: 400);
+      expect((await settler().settle()).single.outcome, isA<SubmitRejected>());
+      final shade = gateway.shade(statusId)!;
+      expect(shade.title, 'Mock 7 not recorded');
+      expect(shade.ongoing, isFalse);
+    });
+
+    test('another paper is open on screen: its status is left alone', () async {
+      await pinnedSending(endsAtWallMs: hourAgo);
+      await SessionHeartbeat(db, userId: 'u1', now: () => now).beat('sess-other');
+      api.submitFailure = expired;
+      api.attemptOnFetch = null;
+      expect((await settler().settle()).single.outcome, isA<SubmitWindowClosed>());
+      final shade = gateway.shade(statusId)!;
+      expect(shade.title, 'Sending Mock 7');
+      expect(shade.ongoing, isTrue);
+    });
+
+    test('still pending with the job queued: the "Sending" stays, a retry is running', () async {
+      await pinnedSending(endsAtWallMs: nowMs - 30000);
+      api.submitFailure = const ApiError(kind: ApiErrorKind.timeout, code: 'timeout');
+      await settler().settle();
+      expect(scheduler.scheduled, ['sess-1']);
+      expect(gateway.shade(statusId)!.ongoing, isTrue);
+    });
+
+    test('still pending and no job could be queued: nothing is being sent, so "Sending" is taken down', () async {
+      await pinnedSending(endsAtWallMs: nowMs - 30000);
+      api.submitFailure = const ApiError(kind: ApiErrorKind.timeout, code: 'timeout');
+      scheduler.fail = true;
+      await settler().settle();
+      expect(gateway.shade(statusId), isNull);
+    });
+
+    test('a notification failure never blocks settling', () async {
+      await hisDraft(endsAtWallMs: hourAgo);
+      api.submitFailure = expired;
+      api.attemptOnFetch = null;
+      final broken = StaleSubmitSettler(
+        db: db,
+        userId: 'u1',
+        drafts: drafts,
+        submitter: SessionSubmitter(api: api, drafts: drafts, pendingResults: pending, cacheAttempt: (_) async {}, now: () => now),
+        scheduler: scheduler,
+        isOnline: () => true,
+        notifications: serviceOn(_ThrowingGateway()),
+        now: () => now,
+      );
+      expect((await broken.settle()).single.outcome, isA<SubmitWindowClosed>());
+      expect((await drafts.bySessionId('sess-1'))!.windowClosed, isTrue);
+      expect(scheduler.cancelled, ['sess-1']);
+    });
+
+    test('past the local window the phone does not decide: the server still takes the POST (sending-strip-2)', () async {
+      // The phone's clock ran slow when the paper started and was corrected since: locally the window
+      // is long gone, the server's is not.
+      await hisDraft(endsAtWallMs: hourAgo);
+      final settled = await settler().settle();
+      expect(settled.single.outcome, isA<SubmitReceived>());
+      expect(api.submits, hasLength(1));
+      expect(api.submits.single['answers'], {'q1': 2});
+      expect(await drafts.bySessionId('sess-1'), isNull);
+      expect(await drafts.owedSubmits(), isEmpty);
+    });
+
+    test('an old owed paper settled as window-closed does not displace a newer running paper (sending-strip-3)', () async {
+      final older = SessionDraftRepository(LocalScope(db, () => 'u1', () => now.subtract(const Duration(days: 2))));
+      final newer = SessionDraftRepository(LocalScope(db, () => 'u1', () => now.subtract(const Duration(minutes: 10))));
+      // M: an Accountancy mock owed since two days ago, in its own selection row.
+      await older.save(draftOf(endsAtWallMs: nowMs - const Duration(days: 2).inMilliseconds, pending: true));
+      // P: an Economics practice the student is halfway through, started later.
+      await newer.save(draftOf(endsAtWallMs: nowMs + 900000, sessionId: 'sess-2', subject: 'economics', mode: 'practice', mockNumber: null, generationKey: 'g2'));
+      expect((await drafts.latest())!.sessionId, 'sess-2');
+
+      api.submitFailure = expired;
+      api.attemptOnFetch = null;
+      final settled = await settler().settle();
+      expect([for (final s in settled) s.sessionId], ['sess-1']);
+      expect(settled.single.outcome, isA<SubmitWindowClosed>());
+      final m = (await drafts.bySessionId('sess-1'))!;
+      expect(m.windowClosed, isTrue);
+      // M keeps the time it was last worked on, so P's Resume is still the latest.
+      expect(m.updatedAtMs, now.subtract(const Duration(days: 2)).millisecondsSinceEpoch);
+      expect((await drafts.latest())!.sessionId, 'sess-2');
     });
   });
 }
