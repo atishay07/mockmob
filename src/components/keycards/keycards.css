@@ -453,3 +453,33 @@ ol.kc-ncert--list li::before { content: counter(kc) '.'; width: auto; height: au
 .kc-entry:nth-child(n + 13) { animation: none; }
 /* On a wide screen the chapter's own Add key stays beside the session, so a round's end does not repeat it as a second key. */
 @media (min-width: 1024px) { .kc-end .kc-end__add { display: none; } }
+
+/* ---------- R6 Web D (LK39, LK43): the kind's colour family ----------
+   A card wears its kind as a tab in one of four colours the app already has, by what the card is for (kinds.js kindFamily):
+   meaning (volt text / dark lime), rule (lilac / plum), parts (amber / brown), fact (the cool blue Key cards already carried).
+   Words on a tinted wash, never colour alone. --kc-fam is the text colour, --kc-fam-wash the tab, --kc-fam-edge the card's top
+   hairline. Night (the default) first, then Day. */
+[data-family] { --kc-fam: var(--a-ink-2); }
+[data-family='meaning'] { --kc-fam: var(--a-accent-text); }
+[data-family='rule'] { --kc-fam: var(--a-purple-text); }
+[data-family='parts'] { --kc-fam: var(--a-warn-text); }
+[data-family='fact'] { --kc-fam: #9cc0ff; }
+html[data-theme='light'] [data-family='fact'] { --kc-fam: #2c5aa8; }
+[data-family] {
+  --kc-fam-wash: color-mix(in srgb, var(--kc-fam) 13%, transparent);
+  --kc-fam-edge: color-mix(in srgb, var(--kc-fam) 42%, var(--a-line));
+}
+html[data-theme='light'] [data-family] {
+  --kc-fam-wash: color-mix(in srgb, var(--kc-fam) 14%, transparent);
+  --kc-fam-edge: color-mix(in srgb, var(--kc-fam) 38%, var(--a-line-strong));
+}
+/* The tab: it hangs from the card's top edge (corners rounded only at the bottom, DESIGN.md's flag tabs). */
+.kc-famtab {
+  display: inline-flex; align-items: center; align-self: flex-start; min-height: 30px; padding: 2px 12px 0; border-radius: 0 0 10px 10px;
+  background: var(--kc-fam-wash); color: var(--kc-fam); font: 700 13px/1 var(--font-body); letter-spacing: 0.005em; white-space: nowrap;
+}
+/* The same family as a small inline tag (the Cards view's rows, where the row has no top edge to hang from). */
+.kc-famtag {
+  display: inline-flex; align-items: center; min-height: 22px; padding: 0 8px; border-radius: 6px;
+  background: var(--kc-fam-wash); color: var(--kc-fam); font: 700 12.5px/1 var(--font-body); white-space: nowrap;
+}

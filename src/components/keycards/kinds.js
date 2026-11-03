@@ -31,6 +31,20 @@ export const KIND_LABELS = Object.freeze({
 
 export const kindLabel = (card) => card?.label || KIND_LABELS[card?.kind] || 'Card';
 
+/**
+ * The colour family of a card kind (R6 Web D): the tab a card wears at its top edge. Four families from the app's own colours,
+ * by what the card is for: meaning (words to know), rule (formulas, rules, entries), parts (lists, steps, types, differences),
+ * fact (facts, key lines, quotes, examples). Anything else is a fact. Display only.
+ */
+const FAMILY = Object.freeze({
+  definition: 'meaning', term: 'meaning', word: 'meaning', one_word: 'meaning', idiom: 'meaning', usage: 'meaning',
+  formula: 'rule', rule: 'rule', entry: 'rule',
+  list: 'parts', steps: 'parts', types: 'parts', difference: 'parts',
+  fact: 'fact', key_line: 'fact', quote: 'fact', example: 'fact',
+});
+export const KIND_FAMILIES = Object.freeze(['meaning', 'rule', 'parts', 'fact']);
+export const kindFamily = (kind) => FAMILY[String(kind || '').toLowerCase()] || 'fact';
+
 /** Kinds whose back is NCERT fragments joined by line breaks, drawn as a list. */
 export const LIST_KINDS = Object.freeze(['list', 'steps', 'types']);
 /** Kinds whose front is the quote with words blanked. */

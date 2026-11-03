@@ -592,3 +592,64 @@ html[data-motion='reduced'] .st-pile__card { transition: none; }
 html[data-motion='reduced'] .st-endx__h, html[data-motion='reduced'] .st-endx__mobi, html[data-motion='reduced'] .st-endx__nums > div, html[data-motion='reduced'] .st-cp__n, html[data-motion='reduced'] .st-cue, html[data-motion='reduced'] .st-cue__in { animation: none !important; }
 html[data-motion='reduced'] .st-endx__bar i[data-grow] { animation: none; transform: scaleX(var(--to, 1)); }
 html[data-motion='reduced'] .st-grid, html[data-motion='reduced'] .st-top__title { transition: none; }
+
+/* ---------- R6 Web D (LK39, LK41, LK43): a card with presence, a subtle Night, a desktop that uses its space ----------
+   docs/brain/learn-1031/r6/D-CARDS.md. The kind is a tab in its family's colour hanging from the card's top edge (keycards.css
+   .kc-famtab), the card's top hairline takes a trace of that colour, the source is a quiet footer under a hairline. Night drops
+   the light rim on every card and option for the quiet hairline with one soft top light. From 1360 px the stage, the card and
+   the words grow. Phones keep their layout. Nothing here moves. */
+.st-face { padding-top: 0; }
+.st-kind { min-height: 30px; gap: 4px 12px; }
+.st-kind__extra { padding-top: 2px; font: 600 13px/1.3 var(--font-body); color: var(--a-ink-3); }
+.st-cardbox[data-family] .st-face { border-top-color: var(--kc-fam-edge); }
+.st-foot { padding-top: 12px; border-top: 1px solid var(--a-line); }
+.st-cap[data-family]::after { border-top-color: var(--kc-fam-edge); }
+:where(html:not([data-theme='light'])) .st-cardbox[data-family] { --kc-fam-edge: color-mix(in srgb, var(--kc-fam) 30%, var(--a-line)); }
+:where(html:not([data-theme='light'])) .st-cap[data-family] { --kc-fam-edge: color-mix(in srgb, var(--kc-fam) 30%, var(--a-line)); }
+/* Night: one soft edge, no rim (the owner's "neon light around every card"). */
+:where(html:not([data-theme='light'])) .st-face { border-color: var(--a-line); box-shadow: inset 0 1px 0 rgb(244 245 240 / 0.045), 0 1px 2px rgb(0 0 0 / 0.35), 0 18px 40px -24px rgb(0 0 0 / 0.7); }
+:where(html:not([data-theme='light'])) .st-cap::after { border-color: var(--a-line); box-shadow: inset 0 1px 0 rgb(244 245 240 / 0.045); }
+:where(html:not([data-theme='light'])) .st-opt:not([data-state]) { border-color: var(--a-line); }
+:where(html:not([data-theme='light'])) .st-railkey__glyph, :where(html:not([data-theme='light'])) .st-below, :where(html:not([data-theme='light'])) .st-skel-card { border-color: var(--a-line); }
+@media (min-width: 768px) {
+  .st-face { padding-top: 0; }
+  .st-kind .kc-famtab { min-height: 32px; padding-inline: 14px; font-size: 13.5px; }
+}
+@media (min-width: 1360px) {
+  .st.kc { --P: 256px; --G1: 56px; --S: 800px; --G2: 28px; --R: 72px; }
+  .st-face { padding: 0 44px 30px; gap: 18px; }
+  .st-kind .kc-famtab { min-height: 36px; padding-inline: 16px; font-size: 14.5px; border-radius: 0 0 12px 12px; }
+  .st-kind__extra { font-size: 14px; }
+  .st-front > span { font-size: 48px; letter-spacing: -0.03em; }
+  .st-front[data-size='m'] > span { font-size: 38px; letter-spacing: -0.025em; }
+  .st-front[data-size='l'] > span { font-size: 30px; letter-spacing: -0.015em; }
+  .st-foot { font-size: 13.5px; padding-top: 14px; }
+  .st-asked { font-size: 15px; }
+  .st-back .kc-ncert { font-size: 22px; line-height: 1.6; }
+  .st-back[data-size='l'] .kc-ncert { font-size: 20px; }
+  .st-back[data-size='xl'] .kc-ncert { font-size: 18.5px; }
+  .st-panel__title { font-size: 25px; }
+  .st-panel__pos b { font-size: 34px; }
+  .st-qhead { font-size: 15px; }
+  .st-stem { font-size: 26px; line-height: 1.38; }
+  .st-stem[data-size='l'] { font-size: 22px; }
+  .st-lists, .st-stmts { font-size: 17.5px; }
+  .st-opt { font-size: 18.5px; min-height: 64px; padding: 14px 20px; grid-template-columns: 34px minmax(0, 1fr) 22px; gap: 14px; }
+  .st-opt__k { width: 34px; height: 34px; font-size: 14px; }
+  .st-opts { gap: 12px; }
+  .st-verdict { font-size: 17px; }
+  .st-line__title { font-size: 18px; }
+  .st-line .kc-ncert { font-size: 19px; }
+}
+@media (min-width: 1360px) and (min-height: 820px) {
+  .st.kc { --st-card-min: 440px; }
+}
+@media (min-width: 1600px) {
+  .st.kc { --P: 280px; --G1: 64px; --S: 880px; --G2: 32px; }
+  .st-front > span { font-size: 52px; }
+  .st-front[data-size='m'] > span { font-size: 41px; }
+  .st-front[data-size='l'] > span { font-size: 32px; }
+}
+@media (min-width: 1600px) and (min-height: 960px) {
+  .st.kc { --st-card-min: 500px; }
+}

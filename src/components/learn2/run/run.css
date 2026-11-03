@@ -542,3 +542,55 @@ html[data-motion='reduced'] .lr .lr-face--back { transform: none; opacity: 0; vi
 html[data-motion='reduced'] .lr .lr-card[data-turned] .lr-face--back { opacity: 1; visibility: visible; }
 html[data-motion='reduced'] .lr .lr-card[data-turned] .lr-face--front { opacity: 0; visibility: hidden; }
 html[data-motion='reduced'] .lr .lr-face { transition: opacity 120ms linear !important; backface-visibility: visible; }
+
+/* ---------- R6 Web D (LK39, LK41, LK43): a card with presence, a subtle Night, a desktop that uses its space ----------
+   docs/brain/learn-1031/r6/D-CARDS.md; the same card as the feed's (stage.css). The kind (CardHead's .kc-kind) is a tab in its
+   family's colour hanging from the card's top edge, the top hairline takes a trace of that colour, the source is a quiet footer
+   under a hairline. Night: the quiet hairline with one soft top light, no light rim. From 1360 px the play column is 800 px and
+   the words grow; phones keep their layout. Nothing here moves. */
+.lr-face { padding-top: 0; }
+.lr-card[data-family] .lr-face { border-top-color: var(--kc-fam-edge); }
+:where(html:not([data-theme='light'])) .lr-card[data-family] { --kc-fam-edge: color-mix(in srgb, var(--kc-fam) 30%, var(--a-line)); }
+.lr-card[data-family] .lr-face .kc-head { min-height: 30px; align-items: flex-start; }
+.lr-card[data-family] .lr-face .kc-head__tags { min-height: 30px; }
+.lr-card[data-family] .lr-face .kc-kind {
+  display: inline-flex; align-items: center; min-height: 30px; padding: 2px 12px 0; border-radius: 0 0 10px 10px;
+  background: var(--kc-fam-wash); color: var(--kc-fam); font: 700 13px/1 var(--font-body); letter-spacing: 0.005em; white-space: nowrap;
+}
+.lr-card[data-family] .lr-face .kc-head > :not(.kc-head__tags) { margin-top: 1px; }
+.lr-card[data-family] .lr-face .lr-stage-tag { align-self: center; padding-top: 2px; }
+.lr-src { padding-top: 12px; border-top: 1px solid var(--a-line); }
+/* Night: one soft edge, no rim (the owner's "neon light around every card"). */
+:where(html:not([data-theme='light'])) .lr-face { border-color: var(--a-line); box-shadow: inset 0 1px 0 rgb(244 245 240 / 0.045), 0 1px 2px rgb(0 0 0 / 0.35), 0 18px 40px -24px rgb(0 0 0 / 0.7); }
+:where(html:not([data-theme='light'])) .lr-opt:not([data-state]) { border-color: var(--a-line); }
+@media (min-width: 768px) {
+  .lr-face { padding-top: 0; }
+  .lr-card[data-family] .lr-face .kc-kind { min-height: 32px; padding-inline: 14px; font-size: 13.5px; }
+}
+@media (min-width: 1360px) {
+  .lr-top, .lr-frame { grid-template-columns: 256px 800px 72px; column-gap: 48px; }
+  .lr-card { min-height: 460px; }
+  .lr-face { padding: 0 44px 30px; gap: 18px; }
+  .lr-card[data-family] .lr-face .kc-kind { min-height: 36px; padding-inline: 16px; font-size: 14.5px; border-radius: 0 0 12px 12px; }
+  .lr-front { font-size: 48px; }
+  .lr-card[data-size='m'] .lr-front { font-size: 38px; }
+  .lr-card[data-size='l'] .lr-front { font-size: 30px; }
+  .lr-src { font-size: 13.5px; padding-top: 14px; }
+  .lr-back__ask { font-size: 15px; }
+  .lr-ncert.kc-ncert { font-size: 22px; line-height: 1.58; }
+  .lr-panel__title { font-size: 23px; }
+  .lr-panel__pos b { font-size: 32px; }
+  .lr-q__head { font-size: 14.5px; }
+  .lr-stem, .lr-stemwrap .st-stem { font-size: 26px; line-height: 1.38; }
+  .lr-stem[data-long], .lr-stem--steps, .lr-stemwrap .st-stem[data-size='l'] { font-size: 19px; }
+  .lr-opt { min-height: 64px; padding: 13px 18px; font-size: 18.5px; grid-template-columns: 34px minmax(0, 1fr) 22px; gap: 14px; }
+  .lr-opt__letter { width: 34px; height: 34px; font-size: 14px; }
+  .lr-opts { gap: 12px; }
+  .lr-keys--rate { width: 600px; }
+}
+@media (min-width: 1600px) {
+  .lr-top, .lr-frame { grid-template-columns: 280px 880px 72px; column-gap: 56px; }
+  .lr-front { font-size: 52px; }
+  .lr-card[data-size='m'] .lr-front { font-size: 41px; }
+  .lr-card[data-size='l'] .lr-front { font-size: 32px; }
+}

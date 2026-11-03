@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import { BookOpen, Bookmark, Check, ChevronDown, History, LoaderCircle, X } from 'lucide-react';
 import MobiReact from '@/components/brand/MobiReact';
 import { CardHead, InShort, NcertText, Prompt } from '@/components/keycards/KeyCard';
-import { cardFace, isNcert, sourceLine } from '@/components/keycards/kinds';
+import { cardFace, isNcert, kindFamily, sourceLine } from '@/components/keycards/kinds';
 import { ncertFont } from '@/components/keycards/ncertFont';
 import { ClampLine, SciFront, SciNcert, Stem } from '../stage';
 import { WORDS, pileLabel } from '../../../../data/learn/words.js';
@@ -173,7 +173,7 @@ export function CardItem({ item, turned, recap, still, cardRef, onTurn, onReport
     <CardHead card={card} onReport={onReport}>{tag ? <span className="lr-stage-tag">{tag}</span> : null}</CardHead>
   );
   return (
-    <div className={`lr-card ${ncertFont.variable}`} ref={cardRef} data-size={step} data-turned={turned || undefined} data-still={still || undefined}
+    <div className={`lr-card ${ncertFont.variable}`} ref={cardRef} data-size={step} data-family={kindFamily(card.kind)} data-turned={turned || undefined} data-still={still || undefined}
       onClick={(e) => { if (!turned && !e.target.closest('button, a, textarea, input, [role="menu"]')) onTurn(); }}>
       <div className="lr-card__in">
         <section className="lr-face lr-face--front" aria-hidden={turned || undefined} inert={turned || undefined}>
