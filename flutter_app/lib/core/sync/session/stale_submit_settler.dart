@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import '../../domain/session_rules.dart';
+import '../../notifications/notification_ids.dart';
+import '../../notifications/notification_service.dart';
 import '../../models/session_draft.dart';
 import '../../repositories/session_draft_repository.dart';
 import '../../storage/app_database.dart';
 import 'session_clock.dart';
 import 'session_heartbeat.dart';
 import 'session_journal.dart';
+import 'session_notifications.dart';
 import 'session_submitter.dart';
 import 'session_work_scheduler.dart';
 
@@ -27,9 +30,12 @@ class SettledDraft {
 /// engine owns:
 /// - window still open: send it now (the submit is idempotent); still pending afterwards, the
 ///   backup job is queued again;
-/// - window closed: ask the server whether the session was received (`GET /api/attempts/{id}`).
-///   Received: the draft is cleared and the result opens as usual. Not received: the draft is marked
-///   window-closed, so the existing missed-submit copy shows, never "Sending".
+/// - window passed on this phone's clock: send it the same way. Only the server closes a paper: it
+///   takes the POST while its own window is open, and answers SESSION_EXPIRED after (the submit then
+///   reads `GET /api/attempts/{id}`). Received: the draft is cleared and the result opens as usual.
+///   Not received: the draft is marked window-closed, so the existing missed-submit copy shows,
+///   never "Sending". It keeps its stored time, so it never becomes the latest draft.
+/// - Whatever the outcome, the pinned "Sending" status is settled like the backup job does.
 /// Offline, or the server could not be asked: nothing changes until the next run.
 class StaleSubmitSettler {
   StaleSubmitSettler({
@@ -40,6 +46,7 @@ class StaleSubmitSettler {
     required this.scheduler,
     required this.isOnline,
     this.onRetryLive,
+    this.notifications,
     DateTime Function()? now,
   }) : _now = now ?? DateTime.now;
 
@@ -52,6 +59,9 @@ class StaleSubmitSettler {
 
   /// Told when a retry for a session starts (true) or ends without one queued (false).
   final void Function(String sessionId, bool live)? onRetryLive;
+
+  /// The pinned "Sending Mock N" status an earlier run may have left up; null leaves it alone.
+  final NotificationService? notifications;
   final DateTime Function() _now;
 
   Future<List<SettledDraft>>? _running;
@@ -86,28 +96,25 @@ class StaleSubmitSettler {
 
   Future<SubmitOutcome?> _settleOne(SessionDraft draft) async {
     final nowMs = _now().millisecondsSinceEpoch;
-    if (!submissionWindowOpen(endsAtMs: draft.endsAtWallMs, nowMs: nowMs)) {
-      final SubmitOutcome outcome;
-      try {
-        outcome = await submitter.settleAfterWindow(draft);
-      } on Object {
-        return null;
-      }
-      if (outcome is! SubmitPending) await _settled(draft.sessionId);
-      return outcome;
-    }
-    // The window is still open: the submit can happen, so make it happen now.
-    _live(draft.sessionId, true);
+    // The phone's own clock only says whether a backup job is worth queueing. It never closes a
+    // paper: a past-window draft is sent like any other, and the server answers (SESSION_EXPIRED
+    // leads submit to the attempt read, and only a 404 there closes the paper). The POST is
+    // idempotent, so a paper that really is closed costs one call.
+    final windowOpen = submissionWindowOpen(endsAtMs: draft.endsAtWallMs, nowMs: nowMs);
+    if (windowOpen) _live(draft.sessionId, true);
     SubmitOutcome outcome;
     try {
       final journal = await SessionJournal.open(db, userId: draft.userId, sessionId: draft.sessionId, now: _now);
       final clock = SessionClock()..restore(startedRefWallMs: draft.startedRefWallMs, endsAtWallMs: draft.endsAtWallMs);
-      outcome = await submitter.submit(draft: draft, journal: journal, durationMs: clock.durationMs);
+      // Settling an old paper is bookkeeping: its writes keep its stored time, so it never becomes
+      // the latest draft and hides a newer paper's Resume.
+      outcome = await submitter.submit(draft: draft, journal: journal, durationMs: clock.durationMs, keepUpdatedAt: true);
     } on Object {
-      _live(draft.sessionId, false);
+      if (windowOpen) _live(draft.sessionId, false);
       return null;
     }
     if (outcome is SubmitPending) {
+      if (!windowOpen) return outcome;
       // Still owed: the backup job takes it from here while the window lasts.
       try {
         await scheduler.scheduleSubmit(userId: draft.userId, sessionId: draft.sessionId, draftKey: draft.draftKey, runAt: _now());
@@ -115,10 +122,37 @@ class StaleSubmitSettler {
       } on Object {
         // No job queued: no retry is running, so the strip must not say "Sending".
       }
+    } else {
+      await _settled(draft.sessionId);
     }
-    if (outcome is! SubmitPending) await _settled(draft.sessionId);
-    _live(draft.sessionId, false);
+    await _settleStatus(draft, outcome);
+    if (windowOpen) _live(draft.sessionId, false);
     return outcome;
+  }
+
+  /// Changes the shared "Sending Mock N" status the way the backup job does once it stops sending
+  /// (`runSubmitSessionTask`): the job that would have cleared it is cancelled or gone, and no
+  /// engine exists after a restart. Left alone while another paper is open on screen, since the
+  /// status then describes that paper. A notification problem never blocks settling.
+  Future<void> _settleStatus(SessionDraft draft, SubmitOutcome outcome) async {
+    final n = notifications;
+    if (n == null) return;
+    try {
+      if (await SessionHeartbeat(db, userId: userId, now: _now).anotherIsLive(draft.sessionId)) return;
+      switch (outcome) {
+        case SubmitWindowClosed():
+          await postSendEnded(n, draft: draft, end: UnrecordedEnd.windowClosed);
+        case SubmitRejected():
+          await postSendEnded(n, draft: draft, end: UnrecordedEnd.rejected);
+        case SubmitReceived():
+        case SubmitPending():
+          // Received: the app is in front, so the result needs no announcement. Pending with no
+          // job queued: nothing is being sent, so "Sending" would be false.
+          await n.cancel(mockInProgressTaskId);
+      }
+    } on Object {
+      // Only the shade.
+    }
   }
 
   /// The session is settled: a backup job still queued for it has nothing left to send.

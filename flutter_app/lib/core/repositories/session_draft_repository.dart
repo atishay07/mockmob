@@ -32,11 +32,15 @@ class SessionDraftRepository {
 
   AppDatabase get _db => _scope.db;
 
-  Future<void> save(SessionDraft draft) async {
+  /// [keepUpdatedAt] writes the draft's stored `updatedAtMs` instead of now, for a write that is
+  /// bookkeeping on an old paper and not work on it (the stale-submit settler): the old paper must
+  /// not become the "latest" draft. Ignored for a draft that has no stored time yet.
+  Future<void> save(SessionDraft draft, {bool keepUpdatedAt = false}) async {
     // An archived draft keeps the time it was last worked on. Its submit and retries re-save it
     // (often while the student is on a newer paper), and stamping now would make the old paper
     // the "latest" draft that Today, Start and Practice resume from.
-    final updated = isArchiveKey(draft.draftKey) && draft.updatedAtMs > 0 ? draft.updatedAtMs : _scope.now().millisecondsSinceEpoch;
+    final keep = (keepUpdatedAt || isArchiveKey(draft.draftKey)) && draft.updatedAtMs > 0;
+    final updated = keep ? draft.updatedAtMs : _scope.now().millisecondsSinceEpoch;
     await _db
         .into(_db.sessionDrafts)
         .insertOnConflictUpdate(
@@ -59,11 +63,11 @@ class SessionDraftRepository {
   /// same selection that started meanwhile: the new session then opens as "not found" and the
   /// old one reappears (practice-02). Returns false when it did not write. [save] is for the
   /// start of a session, which does replace the row.
-  Future<bool> saveIfOwned(SessionDraft draft) {
+  Future<bool> saveIfOwned(SessionDraft draft, {bool keepUpdatedAt = false}) {
     return _db.transaction(() async {
       final row = await (_db.select(_db.sessionDrafts)..where((t) => t.userId.equals(draft.userId) & t.draftKey.equals(draft.draftKey))).getSingleOrNull();
       if (row != null && row.sessionId != draft.sessionId) return false;
-      await save(draft);
+      await save(draft, keepUpdatedAt: keepUpdatedAt);
       return true;
     });
   }

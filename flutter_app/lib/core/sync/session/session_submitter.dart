@@ -113,11 +113,13 @@ class SessionSubmitter {
   }
 
   /// [durationMs] is the session length on the session clock. Events later than it are not sent.
-  Future<SubmitOutcome> submit({required SessionDraft draft, required SessionJournal journal, required int durationMs}) async {
+  /// [keepUpdatedAt] is for the stale-submit settler: its draft writes are bookkeeping on an old
+  /// paper, so they keep the draft's stored time and never make it the latest draft (sending-strip-3).
+  Future<SubmitOutcome> submit({required SessionDraft draft, required SessionJournal journal, required int durationMs, bool keepUpdatedAt = false}) async {
     // Persist the intent first: if the process dies mid-call, Today still knows a submit is owed.
     final current = draft.pendingSubmission ? draft : draft.copyWith(pendingSubmission: true);
     try {
-      await _saveOwned(current);
+      await _saveOwned(current, keepUpdatedAt: keepUpdatedAt);
     } on Object {
       // A failed local write must not stop the send: the answers go to the server first.
     }
@@ -138,7 +140,7 @@ class SessionSubmitter {
       return await _received(draft, attempt, finalised: false);
     } on ApiError catch (e) {
       if (e.hasCode(ApiCodes.sessionExpired) || e.hasCode(ApiCodes.sessionAlreadySubmitted)) {
-        return _afterExpiry(current);
+        return _afterExpiry(current, keepUpdatedAt: keepUpdatedAt);
       }
       // Offline, slow, busy, signed out, turned away by the server's front door
       // (ApiErrorKind.blocked: a firewall page, not the API's answer), or a failure the app
@@ -147,7 +149,7 @@ class SessionSubmitter {
       if (e.isBlocked || !e.isDefinitiveRefusal) return SubmitPending(e);
       // Retrying cannot help. Clear the pending flag so the draft is not "being sent" forever
       // and the student has a way out.
-      await _tryDraftSave(current.copyWith(pendingSubmission: false, rejected: true));
+      await _tryDraftSave(current.copyWith(pendingSubmission: false, rejected: true), keepUpdatedAt: keepUpdatedAt);
       return SubmitRejected(e);
     } on Object {
       // Not an API failure: a parsing or local error before the server's answer was known. The
@@ -160,13 +162,13 @@ class SessionSubmitter {
   /// Writes [draft] to its own row, or to its archive row when a newer session of the same
   /// selection has taken the row over since (a submit that outlives the screen): the flags of a
   /// paper still owed must never replace another paper's draft.
-  Future<void> _saveOwned(SessionDraft draft) async {
-    if (!await drafts.saveIfOwned(draft)) await drafts.archive(draft);
+  Future<void> _saveOwned(SessionDraft draft, {bool keepUpdatedAt = false}) async {
+    if (!await drafts.saveIfOwned(draft, keepUpdatedAt: keepUpdatedAt)) await drafts.archive(draft);
   }
 
-  Future<void> _tryDraftSave(SessionDraft draft) async {
+  Future<void> _tryDraftSave(SessionDraft draft, {bool keepUpdatedAt = false}) async {
     try {
-      await _saveOwned(draft);
+      await _saveOwned(draft, keepUpdatedAt: keepUpdatedAt);
     } on Object {
       // Best effort: the outcome is returned either way.
     }
@@ -176,11 +178,11 @@ class SessionSubmitter {
   /// ask the server whether it arrived (`GET /api/attempts/{id}`). Found: received, the draft is
   /// cleared and the result opens as usual. Not found: window closed, the draft keeps its answers
   /// with `windowClosed` set. Could not ask (offline): pending, nothing changes.
-  Future<SubmitOutcome> settleAfterWindow(SessionDraft draft) => _afterExpiry(draft);
+  Future<SubmitOutcome> settleAfterWindow(SessionDraft draft) => _afterExpiry(draft, keepUpdatedAt: true);
 
   /// `SESSION_EXPIRED`: read the attempt first. A 200 means the server finalised the session
   /// (the result opens), a 404 means the window really closed.
-  Future<SubmitOutcome> _afterExpiry(SessionDraft draft) async {
+  Future<SubmitOutcome> _afterExpiry(SessionDraft draft, {bool keepUpdatedAt = false}) async {
     try {
       final attempt = await api.fetchAttempt(draft.sessionId, forUserId: draft.userId);
       if (attempt != null) return _received(draft, attempt, finalised: true);
@@ -190,7 +192,7 @@ class SessionSubmitter {
     } on Object {
       return const SubmitPending(ApiError(kind: ApiErrorKind.unknown, code: 'unknown'));
     }
-    await _tryDraftSave(draft.copyWith(pendingSubmission: false, windowClosed: true));
+    await _tryDraftSave(draft.copyWith(pendingSubmission: false, windowClosed: true), keepUpdatedAt: keepUpdatedAt);
     return const SubmitWindowClosed();
   }
 
