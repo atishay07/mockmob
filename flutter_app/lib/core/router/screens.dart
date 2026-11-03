@@ -1,8 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
-import 'placeholder_screen.dart';
-import 'routes.dart';
+import 'splash_screen.dart';
 
 // Route builders. Each feature owns lib/features/<feature>/<feature>_routes.dart and replaces its
 // placeholders there; this file only re-exports them, so parallel modules never edit the same file.
@@ -18,5 +17,4 @@ export '../../features/runner/runner_routes.dart';
 export '../../features/today/today_routes.dart';
 export '../../features/you/you_routes.dart';
 
-Widget splashScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Splash', route: AppRoutes.splash);
+Widget splashScreen(BuildContext context, GoRouterState state) => const SplashScreen();

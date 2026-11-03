@@ -1,21 +1,19 @@
-// Route builders for the rhythm feature. This feature module owns this file and replaces each
-// placeholder body with its real screen. Keep the function names: lib/core/router/screens.dart
-// re-exports them and router.dart binds them to the paths of spec 4.2.
+// Route builders for the rhythm feature. lib/core/router/screens.dart re-exports them and
+// router.dart binds them to the paths of spec 4.2.
 
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/router/placeholder_screen.dart';
-import '../../core/router/routes.dart';
+import 'screens/bests_screen.dart';
+import 'screens/milestones_screen.dart';
+import 'screens/rhythm_screen.dart';
+import 'screens/week_sheet.dart';
 
-Widget todayWeekScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'This week', route: AppRoutes.todayWeek, isSheet: true);
+/// `/today/week`: a sheet body, `MmSheetPage` supplies the frame.
+Widget todayWeekScreen(BuildContext context, GoRouterState state) => const WeekSheet();
 
-Widget youRhythmScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Rhythm', route: AppRoutes.youRhythm);
+Widget youRhythmScreen(BuildContext context, GoRouterState state) => const YouRhythmScreen();
 
-Widget youMilestonesScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Milestones', route: AppRoutes.youMilestones);
+Widget youMilestonesScreen(BuildContext context, GoRouterState state) => const YouMilestonesScreen();
 
-Widget youBestsScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Personal bests', route: AppRoutes.youBests);
+Widget youBestsScreen(BuildContext context, GoRouterState state) => const YouBestsScreen();

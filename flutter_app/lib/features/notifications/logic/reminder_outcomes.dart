@@ -1,0 +1,103 @@
+import '../data/reminder_state.dart';
+
+/// Three unopened reminders in a row stop a category (spec 8).
+const int ignoredLimit = 3;
+
+/// A student who opens the app within this long after a reminder was due is counted as having
+/// responded to it, whether or not they tapped it.
+const Duration respondedWindow = Duration(hours: 2);
+
+/// Remembers that a reminder was scheduled, so a later app open can tell how it went. Replaces
+/// an earlier record of the same task.
+ReminderState recordScheduled(
+  ReminderState state, {
+  required String taskId,
+  required String prefKey,
+  required DateTime at,
+}) {
+  final others = [
+    for (final d in state.delivered)
+      if (d.taskId != taskId) d,
+  ];
+  final next = [
+    ...others,
+    DeliveredReminder(taskId: taskId, prefKey: prefKey, at: at),
+  ];
+  // Old records never matter: keep the newest 30.
+  final trimmed = next.length > 30 ? next.sublist(next.length - 30) : next;
+  return state.copyWith(delivered: trimmed);
+}
+
+/// The student tapped a reminder or its Start action: it counts as responded to, and the run of
+/// unopened reminders in that category starts again from zero.
+ReminderState markEngaged(ReminderState state, String taskId) {
+  final record = state.delivered.where((d) => d.taskId == taskId).firstOrNull;
+  if (record == null) return state;
+  // Earlier reminders of the same kind that were still waiting are part of the same story: the
+  // student has now responded, so none of them is a run of unopened ones.
+  final cleared = state.copyWith(
+    delivered: [
+      for (final d in state.delivered)
+        if (d.taskId != taskId && !(d.prefKey == record.prefKey && !d.at.isAfter(record.at))) d,
+    ],
+  );
+  final status = cleared.category(record.prefKey);
+  return cleared.withCategory(record.prefKey, status.copyWith(ignoredInRow: 0));
+}
+
+/// "Not tonight": a clear answer. It is not an unopened reminder, and it does not reset the run
+/// either.
+ReminderState markDeclined(ReminderState state, String taskId) =>
+    state.copyWith(
+      delivered: [
+        for (final d in state.delivered)
+          if (d.taskId != taskId) d,
+      ],
+    );
+
+/// Settles every reminder that has come due. Called whenever the app opens.
+///
+/// - Opened within [respondedWindow] of the reminder: responded, the run resets.
+/// - Not opened by then: unopened. The third in a row pauses the category and queues the one-time
+///   line "Want fewer reminders? You can turn this one off."
+/// - When notifications were off at the time, nothing was shown, so nothing is counted.
+ReminderState settleDeliveredReminders(
+  ReminderState state, {
+  required DateTime now,
+  required bool notificationsAllowed,
+}) {
+  final due = [
+    for (final d in state.delivered)
+      if (!d.at.isAfter(now)) d,
+  ]..sort((a, b) => a.at.compareTo(b.at));
+  if (due.isEmpty) return state;
+
+  var next = state.copyWith(
+    delivered: [
+      for (final d in state.delivered)
+        if (d.at.isAfter(now)) d,
+    ],
+  );
+  if (!notificationsAllowed) return next;
+
+  for (final d in due) {
+    final status = next.category(d.prefKey);
+    if (status.paused) continue;
+    if (now.difference(d.at) <= respondedWindow) {
+      next = next.withCategory(d.prefKey, status.copyWith(ignoredInRow: 0));
+      continue;
+    }
+    final count = status.ignoredInRow + 1;
+    next = next.withCategory(
+      d.prefKey,
+      count >= ignoredLimit
+          ? status.copyWith(
+              ignoredInRow: count,
+              paused: true,
+              hintPending: true,
+            )
+          : status.copyWith(ignoredInRow: count),
+    );
+  }
+  return next;
+}

@@ -1,15 +1,20 @@
-// Route builders for the notifications feature. This feature module owns this file and replaces each
-// placeholder body with its real screen. Keep the function names: lib/core/router/screens.dart
-// re-exports them and router.dart binds them to the paths of spec 4.2.
+// Route builders for the notifications feature. This feature module owns this file. Keep the
+// function names: lib/core/router/screens.dart re-exports them and router.dart binds them to
+// the paths of spec 4.2.
 
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/router/placeholder_screen.dart';
-import '../../core/router/routes.dart';
+import 'screens/notification_settings_screen.dart';
+import 'screens/reminders_prompt_sheet.dart';
 
+/// `/you/notifications`: the notifications settings (spec 5.12.1).
 Widget youNotificationsScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Notifications', route: AppRoutes.youNotifications);
+    const NotificationSettingsScreen();
 
-Widget permissionsNotificationsScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Reminders', route: AppRoutes.permissionsNotifications, isSheet: true);
+/// `/permissions/notifications`: the pre-prompt sheet body "Remind me when it matters" (spec 8).
+/// A sheet route returns a body with no `Scaffold`: `MmSheetPage` supplies the frame.
+Widget permissionsNotificationsScreen(
+  BuildContext context,
+  GoRouterState state,
+) => const RemindersPromptSheet();
