@@ -1,5 +1,11 @@
 # NOW: MockMob current state
 
+## 3 Nov 2026, about 2:45 pm IST: Mathematics 548 live (all 13 NCERT chapters typeset); fonts self-hosted, so the Vercel font failure is gone
+- **Live:** main 4006a7c04 (app port session's LK37 run choices, on top of 29b001d8e). 29b001d8e = Mathematics 349 to 548 (221 typeset cards; the other 10 chapters plus a fix round, each card through an Opus formula reviewer against the page image and a Sonnet content reviewer) and Bricolage, Gabarito, Hanken and Literata served from src/app/fonts. Both builds READY on the first try; no runtime errors; no Google Fonts requests.
+- **Mathematics: about 2.9 hours** (data/learn/seconds.js), just under his 3-hour bar. NCERT's 2026-27 text supports about this much: Application of Integrals and Probability Distributions were cut by NCERT (coverage notes), and the four Applied Maths chapters have no NCERT book.
+- **Queued:** rework of two Probability formulas written as fractions of long phrases (they scroll on a phone); ncert-books/pages to delete after it.
+- **Needs his answer (running list):** the app port session's three questions (top bar live look at http://192.168.1.15:3463/preview/arena?view=dashboard&plan=pro, same Wi-Fi; Saved one tap or inside Explore; "Practise | Papers | Learn | Explore" in the app), LK36 gaps 1-3, Physics formula pipeline, Applied Maths source.
+
 ## 3 Nov 2026, about 1:45 pm IST: Maths formula cards pushed (Mathematics 349); 10 more chapters being written; app feedback LK50-LK53 with the app port session
 - **His words (3 Nov ~1:30 pm), verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md:** the app looks good but the UI can be better in many places; a stuck "Sending your answers · Computer Science mock" strip on every screen of his main account (LK50); no Explore ("Flow") feed in the app (LK51); Learn still cluttered (LK52); stronger, more premium, in the direction of Duolingo (LK53). "Continue doing all that"; he answers questions when back in 30-40 minutes. His stop of 2 Nov ~11:20 am is lifted.
 - **Pushed:** main 2152e0b74 = typeset Maths formulas on Key cards (KaTeX 0.19.0, server-drawn, readable plain text for the app), Mathematics 310 to 349 (Inverse Trigonometric Functions 21, Probability 29, Application of Integrals 11), Geist Mono self-hosted. Deploy check below in STATUS once READY.
