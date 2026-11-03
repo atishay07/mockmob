@@ -196,8 +196,10 @@ html[data-theme='light'] .app-shell .pr {
 @media (max-width: 767px) { .app-shell .pr .pr-fix__text { min-height: 63px; align-content: start; } }
 .app-shell .pr .pr-fix__title { display: flex; align-items: center; gap: 8px; margin: 0; font: 700 16px/1.3 var(--font-display); letter-spacing: -0.012em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .app-shell .pr .pr-fix__title svg { flex: none; color: var(--a-accent-text); }
+/* The repair title leads with the mistakes object (R7 packet I, LK60); the detail and fine lines hang under the words. */
+.app-shell .pr .pr-fix__title .pr-fix__ico { margin-block: -6px; }
 .app-shell .pr .pr-fix[data-state='loading'] .pr-fix__title { color: var(--a-ink-2); }
-.app-shell .pr .pr-fix__detail { margin: 0; padding-left: 24px; font-size: 13.5px; line-height: 1.45; color: var(--a-ink-2); text-wrap: pretty; font-variant-numeric: tabular-nums; }
+.app-shell .pr .pr-fix__detail { margin: 0; padding-left: 40px; font-size: 13.5px; line-height: 1.45; color: var(--a-ink-2); text-wrap: pretty; font-variant-numeric: tabular-nums; }
 .app-shell .pr .pr-fix__revisit, .app-shell .pr .pr-fix__retry {
   display: inline-flex; align-items: center; min-height: 44px; margin: -12px 0; padding: 0 2px; border: 0; background: none;
   color: var(--a-ink); font: 600 13.5px/1 var(--font-body); cursor: pointer; vertical-align: middle;
@@ -222,7 +224,7 @@ html[data-theme='light'] .app-shell .pr {
 }
 .app-shell .pr :is(.pr-fix__go, .pr-fix__ask):active { transform: scale(0.97); transition-duration: 160ms, 160ms, 100ms; }
 .app-shell .pr :is(.pr-fix__go, .pr-fix__ask, .pr-fix__revisit, .pr-fix__retry):focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-.app-shell .pr .pr-fix__fine { margin: 0; padding-left: 24px; font-size: 12.5px; line-height: 1.45; color: var(--a-ink-3); text-wrap: pretty; }
+.app-shell .pr .pr-fix__fine { margin: 0; padding-left: 40px; font-size: 12.5px; line-height: 1.45; color: var(--a-ink-3); text-wrap: pretty; }
 @media (max-width: 380px) { .app-shell .pr :is(.pr-fix__go, .pr-fix__ask) { padding: 0 10px; font-size: 13.5px; } }
 
 /* ---------- Mode: four pressable tiles (owner F5) ----------
@@ -649,7 +651,7 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
   box-shadow: inset 0 0 0 1px var(--a-line), inset 0 1px 0 var(--pr-cool-edge);
 }
 @media (min-width: 1024px) { .app-shell .pr .pr-door { padding: 20px 22px; } }
-.app-shell .pr .pr-door__head { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 12px; align-items: center; min-width: 0; }
+.app-shell .pr .pr-door__head { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 12px; align-items: center; min-width: 0; }
 .app-shell .pr .pr-door__ico {
   display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px;
   background: color-mix(in srgb, var(--a-accent-text) 14%, transparent); color: var(--a-accent-text);

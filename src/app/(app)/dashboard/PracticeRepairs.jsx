@@ -11,7 +11,7 @@
 // it is checking (never a number that then changes), and a failed read says so instead of claiming nothing is saved.
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { MessageCircle, Wrench } from 'lucide-react';
+import { BrandIcon, MobiMark } from '@/components/brand/BrandIcon';
 import { apiGet } from '@/lib/fetcher';
 import AskMobiLink from '@/components/ai/AskMobiLink';
 import { ENTRY_LABELS, practiceContext } from '@/components/ai/askContexts.mjs';
@@ -74,7 +74,7 @@ export default function PracticeRepairs({ userId, attempts, subjectId, subjectNa
   return (
     <div className="pr-fix" role="group" aria-label={`Repairs and Ask Mobi for ${name}`} data-state={record.state}>
       <div className="pr-fix__text" key={`${subjectId}-${record.state}`} aria-live="polite">
-        <p className="pr-fix__title"><Wrench size={16} strokeWidth={2.2} aria-hidden="true" /><span>{title}</span></p>
+        <p className="pr-fix__title"><BrandIcon name="mistakes" size={32} className="pr-fix__ico" /><span>{title}</span></p>
         <p className="pr-fix__detail">
           {detail}
           {record.state === 'ready' && facts.saved > 0 && facts.revisit ? (
@@ -86,7 +86,7 @@ export default function PracticeRepairs({ userId, attempts, subjectId, subjectNa
       <div className="pr-fix__acts">
         {primary ? <Link className="pr-fix__go" href={primary.href}>{primary.label}</Link> : null}
         <AskMobiLink context={practiceContext(insights)} variant="plain" className="pr-fix__ask" aria-describedby="pr-fix-ask-line">
-          <MessageCircle size={16} strokeWidth={2.2} aria-hidden="true" />{ENTRY_LABELS.practice}
+          <MobiMark size={20} />{ENTRY_LABELS.practice}
         </AskMobiLink>
       </div>
       <p className="pr-fix__fine" id="pr-fix-ask-line">{askLine} Opening Mobi is free; a written reply costs 1 credit.</p>

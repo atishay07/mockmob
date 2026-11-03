@@ -16,6 +16,7 @@ import NtaConsolePreview from '@/components/arena/NtaConsolePreview';
 import { PipActor } from '@/components/brand/PipActor';
 import { SegmentedControl as Segmented } from '@/components/ui/controls/SegmentedControl';
 import { SubjectObject } from '@/components/brand/SubjectObject';
+import { BrandIcon } from '@/components/brand/BrandIcon';
 import { ExamPanel, Stopwatch, WeightsGlyph } from '@/components/start/StartArt';
 import { LIFE, tapKeyframes } from '@/components/brand/ObjectLifeModel.mjs';
 import { TEST_MODES, fineTuneScope, resolveCount } from '@/../data/test_modes';
@@ -835,7 +836,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
         <div className="pr-doors" data-count={studyEnabled && !learn2 ? 2 : 1}>
           <section className="pr-panel pr-door pr-door--papers" aria-labelledby="pr-recent">
             <div className="pr-door__head">
-              <span className="pr-door__ico" aria-hidden="true"><AppIcon name="review" size={20} /></span>
+              <BrandIcon name="papers" size={44} className="pr-door__obj" />
               <div className="pr-door__title">
                 <h2 id="pr-recent">Your papers</h2>
                 <p>{attempts.length ? `${attempts.length} ${attempts.length === 1 ? 'paper' : 'papers'} so far, every answer kept.` : 'Every paper you sit is kept here, newest first, with its answers.'}</p>

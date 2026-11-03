@@ -373,6 +373,7 @@ html[data-theme='light'] .lh-row[data-here] .lh-row__bar > span { background: #7
   display: grid; grid-template-columns: minmax(0, 1fr) 18px; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 8px 4px; border: 0; background: transparent;
   color: inherit; text-align: left; text-decoration: none; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background-color 150ms var(--lh-ease), transform 100ms var(--lh-ease);
 }
+.lh-or__row[data-icon] { grid-template-columns: 36px minmax(0, 1fr) 18px; }
 .lh-or__row:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
 .lh-or__row:active { transform: scale(0.99); }
 .lh-or__text { display: grid; gap: 2px; min-width: 0; }
