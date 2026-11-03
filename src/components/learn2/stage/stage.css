@@ -653,3 +653,73 @@ html[data-motion='reduced'] .st-grid, html[data-motion='reduced'] .st-top__title
 @media (min-width: 1600px) and (min-height: 960px) {
   .st.kc { --st-card-min: 500px; }
 }
+
+/* ---------- R8 (3 Nov 2026): an index card from a deck, phone first ----------
+   The owner on his phone: the card look "is the exact same as before". Paper (keycards.css --kc-paper: Day cream stock, Night
+   neutral charcoal), one quiet hairline and a soft shadow, no light rim. The kind is a header band across the card's top in its
+   family's wash (words, never colour alone; the extra line, "Back from earlier", on its right). The front stays clean, the
+   prompt optically centred. The back sits on faint ruled lines at the reading pitch: the asked line on the first line, NCERT's
+   words on the next, the source on the last; the ruling runs edge to edge like a real card's. The feed's deck is its peek: the
+   next card's top shows below as that card's own band, so no stacked edges under this card (they would be a second deck).
+   The turn is unchanged (340 ms, ease-out, backface hidden; reduced motion cross-fades). Nothing new moves. */
+.st.kc { --kc-surface: var(--kc-grain), var(--kc-paper); }
+.st-face { --st-fx: 20px; padding-inline: var(--st-fx); border-color: var(--kc-paper-line); background: var(--kc-surface); box-shadow: var(--kc-paper-shadow); }
+.st-cardbox[data-family] .st-face { border-top-color: var(--kc-paper-line); }
+:where(html:not([data-theme='light'])) .st-face { border-color: var(--kc-paper-line); box-shadow: var(--kc-paper-shadow); }
+/* The header band: full bleed under the card's rounded top (the face clips it). */
+.st-face > .st-kind {
+  flex-wrap: nowrap; align-items: center; gap: 4px 12px; min-height: 48px; margin-inline: calc(-1 * var(--st-fx)); padding: 6px var(--st-fx);
+  background: var(--kc-band, color-mix(in srgb, var(--a-ink) 6%, var(--kc-paper))); border-bottom: 1px solid var(--kc-band-line, var(--kc-paper-line));
+}
+.st-kind .kc-famtab { align-self: center; min-height: 0; padding: 0; border-radius: 0; background: none; color: var(--kc-fam, var(--a-ink-2)); font: 650 15px/1.25 var(--font-body); letter-spacing: 0; white-space: normal; }
+.st-kind__extra { margin-left: auto; padding-top: 0; text-align: right; color: var(--a-ink-2); }
+/* The front: the prompt optically centred (a touch above the middle), no ruling. */
+.st-face--front > .st-front { padding-bottom: 20px; }
+.st-foot { border-top-color: var(--kc-paper-line); }
+.st-fade::before { background: linear-gradient(to bottom, transparent, var(--kc-paper)); }
+/* The back on ruled lines: one pitch for the whole block (the asked line, NCERT's words, the source), lines at each line's foot. */
+.st-backblock { --st-pitch: 28px; }
+.st-backblock[data-size='l'] { --st-pitch: 26px; }
+.st-backblock[data-size='xl'] { --st-pitch: 25px; }
+.st-face--back > .st-backblock {
+  flex: 1 0 auto; align-content: start; gap: 0; margin: 0 calc(-1 * var(--st-fx)); padding: 0 var(--st-fx) var(--st-pitch);
+  background-image: linear-gradient(to top, var(--kc-rule) 1px, transparent 1px); background-size: 100% var(--st-pitch); background-repeat: repeat;
+}
+.st-backblock .st-asked { line-height: var(--st-pitch); }
+.st-backblock .st-back { gap: 0; }
+.st-backblock .st-back .kc-ncert { line-height: var(--st-pitch); }
+.st-backblock .st-back :is(.kc-ncert--list, .kc-ncert--paras, .kc-ncert--formula) { gap: 0; }
+.st-backblock .st-back .kc-formula { line-height: var(--st-pitch); }
+.st-backblock .st-back .kc-source { line-height: var(--st-pitch); }
+/* A journal entry or a displayed formula keeps its own rhythm, so its card is plain paper (lines it could not sit on would look broken). */
+.st-face--back > .st-backblock:has(.kc-ncert--entry, .katex-display) { background-image: none; padding-bottom: 0; }
+.st-backfoot { margin-top: 0; }
+/* The peek is the next card in the deck: its band (wash and kind word) on the same paper. */
+.st-cap::after { border-color: var(--kc-paper-line); background: var(--kc-surface); box-shadow: var(--kc-paper-shadow); }
+.st-cap[data-family]::after { border-top-color: var(--kc-band-line); background: var(--kc-band); }
+:where(html:not([data-theme='light'])) .st-cap::after { border-color: var(--kc-paper-line); box-shadow: none; }
+:where(html:not([data-theme='light'])) .st-cap[data-family]::after { border-color: var(--kc-band-line); }
+.st-cap { padding-top: 15px; }
+.st-cap[data-family] .st-cap__label { font: 650 15px/1.3 var(--font-body); color: var(--kc-fam); }
+@media (min-width: 768px) {
+  .st-face { --st-fx: 32px; }
+  .st-face > .st-kind { min-height: 52px; }
+  .st-kind .kc-famtab { font-size: 16px; }
+  .st-backblock { --st-pitch: 30px; }
+  .st-backblock[data-size='l'] { --st-pitch: 26px; }
+  .st-backblock[data-size='xl'] { --st-pitch: 25px; }
+}
+@media (min-width: 1200px) {
+  .st-backblock { --st-pitch: 32px; }
+  .st-backblock[data-size='l'] { --st-pitch: 29px; }
+  .st-backblock[data-size='xl'] { --st-pitch: 27px; }
+}
+@media (min-width: 1360px) {
+  .st-face { --st-fx: 44px; padding-inline: var(--st-fx); }
+  .st-face > .st-kind { min-height: 56px; }
+  .st-kind .kc-famtab { font-size: 16.5px; }
+  .st-face--front > .st-front { padding-bottom: 28px; }
+  .st-backblock { --st-pitch: 35px; }
+  .st-backblock[data-size='l'] { --st-pitch: 32px; }
+  .st-backblock[data-size='xl'] { --st-pitch: 30px; }
+}

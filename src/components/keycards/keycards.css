@@ -460,7 +460,9 @@ ol.kc-ncert--list li::before { content: counter(kc) '.'; width: auto; height: au
    Words on a tinted wash, never colour alone. --kc-fam is the text colour, --kc-fam-wash the tab, --kc-fam-edge the card's top
    hairline. Night (the default) first, then Day. */
 [data-family] { --kc-fam: var(--a-ink-2); }
-[data-family='meaning'] { --kc-fam: var(--a-accent-text); }
+/* R8: meaning is a calm green, no longer the volt text: lime stays the primary key's alone (the owner's one-accent rule). */
+[data-family='meaning'] { --kc-fam: #8fd3b0; }
+html[data-theme='light'] [data-family='meaning'] { --kc-fam: #2a6246; }
 [data-family='rule'] { --kc-fam: var(--a-purple-text); }
 [data-family='parts'] { --kc-fam: var(--a-warn-text); }
 [data-family='fact'] { --kc-fam: #9cc0ff; }
@@ -482,4 +484,33 @@ html[data-theme='light'] [data-family] {
 .kc-famtag {
   display: inline-flex; align-items: center; min-height: 22px; padding: 0 8px; border-radius: 6px;
   background: var(--kc-fam-wash); color: var(--kc-fam); font: 700 12.5px/1 var(--font-body); white-space: nowrap;
+}
+
+/* ---------- R8 (3 Nov 2026): the Key card as an index card from a deck (the study stage and the run) ----------
+   The owner, on his phone: the card look "is the exact same as before". The card is now paper: Day a warm cream stock (the
+   lamp-lit desk's cream paper, never pure white) with the grain, Night a neutral charcoal (not green-tinted, no light rim):
+   one quiet hairline and a soft shadow. --kc-band is the header band's wash in the card's family colour, --kc-rule the faint
+   ruled lines on the back. Night (the default) first, then Day. */
+.st.kc, .lr.kc {
+  --kc-paper: #1e1f1c;
+  --kc-paper-line: rgb(255 255 255 / 0.075);
+  --kc-paper-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 16px 36px -22px rgb(0 0 0 / 0.75);
+  --kc-band-mix: 12%;
+  --kc-rule: rgb(255 255 255 / 0.045);
+  --kc-edge-1: color-mix(in srgb, #000 9%, var(--kc-paper));
+  --kc-edge-2: color-mix(in srgb, #000 18%, var(--kc-paper));
+  --kc-surface: var(--kc-grain), var(--kc-paper);
+}
+html[data-theme='light'] :is(.st.kc, .lr.kc) {
+  --kc-paper: #faf6ec;
+  --kc-paper-line: #e2dbc9;
+  --kc-paper-shadow: 0 1px 2px rgb(60 48 20 / 0.08), 0 14px 30px -18px rgb(60 48 20 / 0.24);
+  --kc-band-mix: 13%;
+  --kc-rule: rgb(110 90 50 / 0.085);
+  --kc-edge-1: color-mix(in srgb, #6e5a32 5%, var(--kc-paper));
+  --kc-edge-2: color-mix(in srgb, #6e5a32 10%, var(--kc-paper));
+}
+:is(.st.kc, .lr.kc) [data-family] {
+  --kc-band: color-mix(in srgb, var(--kc-fam) var(--kc-band-mix), var(--kc-paper));
+  --kc-band-line: color-mix(in srgb, var(--kc-fam) 26%, var(--kc-paper));
 }

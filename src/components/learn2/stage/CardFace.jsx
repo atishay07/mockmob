@@ -18,6 +18,9 @@
 //     label still come from the plain front.
 //   - R6 Web D: the kind is a tab in its family's colour hanging from the card's top edge (kinds.js kindFamily, keycards.css),
 //     the card's top hairline takes a trace of that colour, and the source is a quiet footer under a hairline.
+//   - R8 (3 Nov, the owner's phone): an index card from a deck. Warm paper in Day, neutral charcoal in Night; the kind is a
+//     header band across the card's top in its family's wash (stage.css); the back's words sit on faint ruled lines at the
+//     reading pitch (the backblock's data-size picks the pitch); the feed's peek is the deck (the next card's band).
 //   - sci: a chemistry card draws its front and back with real subscripts and superscripts (Sci.jsx; display only, R4).
 import { useEffect, useId, useRef, useState } from 'react';
 import { BookOpen, Check } from 'lucide-react';
@@ -79,7 +82,7 @@ export function CardFace({ card, turned = false, onTurn, refEl, stamp = null, ex
           tabIndex={turned && backMore ? 0 : -1} role="region" aria-label="NCERT's line" data-more={backMore || undefined}
           onClick={(e) => { if (e.target.closest('a, button')) return; if (window.getSelection?.()?.toString()) return; onTurn?.(); }}>
           {kind}
-          <div className="st-backblock">
+          <div className="st-backblock" data-size={backSize(card?.back)}>
             <p className="st-asked">{speakable(front).length ? <FrontText text={front} html={html} /> : null}</p>
             <div className="st-back" data-size={backSize(card?.back)}>
               {sci ? <SciNcert card={card} /> : <NcertText card={card} />}
