@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm list *)",
+      "Bash(npm install *)",
+      "Bash(node --input-type=module)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:3001)",
+      "Read(//Users/atishay/Desktop/mockmob/src/app/**)",
+      "Bash(git -C /Users/atishay/Desktop/mockmob log --oneline -10)"
+    ]
+  }
+}

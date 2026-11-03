@@ -1,8 +1,17 @@
 import { NextResponse } from 'next/server';
 import { Database } from '@/../data/db';
+import { auth } from '@/lib/auth';
 
 export async function POST(request) {
   try {
+    const session = await auth();
+    if (!session?.user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    if (session.user.role !== 'moderator') {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const { id, action } = await request.json(); // action = 'approve' | 'reject'
     if (!id || !['approve', 'reject'].includes(action)) {
       return NextResponse.json({ error: 'Invalid parameters' }, { status: 400 });
