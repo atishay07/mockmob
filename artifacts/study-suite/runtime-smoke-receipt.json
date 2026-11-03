@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-04T16:43:06.340Z",
+  "project": "isrxrxzjocewrdureyhp",
+  "role": "service_role",
+  "checks": [
+    "start",
+    "same-request retry",
+    "original recorded event retry",
+    "atomic FSRS grading and scheduling",
+    "stale-revision rejection"
+  ],
+  "result": "passed",
+  "verificationRunsRemaining": 0,
+  "allVerificationWritesRolledBack": true,
+  "paidModelCalls": 0
+}

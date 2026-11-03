@@ -1,0 +1,1381 @@
+{
+  "kind": "v79_native_regression_probe_not_qualification",
+  "verifier": "cuet-fit-validator-v7.9-compact-resolution-r3",
+  "contract": "5dfd630720d021c32de611bfe50e76997e17fb2095f68c8aba13d089888291ca",
+  "prefix": "v79-r3-regression-2026-10-09-",
+  "created_at": "2026-10-09T12:00:41.899Z",
+  "cases": {
+    "v77f-c519f01371f2": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "english",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly says Arun asked her to compare the second hand’s movement with the escapement’s sound.",
+            "The other options do not state or imply the requested comparison in the passage."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly says Arun asked her to compare the second hand’s movement with the escapement’s sound.",
+            "The other options do not state or imply the requested comparison in the passage."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly says Arun asked her to compare the second hand’s movement with the escapement’s sound.",
+            "The other options do not state or imply the requested comparison in the passage."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_integrity": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly says Arun asked her to compare the second hand’s movement with the escapement’s sound.",
+            "The other options do not state or imply the requested comparison in the passage."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_answerability": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly says Arun asked her to compare the second hand’s movement with the escapement’s sound.",
+            "The other options do not state or imply the requested comparison in the passage."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly says Arun asked her to compare the second hand’s movement with the escapement’s sound.",
+            "The other options do not state or imply the requested comparison in the passage."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.001452,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T12:02:31.896Z"
+    },
+    "v77f-1ed13162f85d": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "english",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "The passage directly links the strong current, the operator’s cancellation, and Dev crossing out the noon line.",
+        "v79_audit_refutation_not_entailed:C:passage_unsupported",
+        "v79_audit_refutation_not_entailed:C:passage_unsupported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly links the strong current to the operator cancelling the noon crossing, then says Dev crossed that line through.",
+            "The syllabus includes narrative reading comprehension; the other options do not give the passage’s stated reason."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly links the strong current to the operator cancelling the noon crossing, then says Dev crossed that line through.",
+            "The syllabus includes narrative reading comprehension; the other options do not give the passage’s stated reason."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly links the strong current to the operator cancelling the noon crossing, then says Dev crossed that line through.",
+            "The syllabus includes narrative reading comprehension; the other options do not give the passage’s stated reason."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_integrity": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly links the strong current to the operator cancelling the noon crossing, then says Dev crossed that line through.",
+            "The syllabus includes narrative reading comprehension; the other options do not give the passage’s stated reason."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_answerability": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly links the strong current to the operator cancelling the noon crossing, then says Dev crossed that line through.",
+            "The syllabus includes narrative reading comprehension; the other options do not give the passage’s stated reason."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly links the strong current to the operator cancelling the noon crossing, then says Dev crossed that line through.",
+            "The syllabus includes narrative reading comprehension; the other options do not give the passage’s stated reason."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly links the strong current to the operator cancelling the noon crossing, then says Dev crossed that line through.",
+            "The syllabus includes narrative reading comprehension; the other options do not give the passage’s stated reason."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly states: 'When the current grew too strong, the operator cancelled the noon crossing and Dev crossed that line through.' This directly confirms option A."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The passage directly links the strong current, the operator’s cancellation, and Dev crossing out the noon line.",
+            "v79_audit_refutation_not_entailed:C:passage_unsupported",
+            "v79_audit_refutation_not_entailed:C:passage_unsupported"
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": false,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.014799,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T12:05:12.843Z"
+    },
+    "v77f-dfcca21b749e": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "english",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "The explanation accurately paraphrases the passage's stated reason for keeping the system.",
+        "v79_audit_refutation_not_entailed:B:passage_unsupported",
+        "v79_audit_refutation_not_entailed:B:passage_unsupported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly says Leela kept the system because it made small delays visible while there was still time to adjust; A paraphrases that purpose.",
+            "The other options claim guaranteed early arrivals, withholding collection times, or preventing uneven harvests—none is the list’s stated function."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly says Leela kept the system because it made small delays visible while there was still time to adjust; A paraphrases that purpose.",
+            "The other options claim guaranteed early arrivals, withholding collection times, or preventing uneven harvests—none is the list’s stated function."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly says Leela kept the system because it made small delays visible while there was still time to adjust; A paraphrases that purpose.",
+            "The other options claim guaranteed early arrivals, withholding collection times, or preventing uneven harvests—none is the list’s stated function."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_integrity": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly says Leela kept the system because it made small delays visible while there was still time to adjust; A paraphrases that purpose.",
+            "The other options claim guaranteed early arrivals, withholding collection times, or preventing uneven harvests—none is the list’s stated function."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_answerability": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly says Leela kept the system because it made small delays visible while there was still time to adjust; A paraphrases that purpose.",
+            "The other options claim guaranteed early arrivals, withholding collection times, or preventing uneven harvests—none is the list’s stated function."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly says Leela kept the system because it made small delays visible while there was still time to adjust; A paraphrases that purpose.",
+            "The other options claim guaranteed early arrivals, withholding collection times, or preventing uneven harvests—none is the list’s stated function."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly says Leela kept the system because it made small delays visible while there was still time to adjust; A paraphrases that purpose.",
+            "The other options claim guaranteed early arrivals, withholding collection times, or preventing uneven harvests—none is the list’s stated function."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "The final sentence of the narrative explicitly states: 'Leela kept the system because it made small delays visible while there was still time to adjust.'",
+            "Options B, C, and D directly misrepresent the facts stated in the passage."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The explanation accurately paraphrases the passage's stated reason for keeping the system.",
+            "v79_audit_refutation_not_entailed:B:passage_unsupported",
+            "v79_audit_refutation_not_entailed:B:passage_unsupported"
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": false,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.016778,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T12:05:19.064Z"
+    },
+    "v77f-4c09b80e91ce": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "english",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "The passage says Mira records the particular box move prompted by a damp strip; it does not establish that she enters each move without qualification.",
+        "The contextual use supports the key: the ledger is where the move is entered.",
+        "unsupported claim: Mira enters each move in the ledger.",
+        "v79_audit_refutation_not_entailed:D:source_silence",
+        "v79_audit_refutation_not_entailed:D:source_silence"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage says Mira entered the move in a ledger, indicating a written record book.",
+            "The other choices do not fit the ledger’s role in the passage.",
+            "The supplied syllabus includes narrative passages under Reading Comprehension."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage says Mira entered the move in a ledger, indicating a written record book.",
+            "The other choices do not fit the ledger’s role in the passage.",
+            "The supplied syllabus includes narrative passages under Reading Comprehension."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage says Mira entered the move in a ledger, indicating a written record book.",
+            "The other choices do not fit the ledger’s role in the passage.",
+            "The supplied syllabus includes narrative passages under Reading Comprehension."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_integrity": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage says Mira entered the move in a ledger, indicating a written record book.",
+            "The other choices do not fit the ledger’s role in the passage.",
+            "The supplied syllabus includes narrative passages under Reading Comprehension."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_answerability": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage says Mira entered the move in a ledger, indicating a written record book.",
+            "The other choices do not fit the ledger’s role in the passage.",
+            "The supplied syllabus includes narrative passages under Reading Comprehension."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage says Mira entered the move in a ledger, indicating a written record book.",
+            "The other choices do not fit the ledger’s role in the passage.",
+            "The supplied syllabus includes narrative passages under Reading Comprehension."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage says Mira entered the move in a ledger, indicating a written record book.",
+            "The other choices do not fit the ledger’s role in the passage.",
+            "The supplied syllabus includes narrative passages under Reading Comprehension."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "In the passage, Mira 'entered the move in a ledger', indicating an account or record book where actions and events are systematically written down."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The passage says Mira records the particular box move prompted by a damp strip; it does not establish that she enters each move without qualification.",
+            "The contextual use supports the key: the ledger is where the move is entered.",
+            "unsupported claim: Mira enters each move in the ledger.",
+            "v79_audit_refutation_not_entailed:D:source_silence",
+            "v79_audit_refutation_not_entailed:D:source_silence"
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": false,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.012999,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T12:05:25.084Z"
+    },
+    "v77f-a99cc144f9e5": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "english",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 9,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 64
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Mira logs a move made after a strip feels damp; no map is damaged, and she says the steps reduce risk. The record tracks preventive action.",
+            "The other options introduce a donor requirement, permission rule, or use for the strips that the passage neither states nor implies."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Mira logs a move made after a strip feels damp; no map is damaged, and she says the steps reduce risk. The record tracks preventive action.",
+            "The other options introduce a donor requirement, permission rule, or use for the strips that the passage neither states nor implies."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Mira logs a move made after a strip feels damp; no map is damaged, and she says the steps reduce risk. The record tracks preventive action.",
+            "The other options introduce a donor requirement, permission rule, or use for the strips that the passage neither states nor implies."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_integrity": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Mira logs a move made after a strip feels damp; no map is damaged, and she says the steps reduce risk. The record tracks preventive action.",
+            "The other options introduce a donor requirement, permission rule, or use for the strips that the passage neither states nor implies."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_answerability": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Mira logs a move made after a strip feels damp; no map is damaged, and she says the steps reduce risk. The record tracks preventive action.",
+            "The other options introduce a donor requirement, permission rule, or use for the strips that the passage neither states nor implies."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Mira logs a move made after a strip feels damp; no map is damaged, and she says the steps reduce risk. The record tracks preventive action.",
+            "The other options introduce a donor requirement, permission rule, or use for the strips that the passage neither states nor implies."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Mira logs a move made after a strip feels damp; no map is damaged, and she says the steps reduce risk. The record tracks preventive action.",
+            "The other options introduce a donor requirement, permission rule, or use for the strips that the passage neither states nor implies."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly states that when a strip felt damp, Mira moved the box away from the wall and entered the move in a ledger, noting that these steps reduced risk before any map had been damaged.",
+            "Option A correctly identifies that recording the moves documents preventive risk-reduction measures taken prior to actual damage.",
+            "Options B, C, and D are contradicted by the clear scope and facts of the passage."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The explanation is supported in context: Mira logs the damp-triggered box move, and the passage states that no map had yet been damaged."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Mira logs a move made after a strip feels damp; no map is damaged, and she says the steps reduce risk. The record tracks preventive action.",
+            "The other options introduce a donor requirement, permission rule, or use for the strips that the passage neither states nor implies."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.015644,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T12:07:12.855Z"
+    },
+    "cbse24-eng-q01--wrong_key": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "english",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Paragraph 1 says notifications interrupt conversations and draw fingers toward screens, supporting the inference that they divert attention from conversation.",
+            "The stem specifies paragraph 1, and the passage supplies the decisive evidence directly."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Paragraph 1 says notifications interrupt conversations and draw fingers toward screens, supporting the inference that they divert attention from conversation.",
+            "The stem specifies paragraph 1, and the passage supplies the decisive evidence directly."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Paragraph 1 says notifications interrupt conversations and draw fingers toward screens, supporting the inference that they divert attention from conversation.",
+            "The stem specifies paragraph 1, and the passage supplies the decisive evidence directly."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_integrity": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Paragraph 1 says notifications interrupt conversations and draw fingers toward screens, supporting the inference that they divert attention from conversation.",
+            "The stem specifies paragraph 1, and the passage supplies the decisive evidence directly."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_answerability": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Paragraph 1 says notifications interrupt conversations and draw fingers toward screens, supporting the inference that they divert attention from conversation.",
+            "The stem specifies paragraph 1, and the passage supplies the decisive evidence directly."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Paragraph 1 says notifications interrupt conversations and draw fingers toward screens, supporting the inference that they divert attention from conversation.",
+            "The stem specifies paragraph 1, and the passage supplies the decisive evidence directly."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.001677,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T12:07:20.257Z"
+    },
+    "v77f-2ca94e8b4e72": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "english",
+      "expected_valid": false,
+      "category": "unsupported_explanation",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "The passage says Dev copied the schedule in chalk each morning; it does not say he painted the board or when he wrote the date.",
+        "The contextual meaning supports A, but the added explanation makes unsupported and incorrect claims about painting and the date's timing.",
+        "incorrect claim: Dev had newly painted the board that morning.",
+        "incorrect claim: The supposed painting explains why the date was fresh."
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage describes a fresh date written at the top; in context, “fresh” means recently written or current.",
+            "The visitor’s complaint about the changed board does not make unfamiliarity to that visitor the meaning of “fresh.”"
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage describes a fresh date written at the top; in context, “fresh” means recently written or current.",
+            "The visitor’s complaint about the changed board does not make unfamiliarity to that visitor the meaning of “fresh.”"
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage describes a fresh date written at the top; in context, “fresh” means recently written or current.",
+            "The visitor’s complaint about the changed board does not make unfamiliarity to that visitor the meaning of “fresh.”"
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_integrity": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage describes a fresh date written at the top; in context, “fresh” means recently written or current.",
+            "The visitor’s complaint about the changed board does not make unfamiliarity to that visitor the meaning of “fresh.”"
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_answerability": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage describes a fresh date written at the top; in context, “fresh” means recently written or current.",
+            "The visitor’s complaint about the changed board does not make unfamiliarity to that visitor the meaning of “fresh.”"
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage describes a fresh date written at the top; in context, “fresh” means recently written or current.",
+            "The visitor’s complaint about the changed board does not make unfamiliarity to that visitor the meaning of “fresh.”"
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage describes a fresh date written at the top; in context, “fresh” means recently written or current.",
+            "The visitor’s complaint about the changed board does not make unfamiliarity to that visitor the meaning of “fresh.”"
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "Dev writes the operator's new schedule in chalk each morning, so pointing to the fresh date indicates a date that was recently written to reflect current conditions."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The passage says Dev copied the schedule in chalk each morning; it does not say he painted the board or when he wrote the date.",
+            "The contextual meaning supports A, but the added explanation makes unsupported and incorrect claims about painting and the date's timing.",
+            "incorrect claim: Dev had newly painted the board that morning.",
+            "incorrect claim: The supposed painting explains why the date was fresh."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.014665,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T12:08:16.918Z"
+    },
+    "v77f-56f266269b74": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "english",
+      "expected_valid": false,
+      "category": "unsupported_source_and_objective_mismatch",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "A is the apparent English-grammar answer: “recommended that the clock be repaired” uses the intended mandative subjunctive construction.",
+        "No supplied excerpt establishes the grammatical rule that makes A correct, so the required source-support gate fails.",
+        "The stem tests verb mood, not comprehension of the narrative; the passage does not determine the answer (E3.1).",
+        "The listed syllabus topics include reading comprehension and specified verbal-ability skills, but do not establish this verb-mood objective (E1.1).",
+        "Defect: unsupported_fact_or_explanation: The decisive grammatical rule is not established by any supplied academic excerpt.",
+        "Defect: syllabus_mismatch: The item tests mandative subjunctive recognition, which is not established as a covered objective by the supplied syllabus.",
+        "cuet_fit_syllabus_objective_below_2",
+        "cuet_fit_format_authenticity_below_2",
+        "cuet_fit_score_6_below_7",
+        "No validator places this item in the syllabus unit of Narrative Passage",
+        "Decisive principle is not stated in the supplied excerpts",
+        "Condition missing: A rule establishing that “be repaired” after “recommended that” is the subjunctive after a mandative verb.",
+        "v79_solved_key_not_supported",
+        "v79_solved_key_not_supported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "abstain",
+          "reasons": [
+            "A is the apparent English-grammar answer: “recommended that the clock be repaired” uses the intended mandative subjunctive construction.",
+            "No supplied excerpt establishes the grammatical rule that makes A correct, so the required source-support gate fails.",
+            "The stem tests verb mood, not comprehension of the narrative; the passage does not determine the answer (E3.1).",
+            "The listed syllabus topics include reading comprehension and specified verbal-ability skills, but do not establish this verb-mood objective (E1.1).",
+            "Defect: unsupported_fact_or_explanation: The decisive grammatical rule is not established by any supplied academic excerpt.",
+            "Defect: syllabus_mismatch: The item tests mandative subjunctive recognition, which is not established as a covered objective by the supplied syllabus.",
+            "cuet_fit_syllabus_objective_below_2",
+            "cuet_fit_format_authenticity_below_2",
+            "cuet_fit_score_6_below_7",
+            "No validator places this item in the syllabus unit of Narrative Passage",
+            "Decisive principle is not stated in the supplied excerpts",
+            "Condition missing: A rule establishing that “be repaired” after “recommended that” is the subjunctive after a mandative verb.",
+            "v79_solved_key_not_supported",
+            "v79_solved_key_not_supported"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002226,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T12:09:16.630Z"
+    },
+    "cbse24-eng-q01": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "english",
+      "expected_valid": true,
+      "category": "valid",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "The answer is supported, but the rationale for D shifts from looking at screens to reaching them; the passage does not establish that people reach the screens.",
+        "unsupported claim: The passage establishes that people are not prevented from reaching the screens."
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Paragraph 1 says notifications interrupt conversations and draw fingers toward screens, matching option A.",
+            "The passage is complete and answerable; no calculation or unstated case condition is needed.",
+            "No authenticated comparator was supplied; this original-practice item is assessed directly against the syllabus and format."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Paragraph 1 says notifications interrupt conversations and draw fingers toward screens, matching option A.",
+            "The passage is complete and answerable; no calculation or unstated case condition is needed.",
+            "No authenticated comparator was supplied; this original-practice item is assessed directly against the syllabus and format."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Paragraph 1 says notifications interrupt conversations and draw fingers toward screens, matching option A.",
+            "The passage is complete and answerable; no calculation or unstated case condition is needed.",
+            "No authenticated comparator was supplied; this original-practice item is assessed directly against the syllabus and format."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_integrity": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Paragraph 1 says notifications interrupt conversations and draw fingers toward screens, matching option A.",
+            "The passage is complete and answerable; no calculation or unstated case condition is needed.",
+            "No authenticated comparator was supplied; this original-practice item is assessed directly against the syllabus and format."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_answerability": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Paragraph 1 says notifications interrupt conversations and draw fingers toward screens, matching option A.",
+            "The passage is complete and answerable; no calculation or unstated case condition is needed.",
+            "No authenticated comparator was supplied; this original-practice item is assessed directly against the syllabus and format."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Paragraph 1 says notifications interrupt conversations and draw fingers toward screens, matching option A.",
+            "The passage is complete and answerable; no calculation or unstated case condition is needed.",
+            "No authenticated comparator was supplied; this original-practice item is assessed directly against the syllabus and format."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Paragraph 1 says notifications interrupt conversations and draw fingers toward screens, matching option A.",
+            "The passage is complete and answerable; no calculation or unstated case condition is needed.",
+            "No authenticated comparator was supplied; this original-practice item is assessed directly against the syllabus and format."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "Paragraph 1 explicitly states: 'Notifications repeatedly interrupt conversations and draw fingers towards screens.'",
+            "Option A directly captures the meaning of interrupting conversations and drawing users towards their devices."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The answer is supported, but the rationale for D shifts from looking at screens to reaching them; the passage does not establish that people reach the screens.",
+            "unsupported claim: The passage establishes that people are not prevented from reaching the screens."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.013096,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T12:10:14.983Z"
+    }
+  },
+  "accounting": {
+    "settled_usd": 0.093336,
+    "held_usd": 0,
+    "requests": 21,
+    "receipt_complete": true,
+    "at": "2026-10-09T12:10:15.480Z"
+  }
+}

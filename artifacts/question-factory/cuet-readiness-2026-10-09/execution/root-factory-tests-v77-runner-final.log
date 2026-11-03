@@ -1,0 +1,2123 @@
+
+> mockmob@0.1.0 test:factory
+> node --test scripts/pipeline/tests/*.test.mjs data/tests/factory_phase_budget.test.mjs data/tests/practice_availability.test.mjs data/tests/factory_inventory.test.mjs
+
+✔ historical withheld receipts and unrelated usable legacy items cannot fill factory yield (2.0643ms)
+✔ a thousand historical publications with one withheld item do not satisfy the thousand usable gate (2.7934ms)
+✔ lifetime forecast includes existing spending and conservative holds once (0.3147ms)
+✔ missing cost evidence never creates an affordable-inventory or cost claim (0.2021ms)
+✔ a 10,000 target forecast cannot deadlock an affordable 1,000 checkpoint (1.0161ms)
+✔ completed pilot releases a funded checkpoint without a redundant ten-thousand forecast gate (0.2186ms)
+✔ phase budgets retain conservative holds and fail closed on missing or invalid measurements (0.2806ms)
+✔ existing unscreened live and verified active library rows preserve their reading contract (0.9815ms)
+✔ existing holds and modern factory provenance cannot use legacy compatibility (0.2323ms)
+✔ screened legacy content remains withheld when a receipt fails or content changes (0.8011ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'english',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'english',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+✔ A/B harness runs in no-publish mode and compares models (94.5694ms)
+✔ A/B harness does not enable OpenAI generation automatically (3.4801ms)
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_para_jumbles_1',
+  selected_anchor_concept_id: 'english::para_jumbles',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'para_jumble',
+  selected_question_type: 'para_jumble',
+  requested_english_family: 'para_jumble',
+  selected_english_family: 'para_jumble',
+  english_family_match: true
+}
+[anchor] selected {
+  requested_subject: 'english',
+  requested_chapter: 'Para Jumbles',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_para_jumbles_1',
+  selected_anchor_concept_id: 'english::para_jumbles',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: true
+}
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'inference',
+  selected_question_type: 'statement_based',
+  requested_english_family: 'passage',
+  selected_english_family: 'passage',
+  english_family_match: true
+}
+[anchor] selected {
+  requested_subject: 'english',
+  requested_chapter: 'Narrative Passage',
+  requested_concept_id: 'english::narrative_passage',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: true
+}
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  selected_anchor_id: 'structured_physics_electromagnetic_induction_1',
+  selected_anchor_concept_id: 'physics::electromagnetic_induction',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason',
+  requested_english_family: null,
+  selected_english_family: null,
+  english_family_match: null
+}
+[anchor] selected {
+  requested_subject: 'physics',
+  requested_chapter: 'Electromagnetic Induction',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  selected_anchor_id: 'structured_physics_electromagnetic_induction_1',
+  selected_anchor_concept_id: 'physics::electromagnetic_induction',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: null
+}
+✔ Para Jumbles does not select Narrative Passage as a direct anchor (6.5319ms)
+✔ Narrative Passage does not select Para Jumbles as a direct anchor (1.2192ms)
+✔ Physics EMI anchor selection is exact or low-confidence structure, not Dual Nature direct (1.0721ms)
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::boolean_algebra',
+  selected_anchor_id: 'structured_computer_science_boolean_algebra_1',
+  selected_anchor_concept_id: 'computer_science::boolean_algebra',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based',
+  requested_english_family: null,
+  selected_english_family: null,
+  english_family_match: null
+}
+[anchor] selected {
+  requested_subject: 'computer_science',
+  requested_chapter: 'Boolean Algebra',
+  requested_concept_id: 'computer_science::boolean_algebra',
+  selected_anchor_id: 'structured_computer_science_boolean_algebra_1',
+  selected_anchor_concept_id: 'computer_science::boolean_algebra',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::aldehydes_ketones_and_carboxylic_acids',
+  selected_anchor_id: 'structured_chemistry_aldehydes_ketones_and_carboxylic_acids_1',
+  selected_anchor_concept_id: 'chemistry::aldehydes_ketones_and_carboxylic_acids',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based',
+  requested_english_family: null,
+  selected_english_family: null,
+  english_family_match: null
+}
+[anchor] selected {
+  requested_subject: 'chemistry',
+  requested_chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  requested_concept_id: 'chemistry::aldehydes_ketones_and_carboxylic_acids',
+  selected_anchor_id: 'structured_chemistry_aldehydes_ketones_and_carboxylic_acids_1',
+  selected_anchor_concept_id: 'chemistry::aldehydes_ketones_and_carboxylic_acids',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'biology',
+  requested_concept_id: 'biology::molecular_basis_of_inheritance',
+  selected_anchor_id: 'structured_biology_molecular_basis_of_inheritance_1',
+  selected_anchor_concept_id: 'biology::molecular_basis_of_inheritance',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based',
+  requested_english_family: null,
+  selected_english_family: null,
+  english_family_match: null
+}
+[anchor] selected {
+  requested_subject: 'biology',
+  requested_chapter: 'Molecular Basis of Inheritance',
+  requested_concept_id: 'biology::molecular_basis_of_inheritance',
+  selected_anchor_id: 'structured_biology_molecular_basis_of_inheritance_1',
+  selected_anchor_concept_id: 'biology::molecular_basis_of_inheritance',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::money_and_banking',
+  selected_anchor_id: 'structured_economics_money_and_banking_1',
+  selected_anchor_concept_id: 'economics::money_and_banking',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based',
+  requested_english_family: null,
+  selected_english_family: null,
+  english_family_match: null
+}
+[anchor] selected {
+  requested_subject: 'economics',
+  requested_chapter: 'Money & Banking',
+  requested_concept_id: 'economics::money_and_banking',
+  selected_anchor_id: 'structured_economics_money_and_banking_1',
+  selected_anchor_concept_id: 'economics::money_and_banking',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: null
+}
+✔ Boolean Algebra selects exact chapter anchor (3.5434ms)
+✔ Aldehydes exact anchor is selected (0.7294ms)
+✔ Molecular Basis exact anchor is selected (0.6047ms)
+✔ Money & Banking exact anchor is selected (0.7026ms)
+✔ Anthropic unknown failure retains max_tokens maximum, diagnostic receipt and permits bounded continuation without repost (275.4244ms)
+✔ restart reconstructs an interrupted Anthropic contract hold without a model call (330.2712ms)
+✔ temporary Windows reader lock retries without truncating the last checkpoint (5.2833ms)
+✔ persistent checkpoint failure retains both the original and complete recoverable replacement (1.9975ms)
+✔ checkpoint failure stops scheduling but drains all accepted concurrent work before returning (1.0275ms)
+✔ C numerical briefs keep numerical route and exact format without changing the original request (6.1939ms)
+✔ C rejects a provider format substitution after billing without purchasing verification (2.9544ms)
+✔ C valid exact-format output is unchanged and other stages pass through (0.3748ms)
+✔ C passage briefs preserve route and conflicting briefs fail before dispatch (0.2787ms)
+✔ a restarted current bank owner blocks recovery even when the saved original PID has ended (154.5508ms)
+✔ unrelated comparison and report processes do not block a drained bank; every other bank writer does (268.3198ms)
+✔ dispatching bank calls block recovery independently of process inventory (267.8768ms)
+✔ a bounded unresolved reservation permits unrelated continuation without erasing the hold or increasing the lifetime ceiling (411.567ms)
+✔ independent processes serialize the same bank lease and cannot displace a live owner (448.7792ms)
+✔ success and typed pre-inference rejection collect separate output/error files exactly once (375.8808ms)
+✔ a failed response with token usage charges that usage instead of zero (455.4594ms)
+✔ unknown server failure keeps its full proven hold and permits only bounded continuation (542.0904ms)
+✔ explicit unexecuted batch expiry settles separately; duplicate identities never release a hold (872.2435ms)
+✔ native Gemini service failures retain exact receipts, full holds and quarantine-only publication across restart (464.3662ms)
+✔ Gemini failed records with usage charge candidate and reasoning tokens instead of guessing zero (381.6767ms)
+✔ missing or duplicate Gemini record identities retain their maximum and block publication (781.0171ms)
+✔ dictionary definitions do not establish a universal both-qualities rule for antonyms (3.2181ms)
+✔ same passage fact is withheld despite different concept labels and pronoun paraphrases (2.9499ms)
+✔ reading novelty guard preserves different facts, quantities, negations and short common answers (1.8532ms)
+✔ publisher passage contracts quarantine mixed chapters, changed stimuli and incomplete groups before RPCs (3.5188ms)
+✔ cross-cohort duplicate detection withholds the newcomer and never modifies prior publication (0.7253ms)
+✔ cross-cohort duplicate failure withholds every sibling in an atomic passage group (0.4704ms)
+✔ a universal exact clause claim cannot replace the supported at-least qualification (0.3351ms)
+✔ loan classification needs a stipulated sequence when reasoning steps can commute (0.5061ms)
+✔ inspection rejects duplicated content despite reordered options and preserves recalculated numericals (0.5023ms)
+✔ similar specific idea and same answer is conservatively withheld, but a broad shared concept is insufficient (0.5518ms)
+✔ invalid evidence is withheld independently of high craft and complete count (0.2751ms)
+✔ paraphrased usage sentences for one named word cannot inflate lexical coverage (0.6766ms)
+✔ changed distractors and concept labels do not create a new question with the same stem, passage and answer (0.5008ms)
+✔ model passes cannot compensate for an unstated financial-enterprise condition in cash-flow classification (0.5336ms)
+✔ relabelled ordering of the same account is one idea; different steps or orders are kept (5.3594ms)
+✔ ordering duplicate rule keeps different units, negated steps and distinct procedures sharing vocabulary (1.744ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ target 10 with Flash batch 8 plans a second sub-batch (2.0592ms)
+✔ normal Flash jobs can generate 8-16 candidates while Pro stays small (0.2607ms)
+✔ every frozen fixture receives only the registered redundant family binding with identical question and blind request content (16.1642ms)
+✔ wrong non-null binding, another source pack, held family or PYQ cannot be silently normalized (1.5718ms)
+✔ an intentional syllabus defect remains rejected after the envelope binding (0.4236ms)
+✔ storage chunks retain every UTF-8 evidence byte and isolate oversized records (2.4722ms)
+✔ many small storage records obey row and byte bounds without losses (0.6327ms)
+✔ full snapshots reduce timed-out pages without dropping or repeating boundary rows (3.1511ms)
+✔ small metadata projections retain normal pagination and storage errors fail closed (1.0711ms)
+✔ lexical briefs avoid already published and preregistered targets (27.3832ms)
+✔ commerce prefers an unused source section without inventing support (0.5065ms)
+✔ missing, exercise-only or unpermitted material returns no supported brief (0.2999ms)
+✔ an ordering stimulus is never recycled; exhaustion is an explicit gap, and the ledger persists across runs (15.1138ms)
+✔ restart immediately recovers a dead local worker without stealing a living process lease (341.7325ms)
+✔ an expired timestamp cannot release a living factory owner, while a dead owner can be reclaimed (369.7788ms)
+✔ a dead dispatch owner recovers as unresolved and never returns to the upload queue (431.3231ms)
+✔ bounded missing usage stays unresolved and committed; unbounded and overrun holds still block (379.7741ms)
+✔ late usage shrinks only its own hold and cannot double settle (316.75ms)
+✔ independent workers serialize reservations under the lifetime cap while retaining a bounded hold (527.7319ms)
+✔ a lost real-time receipt with a persisted key cannot resubmit after restart (312.5994ms)
+✔ native cohort uploads once, preserves per-item reservations and reconciles accepted IDs idempotently (406.5917ms)
+✔ lost grouped acceptance recovers every matching ID from the saved file and metadata without reposting (517.2763ms)
+✔ Gemini grouped responses are mapped by opaque per-item IDs rather than response order (303.7604ms)
+✔ a long-running worker refreshes pending batch status without reposting accepted IDs (215.0654ms)
+✔ a known pre-inference rejection is terminal and cannot repost or block unrelated work as uncertain usage (186.6686ms)
+✔ only one live scheduler may create cohorts; a dead scheduler can recover (315.9036ms)
+✔ unreleased measurement needs explicit staging and is permanently nonpublishing (1.7138ms)
+✔ measurement does not release or downgrade registered production campaigns (0.3761ms)
+✔ phase cap counts holds and reserves conservative next-call maximum (0.4457ms)
+✔ separate processes serialize same-campaign claims and permit disjoint campaign scopes (575.6324ms)
+✔ live owner cannot be displaced after timestamp expiry; candidate overlap blocks (326.1365ms)
+✔ a restarted same-contract campaign can recover its own saved rows after the previous owner exits (456.996ms)
+✔ legacy active worker needs a verifiable disjoint scope proof and queue work blocks all providers (354.0802ms)
+✔ measurement lease does not bypass the persistent lifetime budget cap (343.5297ms)
+✔ profile, explicit mode flags, publish bit, and globally saved candidate IDs fail closed (292.9291ms)
+✔ lease owner can atomically update only its registered candidate rows; future global claims reverse-check leases (357.0447ms)
+✔ frozen registration binds exact A/B inputs and only proves the live baseline worker from its real Node path and frozen scope (346.7508ms)
+✔ cooperative STOP_AFTER_WAVE marker is observed at a boundary without deleting its evidence (5.6936ms)
+✔ a concurrent cohort is not added to preparation or gross costs of an earlier cohort (1.6277ms)
+✔ pending holds and failed receipts use persisted request identity without assuming zero (0.2267ms)
+✔ C coverage refuses pending reassessment and excludes stale content and whole rejected passage units (3.6605ms)
+✔ C preparer gate requires 100 terminal rows in each comparison arm and 662 terminal bank dispositions (13.7015ms)
+✔ C fixed cohort has exactly 25 candidates for each of the four authorized subjects (0.5286ms)
+✔ current reassessment tags alone rebuild topic counters; conflicting, missing, and stale matches stay unclassified (0.894ms)
+✔ novelty context retains rejected and pending attempts without treating them as usable coverage (0.5501ms)
+✔ historical parent references rank derived teaching excerpts without changing saved source evidence (0.4363ms)
+✔ C pins transport, source selection, budget and repair dependencies before dispatch (5.1632ms)
+✔ C retrieval exposes only verified teaching facts while its validation registry preserves historical source facts (90.0023ms)
+✔ private NCERT source overlay pins document/page identities and separates the chapter alias from selection (3830.0277ms)
+✔ restart waits for the persisted live worker before starting one continuation worker (87.3077ms)
+✔ a recycled worker PID with a different creation identity is never mistaken for the saved C worker (45.0328ms)
+✔ a completed fixed cohort is recorded and never launches another worker (7.1375ms)
+✔ worker error stops the continuation instead of relaunching saved work (10.8623ms)
+✔ pending worker-stage error stops even when the worker catches it and exits zero (10.7021ms)
+✔ native polling uses capped exponential backoff and reports only terminal cohort completion (0.9472ms)
+✔ 100 terminal candidates do not complete C while accepted native request accounting is blocked (18.4207ms)
+✔ terminal bounded failure holds count as complete, but an accepted native batch still blocks C (1.2281ms)
+✔ ownerless lock fails closed without deleting a lock that another supervisor may still be initializing (7.346ms)
+✔ stop request drains a verified saved worker before returning a stopped state (11.2187ms)
+✔ concurrent stale-lock recovery allows one owner and preserves its lease (6.5618ms)
+✔ normalizes only complete statement sets and preserves semantic sets and non-option data (6.0734ms)
+✔ does not guess when a leading label may be legitimate option meaning (0.2914ms)
+✔ does not normalize non-target types, invalid keys, duplicate letters, or malformed combinations (0.296ms)
+✔ repair route guard rejects route changes rather than rewriting routes or assumptions (0.5832ms)
+✔ repair route guard blocks orphan passage and passage-text invention/change (0.2665ms)
+✔ unchanged standalone non-passage and grouped passage routes are allowed (0.2061ms)
+✔ isolated C resumes saved receipts after restart without reposting accepted batches or completed requests (2375.2448ms)
+✔ a foreign candidate late in the queue blocks every submission rather than consuming the earlier scoped chunks (567.4608ms)
+✔ an interrupted later native submission retains its exact uncertain keys and never reposts accepted batches (794.3879ms)
+✔ profile identity is exact and unsupported mode/provider overrides cannot dispatch (300.4074ms)
+✔ Luna uses realtime flex with a standard-priced conservative reservation and replays saved content without dispatch (381.3922ms)
+✔ flex-capacity fallback reuses the same dispatch-time price snapshot and remains inside the phase maximum (484.1703ms)
+✔ Gemini batches at most one ten-item wave, preserves original prices over restart, and replays saved receipts without reposting (1171.3803ms)
+✔ phase cap blocks on the conservative next-request maximum and includes a concurrent in-flight hold (322.0922ms)
+✔ flush refuses more than ten queued Gemini requests and does not consume any provider call (655.2073ms)
+✔ flush refuses an unrelated queued OpenAI batch instead of dispatching it through the Gemini delegate (255.862ms)
+✔ all six allowlisted completed native responses replay without fetch or new reservations (2.9496ms)
+✔ unknown keys and changed request bodies fail closed under cache-only replay (1.2483ms)
+✔ recovery planner rejects keys outside the fixed allowlist and changed saved-body digests (0.568ms)
+✔ typed credit refusals quarantine with an explicit pre-inference reason and never materialize (0.494ms)
+✔ restart is idempotent and refuses to overwrite a changed recovered job (0.5399ms)
+✔ apply refuses live worker/controller and commits only the frozen row snapshot (5.9785ms)
+✔ a terminal failed quarantined item retains its hold while unaffected approved items can publish (1.6552ms)
+✔ publication readiness reads actual SQLite reservations and terminal receipts, preserving failed holds (501.6545ms)
+✔ accepted pending requests, unknown acceptance and invalid identities never permit publication (0.3336ms)
+✔ an uncertain failed request on an approved item cannot be hidden behind another passing check (0.1554ms)
+✔ Gemini native errors require terminal batch state, exact metadata identity and quarantine (0.334ms)
+✔ completed comparable cohorts retain failures and preparation is added only once (1.8465ms)
+✔ partial approvals never become reliability or final unit-cost evidence (0.2142ms)
+✔ conservative held costs remain gross and explicitly unsettled (0.2245ms)
+✔ bounded receipt-only failures do not deadlock unrelated provider work or masquerade as finished (1.23ms)
+✔ four active cohorts, a reached content ceiling or an unbounded hold prevent expansion (0.6055ms)
+✔ the usable target prevents more candidate registration but accepted work must still finish (0.2153ms)
+✔ unused concurrency does not buy another cohort while accepted candidates can fill the gap (0.9973ms)
+✔ terminal conservative receipt holds never supply fictitious delivery capacity (0.2522ms)
+✔ completed academic dispositions remain inspectable with an unresolved provider hold (1.9364ms)
+✔ a nonterminal candidate or pending report refuses inspection (0.8422ms)
+✔ publication policy changes and duplicate or missing IDs refuse the measurement scope (0.7325ms)
+✔ stale content and forged signatures remain proposed evidence failures (7.2709ms)
+✔ a valid reference excerpt is not reported as independent answer or explanation support (1.0465ms)
+✔ new catalog avoids provider-rejected newlines while retaining exact contiguous source substrings (1.0654ms)
+✔ accepted v2 requests preserve the full revised body and its original persistent key (1.5639ms)
+✔ quote choices are bounded exact source substrings, never invented text (0.3303ms)
+✔ old requests and all validation stages preserve their original transport contract (0.2272ms)
+✔ new authoring schema and full revised body bind the persistent cache key (0.7652ms)
+✔ v75 pins the exact v7.4 parent and layers its own additive files (126.1662ms)
+✔ a changed v7.4 parent hash stops v75 until a new binding is created (15.9156ms)
+✔ v75 judge instructions are appended after v7.4 on every provider and the objective reaches the evaluator without the key (53.1208ms)
+✔ the blind view carries no proposed key, explanation, option analysis or author rationale (0.5352ms)
+✔ v75 scopes cache and stamps results with the v7.5 version, prompt hash and contract (113.3477ms)
+✔ preparation value gates the CUET-fit stage only and keeps correctness results untouched (39.9978ms)
+✔ verification quarantines a candidate without a learning objective before any paid stage (14.8524ms)
+✔ author schema requires learning_objective and the prompt carries the v7.4 and v7.5 contracts (1.6724ms)
+✔ author gate: blocking preparation findings throw a typed error, abstention keeps its v7.4 type (2.8605ms)
+✔ v76 pins v74 and binds each academic additive file without inheriting the v75 policy (102.6436ms)
+✔ a changed parent hash fails closed (16.1567ms)
+✔ every provider receives the contextual instructions and key-free objective only (53.8356ms)
+✔ explanation instructions adapt all providers without mutating caller bodies or other stages (0.4807ms)
+✔ v74, v75 and v76 have independent cache and provider-request identities; changed objective misses cache (169.4395ms)
+✔ mandatory academic predicates remain fail-closed in inherited structured judgments (557.3778ms)
+✔ verification preserves every required stage and immediately quarantines failures and key contradictions (163.6354ms)
+✔ missing objective quarantines before any model adapter; authenticated originals retain parent duties (14.4285ms)
+✔ a credit-refused request can be sent again with the same key once credit returns, and costs nothing while refused (421.517ms)
+✔ a schema rejection stays permanently rejected and an ordinary rate limit keeps its hold (379.9876ms)
+✔ flex requests are billed at the flex rate only when the provider reports flex, otherwise at standard (718.9373ms)
+✔ a flex capacity refusal costs nothing and the same request is repeated once at the standard tier (357.4183ms)
+✔ original practice works without a global authenticated comparator and keys never enter blind views (1.7024ms)
+✔ authentic and adapted PYQ provenance still require an exact authenticated anchor and matching format (0.2461ms)
+✔ numeric route and format disagreement is visible without rewriting or overriding required checks (0.579ms)
+✔ prospective binding is deterministic and refuses missing frozen parent hashes (0.909ms)
+✔ frozen A/B worker stays byte-bound and measurement registrations remain non-publishable (35.867ms)
+✔ v76 rejects the frozen measurement profile before any staging dependency can be used (12.1174ms)
+✔ exact current V76 profile passes the software gate without campaign policy added to profile (179.8791ms)
+✔ measurement, missing settlement, stale candidate binding and wrong source profile fail before writes or inventory (323.675ms)
+✔ changed content and missing current mandatory check fail before writes even with refreshed run hash (197.846ms)
+✔ current inventory duplicate withholds entire campaign before preparing target (152.2602ms)
+✔ incomplete registered passage group fails before target preparation (206.7409ms)
+✔ cleanup executes when target preparation throws (152.2485ms)
+✔ staging control restores complete prior snapshot on successful and failed enable (1.3184ms)
+✔ the default trusted evaluator rejects unsigned mock evidence before inventory and writes (136.4651ms)
+✔ a bank duplicate introduced during preparation prevents the callback and restores lifecycle (123.7718ms)
+✔ CUET fit: direct recall at PYQ level passes; easy is not poor (1.3608ms)
+✔ CUET fit: anchors drive a deterministic pass/fail, never a model-chosen overall (0.3405ms)
+✔ CUET fit: time is a heuristic estimate, not an observed timing rule (1.3667ms)
+✔ reading reference uses authenticated subject and format examples and reports thin or missing samples (0.4209ms)
+✔ answer conditions: only unstated, merely implied or concluded decisive assumptions block; conventions need evidence (0.5584ms)
+✔ alternative-reading challenge: a reasonable reading that makes another option correct blocks; a strained one does not (0.5344ms)
+✔ chapter labels inside one syllabus unit are a relabel, not a rejection; a different unit is (2.9488ms)
+✔ mandatory defects stay blocking; style notes never block (0.6818ms)
+✔ V7 flow: a sound item is eligible under every topology and the record verifies independently (117.3285ms)
+✔ V7 flow: single-validator topologies make fewer paid calls; hidden-key solving is blind (24.6288ms)
+✔ V7 flow: wrong key, blocking defects, undeclared decisive assumptions and weak CUET fit all reject (50.7334ms)
+✔ V7 flow: disagreement between validators and a failed explanation audit reject (26.211ms)
+✔ V7 evidence is tamper-evident and student retrieval needs a measured release (20.2046ms)
+✔ quote integrity: exact, whole short definitions and line-joined verbatim spans pass; paraphrase and fabrication do not (0.6928ms)
+✔ option label prefixes are stripped only when uniform and sequential, and never from matching-style options (0.8942ms)
+✔ reading load above the observed maximum does not fail by itself (0.0975ms)
+✔ the registration is a fixed 40: 10 per subject, one repair, no replacement, measurement only, cap at most USD 3 (4.1085ms)
+✔ publication is never possible: policy flips are refused and no pilot file has a publication path (419.2063ms)
+✔ preparation refuses to write without an explicit choice and the runner needs --approved (412.0056ms)
+✔ an idea gap is recorded and replaced only at preparation by a different route of the same subject; the plan stays 10 per subject (4386.2132ms)
+✔ after registration there is no replacement path: a brief without a permitted source is refused, and the engine has no planner (0.6318ms)
+✔ two consecutive waves under 40% yield stop the campaign and leave the rest untouched (3.3273ms)
+✔ a weak wave followed by a good one resets the count; 40% exactly is not weak (2.4098ms)
+✔ at most one targeted repair and one revalidation, then quarantine; unrepairable defects are not repaired (2.8794ms)
+✔ a preparation-value block at authoring keeps the candidate and consumes the single repair (4.2762ms)
+✔ abstention and authoring errors quarantine without replacement, and three provider-transport losses in a row stop the campaign (1.9072ms)
+✔ avoidance is sealed from earlier waves before a job authors, and closure withholds duplicates and rejected-sibling groups (1.4294ms)
+✔ a persistent ledger reservation exists before every provider call and settles to the receipt (177.8422ms)
+✔ the campaign cap is checked against exact committed spend plus the next maximum, before any reservation or network call (103.8357ms)
+✔ settled keys replay from the saved receipt, accepted-but-unsettled keys are never resent, and out-of-scope candidates are refused (146.7201ms)
+✔ a stop request drains: no new reservation is made, saved receipts still replay (184.5198ms)
+✔ resume after a stop does not resend any settled or accepted key, and finishes the same fixed 40 (2992.0339ms)
+✔ a saved state must belong to the same campaign and denominator (2.7524ms)
+✔ answer-position analysis reports overall, per subject, per passage group and run lengths (0.7115ms)
+✔ the conservative maximum is built from the frozen request builders and exceeds the cap only as a theoretical bound (1.2187ms)
+✔ export of an unstarted pilot reports 40 untouched candidates and publishes nothing (5.5913ms)
+✔ the production author and validator are the v7.5 stack: learning objective required, abstention fields, blind Luna first, no key leaked (3836.9001ms)
+✔ partial comparison and unreleased calibration never inherit stale cost forecasts (2.9544ms)
+✔ snapshot keeps the full $50 cap, unresolved holds, and historical pilot while exposing current baseline (0.7039ms)
+✔ staging update patch contains only snapshot and timestamp, preserving all controls by omission (0.1736ms)
+✔ refuses the wrong project, a changed cap, and a 99-item baseline (1.8029ms)
+✔ CLI requires the explicit exact staging identity before reading credentials or connecting (0.4872ms)
+✔ campaign state summary counts durable eligibility and quarantine, keeping generated as pending (0.2611ms)
+✔ live paid work does not alter the metadata-only patch or remove held cost projections (0.5773ms)
+✔ latest JSONL row wins and only contract/hash-matching terminal results close the denominator (4.5399ms)
+✔ dry-run withholding is atomic for passage groups and never labels unresolved groups eligible (1.2369ms)
+✔ legacy released v6 manifest cannot unlock current CUET publication (6.3386ms)
+✔ exact current dual-blind binding passes the current release predicate (5.9139ms)
+✔ stale validation hash, prompt, source version, or effort/provider policy fail closed (42.5248ms)
+✔ actual release builder counts both false-accept lists and roundtrips to frozen/runtime predicates (10.1475ms)
+✔ release builder fails closed if either false-accept list is missing (0.8476ms)
+✔ release producer marks benchmark completed only after the assessment passed (5.5869ms)
+✔ DeepSeek generation uses model-specific timeout and message (1.024ms)
+✔ DeepSeek timeout or empty response retries once with smaller batch before DeepSeek fallback (0.2424ms)
+✔ legacy generation keeps explicit optional Kimi and credential-dependent DeepSeek routing (0.6466ms)
+✔ DeepSeek health disables Pro after repeated empty or timeout responses (0.2413ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[json_recovery] {
+  direct_parse_ok: false,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: false,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: true,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+✔ content empty plus reasoning_content length finish reason length is not parsed blindly (1.6391ms)
+✔ finish_reason length with partial objects extracts complete questions only (4.4093ms)
+✔ Flash invalid JSON attempts repair before selfCheck (4.9583ms)
+✔ repaired invalid objects are dropped (0.5628ms)
+✔ reasoning exhausted output budget participates in Pro health handling (0.2672ms)
+✔ DeepSeek Pro, Flash, Chat are the generation priority order (1.0594ms)
+✔ GPT is not present in generation model constants or worker generation fallback (0.3818ms)
+✔ OpenAI generation override is blocked when disabled, while GPT validator models remain configured (0.153ms)
+✔ all DeepSeek generation failures defer the job instead of generating with GPT (0.2472ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ extractGenerationText parses choices[0].message.content (0.8529ms)
+✔ extractGenerationText parses alternate response shapes (0.2756ms)
+✔ reasoning_content is accepted only when it contains final JSON (0.919ms)
+✔ raw shape log omits content while reporting shape (0.9283ms)
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[english_mode] {
+  chapter: 'Narrative Passage',
+  mode: 'passage_rc',
+  requires_passage: true,
+  passage_type: 'narrative',
+  allowed_in_quick_practice: false
+}
+[english_mode] {
+  chapter: 'Narrative Passage',
+  mode: 'passage_rc',
+  requires_passage: true,
+  passage_type: 'narrative',
+  allowed_in_quick_practice: false
+}
+[english_mode] {
+  chapter: 'Reading Comprehension',
+  mode: 'passage_rc',
+  requires_passage: true,
+  passage_type: 'factual',
+  allowed_in_quick_practice: false
+}
+[english_mode] {
+  chapter: 'Prose',
+  mode: 'passage_rc',
+  requires_passage: true,
+  passage_type: 'prose',
+  allowed_in_quick_practice: false
+}
+[english_mode] {
+  chapter: 'Vocabulary',
+  mode: 'vocabulary',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[english_mode] {
+  chapter: 'Grammar',
+  mode: 'grammar',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+✔ Para Jumbles maps to para_jumble without passage (3.0262ms)
+✔ passage chapters map to passage_rc (1.3393ms)
+✔ Vocabulary and Grammar map to standalone modes (0.6342ms)
+[english_mode] {
+  chapter: 'Narrative Passage',
+  mode: 'passage_rc',
+  requires_passage: true,
+  passage_type: 'narrative',
+  allowed_in_quick_practice: false
+}
+[passage_group] normalized {
+  passage_id: 'passage_1',
+  temporary_group_key: 'tmp_passage_1_1',
+  linked_question_count: 4,
+  has_passage_text: true,
+  has_group_id: false
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 4,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 4
+}
+[passage_group] normalized {
+  passage_id: 'passage_1',
+  temporary_group_key: 'tmp_passage_1_1',
+  linked_question_count: 4,
+  has_passage_text: true,
+  has_group_id: false
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 4,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 4
+}
+[passage_group] normalized {
+  passage_id: 'passage_1',
+  temporary_group_key: 'tmp_passage_1_1',
+  linked_question_count: 5,
+  has_passage_text: true,
+  has_group_id: false
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 5,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 5
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 1,
+  flattened_questions: 0,
+  structural_rejected: 5,
+  normalized_count_before_selfcheck: 0
+}
+✔ English NTA passage chapters require passage mode (1.9229ms)
+✔ passage_group normalizes children with temporary group key (1.4742ms)
+✔ passage groups are excluded from quick practice and included in NTA mode (0.472ms)
+✔ passage mode requires enough generated children before self-check (0.4631ms)
+✔ permutation helper rejects repeated or missing labels (1.9584ms)
+✔ selfCheck accepts mature para jumble with valid close permutations (4.5996ms)
+✔ selfCheck rejects invalid para jumble permutations and missing ordering logic (1.1886ms)
+✔ selfCheck rejects childish obvious para jumble story (0.4526ms)
+✔ selfCheck rejects passage child without passage text (1.6561ms)
+✔ blind checks never receive generator key or explanation; cached verdicts preserve exact IDs (362.6101ms)
+✔ duplicate stems stop before paid stages and one failed targeted repair stays quarantined (424.7684ms)
+✔ empty or family/source-overlapping academic benchmarks cannot release (0.6617ms)
+✔ evidence signatures survive nested JSONB key ordering while array order and content remain bound (1.5169ms)
+✔ valid legacy signatures remain accepted as signatures, while a modified record is untrusted (0.9378ms)
+✔ a nullable database index cannot override a real letter key (0.7492ms)
+✔ pending, unbalanced, historical and realtime cohorts cannot authorize scaling (11.3729ms)
+✔ cost denominator excludes duplicates and includes rejected candidates and full spend (2.3396ms)
+✔ source documents alone and legacy tags cannot claim syllabus coverage (0.741ms)
+✔ local test claims and a production ref cannot substitute for authenticated staging (0.5883ms)
+✔ dissolution aliases count as one official chapter rather than missing coverage (0.9015ms)
+✔ a completed historical probe cannot qualify a revised verifier (0.1967ms)
+✔ freeze refuses previously observed anchors and shared passage units (7.9995ms)
+✔ only the ledger-bound frozen fixture can claim unseen evaluation (14.356ms)
+✔ factory-authored valid explanation is evaluated later without rewriting the frozen official item (9.1901ms)
+✔ a historical passage exceeding the current English word limit cannot be a positive release fixture (0.6091ms)
+✔ a different payload cannot recycle previously frozen official holdout units (2.714ms)
+✔ original practice builds full context with no matched global comparator and explicitly annotates the gap (18.2077ms)
+✔ authenticated PYQ without its exact authenticated anchor fails closed (15.6667ms)
+✔ authentic PYQ context requires exact anchor plus the existing calibration pool and strips all key data (15.8445ms)
+✔ reserved benchmark anchors are excluded before optional selection (11.9656ms)
+✔ v7.3 binds every parent and additive file and isolates prompt/cache identity from v7.2 (10.1957ms)
+✔ v7.3 preserves all v7.2 stage requirements, including numeric checks (0.3556ms)
+✔ v7.3 retains the existing CUET/key/condition/alternative hard verdicts verbatim (0.6908ms)
+✔ only a reconciled conservative hold permits unrelated items after uncertain acceptance (0.9604ms)
+✔ an affordable hold never bypasses the ceiling, input bound, pricing or live-worker guards (0.1669ms)
+✔ exhausted provider credit stops the factory without judging any candidate (0.1576ms)
+✔ unauthenticated model-list probes send no inference body, authorization or redirect (3.0048ms)
+✔ certificate failure stops before any worker launch and retains structured cause (0.5336ms)
+✔ server errors and one unavailable provider refuse launch (0.736ms)
+✔ successful probes preserve exact arguments and enforce system CA in child (1.2273ms)
+✔ unregistered launch targets and unbounded probes are refused (0.7852ms)
+✔ profile binds exact v7.3 contract, source registry and current release (132.7731ms)
+✔ pinning clones only unpinned new jobs and preserves their other fields (29.5611ms)
+✔ student evidence rejects unknown v7 versions and requires the exact current v7.3 release (47.2381ms)
+✔ evaluation cache identity separates validation-contract hashes (0.4121ms)
+✔ v76 profile binds current release, source registry and exact current academic contract (190.4373ms)
+✔ unknown fields, old versions and changed bindings fail closed without profile fallback (237.0463ms)
+✔ scoped flush dispatches matching saved identities and leaves foreign queued requests unchanged (499.2341ms)
+✔ maxRequests is a total cross-provider wave bound, not a per-provider bound (727.1837ms)
+✔ scope rejects invalid candidate lists and request bounds before touching queued rows (285.2369ms)
+✔ accepted batch IDs survive restart and scoped flush never resubmits them (355.7283ms)
+✔ topic-rich exercises cannot displace the decisive normative formula (2.4035ms)
+✔ four lexical definitions support matching briefs and vary deterministically across gaps (14.2315ms)
+✔ a stored excerpt hash mismatch fails closed before generation (0.6112ms)
+✔ read-only reporting retains conservative holds, excludes unrelated spend, and cannot write (348.5689ms)
+✔ accepted evaluations keep their request identity without entering a dispatch path (0.274ms)
+✔ custody coverage is exact and rejects duplicate, omitted, or unrelated positive keys (0.335ms)
+✔ in-flight maximum reservations serialize against one cap and reject the racing overrun (0.4146ms)
+✔ offline capture requires the real blinded phase, candidate identity, and hidden key canary (0.6298ms)
+✔ fresh and regression evidence retain distinct preregistered honesty roles (0.274ms)
+✔ authentic CUET PYQ provenance is preserved only in regression fixtures (0.2436ms)
+✔ preflight requires a unique complete candidate-provider-phase matrix within a conservative byte bound (0.7117ms)
+✔ saved errors stay terminal; only known pre-dispatch refusals can retry the same key (0.2351ms)
+✔ completed terminal fixture resumes only Haiku and preserves the saved dual-blind verdict (0.918ms)
+✔ accepted Haiku guard record is promoted without dispatch and keeps the completed verdict (0.2939ms)
+✔ missing Haiku resumes through the deterministic transport key and its accepted-request guard (0.3241ms)
+✔ native request lookup treats complete receipts as replayable and unresolved requests as no-resubmit (0.5039ms)
+✔ provider denominators expose every provider and never mark Haiku complete with gaps or errors (0.3013ms)
+✔ immutable plan guard checks provider set, cost cap, denominator, code/input hashes, and registry snapshot (0.4001ms)
+✔ regression registration retains both validators and refuses a fresh Haiku role or reduced topology (0.31ms)
+✔ regression blinded preflight requires exactly Luna and Gemini for every case (0.4131ms)
+✔ v76 qualification binds two independent validators and shared immutable budget scope (1.5762ms)
+✔ one qualification owner blocks duplicate fresh/regression runners and preserves drained owner history (13.5213ms)
+✔ V77 freeze binds raw artifact, embedded contract, prompt, and every frozen core file (15.2554ms)
+✔ release binding preserves the frozen V7 thresholds while selecting the V77 verifier (24.5234ms)
+✔ authorization is bound to both fixed studies, exact freeze, prefix, and shared cap (0.6418ms)
+✔ request sizing guards the final complete provider body in UTF-8 bytes (0.3286ms)
+✔ shared lifetime reserve fails closed at the exact approved ceiling (0.2452ms)
+✔ pricing evidence must remain in date for any prospective study action (0.19ms)
+✔ one phase lease blocks live or uncertain owners and archives dead/drained ownership (8.6465ms)
+✔ execution plan binds the immutable prefix, scope, reserve, and topology (31.0641ms)
+✔ a relabeled V76 specimen cannot qualify as a fresh V77 case (2.3442ms)
+✔ fresh/regression registration slots require their own classification and disjoint fixture IDs (0.5402ms)
+✔ fresh registration rejects case/custody timestamps that predate the V77 contract freeze (0.4708ms)
+✔ same fixed case may retry a guard-blocked key, while accepted or uncertain requests stay receipt-only (0.2511ms)
+✔ prior-case fingerprint normalizes string and object options identically (0.2085ms)
+✔ release evidence stays pending until complete rows and receipts exist, then blocks contested invalids (59.8803ms)
+✔ completed release evidence rejects non-boolean regression labels and contested fresh rows (98.0324ms)
+✔ transport freeze dependency list is sorted, closed, and excludes mutable price inputs (1.0397ms)
+✔ native dispatch bounds the materialized Flex body and makes exactly one no-fallback attempt (1.0057ms)
+✔ native dispatch stops before provider call when the shared cap has no reserve headroom (0.4349ms)
+✔ accepted or uncertain native key is receipt-only and never reaches generate again (0.3557ms)
+✔ the production accepted-request predicate is wired to a real temporary ledger DB (241.8736ms)
+✔ saved cache or receipt path remains readable with noFlex and without creating a new reservation (0.351ms)
+✔ receipt-only recovery replays a completed SQLite cache and leaves a missing next stage pending (258.1132ms)
+✔ one real quotation cannot conceal a fabricated second quotation (1.1131ms)
+✔ empty author support is withheld and a changed registered excerpt fails closed (0.5179ms)
+✔ rule 1: the publishable topology keeps every validator (5.5789ms)
+✔ rule 1: a reduced topology can never be released to students (0.46ms)
+✔ rule 2: effort levels are explicit, stamped and limited to measured settings (3.56ms)
+✔ rule 3 and 5: waves, descriptive PYQ reference and the calibrated plan are bounded (11.8274ms)
+✔ rule 4: the per-question loop sends no tools, so no web search is billed (1.2423ms)
+✔ rule 9: v7 records keep the policy literal the publication RPC accepts (4.9385ms)
+✔ rule 2: effort policy is medium only for English word-meaning formats and high everywhere else (0.3697ms)
+✔ intent is durable before the marker; restart with the same job is idempotent and never releases it (145.7271ms)
+✔ a crash after intent before the index or registration marker cannot free the reserved source (149.0904ms)
+✔ complete unrenamed intent checkpoints are consumed; an incomplete checkpoint blocks rather than resets (139.8005ms)
+✔ exact registration commits once; missing or changed markers never release committed or uncertain allocations (192.0705ms)
+✔ registration must follow intent and a job cannot be moved to another registration (78.0183ms)
+✔ an absent registration marker belongs to one permanent intent, even when another campaign uses disjoint refs (82.6831ms)
+✔ partial matching lexical overlap is blocked across campaigns beyond exact bundle equality (130.6393ms)
+✔ matching reuse is explicit and configurable; identical bundles still cannot be relabelled (155.357ms)
+✔ prior inventory and unsuccessful attempts consume keys read-only; historical V75 rows are never reset (119.1ms)
+✔ matching history without a format and partial candidates with only envelope format still consume lexical refs (26.8161ms)
+✔ live and uncertain owners are refused; nonce ownership is checked before every mutation (27.9803ms)
+✔ a dead owner is archived with its nonce, while missing metadata or uncertain recovery stays blocked (151.536ms)
+✔ a separate live process excludes another campaign; after exit its reserved intent still excludes competitors (529.5472ms)
+✔ isolated tests do not create the default V76 allocation file (0.3401ms)
+[json_recovery] {
+  direct_parse_ok: true,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: false,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: false,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: true,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 1,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: true,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: false,
+  extracted_objects: 0,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: true,
+  extracted_objects: 2,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 1,
+  used_model_repair: false
+}
+✔ repairs markdown-wrapped JSON and preserves valid question (3.6406ms)
+✔ removes commentary outside JSON (1.4654ms)
+✔ drops incomplete truncated question while keeping complete objects (0.7557ms)
+✔ drops question containing meta-commentary (0.3953ms)
+✔ drops contradictory answer_check (0.3048ms)
+✔ returns empty array if no valid questions remain (1.0285ms)
+✔ does not create new questions (0.3327ms)
+✔ exports structural helpers (0.4146ms)
+✔ extractJsonCandidates reports partial object recovery (0.3198ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'english',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'english',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+[english_mode] {
+  chapter: 'Vocabulary',
+  mode: 'vocabulary',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'english',
+  expected_chapter: 'Vocabulary',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+✔ Kimi A/B harness writes no-publish comparison report (40.6957ms)
+✔ A/B harness does not switch production provider automatically (11.2115ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ Kimi cost estimate uses env pricing defaults (1.3716ms)
+✔ model usage breakdown cost_usd is nonzero when token usage exists (0.213ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[kimi_health_debug] {
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  request_has_authorization_header: true,
+  status: 200,
+  error_type: null,
+  error_message: null
+}
+[kimi_health] { ok: true, model: 'kimi-k2.6', latency_ms: 0, error: null }
+[kimi_models] { ok: false, model_ids: [], error: 'models_http_500' }
+[kimi_models] {
+  ok: true,
+  model_ids: [ 'kimi-k2.6' ],
+  configured_model_available: true
+}
+✔ Kimi config defaults safely and missing key disables provider (0.8116ms)
+✔ Kimi chat completion parser handles choices message content and missing usage (1.0995ms)
+✔ Kimi model discovery handles /models failure without crashing (0.3793ms)
+✔ Kimi model discovery lists configured models (0.3085ms)
+✔ GENERATOR_PROVIDER=kimi uses Kimi when explicitly enabled (243.0066ms)
+✔ Kimi disabled falls back to DeepSeek routing and never GPT generation (228.1364ms)
+✔ premium mode still routes validators separately in source (264.9497ms)
+✔ source locators tolerate PDF word spacing but retain exact bytes and Unicode offsets (6.0604ms)
+✔ absent, invented, empty and repeated source locators fail closed (0.6389ms)
+✔ measurement inspection checks current signed evidence without treating an absent release as an academic defect (0.9067ms)
+✔ measurement inspection cannot authorize a publishable profile or bypass the real signature/release checks (0.9149ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ Flash selected for simple standalone questions (0.8771ms)
+✔ Pro selected for passage, mathematics, and exact-anchor Physics numerical/application tasks (0.1503ms)
+✔ low-confidence anchors no longer force Pro for normal jobs (0.1137ms)
+✔ GPT is never selected for generation (0.2746ms)
+✔ Gemini is primary repair provider and GPT-4o-mini is repair fallback or validator only (0.3121ms)
+✔ DeepSeek Chat is final repair fallback (0.2484ms)
+✔ Pro disabled after repeated reasoning exhausted output budget (0.1494ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ Flash is selected for normal speed-first jobs (0.8466ms)
+✔ Pro is selected only for complex jobs (0.1801ms)
+✔ GPT is never selected for generation (0.158ms)
+✔ English numbered sections retain exact chapter-specific official phrases (1.8249ms)
+✔ English coverage fills an official section only on independent tag agreement (14.0008ms)
+✔ Planning selects its official unit, without management keywords importing other units (0.3645ms)
+✔ the two Accountancy Unit V alternatives remain separate (0.3622ms)
+✔ repeated Economics unit numbers and the missing colon preserve exact entitlement (0.4048ms)
+✔ Money & Banking questions align exactly to platform taxonomy (1.1502ms)
+✔ wrong chapter Economics questions are not kept in Money & Banking (0.3099ms)
+✔ offline dedupe rejects repeated candidates in the same batch (1.737ms)
+✔ offline generator creates unique valid raw questions with required fields (15.662ms)
+✔ offline schema rejects meta stems and rationale-option mismatch (0.4567ms)
+✔ offline mini validator permits direct wording and catches an extreme option giveaway (8.6388ms)
+✔ offline dry-run import does not write DB (57.8446ms)
+✔ offline write is blocked unless OFFLINE_IMPORT_ALLOW_DB_WRITE is true (53.1053ms)
+✔ generated offline batch files are valid JSON with 10 questions each (36.8077ms)
+✔ rejects a V76-style false challenge with no clause proof (1.3197ms)
+✔ rejects the preserved V76 accepted disputed judgment under the V77 gate (6.3556ms)
+✔ requires exact coverage of all four printed options and the selected key (0.8238ms)
+✔ quarantines category-only unresolved and multiple fully supported alternatives (0.4743ms)
+✔ a complete conjunction with one supported and one contradicted proposition is rejected as a full option (0.3263ms)
+✔ rejects forged model-returned spans that do not match trusted source text (0.1358ms)
+✔ requires candidate and content identity on every option matrix (0.1986ms)
+✔ verifier rejects cache-hit identity omissions and mock records before stamping (64.6288ms)
+✔ a valid option matrix cannot promote a failed inherited academic result (0.395ms)
+✔ checks parent binding and adds the required strict matrix schema to real provider body shapes (30.0687ms)
+✔ structural request-only factory capture adds each version once and isolates request/cache identity (138.2591ms)
+✔ full offline verification audits semantic and valid uncertainty cases (893.2843ms)
+✔ accepts sound, easy stem deduction when all printed option text is covered (0.478ms)
+✔ accepts arithmetic reasoning when each stated input is cited as a premise (0.2665ms)
+✔ adapter preserves job identity, every decisive excerpt and request semantics while applying a new cache contract (2.4392ms)
+✔ cache key separates v7.4 authoring requests while non-authoring requests pass through unchanged (0.5636ms)
+✔ adapter refuses identity drift or incomplete source excerpts before transport dispatch (0.8349ms)
+✔ adapter returns model output verbatim without post-generation explanation cleanup (0.3014ms)
+✔ actual authorOriginal-shaped request supports explicit source abstention before any validator path (1.7847ms)
+✔ v76 author retains complete sources, identity, v74 explanation contract and abstention schema (3.2949ms)
+✔ invalid identity/source requests fail before transport and non-authoring passes through (1.0573ms)
+✔ genuine missing objective blocks authorship; cues alone do not; explicit abstention keeps typed provenance (4.6272ms)
+✔ passage group normalizer publish helper defaults to at least two validated children (1.4464ms)
+✔ child without parent passage metadata cannot publish as group (1.6748ms)
+✔ order_index can be preserved by sorting children (1.0982ms)
+✔ balanced passage group publishes as partial with two accepted children when passage passes (1.0938ms)
+✔ speed passage group publishes with two accepted children (0.34ms)
+✔ premium passage group requires at least three accepted children (0.238ms)
+✔ passage below quality threshold rejects whole group (0.2529ms)
+✔ partial group creates refill payload (0.2753ms)
+[passage_group] normalized {
+  passage_id: 'passage_1',
+  temporary_group_key: 'tmp_passage_1_1',
+  linked_question_count: 5,
+  has_passage_text: true,
+  has_group_id: false
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 5,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 5
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 0,
+  structural_rejected: 1,
+  normalized_count_before_selfcheck: 0
+}
+[normalizer] {
+  raw_questions: 1,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 1,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 1
+}
+[normalizer] {
+  raw_questions: 1,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 1,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 0,
+  structural_rejected: 1,
+  normalized_count_before_selfcheck: 0
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 1,
+  flattened_questions: 0,
+  structural_rejected: 5,
+  normalized_count_before_selfcheck: 0
+}
+✔ passage_group questions flatten with passage metadata (4.8606ms)
+✔ missing passage_text rejects passage group children (0.4994ms)
+✔ standalone questions still normalize normally (1.3343ms)
+✔ requires_passage rejects raw questions output before selfCheck (0.3489ms)
+✔ requires_passage requires at least 4 linked children (0.8938ms)
+✔ passage central idea with plausible distractors passes (8.2435ms)
+✔ vocabulary without passage context fails (1.3995ms)
+✔ vocabulary-in-context with phrase and evidence passes (2.4875ms)
+✔ central idea stem is not rejected as direct definition in passage mode (1.971ms)
+✔ author purpose stem is not rejected as direct definition in passage mode (1.7845ms)
+✔ vocabulary-in-context fails when quoted phrase is absent from passage (1.1209ms)
+✔ passage child without group id cannot pass passage selfCheck (1.7386ms)
+✔ repair layer cannot bypass selfCheck (1.2267ms)
+✔ repaired question cannot publish without validation (0.2396ms)
+✔ no unvalidated publish and no fallback publish are still guarded (0.1807ms)
+✔ GPT and Gemini are not original generation providers (2.164ms)
+✔ premium quality rejects trigger explicit retry guidance (0.4132ms)
+✔ Quick Practice excludes passage groups and passage-linked questions (1.3143ms)
+✔ Full Mock and NTA allow passage groups (0.2647ms)
+✔ standalone English verbal items remain available in Quick Practice (2.4285ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[quality_mode] {
+  mode: 'speed',
+  thresholds: {
+    score: 0.72,
+    exam_quality: 0.7,
+    distractor_quality: 0.7,
+    conceptual_depth: 0.6,
+    answer_confidence: 0,
+    allowed_bands: [ 'A_PLUS', 'A', 'B' ],
+    strict_required: false
+  }
+}
+[config] difficultyOverride: null
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'missing_cuet_rationale',
+  body: "Read the statements about Boolean identities: Statement I: A + AB = A. Statement II: A + A'B = A + B"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'missing_distractor_rationale',
+  body: "Read the statements about Boolean identities: Statement I: A + AB = A. Statement II: A + A'B = A + B"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'missing_cuet_rationale',
+  body: "Read the statements about Boolean identities: Statement I: A + AB = A. Statement II: A + A'B = A + B"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'missing_distractor_rationale',
+  body: "Read the statements about Boolean identities: Statement I: A + AB = A. Statement II: A + A'B = A + B"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "Read the statements about Boolean identities: Statement I: A + AB = A. Statement II: A + A'B = A + B"
+}
+✔ Boolean Algebra identities are not hard rejected as advanced (6.5715ms)
+✔ weak options are not hard rejected before selfCheck (1.9367ms)
+✔ invalid para-jumble permutation is still hard rejected (0.4756ms)
+✔ unsupported figure reference is hard rejected (0.2878ms)
+✔ regression: vocabulary item that never uses the target word is blocked (f1d2a614) (5.9338ms)
+✔ regression: ordering solvable from linking words is blocked (21becfa4) (1.1359ms)
+✔ regression: stem that states the keyed statements is blocked (31f50e51) (1.7755ms)
+✔ regression: hard label with conspicuous absolute distractors is blocked (e47679b2) (0.3885ms)
+✔ negative controls: sound numericals and legitimate passage questions have no blocking finding (2.898ms)
+✔ learning objective is required, must be key-free, and diagnostics can switch the objective rules off (1.3217ms)
+✔ lexical English items must name and test the target word, allowing inflection (0.5617ms)
+✔ ordering cohesion applies to Commerce subjects, not English Para Jumbles; one cue is non-blocking (0.5177ms)
+✔ single-option stems that state the answer are blocked; numeric keys and passages are exempt (0.5719ms)
+✔ absolute distractors: two are a cue, all are blocking, and "only" in a letter combination is ignored (0.4853ms)
+✔ generic economics arithmetic is a non-blocking cue only for economics numericals (3.5625ms)
+✔ difficulty label: hard needs three reasoning steps and no findings; medium tolerates one cue; easy is never flagged (0.596ms)
+✔ missing or blank objective/unit is a genuine deterministic blocker (4.9901ms)
+✔ lexical target must genuinely occur, avoiding v75 arbitrary common-prefix matches (2.2419ms)
+✔ concept-name overlap is legitimate; copying a full keyed factual proposition reveals the key (0.7325ms)
+✔ all absolute distractors and hard labels remain contextual diagnostics without automatic rejection (0.2653ms)
+✔ linking phrases and printed-order keys cannot become blocking through label aggregation (0.783ms)
+✔ overlap is diagnostic; a passage can legitimately supply the tested information (0.4625ms)
+✔ cue-only findings cannot turn a correctness failure into a pass or independently fail fit (0.6508ms)
+✔ profile pinning survives queue restart and reconstructs the exact original-practice brief (3.6684ms)
+✔ unprofiled jobs stay on legacy routing, malformed or stale pins fail closed (0.7933ms)
+✔ profiled inventory filter selects pin presence, including malformed and null pins, without version equality (0.3091ms)
+✔ validation routing calls V7.3 only for a current pin and never falls back on a stale pin (1.4586ms)
+✔ enqueue rejects campaign/profile mismatch, existing IDs, duplicates, inactive families and stale source refs (0.9228ms)
+✔ fixed 100-candidate campaign persists every ID once and worker selects bounded waves without splitting passage groups (4.3966ms)
+✔ source support hashes match literal text across current registry locators offline (36.1818ms)
+✔ passage publication waits for pending siblings and closes the full group on any quarantine (0.5193ms)
+✔ publication recovery keeps already-published siblings in the full idempotent group retry (0.2984ms)
+✔ oversized passage groups fail enqueue and are explicitly found in malformed persisted inventories (1.0938ms)
+✔ any profiled job mutation or publication requires the remote worker lease, even without authoring work (0.2125ms)
+✔ passage members require one complete campaign group and publication requires matching signed V7.3 evidence (0.9973ms)
+✔ staging guard requires an explicit approved staging endpoint and credentials (0.3754ms)
+✔ V74 profile binds exact frozen validator/prompt/contract and current release; no release means no profile (314.0259ms)
+✔ current profiled queue routes V74 to its validator and reconstructs the same brief after restart (288.8445ms)
+✔ V73 and legacy queue routes stay isolated; unknown pins fail closed without validator fallback (0.8251ms)
+✔ no released V74 manifest blocks profile-pinned dispatch before transport calls (111.8426ms)
+✔ zero progress backs off, then terminal/provider progress resets only the next interval (125.1799ms)
+✔ unchanged polls keep exponential delay and persist the policy for a resumed future run (103.9574ms)
+✔ an observed live worker is waited on before exactly one replacement launch (105.6535ms)
+✔ future-only guard rejects the active C campaign before reading or launching (1.7904ms)
+✔ a duplicate of an inventory item is withheld and never reaches the publish function (8.7654ms)
+✔ a passage group with one duplicate child is withheld as a whole group (2.5279ms)
+✔ a passage group whose sibling is not in a publishable state never partially publishes (0.5358ms)
+✔ a clean item and a clean passage group publish, with contract and inventory hash recorded (3.0204ms)
+✔ inspection errors fail closed and nothing is published (105.5478ms)
+✔ a publish error is not swallowed by the helper (1.0558ms)
+✔ assertPublishTimeInspection throws when nothing may publish and otherwise splits kept and withheld (12.4012ms)
+✔ an item already in the inventory under its own id is not compared with itself (0.5734ms)
+✔ the cohort gate saves a new dated artifact, never overwrites, and refuses withheld ids (20.8803ms)
+✔ every currently supported factory publishing route calls the publish-time gate before its first publish call (29.9805ms)
+✔ speed mode publishes A/B if thresholds pass (1.366ms)
+✔ balanced mode escalates low anchor and mini score below 8.5 (1.7919ms)
+✔ premium mode requires strict/audit validator (0.2283ms)
+✔ premium mode rejects score 8.0 (0.2065ms)
+✔ premium mode rejects low anchor unless strict score reaches 9 (0.2304ms)
+✔ passage child with supported answer can pass balanced lower child threshold (0.4606ms)
+✔ passage child with answer_supported_by_passage=false rejects (0.2096ms)
+✔ passage child answerable_without_passage=true rejects (0.1985ms)
+✔ preflight makes only credential-isolated GETs and classifies invalid keys without exposing them (50.7498ms)
+✔ raw Gemini operation response settles nested inline output without resubmission and rejects unidentified records (385.0762ms)
+✔ cost report separates settled reasoning-inclusive usage, pending holds and preparation (324.1855ms)
+✔ typed pre-inference rejection retains diagnostics and counts failure; unknown failures retain spending holds (512.9018ms)
+✔ a credit-exhausted 429 settles at zero while an ordinary rate limit keeps its hold (454.5489ms)
+✔ cheaper models are calibration-only and cannot reuse another model response (134.0887ms)
+✔ mirrored papers require complete independent copies and the exact official booklet key (9.3172ms)
+✔ new ledger uses the owner ceiling but paid calls require historical reconciliation (59.3605ms)
+✔ transport attribution metadata overrides ledger candidate ID without changing blinded provider body (78.6964ms)
+✔ Responses reserves tools and all reasoning usage; missing usage retains its full bounded hold (110.2412ms)
+✔ OpenAI accepted batch survives restart and settles once without another submission (139.2234ms)
+✔ Gemini native transport counts thinking tokens and batches only one independent evaluation (134.533ms)
+✔ unknown batch acceptance is held unresolved and is never resubmitted (115.5275ms)
+✔ process leases prevent two workers using the same ledger (164.586ms)
+✔ local pilot reconciles accepted batches while missing source gates prevent generation or site access (180.2535ms)
+✔ local passage quarantine propagates through persisted jobs before any publication (187.4072ms)
+✔ a pending repair resumes the same input after restart without acquiring another attempt (157.881ms)
+✔ selected evidence is exact source text; unknown IDs cannot acquire evidence (0.3735ms)
+✔ paper identity establishes format but cannot be selected as academic truth (0.1593ms)
+✔ same-family agreement cannot bypass exact chapter, task or student presentation checks (670.5011ms)
+✔ a billed truncated response permits one durable completion retry and charges both attempts (232.2749ms)
+✔ an explicit calculation cannot bypass numerical checks through author labels (0.5442ms)
+✔ only the explanation audit receives authenticated original key provenance (233.655ms)
+✔ LLM policy uses one Gemini call, checks numeric boundaries, hides keys and invalidates provenance edits (228.0683ms)
+✔ screening omission stays incomplete; a changed key cannot reuse a clean legacy receipt (1.65ms)
+✔ numerical questions inside passages retain numerical and boundary checks (182.8259ms)
+✔ abstention and nonverbatim academic quotes quarantine the item without stopping its batch (339.26ms)
+✔ subscription environment strips API credentials and provider overrides (0.4034ms)
+✔ verified evidence precedence survives usage ranking and family caps (0.7349ms)
+✔ source registration refuses missing paper/key authentication and permission (6.0575ms)
+✔ migration dry run protects RLS, permanent worker binding, idempotent publication and stale screening (2147.9519ms)
+✔ subscription guard refuses API login, purchased or unknown credits and exhausted included limits (0.6503ms)
+✔ terminal batch record mismatch retains its bound and cannot trigger a duplicate submission (116.0781ms)
+✔ uncertain accepted batch can be attached only after provider identity matches the saved file (111.226ms)
+✔ budget exhaustion stops before dispatch and retired models cannot route through the factory (80.3279ms)
+✔ new factory queues originals first, balances backed chapters and never splits passage groups (93.3556ms)
+✔ passage publication requires every authenticated child and identical passage content (0.5079ms)
+✔ passage authoring attaches the authenticated stimulus locally without quoted schema literals (1.7198ms)
+✔ repairing an authenticated original can change only its explanation (0.3533ms)
+✔ new repairs reserve reasoning headroom and constrain keys, routes and immutable passage groups (0.3895ms)
+✔ calibration measures blind answers independently of survival and fails closed on empty or claimed releases (1.1743ms)
+✔ authenticated calibration splits bind real items and reserve whole passage units (2.2189ms)
+✔ factory queue cannot consume reserved calibration or unsupported source-only anchors (0.412ms)
+✔ pending Luna calibration does not prevent independent Gemini dispatch (4.7322ms)
+✔ dispute versions normalize public snapshots and change with passage, key and explanation edits (0.371ms)
+✔ verified questions fill a difficulty shortage before screened legacy questions (0.8001ms)
+✔ authenticated source pack maps official option IDs to the final-key row and retires superseded evidence (18.9214ms)
+✔ presentation lint rejects markup, unseen references, all/none options and non-bijective matching options (0.4651ms)
+✔ author evidence quotes must appear verbatim in non-paper references (0.1992ms)
+✔ chapter mapping accepts units and aliases but not other units (0.1462ms)
+✔ academic-only calibration receipts and v4 receipts without a positive polish gate cannot be published (135.7763ms)
+✔ chapter mapping is source-backed: a cited document must cover the tag, and evaluator consensus elsewhere still fails (0.4848ms)
+✔ a different-family check that finds a missing assumption quarantines a Luna pass (109.7838ms)
+✔ missing answer conditions and an unsourced decisive rule fail; implied decisive assumptions fail and stated conventions pass (0.1861ms)
+✔ lint rejects self-labelled options, definition-phrase vocabulary options and unseen lists, but keeps matching and statement options (0.6769ms)
+✔ craft 7 through 10 passes while every blocking defect still fails (0.1693ms)
+✔ free presentation checks stop a saved defective candidate before any paid adapter (0.2725ms)
+✔ a saved passing signature cannot bypass a newly detected presentation defect (116.0369ms)
+✔ flattened matching lists restore both columns without changing stored question or key (0.6264ms)
+✔ three-entry matching choices must also be distinct bijections (0.1755ms)
+✔ same skill across different anchor formats cannot inflate a plan (0.291ms)
+✔ cache reads and writes are partitioned once and missing write pricing holds usage (155.2682ms)
+✔ accepted legacy batches reconcile cache-write pricing without a second submission (84.5308ms)
+✔ CUET blanks are plain text while Markdown emphasis and excessive English passage length fail (0.6218ms)
+✔ cache-only recovery never reserves, dispatches or bypasses saved model identity (84.3574ms)
+✔ legacy chapters cannot borrow current CUET syllabus entitlement (0.2521ms)
+✔ frozen completed export selects exactly 127 items and closes all affected passage groups (831.0699ms)
+✔ preflight rejects content drift and passage-group drift before any write (1694.7914ms)
+✔ allows unrelated staging rows, reports them unchanged, and only updates the 127 scoped IDs (1221.3766ms)
+✔ refuses an extra staging child in an affected passage group and a missing exported ID (532.7483ms)
+✔ one atomic bulk update precedes deterministic receipts and staging job quarantine (536.5587ms)
+✔ resume after a receipt interruption skips the completed bulk update and prior receipts (917.3735ms)
+✔ refuses a partially withheld passage-closed snapshot (475.2751ms)
+✔ refuses resume when the pinned export or plan hash changes (452.3374ms)
+✔ restart retains reservations; zero yield pauses; missing usage prevents dispatch (282.0702ms)
+✔ concurrent processes cannot reserve beyond a shared ceiling (496.0906ms)
+✔ partial usage on a bounded non-settled hold preserves cap headroom across recovery and concurrent reservations (384.6491ms)
+✔ transport counts every request and stops on absent usage, unknown prices or wrong provider (316.8736ms)
+✔ complete direct-recall fixture passes without a conceptual-depth requirement (1.5599ms)
+✔ missing, swapped, mock, changed, false citation and quarantined family evidence fails (1.6317ms)
+✔ only fully bound, preregistered, complete full-release evidence passes (12.5997ms)
+✔ stale prompt or contract binding cannot be stamped with the current contract (15.6816ms)
+✔ duplicate and missing topology rows fail exact fixture coverage (6.1205ms)
+✔ provider errors cannot be counted as quarantined defect rejections (6.8944ms)
+✔ official scoped or previously read study cannot qualify as fresh release evidence (7.5909ms)
+✔ missing subject coverage and changed frozen labels fail closed (14.5556ms)
+✔ only fully bound, preregistered, complete full-release evidence passes (31.1295ms)
+✔ stale prompt or contract binding cannot be stamped with the current contract (51.0131ms)
+✔ duplicate and missing topology rows fail exact fixture coverage (24.3ms)
+✔ provider errors cannot be counted as quarantined defect rejections (25.3178ms)
+✔ official scoped or previously read study cannot qualify as fresh release evidence (29.2113ms)
+✔ missing subject coverage and changed frozen labels fail closed (44.834ms)
+✔ every expected invalid counts even when contested or given a different group (49.5624ms)
+✔ a preserved disputed regression label still blocks an accepted invalid (23.9646ms)
+✔ missing expected-invalid coverage and untyped validity cannot qualify (47.1539ms)
+✔ a defect-free fixture packet cannot establish zero false accepts (31.9867ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Electromagnetic Induction',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+✔ runs one mock route and writes JSON + Markdown report (56.6618ms)
+✔ stops after max iterations (32.7441ms)
+✔ detects passage_group_linking_bug (1.6208ms)
+✔ detects generator_quality_weak (0.4977ms)
+✔ detects self_check_too_strict (0.3086ms)
+✔ detects model_routing_bad (0.2252ms)
+✔ detects cost_speed_bottleneck (0.6846ms)
+✔ standalone route PASS classification works (2.1775ms)
+✔ route with one usable publish is degraded, not hidden as pass (0.3146ms)
+✔ zero publish route fails (0.4698ms)
+✔ passage route passes with partial group and refill allowed (0.3192ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ writes raw/normalized/validator/publish dumps (37.8707ms)
+✔ saved realtime full usage receipt settles once from original config without resubmission (369.2092ms)
+✔ saved batch full usage receipt settles once from original config without resubmission (282.4553ms)
+✔ a completed transport-added Flex request replays after restart without a second POST; changed content or bounds still reject (276.5255ms)
+✔ complete-looking saved provider row without usage keeps its full hold and never dispatches (261.7386ms)
+✔ rejected batch receipt without usage preserves its conservative hold (173.9179ms)
+✔ saved OpenAI and Gemini native contracts prove their exact unresolved maximum and no usage (2.4251ms)
+✔ atomic proof-only application preserves all other holds and never changes request, response, or actual rows (5.4362ms)
+✔ live owners, mismatched price/config bounds, preexisting usage, and ambiguous native rows fail closed (1.822ms)
+✔ apply re-proves the exact native body/config and rejects forged plans atomically (3.0611ms)
+✔ native dispatch attribution counts exact receipts, malformed legacy tags, holds and unrelated concurrent calls (477.2829ms)
+✔ receipt-only settled and bounded-hold orphan requests retain known scope without guessing unknown prefixes (272.1625ms)
+✔ scope queries select exact rows amid a large unrelated ledger (278.6811ms)
+✔ provider body identity never returns undefined as an attributed candidate (0.229ms)
+✔ selfCheck accepts valid CUET-style Physics statement question (5.9384ms)
+✔ short direct stems pass structure; independent academic checks remain required (1.7897ms)
+✔ optional author trap metadata cannot determine structural acceptance (0.779ms)
+✔ author distractor labels are optional; pointing a distractor at the key is rejected (0.835ms)
+✔ selfCheck does not reject scientifically valid absolute wording by itself (0.3834ms)
+✔ selfCheck rejects clearly outside-CUET derivation pattern (0.6414ms)
+✔ source adapters reject missing document identity before dispatch and invented supporting quotes (2.4056ms)
+✔ exam fit needs final-key-matched authentic examples; numerical routes cannot silently use a model solver (0.3899ms)
+✔ unkeyed exercise mode persists across page boundaries until a teaching heading (3.4498ms)
+✔ actual NCERT teaching preserves the 6% default and excludes the continued 12% false proposition (22.9776ms)
+✔ missing adjacent pages, a changed excerpt and an unlocatable fragment cannot establish teaching context (0.8343ms)
+✔ page context is bound to the actual registered PDF and extraction, so a tampered heading cannot turn a false exercise into teaching (50.4333ms)
+✔ derived teaching facts preserve every original fact and identity while excluding the continued exercise proposition (76.0712ms)
+✔ a verb in teaching prose is not an exercise heading and retained PAGE n markers are accepted only as the complete extractor representation (31.1376ms)
+✔ an authenticated section spanning physical pages is split into exact teaching text and excludes exercise continuations (1.3849ms)
+✔ retained retirement and column-order directing references resolve without fabricating or overwriting their parent facts (145.341ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[quality_mode] {
+  mode: 'speed',
+  thresholds: {
+    score: 0.72,
+    exam_quality: 0.7,
+    distractor_quality: 0.7,
+    conceptual_depth: 0.6,
+    answer_confidence: 0,
+    allowed_bands: [ 'A_PLUS', 'A', 'B' ],
+    strict_required: false
+  }
+}
+[config] difficultyOverride: null
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: 'Narrative Passage',
+  parsed_chapters: [ 'Narrative Passage' ],
+  source: 'env'
+}
+[override_parse_debug] {
+  raw_argv: [ '--chapters=Narrative Passage,Factual Passage' ],
+  raw_chapters_cli: 'Narrative Passage,Factual Passage',
+  raw_chapters_env: '',
+  parsed_chapters: [ 'Narrative Passage', 'Factual Passage' ],
+  source: 'cli'
+}
+[override_parse_debug] {
+  raw_argv: [ '--chapters', 'Narrative Passage,Factual Passage' ],
+  raw_chapters_cli: 'Narrative Passage,Factual Passage',
+  raw_chapters_env: '',
+  parsed_chapters: [ 'Narrative Passage', 'Factual Passage' ],
+  source: 'cli'
+}
+[override_parse_debug] {
+  raw_argv: [
+    '--subjects=english',
+    '--mode=nta',
+    '--quality=balanced',
+    '--chapters',
+    'Narrative Passage,Factual Passage,Literary Passage,Reading Comprehension',
+    '--max-jobs=5'
+  ],
+  raw_chapters_cli: 'Narrative Passage,Factual Passage,Literary Passage,Reading Comprehension',
+  raw_chapters_env: '',
+  parsed_chapters: [
+    'Narrative Passage',
+    'Factual Passage',
+    'Literary Passage',
+    'Reading Comprehension'
+  ],
+  source: 'cli'
+}
+[override] invalid_chapter_override_boolean { raw_chapters_cli: true, action: 'clearing_chapters' }
+[override_parse_debug] {
+  raw_argv: [ '--chapters' ],
+  raw_chapters_cli: true,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: 'Narrative Passage,Factual Passage',
+  parsed_chapters: [ 'Narrative Passage', 'Factual Passage' ],
+  source: 'env'
+}
+[override_parse_debug] {
+  raw_argv: [ '--chapters', 'Narrative Passage,Factual Passage' ],
+  raw_chapters_cli: 'Narrative Passage,Factual Passage',
+  raw_chapters_env: 'Vocabulary',
+  parsed_chapters: [ 'Narrative Passage', 'Factual Passage' ],
+  source: 'cli'
+}
+[override] invalid_chapter_override_boolean { raw_chapters_cli: 'true', action: 'falling_back_to_env' }
+[override_parse_debug] {
+  raw_argv: [ '--chapters=true' ],
+  raw_chapters_cli: 'true',
+  raw_chapters_env: 'Reading Comprehension',
+  parsed_chapters: [ 'Reading Comprehension' ],
+  source: 'env'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [ '--subjects=english' ],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [
+    '--subjects=english',
+    '--mode=nta',
+    '--chapters',
+    'Narrative Passage,Factual Passage,Literary Passage,Reading Comprehension'
+  ],
+  raw_chapters_cli: 'Narrative Passage,Factual Passage,Literary Passage,Reading Comprehension',
+  raw_chapters_env: '',
+  parsed_chapters: [
+    'Narrative Passage',
+    'Factual Passage',
+    'Literary Passage',
+    'Reading Comprehension'
+  ],
+  source: 'cli'
+}
+✔ subject override filters planner jobs to English (1.9182ms)
+✔ chapter override keeps only requested chapter (0.5313ms)
+✔ parses --chapters equals form with display names (0.91ms)
+✔ parses --chapters followed by quoted comma list (0.548ms)
+✔ parses PowerShell style --chapters and next token value (0.5239ms)
+✔ does not parse chapters as true (0.4544ms)
+✔ env CUET_ONLY_CHAPTERS works (0.2795ms)
+✔ CLI chapters override env chapters (0.3361ms)
+✔ boolean chapter CLI falls back to env override (1.8384ms)
+✔ worker fallback cannot pick Sociology when subject override is English (0.5846ms)
+✔ CLI override beats env override (0.1992ms)
+✔ exclude subject removes Psychology from planner priority selection (0.292ms)
+✔ planner receives only listed chapters (0.6878ms)
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+✔ core CUET subjects have higher priority tiers than Sociology and Psychology (1.7477ms)
+✔ English outranks Sociology even when both have coverage gaps (2.6713ms)
+✔ GAT and science subjects outrank Psychology/Sociology (21.8839ms)
+✔ planner selection preserves some lower tier coverage when higher tiers are healthy (5.1305ms)
+✔ owner cap accounts actual settled cost and maximum held reservations; failed insert leaves no row (213.9306ms)
+✔ per-owner limits survive reopen and removing one scope does not remove another (199.2737ms)
+✔ drain cap blocks only future reservations while held accepted work can settle without history deletion (179.8905ms)
+✔ SQLite reservation trigger serializes competing connections at the cap boundary (245.0485ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[quality_mode] {
+  mode: 'speed',
+  thresholds: {
+    score: 0.72,
+    exam_quality: 0.7,
+    distractor_quality: 0.7,
+    conceptual_depth: 0.6,
+    answer_confidence: 0,
+    allowed_bands: [ 'A_PLUS', 'A', 'B' ],
+    strict_required: false
+  }
+}
+[config] difficultyOverride: null
+✔ run metrics include live question and candidate rates (1.2739ms)
+✔ model performance metrics expose latency and cost fields when present (0.2711ms)
+✔ lost independent validation is quarantined with its complete hold, without claiming an academic defect or approval (2.9214ms)
+✔ changed content, native identity, missing proof, response availability and overrun refuse finalization (1.3052ms)
+✔ actual v74 provider requests append only the prerequisite instructions and preserve blind identity/source canaries (51.758ms)
+✔ v74 cache is isolated from v73 and reuses only an identical current evaluation input (113.0154ms)
+✔ v74 stamps stage outputs and provenance while preserving the explanation gate (61.7814ms)
+✔ v74 keeps every key-changing inferred or missing condition quarantined despite supportive scalar fields and high fit (45.285ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ validator result mismatch keeps returned candidate results (1.5407ms)
+✔ validator results can still align by index when candidate_id is absent (0.2425ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[quality_mode] {
+  mode: 'speed',
+  thresholds: {
+    score: 0.72,
+    exam_quality: 0.7,
+    distractor_quality: 0.7,
+    conceptual_depth: 0.6,
+    answer_confidence: 0,
+    allowed_bands: [ 'A_PLUS', 'A', 'B' ],
+    strict_required: false
+  }
+}
+[config] difficultyOverride: null
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+✔ worker picks highest planner priority job before coverage fallback (1.8277ms)
+✔ coverage fallback is used only when no preferred queued jobs exist (0.8168ms)
+✔ original priority is not overwritten by coverage priority 75 (0.2632ms)
+ℹ tests 718
+ℹ suites 0
+ℹ pass 718
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13974.342

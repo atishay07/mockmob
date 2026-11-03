@@ -1,0 +1,3919 @@
+{
+  "id": "cuet-v713-final-fresh31-regression6",
+  "created_at": "2026-10-09T20:34:47.105Z",
+  "verifier_contract": "f7d31a74138f497581e545b1199f57ac43a450edb56d38c5ab368aeb0500b72d",
+  "execution_freeze_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\CONTRACT-FREEZE.json",
+  "execution_freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+  "denominator": 37,
+  "valid_roots": 20,
+  "controlled_defects": 17,
+  "decision_rule": "zero eligible controlled defects; valid eligible >=85% pooled and >=70% per subject; every fixture terminal; unfinished/errors do not count as rejections",
+  "additional_rule": "Fresh partition alone must also achieve >=85% valid survival pooled and >=70% per subject. The unchanged joint 20-valid gate and zero false accepts across every invalid case still apply.",
+  "validity_by_role": {
+    "fresh": {
+      "valid": 18,
+      "invalid": 13
+    },
+    "regression": {
+      "valid": 2,
+      "invalid": 4
+    }
+  },
+  "publication": "never",
+  "exclusions": [],
+  "custody": {
+    "schema": "cuet-v713-custody-v2",
+    "study_id": "cuet-v713-fresh-final",
+    "freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+    "custody_basis": "local_delegated_review",
+    "artifacts": {
+      "authored": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\sealed\\authored-r3.json",
+        "sha256": "c1930133120d37aa1a367db90e0403e95036a9d00dfe21261587ab6264d0bff9"
+      },
+      "sealed_blind_map": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\sealed\\map-r3.json",
+        "sha256": "88feee50847183e517c55724463631cf7b4982b1cf5c173e2a0a3252ffc95928"
+      },
+      "blind_packet": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\blind\\packet-r3.json",
+        "sha256": "649fcd826def293914c8b8306c22ff45936f6db13ab289a587ba11121c3abb3d"
+      },
+      "blind_output": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\blind\\output-r3.json",
+        "sha256": "49348804a355e17a48ba4805c2b5321d5d82ec96296bf26f60819d3073bc8494"
+      },
+      "blind_freeze": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\blind\\blind-freeze-r3.json",
+        "sha256": "9eb9bfa14879ef780538a8c8216ba8bde1baad60294508a94ef8620799169d14"
+      },
+      "reveal": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\sealed\\reveal-r3.json",
+        "sha256": "1594068f2c90fbaf9fefb8996ab469dd801b6a798b2b39bcb43603b93a31c44b"
+      },
+      "explanation_audit": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\sealed\\explanation-audit-r3.json",
+        "sha256": "f4f18ffeff3cb70c8d78ed35e80719039bb63a69f2fca52331f39b5296955c1e"
+      },
+      "novelty_report": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\sealed\\novelty-r3-history-refresh.json",
+        "sha256": "80f6d5cfec72f8673abc84543746f87e2a9173eb0230b8ab4cf52dbec9dfec04"
+      },
+      "explanation_audit_clarification": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\sealed\\explanation-audit-clarification-r3.json",
+        "sha256": "f7f89a46a845997126ed97d7995b2b9236ff87ad9b4cc3f3c03cff0df849d7e0"
+      }
+    }
+  },
+  "role_ids": {
+    "fresh": [
+      "f-c797dd7934bbaf7c",
+      "f-155f31f2eda73df9",
+      "f-80c4d9b3dc5ee51a",
+      "f-234e398c6040b350",
+      "f-2c7dfe572963691f",
+      "f-90b386844e029292",
+      "f-793e37a7f34732b6",
+      "f-77e94cc5395b2677",
+      "f-cb416cf89196c0bf",
+      "f-6eda2239b5467db1",
+      "f-46825bc2c14ef05c",
+      "f-2ce95d51cba0d537",
+      "f-6077c08612302c6d",
+      "f-9395f51e189443a6",
+      "f-1b75678e8ba8214c",
+      "f-c3a378b4d2de5478",
+      "f-3e5f9ea9839935c1",
+      "f-07957bcf309f84ab",
+      "f-db88f4c129bb9ecb",
+      "f-10586873a94495b4",
+      "f-2b0c7cb80a5b0ff1",
+      "f-d95fe16105eb4952",
+      "f-a537d870af8cd07f",
+      "f-538b04e18ffd75ea",
+      "f-ab86b54ef0601f16",
+      "f-958b02eadb40ed70",
+      "f-a7899d6bca12a82b",
+      "f-8b58fde354fa4d4d",
+      "f-844a877a73613f48",
+      "f-7a98463c79d8af56",
+      "f-6bdb69ae95a734ea"
+    ],
+    "regression": [
+      "f-f84de07c56f68390",
+      "f-184a13bcc63cf86c",
+      "f-5b234a758a448dc8",
+      "f-d9454913816921de",
+      "f-245cd38b73b4511b",
+      "v75f-825e60a00f"
+    ]
+  },
+  "historical_snapshot": {
+    "frozen_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\benchmark\\v75-fresh-cbse2022-2026-10-09\\frozen.json",
+    "frozen_sha256": "29276dbb5afc0056a8735d3ede298ae07a3922d39469d709893a5de2a857f324",
+    "execution_plan_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\benchmark\\v75-fresh-cbse2022-2026-10-09\\run\\execution-plan.json",
+    "execution_plan_sha256": "69e0a8012b1eb812b157fee33ec53c5c29cf205467076f85818bc4a0946523be",
+    "source_registry_hash": "f89e6e0cea6891dbc05639424e021886e96e85d229c89954c375c94edc550c99",
+    "independent_custody_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\benchmark\\v75-fresh-cbse2022-2026-10-09\\independent-key-custody.json",
+    "independent_custody_sha256": "7257e2c16a2569105ba3905a22e28cc7a2ba5abc687e1ba3eb5f0b573d622cfe",
+    "overlay_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\benchmark\\v75-fresh-cbse2022-2026-10-09\\scratch-registry-overlay.json",
+    "overlay_sha256": "cc2c75881e75486c9c7088fb4f6c85c466b9c3825db4ebd1d16f03447ef13e61",
+    "scoped_source_ids": [
+      "v75f-s-8d877e6df3cc",
+      "v75f-s-d70b6385c98d",
+      "v75f-s-c66a1d325241",
+      "v75f-s-6e21e3af87ba",
+      "v75f-s-5d7f6593d351"
+    ]
+  },
+  "construction": "Original 36 IDs/labels/content retained. Pre-evaluation independent novelty assigns five nonunique cases (two valid, three invalid) to regression; unchanged historical V75 false accept adds the sixth. Not 37 fresh cases. All 17 invalid count; no model outcome informed roles.",
+  "limitations": [
+    "Compact targeted study does not establish broad CUET representativeness or a premium-quality rating.",
+    "Seven author difficulty bands differ from the frozen independent reviewer; no post-evaluation relabeling is permitted.",
+    "All costs including failures and held usage count; one aggregate USD1 stop cap does not guarantee completion."
+  ],
+  "cap_usd": 1,
+  "repairs": 0,
+  "replacements": 0,
+  "payload_hash": "63e44e1eeef5fdd1e161eaba915d807cddddbd9405403d2d481f7aa790f6c595",
+  "fixtures": [
+    {
+      "id": "f-c797dd7934bbaf7c",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-c797dd7934bbaf7c",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:cash-flow-operating-activity-examples",
+        "body": "A garment manufacturer records two cash transactions during the year: receipts from customers who bought its garments and payments to suppliers for raw materials. Which classification best fits both transactions?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Both are operating cash flows."
+          },
+          {
+            "key": "B",
+            "text": "The customer receipts are investing; the supplier payments are financing."
+          },
+          {
+            "key": "C",
+            "text": "The customer receipts are financing; the supplier payments are investing."
+          },
+          {
+            "key": "D",
+            "text": "Both are investing cash flows."
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The chapter identifies sale of goods as an operating cash inflow and payments to suppliers for goods and services as operating cash outflows.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-3f4274a720ba878e",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p2-c0-g2-s0",
+            "support_hash": "403101894f97442facd16aae5bf8a61d78453ff134cce1e151498c6576f43cf3"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g1-s0",
+            "support_hash": "ba478cf2b0665c2ebc3513a75d17b5d7d5583b7360a237fd1022a114b6a5f708"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g2-s0",
+            "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "objective": "Classify receipts and payments arising from the main revenue-generating activity of a manufacturing enterprise.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac206-v1",
+          "adaptation_family": "fam-3f4274a720ba878e",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        }
+      },
+      "subject": "accountancy",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "Both garment sales receipts and raw-material supplier payments arise from the manufacturer principal operations.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p2-c0-g2-s0",
+            "support_hash": "403101894f97442facd16aae5bf8a61d78453ff134cce1e151498c6576f43cf3"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g1-s0",
+            "support_hash": "ba478cf2b0665c2ebc3513a75d17b5d7d5583b7360a237fd1022a114b6a5f708"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g2-s0",
+            "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "The garment manufacturer examples place raw-material procurement and garment sales within operating activities; the cash receipts and supplier payments derive from those operating transactions.",
+        "blind_basis": "Both garment sales receipts and raw-material supplier payments arise from the manufacturer principal operations.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "ea297db698f6e317a8b117e2bfd2883b6bf8257a7dcf24c7c7e071b6208700bc"
+    },
+    {
+      "id": "f-155f31f2eda73df9",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-155f31f2eda73df9",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:cash-flow-statement-purpose",
+        "body": "A lender is comparing two companies and wants evidence about each company’s ability to generate and use cash over the period, including the timing and certainty of those flows. Which statement is designed to provide this information?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Cash flow statement"
+          },
+          {
+            "key": "B",
+            "text": "Statement of changes in owners’ capital only"
+          },
+          {
+            "key": "C",
+            "text": "Inventory record"
+          },
+          {
+            "key": "D",
+            "text": "Statement listing only non-cash transactions"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The stated objective is to report cash inflows and outflows by activity so users can assess cash-generation and utilisation ability, including timing and certainty.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-d07cfa9cee535752",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p2-c0-g2-s0",
+            "support_hash": "403101894f97442facd16aae5bf8a61d78453ff134cce1e151498c6576f43cf3"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "objective": "Identify the purpose and decision-useful information of a cash flow statement.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac206-v1",
+          "adaptation_family": "fam-d07cfa9cee535752",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        }
+      },
+      "subject": "accountancy",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "A cash flow statement reports cash inflows and outflows and helps assess cash generation, use, timing, and certainty.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p2-c0-g2-s0",
+            "support_hash": "403101894f97442facd16aae5bf8a61d78453ff134cce1e151498c6576f43cf3"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "The stated cash-flow statement objective directly covers cash inflows/outflows, cash-generation and utilisation, timing, and certainty.",
+        "blind_basis": "A cash flow statement reports cash inflows and outflows and helps assess cash generation, use, timing, and certainty.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "b1491b050020726256267b5a79cc694034891bd35e68dee42af6c6b8cb26ecc2"
+    },
+    {
+      "id": "f-f84de07c56f68390",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-f84de07c56f68390",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:investing-inflow-fixed-asset-disposal",
+        "body": "A company receives cash when it sells an old production machine. In which category should that receipt be placed?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Investing cash inflow"
+          },
+          {
+            "key": "B",
+            "text": "Operating cash inflow from rendering services"
+          },
+          {
+            "key": "C",
+            "text": "Financing cash inflow from owners’ capital"
+          },
+          {
+            "key": "D",
+            "text": "Non-cash transaction excluded from the statement"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Cash received from disposal of a fixed asset is listed as an investing cash inflow.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-23aa7f3fcbbef39f",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g4-s0",
+            "support_hash": "35acd4f37aacd48c3a57d32a82c17225dd23e1dfa32b187ba8a7ced55e7539e4"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p5-c0-g3-s0",
+            "support_hash": "6ef8a52783ebc29b9be457d3658147cfd9681b614fcc3d9d5342206ced86cd0e"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g2-s0",
+            "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "objective": "Classify cash receipts from disposal of a fixed asset.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac206-v1",
+          "adaptation_family": "fam-23aa7f3fcbbef39f",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        }
+      },
+      "subject": "accountancy",
+      "contested": false,
+      "measurement_role": "regression",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "Sale of a production machine is disposal of a fixed asset, so the cash receipt is investing.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g4-s0",
+            "support_hash": "35acd4f37aacd48c3a57d32a82c17225dd23e1dfa32b187ba8a7ced55e7539e4"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p5-c0-g3-s0",
+            "support_hash": "6ef8a52783ebc29b9be457d3658147cfd9681b614fcc3d9d5342206ced86cd0e"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g2-s0",
+            "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "Cash receipt from disposal of a fixed asset is expressly listed as an investing inflow.",
+        "blind_basis": "Sale of a production machine is disposal of a fixed asset, so the cash receipt is investing.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "36c63dfc7f44fc9f1e4bdb6568ab1ec5e3462d4eb66502018783b195ae6b0609"
+    },
+    {
+      "id": "f-80c4d9b3dc5ee51a",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-80c4d9b3dc5ee51a",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:financing-activity-capital-change",
+        "body": "A company receives cash from issuing equity shares. Which activity best describes the transaction?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Financing, because it changes owners’ capital"
+          },
+          {
+            "key": "B",
+            "text": "Investing, because every cash receipt is an investment"
+          },
+          {
+            "key": "C",
+            "text": "Operating, because issuing shares earns revenue from customers"
+          },
+          {
+            "key": "D",
+            "text": "Excluded, because share issue is always non-cash"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Financing activities change the size or composition of owners’ capital and borrowings; cash proceeds from issuing shares are an example.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-df5c7c4251b33395",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p5-c0-g4-s0",
+            "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p5-c0-g3-s0",
+            "support_hash": "6ef8a52783ebc29b9be457d3658147cfd9681b614fcc3d9d5342206ced86cd0e"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g2-s0",
+            "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "objective": "Apply the definition of financing activities to a cash capital transaction.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac206-v1",
+          "adaptation_family": "fam-df5c7c4251b33395",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        }
+      },
+      "subject": "accountancy",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "Cash proceeds from issuing equity shares change owners capital and are financing.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p5-c0-g4-s0",
+            "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p5-c0-g3-s0",
+            "support_hash": "6ef8a52783ebc29b9be457d3658147cfd9681b614fcc3d9d5342206ced86cd0e"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g2-s0",
+            "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "Cash proceeds from issue of equity shares are financing; financing changes owners capital and borrowings.",
+        "blind_basis": "Cash proceeds from issuing equity shares change owners capital and are financing.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "f90ecf4c7e2fab535ee92b06d58462f29e4d98ebb6dd90678a9e4ad55471ce02"
+    },
+    {
+      "id": "f-234e398c6040b350",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-234e398c6040b350",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:noncash-financing-investing-exclusion",
+        "body": "A company acquires machinery by issuing its own equity shares directly to the seller; no cash or cash equivalent changes hands. How should this transaction be treated in the cash flow statement?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Exclude it from the cash flow statement and disclose it elsewhere in the financial statements."
+          },
+          {
+            "key": "B",
+            "text": "Record a cash investing outflow and an equal operating inflow."
+          },
+          {
+            "key": "C",
+            "text": "Record a financing cash inflow because shares were issued, even though no cash was received."
+          },
+          {
+            "key": "D",
+            "text": "Treat the machinery as a cash equivalent."
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Investing and financing transactions that do not use cash or cash equivalents are excluded from the cash flow statement and disclosed elsewhere.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-4578af8d21f01777",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p7-c0-g4-s0",
+            "support_hash": "d342c4a5b29405b88d1062e08b8108926674eac79c50e86b1cc261e6d702f69d"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g4-s0",
+            "support_hash": "35acd4f37aacd48c3a57d32a82c17225dd23e1dfa32b187ba8a7ced55e7539e4"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p5-c0-g4-s0",
+            "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "objective": "Apply the cash-use test for investing and financing transactions.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac206-v1",
+          "adaptation_family": "fam-4578af8d21f01777",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        }
+      },
+      "subject": "accountancy",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "A share-for-machinery exchange uses no cash; the excerpt says such investing/financing transactions are excluded and disclosed elsewhere.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p7-c0-g4-s0",
+            "support_hash": "d342c4a5b29405b88d1062e08b8108926674eac79c50e86b1cc261e6d702f69d"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g4-s0",
+            "support_hash": "35acd4f37aacd48c3a57d32a82c17225dd23e1dfa32b187ba8a7ced55e7539e4"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p5-c0-g4-s0",
+            "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "The transaction uses no cash; non-cash investing/financing transactions are excluded and disclosed elsewhere.",
+        "blind_basis": "A share-for-machinery exchange uses no cash; the excerpt says such investing/financing transactions are excluded and disclosed elsewhere.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "e01b05088f2b33f73c5ec7f35bfda93a91eb771e1115c809643885dcd00f1696"
+    },
+    {
+      "id": "f-2c7dfe572963691f",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-2c7dfe572963691f",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:cash-flow-activity-headings-multiple-answer",
+        "body": "Which one of the following is a standard activity heading used to classify cash flows in a cash flow statement?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Operating activities"
+          },
+          {
+            "key": "B",
+            "text": "Investing activities"
+          },
+          {
+            "key": "C",
+            "text": "Financing activities"
+          },
+          {
+            "key": "D",
+            "text": "Marketing activities"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The source lists operating, investing and financing activities as the three categories. Options A, B and C each answer the single-choice stem, so the item has multiple defensible answers.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-44857c30b22c4588",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p3-c0-g3-s0",
+            "support_hash": "6f03ea6646eba5c754f2311c304f0cd9aba9327e6cd22bf9fda8199ab8aab229"
+          }
+        ],
+        "learning_objective": {
+          "target_term": "",
+          "objective": "Distinguish the three standard activity headings used to classify cash flows",
+          "syllabus_unit": "Unit V: Analysis of Financial Statements"
+        },
+        "provenance": {
+          "adaptation_family": "fam-44857c30b22c4588",
+          "kind": "original_practice",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "anchor_id": "ncertcol-leac206-v1",
+          "source_pack_version": 13,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "adaptation_type": "source-grounded-original-practice"
+        }
+      },
+      "defect_category": "multiple_defensible_answers",
+      "defect_evidence": "The registered excerpt explicitly names operating, investing and financing as the three categories. Options A, B and C are all correct responses to a single-choice prompt.",
+      "subject": "accountancy",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "multiple_defensible_answers",
+      "oracle": {
+        "key": null,
+        "basis": "The excerpt identifies operating, investing, and financing as the three standard headings; A, B, and C are all correct.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p3-c0-g3-s0",
+            "support_hash": "6f03ea6646eba5c754f2311c304f0cd9aba9327e6cd22bf9fda8199ab8aab229"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": null,
+        "mandatory_gates_passed": false,
+        "explanation_supported": true,
+        "defect_confirmed": true,
+        "decisive_basis": "The supplied classification names three categories, and three listed options are each a standard heading. Controlled defect: The registered excerpt explicitly names operating, investing and financing as the three categories. Options A, B and C are all correct responses to a single-choice prompt.",
+        "blind_basis": "The excerpt identifies operating, investing, and financing as the three standard headings; A, B, and C are all correct.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "4200dfba052e84274fc31654e9d4b0e239106976dcce93561e3f6768f1570db3"
+    },
+    {
+      "id": "f-90b386844e029292",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-90b386844e029292",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:financing-disclosure-purpose",
+        "body": "Why does the chapter say separate disclosure of cash flows from financing activities is useful?",
+        "options": [
+          {
+            "key": "A",
+            "text": "It helps users predict claims on future cash flows by providers of funds."
+          },
+          {
+            "key": "B",
+            "text": "It lets users determine the amount of cash generated by sales of goods."
+          },
+          {
+            "key": "C",
+            "text": "It identifies whether the enterprise acquired long-term assets."
+          },
+          {
+            "key": "D",
+            "text": "It measures the timing and certainty of all operating receipts."
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "The excerpt says separate financing disclosure is useful for predicting claims on future cash flows by providers of capital and borrowings. The keyed option instead describes a different activity and is not the stated reason.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-7dd8d7ca724a4c48",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p5-c0-g4-s0",
+            "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5"
+          }
+        ],
+        "learning_objective": {
+          "target_term": "",
+          "objective": "Explain why separate disclosure of financing cash flows is useful to users",
+          "syllabus_unit": "Unit V: Analysis of Financial Statements"
+        },
+        "provenance": {
+          "adaptation_family": "fam-7dd8d7ca724a4c48",
+          "kind": "original_practice",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "anchor_id": "ncertcol-leac206-v1",
+          "source_pack_version": 13,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "adaptation_type": "source-grounded-original-practice"
+        }
+      },
+      "defect_category": "incorrect_answer_key",
+      "defect_evidence": "Option A is uniquely supported by the source. The supplied key C is not the stated purpose of separate financing disclosure.",
+      "subject": "accountancy",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "incorrect_answer_key",
+      "oracle": {
+        "key": "A",
+        "basis": "The excerpt explicitly says financing-flow disclosure helps predict claims on future cash flows by providers of funds.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p5-c0-g4-s0",
+            "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": false,
+        "explanation_supported": true,
+        "defect_confirmed": true,
+        "decisive_basis": "The stated financing-disclosure purpose is predicting future cash-flow claims by fund providers; the keyed option gives a different rationale. Controlled defect: Option A is uniquely supported by the source. The supplied key C is not the stated purpose of separate financing disclosure.",
+        "blind_basis": "The excerpt explicitly says financing-flow disclosure helps predict claims on future cash flows by providers of funds.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "eebef33c18023493c850e34553d98fb3e42e293a66e7297b22ca7d31cbe69a44"
+    },
+    {
+      "id": "f-184a13bcc63cf86c",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-184a13bcc63cf86c",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:indirect-method-starting-point",
+        "body": "According to the excerpt, what is the starting point under the indirect method for ascertaining cash flows from operating activities?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Net profit or loss before taxation and extraordinary items from the statement of profit and loss."
+          },
+          {
+            "key": "B",
+            "text": "Major classes of gross cash receipts and gross cash payments."
+          },
+          {
+            "key": "C",
+            "text": "Cash proceeds from issuing equity shares."
+          },
+          {
+            "key": "D",
+            "text": "Cash receipts from sales of goods and rendering services."
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "The excerpt states that the indirect method starts with net profit or loss before taxation and extraordinary items, then adjusts it. Option B describes the direct method, so it is not the correct answer.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-7f11b5b1ea5940a1",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p9-c0-g1-s0",
+            "support_hash": "a98316b1b4cd83ad704cdebce58322c121dce5637dec4225860f8ce31a9e0d53"
+          }
+        ],
+        "learning_objective": {
+          "target_term": "",
+          "objective": "Identify the starting point used by the indirect method for operating cash flows",
+          "syllabus_unit": "Unit V: Analysis of Financial Statements"
+        },
+        "provenance": {
+          "adaptation_family": "fam-7f11b5b1ea5940a1",
+          "kind": "original_practice",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "anchor_id": "ncertcol-leac206-v1",
+          "source_pack_version": 13,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "adaptation_type": "source-grounded-original-practice"
+        }
+      },
+      "defect_category": "incorrect_answer_key",
+      "defect_evidence": "Option A is uniquely supported as the indirect-method starting point. The keyed option B is the excerpt description of the direct method.",
+      "subject": "accountancy",
+      "contested": false,
+      "measurement_role": "regression",
+      "category": "incorrect_answer_key",
+      "oracle": {
+        "key": "A",
+        "basis": "Under the indirect method, the stated starting point is net profit or loss before tax and extraordinary items.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p9-c0-g1-s0",
+            "support_hash": "a98316b1b4cd83ad704cdebce58322c121dce5637dec4225860f8ce31a9e0d53"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": false,
+        "explanation_supported": true,
+        "defect_confirmed": true,
+        "decisive_basis": "The indirect method starts with net profit/loss before tax and extraordinary items; gross cash receipts/payments describe the direct method. Controlled defect: Option A is uniquely supported as the indirect-method starting point. The keyed option B is the excerpt description of the direct method.",
+        "blind_basis": "Under the indirect method, the stated starting point is net profit or loss before tax and extraordinary items.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "0fd55fe6e2bbe52bcd916a5dffbef063013868d4232606be36d277a5f3ccd472"
+    },
+    {
+      "id": "f-5b234a758a448dc8",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-5b234a758a448dc8",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:direct-indirect-operating-methods",
+        "body": "Which statement describes an accepted method for reporting cash flows from operating activities?",
+        "options": [
+          {
+            "key": "A",
+            "text": "The direct method discloses major classes of gross cash receipts and gross cash payments."
+          },
+          {
+            "key": "B",
+            "text": "The indirect method adjusts net profit or loss for specified effects."
+          },
+          {
+            "key": "C",
+            "text": "Both the direct and indirect descriptions above are accepted methods."
+          },
+          {
+            "key": "D",
+            "text": "Neither method is used to report operating cash flows."
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "The chapter recognises both the direct method, which discloses major classes of gross receipts and payments, and the indirect method, which adjusts net profit or loss.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-fa236b4797fdf6f6",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p9-c0-g1-s0",
+            "support_hash": "a98316b1b4cd83ad704cdebce58322c121dce5637dec4225860f8ce31a9e0d53"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "objective": "Distinguish the direct and indirect methods for reporting operating cash flows.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac206-v1",
+          "adaptation_family": "fam-fa236b4797fdf6f6",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        }
+      },
+      "defect_category": "multiple_defensible_answers",
+      "defect_evidence": "Options A and B each correctly describe one accepted method, so the single-choice stem has at least two supported answers (and option C also correctly combines them).",
+      "subject": "accountancy",
+      "contested": false,
+      "measurement_role": "regression",
+      "category": "multiple_defensible_answers",
+      "oracle": {
+        "key": null,
+        "basis": "Both A and B accurately describe accepted methods, and C accurately says both descriptions are accepted.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p9-c0-g1-s0",
+            "support_hash": "a98316b1b4cd83ad704cdebce58322c121dce5637dec4225860f8ce31a9e0d53"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": null,
+        "mandatory_gates_passed": false,
+        "explanation_supported": true,
+        "defect_confirmed": true,
+        "decisive_basis": "The excerpt accepts both direct and indirect methods; options A and B are each correct descriptions and C is also true. Controlled defect: Options A and B each correctly describe one accepted method, so the single-choice stem has at least two supported answers (and option C also correctly combines them).",
+        "blind_basis": "Both A and B accurately describe accepted methods, and C accurately says both descriptions are accepted.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "e625d4470e204eef74b536fa2e9162e0c110fd2fdf24df57ee4104c8bc7972ad"
+    },
+    {
+      "id": "f-793e37a7f34732b6",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-793e37a7f34732b6",
+        "subject": "business_studies",
+        "chapter": "Planning",
+        "concept_id": "business_studies:planning-process-applied",
+        "body": "A service firm sets a twelve-month customer-retention objective, develops several courses of action, compares them, and selects the most suitable one. Which management function is described?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Planning"
+          },
+          {
+            "key": "B",
+            "text": "Staffing"
+          },
+          {
+            "key": "C",
+            "text": "Controlling"
+          },
+          {
+            "key": "D",
+            "text": "Decentralisation"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Planning sets objectives for a period, develops possible courses of action, and selects the best available alternative.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-6b3849a10716b2c5",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p3-c1-g1-s0",
+            "support_hash": "4a341a83279ceca6424939bc5b6df743543d437c778e0d9a06848b2a18419d9e"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Planning",
+          "objective": "Apply the definition of planning to a decision sequence.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-lebs104-v1",
+          "adaptation_family": "fam-6b3849a10716b2c5",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 11
+        }
+      },
+      "subject": "business_studies",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "Planning is setting objectives, forming possible courses of action, and selecting the best alternative.",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p3-c1-g1-s0",
+            "support_hash": "4a341a83279ceca6424939bc5b6df743543d437c778e0d9a06848b2a18419d9e"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "The scenario follows the stated planning definition: set objectives, formulate possible courses, and select the best alternative.",
+        "blind_basis": "Planning is setting objectives, forming possible courses of action, and selecting the best alternative.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "0da376f6d8f1ff8c456e54d8a93dc63e324808f0e08cf03ca4e45dd9aecbed6d"
+    },
+    {
+      "id": "f-77e94cc5395b2677",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-77e94cc5395b2677",
+        "subject": "business_studies",
+        "chapter": "Planning",
+        "concept_id": "business_studies:planning-primacy",
+        "body": "Before a retailer assigns staff, arranges work, or checks performance, its managers establish the plans within which those activities will occur. Which feature of planning does this illustrate?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Planning provides the basis or framework for other management functions."
+          },
+          {
+            "key": "B",
+            "text": "Planning is performed only by top management."
+          },
+          {
+            "key": "C",
+            "text": "Planning replaces the need for organising and staffing."
+          },
+          {
+            "key": "D",
+            "text": "Planning is limited to one-time projects."
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The source states that other management functions are performed within the framework of plans, so planning provides their basis.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-69331fabd19c1996",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p5-c1-g1-s0",
+            "support_hash": "b41a1897f4f8e638e79ef8a01f4b14529e527b9eba44f64965d25d204f5fc5ff"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Planning",
+          "objective": "Apply the stated relationship between planning and the other management functions.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-lebs104-v1",
+          "adaptation_family": "fam-69331fabd19c1996",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 11
+        }
+      },
+      "subject": "business_studies",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "The excerpt says planning lays the base and provides the framework within which other functions are performed.",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p5-c1-g1-s0",
+            "support_hash": "b41a1897f4f8e638e79ef8a01f4b14529e527b9eba44f64965d25d204f5fc5ff"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "Planning provides the basis/framework within which other management functions operate.",
+        "blind_basis": "The excerpt says planning lays the base and provides the framework within which other functions are performed.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "a508cd843dc4ce6cbc933b33e42a7dfc28e541cc6be85f45f95d302a047e9f75"
+    },
+    {
+      "id": "f-d9454913816921de",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-d9454913816921de",
+        "subject": "business_studies",
+        "chapter": "Planning",
+        "concept_id": "business_studies:single-use-standing-plans",
+        "body": "A company uses a standing policy for routine purchasing but prepares a one-time programme for opening a new branch. How is the branch-opening programme best classified?",
+        "options": [
+          {
+            "key": "A",
+            "text": "A single-use plan for a non-recurring project"
+          },
+          {
+            "key": "B",
+            "text": "A standing plan for activities repeated regularly"
+          },
+          {
+            "key": "C",
+            "text": "A method that specifies one task-step only"
+          },
+          {
+            "key": "D",
+            "text": "A rule that permits no managerial decision"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "A programme for a one-time project is a single-use plan; standing plans support activities that recur over time.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-b53d88e97b9b3700",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p11-c1-g1-s0",
+            "support_hash": "c0c5d568586a1297252760af304d97703345478d5383788475b04a8b62526a29"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Planning",
+          "objective": "Distinguish single-use and standing plans using recurrence and purpose.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-lebs104-v1",
+          "adaptation_family": "fam-b53d88e97b9b3700",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 11
+        }
+      },
+      "subject": "business_studies",
+      "contested": false,
+      "measurement_role": "regression",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "A programme for a one-time branch opening is a single-use plan for a non-recurring project.",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p11-c1-g1-s0",
+            "support_hash": "c0c5d568586a1297252760af304d97703345478d5383788475b04a8b62526a29"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "The branch-opening programme is a non-recurring project, which fits a single-use plan.",
+        "blind_basis": "A programme for a one-time branch opening is a single-use plan for a non-recurring project.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "9a9eed2ddef10c51b13161104eb152e2276ee1d55c6ef41bd82325b5d1e3c6d4"
+    },
+    {
+      "id": "f-cb416cf89196c0bf",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-cb416cf89196c0bf",
+        "subject": "business_studies",
+        "chapter": "Planning",
+        "concept_id": "business_studies:planning-first-step",
+        "body": "A manager begins the planning process for a new service line. What should the manager do first according to the stated sequence?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Set the objectives"
+          },
+          {
+            "key": "B",
+            "text": "Compare final results with standards"
+          },
+          {
+            "key": "C",
+            "text": "Assign individual jobs to employees"
+          },
+          {
+            "key": "D",
+            "text": "Choose a distribution channel"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The source identifies setting objectives as the first step in planning.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-1074c2ec2d1125d3",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p12-c0-g2-s2",
+            "support_hash": "47986753ecceb8631bc2b7d6ccf8c1b4548d5a9b80881f3337df67a52552583d"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Planning",
+          "objective": "Identify the first step in the planning process.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-lebs104-v1",
+          "adaptation_family": "fam-1074c2ec2d1125d3",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 11
+        }
+      },
+      "subject": "business_studies",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "The supplied planning sequence says setting objectives is the first step.",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p12-c0-g2-s2",
+            "support_hash": "47986753ecceb8631bc2b7d6ccf8c1b4548d5a9b80881f3337df67a52552583d"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "Setting objectives is identified as the first step in planning.",
+        "blind_basis": "The supplied planning sequence says setting objectives is the first step.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "65640f6fe00878cee97debb51d6fb0147c4c5594a47783123f56a1590bb1b7ef"
+    },
+    {
+      "id": "f-6eda2239b5467db1",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-6eda2239b5467db1",
+        "subject": "business_studies",
+        "chapter": "Planning",
+        "concept_id": "business_studies:strategy-long-run-scope",
+        "body": "A firm’s long-term plan sets the broad direction and scope of the businesses it will operate in over the next five years. Which type of plan best matches that description?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Strategy"
+          },
+          {
+            "key": "B",
+            "text": "Method"
+          },
+          {
+            "key": "C",
+            "text": "Rule"
+          },
+          {
+            "key": "D",
+            "text": "Procedure"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The source describes strategy as setting the broad contours of the organisation’s business and defining its direction and scope in the long run.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-56db7958b3e33ce5",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p12-c1-g1-s2",
+            "support_hash": "1423734994b299a042b7b65e21bbbbd464bc39fa564d761688761933596a56da"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Planning",
+          "objective": "Identify strategy from its long-run direction and scope.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-lebs104-v1",
+          "adaptation_family": "fam-56db7958b3e33ce5",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 11
+        }
+      },
+      "subject": "business_studies",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "A strategy gives the broad contours, direction, and scope of the business over the long run.",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p12-c1-g1-s2",
+            "support_hash": "1423734994b299a042b7b65e21bbbbd464bc39fa564d761688761933596a56da"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "Strategy defines broad business direction and scope in the long run.",
+        "blind_basis": "A strategy gives the broad contours, direction, and scope of the business over the long run.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "b44cf7dbae128c5d35b9a3a31a1b25b7851bd1e04b32b758de65acb99c591b76"
+    },
+    {
+      "id": "f-46825bc2c14ef05c",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-46825bc2c14ef05c",
+        "subject": "business_studies",
+        "chapter": "Marketing Management",
+        "concept_id": "business_studies:marketing-broader-than-selling",
+        "body": "Which one activity is part of marketing?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Planning the product and its price before sale"
+          },
+          {
+            "key": "B",
+            "text": "Selecting the distribution outlets where the product will be available"
+          },
+          {
+            "key": "C",
+            "text": "Transferring title to the buyer through a sale"
+          },
+          {
+            "key": "D",
+            "text": "All listed activities are within marketing’s broader range"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Marketing covers product planning, pricing, promotion, and distribution; selling is one part of the broader set.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-76df4fe1d54ae544",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs202-v1",
+            "version": 1,
+            "locator": "p7-c0-g3-s0",
+            "support_hash": "297374c4af702fd82e347e824f4403dd2c3806162d273fbb7b09f8b9529a9d2d"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit XI: Marketing",
+          "objective": "Distinguish marketing’s broad set of activities from the narrower selling function.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-lebs202-v1",
+          "adaptation_family": "fam-76df4fe1d54ae544",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 11
+        }
+      },
+      "defect_category": "multiple_defensible_answers",
+      "defect_evidence": "Options A and B are explicitly within marketing’s broader activities; the selling activity in C is also described as a part of the marketing range. The single-choice stem has several supported answers.",
+      "subject": "business_studies",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "multiple_defensible_answers",
+      "oracle": {
+        "key": null,
+        "basis": "Planning/pricing, selecting outlets, and selling are each within the broad range of marketing; D also states that all listed activities are included.",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs202-v1",
+            "version": 1,
+            "locator": "p7-c0-g3-s0",
+            "support_hash": "297374c4af702fd82e347e824f4403dd2c3806162d273fbb7b09f8b9529a9d2d"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": null,
+        "mandatory_gates_passed": false,
+        "explanation_supported": true,
+        "defect_confirmed": true,
+        "decisive_basis": "Product planning/pricing, outlet selection, and selling all fall within marketing; the all-listed option is true as well. Controlled defect: Options A and B are explicitly within marketing’s broader activities; the selling activity in C is also described as a part of the marketing range. The single-choice stem has several supported answers.",
+        "blind_basis": "Planning/pricing, selecting outlets, and selling are each within the broad range of marketing; D also states that all listed activities are included.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "610f3949715e91c3ca815327191159b38e3bed0e6c6557cdf72834ead5bf47e2"
+    },
+    {
+      "id": "f-245cd38b73b4511b",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-245cd38b73b4511b",
+        "subject": "business_studies",
+        "chapter": "Planning",
+        "concept_id": "business_studies:single-use-vs-standing-plan-key",
+        "body": "A firm needs a plan for an event that will occur once and is not expected to recur. Which plan type best fits that purpose?",
+        "options": [
+          {
+            "key": "A",
+            "text": "A single-use plan"
+          },
+          {
+            "key": "B",
+            "text": "A standing plan"
+          },
+          {
+            "key": "C",
+            "text": "A policy for routine decisions"
+          },
+          {
+            "key": "D",
+            "text": "A recurring procedure"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "The excerpt defines a single-use plan as one developed for a one-time event or project not likely to be repeated. Standing plans support activities that occur regularly, so the keyed option conflicts with the stated scenario.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-39948ef3ce834e4a",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p11-c1-g1-s0",
+            "support_hash": "c0c5d568586a1297252760af304d97703345478d5383788475b04a8b62526a29"
+          }
+        ],
+        "learning_objective": {
+          "target_term": "",
+          "objective": "Distinguish one-time plans from plans used for recurring activities",
+          "syllabus_unit": "Unit IV: Planning"
+        },
+        "provenance": {
+          "adaptation_family": "fam-39948ef3ce834e4a",
+          "kind": "original_practice",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "anchor_id": "ncertcol-lebs104-v1",
+          "source_pack_version": 11,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "adaptation_type": "source-grounded-original-practice"
+        }
+      },
+      "defect_category": "incorrect_answer_key",
+      "defect_evidence": "Option A is uniquely supported because the scenario describes a one-time, non-recurring event. The keyed option B denotes a plan for activities that occur regularly.",
+      "subject": "business_studies",
+      "contested": false,
+      "measurement_role": "regression",
+      "category": "incorrect_answer_key",
+      "oracle": {
+        "key": "A",
+        "basis": "A plan for a non-recurring event is a single-use plan.",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p11-c1-g1-s0",
+            "support_hash": "c0c5d568586a1297252760af304d97703345478d5383788475b04a8b62526a29"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": false,
+        "explanation_supported": true,
+        "defect_confirmed": true,
+        "decisive_basis": "A one-time non-recurring event calls for a single-use plan; the keyed standing plan is for recurring activity. Controlled defect: Option A is uniquely supported because the scenario describes a one-time, non-recurring event. The keyed option B denotes a plan for activities that occur regularly.",
+        "blind_basis": "A plan for a non-recurring event is a single-use plan.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "ac212cf7b56213593d1bf6bc5750eadb6606fd2bc1b0c484600cd41edfc88cf3"
+    },
+    {
+      "id": "f-2ce95d51cba0d537",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-2ce95d51cba0d537",
+        "subject": "business_studies",
+        "chapter": "Marketing Management",
+        "concept_id": "business_studies:physical-distribution-key-integrity",
+        "body": "What is the role of physical distribution in marketing?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Moving goods from where they are produced to the places where they are needed for use or consumption"
+          },
+          {
+            "key": "B",
+            "text": "Choosing the amount of money customers pay for the product"
+          },
+          {
+            "key": "C",
+            "text": "Designing the verbal component of a brand"
+          },
+          {
+            "key": "D",
+            "text": "Communicating promotional messages to target customers"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Physical distribution moves products from production locations to the places where they are needed for use or consumption.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-1224584860972cd4",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs202-v1",
+            "version": 1,
+            "locator": "p13-c0-g1-s2",
+            "support_hash": "eb8694dcfc1f7895f79ff9b0bb5c8d94f0086a141e4f5e0443331269331ac5bc"
+          },
+          {
+            "id": "ncertcol-lebs202-v1",
+            "version": 1,
+            "locator": "p13-c1-g1-s1",
+            "support_hash": "c51ef4e504453713cbbcd7f9a259a192cfb887e4175f6b6b2d8a03182c25c797"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit XI: Marketing",
+          "objective": "Identify the physical movement function within marketing.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-lebs202-v1",
+          "adaptation_family": "fam-1224584860972cd4",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 11
+        }
+      },
+      "defect_category": "incorrect_answer_key",
+      "defect_evidence": "Option A is uniquely supported by the source. The supplied key B describes price, not physical distribution.",
+      "subject": "business_studies",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "incorrect_answer_key",
+      "oracle": {
+        "key": "A",
+        "basis": "Physical distribution moves goods from production locations to places of use or consumption.",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs202-v1",
+            "version": 1,
+            "locator": "p13-c0-g1-s2",
+            "support_hash": "eb8694dcfc1f7895f79ff9b0bb5c8d94f0086a141e4f5e0443331269331ac5bc"
+          },
+          {
+            "id": "ncertcol-lebs202-v1",
+            "version": 1,
+            "locator": "p13-c1-g1-s1",
+            "support_hash": "c51ef4e504453713cbbcd7f9a259a192cfb887e4175f6b6b2d8a03182c25c797"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": false,
+        "explanation_supported": true,
+        "defect_confirmed": true,
+        "decisive_basis": "Physical distribution moves goods from production locations to where they are needed for use or consumption. Controlled defect: Option A is uniquely supported by the source. The supplied key B describes price, not physical distribution.",
+        "blind_basis": "Physical distribution moves goods from production locations to places of use or consumption.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "1b27da013b878df35143b2d02c6313bccb17efde6fb4acde4f00f3f7c1819573"
+    },
+    {
+      "id": "f-6077c08612302c6d",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-6077c08612302c6d",
+        "subject": "business_studies",
+        "chapter": "Marketing Management",
+        "concept_id": "business_studies:marketing-mix-elements",
+        "body": "Which one of the following is an element of the marketing mix?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Product"
+          },
+          {
+            "key": "B",
+            "text": "Price"
+          },
+          {
+            "key": "C",
+            "text": "Place"
+          },
+          {
+            "key": "D",
+            "text": "Promotion"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The marketing mix consists of product, price, place, and promotion.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-2d99d948d41a4784",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs202-v1",
+            "version": 1,
+            "locator": "p13-c1-g1-s1",
+            "support_hash": "c51ef4e504453713cbbcd7f9a259a192cfb887e4175f6b6b2d8a03182c25c797"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit XI: Marketing",
+          "objective": "Recognise the four elements of the marketing mix.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-lebs202-v1",
+          "adaptation_family": "fam-2d99d948d41a4784",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 11
+        }
+      },
+      "defect_category": "multiple_defensible_answers",
+      "defect_evidence": "All four options are expressly identified as elements of the marketing mix. A single-choice stem therefore has four supported answers.",
+      "subject": "business_studies",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "multiple_defensible_answers",
+      "oracle": {
+        "key": null,
+        "basis": "The excerpt lists Product, Price, Place, and Promotion as the four marketing-mix elements; all four options qualify.",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs202-v1",
+            "version": 1,
+            "locator": "p13-c1-g1-s1",
+            "support_hash": "c51ef4e504453713cbbcd7f9a259a192cfb887e4175f6b6b2d8a03182c25c797"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": null,
+        "mandatory_gates_passed": false,
+        "explanation_supported": true,
+        "defect_confirmed": true,
+        "decisive_basis": "Product, Price, Place, and Promotion are all listed as elements of the marketing mix. Controlled defect: All four options are expressly identified as elements of the marketing mix. A single-choice stem therefore has four supported answers.",
+        "blind_basis": "The excerpt lists Product, Price, Place, and Promotion as the four marketing-mix elements; all four options qualify.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "b7edf328ca5bd6746f3b549e1b7702daf4f766d1db32400388e8c5e61e50f88a"
+    },
+    {
+      "id": "f-9395f51e189443a6",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-9395f51e189443a6",
+        "subject": "economics",
+        "chapter": "National Income & Related Aggregates",
+        "concept_id": "economics:gdp-domestic-territory",
+        "body": "A factory located in India is owned by a company headquartered abroad. Its current-year production takes place inside India. Which aggregate includes this production on the basis described in the source?",
+        "options": [
+          {
+            "key": "A",
+            "text": "India’s Gross Domestic Product"
+          },
+          {
+            "key": "B",
+            "text": "India’s Gross National Product solely because the owner is foreign"
+          },
+          {
+            "key": "C",
+            "text": "India’s net factor income from abroad"
+          },
+          {
+            "key": "D",
+            "text": "India’s Consumer Price Index"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "GDP measures final production taking place within the domestic economy; ownership does not change the domestic-territory basis.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-7119db3c14ef2677",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p17-c0-g1-s0",
+            "support_hash": "fd901f9e7e4663288e71143c295f1e28378b1fab4ef38e84b4c8c7241b921723"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "objective": "Distinguish domestic production coverage from ownership-based national income adjustments.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec102-v1",
+          "adaptation_family": "fam-7119db3c14ef2677",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        }
+      },
+      "subject": "economics",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "GDP counts final production taking place within the domestic economy; foreign ownership does not remove domestic production from GDP.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p17-c0-g1-s0",
+            "support_hash": "fd901f9e7e4663288e71143c295f1e28378b1fab4ef38e84b4c8c7241b921723"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "GDP is based on production within domestic territory, irrespective of foreign ownership; foreign factor income is handled in GNP.",
+        "blind_basis": "GDP counts final production taking place within the domestic economy; foreign ownership does not remove domestic production from GDP.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "ce36326ba58a5dd823329f7c5f821392b7b7c628f1a8337f0377a42e25c2b470"
+    },
+    {
+      "id": "f-1b75678e8ba8214c",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-1b75678e8ba8214c",
+        "subject": "economics",
+        "chapter": "National Income & Related Aggregates",
+        "concept_id": "economics:gnp-net-factor-income-calculation",
+        "body": "An economy records GDP of ₹640 crore and net factor income from abroad of ₹25 crore for the year. Using the stated relation, what is its GNP?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹665 crore"
+          },
+          {
+            "key": "B",
+            "text": "₹615 crore"
+          },
+          {
+            "key": "C",
+            "text": "₹640 crore"
+          },
+          {
+            "key": "D",
+            "text": "₹25 crore"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "GNP = GDP + net factor income from abroad = ₹640 crore + ₹25 crore = ₹665 crore.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-32b261c3c1a9261a",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p17-c0-g1-s4",
+            "support_hash": "cfb8a01f1bda2d81c5021b13a03ba15f809ea1f67801f628c112a75768e9bdc3"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "objective": "Calculate GNP from GDP and net factor income from abroad.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec102-v1",
+          "adaptation_family": "fam-32b261c3c1a9261a",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        }
+      },
+      "subject": "economics",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "GNP equals GDP plus net factor income from abroad: ₹640 crore + ₹25 crore = ₹665 crore.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p17-c0-g1-s4",
+            "support_hash": "cfb8a01f1bda2d81c5021b13a03ba15f809ea1f67801f628c112a75768e9bdc3"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "GNP = GDP + net factor income from abroad = 640 + 25 = 665 crore.",
+        "blind_basis": "GNP equals GDP plus net factor income from abroad: ₹640 crore + ₹25 crore = ₹665 crore.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "96d31208428b3a77f07a092081ac1de2f57940235ea300fb18e4758e84a02967"
+    },
+    {
+      "id": "f-c3a378b4d2de5478",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-c3a378b4d2de5478",
+        "subject": "economics",
+        "chapter": "National Income & Related Aggregates",
+        "concept_id": "economics:product-method-double-counting",
+        "body": "Farmers produce wheat worth ₹150. Bakers buy ₹60 of that wheat and use it to make bread worth ₹240; assume no other intermediate inputs. What total value is counted by the product method when intermediate value is not counted twice?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹330"
+          },
+          {
+            "key": "B",
+            "text": "₹390"
+          },
+          {
+            "key": "C",
+            "text": "₹240"
+          },
+          {
+            "key": "D",
+            "text": "₹150"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Count the farmers’ ₹150 output and the bakers’ value added of ₹240 − ₹60 = ₹180. Total value added is ₹330.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-8dd4bf91c335ae28",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p9-c0-g0-s0",
+            "support_hash": "d8d20ada1f76c06e8df081a8453c9fab014ac93c4828925bad4869d7e18c1ce1"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "objective": "Apply the value-added method and avoid counting an intermediate input twice.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec102-v1",
+          "adaptation_family": "fam-8dd4bf91c335ae28",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        }
+      },
+      "subject": "economics",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "Value added is farmer output ₹150 plus baker output net of intermediate wheat, ₹240 − ₹60 = ₹180; total ₹330.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p9-c0-g0-s0",
+            "support_hash": "d8d20ada1f76c06e8df081a8453c9fab014ac93c4828925bad4869d7e18c1ce1"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "Count 150 farmer value plus baker value added 240 minus 60 intermediate wheat, for total value 330.",
+        "blind_basis": "Value added is farmer output ₹150 plus baker output net of intermediate wheat, ₹240 − ₹60 = ₹180; total ₹330.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "231b7ef42585b15f63a7f483aaa4e7b93cce0dd083f46ebe3095ff4f9e01254d"
+    },
+    {
+      "id": "f-3e5f9ea9839935c1",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-3e5f9ea9839935c1",
+        "subject": "economics",
+        "chapter": "National Income & Related Aggregates",
+        "concept_id": "economics:expenditure-method-demand-side",
+        "body": "A national-income team estimates output by summing final expenditures on goods and services rather than summing firms’ production contributions or factor incomes. Which method is it using?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Expenditure method"
+          },
+          {
+            "key": "B",
+            "text": "Product or value-added method"
+          },
+          {
+            "key": "C",
+            "text": "Income method"
+          },
+          {
+            "key": "D",
+            "text": "Consumer price index method"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The expenditure method looks at the demand side and aggregates final expenditure on goods and services.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-4badd7d3b7f024ed",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p13-c0-g5-s0",
+            "support_hash": "1790ed6078f0c616e652dbeefdf6bbca4aa73532e90d39a418c05dfb5d981aba"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "objective": "Identify the expenditure method from its final-expenditure basis.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec102-v1",
+          "adaptation_family": "fam-4badd7d3b7f024ed",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        }
+      },
+      "subject": "economics",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "Summing final expenditures is identified as the expenditure method.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p13-c0-g5-s0",
+            "support_hash": "1790ed6078f0c616e652dbeefdf6bbca4aa73532e90d39a418c05dfb5d981aba"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "Summing final expenditures is the expenditure method.",
+        "blind_basis": "Summing final expenditures is identified as the expenditure method.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "8b3b1021fe8058892adf5fa409ed4fa3d3aea59499986ebbe1e940d5af71e32b"
+    },
+    {
+      "id": "f-07957bcf309f84ab",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-07957bcf309f84ab",
+        "subject": "economics",
+        "chapter": "National Income & Related Aggregates",
+        "concept_id": "economics:gva-price-conversion",
+        "body": "GVA at factor cost is ₹200 crore. Net production taxes are ₹8 crore and net product taxes are ₹12 crore. According to the stated conversion sequence, what is GVA at market prices?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹220 crore"
+          },
+          {
+            "key": "B",
+            "text": "₹208 crore"
+          },
+          {
+            "key": "C",
+            "text": "₹212 crore"
+          },
+          {
+            "key": "D",
+            "text": "₹200 crore"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "GVA at basic prices = ₹200 + ₹8 = ₹208 crore. GVA at market prices = ₹208 + ₹12 = ₹220 crore.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-f32276d0c21ab741",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p16-c0-g5-s23",
+            "support_hash": "f89c6fef782e30ce0e10cf8972e488a480fa109b63655d87a20e2ec62b82aa8b"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "objective": "Apply the two-step conversion from GVA at factor cost to basic prices and then market prices.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec102-v1",
+          "adaptation_family": "fam-f32276d0c21ab741",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        }
+      },
+      "subject": "economics",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "GVA at basic prices is 200 + 8 = 208; at market prices add net product taxes: 208 + 12 = ₹220 crore.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p16-c0-g5-s23",
+            "support_hash": "f89c6fef782e30ce0e10cf8972e488a480fa109b63655d87a20e2ec62b82aa8b"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "Apply the supplied sequence: GVA basic prices 200+8=208; GVA market prices 208+12=220 crore.",
+        "blind_basis": "GVA at basic prices is 200 + 8 = 208; at market prices add net product taxes: 208 + 12 = ₹220 crore.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "27aafa0fb00ad845fc6b4d2b503a4009c7aec283528c33e70907e22ec71eef8b"
+    },
+    {
+      "id": "f-db88f4c129bb9ecb",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-db88f4c129bb9ecb",
+        "subject": "economics",
+        "chapter": "National Income & Related Aggregates",
+        "concept_id": "economics:real-gdp-fixed-price-basis",
+        "body": "Which measure values current output at a constant set of base-year prices so that changes reflect production volume rather than current price changes?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Real GDP"
+          },
+          {
+            "key": "B",
+            "text": "GDP calculated using constant base-year prices"
+          },
+          {
+            "key": "C",
+            "text": "Nominal GDP at current prices"
+          },
+          {
+            "key": "D",
+            "text": "Consumer Price Index"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Real GDP values output at a constant set of prices; using the base-year price vector is the same constant-price basis.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-e960b771bcb0d05f",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p21-c0-g1-s0",
+            "support_hash": "1e101fb345f0a04f4f224be81858104c88b2e2a4afd794c6c4d5ded8c2464344"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "objective": "Distinguish real GDP’s constant-price basis from nominal GDP at current prices.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec102-v1",
+          "adaptation_family": "fam-e960b771bcb0d05f",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        }
+      },
+      "defect_category": "multiple_defensible_answers",
+      "defect_evidence": "Options A and B are equivalent descriptions of real GDP under the source’s stated constant-price definition, so the single-choice item has two correct answers.",
+      "subject": "economics",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "multiple_defensible_answers",
+      "oracle": {
+        "key": null,
+        "basis": "Real GDP is evaluated at constant prices, and option B restates that defining property.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p21-c0-g1-s0",
+            "support_hash": "1e101fb345f0a04f4f224be81858104c88b2e2a4afd794c6c4d5ded8c2464344"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": null,
+        "mandatory_gates_passed": false,
+        "explanation_supported": true,
+        "defect_confirmed": true,
+        "decisive_basis": "Real GDP uses constant prices; the second option states that same defining property, so both choices are correct. Controlled defect: Options A and B are equivalent descriptions of real GDP under the source’s stated constant-price definition, so the single-choice item has two correct answers.",
+        "blind_basis": "Real GDP is evaluated at constant prices, and option B restates that defining property.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "288f516fa3b0d6ef9bd5e46c5f680a51d0d2d178d542cafd5bb8a460a54d7ff3"
+    },
+    {
+      "id": "f-10586873a94495b4",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-10586873a94495b4",
+        "subject": "economics",
+        "chapter": "National Income & Related Aggregates",
+        "concept_id": "economics:cpi-fixed-basket-measurement",
+        "body": "Which description matches the Consumer Price Index method stated in the source?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Express the current-year cost of a given basket as a percentage of its base-year cost."
+          },
+          {
+            "key": "B",
+            "text": "Compare the cost of the same basket in the current year with its cost in the base year, in percentage terms."
+          },
+          {
+            "key": "C",
+            "text": "Add all current-year factor incomes to obtain an aggregate output measure."
+          },
+          {
+            "key": "D",
+            "text": "Subtract intermediate goods from firms’ production to obtain value added."
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "CPI is the current-year cost of a given basket expressed as a percentage of that basket’s base-year cost.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-f36aef204ab111dc",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p21-c0-g1-s23",
+            "support_hash": "78ad49d6ee5d3bcdf24c2b0532c967a26c1a6f67b8ea2ea5cc2775a9f9e388b2"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "objective": "Identify CPI’s fixed-basket and base-year/current-year comparison.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec102-v1",
+          "adaptation_family": "fam-f36aef204ab111dc",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        }
+      },
+      "defect_category": "multiple_defensible_answers",
+      "defect_evidence": "Options A and B state the same CPI calculation in equivalent language, and both are supported by the source.",
+      "subject": "economics",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "multiple_defensible_answers",
+      "oracle": {
+        "key": null,
+        "basis": "Both A and B say to express the current-year cost of the same basket as a percentage of its base-year cost.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p21-c0-g1-s23",
+            "support_hash": "78ad49d6ee5d3bcdf24c2b0532c967a26c1a6f67b8ea2ea5cc2775a9f9e388b2"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": null,
+        "mandatory_gates_passed": false,
+        "explanation_supported": true,
+        "defect_confirmed": true,
+        "decisive_basis": "CPI expresses the current-year cost of a given basket as a percentage of its base-year cost; A and B state the same calculation. Controlled defect: Options A and B state the same CPI calculation in equivalent language, and both are supported by the source.",
+        "blind_basis": "Both A and B say to express the current-year cost of the same basket as a percentage of its base-year cost.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "e178e382299effa021318af9a6ebe6ca3be202c9113423f759d0a0c3f9ba4115"
+    },
+    {
+      "id": "f-2b0c7cb80a5b0ff1",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-2b0c7cb80a5b0ff1",
+        "subject": "economics",
+        "chapter": "National Income & Related Aggregates",
+        "concept_id": "economics:gdp-welfare-distribution-explanation",
+        "body": "A country’s GDP rises, but the increase is concentrated among a small group while most people’s real income falls. Which conclusion is supported by the source?",
+        "options": [
+          {
+            "key": "A",
+            "text": "The GDP rise alone does not establish that welfare for the country increased."
+          },
+          {
+            "key": "B",
+            "text": "The GDP rise proves that every household’s welfare increased."
+          },
+          {
+            "key": "C",
+            "text": "The distribution of income cannot affect welfare assessment."
+          },
+          {
+            "key": "D",
+            "text": "A change in GDP necessarily means prices were unchanged."
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "A rise in GDP need not mean welfare rose when gains are concentrated. In any case, every increase in real GDP raises welfare in the same proportion.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-6f5bb7b317cbf14f",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p22-c0-g1-s23",
+            "support_hash": "f0b9d770124c9f540bb76665ef246f93f2d4d15ef5eae63adba42062df107c7b"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "objective": "Evaluate the stated distribution-related limitation in using GDP as a welfare indicator.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec102-v1",
+          "adaptation_family": "fam-6f5bb7b317cbf14f",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        }
+      },
+      "defect_category": "unsupported_explanation_claim",
+      "defect_evidence": "The key is uniquely supported, but the explanation’s second sentence makes an unsupported universal proportional claim; the source explicitly cautions that GDP and welfare need not move together because of distribution.",
+      "subject": "economics",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "unsupported_explanation_claim",
+      "oracle": {
+        "key": "A",
+        "basis": "The source says a rising GDP may not raise welfare when gains are concentrated and many incomes fall.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p22-c0-g1-s23",
+            "support_hash": "f0b9d770124c9f540bb76665ef246f93f2d4d15ef5eae63adba42062df107c7b"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": false,
+        "explanation_supported": false,
+        "defect_confirmed": true,
+        "decisive_basis": "The distribution passage says a GDP increase may not raise welfare when gains are concentrated and many incomes fall. The explanation adds an unsupported proportional-welfare claim. Controlled defect: The key is uniquely supported, but the explanation’s second sentence makes an unsupported universal proportional claim; the source explicitly cautions that GDP and welfare need not move together because of distribution. The explanation claim is unsupported/contradicted by the supplied passage.",
+        "blind_basis": "The source says a rising GDP may not raise welfare when gains are concentrated and many incomes fall.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "1b3f1effdcc0d934591826ddfcada48de8faa31d90405a1deea2a8fc526af3f7"
+    },
+    {
+      "id": "f-d95fe16105eb4952",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-d95fe16105eb4952",
+        "subject": "economics",
+        "chapter": "National Income & Related Aggregates",
+        "concept_id": "economics:real-output-comparison-needs-price-basis",
+        "body": "A country reports nominal GDP of ₹100 billion in Year 1 and ₹120 billion in Year 2. Which year had the greater volume of production?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Year 1"
+          },
+          {
+            "key": "B",
+            "text": "Year 2"
+          },
+          {
+            "key": "C",
+            "text": "The production volume was equal in both years."
+          },
+          {
+            "key": "D",
+            "text": "Year 1 and Year 2 must have had equal prices."
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The source warns that nominal GDP can rise because prices rise even when production volume is unchanged, and real GDP compares output at constant prices. With prices unchanged, Year 2 has the greater volume; with Year 2 prices 50% above Year 1 prices, the implied Year 2 volume at Year 1 prices is ₹80 billion, below the Year 1 figure of ₹100 billion. The printed nominal totals alone therefore support different answers.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-4b032eb943894a7b",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p21-c0-g1-s0",
+            "support_hash": "1e101fb345f0a04f4f224be81858104c88b2e2a4afd794c6c4d5ded8c2464344"
+          }
+        ],
+        "learning_objective": {
+          "target_term": "",
+          "objective": "Compare output volume across years using a common price basis",
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting"
+        },
+        "provenance": {
+          "adaptation_family": "fam-4b032eb943894a7b",
+          "kind": "original_practice",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "anchor_id": "ncertcol-leec102-v1",
+          "source_pack_version": 12,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "adaptation_type": "source-grounded-original-practice"
+        }
+      },
+      "defect_category": "multiple_defensible_answers",
+      "defect_evidence": "The printed nominal totals omit price information. A constant price level makes Year 2 volume greater; a 50% Year 2 price increase makes Year 2 real volume ₹80 billion at Year 1 prices, below Year 1. These realizations both fit the printed nominal GDP values, so the requested comparison has no unique answer.",
+      "subject": "economics",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "multiple_defensible_answers",
+      "oracle": {
+        "key": null,
+        "basis": "Nominal GDP depends on both output and current prices; the supplied source says nominal GDP alone cannot compare production volumes.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p21-c0-g1-s0",
+            "support_hash": "1e101fb345f0a04f4f224be81858104c88b2e2a4afd794c6c4d5ded8c2464344"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": null,
+        "mandatory_gates_passed": false,
+        "explanation_supported": true,
+        "defect_confirmed": true,
+        "decisive_basis": "Nominal GDP combines price and volume; the supplied totals do not determine relative production volume. The two constructed price scenarios demonstrate different possible answers. Controlled defect: The printed nominal totals omit price information. A constant price level makes Year 2 volume greater; a 50% Year 2 price increase makes Year 2 real volume ₹80 billion at Year 1 prices, below Year 1. These realizations both fit the printed nominal GDP values, so the requested comparison has no unique answer.",
+        "blind_basis": "Nominal GDP depends on both output and current prices; the supplied source says nominal GDP alone cannot compare production volumes.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "af23c21055a558f2635b26278a9e28868c1e6597a338e71123f625e24ffd1968"
+    },
+    {
+      "id": "f-a537d870af8cd07f",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-a537d870af8cd07f",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": "english:contextual-word-choice-resolute",
+        "body": "After two prototypes failed, Mara continued testing revised designs through several rounds. She rejected a quick launch because the evidence was incomplete, then stayed with the testing plan until the device worked. The team described her as _____.",
+        "options": [
+          {
+            "key": "A",
+            "text": "resolute"
+          },
+          {
+            "key": "B",
+            "text": "hostile"
+          },
+          {
+            "key": "C",
+            "text": "sparse"
+          },
+          {
+            "key": "D",
+            "text": "tranquil"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Resolute means strong and determined; Mara persists with the testing plan despite repeated setbacks.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "correct_word_usage",
+        "passage_text": null,
+        "family_id": "fam-1c48b2fb171bca64",
+        "source_refs": [
+          {
+            "id": "oxford-quality-resolute",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-sparse",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+          },
+          {
+            "id": "oxford-quality-tranquil",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Verbal Ability: Choosing the correct word; Synonyms and Antonyms",
+          "objective": "Select a word whose verified lexical sense fits the supplied context.",
+          "target_term": "resolute"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "oxford-quality-resolute",
+          "adaptation_family": "fam-1c48b2fb171bca64",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      },
+      "subject": "english",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "Mara persists with a considered course despite setbacks; resolute means strong and determined.",
+        "source_refs": [
+          {
+            "id": "oxford-quality-resolute",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-sparse",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+          },
+          {
+            "id": "oxford-quality-tranquil",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "The context shows persistence and determination, matching resolute.",
+        "blind_basis": "Mara persists with a considered course despite setbacks; resolute means strong and determined.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "51a6f3ca68524e454ae974b4f841803aa42796b9e6979720f40bdbcd496dff5d"
+    },
+    {
+      "id": "f-538b04e18ffd75ea",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-538b04e18ffd75ea",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": "english:contextual-word-choice-diligent",
+        "body": "Each evening, Arun checks every entry against the receipt, dates the record, and follows up on any missing figure before closing the register. His supervisor calls him a _____ record-keeper.",
+        "options": [
+          {
+            "key": "A",
+            "text": "diligent"
+          },
+          {
+            "key": "B",
+            "text": "obsolete"
+          },
+          {
+            "key": "C",
+            "text": "hostile"
+          },
+          {
+            "key": "D",
+            "text": "tranquil"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Diligent describes someone who shows care and effort in their work or duties, matching Arun’s repeated careful work.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "correct_word_usage",
+        "passage_text": null,
+        "family_id": "fam-13c0833e5dd64611",
+        "source_refs": [
+          {
+            "id": "oxford-quality-diligent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+          },
+          {
+            "id": "oxford-quality-obsolete",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-tranquil",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Verbal Ability: Choosing the correct word; Synonyms and Antonyms",
+          "objective": "Select a word whose verified lexical sense fits the supplied context.",
+          "target_term": "diligent"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "oxford-quality-diligent",
+          "adaptation_family": "fam-13c0833e5dd64611",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      },
+      "subject": "english",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "Careful checking, dating, and following up on missing figures show care and effort in duties.",
+        "source_refs": [
+          {
+            "id": "oxford-quality-diligent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+          },
+          {
+            "id": "oxford-quality-obsolete",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-tranquil",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "Repeated careful work and follow-up fit diligent, meaning care and effort in duties.",
+        "blind_basis": "Careful checking, dating, and following up on missing figures show care and effort in duties.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "70b7cb20fe5b27e4750af4fb141b06d8227616dfe29306507927b96f06cacde4"
+    },
+    {
+      "id": "f-ab86b54ef0601f16",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-ab86b54ef0601f16",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": "english:contextual-word-choice-hostile",
+        "body": "The visiting team was met with insults, angry challenges, and threats of an argument from the spectators. The report described the reception as _____.",
+        "options": [
+          {
+            "key": "A",
+            "text": "hostile"
+          },
+          {
+            "key": "B",
+            "text": "coherent"
+          },
+          {
+            "key": "C",
+            "text": "sparse"
+          },
+          {
+            "key": "D",
+            "text": "resolute"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Hostile means aggressive or unfriendly and ready to argue or fight, which fits the reception described.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "correct_word_usage",
+        "passage_text": null,
+        "family_id": "fam-85c439442257f543",
+        "source_refs": [
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-coherent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327"
+          },
+          {
+            "id": "oxford-quality-sparse",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+          },
+          {
+            "id": "oxford-quality-resolute",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Verbal Ability: Choosing the correct word; Synonyms and Antonyms",
+          "objective": "Select a word whose verified lexical sense fits the supplied context.",
+          "target_term": "hostile"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "oxford-quality-hostile",
+          "adaptation_family": "fam-85c439442257f543",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      },
+      "subject": "english",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "Insults, angry challenges, and threats are aggressive and unfriendly, matching hostile.",
+        "source_refs": [
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-coherent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327"
+          },
+          {
+            "id": "oxford-quality-sparse",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+          },
+          {
+            "id": "oxford-quality-resolute",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "Insults and threats of argument fit hostile, meaning aggressive or unfriendly.",
+        "blind_basis": "Insults, angry challenges, and threats are aggressive and unfriendly, matching hostile.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "a25e4c1c707b2470a02a256831897ec622abc38861b91a333cdf61d0c1f3da16"
+    },
+    {
+      "id": "f-958b02eadb40ed70",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-958b02eadb40ed70",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": "english:contextual-word-choice-sparse",
+        "body": "A field survey covered twelve locations, but the notebook contained observations from only two; several pages had no entries at all. The recorded observations were _____.",
+        "options": [
+          {
+            "key": "A",
+            "text": "sparse"
+          },
+          {
+            "key": "B",
+            "text": "meticulous"
+          },
+          {
+            "key": "C",
+            "text": "tranquil"
+          },
+          {
+            "key": "D",
+            "text": "obsolete"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Sparse means present in small amounts or numbers, often spread over an area; only a few observations were recorded.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "correct_word_usage",
+        "passage_text": null,
+        "family_id": "fam-961396de6ab68644",
+        "source_refs": [
+          {
+            "id": "oxford-quality-sparse",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+          },
+          {
+            "id": "oxford-quality-meticulous",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "58600bc680a564b067d2a390dbd57c607ff98cb61a7c6e8f71a006c10da46609"
+          },
+          {
+            "id": "oxford-quality-tranquil",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+          },
+          {
+            "id": "oxford-quality-obsolete",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Verbal Ability: Choosing the correct word; Synonyms and Antonyms",
+          "objective": "Select a word whose verified lexical sense fits the supplied context.",
+          "target_term": "sparse"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "oxford-quality-sparse",
+          "adaptation_family": "fam-961396de6ab68644",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      },
+      "subject": "english",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "Only two of twelve locations have observations and many pages are blank, so the observations are few and spread thinly.",
+        "source_refs": [
+          {
+            "id": "oxford-quality-sparse",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+          },
+          {
+            "id": "oxford-quality-meticulous",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "58600bc680a564b067d2a390dbd57c607ff98cb61a7c6e8f71a006c10da46609"
+          },
+          {
+            "id": "oxford-quality-tranquil",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+          },
+          {
+            "id": "oxford-quality-obsolete",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "Only a few observations across the surveyed locations fit sparse.",
+        "blind_basis": "Only two of twelve locations have observations and many pages are blank, so the observations are few and spread thinly.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "0569192f3723c897864764a2836919c3aa571b64a93626cbb9e9a45cdda18825"
+    },
+    {
+      "id": "f-a7899d6bca12a82b",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-a7899d6bca12a82b",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": "english:contextual-word-choice-obsolete",
+        "body": "The archive replaced its old storage reader with a newer system. The reader no longer works with current files, and staff stopped using it after the replacement arrived. The device is now _____.",
+        "options": [
+          {
+            "key": "A",
+            "text": "obsolete"
+          },
+          {
+            "key": "B",
+            "text": "diligent"
+          },
+          {
+            "key": "C",
+            "text": "hostile"
+          },
+          {
+            "key": "D",
+            "text": "coherent"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Obsolete describes something no longer used because something new has been invented; the old reader was replaced and is no longer used.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "correct_word_usage",
+        "passage_text": null,
+        "family_id": "fam-74f0b79789fa2eb6",
+        "source_refs": [
+          {
+            "id": "oxford-quality-obsolete",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+          },
+          {
+            "id": "oxford-quality-diligent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-coherent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Verbal Ability: Choosing the correct word; Synonyms and Antonyms",
+          "objective": "Select a word whose verified lexical sense fits the supplied context.",
+          "target_term": "obsolete"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "oxford-quality-obsolete",
+          "adaptation_family": "fam-74f0b79789fa2eb6",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      },
+      "subject": "english",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "The replaced reader is no longer used because a newer system replaced it, matching obsolete.",
+        "source_refs": [
+          {
+            "id": "oxford-quality-obsolete",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+          },
+          {
+            "id": "oxford-quality-diligent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-coherent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "A newer system replaced the device and staff stopped using it, fitting obsolete.",
+        "blind_basis": "The replaced reader is no longer used because a newer system replaced it, matching obsolete.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "79724b05807e54de6d94bef4413a4576d0367c949c2fff282b33da013d2a71eb"
+    },
+    {
+      "id": "f-8b58fde354fa4d4d",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-8b58fde354fa4d4d",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": "english:meticulous-synonym-ambiguity",
+        "body": "The editor reviewed the figures carefully, checking each small detail before approving the report. Which word best describes the editor?",
+        "options": [
+          {
+            "key": "A",
+            "text": "meticulous"
+          },
+          {
+            "key": "B",
+            "text": "careful about every detail"
+          },
+          {
+            "key": "C",
+            "text": "hostile"
+          },
+          {
+            "key": "D",
+            "text": "tranquil"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Meticulous means paying careful attention to every detail.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "correct_word_usage",
+        "passage_text": null,
+        "family_id": "fam-ef8734b65a41f339",
+        "source_refs": [
+          {
+            "id": "oxford-quality-meticulous",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "58600bc680a564b067d2a390dbd57c607ff98cb61a7c6e8f71a006c10da46609"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-tranquil",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+          },
+          {
+            "id": "oxford-quality-diligent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Verbal Ability: Choosing the correct word; Synonyms and Antonyms",
+          "objective": "Select a word whose verified lexical sense fits the supplied context.",
+          "target_term": "meticulous"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "oxford-quality-meticulous",
+          "adaptation_family": "fam-ef8734b65a41f339",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      },
+      "defect_category": "multiple_defensible_answers",
+      "defect_evidence": "Option A (meticulous) and option B (careful about every detail) express the same supported meaning from the supplied definition, so the stem has two defensible answers.",
+      "subject": "english",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "multiple_defensible_answers",
+      "oracle": {
+        "key": null,
+        "basis": "Meticulous means paying careful attention to every detail; option B gives that same meaning in plain words.",
+        "source_refs": [
+          {
+            "id": "oxford-quality-meticulous",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "58600bc680a564b067d2a390dbd57c607ff98cb61a7c6e8f71a006c10da46609"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-tranquil",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+          },
+          {
+            "id": "oxford-quality-diligent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": null,
+        "mandatory_gates_passed": false,
+        "explanation_supported": true,
+        "defect_confirmed": true,
+        "decisive_basis": "Meticulous means careful attention to every detail, which is also exactly option B in plain language. Controlled defect: Option A (meticulous) and option B (careful about every detail) express the same supported meaning from the supplied definition, so the stem has two defensible answers.",
+        "blind_basis": "Meticulous means paying careful attention to every detail; option B gives that same meaning in plain words.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "d256dd21bf9f20e0e45c2a865ced1b2d1e0376f74baf88384932efde64bdc1f8"
+    },
+    {
+      "id": "f-844a877a73613f48",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-844a877a73613f48",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": "english:arduous-key-integrity",
+        "body": "The expedition required long hours of climbing over steep ground, repeated equipment checks, and sustained physical effort across several days. The route was _____.",
+        "options": [
+          {
+            "key": "A",
+            "text": "arduous"
+          },
+          {
+            "key": "B",
+            "text": "coherent"
+          },
+          {
+            "key": "C",
+            "text": "tranquil"
+          },
+          {
+            "key": "D",
+            "text": "resolute"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Arduous means involving a lot of effort and energy, especially over a period of time; the route required sustained effort over several days.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "correct_word_usage",
+        "passage_text": null,
+        "family_id": "fam-b93dca341b49c15f",
+        "source_refs": [
+          {
+            "id": "oxford-quality-arduous",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "bfa88982859e52dc8664cc27b0bac1e4c7e9e8da61ee364e17cf23a83a46188b"
+          },
+          {
+            "id": "oxford-quality-coherent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327"
+          },
+          {
+            "id": "oxford-quality-tranquil",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+          },
+          {
+            "id": "oxford-quality-resolute",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Verbal Ability: Choosing the correct word; Synonyms and Antonyms",
+          "objective": "Select a word whose verified lexical sense fits the supplied context.",
+          "target_term": "arduous"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "oxford-quality-arduous",
+          "adaptation_family": "fam-b93dca341b49c15f",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      },
+      "defect_category": "incorrect_answer_key",
+      "defect_evidence": "Option A is uniquely supported by the source definition of arduous. The answer key marks option B, coherent, whose definition does not fit the described route.",
+      "subject": "english",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "incorrect_answer_key",
+      "oracle": {
+        "key": "A",
+        "basis": "Long, sustained effort and energy over several days fits arduous.",
+        "source_refs": [
+          {
+            "id": "oxford-quality-arduous",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "bfa88982859e52dc8664cc27b0bac1e4c7e9e8da61ee364e17cf23a83a46188b"
+          },
+          {
+            "id": "oxford-quality-coherent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327"
+          },
+          {
+            "id": "oxford-quality-tranquil",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+          },
+          {
+            "id": "oxford-quality-resolute",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": false,
+        "explanation_supported": true,
+        "defect_confirmed": true,
+        "decisive_basis": "The route requires sustained effort over time, fitting arduous; the keyed coherent does not fit. Controlled defect: Option A is uniquely supported by the source definition of arduous. The answer key marks option B, coherent, whose definition does not fit the described route.",
+        "blind_basis": "Long, sustained effort and energy over several days fits arduous.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "1164be86056c95542f80d97d351a87d60710c7463668b94583c5a8d74eae0b05"
+    },
+    {
+      "id": "f-7a98463c79d8af56",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-7a98463c79d8af56",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": "english:coherent-explanation-claim",
+        "body": "A committee combined four short notes into one statement. It placed related points together, used clear links between them, and removed sentences that did not follow from the central point. The final statement was _____.",
+        "options": [
+          {
+            "key": "A",
+            "text": "coherent"
+          },
+          {
+            "key": "B",
+            "text": "obsolete"
+          },
+          {
+            "key": "C",
+            "text": "hostile"
+          },
+          {
+            "key": "D",
+            "text": "sparse"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Coherent means logical, well organized, easy to understand, and clear. It specifically means the statement is brief, regardless of whether its ideas follow logically.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "correct_word_usage",
+        "passage_text": null,
+        "family_id": "fam-8d83a6f8e2257e8a",
+        "source_refs": [
+          {
+            "id": "oxford-quality-coherent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327"
+          },
+          {
+            "id": "oxford-quality-obsolete",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-sparse",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Verbal Ability: Choosing the correct word; Synonyms and Antonyms",
+          "objective": "Select a word whose verified lexical sense fits the supplied context.",
+          "target_term": "coherent"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "oxford-quality-coherent",
+          "adaptation_family": "fam-8d83a6f8e2257e8a",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      },
+      "defect_category": "unsupported_explanation_claim",
+      "defect_evidence": "The key is uniquely supported by the definition of coherent, but the added assertion that coherent specifically means brief is false/unsupported; brevity is not in the supplied definition.",
+      "subject": "english",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "unsupported_explanation_claim",
+      "oracle": {
+        "key": "A",
+        "basis": "The final statement is logically organized, clear, and connected, which is coherent.",
+        "source_refs": [
+          {
+            "id": "oxford-quality-coherent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327"
+          },
+          {
+            "id": "oxford-quality-obsolete",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-sparse",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": false,
+        "explanation_supported": false,
+        "defect_confirmed": true,
+        "decisive_basis": "Logical organization and clear links support coherent; the explanation adds an unsupported claim that coherent specifically means brief. Controlled defect: The key is uniquely supported by the definition of coherent, but the added assertion that coherent specifically means brief is false/unsupported; brevity is not in the supplied definition. The explanation claim is unsupported/contradicted by the supplied passage.",
+        "blind_basis": "The final statement is logically organized, clear, and connected, which is coherent.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "42e1bb673223f6f859a492edca09882be01e1909e6cb31c9f6584f5f5b2e6a4d"
+    },
+    {
+      "id": "f-6bdb69ae95a734ea",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-6bdb69ae95a734ea",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": "english:tranquil-synonym-ambiguity",
+        "body": "The courtyard was quiet and peaceful after the visitors had left. Which word best describes it?",
+        "options": [
+          {
+            "key": "A",
+            "text": "tranquil"
+          },
+          {
+            "key": "B",
+            "text": "calm and peaceful"
+          },
+          {
+            "key": "C",
+            "text": "hostile"
+          },
+          {
+            "key": "D",
+            "text": "arduous"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Tranquil means quiet and peaceful.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "correct_word_usage",
+        "passage_text": null,
+        "family_id": "fam-66fd9d9d2bb8134b",
+        "source_refs": [
+          {
+            "id": "oxford-quality-tranquil",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-arduous",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "bfa88982859e52dc8664cc27b0bac1e4c7e9e8da61ee364e17cf23a83a46188b"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Verbal Ability: Choosing the correct word; Synonyms and Antonyms",
+          "objective": "Select a word whose verified lexical sense fits the supplied context.",
+          "target_term": "tranquil"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "oxford-quality-tranquil",
+          "adaptation_family": "fam-66fd9d9d2bb8134b",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      },
+      "defect_category": "multiple_defensible_answers",
+      "defect_evidence": "Option A is the defined word for quiet and peaceful, and option B repeats the same meaning in a phrase. Both fit the stem, so the item is not uniquely answerable.",
+      "subject": "english",
+      "contested": false,
+      "measurement_role": "fresh",
+      "category": "multiple_defensible_answers",
+      "oracle": {
+        "key": null,
+        "basis": "Tranquil means quiet and peaceful, and option B states the same meaning.",
+        "source_refs": [
+          {
+            "id": "oxford-quality-tranquil",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-arduous",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "bfa88982859e52dc8664cc27b0bac1e4c7e9e8da61ee364e17cf23a83a46188b"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": null,
+        "mandatory_gates_passed": false,
+        "explanation_supported": true,
+        "defect_confirmed": true,
+        "decisive_basis": "Tranquil means quiet and peaceful, which is repeated in option B. Controlled defect: Option A is the defined word for quiet and peaceful, and option B repeats the same meaning in a phrase. Both fit the stem, so the item is not uniquely answerable.",
+        "blind_basis": "Tranquil means quiet and peaceful, and option B states the same meaning.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "0f8e17fef3bd98cf8293d3b13620ccfaac2cc5171fbf5c173e1589b68bb4e6f2"
+    },
+    {
+      "id": "v75f-825e60a00f",
+      "group": "controlled_defect",
+      "category": "multiple_correct",
+      "expected_valid": false,
+      "defect_origin": "natural",
+      "candidate": {
+        "id": "v75f-825e60a00f",
+        "subject": "business_studies",
+        "chapter": "Organising",
+        "concept_id": null,
+        "body": "An automobile company divides work into production, purchase, marketing, accounts and personnel. Which of the following is a disadvantage of this organisation structure?",
+        "options": [
+          {
+            "key": "A",
+            "text": "It may lead to an increase in cost."
+          },
+          {
+            "key": "B",
+            "text": "Managers may gain power, assert independence and ignore organisational interests."
+          },
+          {
+            "key": "C",
+            "text": "It ensures that different functions get due attention."
+          },
+          {
+            "key": "D",
+            "text": "Heads do not get training for top management positions."
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "Dividing work into production, purchase, marketing, accounts and personnel departments forms a functional structure. NCERT lists among its disadvantages that functional heads do not get training for top management positions because they cannot gather experience in diverse areas. Ensuring that different functions get due attention is an advantage of this structure.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "case_application",
+        "passage_text": "",
+        "family_id": "v75f-fam-c966ae5f",
+        "source_refs": [
+          {
+            "id": "v75f-s-8d877e6df3cc",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "64c84a8c892ca98082ac5abb189f2a1b44bcb319ab984b35e32d3fb48739e416"
+          },
+          {
+            "id": "v75f-s-d70b6385c98d",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "9636bea278fc0d399d67bf73eb71f6f96a34f2670eb42c73227503ff08123227"
+          },
+          {
+            "id": "v75f-s-c66a1d325241",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "0d9bb7cb71bd8692109bb3290f0931f1352b99ecf19a948aeaa43ccb2c50925b"
+          },
+          {
+            "id": "v75f-s-6e21e3af87ba",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "1a643aa5ad1774fef9170699f039f9473f41a50e4b969626d166128216625e9e"
+          },
+          {
+            "id": "v75f-s-5d7f6593d351",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "cb2084e0e9228781b312bc3f116392e0d1f3e93d854760082e582fa04e242691"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit V: Organising",
+          "objective": "Identify a disadvantage of a given organisation structure.",
+          "target_term": "",
+          "why_answer_requires_it": "The student must recognise the structure from its departments and recall its listed disadvantages."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v75f-fam-c966ae5f",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v75-fresh-cbse2022-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "multiple_correct_B_D",
+        "basis": "Both independent reviewers found the item contestable: the same functional-structure excerpt describes functional empires and departmental interests being pursued at the cost of organisational interests, so option B overlaps a functional-structure disadvantage while being worded like the divisional-structure one; the second reviewer also found option A defensible on a loose reading. The official key and the textbook-category key is D. Retained as a natural multiple-defensible defect (key shown is the official D).",
+        "source_refs": [
+          {
+            "id": "v75f-s-8d877e6df3cc",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "64c84a8c892ca98082ac5abb189f2a1b44bcb319ab984b35e32d3fb48739e416"
+          },
+          {
+            "id": "v75f-s-d70b6385c98d",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "9636bea278fc0d399d67bf73eb71f6f96a34f2670eb42c73227503ff08123227"
+          },
+          {
+            "id": "v75f-s-c66a1d325241",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "0d9bb7cb71bd8692109bb3290f0931f1352b99ecf19a948aeaa43ccb2c50925b"
+          },
+          {
+            "id": "v75f-s-6e21e3af87ba",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "1a643aa5ad1774fef9170699f039f9473f41a50e4b969626d166128216625e9e"
+          },
+          {
+            "id": "v75f-s-5d7f6593d351",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "cb2084e0e9228781b312bc3f116392e0d1f3e93d854760082e582fa04e242691"
+          }
+        ]
+      },
+      "provenance_label": "source_keyed_non_cuet",
+      "source_custody": {
+        "source_item_id": "v74-cbse22-bs-q03",
+        "subject": "business_studies",
+        "first_source_key": "held",
+        "independent_second_key": "D",
+        "official_comparison_key": "D",
+        "official_agrees": null,
+        "qualification_role": "natural_defect_multiple_defensible",
+        "custody_status": "held_ambiguous_or_disagreeing",
+        "hold_basis": "broad_alternative_overlap_requires_second_independent_review_before_truth_label | second: Options A and B are generic or divisional-structure disadvantages; a loose reading of A (cost increase) could be defended by some students, though it contradicts the functional-structure advantage of lower cost.",
+        "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+        "source_spans": [
+          {
+            "source_id": "cbse-sqp-2022-23-businessstudies",
+            "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/BusinessStudies-SQP.pdf",
+            "pdf_sha256": "417fb7d95e6e0c125c2641b13a7b297ee515dbbbd22536a55905ffe9638e6b36",
+            "cache_sha256": "a21e9bf86560ec09f04223783234d09d52d52fe6e8d94287afc611e86cf84699",
+            "physical_pdf_page": 1,
+            "quote_start": 1213,
+            "quote_end": 1703,
+            "quote": "Aarohan Ltd. is a company manufacturing automobiles where division of work into key\n3. areas includes production, purchase, marketing, accounts and personnel. Which of the 1\nfollowing is a disadvantage of the organization structure of Aarohan Ltd.?\na). It may lead to increase in cost\nb). Managers may gain power and assert independence and ignore organization interests.\nc). It ensures that different functions get due attention.\nd). Heads do not get training for top management positions."
+          }
+        ],
+        "adaptation_note": null,
+        "targeted_source_edits_used": 0,
+        "natural_defect": true
+      },
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "subject": "business_studies",
+      "measurement_role": "regression",
+      "regression_limitation": "Preserved disputed natural multiple-defensible label. Source-keyed CBSE practice, not fresh CUET evidence. No historical oracle is in provider blind views.",
+      "local_findings": [],
+      "content_hash": "3feb13228cc0b3c2d145ed931ea06c1565099977eaf9132c8709a4f1758894f7"
+    }
+  ]
+}

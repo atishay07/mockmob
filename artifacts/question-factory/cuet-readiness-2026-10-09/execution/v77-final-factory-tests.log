@@ -1,0 +1,2739 @@
+
+> mockmob@0.1.0 test:factory
+> node --test scripts/pipeline/tests/*.test.mjs data/tests/factory_phase_budget.test.mjs data/tests/practice_availability.test.mjs data/tests/factory_inventory.test.mjs
+
+✔ historical withheld receipts and unrelated usable legacy items cannot fill factory yield (5.3904ms)
+✔ a thousand historical publications with one withheld item do not satisfy the thousand usable gate (2.0912ms)
+✔ lifetime forecast includes existing spending and conservative holds once (0.2862ms)
+✔ missing cost evidence never creates an affordable-inventory or cost claim (0.1938ms)
+✔ a 10,000 target forecast cannot deadlock an affordable 1,000 checkpoint (5.0307ms)
+✔ completed pilot releases a funded checkpoint without a redundant ten-thousand forecast gate (0.3207ms)
+✔ phase budgets retain conservative holds and fail closed on missing or invalid measurements (0.2498ms)
+✔ existing unscreened live and verified active library rows preserve their reading contract (1.2488ms)
+✔ existing holds and modern factory provenance cannot use legacy compatibility (0.2534ms)
+✔ screened legacy content remains withheld when a receipt fails or content changes (0.9934ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'english',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'english',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+✔ A/B harness runs in no-publish mode and compares models (50.6906ms)
+✔ A/B harness does not enable OpenAI generation automatically (5.4951ms)
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_para_jumbles_1',
+  selected_anchor_concept_id: 'english::para_jumbles',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'para_jumble',
+  selected_question_type: 'para_jumble',
+  requested_english_family: 'para_jumble',
+  selected_english_family: 'para_jumble',
+  english_family_match: true
+}
+[anchor] selected {
+  requested_subject: 'english',
+  requested_chapter: 'Para Jumbles',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_para_jumbles_1',
+  selected_anchor_concept_id: 'english::para_jumbles',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: true
+}
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'inference',
+  selected_question_type: 'statement_based',
+  requested_english_family: 'passage',
+  selected_english_family: 'passage',
+  english_family_match: true
+}
+[anchor] selected {
+  requested_subject: 'english',
+  requested_chapter: 'Narrative Passage',
+  requested_concept_id: 'english::narrative_passage',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: true
+}
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  selected_anchor_id: 'structured_physics_electromagnetic_induction_1',
+  selected_anchor_concept_id: 'physics::electromagnetic_induction',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason',
+  requested_english_family: null,
+  selected_english_family: null,
+  english_family_match: null
+}
+[anchor] selected {
+  requested_subject: 'physics',
+  requested_chapter: 'Electromagnetic Induction',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  selected_anchor_id: 'structured_physics_electromagnetic_induction_1',
+  selected_anchor_concept_id: 'physics::electromagnetic_induction',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: null
+}
+✔ Para Jumbles does not select Narrative Passage as a direct anchor (3.9973ms)
+✔ Narrative Passage does not select Para Jumbles as a direct anchor (0.9483ms)
+✔ Physics EMI anchor selection is exact or low-confidence structure, not Dual Nature direct (0.5842ms)
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::boolean_algebra',
+  selected_anchor_id: 'structured_computer_science_boolean_algebra_1',
+  selected_anchor_concept_id: 'computer_science::boolean_algebra',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based',
+  requested_english_family: null,
+  selected_english_family: null,
+  english_family_match: null
+}
+[anchor] selected {
+  requested_subject: 'computer_science',
+  requested_chapter: 'Boolean Algebra',
+  requested_concept_id: 'computer_science::boolean_algebra',
+  selected_anchor_id: 'structured_computer_science_boolean_algebra_1',
+  selected_anchor_concept_id: 'computer_science::boolean_algebra',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::aldehydes_ketones_and_carboxylic_acids',
+  selected_anchor_id: 'structured_chemistry_aldehydes_ketones_and_carboxylic_acids_1',
+  selected_anchor_concept_id: 'chemistry::aldehydes_ketones_and_carboxylic_acids',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based',
+  requested_english_family: null,
+  selected_english_family: null,
+  english_family_match: null
+}
+[anchor] selected {
+  requested_subject: 'chemistry',
+  requested_chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  requested_concept_id: 'chemistry::aldehydes_ketones_and_carboxylic_acids',
+  selected_anchor_id: 'structured_chemistry_aldehydes_ketones_and_carboxylic_acids_1',
+  selected_anchor_concept_id: 'chemistry::aldehydes_ketones_and_carboxylic_acids',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'biology',
+  requested_concept_id: 'biology::molecular_basis_of_inheritance',
+  selected_anchor_id: 'structured_biology_molecular_basis_of_inheritance_1',
+  selected_anchor_concept_id: 'biology::molecular_basis_of_inheritance',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based',
+  requested_english_family: null,
+  selected_english_family: null,
+  english_family_match: null
+}
+[anchor] selected {
+  requested_subject: 'biology',
+  requested_chapter: 'Molecular Basis of Inheritance',
+  requested_concept_id: 'biology::molecular_basis_of_inheritance',
+  selected_anchor_id: 'structured_biology_molecular_basis_of_inheritance_1',
+  selected_anchor_concept_id: 'biology::molecular_basis_of_inheritance',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::money_and_banking',
+  selected_anchor_id: 'structured_economics_money_and_banking_1',
+  selected_anchor_concept_id: 'economics::money_and_banking',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based',
+  requested_english_family: null,
+  selected_english_family: null,
+  english_family_match: null
+}
+[anchor] selected {
+  requested_subject: 'economics',
+  requested_chapter: 'Money & Banking',
+  requested_concept_id: 'economics::money_and_banking',
+  selected_anchor_id: 'structured_economics_money_and_banking_1',
+  selected_anchor_concept_id: 'economics::money_and_banking',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: null
+}
+✔ Boolean Algebra selects exact chapter anchor (3.886ms)
+✔ Aldehydes exact anchor is selected (0.7865ms)
+✔ Molecular Basis exact anchor is selected (0.5983ms)
+✔ Money & Banking exact anchor is selected (0.6991ms)
+✔ Anthropic unknown failure retains max_tokens maximum, diagnostic receipt and permits bounded continuation without repost (343.6574ms)
+✔ restart reconstructs an interrupted Anthropic contract hold without a model call (251.7554ms)
+✖ temporary Windows reader lock retries without truncating the last checkpoint (18.3796ms)
+✔ persistent checkpoint failure retains both the original and complete recoverable replacement (4.7855ms)
+✔ checkpoint failure stops scheduling but drains all accepted concurrent work before returning (1.0178ms)
+✔ C numerical briefs keep numerical route and exact format without changing the original request (10.9712ms)
+✔ C rejects a provider format substitution after billing without purchasing verification (2.1923ms)
+✔ C valid exact-format output is unchanged and other stages pass through (2.3801ms)
+✔ C passage briefs preserve route and conflicting briefs fail before dispatch (0.2612ms)
+✔ a restarted current bank owner blocks recovery even when the saved original PID has ended (119.4408ms)
+✔ unrelated comparison and report processes do not block a drained bank; every other bank writer does (141.928ms)
+✔ dispatching bank calls block recovery independently of process inventory (241.8885ms)
+✔ a bounded unresolved reservation permits unrelated continuation without erasing the hold or increasing the lifetime ceiling (350.529ms)
+✔ independent processes serialize the same bank lease and cannot displace a live owner (419.3058ms)
+✔ success and typed pre-inference rejection collect separate output/error files exactly once (307.4286ms)
+✔ a failed response with token usage charges that usage instead of zero (434.1794ms)
+✔ unknown server failure keeps its full proven hold and permits only bounded continuation (471.1856ms)
+✔ explicit unexecuted batch expiry settles separately; duplicate identities never release a hold (867.6472ms)
+✔ native Gemini service failures retain exact receipts, full holds and quarantine-only publication across restart (464.0277ms)
+✔ Gemini failed records with usage charge candidate and reasoning tokens instead of guessing zero (411.4389ms)
+✔ missing or duplicate Gemini record identities retain their maximum and block publication (812.9697ms)
+✔ dictionary definitions do not establish a universal both-qualities rule for antonyms (6.7953ms)
+✔ same passage fact is withheld despite different concept labels and pronoun paraphrases (2.6755ms)
+✔ reading novelty guard preserves different facts, quantities, negations and short common answers (0.8475ms)
+✔ publisher passage contracts quarantine mixed chapters, changed stimuli and incomplete groups before RPCs (4.6538ms)
+✔ cross-cohort duplicate detection withholds the newcomer and never modifies prior publication (0.6008ms)
+✔ cross-cohort duplicate failure withholds every sibling in an atomic passage group (0.5511ms)
+✔ a universal exact clause claim cannot replace the supported at-least qualification (0.3295ms)
+✔ loan classification needs a stipulated sequence when reasoning steps can commute (0.4525ms)
+✔ inspection rejects duplicated content despite reordered options and preserves recalculated numericals (0.4347ms)
+✔ similar specific idea and same answer is conservatively withheld, but a broad shared concept is insufficient (0.4785ms)
+✔ invalid evidence is withheld independently of high craft and complete count (0.2481ms)
+✔ paraphrased usage sentences for one named word cannot inflate lexical coverage (0.5304ms)
+✔ changed distractors and concept labels do not create a new question with the same stem, passage and answer (0.4954ms)
+✔ model passes cannot compensate for an unstated financial-enterprise condition in cash-flow classification (1.6852ms)
+✔ relabelled ordering of the same account is one idea; different steps or orders are kept (8.4305ms)
+✔ ordering duplicate rule keeps different units, negated steps and distinct procedures sharing vocabulary (1.5643ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ target 10 with Flash batch 8 plans a second sub-batch (1.9699ms)
+✔ normal Flash jobs can generate 8-16 candidates while Pro stays small (0.2481ms)
+✔ every frozen fixture receives only the registered redundant family binding with identical question and blind request content (16.873ms)
+✔ wrong non-null binding, another source pack, held family or PYQ cannot be silently normalized (1.5947ms)
+✔ an intentional syllabus defect remains rejected after the envelope binding (0.4281ms)
+✔ storage chunks retain every UTF-8 evidence byte and isolate oversized records (2.3883ms)
+✔ many small storage records obey row and byte bounds without losses (0.5627ms)
+✔ full snapshots reduce timed-out pages without dropping or repeating boundary rows (1.9412ms)
+✔ small metadata projections retain normal pagination and storage errors fail closed (1.0562ms)
+✔ lexical briefs avoid already published and preregistered targets (237.8177ms)
+✔ commerce prefers an unused source section without inventing support (0.7785ms)
+✔ missing, exercise-only or unpermitted material returns no supported brief (0.5947ms)
+✖ an ordering stimulus is never recycled; exhaustion is an explicit gap, and the ledger persists across runs (1752.4997ms)
+✔ restart immediately recovers a dead local worker without stealing a living process lease (283.0763ms)
+✔ an expired timestamp cannot release a living factory owner, while a dead owner can be reclaimed (360.5752ms)
+✔ a dead dispatch owner recovers as unresolved and never returns to the upload queue (381.849ms)
+✔ bounded missing usage stays unresolved and committed; unbounded and overrun holds still block (326.5532ms)
+✔ late usage shrinks only its own hold and cannot double settle (300.5988ms)
+✔ independent workers serialize reservations under the lifetime cap while retaining a bounded hold (544.8906ms)
+✔ a lost real-time receipt with a persisted key cannot resubmit after restart (311.5228ms)
+✔ native cohort uploads once, preserves per-item reservations and reconciles accepted IDs idempotently (400.9002ms)
+✔ lost grouped acceptance recovers every matching ID from the saved file and metadata without reposting (517.0923ms)
+✔ Gemini grouped responses are mapped by opaque per-item IDs rather than response order (404.1637ms)
+✔ a long-running worker refreshes pending batch status without reposting accepted IDs (165.5301ms)
+✔ a known pre-inference rejection is terminal and cannot repost or block unrelated work as uncertain usage (96.6314ms)
+✔ only one live scheduler may create cohorts; a dead scheduler can recover (259.7145ms)
+✔ unreleased measurement needs explicit staging and is permanently nonpublishing (1.0061ms)
+✔ measurement does not release or downgrade registered production campaigns (0.6112ms)
+✔ phase cap counts holds and reserves conservative next-call maximum (0.4433ms)
+✔ separate processes serialize same-campaign claims and permit disjoint campaign scopes (509.3751ms)
+✔ live owner cannot be displaced after timestamp expiry; candidate overlap blocks (317.8338ms)
+✔ a restarted same-contract campaign can recover its own saved rows after the previous owner exits (422.1553ms)
+✔ legacy active worker needs a verifiable disjoint scope proof and queue work blocks all providers (343.757ms)
+✔ measurement lease does not bypass the persistent lifetime budget cap (307.6868ms)
+✔ profile, explicit mode flags, publish bit, and globally saved candidate IDs fail closed (263.3596ms)
+✔ lease owner can atomically update only its registered candidate rows; future global claims reverse-check leases (346.0888ms)
+✔ frozen registration binds exact A/B inputs and only proves the live baseline worker from its real Node path and frozen scope (331.0195ms)
+✔ cooperative STOP_AFTER_WAVE marker is observed at a boundary without deleting its evidence (4.5867ms)
+✔ a concurrent cohort is not added to preparation or gross costs of an earlier cohort (1.5721ms)
+✔ pending holds and failed receipts use persisted request identity without assuming zero (0.1852ms)
+✔ C coverage refuses pending reassessment and excludes stale content and whole rejected passage units (5.5829ms)
+✔ C preparer gate requires 100 terminal rows in each comparison arm and 662 terminal bank dispositions (15.9793ms)
+✔ C fixed cohort has exactly 25 candidates for each of the four authorized subjects (0.5857ms)
+✔ current reassessment tags alone rebuild topic counters; conflicting, missing, and stale matches stay unclassified (1.206ms)
+✔ novelty context retains rejected and pending attempts without treating them as usable coverage (0.6131ms)
+✔ historical parent references rank derived teaching excerpts without changing saved source evidence (0.4711ms)
+✔ C pins transport, source selection, budget and repair dependencies before dispatch (4.9123ms)
+✔ C retrieval exposes only verified teaching facts while its validation registry preserves historical source facts (106.6999ms)
+✔ private NCERT source overlay pins document/page identities and separates the chapter alias from selection (3892.9742ms)
+✖ restart waits for the persisted live worker before starting one continuation worker (10.8117ms)
+✖ a recycled worker PID with a different creation identity is never mistaken for the saved C worker (6.1656ms)
+✖ a completed fixed cohort is recorded and never launches another worker (2.7804ms)
+✖ worker error stops the continuation instead of relaunching saved work (3.2479ms)
+✖ pending worker-stage error stops even when the worker catches it and exits zero (3.3504ms)
+✔ native polling uses capped exponential backoff and reports only terminal cohort completion (1.0476ms)
+✖ 100 terminal candidates do not complete C while accepted native request accounting is blocked (4.2707ms)
+✔ terminal bounded failure holds count as complete, but an accepted native batch still blocks C (0.7724ms)
+✔ ownerless lock fails closed without deleting a lock that another supervisor may still be initializing (3.8709ms)
+✖ stop request drains a verified saved worker before returning a stopped state (6.6741ms)
+✔ concurrent stale-lock recovery allows one owner and preserves its lease (22.2355ms)
+✔ normalizes only complete statement sets and preserves semantic sets and non-option data (5.0532ms)
+✔ does not guess when a leading label may be legitimate option meaning (0.2911ms)
+✔ does not normalize non-target types, invalid keys, duplicate letters, or malformed combinations (0.2819ms)
+✔ repair route guard rejects route changes rather than rewriting routes or assumptions (0.3261ms)
+✔ repair route guard blocks orphan passage and passage-text invention/change (0.2452ms)
+✔ unchanged standalone non-passage and grouped passage routes are allowed (0.1749ms)
+✔ isolated C resumes saved receipts after restart without reposting accepted batches or completed requests (2221.6655ms)
+✔ a foreign candidate late in the queue blocks every submission rather than consuming the earlier scoped chunks (599.2379ms)
+✔ an interrupted later native submission retains its exact uncertain keys and never reposts accepted batches (851.6517ms)
+✔ profile identity is exact and unsupported mode/provider overrides cannot dispatch (262.0142ms)
+✔ Luna uses realtime flex with a standard-priced conservative reservation and replays saved content without dispatch (394.799ms)
+✔ flex-capacity fallback reuses the same dispatch-time price snapshot and remains inside the phase maximum (414.5017ms)
+✔ Gemini batches at most one ten-item wave, preserves original prices over restart, and replays saved receipts without reposting (1100.7698ms)
+✔ phase cap blocks on the conservative next-request maximum and includes a concurrent in-flight hold (283.7099ms)
+✔ flush refuses more than ten queued Gemini requests and does not consume any provider call (603.0174ms)
+✔ flush refuses an unrelated queued OpenAI batch instead of dispatching it through the Gemini delegate (305.4066ms)
+✔ all six allowlisted completed native responses replay without fetch or new reservations (3.7425ms)
+✔ unknown keys and changed request bodies fail closed under cache-only replay (1.1459ms)
+✔ recovery planner rejects keys outside the fixed allowlist and changed saved-body digests (0.587ms)
+✔ typed credit refusals quarantine with an explicit pre-inference reason and never materialize (0.4079ms)
+✔ restart is idempotent and refuses to overwrite a changed recovered job (0.6042ms)
+✔ apply refuses live worker/controller and commits only the frozen row snapshot (4.8259ms)
+✔ a terminal failed quarantined item retains its hold while unaffected approved items can publish (2.0408ms)
+✔ publication readiness reads actual SQLite reservations and terminal receipts, preserving failed holds (507.0195ms)
+✔ accepted pending requests, unknown acceptance and invalid identities never permit publication (0.2803ms)
+✔ an uncertain failed request on an approved item cannot be hidden behind another passing check (0.1511ms)
+✔ Gemini native errors require terminal batch state, exact metadata identity and quarantine (0.3493ms)
+✔ completed comparable cohorts retain failures and preparation is added only once (1.9834ms)
+✔ partial approvals never become reliability or final unit-cost evidence (0.3346ms)
+✔ conservative held costs remain gross and explicitly unsettled (0.2642ms)
+✔ bounded receipt-only failures do not deadlock unrelated provider work or masquerade as finished (1.4258ms)
+✔ four active cohorts, a reached content ceiling or an unbounded hold prevent expansion (0.4281ms)
+✔ the usable target prevents more candidate registration but accepted work must still finish (0.1543ms)
+✔ unused concurrency does not buy another cohort while accepted candidates can fill the gap (0.7466ms)
+✔ terminal conservative receipt holds never supply fictitious delivery capacity (0.1624ms)
+✔ completed academic dispositions remain inspectable with an unresolved provider hold (2.4282ms)
+✔ a nonterminal candidate or pending report refuses inspection (0.7737ms)
+✔ publication policy changes and duplicate or missing IDs refuse the measurement scope (0.7309ms)
+✔ stale content and forged signatures remain proposed evidence failures (6.5289ms)
+✔ a valid reference excerpt is not reported as independent answer or explanation support (1.1285ms)
+✔ new catalog avoids provider-rejected newlines while retaining exact contiguous source substrings (1.009ms)
+✔ accepted v2 requests preserve the full revised body and its original persistent key (1.2159ms)
+✔ quote choices are bounded exact source substrings, never invented text (0.2101ms)
+✔ old requests and all validation stages preserve their original transport contract (0.1557ms)
+✔ new authoring schema and full revised body bind the persistent cache key (0.4082ms)
+✔ v75 pins the exact v7.4 parent and layers its own additive files (160.8951ms)
+✔ a changed v7.4 parent hash stops v75 until a new binding is created (23.777ms)
+✔ v75 judge instructions are appended after v7.4 on every provider and the objective reaches the evaluator without the key (70.2704ms)
+✔ the blind view carries no proposed key, explanation, option analysis or author rationale (0.4084ms)
+✔ v75 scopes cache and stamps results with the v7.5 version, prompt hash and contract (171.238ms)
+✔ preparation value gates the CUET-fit stage only and keeps correctness results untouched (87.0273ms)
+✔ verification quarantines a candidate without a learning objective before any paid stage (23.8023ms)
+✔ author schema requires learning_objective and the prompt carries the v7.4 and v7.5 contracts (1.4441ms)
+✔ author gate: blocking preparation findings throw a typed error, abstention keeps its v7.4 type (1.8529ms)
+✔ v76 pins v74 and binds each academic additive file without inheriting the v75 policy (129.3369ms)
+✔ a changed parent hash fails closed (20.5364ms)
+✔ every provider receives the contextual instructions and key-free objective only (67.81ms)
+✔ explanation instructions adapt all providers without mutating caller bodies or other stages (0.3789ms)
+✔ v74, v75 and v76 have independent cache and provider-request identities; changed objective misses cache (258.4938ms)
+✔ mandatory academic predicates remain fail-closed in inherited structured judgments (814.5206ms)
+✔ verification preserves every required stage and immediately quarantines failures and key contradictions (317.7969ms)
+✔ missing objective quarantines before any model adapter; authenticated originals retain parent duties (22.9226ms)
+✔ a credit-refused request can be sent again with the same key once credit returns, and costs nothing while refused (410.065ms)
+✔ a schema rejection stays permanently rejected and an ordinary rate limit keeps its hold (330.0131ms)
+✔ flex requests are billed at the flex rate only when the provider reports flex, otherwise at standard (657.224ms)
+✔ a flex capacity refusal costs nothing and the same request is repeated once at the standard tier (356.5136ms)
+✔ original practice works without a global authenticated comparator and keys never enter blind views (1.5622ms)
+✔ authentic and adapted PYQ provenance still require an exact authenticated anchor and matching format (0.1927ms)
+✔ numeric route and format disagreement is visible without rewriting or overriding required checks (0.683ms)
+✔ prospective binding is deterministic and refuses missing frozen parent hashes (1.0394ms)
+✔ frozen A/B worker stays byte-bound and measurement registrations remain non-publishable (73.0118ms)
+✔ v76 rejects the frozen measurement profile before any staging dependency can be used (9.1649ms)
+✔ exact current V76 profile passes the software gate without campaign policy added to profile (202.7942ms)
+✔ measurement, missing settlement, stale candidate binding and wrong source profile fail before writes or inventory (431.9635ms)
+✔ changed content and missing current mandatory check fail before writes even with refreshed run hash (243.0839ms)
+✔ current inventory duplicate withholds entire campaign before preparing target (172.4699ms)
+✔ incomplete registered passage group fails before target preparation (241.1478ms)
+✔ cleanup executes when target preparation throws (203.8877ms)
+✔ staging control restores complete prior snapshot on successful and failed enable (1.0052ms)
+✔ the default trusted evaluator rejects unsigned mock evidence before inventory and writes (171.3399ms)
+✔ a bank duplicate introduced during preparation prevents the callback and restores lifecycle (172.3066ms)
+✔ CUET fit: direct recall at PYQ level passes; easy is not poor (1.0392ms)
+✔ CUET fit: anchors drive a deterministic pass/fail, never a model-chosen overall (0.2496ms)
+✔ CUET fit: time is a heuristic estimate, not an observed timing rule (1.0465ms)
+✔ reading reference uses authenticated subject and format examples and reports thin or missing samples (0.3234ms)
+✔ answer conditions: only unstated, merely implied or concluded decisive assumptions block; conventions need evidence (0.3205ms)
+✔ alternative-reading challenge: a reasonable reading that makes another option correct blocks; a strained one does not (1.8506ms)
+✔ chapter labels inside one syllabus unit are a relabel, not a rejection; a different unit is (0.3596ms)
+✔ mandatory defects stay blocking; style notes never block (0.4375ms)
+✔ V7 flow: a sound item is eligible under every topology and the record verifies independently (135.7759ms)
+✔ V7 flow: single-validator topologies make fewer paid calls; hidden-key solving is blind (36.2129ms)
+✔ V7 flow: wrong key, blocking defects, undeclared decisive assumptions and weak CUET fit all reject (53.2398ms)
+✔ V7 flow: disagreement between validators and a failed explanation audit reject (26.5534ms)
+✔ V7 evidence is tamper-evident and student retrieval needs a measured release (16.4304ms)
+✔ quote integrity: exact, whole short definitions and line-joined verbatim spans pass; paraphrase and fabrication do not (1.2895ms)
+✔ option label prefixes are stripped only when uniform and sequential, and never from matching-style options (1.5033ms)
+✔ reading load above the observed maximum does not fail by itself (0.1386ms)
+✔ the registration is a fixed 40: 10 per subject, one repair, no replacement, measurement only, cap at most USD 3 (5.6459ms)
+✔ publication is never possible: policy flips are refused and no pilot file has a publication path (577.4464ms)
+✔ preparation refuses to write without an explicit choice and the runner needs --approved (570.6372ms)
+✔ an idea gap is recorded and replaced only at preparation by a different route of the same subject; the plan stays 10 per subject (3862.3694ms)
+✔ after registration there is no replacement path: a brief without a permitted source is refused, and the engine has no planner (0.7354ms)
+✔ two consecutive waves under 40% yield stop the campaign and leave the rest untouched (2.1274ms)
+✔ a weak wave followed by a good one resets the count; 40% exactly is not weak (2.0618ms)
+✔ at most one targeted repair and one revalidation, then quarantine; unrepairable defects are not repaired (1.832ms)
+✔ a preparation-value block at authoring keeps the candidate and consumes the single repair (3.2231ms)
+✔ abstention and authoring errors quarantine without replacement, and three provider-transport losses in a row stop the campaign (1.5746ms)
+✔ avoidance is sealed from earlier waves before a job authors, and closure withholds duplicates and rejected-sibling groups (1.1427ms)
+✔ a persistent ledger reservation exists before every provider call and settles to the receipt (179.2896ms)
+✔ the campaign cap is checked against exact committed spend plus the next maximum, before any reservation or network call (103.2281ms)
+✔ settled keys replay from the saved receipt, accepted-but-unsettled keys are never resent, and out-of-scope candidates are refused (151.8734ms)
+✔ a stop request drains: no new reservation is made, saved receipts still replay (125.4705ms)
+✔ resume after a stop does not resend any settled or accepted key, and finishes the same fixed 40 (3055.4797ms)
+✔ a saved state must belong to the same campaign and denominator (3.0083ms)
+✔ answer-position analysis reports overall, per subject, per passage group and run lengths (0.545ms)
+✔ the conservative maximum is built from the frozen request builders and exceeds the cap only as a theoretical bound (1.1995ms)
+✔ export of an unstarted pilot reports 40 untouched candidates and publishes nothing (4.9549ms)
+✔ the production author and validator are the v7.5 stack: learning objective required, abstention fields, blind Luna first, no key leaked (4119.2861ms)
+✔ partial comparison and unreleased calibration never inherit stale cost forecasts (3.4608ms)
+✔ snapshot keeps the full $50 cap, unresolved holds, and historical pilot while exposing current baseline (0.7961ms)
+✔ staging update patch contains only snapshot and timestamp, preserving all controls by omission (0.2082ms)
+✔ refuses the wrong project, a changed cap, and a 99-item baseline (1.5377ms)
+✔ CLI requires the explicit exact staging identity before reading credentials or connecting (0.5617ms)
+✔ campaign state summary counts durable eligibility and quarantine, keeping generated as pending (0.3621ms)
+✔ live paid work does not alter the metadata-only patch or remove held cost projections (0.748ms)
+✔ latest JSONL row wins and only contract/hash-matching terminal results close the denominator (4.3437ms)
+✔ dry-run withholding is atomic for passage groups and never labels unresolved groups eligible (1.0778ms)
+✔ legacy released v6 manifest cannot unlock current CUET publication (8.7025ms)
+✔ exact current dual-blind binding passes the current release predicate (8.1733ms)
+✔ stale validation hash, prompt, source version, or effort/provider policy fail closed (69.5528ms)
+✔ actual release builder counts both false-accept lists and roundtrips to frozen/runtime predicates (13.5865ms)
+✔ release builder fails closed if either false-accept list is missing (0.7357ms)
+✔ release producer marks benchmark completed only after the assessment passed (7.3132ms)
+✔ DeepSeek generation uses model-specific timeout and message (0.9751ms)
+✔ DeepSeek timeout or empty response retries once with smaller batch before DeepSeek fallback (0.2841ms)
+✔ legacy generation keeps explicit optional Kimi and credential-dependent DeepSeek routing (0.2453ms)
+✔ DeepSeek health disables Pro after repeated empty or timeout responses (0.1905ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[json_recovery] {
+  direct_parse_ok: false,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: false,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: true,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+✔ content empty plus reasoning_content length finish reason length is not parsed blindly (1.6683ms)
+✔ finish_reason length with partial objects extracts complete questions only (4.0751ms)
+✔ Flash invalid JSON attempts repair before selfCheck (3.2011ms)
+✔ repaired invalid objects are dropped (0.4652ms)
+✔ reasoning exhausted output budget participates in Pro health handling (0.2729ms)
+✔ DeepSeek Pro, Flash, Chat are the generation priority order (1.0527ms)
+✔ GPT is not present in generation model constants or worker generation fallback (0.384ms)
+✔ OpenAI generation override is blocked when disabled, while GPT validator models remain configured (0.1354ms)
+✔ all DeepSeek generation failures defer the job instead of generating with GPT (0.2271ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ extractGenerationText parses choices[0].message.content (0.8407ms)
+✔ extractGenerationText parses alternate response shapes (0.1729ms)
+✔ reasoning_content is accepted only when it contains final JSON (0.873ms)
+✔ raw shape log omits content while reporting shape (0.906ms)
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[english_mode] {
+  chapter: 'Narrative Passage',
+  mode: 'passage_rc',
+  requires_passage: true,
+  passage_type: 'narrative',
+  allowed_in_quick_practice: false
+}
+[english_mode] {
+  chapter: 'Narrative Passage',
+  mode: 'passage_rc',
+  requires_passage: true,
+  passage_type: 'narrative',
+  allowed_in_quick_practice: false
+}
+[english_mode] {
+  chapter: 'Reading Comprehension',
+  mode: 'passage_rc',
+  requires_passage: true,
+  passage_type: 'factual',
+  allowed_in_quick_practice: false
+}
+[english_mode] {
+  chapter: 'Prose',
+  mode: 'passage_rc',
+  requires_passage: true,
+  passage_type: 'prose',
+  allowed_in_quick_practice: false
+}
+[english_mode] {
+  chapter: 'Vocabulary',
+  mode: 'vocabulary',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[english_mode] {
+  chapter: 'Grammar',
+  mode: 'grammar',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+✔ Para Jumbles maps to para_jumble without passage (2.5487ms)
+✔ passage chapters map to passage_rc (1.3125ms)
+✔ Vocabulary and Grammar map to standalone modes (0.6124ms)
+[english_mode] {
+  chapter: 'Narrative Passage',
+  mode: 'passage_rc',
+  requires_passage: true,
+  passage_type: 'narrative',
+  allowed_in_quick_practice: false
+}
+[passage_group] normalized {
+  passage_id: 'passage_1',
+  temporary_group_key: 'tmp_passage_1_1',
+  linked_question_count: 4,
+  has_passage_text: true,
+  has_group_id: false
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 4,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 4
+}
+[passage_group] normalized {
+  passage_id: 'passage_1',
+  temporary_group_key: 'tmp_passage_1_1',
+  linked_question_count: 4,
+  has_passage_text: true,
+  has_group_id: false
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 4,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 4
+}
+[passage_group] normalized {
+  passage_id: 'passage_1',
+  temporary_group_key: 'tmp_passage_1_1',
+  linked_question_count: 5,
+  has_passage_text: true,
+  has_group_id: false
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 5,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 5
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 1,
+  flattened_questions: 0,
+  structural_rejected: 5,
+  normalized_count_before_selfcheck: 0
+}
+✔ English NTA passage chapters require passage mode (1.7661ms)
+✔ passage_group normalizes children with temporary group key (2.1921ms)
+✔ passage groups are excluded from quick practice and included in NTA mode (0.565ms)
+✔ passage mode requires enough generated children before self-check (0.4347ms)
+✔ permutation helper rejects repeated or missing labels (1.1593ms)
+✔ selfCheck accepts mature para jumble with valid close permutations (4.8665ms)
+✔ selfCheck rejects invalid para jumble permutations and missing ordering logic (0.8101ms)
+✔ selfCheck rejects childish obvious para jumble story (0.2671ms)
+✔ selfCheck rejects passage child without passage text (1.4662ms)
+✔ blind checks never receive generator key or explanation; cached verdicts preserve exact IDs (301.6708ms)
+✔ duplicate stems stop before paid stages and one failed targeted repair stays quarantined (359.3265ms)
+✔ empty or family/source-overlapping academic benchmarks cannot release (0.4443ms)
+✔ evidence signatures survive nested JSONB key ordering while array order and content remain bound (1.4047ms)
+✔ valid legacy signatures remain accepted as signatures, while a modified record is untrusted (0.811ms)
+✔ a nullable database index cannot override a real letter key (0.5987ms)
+✔ pending, unbalanced, historical and realtime cohorts cannot authorize scaling (12.405ms)
+✔ cost denominator excludes duplicates and includes rejected candidates and full spend (1.3041ms)
+✔ source documents alone and legacy tags cannot claim syllabus coverage (0.4627ms)
+✔ local test claims and a production ref cannot substitute for authenticated staging (0.3481ms)
+✔ dissolution aliases count as one official chapter rather than missing coverage (0.6218ms)
+✔ a completed historical probe cannot qualify a revised verifier (0.1367ms)
+✔ freeze refuses previously observed anchors and shared passage units (5.406ms)
+✔ only the ledger-bound frozen fixture can claim unseen evaluation (15.5702ms)
+✔ factory-authored valid explanation is evaluated later without rewriting the frozen official item (10.709ms)
+✔ a historical passage exceeding the current English word limit cannot be a positive release fixture (0.7857ms)
+✔ a different payload cannot recycle previously frozen official holdout units (4.8449ms)
+✔ original practice builds full context with no matched global comparator and explicitly annotates the gap (24.8268ms)
+✔ authenticated PYQ without its exact authenticated anchor fails closed (18.9275ms)
+✔ authentic PYQ context requires exact anchor plus the existing calibration pool and strips all key data (21.1687ms)
+✔ reserved benchmark anchors are excluded before optional selection (19.3531ms)
+✔ v7.3 binds every parent and additive file and isolates prompt/cache identity from v7.2 (22.5828ms)
+✔ v7.3 preserves all v7.2 stage requirements, including numeric checks (0.4366ms)
+✔ v7.3 retains the existing CUET/key/condition/alternative hard verdicts verbatim (1.185ms)
+✔ only a reconciled conservative hold permits unrelated items after uncertain acceptance (0.9483ms)
+✔ an affordable hold never bypasses the ceiling, input bound, pricing or live-worker guards (0.1871ms)
+✔ exhausted provider credit stops the factory without judging any candidate (0.1382ms)
+✔ unauthenticated model-list probes send no inference body, authorization or redirect (5.3503ms)
+✔ certificate failure stops before any worker launch and retains structured cause (0.6157ms)
+✔ server errors and one unavailable provider refuse launch (1.0778ms)
+✔ successful probes preserve exact arguments and enforce system CA in child (1.3249ms)
+✔ unregistered launch targets and unbounded probes are refused (0.7621ms)
+✔ profile binds exact v7.3 contract, source registry and current release (205.8399ms)
+✔ pinning clones only unpinned new jobs and preserves their other fields (40.245ms)
+✔ student evidence rejects unknown v7 versions and requires the exact current v7.3 release (73.6019ms)
+✔ evaluation cache identity separates validation-contract hashes (0.3834ms)
+✔ v76 profile binds current release, source registry and exact current academic contract (245.5648ms)
+✔ unknown fields, old versions and changed bindings fail closed without profile fallback (322.0017ms)
+✔ scoped flush dispatches matching saved identities and leaves foreign queued requests unchanged (464.6263ms)
+✔ maxRequests is a total cross-provider wave bound, not a per-provider bound (771.3066ms)
+✔ scope rejects invalid candidate lists and request bounds before touching queued rows (296.1294ms)
+✔ accepted batch IDs survive restart and scoped flush never resubmits them (240.3352ms)
+✔ topic-rich exercises cannot displace the decisive normative formula (2.6534ms)
+✔ four lexical definitions support matching briefs and vary deterministically across gaps (12.697ms)
+✔ a stored excerpt hash mismatch fails closed before generation (0.5735ms)
+✔ read-only reporting retains conservative holds, excludes unrelated spend, and cannot write (272.7545ms)
+✔ accepted evaluations keep their request identity without entering a dispatch path (0.2218ms)
+✔ custody coverage is exact and rejects duplicate, omitted, or unrelated positive keys (0.2903ms)
+✔ in-flight maximum reservations serialize against one cap and reject the racing overrun (0.3338ms)
+✔ offline capture requires the real blinded phase, candidate identity, and hidden key canary (0.6406ms)
+✔ fresh and regression evidence retain distinct preregistered honesty roles (0.2258ms)
+✔ authentic CUET PYQ provenance is preserved only in regression fixtures (0.2145ms)
+✔ preflight requires a unique complete candidate-provider-phase matrix within a conservative byte bound (0.4703ms)
+✔ saved errors stay terminal; only known pre-dispatch refusals can retry the same key (0.2607ms)
+✔ completed terminal fixture resumes only Haiku and preserves the saved dual-blind verdict (1.0427ms)
+✔ accepted Haiku guard record is promoted without dispatch and keeps the completed verdict (0.2175ms)
+✔ missing Haiku resumes through the deterministic transport key and its accepted-request guard (0.3218ms)
+✔ native request lookup treats complete receipts as replayable and unresolved requests as no-resubmit (0.6946ms)
+✔ provider denominators expose every provider and never mark Haiku complete with gaps or errors (0.3352ms)
+✔ immutable plan guard checks provider set, cost cap, denominator, code/input hashes, and registry snapshot (0.5416ms)
+✔ regression registration retains both validators and refuses a fresh Haiku role or reduced topology (0.4173ms)
+✔ regression blinded preflight requires exactly Luna and Gemini for every case (0.5133ms)
+✔ v76 qualification binds two independent validators and shared immutable budget scope (1.5642ms)
+✖ one qualification owner blocks duplicate fresh/regression runners and preserves drained owner history (9.3845ms)
+✔ V77 freeze binds raw artifact, embedded contract, prompt, and every frozen core file (31.1549ms)
+✔ release binding preserves the frozen V7 thresholds while selecting the V77 verifier (46.6273ms)
+✔ authorization is bound to both fixed studies, exact freeze, prefix, and shared cap (1.1317ms)
+✔ request sizing guards the final complete provider body in UTF-8 bytes (0.3823ms)
+✔ shared lifetime reserve fails closed at the exact approved ceiling (0.343ms)
+✔ pricing evidence must remain in date for any prospective study action (0.3273ms)
+✔ one phase lease blocks live or uncertain owners and archives dead/drained ownership (18.7176ms)
+✔ execution plan binds the immutable prefix, scope, reserve, and topology (46.7906ms)
+✔ a relabeled V76 specimen cannot qualify as a fresh V77 case (8.1622ms)
+✔ fresh/regression registration slots require their own classification and disjoint fixture IDs (0.4125ms)
+✔ fresh registration rejects case/custody timestamps that predate the V77 contract freeze (0.3398ms)
+✔ same fixed case may retry a guard-blocked key, while accepted or uncertain requests stay receipt-only (0.1852ms)
+✔ prior-case fingerprint normalizes string and object options identically (0.1631ms)
+✔ release evidence stays pending until complete rows and receipts exist, then blocks contested invalids (90.6476ms)
+✔ completed release evidence rejects non-boolean regression labels and contested fresh rows (136.7917ms)
+✔ transport freeze dependency list is sorted, closed, and excludes mutable price inputs (1.3324ms)
+✔ native dispatch bounds the materialized Flex body and makes exactly one no-fallback attempt (1.6397ms)
+✔ native dispatch stops before provider call when the shared cap has no reserve headroom (0.4532ms)
+✔ accepted or uncertain native key is receipt-only and never reaches generate again (0.3764ms)
+✔ the production accepted-request predicate is wired to a real temporary ledger DB (269.5342ms)
+✔ saved cache or receipt path remains readable with noFlex and without creating a new reservation (0.2863ms)
+✔ receipt-only recovery replays a completed SQLite row before cache-write and leaves a missing next stage pending (316.1611ms)
+✔ one real quotation cannot conceal a fabricated second quotation (1.1293ms)
+✔ empty author support is withheld and a changed registered excerpt fails closed (0.491ms)
+✔ rule 1: the publishable topology keeps every validator (6.0255ms)
+✔ rule 1: a reduced topology can never be released to students (0.2955ms)
+✔ rule 2: effort levels are explicit, stamped and limited to measured settings (3.5063ms)
+✔ rule 3 and 5: waves, descriptive PYQ reference and the calibrated plan are bounded (12.9459ms)
+✔ rule 4: the per-question loop sends no tools, so no web search is billed (1.7276ms)
+✔ rule 9: v7 records keep the policy literal the publication RPC accepts (7.611ms)
+✔ rule 2: effort policy is medium only for English word-meaning formats and high everywhere else (0.2993ms)
+✖ intent is durable before the marker; restart with the same job is idempotent and never releases it (1762.0547ms)
+✖ a crash after intent before the index or registration marker cannot free the reserved source (1751.7313ms)
+✖ complete unrenamed intent checkpoints are consumed; an incomplete checkpoint blocks rather than resets (1733.2017ms)
+✖ exact registration commits once; missing or changed markers never release committed or uncertain allocations (1724.9583ms)
+✖ registration must follow intent and a job cannot be moved to another registration (1766.7423ms)
+✖ an absent registration marker belongs to one permanent intent, even when another campaign uses disjoint refs (1741.658ms)
+✖ partial matching lexical overlap is blocked across campaigns beyond exact bundle equality (1755.0368ms)
+✖ matching reuse is explicit and configurable; identical bundles still cannot be relabelled (1747.3099ms)
+✖ prior inventory and unsuccessful attempts consume keys read-only; historical V75 rows are never reset (1763.094ms)
+✖ matching history without a format and partial candidates with only envelope format still consume lexical refs (1753.0683ms)
+✖ live and uncertain owners are refused; nonce ownership is checked before every mutation (1728.5988ms)
+✖ a dead owner is archived with its nonce, while missing metadata or uncertain recovery stays blocked (1742.4682ms)
+✖ a separate live process excludes another campaign; after exit its reserved intent still excludes competitors (1966.9582ms)
+✔ isolated tests do not create the default V76 allocation file (1.8081ms)
+[json_recovery] {
+  direct_parse_ok: true,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: false,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: false,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: true,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 1,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: true,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: false,
+  extracted_objects: 0,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: true,
+  extracted_objects: 2,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 1,
+  used_model_repair: false
+}
+✔ repairs markdown-wrapped JSON and preserves valid question (3.47ms)
+✔ removes commentary outside JSON (1.6322ms)
+✔ drops incomplete truncated question while keeping complete objects (0.8609ms)
+✔ drops question containing meta-commentary (0.433ms)
+✔ drops contradictory answer_check (0.3373ms)
+✔ returns empty array if no valid questions remain (0.981ms)
+✔ does not create new questions (0.3214ms)
+✔ exports structural helpers (0.4618ms)
+✔ extractJsonCandidates reports partial object recovery (0.2935ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'english',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'english',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+[english_mode] {
+  chapter: 'Vocabulary',
+  mode: 'vocabulary',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'english',
+  expected_chapter: 'Vocabulary',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+✔ Kimi A/B harness writes no-publish comparison report (66.0769ms)
+✔ A/B harness does not switch production provider automatically (25.3842ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ Kimi cost estimate uses env pricing defaults (0.9882ms)
+✔ model usage breakdown cost_usd is nonzero when token usage exists (0.1453ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[kimi_health_debug] {
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  request_has_authorization_header: true,
+  status: 200,
+  error_type: null,
+  error_message: null
+}
+[kimi_health] { ok: true, model: 'kimi-k2.6', latency_ms: 0, error: null }
+[kimi_models] {
+  ok: true,
+  model_ids: [ 'kimi-k2.6' ],
+  configured_model_available: true
+}
+✔ Kimi config defaults safely and missing key disables provider (1.2541ms)
+✔ Kimi chat completion parser handles choices message content and missing usage (1.4838ms)
+✔ Kimi model discovery handles /models failure without crashing (0.5386ms)
+✔ Kimi model discovery lists configured models (0.3959ms)
+[kimi_models] { ok: false, model_ids: [], error: 'models_http_500' }
+✔ GENERATOR_PROVIDER=kimi uses Kimi when explicitly enabled (412.2642ms)
+✔ Kimi disabled falls back to DeepSeek routing and never GPT generation (466.5748ms)
+✔ premium mode still routes validators separately in source (546.7542ms)
+✔ source locators tolerate PDF word spacing but retain exact bytes and Unicode offsets (4.3011ms)
+✔ absent, invented, empty and repeated source locators fail closed (0.821ms)
+✔ measurement inspection checks current signed evidence without treating an absent release as an academic defect (1.2552ms)
+✔ measurement inspection cannot authorize a publishable profile or bypass the real signature/release checks (1.1136ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ Flash selected for simple standalone questions (1.0432ms)
+✔ Pro selected for passage, mathematics, and exact-anchor Physics numerical/application tasks (0.1618ms)
+✔ low-confidence anchors no longer force Pro for normal jobs (0.1142ms)
+✔ GPT is never selected for generation (0.2681ms)
+✔ Gemini is primary repair provider and GPT-4o-mini is repair fallback or validator only (0.2203ms)
+✔ DeepSeek Chat is final repair fallback (0.1989ms)
+✔ Pro disabled after repeated reasoning exhausted output budget (0.1152ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ Flash is selected for normal speed-first jobs (1.1303ms)
+✔ Pro is selected only for complex jobs (0.2638ms)
+✔ GPT is never selected for generation (0.1997ms)
+✔ English numbered sections retain exact chapter-specific official phrases (2.1172ms)
+✔ English coverage fills an official section only on independent tag agreement (18.0213ms)
+✔ Planning selects its official unit, without management keywords importing other units (0.5029ms)
+✔ the two Accountancy Unit V alternatives remain separate (0.4536ms)
+✔ repeated Economics unit numbers and the missing colon preserve exact entitlement (0.6077ms)
+✔ Money & Banking questions align exactly to platform taxonomy (1.6973ms)
+✔ wrong chapter Economics questions are not kept in Money & Banking (0.4633ms)
+✔ offline dedupe rejects repeated candidates in the same batch (2.8287ms)
+✔ offline generator creates unique valid raw questions with required fields (29.7071ms)
+✔ offline schema rejects meta stems and rationale-option mismatch (0.7551ms)
+✔ offline mini validator permits direct wording and catches an extreme option giveaway (15.3383ms)
+✔ offline dry-run import does not write DB (84.8349ms)
+✔ offline write is blocked unless OFFLINE_IMPORT_ALLOW_DB_WRITE is true (72.7027ms)
+✔ generated offline batch files are valid JSON with 10 questions each (26.6788ms)
+✔ rejects a V76-style false challenge with no clause proof (2.108ms)
+✔ rejects the preserved V76 accepted disputed judgment under the V77 gate (13.0136ms)
+✔ requires exact coverage of all four printed options and the selected key (1.1363ms)
+✔ quarantines category-only unresolved and multiple fully supported alternatives (0.4688ms)
+✔ a complete conjunction with one supported and one contradicted proposition is rejected as a full option (0.3981ms)
+✔ rejects forged model-returned spans that do not match trusted source text (0.2962ms)
+✔ requires candidate and content identity on every option matrix (0.3105ms)
+✔ verifier rejects cache-hit identity omissions and mock records before stamping (121.4173ms)
+✔ a valid option matrix cannot promote a failed inherited academic result (0.3978ms)
+✔ checks parent binding and adds the required strict matrix schema to real provider body shapes (54.4424ms)
+✔ structural request-only factory capture adds each version once and isolates request/cache identity (266.9675ms)
+✔ full offline verification audits semantic and valid uncertainty cases (1087.9936ms)
+✔ accepts sound, easy stem deduction when all printed option text is covered (0.4752ms)
+✔ accepts arithmetic reasoning when each stated input is cited as a premise (0.2849ms)
+✔ adapter preserves job identity, every decisive excerpt and request semantics while applying a new cache contract (3.2056ms)
+✔ cache key separates v7.4 authoring requests while non-authoring requests pass through unchanged (0.7109ms)
+✔ adapter refuses identity drift or incomplete source excerpts before transport dispatch (1.0094ms)
+✔ adapter returns model output verbatim without post-generation explanation cleanup (0.3455ms)
+✔ actual authorOriginal-shaped request supports explicit source abstention before any validator path (2.5449ms)
+✔ v76 author retains complete sources, identity, v74 explanation contract and abstention schema (5.0557ms)
+✔ invalid identity/source requests fail before transport and non-authoring passes through (1.1459ms)
+✔ genuine missing objective blocks authorship; cues alone do not; explicit abstention keeps typed provenance (5.4883ms)
+✔ passage group normalizer publish helper defaults to at least two validated children (1.3359ms)
+✔ child without parent passage metadata cannot publish as group (1.32ms)
+✔ order_index can be preserved by sorting children (1.1897ms)
+✔ balanced passage group publishes as partial with two accepted children when passage passes (1.0513ms)
+✔ speed passage group publishes with two accepted children (0.3743ms)
+✔ premium passage group requires at least three accepted children (0.2168ms)
+✔ passage below quality threshold rejects whole group (0.3401ms)
+✔ partial group creates refill payload (0.3229ms)
+[passage_group] normalized {
+  passage_id: 'passage_1',
+  temporary_group_key: 'tmp_passage_1_1',
+  linked_question_count: 5,
+  has_passage_text: true,
+  has_group_id: false
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 5,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 5
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 0,
+  structural_rejected: 1,
+  normalized_count_before_selfcheck: 0
+}
+[normalizer] {
+  raw_questions: 1,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 1,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 1
+}
+[normalizer] {
+  raw_questions: 1,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 1,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 0,
+  structural_rejected: 1,
+  normalized_count_before_selfcheck: 0
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 1,
+  flattened_questions: 0,
+  structural_rejected: 5,
+  normalized_count_before_selfcheck: 0
+}
+✔ passage_group questions flatten with passage metadata (2.5596ms)
+✔ missing passage_text rejects passage group children (0.4073ms)
+✔ standalone questions still normalize normally (1.8146ms)
+✔ requires_passage rejects raw questions output before selfCheck (0.4202ms)
+✔ requires_passage requires at least 4 linked children (0.4136ms)
+✔ passage central idea with plausible distractors passes (8.7687ms)
+✔ vocabulary without passage context fails (1.4963ms)
+✔ vocabulary-in-context with phrase and evidence passes (1.5649ms)
+✔ central idea stem is not rejected as direct definition in passage mode (1.9517ms)
+✔ author purpose stem is not rejected as direct definition in passage mode (1.4843ms)
+✔ vocabulary-in-context fails when quoted phrase is absent from passage (1.2473ms)
+✔ passage child without group id cannot pass passage selfCheck (1.1591ms)
+✔ repair layer cannot bypass selfCheck (1.2285ms)
+✔ repaired question cannot publish without validation (0.2478ms)
+✔ no unvalidated publish and no fallback publish are still guarded (0.2071ms)
+✔ GPT and Gemini are not original generation providers (1.6399ms)
+✔ premium quality rejects trigger explicit retry guidance (0.4437ms)
+✔ Quick Practice excludes passage groups and passage-linked questions (1.1952ms)
+✔ Full Mock and NTA allow passage groups (0.2147ms)
+✔ standalone English verbal items remain available in Quick Practice (0.193ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[quality_mode] {
+  mode: 'speed',
+  thresholds: {
+    score: 0.72,
+    exam_quality: 0.7,
+    distractor_quality: 0.7,
+    conceptual_depth: 0.6,
+    answer_confidence: 0,
+    allowed_bands: [ 'A_PLUS', 'A', 'B' ],
+    strict_required: false
+  }
+}
+[config] difficultyOverride: null
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'missing_cuet_rationale',
+  body: "Read the statements about Boolean identities: Statement I: A + AB = A. Statement II: A + A'B = A + B"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'missing_distractor_rationale',
+  body: "Read the statements about Boolean identities: Statement I: A + AB = A. Statement II: A + A'B = A + B"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'missing_cuet_rationale',
+  body: "Read the statements about Boolean identities: Statement I: A + AB = A. Statement II: A + A'B = A + B"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'missing_distractor_rationale',
+  body: "Read the statements about Boolean identities: Statement I: A + AB = A. Statement II: A + A'B = A + B"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "Read the statements about Boolean identities: Statement I: A + AB = A. Statement II: A + A'B = A + B"
+}
+✔ Boolean Algebra identities are not hard rejected as advanced (5.042ms)
+✔ weak options are not hard rejected before selfCheck (1.2879ms)
+✔ invalid para-jumble permutation is still hard rejected (0.3439ms)
+✔ unsupported figure reference is hard rejected (0.2881ms)
+✔ regression: vocabulary item that never uses the target word is blocked (f1d2a614) (8.8189ms)
+✔ regression: ordering solvable from linking words is blocked (21becfa4) (1.7175ms)
+✔ regression: stem that states the keyed statements is blocked (31f50e51) (2.1042ms)
+✔ regression: hard label with conspicuous absolute distractors is blocked (e47679b2) (0.4769ms)
+✔ negative controls: sound numericals and legitimate passage questions have no blocking finding (1.3973ms)
+✔ learning objective is required, must be key-free, and diagnostics can switch the objective rules off (1.0973ms)
+✔ lexical English items must name and test the target word, allowing inflection (0.8372ms)
+✔ ordering cohesion applies to Commerce subjects, not English Para Jumbles; one cue is non-blocking (0.6191ms)
+✔ single-option stems that state the answer are blocked; numeric keys and passages are exempt (0.9131ms)
+✔ absolute distractors: two are a cue, all are blocking, and "only" in a letter combination is ignored (0.5971ms)
+✔ generic economics arithmetic is a non-blocking cue only for economics numericals (4.4722ms)
+✔ difficulty label: hard needs three reasoning steps and no findings; medium tolerates one cue; easy is never flagged (0.5402ms)
+✔ missing or blank objective/unit is a genuine deterministic blocker (5.2238ms)
+✔ lexical target must genuinely occur, avoiding v75 arbitrary common-prefix matches (2.1119ms)
+✔ concept-name overlap is legitimate; copying a full keyed factual proposition reveals the key (0.7207ms)
+✔ all absolute distractors and hard labels remain contextual diagnostics without automatic rejection (0.2749ms)
+✔ linking phrases and printed-order keys cannot become blocking through label aggregation (0.7781ms)
+✔ overlap is diagnostic; a passage can legitimately supply the tested information (0.424ms)
+✔ cue-only findings cannot turn a correctness failure into a pass or independently fail fit (0.4879ms)
+✔ profile pinning survives queue restart and reconstructs the exact original-practice brief (3.5093ms)
+✔ unprofiled jobs stay on legacy routing, malformed or stale pins fail closed (0.7613ms)
+✔ profiled inventory filter selects pin presence, including malformed and null pins, without version equality (0.2764ms)
+✔ validation routing calls V7.3 only for a current pin and never falls back on a stale pin (2.2405ms)
+✔ enqueue rejects campaign/profile mismatch, existing IDs, duplicates, inactive families and stale source refs (1.0283ms)
+✔ fixed 100-candidate campaign persists every ID once and worker selects bounded waves without splitting passage groups (4.6946ms)
+✔ source support hashes match literal text across current registry locators offline (43.6846ms)
+✔ passage publication waits for pending siblings and closes the full group on any quarantine (2.9675ms)
+✔ publication recovery keeps already-published siblings in the full idempotent group retry (4.2134ms)
+✔ oversized passage groups fail enqueue and are explicitly found in malformed persisted inventories (3.9029ms)
+✔ any profiled job mutation or publication requires the remote worker lease, even without authoring work (5.8363ms)
+✔ passage members require one complete campaign group and publication requires matching signed V7.3 evidence (1.1706ms)
+✔ staging guard requires an explicit approved staging endpoint and credentials (0.3699ms)
+✔ V74 profile binds exact frozen validator/prompt/contract and current release; no release means no profile (401.7422ms)
+✔ current profiled queue routes V74 to its validator and reconstructs the same brief after restart (347.8814ms)
+✔ V73 and legacy queue routes stay isolated; unknown pins fail closed without validator fallback (0.7006ms)
+✔ no released V74 manifest blocks profile-pinned dispatch before transport calls (127.3159ms)
+✖ zero progress backs off, then terminal/provider progress resets only the next interval (18.4989ms)
+✖ unchanged polls keep exponential delay and persist the policy for a resumed future run (11.8178ms)
+✖ an observed live worker is waited on before exactly one replacement launch (12.6472ms)
+✔ future-only guard rejects the active C campaign before reading or launching (0.8414ms)
+✔ a duplicate of an inventory item is withheld and never reaches the publish function (10.9243ms)
+✔ a passage group with one duplicate child is withheld as a whole group (2.3793ms)
+✔ a passage group whose sibling is not in a publishable state never partially publishes (0.5283ms)
+✔ a clean item and a clean passage group publish, with contract and inventory hash recorded (3.3597ms)
+✔ inspection errors fail closed and nothing is published (57.82ms)
+✔ a publish error is not swallowed by the helper (0.8567ms)
+✔ assertPublishTimeInspection throws when nothing may publish and otherwise splits kept and withheld (0.9641ms)
+✔ an item already in the inventory under its own id is not compared with itself (0.3877ms)
+✔ the cohort gate saves a new dated artifact, never overwrites, and refuses withheld ids (12.8311ms)
+✔ every currently supported factory publishing route calls the publish-time gate before its first publish call (16.8623ms)
+✔ speed mode publishes A/B if thresholds pass (1.6226ms)
+✔ balanced mode escalates low anchor and mini score below 8.5 (1.6397ms)
+✔ premium mode requires strict/audit validator (0.277ms)
+✔ premium mode rejects score 8.0 (0.2187ms)
+✔ premium mode rejects low anchor unless strict score reaches 9 (0.2403ms)
+✔ passage child with supported answer can pass balanced lower child threshold (0.5059ms)
+✔ passage child with answer_supported_by_passage=false rejects (0.2219ms)
+✔ passage child answerable_without_passage=true rejects (0.2115ms)
+✔ preflight makes only credential-isolated GETs and classifies invalid keys without exposing them (38.9397ms)
+✔ raw Gemini operation response settles nested inline output without resubmission and rejects unidentified records (354.5733ms)
+✔ cost report separates settled reasoning-inclusive usage, pending holds and preparation (155.1747ms)
+✔ typed pre-inference rejection retains diagnostics and counts failure; unknown failures retain spending holds (624.9402ms)
+✔ a credit-exhausted 429 settles at zero while an ordinary rate limit keeps its hold (432.6177ms)
+✔ cheaper models are calibration-only and cannot reuse another model response (165.706ms)
+✔ mirrored papers require complete independent copies and the exact official booklet key (15.8111ms)
+✔ new ledger uses the owner ceiling but paid calls require historical reconciliation (88.4876ms)
+✔ transport attribution metadata overrides ledger candidate ID without changing blinded provider body (130.6437ms)
+✔ Responses reserves tools and all reasoning usage; missing usage retains its full bounded hold (191.7322ms)
+✔ OpenAI accepted batch survives restart and settles once without another submission (160.9826ms)
+✔ Gemini native transport counts thinking tokens and batches only one independent evaluation (130.8884ms)
+✔ unknown batch acceptance is held unresolved and is never resubmitted (180.893ms)
+✔ process leases prevent two workers using the same ledger (202.2361ms)
+✔ local pilot reconciles accepted batches while missing source gates prevent generation or site access (218.367ms)
+✔ local passage quarantine propagates through persisted jobs before any publication (192.7117ms)
+✔ a pending repair resumes the same input after restart without acquiring another attempt (242.0093ms)
+✔ selected evidence is exact source text; unknown IDs cannot acquire evidence (0.3623ms)
+✔ paper identity establishes format but cannot be selected as academic truth (0.1455ms)
+✔ same-family agreement cannot bypass exact chapter, task or student presentation checks (676.9828ms)
+✔ a billed truncated response permits one durable completion retry and charges both attempts (225.1112ms)
+✔ an explicit calculation cannot bypass numerical checks through author labels (0.4019ms)
+✔ only the explanation audit receives authenticated original key provenance (240.8725ms)
+✔ LLM policy uses one Gemini call, checks numeric boundaries, hides keys and invalidates provenance edits (175.5781ms)
+✔ screening omission stays incomplete; a changed key cannot reuse a clean legacy receipt (1.2721ms)
+✔ numerical questions inside passages retain numerical and boundary checks (137.8626ms)
+✔ abstention and nonverbatim academic quotes quarantine the item without stopping its batch (241.7888ms)
+✔ subscription environment strips API credentials and provider overrides (0.4442ms)
+✔ verified evidence precedence survives usage ranking and family caps (0.6545ms)
+✔ source registration refuses missing paper/key authentication and permission (2.4298ms)
+✔ migration dry run protects RLS, permanent worker binding, idempotent publication and stale screening (1884.6153ms)
+✔ subscription guard refuses API login, purchased or unknown credits and exhausted included limits (0.4219ms)
+✔ terminal batch record mismatch retains its bound and cannot trigger a duplicate submission (124.0078ms)
+✔ uncertain accepted batch can be attached only after provider identity matches the saved file (108.4356ms)
+✔ budget exhaustion stops before dispatch and retired models cannot route through the factory (81.7055ms)
+✔ new factory queues originals first, balances backed chapters and never splits passage groups (71.2905ms)
+✔ passage publication requires every authenticated child and identical passage content (0.3883ms)
+✔ passage authoring attaches the authenticated stimulus locally without quoted schema literals (1.1461ms)
+✔ repairing an authenticated original can change only its explanation (0.241ms)
+✔ new repairs reserve reasoning headroom and constrain keys, routes and immutable passage groups (0.2816ms)
+✔ calibration measures blind answers independently of survival and fails closed on empty or claimed releases (1.0686ms)
+✔ authenticated calibration splits bind real items and reserve whole passage units (1.7434ms)
+✔ factory queue cannot consume reserved calibration or unsupported source-only anchors (0.3013ms)
+✔ pending Luna calibration does not prevent independent Gemini dispatch (3.3532ms)
+✔ dispute versions normalize public snapshots and change with passage, key and explanation edits (0.263ms)
+✔ verified questions fill a difficulty shortage before screened legacy questions (0.4467ms)
+✔ authenticated source pack maps official option IDs to the final-key row and retires superseded evidence (23.9777ms)
+✔ presentation lint rejects markup, unseen references, all/none options and non-bijective matching options (0.6198ms)
+✔ author evidence quotes must appear verbatim in non-paper references (0.2167ms)
+✔ chapter mapping accepts units and aliases but not other units (0.1772ms)
+✔ academic-only calibration receipts and v4 receipts without a positive polish gate cannot be published (127.7238ms)
+✔ chapter mapping is source-backed: a cited document must cover the tag, and evaluator consensus elsewhere still fails (0.3497ms)
+✔ a different-family check that finds a missing assumption quarantines a Luna pass (108.7877ms)
+✔ missing answer conditions and an unsourced decisive rule fail; implied decisive assumptions fail and stated conventions pass (0.3033ms)
+✔ lint rejects self-labelled options, definition-phrase vocabulary options and unseen lists, but keeps matching and statement options (0.6994ms)
+✔ craft 7 through 10 passes while every blocking defect still fails (0.1986ms)
+✔ free presentation checks stop a saved defective candidate before any paid adapter (0.2522ms)
+✔ a saved passing signature cannot bypass a newly detected presentation defect (114.1934ms)
+✔ flattened matching lists restore both columns without changing stored question or key (0.5568ms)
+✔ three-entry matching choices must also be distinct bijections (0.1585ms)
+✔ same skill across different anchor formats cannot inflate a plan (0.2123ms)
+✔ cache reads and writes are partitioned once and missing write pricing holds usage (182.925ms)
+✔ accepted legacy batches reconcile cache-write pricing without a second submission (91.7235ms)
+✔ CUET blanks are plain text while Markdown emphasis and excessive English passage length fail (1.7638ms)
+✔ cache-only recovery never reserves, dispatches or bypasses saved model identity (92.9855ms)
+✔ legacy chapters cannot borrow current CUET syllabus entitlement (0.1884ms)
+✔ frozen completed export selects exactly 127 items and closes all affected passage groups (874.6725ms)
+✔ preflight rejects content drift and passage-group drift before any write (1597.939ms)
+✔ allows unrelated staging rows, reports them unchanged, and only updates the 127 scoped IDs (1250.9164ms)
+✔ refuses an extra staging child in an affected passage group and a missing exported ID (507.9121ms)
+✔ one atomic bulk update precedes deterministic receipts and staging job quarantine (456.0399ms)
+✔ resume after a receipt interruption skips the completed bulk update and prior receipts (861.1368ms)
+✔ refuses a partially withheld passage-closed snapshot (501.8771ms)
+✔ refuses resume when the pinned export or plan hash changes (462.2412ms)
+✔ restart retains reservations; zero yield pauses; missing usage prevents dispatch (166.4664ms)
+✔ concurrent processes cannot reserve beyond a shared ceiling (389.9476ms)
+✔ partial usage on a bounded non-settled hold preserves cap headroom across recovery and concurrent reservations (469.4329ms)
+✔ transport counts every request and stops on absent usage, unknown prices or wrong provider (379.616ms)
+✔ complete direct-recall fixture passes without a conceptual-depth requirement (1.3393ms)
+✔ missing, swapped, mock, changed, false citation and quarantined family evidence fails (1.4027ms)
+✔ only fully bound, preregistered, complete full-release evidence passes (14.9281ms)
+✔ stale prompt or contract binding cannot be stamped with the current contract (19.708ms)
+✔ duplicate and missing topology rows fail exact fixture coverage (13.7363ms)
+✔ provider errors cannot be counted as quarantined defect rejections (10.7858ms)
+✔ official scoped or previously read study cannot qualify as fresh release evidence (13.5539ms)
+✔ missing subject coverage and changed frozen labels fail closed (19.8984ms)
+✔ only fully bound, preregistered, complete full-release evidence passes (41.9862ms)
+✔ stale prompt or contract binding cannot be stamped with the current contract (66.9797ms)
+✔ duplicate and missing topology rows fail exact fixture coverage (36.651ms)
+✔ provider errors cannot be counted as quarantined defect rejections (35.9614ms)
+✔ official scoped or previously read study cannot qualify as fresh release evidence (42.3994ms)
+✔ missing subject coverage and changed frozen labels fail closed (64.126ms)
+✔ every expected invalid counts even when contested or given a different group (71.2352ms)
+✔ a preserved disputed regression label still blocks an accepted invalid (33.1411ms)
+✔ missing expected-invalid coverage and untyped validity cannot qualify (56.9688ms)
+✔ a defect-free fixture packet cannot establish zero false accepts (29.0098ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Electromagnetic Induction',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+✔ runs one mock route and writes JSON + Markdown report (59.4495ms)
+✔ stops after max iterations (37.9853ms)
+✔ detects passage_group_linking_bug (1.6184ms)
+✔ detects generator_quality_weak (0.3365ms)
+✔ detects self_check_too_strict (0.2536ms)
+✔ detects model_routing_bad (0.2422ms)
+✔ detects cost_speed_bottleneck (0.2905ms)
+✔ standalone route PASS classification works (2.5683ms)
+✔ route with one usable publish is degraded, not hidden as pass (0.321ms)
+✔ zero publish route fails (0.2855ms)
+✔ passage route passes with partial group and refill allowed (0.2822ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ writes raw/normalized/validator/publish dumps (43.0437ms)
+✔ saved realtime full usage receipt settles once from original config without resubmission (224.228ms)
+✔ saved batch full usage receipt settles once from original config without resubmission (219.2634ms)
+✔ a completed transport-added Flex request replays after restart without a second POST; changed content or bounds still reject (309.9444ms)
+✔ complete-looking saved provider row without usage keeps its full hold and never dispatches (375.9184ms)
+✔ rejected batch receipt without usage preserves its conservative hold (253.6584ms)
+✔ saved OpenAI and Gemini native contracts prove their exact unresolved maximum and no usage (2.8844ms)
+✔ atomic proof-only application preserves all other holds and never changes request, response, or actual rows (4.9576ms)
+✔ live owners, mismatched price/config bounds, preexisting usage, and ambiguous native rows fail closed (1.3513ms)
+✔ apply re-proves the exact native body/config and rejects forged plans atomically (2.4113ms)
+✔ native dispatch attribution counts exact receipts, malformed legacy tags, holds and unrelated concurrent calls (375.0474ms)
+✔ receipt-only settled and bounded-hold orphan requests retain known scope without guessing unknown prefixes (304.2648ms)
+✔ scope queries select exact rows amid a large unrelated ledger (390.2137ms)
+✔ provider body identity never returns undefined as an attributed candidate (0.1823ms)
+✔ selfCheck accepts valid CUET-style Physics statement question (6.4624ms)
+✔ short direct stems pass structure; independent academic checks remain required (1.1736ms)
+✔ optional author trap metadata cannot determine structural acceptance (0.7057ms)
+✔ author distractor labels are optional; pointing a distractor at the key is rejected (0.471ms)
+✔ selfCheck does not reject scientifically valid absolute wording by itself (0.3463ms)
+✔ selfCheck rejects clearly outside-CUET derivation pattern (0.5179ms)
+✔ source adapters reject missing document identity before dispatch and invented supporting quotes (2.4807ms)
+✔ exam fit needs final-key-matched authentic examples; numerical routes cannot silently use a model solver (0.3954ms)
+✔ unkeyed exercise mode persists across page boundaries until a teaching heading (3.4419ms)
+✔ actual NCERT teaching preserves the 6% default and excludes the continued 12% false proposition (23.9676ms)
+✔ missing adjacent pages, a changed excerpt and an unlocatable fragment cannot establish teaching context (0.7995ms)
+✔ page context is bound to the actual registered PDF and extraction, so a tampered heading cannot turn a false exercise into teaching (48.789ms)
+✔ derived teaching facts preserve every original fact and identity while excluding the continued exercise proposition (77.1202ms)
+✔ a verb in teaching prose is not an exercise heading and retained PAGE n markers are accepted only as the complete extractor representation (26.8014ms)
+✔ an authenticated section spanning physical pages is split into exact teaching text and excludes exercise continuations (1.3497ms)
+✔ retained retirement and column-order directing references resolve without fabricating or overwriting their parent facts (121.4489ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[quality_mode] {
+  mode: 'speed',
+  thresholds: {
+    score: 0.72,
+    exam_quality: 0.7,
+    distractor_quality: 0.7,
+    conceptual_depth: 0.6,
+    answer_confidence: 0,
+    allowed_bands: [ 'A_PLUS', 'A', 'B' ],
+    strict_required: false
+  }
+}
+[config] difficultyOverride: null
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: 'Narrative Passage',
+  parsed_chapters: [ 'Narrative Passage' ],
+  source: 'env'
+}
+[override_parse_debug] {
+  raw_argv: [ '--chapters=Narrative Passage,Factual Passage' ],
+  raw_chapters_cli: 'Narrative Passage,Factual Passage',
+  raw_chapters_env: '',
+  parsed_chapters: [ 'Narrative Passage', 'Factual Passage' ],
+  source: 'cli'
+}
+[override_parse_debug] {
+  raw_argv: [ '--chapters', 'Narrative Passage,Factual Passage' ],
+  raw_chapters_cli: 'Narrative Passage,Factual Passage',
+  raw_chapters_env: '',
+  parsed_chapters: [ 'Narrative Passage', 'Factual Passage' ],
+  source: 'cli'
+}
+[override_parse_debug] {
+  raw_argv: [
+    '--subjects=english',
+    '--mode=nta',
+    '--quality=balanced',
+    '--chapters',
+    'Narrative Passage,Factual Passage,Literary Passage,Reading Comprehension',
+    '--max-jobs=5'
+  ],
+  raw_chapters_cli: 'Narrative Passage,Factual Passage,Literary Passage,Reading Comprehension',
+  raw_chapters_env: '',
+  parsed_chapters: [
+    'Narrative Passage',
+    'Factual Passage',
+    'Literary Passage',
+    'Reading Comprehension'
+  ],
+  source: 'cli'
+}
+[override] invalid_chapter_override_boolean { raw_chapters_cli: true, action: 'clearing_chapters' }
+[override_parse_debug] {
+  raw_argv: [ '--chapters' ],
+  raw_chapters_cli: true,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: 'Narrative Passage,Factual Passage',
+  parsed_chapters: [ 'Narrative Passage', 'Factual Passage' ],
+  source: 'env'
+}
+[override_parse_debug] {
+  raw_argv: [ '--chapters', 'Narrative Passage,Factual Passage' ],
+  raw_chapters_cli: 'Narrative Passage,Factual Passage',
+  raw_chapters_env: 'Vocabulary',
+  parsed_chapters: [ 'Narrative Passage', 'Factual Passage' ],
+  source: 'cli'
+}
+[override] invalid_chapter_override_boolean { raw_chapters_cli: 'true', action: 'falling_back_to_env' }
+[override_parse_debug] {
+  raw_argv: [ '--chapters=true' ],
+  raw_chapters_cli: 'true',
+  raw_chapters_env: 'Reading Comprehension',
+  parsed_chapters: [ 'Reading Comprehension' ],
+  source: 'env'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [ '--subjects=english' ],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [
+    '--subjects=english',
+    '--mode=nta',
+    '--chapters',
+    'Narrative Passage,Factual Passage,Literary Passage,Reading Comprehension'
+  ],
+  raw_chapters_cli: 'Narrative Passage,Factual Passage,Literary Passage,Reading Comprehension',
+  raw_chapters_env: '',
+  parsed_chapters: [
+    'Narrative Passage',
+    'Factual Passage',
+    'Literary Passage',
+    'Reading Comprehension'
+  ],
+  source: 'cli'
+}
+✔ subject override filters planner jobs to English (2.6047ms)
+✔ chapter override keeps only requested chapter (0.6557ms)
+✔ parses --chapters equals form with display names (0.9226ms)
+✔ parses --chapters followed by quoted comma list (0.3452ms)
+✔ parses PowerShell style --chapters and next token value (0.5166ms)
+✔ does not parse chapters as true (0.4723ms)
+✔ env CUET_ONLY_CHAPTERS works (0.2779ms)
+✔ CLI chapters override env chapters (0.4731ms)
+✔ boolean chapter CLI falls back to env override (0.5111ms)
+✔ worker fallback cannot pick Sociology when subject override is English (0.7668ms)
+✔ CLI override beats env override (0.2628ms)
+✔ exclude subject removes Psychology from planner priority selection (0.2853ms)
+✔ planner receives only listed chapters (0.6939ms)
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+✔ core CUET subjects have higher priority tiers than Sociology and Psychology (1.312ms)
+✔ English outranks Sociology even when both have coverage gaps (2.8683ms)
+✔ GAT and science subjects outrank Psychology/Sociology (15.7548ms)
+✔ planner selection preserves some lower tier coverage when higher tiers are healthy (1.0733ms)
+✔ owner cap accounts actual settled cost and maximum held reservations; failed insert leaves no row (214.7319ms)
+✔ per-owner limits survive reopen and removing one scope does not remove another (222.7971ms)
+✔ drain cap blocks only future reservations while held accepted work can settle without history deletion (245.7305ms)
+✔ SQLite reservation trigger serializes competing connections at the cap boundary (291.9382ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[quality_mode] {
+  mode: 'speed',
+  thresholds: {
+    score: 0.72,
+    exam_quality: 0.7,
+    distractor_quality: 0.7,
+    conceptual_depth: 0.6,
+    answer_confidence: 0,
+    allowed_bands: [ 'A_PLUS', 'A', 'B' ],
+    strict_required: false
+  }
+}
+[config] difficultyOverride: null
+✔ run metrics include live question and candidate rates (1.6792ms)
+✔ model performance metrics expose latency and cost fields when present (0.5336ms)
+✔ lost independent validation is quarantined with its complete hold, without claiming an academic defect or approval (2.7397ms)
+✔ changed content, native identity, missing proof, response availability and overrun refuse finalization (1.5893ms)
+✔ actual v74 provider requests append only the prerequisite instructions and preserve blind identity/source canaries (53.0712ms)
+✔ v74 cache is isolated from v73 and reuses only an identical current evaluation input (154.2073ms)
+✔ v74 stamps stage outputs and provenance while preserving the explanation gate (83.9116ms)
+✔ v74 keeps every key-changing inferred or missing condition quarantined despite supportive scalar fields and high fit (54.5142ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ validator result mismatch keeps returned candidate results (1.0292ms)
+✔ validator results can still align by index when candidate_id is absent (0.1708ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[quality_mode] {
+  mode: 'speed',
+  thresholds: {
+    score: 0.72,
+    exam_quality: 0.7,
+    distractor_quality: 0.7,
+    conceptual_depth: 0.6,
+    answer_confidence: 0,
+    allowed_bands: [ 'A_PLUS', 'A', 'B' ],
+    strict_required: false
+  }
+}
+[config] difficultyOverride: null
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+✔ worker picks highest planner priority job before coverage fallback (1.5324ms)
+✔ coverage fallback is used only when no preferred queued jobs exist (0.5421ms)
+✔ original priority is not overwritten by coverage priority 75 (0.255ms)
+ℹ tests 718
+ℹ suites 0
+ℹ pass 692
+ℹ fail 26
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 26176.8988
+
+✖ failing tests:
+
+test at scripts\pipeline\tests\atomicArtifact.test.mjs:8:1
+✖ temporary Windows reader lock retries without truncating the last checkpoint (18.3796ms)
+  Error: artifact_checkpoint_blocked:EPERM
+      at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:18:25)
+      at TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/atomicArtifact.test.mjs:11:3)
+      ... 3 lines matching cause stack trace ...
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    cause: Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-checkpoint-OzgKOr\state.json.33096.574deda1-c3cb-407b-b19f-ed1fcb7ab417.tmp' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-checkpoint-OzgKOr\state.json'
+        at renameSync (node:fs:1013:11)
+        at rename (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/atomicArtifact.test.mjs:12:135)
+        at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:15:11)
+        at TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/atomicArtifact.test.mjs:11:3)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1201:25)
+        at Test.start (node:internal/test_runner/test:1096:17)
+        at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+      errno: -4048,
+      code: 'EPERM',
+      syscall: 'rename',
+      path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-checkpoint-OzgKOr\\state.json.33096.574deda1-c3cb-407b-b19f-ed1fcb7ab417.tmp',
+      dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-checkpoint-OzgKOr\\state.json'
+    },
+    checkpoint: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-checkpoint-OzgKOr\\state.json.33096.574deda1-c3cb-407b-b19f-ed1fcb7ab417.tmp'
+  }
+
+test at scripts\pipeline\tests\briefDiversity.test.mjs:25:1
+✖ an ordering stimulus is never recycled; exhaustion is an explicit gap, and the ledger persists across runs (1752.4997ms)
+  Error: artifact_checkpoint_blocked:EPERM
+      at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:18:25)
+      at recordIdeaAllocations (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocation.mjs:40:11)
+      ... 2 lines matching cause stack trace ...
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    cause: Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\alloc-SM9x8J\idea-allocations.json.36588.edfafbcc-af7a-400f-bedf-b86c81a60993.tmp' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\alloc-SM9x8J\idea-allocations.json'
+        at renameSync (node:fs:1013:11)
+        at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:15:11)
+        at recordIdeaAllocations (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocation.mjs:40:11)
+        at TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/briefDiversity.test.mjs:44:16)
+        at async Test.run (node:internal/test_runner/test:1208:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+      errno: -4048,
+      code: 'EPERM',
+      syscall: 'rename',
+      path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\alloc-SM9x8J\\idea-allocations.json.36588.edfafbcc-af7a-400f-bedf-b86c81a60993.tmp',
+      dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\alloc-SM9x8J\\idea-allocations.json'
+    },
+    checkpoint: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\alloc-SM9x8J\\idea-allocations.json.36588.edfafbcc-af7a-400f-bedf-b86c81a60993.tmp'
+  }
+
+test at scripts\pipeline\tests\candidateCSupervisor.test.mjs:12:1
+✖ restart waits for the persisted live worker before starting one continuation worker (10.8117ms)
+  Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-c-supervisor-QjPsc2\progress.json.tmp-32232' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-c-supervisor-QjPsc2\progress.json'
+      at renameSync (node:fs:1013:11)
+      at persist (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:34:3)
+      at log (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:99:212)
+      at runCContinuation (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:115:9)
+      at async TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/candidateCSupervisor.test.mjs:17:15)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    errno: -4048,
+    code: 'EPERM',
+    syscall: 'rename',
+    path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-c-supervisor-QjPsc2\\progress.json.tmp-32232',
+    dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-c-supervisor-QjPsc2\\progress.json'
+  }
+
+test at scripts\pipeline\tests\candidateCSupervisor.test.mjs:25:1
+✖ a recycled worker PID with a different creation identity is never mistaken for the saved C worker (6.1656ms)
+  Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-c-supervisor-eQk2VU\progress.json.tmp-32232' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-c-supervisor-eQk2VU\progress.json'
+      at renameSync (node:fs:1013:11)
+      at persist (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:34:3)
+      at log (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:99:212)
+      at runCContinuation (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:118:7)
+      at async TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/candidateCSupervisor.test.mjs:29:15)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    errno: -4048,
+    code: 'EPERM',
+    syscall: 'rename',
+    path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-c-supervisor-eQk2VU\\progress.json.tmp-32232',
+    dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-c-supervisor-eQk2VU\\progress.json'
+  }
+
+test at scripts\pipeline\tests\candidateCSupervisor.test.mjs:39:1
+✖ a completed fixed cohort is recorded and never launches another worker (2.7804ms)
+  Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-c-supervisor-EUBLrT\progress.json.tmp-32232' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-c-supervisor-EUBLrT\progress.json'
+      at renameSync (node:fs:1013:11)
+      at persist (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:34:3)
+      at log (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:99:212)
+      at runCContinuation (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:126:51)
+      at async TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/candidateCSupervisor.test.mjs:41:15)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    errno: -4048,
+    code: 'EPERM',
+    syscall: 'rename',
+    path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-c-supervisor-EUBLrT\\progress.json.tmp-32232',
+    dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-c-supervisor-EUBLrT\\progress.json'
+  }
+
+test at scripts\pipeline\tests\candidateCSupervisor.test.mjs:47:1
+✖ worker error stops the continuation instead of relaunching saved work (3.2479ms)
+  Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-c-supervisor-FI4nUT\progress.json.tmp-32232' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-c-supervisor-FI4nUT\progress.json'
+      at renameSync (node:fs:1013:11)
+      at persist (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:34:3)
+      at log (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:99:212)
+      at runCContinuation (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:134:5)
+      at async TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/candidateCSupervisor.test.mjs:49:15)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    errno: -4048,
+    code: 'EPERM',
+    syscall: 'rename',
+    path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-c-supervisor-FI4nUT\\progress.json.tmp-32232',
+    dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-c-supervisor-FI4nUT\\progress.json'
+  }
+
+test at scripts\pipeline\tests\candidateCSupervisor.test.mjs:56:1
+✖ pending worker-stage error stops even when the worker catches it and exits zero (3.3504ms)
+  Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-c-supervisor-gfDSsN\progress.json.tmp-32232' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-c-supervisor-gfDSsN\progress.json'
+      at renameSync (node:fs:1013:11)
+      at persist (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:34:3)
+      at log (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:99:212)
+      at runCContinuation (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:134:5)
+      at async TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/candidateCSupervisor.test.mjs:58:15)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    errno: -4048,
+    code: 'EPERM',
+    syscall: 'rename',
+    path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-c-supervisor-gfDSsN\\progress.json.tmp-32232',
+    dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-c-supervisor-gfDSsN\\progress.json'
+  }
+
+test at scripts\pipeline\tests\candidateCSupervisor.test.mjs:72:1
+✖ 100 terminal candidates do not complete C while accepted native request accounting is blocked (4.2707ms)
+  Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-c-supervisor-CTiBhW\progress.json.tmp-32232' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-c-supervisor-CTiBhW\progress.json'
+      at renameSync (node:fs:1013:11)
+      at persist (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:34:3)
+      at log (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:99:212)
+      at runCContinuation (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:134:5)
+      at async TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/candidateCSupervisor.test.mjs:74:15)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    errno: -4048,
+    code: 'EPERM',
+    syscall: 'rename',
+    path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-c-supervisor-CTiBhW\\progress.json.tmp-32232',
+    dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-c-supervisor-CTiBhW\\progress.json'
+  }
+
+test at scripts\pipeline\tests\candidateCSupervisor.test.mjs:99:1
+✖ stop request drains a verified saved worker before returning a stopped state (6.6741ms)
+  Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-c-supervisor-u8feya\progress.json.tmp-32232' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-c-supervisor-u8feya\progress.json'
+      at renameSync (node:fs:1013:11)
+      at persist (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:34:3)
+      at log (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:99:212)
+      at runCContinuation (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:115:9)
+      at async TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/candidateCSupervisor.test.mjs:102:15)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    errno: -4048,
+    code: 'EPERM',
+    syscall: 'rename',
+    path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-c-supervisor-u8feya\\progress.json.tmp-32232',
+    dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-c-supervisor-u8feya\\progress.json'
+  }
+
+test at scripts\pipeline\tests\freshCuetReadinessV76Guards.test.mjs:15:1
+✖ one qualification owner blocks duplicate fresh/regression runners and preserves drained owner history (9.3845ms)
+  Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\v76-qualification-lease-L2TuHp\v76-qualification-owner.json' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\v76-qualification-lease-L2TuHp\v76-qualification-owner-drained-fc1043a4-025c-418e-9acd-f6b44d4489ea.json'
+      at renameSync (node:fs:1013:11)
+      at file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/freshCuetReadinessV76Guards.mjs:46:5
+      at TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/freshCuetReadinessV76Guards.test.mjs:21:3)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1201:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19)
+      at Test.run (node:internal/test_runner/test:1258:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    errno: -4048,
+    code: 'EPERM',
+    syscall: 'rename',
+    path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\v76-qualification-lease-L2TuHp\\v76-qualification-owner.json',
+    dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\v76-qualification-lease-L2TuHp\\v76-qualification-owner-drained-fc1043a4-025c-418e-9acd-f6b44d4489ea.json'
+  }
+
+test at scripts\pipeline\tests\ideaAllocationV76.test.mjs:24:1
+✖ intent is durable before the marker; restart with the same job is idempotent and never releases it (1762.0547ms)
+  Error: artifact_checkpoint_blocked:EPERM
+      at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:18:25)
+      at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+      ... 6 lines matching cause stack trace ...
+      at Test.start (node:internal/test_runner/test:1096:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {
+    cause: Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-eIzrfO\allocation.json.lock\owner.json.7964.b272f17b-3266-4678-aa71-c9adc628d042.tmp' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-eIzrfO\allocation.json.lock\owner.json'
+        at renameSync (node:fs:1013:11)
+        at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:15:11)
+        at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+        at acquireLock (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:93:3)
+        at openIdeaAllocatorV76 (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:151:33)
+        at allocator (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:21:39)
+        at TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:25:23)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1201:25)
+        at Test.start (node:internal/test_runner/test:1096:17) {
+      errno: -4048,
+      code: 'EPERM',
+      syscall: 'rename',
+      path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-eIzrfO\\allocation.json.lock\\owner.json.7964.b272f17b-3266-4678-aa71-c9adc628d042.tmp',
+      dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-eIzrfO\\allocation.json.lock\\owner.json'
+    },
+    checkpoint: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-eIzrfO\\allocation.json.lock\\owner.json.7964.b272f17b-3266-4678-aa71-c9adc628d042.tmp'
+  }
+
+test at scripts\pipeline\tests\ideaAllocationV76.test.mjs:40:1
+✖ a crash after intent before the index or registration marker cannot free the reserved source (1751.7313ms)
+  Error: artifact_checkpoint_blocked:EPERM
+      at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:18:25)
+      at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+      ... 6 lines matching cause stack trace ...
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19) {
+    cause: Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-3lrqGb\allocation.json.lock\owner.json.7964.ea6ed7a4-1f62-4473-84bf-07fe3f0f4e7a.tmp' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-3lrqGb\allocation.json.lock\owner.json'
+        at renameSync (node:fs:1013:11)
+        at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:15:11)
+        at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+        at acquireLock (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:93:3)
+        at openIdeaAllocatorV76 (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:151:33)
+        at allocator (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:21:39)
+        at TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:41:23)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1201:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:831:18) {
+      errno: -4048,
+      code: 'EPERM',
+      syscall: 'rename',
+      path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-3lrqGb\\allocation.json.lock\\owner.json.7964.ea6ed7a4-1f62-4473-84bf-07fe3f0f4e7a.tmp',
+      dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-3lrqGb\\allocation.json.lock\\owner.json'
+    },
+    checkpoint: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-3lrqGb\\allocation.json.lock\\owner.json.7964.ea6ed7a4-1f62-4473-84bf-07fe3f0f4e7a.tmp'
+  }
+
+test at scripts\pipeline\tests\ideaAllocationV76.test.mjs:54:1
+✖ complete unrenamed intent checkpoints are consumed; an incomplete checkpoint blocks rather than resets (1733.2017ms)
+  Error: artifact_checkpoint_blocked:EPERM
+      at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:18:25)
+      at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+      ... 6 lines matching cause stack trace ...
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19) {
+    cause: Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-YvYXyf\allocation.json.lock\owner.json.7964.67b7c856-ada6-40f6-ba92-78b451ed1071.tmp' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-YvYXyf\allocation.json.lock\owner.json'
+        at renameSync (node:fs:1013:11)
+        at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:15:11)
+        at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+        at acquireLock (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:93:3)
+        at openIdeaAllocatorV76 (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:151:33)
+        at allocator (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:21:39)
+        at TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:55:23)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1201:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:831:18) {
+      errno: -4048,
+      code: 'EPERM',
+      syscall: 'rename',
+      path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-YvYXyf\\allocation.json.lock\\owner.json.7964.67b7c856-ada6-40f6-ba92-78b451ed1071.tmp',
+      dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-YvYXyf\\allocation.json.lock\\owner.json'
+    },
+    checkpoint: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-YvYXyf\\allocation.json.lock\\owner.json.7964.67b7c856-ada6-40f6-ba92-78b451ed1071.tmp'
+  }
+
+test at scripts\pipeline\tests\ideaAllocationV76.test.mjs:68:1
+✖ exact registration commits once; missing or changed markers never release committed or uncertain allocations (1724.9583ms)
+  Error: artifact_checkpoint_blocked:EPERM
+      at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:18:25)
+      at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+      ... 6 lines matching cause stack trace ...
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19) {
+    cause: Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-oUMupy\allocation.json.lock\owner.json.7964.ac57f9cf-8584-4bb4-a3fe-6cc45143682a.tmp' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-oUMupy\allocation.json.lock\owner.json'
+        at renameSync (node:fs:1013:11)
+        at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:15:11)
+        at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+        at acquireLock (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:93:3)
+        at openIdeaAllocatorV76 (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:151:33)
+        at allocator (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:21:39)
+        at TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:69:23)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1201:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:831:18) {
+      errno: -4048,
+      code: 'EPERM',
+      syscall: 'rename',
+      path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-oUMupy\\allocation.json.lock\\owner.json.7964.ac57f9cf-8584-4bb4-a3fe-6cc45143682a.tmp',
+      dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-oUMupy\\allocation.json.lock\\owner.json'
+    },
+    checkpoint: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-oUMupy\\allocation.json.lock\\owner.json.7964.ac57f9cf-8584-4bb4-a3fe-6cc45143682a.tmp'
+  }
+
+test at scripts\pipeline\tests\ideaAllocationV76.test.mjs:85:1
+✖ registration must follow intent and a job cannot be moved to another registration (1766.7423ms)
+  Error: artifact_checkpoint_blocked:EPERM
+      at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:18:25)
+      at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+      ... 6 lines matching cause stack trace ...
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19) {
+    cause: Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-lrz47u\allocation.json.lock\owner.json.7964.47d09e9d-3cee-4d45-8725-a0683a64d683.tmp' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-lrz47u\allocation.json.lock\owner.json'
+        at renameSync (node:fs:1013:11)
+        at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:15:11)
+        at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+        at acquireLock (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:93:3)
+        at openIdeaAllocatorV76 (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:151:33)
+        at allocator (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:21:39)
+        at TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:86:23)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1201:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:831:18) {
+      errno: -4048,
+      code: 'EPERM',
+      syscall: 'rename',
+      path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-lrz47u\\allocation.json.lock\\owner.json.7964.47d09e9d-3cee-4d45-8725-a0683a64d683.tmp',
+      dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-lrz47u\\allocation.json.lock\\owner.json'
+    },
+    checkpoint: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-lrz47u\\allocation.json.lock\\owner.json.7964.47d09e9d-3cee-4d45-8725-a0683a64d683.tmp'
+  }
+
+test at scripts\pipeline\tests\ideaAllocationV76.test.mjs:96:1
+✖ an absent registration marker belongs to one permanent intent, even when another campaign uses disjoint refs (1741.658ms)
+  Error: artifact_checkpoint_blocked:EPERM
+      at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:18:25)
+      at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+      ... 6 lines matching cause stack trace ...
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19) {
+    cause: Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-UY7ibS\allocation.json.lock\owner.json.7964.1d8a27d8-a3c7-45e0-98c7-c67ef7d53b57.tmp' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-UY7ibS\allocation.json.lock\owner.json'
+        at renameSync (node:fs:1013:11)
+        at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:15:11)
+        at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+        at acquireLock (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:93:3)
+        at openIdeaAllocatorV76 (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:151:33)
+        at allocator (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:21:39)
+        at TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:97:23)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1201:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:831:18) {
+      errno: -4048,
+      code: 'EPERM',
+      syscall: 'rename',
+      path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-UY7ibS\\allocation.json.lock\\owner.json.7964.1d8a27d8-a3c7-45e0-98c7-c67ef7d53b57.tmp',
+      dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-UY7ibS\\allocation.json.lock\\owner.json'
+    },
+    checkpoint: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-UY7ibS\\allocation.json.lock\\owner.json.7964.1d8a27d8-a3c7-45e0-98c7-c67ef7d53b57.tmp'
+  }
+
+test at scripts\pipeline\tests\ideaAllocationV76.test.mjs:104:1
+✖ partial matching lexical overlap is blocked across campaigns beyond exact bundle equality (1755.0368ms)
+  Error: artifact_checkpoint_blocked:EPERM
+      at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:18:25)
+      at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+      ... 6 lines matching cause stack trace ...
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19) {
+    cause: Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-k8Z3QN\allocation.json.lock\owner.json.7964.41d22fa1-a4db-468b-8ad6-a47369628230.tmp' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-k8Z3QN\allocation.json.lock\owner.json'
+        at renameSync (node:fs:1013:11)
+        at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:15:11)
+        at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+        at acquireLock (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:93:3)
+        at openIdeaAllocatorV76 (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:151:33)
+        at allocator (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:21:39)
+        at TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:105:23)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1201:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:831:18) {
+      errno: -4048,
+      code: 'EPERM',
+      syscall: 'rename',
+      path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-k8Z3QN\\allocation.json.lock\\owner.json.7964.41d22fa1-a4db-468b-8ad6-a47369628230.tmp',
+      dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-k8Z3QN\\allocation.json.lock\\owner.json'
+    },
+    checkpoint: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-k8Z3QN\\allocation.json.lock\\owner.json.7964.41d22fa1-a4db-468b-8ad6-a47369628230.tmp'
+  }
+
+test at scripts\pipeline\tests\ideaAllocationV76.test.mjs:115:1
+✖ matching reuse is explicit and configurable; identical bundles still cannot be relabelled (1747.3099ms)
+  Error: artifact_checkpoint_blocked:EPERM
+      at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:18:25)
+      at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+      ... 6 lines matching cause stack trace ...
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19) {
+    cause: Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-12I7nR\allocation.json.lock\owner.json.7964.135361df-3e77-4139-b243-d62116ce0d69.tmp' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-12I7nR\allocation.json.lock\owner.json'
+        at renameSync (node:fs:1013:11)
+        at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:15:11)
+        at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+        at acquireLock (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:93:3)
+        at openIdeaAllocatorV76 (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:151:33)
+        at allocator (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:21:39)
+        at TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:116:23)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1201:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:831:18) {
+      errno: -4048,
+      code: 'EPERM',
+      syscall: 'rename',
+      path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-12I7nR\\allocation.json.lock\\owner.json.7964.135361df-3e77-4139-b243-d62116ce0d69.tmp',
+      dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-12I7nR\\allocation.json.lock\\owner.json'
+    },
+    checkpoint: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-12I7nR\\allocation.json.lock\\owner.json.7964.135361df-3e77-4139-b243-d62116ce0d69.tmp'
+  }
+
+test at scripts\pipeline\tests\ideaAllocationV76.test.mjs:128:1
+✖ prior inventory and unsuccessful attempts consume keys read-only; historical V75 rows are never reset (1763.094ms)
+  Error: artifact_checkpoint_blocked:EPERM
+      at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:18:25)
+      at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+      ... 6 lines matching cause stack trace ...
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19) {
+    cause: Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-jKcRe4\allocation.json.lock\owner.json.7964.aacb223c-6737-404a-a515-439484831ee2.tmp' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-jKcRe4\allocation.json.lock\owner.json'
+        at renameSync (node:fs:1013:11)
+        at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:15:11)
+        at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+        at acquireLock (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:93:3)
+        at openIdeaAllocatorV76 (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:151:33)
+        at allocator (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:21:39)
+        at TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:132:55)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1201:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:831:18) {
+      errno: -4048,
+      code: 'EPERM',
+      syscall: 'rename',
+      path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-jKcRe4\\allocation.json.lock\\owner.json.7964.aacb223c-6737-404a-a515-439484831ee2.tmp',
+      dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-jKcRe4\\allocation.json.lock\\owner.json'
+    },
+    checkpoint: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-jKcRe4\\allocation.json.lock\\owner.json.7964.aacb223c-6737-404a-a515-439484831ee2.tmp'
+  }
+
+test at scripts\pipeline\tests\ideaAllocationV76.test.mjs:144:1
+✖ matching history without a format and partial candidates with only envelope format still consume lexical refs (1753.0683ms)
+  Error: artifact_checkpoint_blocked:EPERM
+      at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:18:25)
+      at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+      ... 6 lines matching cause stack trace ...
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19) {
+    cause: Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-2N2vhl\allocation.json.lock\owner.json.7964.490131ed-7e84-4ea5-9363-dd88f4c2a92a.tmp' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-2N2vhl\allocation.json.lock\owner.json'
+        at renameSync (node:fs:1013:11)
+        at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:15:11)
+        at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+        at acquireLock (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:93:3)
+        at openIdeaAllocatorV76 (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:151:33)
+        at allocator (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:21:39)
+        at TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:148:49)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1201:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:831:18) {
+      errno: -4048,
+      code: 'EPERM',
+      syscall: 'rename',
+      path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-2N2vhl\\allocation.json.lock\\owner.json.7964.490131ed-7e84-4ea5-9363-dd88f4c2a92a.tmp',
+      dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-2N2vhl\\allocation.json.lock\\owner.json'
+    },
+    checkpoint: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-2N2vhl\\allocation.json.lock\\owner.json.7964.490131ed-7e84-4ea5-9363-dd88f4c2a92a.tmp'
+  }
+
+test at scripts\pipeline\tests\ideaAllocationV76.test.mjs:157:1
+✖ live and uncertain owners are refused; nonce ownership is checked before every mutation (1728.5988ms)
+  Error: artifact_checkpoint_blocked:EPERM
+      at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:18:25)
+      at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+      ... 6 lines matching cause stack trace ...
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19) {
+    cause: Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-MMMUVh\allocation.json.lock\owner.json.7964.97474aa7-1ef6-4437-ba6d-66409cb0e402.tmp' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-MMMUVh\allocation.json.lock\owner.json'
+        at renameSync (node:fs:1013:11)
+        at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:15:11)
+        at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+        at acquireLock (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:93:3)
+        at openIdeaAllocatorV76 (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:151:33)
+        at allocator (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:21:39)
+        at TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:158:23)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1201:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:831:18) {
+      errno: -4048,
+      code: 'EPERM',
+      syscall: 'rename',
+      path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-MMMUVh\\allocation.json.lock\\owner.json.7964.97474aa7-1ef6-4437-ba6d-66409cb0e402.tmp',
+      dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-MMMUVh\\allocation.json.lock\\owner.json'
+    },
+    checkpoint: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-MMMUVh\\allocation.json.lock\\owner.json.7964.97474aa7-1ef6-4437-ba6d-66409cb0e402.tmp'
+  }
+
+test at scripts\pipeline\tests\ideaAllocationV76.test.mjs:169:1
+✖ a dead owner is archived with its nonce, while missing metadata or uncertain recovery stays blocked (1742.4682ms)
+  Error: artifact_checkpoint_blocked:EPERM
+      at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:18:25)
+      at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+      ... 6 lines matching cause stack trace ...
+      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+      at Test.postRun (node:internal/test_runner/test:1330:19) {
+    cause: Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-3vonaj\allocation.json.lock\owner.json.7964.f4dd5fe4-fc10-4aea-946d-f0262785012e.tmp' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-3vonaj\allocation.json.lock\owner.json'
+        at renameSync (node:fs:1013:11)
+        at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:15:11)
+        at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+        at acquireLock (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:93:3)
+        at openIdeaAllocatorV76 (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:151:33)
+        at allocator (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:21:39)
+        at TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:170:23)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1201:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:831:18) {
+      errno: -4048,
+      code: 'EPERM',
+      syscall: 'rename',
+      path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-3vonaj\\allocation.json.lock\\owner.json.7964.f4dd5fe4-fc10-4aea-946d-f0262785012e.tmp',
+      dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-3vonaj\\allocation.json.lock\\owner.json'
+    },
+    checkpoint: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-3vonaj\\allocation.json.lock\\owner.json.7964.f4dd5fe4-fc10-4aea-946d-f0262785012e.tmp'
+  }
+
+test at scripts\pipeline\tests\ideaAllocationV76.test.mjs:190:1
+✖ a separate live process excludes another campaign; after exit its reserved intent still excludes competitors (1966.9582ms)
+  Error: child exited before reservation: 1 file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:18
+          const failure = new Error(`artifact_checkpoint_blocked:${error.code || 'unknown'}`);
+                          ^
+  
+  Error: artifact_checkpoint_blocked:EPERM
+      at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:18:25)
+      at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+      ... 6 lines matching cause stack trace ...
+      at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+    cause: Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-ykKrQ7\allocation.json.lock\owner.json.37288.f7f8ad5a-cee8-4850-95be-fffa445e33a9.tmp' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\mm-v76-allocation-ykKrQ7\allocation.json.lock\owner.json'
+        at renameSync (node:fs:1013:11)
+        at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:15:11)
+        at durableSave (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:27:3)
+        at acquireLock (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:93:3)
+        at openIdeaAllocatorV76 (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/ideaAllocationV76.mjs:151:33)
+        at file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/[eval1]:2:13
+        at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+        at async node:internal/modules/esm/loader:246:26
+        at async ModuleLoader.executeModuleJob (node:internal/modules/esm/loader:243:20)
+        at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+      errno: -4048,
+      code: 'EPERM',
+      syscall: 'rename',
+      path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-ykKrQ7\\allocation.json.lock\\owner.json.37288.f7f8ad5a-cee8-4850-95be-fffa445e33a9.tmp',
+      dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-ykKrQ7\\allocation.json.lock\\owner.json'
+    },
+    checkpoint: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\mm-v76-allocation-ykKrQ7\\allocation.json.lock\\owner.json.37288.f7f8ad5a-cee8-4850-95be-fffa445e33a9.tmp'
+  }
+  
+  Node.js v24.15.0
+  
+      at ChildProcess.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/ideaAllocationV76.test.mjs:202:57)
+      at Object.onceWrapper (node:events:631:26)
+      at ChildProcess.emit (node:events:509:28)
+      at ChildProcess._handle.onexit (node:internal/child_process:295:12)
+
+test at scripts\pipeline\tests\progressAwareCContinuation.test.mjs:28:2
+✖ zero progress backs off, then terminal/provider progress resets only the next interval (18.4989ms)
+  Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\progress-aware-c-kenoR8\policy\progress-state.json.tmp-5032' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\progress-aware-c-kenoR8\policy\progress-state.json'
+      at renameSync (node:fs:1013:11)
+      at persistPolicyState (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/progressAwareCContinuation.mjs:29:3)
+      at wrappedReadReport (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/progressAwareCContinuation.mjs:85:5)
+      at async runCContinuation (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:102:37)
+      at async runProgressAwareCContinuation (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/progressAwareCContinuation.mjs:99:18)
+      at async TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/progressAwareCContinuation.test.mjs:37:18)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    errno: -4048,
+    code: 'EPERM',
+    syscall: 'rename',
+    path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\progress-aware-c-kenoR8\\policy\\progress-state.json.tmp-5032',
+    dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\progress-aware-c-kenoR8\\policy\\progress-state.json'
+  }
+
+test at scripts\pipeline\tests\progressAwareCContinuation.test.mjs:48:1
+✖ unchanged polls keep exponential delay and persist the policy for a resumed future run (11.8178ms)
+  Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\progress-aware-c-3UA0TJ\policy\progress-state.json.tmp-5032' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\progress-aware-c-3UA0TJ\policy\progress-state.json'
+      at renameSync (node:fs:1013:11)
+      at persistPolicyState (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/progressAwareCContinuation.mjs:29:3)
+      at wrappedReadReport (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/progressAwareCContinuation.mjs:85:5)
+      at async runCContinuation (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:102:37)
+      at async runProgressAwareCContinuation (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/progressAwareCContinuation.mjs:99:18)
+      at async TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/progressAwareCContinuation.test.mjs:54:17)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    errno: -4048,
+    code: 'EPERM',
+    syscall: 'rename',
+    path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\progress-aware-c-3UA0TJ\\policy\\progress-state.json.tmp-5032',
+    dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\progress-aware-c-3UA0TJ\\policy\\progress-state.json'
+  }
+
+test at scripts\pipeline\tests\progressAwareCContinuation.test.mjs:68:1
+✖ an observed live worker is waited on before exactly one replacement launch (12.6472ms)
+  Error: EPERM: operation not permitted, rename 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\progress-aware-c-clEoN0\policy\progress-state.json.tmp-5032' -> 'C:\Users\atish\AppData\Local\Packages\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\AC\Temp\progress-aware-c-clEoN0\policy\progress-state.json'
+      at renameSync (node:fs:1013:11)
+      at persistPolicyState (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/progressAwareCContinuation.mjs:29:3)
+      at wrappedReadReport (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/progressAwareCContinuation.mjs:85:5)
+      at async runCContinuation (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/candidateCSupervisor.mjs:102:37)
+      at async runProgressAwareCContinuation (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/progressAwareCContinuation.mjs:99:18)
+      at async TestContext.<anonymous> (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tests/progressAwareCContinuation.test.mjs:73:18)
+      at async Test.run (node:internal/test_runner/test:1208:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+    errno: -4048,
+    code: 'EPERM',
+    syscall: 'rename',
+    path: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\progress-aware-c-clEoN0\\policy\\progress-state.json.tmp-5032',
+    dest: 'C:\\Users\\atish\\AppData\\Local\\Packages\\sandbox.{1d5019b6-2e7a-49b8-a9d4-5b8df1f872d0}\\AC\\Temp\\progress-aware-c-clEoN0\\policy\\progress-state.json'
+  }

@@ -1,0 +1,3936 @@
+{
+  "kind": "v79_native_regression_probe_not_qualification",
+  "verifier": "cuet-fit-validator-v7.9-compact-resolution-r2",
+  "contract": "1d14cd7004ea8cae46f8e7f7c50c565f7d34a48dc54307aad4fdc493301e902c",
+  "prefix": "v79-r2-regression-2026-10-09-",
+  "created_at": "2026-10-09T11:19:56.109Z",
+  "cases": {
+    "v77f-3546cbf8ea19": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 9,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 35
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E3.1 identifies workforce-requirement assessment followed by recruitment and selection as part of staffing, matching the described sequence.",
+            "The item tests a staffing-process concept listed in the syllabus; no calculation or case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E3.1 identifies workforce-requirement assessment followed by recruitment and selection as part of staffing, matching the described sequence.",
+            "The item tests a staffing-process concept listed in the syllabus; no calculation or case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E3.1 identifies workforce-requirement assessment followed by recruitment and selection as part of staffing, matching the described sequence.",
+            "The item tests a staffing-process concept listed in the syllabus; no calculation or case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E3.1 identifies workforce-requirement assessment followed by recruitment and selection as part of staffing, matching the described sequence.",
+            "The item tests a staffing-process concept listed in the syllabus; no calculation or case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E3.1 identifies workforce-requirement assessment followed by recruitment and selection as part of staffing, matching the described sequence.",
+            "The item tests a staffing-process concept listed in the syllabus; no calculation or case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "According to NCERT Business Studies (excerpt E3.1), staffing is the managerial function of filling and keeping filled positions in the organisation structure, achieved by first identifying workforce requirements, followed by recruitment and selection.",
+            "Therefore, identifying workforce needs before recruitment and selection directly describes the staffing function (Option A)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "Both parts of the proposed explanation are supported by E3.1."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E3.1 identifies workforce-requirement assessment followed by recruitment and selection as part of staffing, matching the described sequence.",
+            "The item tests a staffing-process concept listed in the syllabus; no calculation or case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.017265,
+        "held": 0,
+        "requests": 4
+      },
+      "at": "2026-10-09T11:22:52.511Z"
+    },
+    "v77f-073bdc31e03c": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "B",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 9,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 54
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "NCERT classifies cash payments to acquire fixed assets as investing outflows; the van is acquired for use over several years.",
+            "The syllabus includes cash-flow preparation and purchase of non-current assets."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "NCERT classifies cash payments to acquire fixed assets as investing outflows; the van is acquired for use over several years.",
+            "The syllabus includes cash-flow preparation and purchase of non-current assets."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "NCERT classifies cash payments to acquire fixed assets as investing outflows; the van is acquired for use over several years.",
+            "The syllabus includes cash-flow preparation and purchase of non-current assets."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "NCERT classifies cash payments to acquire fixed assets as investing outflows; the van is acquired for use over several years.",
+            "The syllabus includes cash-flow preparation and purchase of non-current assets."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "NCERT classifies cash payments to acquire fixed assets as investing outflows; the van is acquired for use over several years.",
+            "The syllabus includes cash-flow preparation and purchase of non-current assets."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "B",
+          "reasons": [
+            "A delivery van intended for use over several years is a fixed (non-current) asset.",
+            "Cash payments to acquire fixed assets are explicitly classified as cash outflows from investing activities in AS 3 / NCERT guidelines."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The explanation matches the supplied excerpt, which classifies cash payments to acquire fixed assets as investing cash outflows.",
+            "The stem describes a cash purchase of a van for use over several years, supporting key B."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "NCERT classifies cash payments to acquire fixed assets as investing outflows; the van is acquired for use over several years.",
+            "The syllabus includes cash-flow preparation and purchase of non-current assets."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.014576,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T11:23:13.225Z"
+    },
+    "v77f-662880a2c5fb": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "B",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "v79_audit_refutation_not_entailed:C:source_silence",
+        "v79_audit_refutation_not_entailed:C:source_silence"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "B matches the stated objective: useful information about period cash inflows and outflows under the three activity heads (E1.1).",
+            "A substitutes profit for cash flows; C and D describe purposes inconsistent with the stated objective (E1.1)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "B matches the stated objective: useful information about period cash inflows and outflows under the three activity heads (E1.1).",
+            "A substitutes profit for cash flows; C and D describe purposes inconsistent with the stated objective (E1.1)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "B matches the stated objective: useful information about period cash inflows and outflows under the three activity heads (E1.1).",
+            "A substitutes profit for cash flows; C and D describe purposes inconsistent with the stated objective (E1.1)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "B matches the stated objective: useful information about period cash inflows and outflows under the three activity heads (E1.1).",
+            "A substitutes profit for cash flows; C and D describe purposes inconsistent with the stated objective (E1.1)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "B matches the stated objective: useful information about period cash inflows and outflows under the three activity heads (E1.1).",
+            "A substitutes profit for cash flows; C and D describe purposes inconsistent with the stated objective (E1.1)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "B",
+          "reasons": [
+            "According to NCERT Accountancy Class XII, the primary objective of the cash flow statement is to provide useful information about cash inflows and outflows under operating, investing, and financing activities."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "v79_audit_refutation_not_entailed:C:source_silence",
+            "v79_audit_refutation_not_entailed:C:source_silence"
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": false,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.013747,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T11:24:03.608Z"
+    },
+    "v77f-a20de9004938": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 9,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 38
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E5.1 identifies the right to seek redressal with obtaining relief when a product falls short of expectations, matching the scenario.",
+            "The excerpts distinguish that relief from being heard about dissatisfaction, choosing among products, and acquiring consumer knowledge."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E5.1 identifies the right to seek redressal with obtaining relief when a product falls short of expectations, matching the scenario.",
+            "The excerpts distinguish that relief from being heard about dissatisfaction, choosing among products, and acquiring consumer knowledge."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E5.1 identifies the right to seek redressal with obtaining relief when a product falls short of expectations, matching the scenario.",
+            "The excerpts distinguish that relief from being heard about dissatisfaction, choosing among products, and acquiring consumer knowledge."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E5.1 identifies the right to seek redressal with obtaining relief when a product falls short of expectations, matching the scenario.",
+            "The excerpts distinguish that relief from being heard about dissatisfaction, choosing among products, and acquiring consumer knowledge."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E5.1 identifies the right to seek redressal with obtaining relief when a product falls short of expectations, matching the scenario.",
+            "The excerpts distinguish that relief from being heard about dissatisfaction, choosing among products, and acquiring consumer knowledge."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "According to NCERT Chapter on Consumer Protection, the 'Right to seek redressal' provides the consumer the right to get relief in case a product or service falls short of expectations."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The explanation matches the excerpt’s description of redressal as relief when a product or service falls short of expectations.",
+            "The excerpt distinguishes that relief from being heard, choosing among products, and acquiring consumer knowledge."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E5.1 identifies the right to seek redressal with obtaining relief when a product falls short of expectations, matching the scenario.",
+            "The excerpts distinguish that relief from being heard about dissatisfaction, choosing among products, and acquiring consumer knowledge."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.014635,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T11:26:12.018Z"
+    },
+    "v77f-ea8f75b17d74": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "economics",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 9,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 55
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Marginal utility is the change in total utility from one additional unit (E1.1): 30 − 28 = 2 units.",
+            "The syllabus includes utility approach under consumer equilibrium; the tested utility calculation is supported by the supplied NCERT excerpt (E2.1, E1.1)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Marginal utility is the change in total utility from one additional unit (E1.1): 30 − 28 = 2 units.",
+            "The syllabus includes utility approach under consumer equilibrium; the tested utility calculation is supported by the supplied NCERT excerpt (E2.1, E1.1)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Marginal utility is the change in total utility from one additional unit (E1.1): 30 − 28 = 2 units.",
+            "The syllabus includes utility approach under consumer equilibrium; the tested utility calculation is supported by the supplied NCERT excerpt (E2.1, E1.1)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "numeric_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Marginal utility is the change in total utility from one additional unit (E1.1): 30 − 28 = 2 units.",
+            "The syllabus includes utility approach under consumer equilibrium; the tested utility calculation is supported by the supplied NCERT excerpt (E2.1, E1.1)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "llm_boundary_cases": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Marginal utility is the change in total utility from one additional unit (E1.1): 30 − 28 = 2 units.",
+            "The syllabus includes utility approach under consumer equilibrium; the tested utility calculation is supported by the supplied NCERT excerpt (E2.1, E1.1)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Marginal utility is the change in total utility from one additional unit (E1.1): 30 − 28 = 2 units.",
+            "The syllabus includes utility approach under consumer equilibrium; the tested utility calculation is supported by the supplied NCERT excerpt (E2.1, E1.1)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Marginal utility is the change in total utility from one additional unit (E1.1): 30 − 28 = 2 units.",
+            "The syllabus includes utility approach under consumer equilibrium; the tested utility calculation is supported by the supplied NCERT excerpt (E2.1, E1.1)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "Marginal utility of the nth unit is given by MU_n = TU_n - TU_(n-1).",
+            "Here, TU rises from 28 units at 4 units of the good to 30 units at 5 units.",
+            "MU of the 5th unit is 30 - 28 = 2 units, which is option A."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Marginal utility is the change in total utility from one additional unit (E1.1): 30 − 28 = 2 units.",
+            "The syllabus includes utility approach under consumer equilibrium; the tested utility calculation is supported by the supplied NCERT excerpt (E2.1, E1.1)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.013985,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T11:27:11.455Z"
+    },
+    "v77f-c6d21440345d": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "The proposed explanation’s claims are supported. The blind distractor rationales, however, add definitions not established by the supplied evidence.",
+        "v79_audit_refutation_not_entailed:B:unsupported",
+        "v79_audit_refutation_not_entailed:B:unsupported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The employee receives instruction to update job skills; E1.1 defines training through increased skills for specific jobs. Preparation for greater responsibility fits the combined training-and-development activity named in E2.3.",
+            "Recruitment, placement, and compensation do not describe the instruction given to an employee already doing the job.",
+            "No calculation or passage is required; the stem gives the relevant employee-learning details."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The employee receives instruction to update job skills; E1.1 defines training through increased skills for specific jobs. Preparation for greater responsibility fits the combined training-and-development activity named in E2.3.",
+            "Recruitment, placement, and compensation do not describe the instruction given to an employee already doing the job.",
+            "No calculation or passage is required; the stem gives the relevant employee-learning details."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The employee receives instruction to update job skills; E1.1 defines training through increased skills for specific jobs. Preparation for greater responsibility fits the combined training-and-development activity named in E2.3.",
+            "Recruitment, placement, and compensation do not describe the instruction given to an employee already doing the job.",
+            "No calculation or passage is required; the stem gives the relevant employee-learning details."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The employee receives instruction to update job skills; E1.1 defines training through increased skills for specific jobs. Preparation for greater responsibility fits the combined training-and-development activity named in E2.3.",
+            "Recruitment, placement, and compensation do not describe the instruction given to an employee already doing the job.",
+            "No calculation or passage is required; the stem gives the relevant employee-learning details."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The employee receives instruction to update job skills; E1.1 defines training through increased skills for specific jobs. Preparation for greater responsibility fits the combined training-and-development activity named in E2.3.",
+            "Recruitment, placement, and compensation do not describe the instruction given to an employee already doing the job.",
+            "No calculation or passage is required; the stem gives the relevant employee-learning details."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "Providing instruction to increase skills and prepare for greater responsibility describes training and development.",
+            "Recruitment, placement, and compensation address attracting applicants, putting an employee into a post, and remuneration, respectively."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The proposed explanation’s claims are supported. The blind distractor rationales, however, add definitions not established by the supplied evidence.",
+            "v79_audit_refutation_not_entailed:B:unsupported",
+            "v79_audit_refutation_not_entailed:B:unsupported"
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": false,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.01573,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T11:27:56.240Z"
+    },
+    "v77f-9a31e9a4c29b": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 9,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 38
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E5.1 identifies the right to be heard as the right to file a complaint and be heard; that matches the opportunity described.",
+            "E3.1 concerns protection from hazardous goods and services; E4.1 describes product information and choice, not presenting a complaint.",
+            "The relevant action is given explicitly; no unstated case-specific value or numerical calculation is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E5.1 identifies the right to be heard as the right to file a complaint and be heard; that matches the opportunity described.",
+            "E3.1 concerns protection from hazardous goods and services; E4.1 describes product information and choice, not presenting a complaint.",
+            "The relevant action is given explicitly; no unstated case-specific value or numerical calculation is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E5.1 identifies the right to be heard as the right to file a complaint and be heard; that matches the opportunity described.",
+            "E3.1 concerns protection from hazardous goods and services; E4.1 describes product information and choice, not presenting a complaint.",
+            "The relevant action is given explicitly; no unstated case-specific value or numerical calculation is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E5.1 identifies the right to be heard as the right to file a complaint and be heard; that matches the opportunity described.",
+            "E3.1 concerns protection from hazardous goods and services; E4.1 describes product information and choice, not presenting a complaint.",
+            "The relevant action is given explicitly; no unstated case-specific value or numerical calculation is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E5.1 identifies the right to be heard as the right to file a complaint and be heard; that matches the opportunity described.",
+            "E3.1 concerns protection from hazardous goods and services; E4.1 describes product information and choice, not presenting a complaint.",
+            "The relevant action is given explicitly; no unstated case-specific value or numerical calculation is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "Under NCERT Class XII Business Studies, the Right to be heard states that 'The consumer has a right to file a complaint and to be heard in case of dissatisfaction with a good or a service.'",
+            "Filing a complaint and asking the firm to consider it directly engages the Right to be heard."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The explanation accurately paraphrases E5.1, and the complaint-and-hearing match supports option A."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E5.1 identifies the right to be heard as the right to file a complaint and be heard; that matches the opportunity described.",
+            "E3.1 concerns protection from hazardous goods and services; E4.1 describes product information and choice, not presenting a complaint.",
+            "The relevant action is given explicitly; no unstated case-specific value or numerical calculation is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.015762,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T11:29:13.062Z"
+    },
+    "v77f-2d806114710e": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "economics",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 9,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 41
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E1.1 states that one individual's utility from a commodity can change with place and time, directly supporting A.",
+            "The stem describes the same person's different utility across places and seasons; B, C, and D conflict with that principle.",
+            "E2.1 includes the utility approach in the syllabus unit on consumer behaviour."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E1.1 states that one individual's utility from a commodity can change with place and time, directly supporting A.",
+            "The stem describes the same person's different utility across places and seasons; B, C, and D conflict with that principle.",
+            "E2.1 includes the utility approach in the syllabus unit on consumer behaviour."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E1.1 states that one individual's utility from a commodity can change with place and time, directly supporting A.",
+            "The stem describes the same person's different utility across places and seasons; B, C, and D conflict with that principle.",
+            "E2.1 includes the utility approach in the syllabus unit on consumer behaviour."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E1.1 states that one individual's utility from a commodity can change with place and time, directly supporting A.",
+            "The stem describes the same person's different utility across places and seasons; B, C, and D conflict with that principle.",
+            "E2.1 includes the utility approach in the syllabus unit on consumer behaviour."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E1.1 states that one individual's utility from a commodity can change with place and time, directly supporting A.",
+            "The stem describes the same person's different utility across places and seasons; B, C, and D conflict with that principle.",
+            "E2.1 includes the utility approach in the syllabus unit on consumer behaviour."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "NCERT Microeconomics Chapter 2 directly states that utility from a commodity can change with changes in place and time, explicitly citing the room heater in Ladakh vs. Chennai and summer vs. winter example."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The explanation is directly supported by E1.1. The stem and excerpt also support option A over the alternatives."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E1.1 states that one individual's utility from a commodity can change with place and time, directly supporting A.",
+            "The stem describes the same person's different utility across places and seasons; B, C, and D conflict with that principle.",
+            "E2.1 includes the utility approach in the syllabus unit on consumer behaviour."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.014287,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T11:30:34.389Z"
+    },
+    "v77f-4c09b80e91ce": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "english",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "The passage says Mira entered the box move in a ledger, indicating a written record book.",
+        "The context distinguishes the map box from the ledger where the move is recorded.",
+        "The passage supplies enough context to infer the word’s meaning; the other options do not fit its stated use.",
+        "v79_passage_scope_only_refutes:A",
+        "v79_passage_scope_only_refutes:A"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage says Mira entered the box move in a ledger, indicating a written record book.",
+            "The context distinguishes the map box from the ledger where the move is recorded.",
+            "The passage supplies enough context to infer the word’s meaning; the other options do not fit its stated use.",
+            "v79_passage_scope_only_refutes:A",
+            "v79_passage_scope_only_refutes:A"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.00156,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:31:07.869Z"
+    },
+    "v77f-b123137834cc": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "economics",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "Both explanation claims are supported by E1.1, which links ranking consumption bundles without measuring utility numerically to ordinal utility analysis.",
+        "v79_audit_refutation_not_entailed:C:category_only",
+        "v79_audit_refutation_not_entailed:C:category_only"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "NCERT identifies ranking bundles without measuring utility numerically as the starting point of ordinal utility analysis (E1.1).",
+            "The syllabus includes consumer equilibrium through the utility approach, supporting this consumer-behaviour topic (E2.1).",
+            "The stem supplies the decisive facts; no calculation or omitted case-specific condition changes the answer."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "NCERT identifies ranking bundles without measuring utility numerically as the starting point of ordinal utility analysis (E1.1).",
+            "The syllabus includes consumer equilibrium through the utility approach, supporting this consumer-behaviour topic (E2.1).",
+            "The stem supplies the decisive facts; no calculation or omitted case-specific condition changes the answer."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "NCERT identifies ranking bundles without measuring utility numerically as the starting point of ordinal utility analysis (E1.1).",
+            "The syllabus includes consumer equilibrium through the utility approach, supporting this consumer-behaviour topic (E2.1).",
+            "The stem supplies the decisive facts; no calculation or omitted case-specific condition changes the answer."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "NCERT identifies ranking bundles without measuring utility numerically as the starting point of ordinal utility analysis (E1.1).",
+            "The syllabus includes consumer equilibrium through the utility approach, supporting this consumer-behaviour topic (E2.1).",
+            "The stem supplies the decisive facts; no calculation or omitted case-specific condition changes the answer."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "NCERT identifies ranking bundles without measuring utility numerically as the starting point of ordinal utility analysis (E1.1).",
+            "The syllabus includes consumer equilibrium through the utility approach, supporting this consumer-behaviour topic (E2.1).",
+            "The stem supplies the decisive facts; no calculation or omitted case-specific condition changes the answer."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "Under ordinal utility analysis, the consumer ranks consumption bundles in order of preference without assigning numerical utility values.",
+            "Cardinal utility analysis, by contrast, relies on the quantification and measurement of utility in numerical values."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "Both explanation claims are supported by E1.1, which links ranking consumption bundles without measuring utility numerically to ordinal utility analysis.",
+            "v79_audit_refutation_not_entailed:C:category_only",
+            "v79_audit_refutation_not_entailed:C:category_only"
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": false,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.014117,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T11:31:18.821Z"
+    },
+    "v77f-1ed13162f85d": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "english",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "The passage explicitly links the strong current to the operator cancelling the noon crossing and Dev crossing out its line.",
+        "The other options do not give the passage’s stated reason; the stimulus is coherent and answerable without outside assumptions.",
+        "v79_passage_scope_with_evidence_id:B",
+        "v79_passage_scope_with_evidence_id:B"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly links the strong current to the operator cancelling the noon crossing and Dev crossing out its line.",
+            "The other options do not give the passage’s stated reason; the stimulus is coherent and answerable without outside assumptions.",
+            "v79_passage_scope_with_evidence_id:B",
+            "v79_passage_scope_with_evidence_id:B"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.001708,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:32:44.795Z"
+    },
+    "v77f-2105354e5de1": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "B",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "Customer receipts for garment sales are operating inflows (E1.1, E2.1). Treating the old cutting machine as the maker’s retired production equipment, its disposal proceeds are investing (E3.1)."
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "Customer receipts for garment sales are operating inflows (E1.1, E2.1). Treating the old cutting machine as the maker’s retired production equipment, its disposal proceeds are investing (E3.1)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.006629,
+        "held": 0,
+        "requests": 2
+      },
+      "at": "2026-10-09T11:33:12.037Z"
+    },
+    "v77f-dfcca21b749e": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "english",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "The passage explicitly says the list made small delays visible while there was still time to adjust.",
+        "Checking the list before setting out does not establish a guarantee that every buyer arrives early.",
+        "The list is introduced after the first harvest is already described as uneven; its stated purpose concerns delays.",
+        "v79_passage_scope_with_evidence_id:B",
+        "v79_passage_scope_with_evidence_id:B"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly says the list made small delays visible while there was still time to adjust.",
+            "Checking the list before setting out does not establish a guarantee that every buyer arrives early.",
+            "The list is introduced after the first harvest is already described as uneven; its stated purpose concerns delays.",
+            "v79_passage_scope_with_evidence_id:B",
+            "v79_passage_scope_with_evidence_id:B"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002097,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:33:17.364Z"
+    },
+    "v77f-ad344a8b5f2d": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "error",
+      "reasons": [
+        "provider_output_incomplete"
+      ],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": null,
+      "stages": {},
+      "cost_usd": {
+        "settled": 0.007078,
+        "held": 0,
+        "requests": 2
+      },
+      "at": "2026-10-09T11:34:03.861Z"
+    },
+    "v77f-a99cc144f9e5": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "english",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "A is supported: Mira logs a risk-reducing move, and the passage states that no map has yet been damaged.",
+        "The other choices introduce a donor requirement, a permission rule, or a use for the strips that the passage does not state or imply.",
+        "v79_passage_scope_with_evidence_id:B",
+        "v79_passage_scope_with_evidence_id:B"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A is supported: Mira logs a risk-reducing move, and the passage states that no map has yet been damaged.",
+            "The other choices introduce a donor requirement, a permission rule, or a use for the strips that the passage does not state or imply.",
+            "v79_passage_scope_with_evidence_id:B",
+            "v79_passage_scope_with_evidence_id:B"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002151,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:34:04.883Z"
+    },
+    "v77f-84e9ba57542c": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E2.1 classifies cash receipts from sale of goods as operating; E3.1 classifies receipts from disposal of fixed assets as investing.",
+            "The ordinary reading of disposal of an old machine is disposal of a fixed asset, so A gives both correct classifications.",
+            "The syllabus includes cash flow statement preparation and sale of non-current assets; no calculation is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E2.1 classifies cash receipts from sale of goods as operating; E3.1 classifies receipts from disposal of fixed assets as investing.",
+            "The ordinary reading of disposal of an old machine is disposal of a fixed asset, so A gives both correct classifications.",
+            "The syllabus includes cash flow statement preparation and sale of non-current assets; no calculation is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E2.1 classifies cash receipts from sale of goods as operating; E3.1 classifies receipts from disposal of fixed assets as investing.",
+            "The ordinary reading of disposal of an old machine is disposal of a fixed asset, so A gives both correct classifications.",
+            "The syllabus includes cash flow statement preparation and sale of non-current assets; no calculation is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E2.1 classifies cash receipts from sale of goods as operating; E3.1 classifies receipts from disposal of fixed assets as investing.",
+            "The ordinary reading of disposal of an old machine is disposal of a fixed asset, so A gives both correct classifications.",
+            "The syllabus includes cash flow statement preparation and sale of non-current assets; no calculation is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002559,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:35:33.388Z"
+    },
+    "v77f-466fab2284fd": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "economics",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "E1.1 directly says bundles on one indifference curve are considered indifferent, supporting A.",
+        "The stem does not explicitly require distinct bundles, so identical quantities are not ruled out; D remains unresolved.",
+        "The syllabus excerpt names the utility approach, but not indifference-curve preference representation.",
+        "Defect: syllabus_mismatch: The tested indifference-curve representation is not named in the supplied syllabus excerpt, which specifies the utility approach.",
+        "Defect: missing_decisive_assumption: The stem does not say the bundles are distinct, leaving D unresolved in the identical-bundle boundary case.",
+        "cuet_fit_syllabus_objective_below_2",
+        "v79_unresolved_alternative:C",
+        "v79_unresolved_alternative:C"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E1.1 directly says bundles on one indifference curve are considered indifferent, supporting A.",
+            "The stem does not explicitly require distinct bundles, so identical quantities are not ruled out; D remains unresolved.",
+            "The syllabus excerpt names the utility approach, but not indifference-curve preference representation.",
+            "Defect: syllabus_mismatch: The tested indifference-curve representation is not named in the supplied syllabus excerpt, which specifies the utility approach.",
+            "Defect: missing_decisive_assumption: The stem does not say the bundles are distinct, leaving D unresolved in the identical-bundle boundary case.",
+            "cuet_fit_syllabus_objective_below_2",
+            "v79_unresolved_alternative:C",
+            "v79_unresolved_alternative:C"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.005283,
+        "held": 0,
+        "requests": 2
+      },
+      "at": "2026-10-09T11:35:42.829Z"
+    },
+    "v77f-1db3dc389725": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The stated sequence—identifying workforce requirements, then recruiting, selecting and placing—matches the supplied definition of staffing (E3.1).",
+            "Each decisive activity is explicit in the stem; no unstated case-specific status, amount or timing is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The stated sequence—identifying workforce requirements, then recruiting, selecting and placing—matches the supplied definition of staffing (E3.1).",
+            "Each decisive activity is explicit in the stem; no unstated case-specific status, amount or timing is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The stated sequence—identifying workforce requirements, then recruiting, selecting and placing—matches the supplied definition of staffing (E3.1).",
+            "Each decisive activity is explicit in the stem; no unstated case-specific status, amount or timing is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The stated sequence—identifying workforce requirements, then recruiting, selecting and placing—matches the supplied definition of staffing (E3.1).",
+            "Each decisive activity is explicit in the stem; no unstated case-specific status, amount or timing is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002078,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:36:06.113Z"
+    },
+    "v77f-e9ef75026c19": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "category": "ambiguous_multiple_correct",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "B matches the request for relief after loss: the excerpts describe redressal relief and compensation for consumer loss (E5.1, E5.2).",
+        "A also matches explicitly: the buyer wants to file a complaint and be heard, which defines the Right to be heard (E5.1). Thus the stem supports two answers.",
+        "The stem does not establish whether the buyer also faces a choice or product-information problem, so C and D are not resolved by the stated facts.",
+        "Defect: multiple_correct_options: Both A and B match separate facts explicitly stated in the stem: filing a complaint and being heard, and seeking relief after product-caused loss.",
+        "Defect: multiple_correct_options: option A is also correct as written (The filing-and-hearing request directly invokes this right, even though the later relief request invokes another.)",
+        "Defect: missing_decisive_assumption: option C is correct if If the buyer also faced no product variety or meaningful choice, this right would apply; the stem does not say whether that concern exists.",
+        "Defect: missing_decisive_assumption: option D is correct if If the buyer also lacked complete product information, this right would apply; the stem does not say whether that concern exists.",
+        "Condition missing: Which of the two expressly described needs the singular question intends to test.",
+        "v79_multiple_supported_options:AB",
+        "v79_multiple_supported_options:AB"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "B matches the request for relief after loss: the excerpts describe redressal relief and compensation for consumer loss (E5.1, E5.2).",
+            "A also matches explicitly: the buyer wants to file a complaint and be heard, which defines the Right to be heard (E5.1). Thus the stem supports two answers.",
+            "The stem does not establish whether the buyer also faces a choice or product-information problem, so C and D are not resolved by the stated facts.",
+            "Defect: multiple_correct_options: Both A and B match separate facts explicitly stated in the stem: filing a complaint and being heard, and seeking relief after product-caused loss.",
+            "Defect: multiple_correct_options: option A is also correct as written (The filing-and-hearing request directly invokes this right, even though the later relief request invokes another.)",
+            "Defect: missing_decisive_assumption: option C is correct if If the buyer also faced no product variety or meaningful choice, this right would apply; the stem does not say whether that concern exists.",
+            "Defect: missing_decisive_assumption: option D is correct if If the buyer also lacked complete product information, this right would apply; the stem does not say whether that concern exists.",
+            "Condition missing: Which of the two expressly described needs the singular question intends to test.",
+            "v79_multiple_supported_options:AB",
+            "v79_multiple_supported_options:AB"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002849,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:37:06.456Z"
+    },
+    "v77f-e77493e30567": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "category": "numerical_fault",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "The operating-flow categories are supported, but the subtraction equals ₹7,500, not ₹8,500; the stated result is wrong.",
+        "incorrect claim: ₹12,000 − ₹4,500 = ₹8,500.",
+        "incorrect claim: The net amount is therefore ₹8,500."
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "₹12,000 − ₹4,500 = ₹7,500, so A is correct.",
+            "The excerpts identify cash receipts and supplier payments as operating cash-flow examples; the syllabus includes cash-flow statement preparation."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "₹12,000 − ₹4,500 = ₹7,500, so A is correct.",
+            "The excerpts identify cash receipts and supplier payments as operating cash-flow examples; the syllabus includes cash-flow statement preparation."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "₹12,000 − ₹4,500 = ₹7,500, so A is correct.",
+            "The excerpts identify cash receipts and supplier payments as operating cash-flow examples; the syllabus includes cash-flow statement preparation."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "numeric_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "₹12,000 − ₹4,500 = ₹7,500, so A is correct.",
+            "The excerpts identify cash receipts and supplier payments as operating cash-flow examples; the syllabus includes cash-flow statement preparation."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "llm_boundary_cases": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "₹12,000 − ₹4,500 = ₹7,500, so A is correct.",
+            "The excerpts identify cash receipts and supplier payments as operating cash-flow examples; the syllabus includes cash-flow statement preparation."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "₹12,000 − ₹4,500 = ₹7,500, so A is correct.",
+            "The excerpts identify cash receipts and supplier payments as operating cash-flow examples; the syllabus includes cash-flow statement preparation."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "₹12,000 − ₹4,500 = ₹7,500, so A is correct.",
+            "The excerpts identify cash receipts and supplier payments as operating cash-flow examples; the syllabus includes cash-flow statement preparation."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "Cash received from customers is an operating inflow of ₹12,000.",
+            "Cash paid to suppliers is an operating outflow of ₹4,500.",
+            "Net operating cash flow from these transactions = ₹12,000 - ₹4,500 = ₹7,500."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The operating-flow categories are supported, but the subtraction equals ₹7,500, not ₹8,500; the stated result is wrong.",
+            "incorrect claim: ₹12,000 − ₹4,500 = ₹8,500.",
+            "incorrect claim: The net amount is therefore ₹8,500."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.015589,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T11:38:00.358Z"
+    },
+    "v77f-63d002be451c": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "economics",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Marginal utility is the change in total utility from one additional unit: 30 − 28 = 2.",
+            "The syllabus includes consumer equilibrium through the utility approach; the supplied NCERT excerpt gives both the definition and this calculation."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Marginal utility is the change in total utility from one additional unit: 30 − 28 = 2.",
+            "The syllabus includes consumer equilibrium through the utility approach; the supplied NCERT excerpt gives both the definition and this calculation."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Marginal utility is the change in total utility from one additional unit: 30 − 28 = 2.",
+            "The syllabus includes consumer equilibrium through the utility approach; the supplied NCERT excerpt gives both the definition and this calculation."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "numeric_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Marginal utility is the change in total utility from one additional unit: 30 − 28 = 2.",
+            "The syllabus includes consumer equilibrium through the utility approach; the supplied NCERT excerpt gives both the definition and this calculation."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "llm_boundary_cases": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Marginal utility is the change in total utility from one additional unit: 30 − 28 = 2.",
+            "The syllabus includes consumer equilibrium through the utility approach; the supplied NCERT excerpt gives both the definition and this calculation."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Marginal utility is the change in total utility from one additional unit: 30 − 28 = 2.",
+            "The syllabus includes consumer equilibrium through the utility approach; the supplied NCERT excerpt gives both the definition and this calculation."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.001779,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:38:42.266Z"
+    },
+    "v77f-3e505228c987": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "category": "unsupported_source_and_objective_mismatch",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "The apparent intended choice is A, but the supplied excerpts do not define or establish causal forest estimation.",
+        "The syllabus excerpt lists staffing, recruitment, selection, and training topics; it does not include advanced causal-estimation methods.",
+        "The stem supplies no method-specific target or design that distinguishes causal forests from other causal-effect estimators.",
+        "Defect: syllabus_mismatch: Advanced causal-estimation methods are not included in the supplied Staffing syllabus.",
+        "Defect: unsupported_fact_or_explanation: No supplied excerpt establishes what causal forest estimation is or why it fits this scenario.",
+        "Defect: missing_decisive_assumption: The stem gives no method-specific target or design that would distinguish causal forests from other causal-effect estimators.",
+        "cuet_fit_syllabus_objective_below_2",
+        "cuet_fit_level_calibration_below_1",
+        "cuet_fit_score_4_below_7",
+        "Decisive principle is not stated in the supplied excerpts",
+        "Condition missing: A method-specific target or design selects causal forest estimation rather than another causal-effect estimator.",
+        "v79_solved_key_not_supported",
+        "v79_solved_key_not_supported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "abstain",
+          "reasons": [
+            "The apparent intended choice is A, but the supplied excerpts do not define or establish causal forest estimation.",
+            "The syllabus excerpt lists staffing, recruitment, selection, and training topics; it does not include advanced causal-estimation methods.",
+            "The stem supplies no method-specific target or design that distinguishes causal forests from other causal-effect estimators.",
+            "Defect: syllabus_mismatch: Advanced causal-estimation methods are not included in the supplied Staffing syllabus.",
+            "Defect: unsupported_fact_or_explanation: No supplied excerpt establishes what causal forest estimation is or why it fits this scenario.",
+            "Defect: missing_decisive_assumption: The stem gives no method-specific target or design that would distinguish causal forests from other causal-effect estimators.",
+            "cuet_fit_syllabus_objective_below_2",
+            "cuet_fit_level_calibration_below_1",
+            "cuet_fit_score_4_below_7",
+            "Decisive principle is not stated in the supplied excerpts",
+            "Condition missing: A method-specific target or design selects causal forest estimation rather than another causal-effect estimator.",
+            "v79_solved_key_not_supported",
+            "v79_solved_key_not_supported"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.001865,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:38:48.399Z"
+    },
+    "v77f-fcf957a734d5": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "economics",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "oracle_key": "B",
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The stem describes ranking bundles without numerical utility; the excerpt identifies this as ordinal utility analysis.",
+            "The syllabus includes consumer equilibrium through the utility approach, covering this foundational distinction."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The stem describes ranking bundles without numerical utility; the excerpt identifies this as ordinal utility analysis.",
+            "The syllabus includes consumer equilibrium through the utility approach, covering this foundational distinction."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The stem describes ranking bundles without numerical utility; the excerpt identifies this as ordinal utility analysis.",
+            "The syllabus includes consumer equilibrium through the utility approach, covering this foundational distinction."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The stem describes ranking bundles without numerical utility; the excerpt identifies this as ordinal utility analysis.",
+            "The syllabus includes consumer equilibrium through the utility approach, covering this foundational distinction."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.001288,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:38:53.827Z"
+    },
+    "v77f-c519f01371f2": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "english",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "The passage explicitly identifies the movement of the second hand and the sound of the escapement as the comparison Arun first requested.",
+        "The other choices substitute a different comparison; the passage directly supplies the answer without any unstated assumption.",
+        "Narrative reading comprehension is included in the syllabus.",
+        "v79_passage_scope_only_refutes:A",
+        "v79_passage_scope_only_refutes:A"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly identifies the movement of the second hand and the sound of the escapement as the comparison Arun first requested.",
+            "The other choices substitute a different comparison; the passage directly supplies the answer without any unstated assumption.",
+            "Narrative reading comprehension is included in the syllabus.",
+            "v79_passage_scope_only_refutes:A",
+            "v79_passage_scope_only_refutes:A"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.001685,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:40:37.599Z"
+    },
+    "v77f-98a231fa15fa": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "economics",
+      "expected_valid": false,
+      "category": "missing_decisive_assumption",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "E1.1 states that marginal utility declines as consumption increases while other commodities are held constant; the stem omits that condition.",
+        "Therefore, decline is not compelled. The stem also says marginal utility changes, so constant marginal utility is contradicted.",
+        "No numerical work or passage is involved; the missing model condition prevents a unique answer.",
+        "Defect: missing_decisive_assumption: The supplied rule makes decline conditional on other commodities being held constant, but the stem does not state that case condition.",
+        "cuet_fit_format_authenticity_below_2",
+        "cuet_fit_score_6_below_7",
+        "Condition missing: Consumption of other commodities is held constant in this case.",
+        "v79_solved_key_not_supported",
+        "v79_solved_key_not_supported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "abstain",
+          "reasons": [
+            "E1.1 states that marginal utility declines as consumption increases while other commodities are held constant; the stem omits that condition.",
+            "Therefore, decline is not compelled. The stem also says marginal utility changes, so constant marginal utility is contradicted.",
+            "No numerical work or passage is involved; the missing model condition prevents a unique answer.",
+            "Defect: missing_decisive_assumption: The supplied rule makes decline conditional on other commodities being held constant, but the stem does not state that case condition.",
+            "cuet_fit_format_authenticity_below_2",
+            "cuet_fit_score_6_below_7",
+            "Condition missing: Consumption of other commodities is held constant in this case.",
+            "v79_solved_key_not_supported",
+            "v79_solved_key_not_supported"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002832,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:41:13.993Z"
+    },
+    "v77f-59b58a25bbb3": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "category": "missing_decisive_assumption",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "E1.1 requires high liquidity, conversion into known cash amounts, insignificant value-change risk, and normally a short maturity.",
+        "The stem gives broad descriptors but does not establish all those criteria or their precise status, so neither Yes nor No is determined.",
+        "Option D conflicts with the stated short-maturity guidance; no option resolves the missing information.",
+        "Defect: missing_decisive_assumption: The stem does not establish the full cash-equivalent criteria or say that its broad descriptors are shorthand for them; the options offer no 'cannot be determined' choice.",
+        "cuet_fit_format_authenticity_below_2",
+        "cuet_fit_score_6_below_7",
+        "Condition missing: The investment is highly liquid.",
+        "Condition missing: The investment is readily convertible into known amounts of cash.",
+        "Condition implied_decisive: The risk of changes in value is insignificant; the stem's phrase low risk may or may not establish this.",
+        "Condition missing: The investment has a short maturity, normally about three months or less from acquisition.",
+        "v79_solved_key_not_supported",
+        "v79_solved_key_not_supported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "abstain",
+          "reasons": [
+            "E1.1 requires high liquidity, conversion into known cash amounts, insignificant value-change risk, and normally a short maturity.",
+            "The stem gives broad descriptors but does not establish all those criteria or their precise status, so neither Yes nor No is determined.",
+            "Option D conflicts with the stated short-maturity guidance; no option resolves the missing information.",
+            "Defect: missing_decisive_assumption: The stem does not establish the full cash-equivalent criteria or say that its broad descriptors are shorthand for them; the options offer no 'cannot be determined' choice.",
+            "cuet_fit_format_authenticity_below_2",
+            "cuet_fit_score_6_below_7",
+            "Condition missing: The investment is highly liquid.",
+            "Condition missing: The investment is readily convertible into known amounts of cash.",
+            "Condition implied_decisive: The risk of changes in value is insignificant; the stem's phrase low risk may or may not establish this.",
+            "Condition missing: The investment has a short maturity, normally about three months or less from acquisition.",
+            "v79_solved_key_not_supported",
+            "v79_solved_key_not_supported"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.00521,
+        "held": 0,
+        "requests": 2
+      },
+      "at": "2026-10-09T11:41:34.964Z"
+    },
+    "v77f-56f266269b74": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "english",
+      "expected_valid": false,
+      "category": "unsupported_source_and_objective_mismatch",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "A appears to be the intended grammatical answer, but no supplied academic excerpt establishes the mandative-subjunctive rule; I therefore abstain.",
+        "The supplied narrative describes clock repair and does not inform the standalone grammar task.",
+        "The syllabus excerpt does not identify verb-mood recognition as an objective.",
+        "Defect: unsupported_fact_or_explanation: The tested mandative-subjunctive rule is not established by any supplied academic excerpt, so the answer cannot be source-verified.",
+        "Defect: syllabus_mismatch: The actual task tests verb mood, not the assigned narrative-passage comprehension task; the supplied syllabus excerpt does not name verb-mood identification.",
+        "cuet_fit_syllabus_objective_below_2",
+        "cuet_fit_score_6_below_7",
+        "No validator places this item in the syllabus unit of Narrative Passage",
+        "Decisive principle is not stated in the supplied excerpts",
+        "v79_solved_key_not_supported",
+        "v79_solved_key_not_supported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "abstain",
+          "reasons": [
+            "A appears to be the intended grammatical answer, but no supplied academic excerpt establishes the mandative-subjunctive rule; I therefore abstain.",
+            "The supplied narrative describes clock repair and does not inform the standalone grammar task.",
+            "The syllabus excerpt does not identify verb-mood recognition as an objective.",
+            "Defect: unsupported_fact_or_explanation: The tested mandative-subjunctive rule is not established by any supplied academic excerpt, so the answer cannot be source-verified.",
+            "Defect: syllabus_mismatch: The actual task tests verb mood, not the assigned narrative-passage comprehension task; the supplied syllabus excerpt does not name verb-mood identification.",
+            "cuet_fit_syllabus_objective_below_2",
+            "cuet_fit_score_6_below_7",
+            "No validator places this item in the syllabus unit of Narrative Passage",
+            "Decisive principle is not stated in the supplied excerpts",
+            "v79_solved_key_not_supported",
+            "v79_solved_key_not_supported"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002243,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:42:28.733Z"
+    },
+    "cbse24-eco-q02": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "economics",
+      "expected_valid": true,
+      "category": "valid",
+      "oracle_key": "C",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "Targeting free food grains to low-income households most directly changes their income distribution; the supplied excerpt identifies that as the government’s redistribution function.",
+        "The excerpt supports C, but does not define or rule out the other budgetary objectives, leaving their full assertions unresolved under the supplied evidence.",
+        "Defect: unsupported_fact_or_explanation: The excerpt supports redistribution, but supplies no basis for adjudicating the other budgetary objectives; A, B, and D remain unresolved rather than demonstrably false.",
+        "v79_unresolved_alternative:A",
+        "v79_unresolved_alternative:A"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "Targeting free food grains to low-income households most directly changes their income distribution; the supplied excerpt identifies that as the government’s redistribution function.",
+            "The excerpt supports C, but does not define or rule out the other budgetary objectives, leaving their full assertions unresolved under the supplied evidence.",
+            "Defect: unsupported_fact_or_explanation: The excerpt supports redistribution, but supplies no basis for adjudicating the other budgetary objectives; A, B, and D remain unresolved rather than demonstrably false.",
+            "v79_unresolved_alternative:A",
+            "v79_unresolved_alternative:A"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002287,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:43:54.726Z"
+    },
+    "cbse24-eng-q01": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "english",
+      "expected_valid": true,
+      "category": "valid",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "Paragraph 1 says notifications interrupt conversations and draw fingers toward screens; A captures that effect.",
+        "The other options describe effects paragraph 1 does not state or imply.",
+        "v79_passage_scope_only_refutes:A",
+        "v79_passage_scope_only_refutes:A"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Paragraph 1 says notifications interrupt conversations and draw fingers toward screens; A captures that effect.",
+            "The other options describe effects paragraph 1 does not state or imply.",
+            "v79_passage_scope_only_refutes:A",
+            "v79_passage_scope_only_refutes:A"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002088,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:44:53.446Z"
+    },
+    "cbse24-eng-q01--wrong_key": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "english",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "Paragraph 1 says notifications repeatedly interrupt conversations and draw fingers toward screens; A accurately paraphrases this effect.",
+        "B and D contradict the passage, while C is not stated or implied. No numerical assumptions are involved.",
+        "v79_passage_scope_only_refutes:A",
+        "v79_passage_scope_only_refutes:A"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Paragraph 1 says notifications repeatedly interrupt conversations and draw fingers toward screens; A accurately paraphrases this effect.",
+            "B and D contradict the passage, while C is not stated or implied. No numerical assumptions are involved.",
+            "v79_passage_scope_only_refutes:A",
+            "v79_passage_scope_only_refutes:A"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.001914,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:45:54.181Z"
+    },
+    "v77f-2ca94e8b4e72": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "english",
+      "expected_valid": false,
+      "category": "unsupported_explanation",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "The passage links the fresh date to a schedule Dev copies in chalk each morning, supporting “Recently written.”",
+        "The narrative passage and contextual vocabulary task are within the listed reading-comprehension syllabus.",
+        "No calculation or unstated numerical assumption is needed.",
+        "v79_passage_scope_with_evidence_id:B",
+        "v79_passage_scope_with_evidence_id:B"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage links the fresh date to a schedule Dev copies in chalk each morning, supporting “Recently written.”",
+            "The narrative passage and contextual vocabulary task are within the listed reading-comprehension syllabus.",
+            "No calculation or unstated numerical assumption is needed.",
+            "v79_passage_scope_with_evidence_id:B",
+            "v79_passage_scope_with_evidence_id:B"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.005217,
+        "held": 0,
+        "requests": 2
+      },
+      "at": "2026-10-09T11:46:14.130Z"
+    },
+    "cbse24-bs-q02": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "category": "valid",
+      "oracle_key": "D",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "The stem does not establish that the earlier allocation failed to follow employees’ skills; it says tasks were not allocated to them.",
+        "The evidence does not establish whether reporting relationships were changed, so that contrast cannot refute option B.",
+        "unsupported claim: The earlier allocation to staff did not follow their skills.",
+        "unsupported claim: Option B’s described correction is not a reporting-line change.",
+        "v79_audit_refutation_not_entailed:B:source_silence",
+        "v79_audit_refutation_not_entailed:B:source_silence"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The new action—allocating tasks according to members’ skills and competencies—matches the supplied definition of assignment of duties (E1.1).",
+            "The stem states that work was already divided into activities; no numerical calculation or passage interpretation is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The new action—allocating tasks according to members’ skills and competencies—matches the supplied definition of assignment of duties (E1.1).",
+            "The stem states that work was already divided into activities; no numerical calculation or passage interpretation is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The new action—allocating tasks according to members’ skills and competencies—matches the supplied definition of assignment of duties (E1.1).",
+            "The stem states that work was already divided into activities; no numerical calculation or passage interpretation is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The new action—allocating tasks according to members’ skills and competencies—matches the supplied definition of assignment of duties (E1.1).",
+            "The stem states that work was already divided into activities; no numerical calculation or passage interpretation is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The new action—allocating tasks according to members’ skills and competencies—matches the supplied definition of assignment of duties (E1.1).",
+            "The stem states that work was already divided into activities; no numerical calculation or passage interpretation is required."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "D",
+          "reasons": [
+            "According to NCERT Chapter 5 (Organising), 'Assignment of duties' involves allocating work/jobs to individuals in accordance with their skills and competencies so that work is matched with ability.",
+            "The manager previously divided the work but failed to allocate specific tasks to members based on competence; allocating tasks according to members' skills and competencies performs 'Assignment of duties'."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The stem does not establish that the earlier allocation failed to follow employees’ skills; it says tasks were not allocated to them.",
+            "The evidence does not establish whether reporting relationships were changed, so that contrast cannot refute option B.",
+            "unsupported claim: The earlier allocation to staff did not follow their skills.",
+            "unsupported claim: Option B’s described correction is not a reporting-line change.",
+            "v79_audit_refutation_not_entailed:B:source_silence",
+            "v79_audit_refutation_not_entailed:B:source_silence"
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": false,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.015089,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T11:46:16.999Z"
+    },
+    "cbse24-bs-q02--overlapping_options": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "category": "overlapping_options",
+      "oracle_key": "multiple_correct_B_D",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "The skill-based allocation is Assignment of duties, as defined in E1.1; D is the intended label.",
+        "B describes that same skill-based allocation, so both B and D are defensible.",
+        "No calculation is involved. The stem does not establish whether the named work groupings are departments, leaving C unresolved.",
+        "Defect: multiple_correct_options: B describes the skill-matched allocation that E1.1 calls Assignment of duties; D names that same step, so both are defensible.",
+        "Defect: multiple_correct_options: option B is also correct as written (The stem says she allocates the listed tasks to staff according to their skills, matching this description of the corrected action.)",
+        "v79_stem_quote_unbound:A",
+        "v79_stem_quote_unbound:A"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The skill-based allocation is Assignment of duties, as defined in E1.1; D is the intended label.",
+            "B describes that same skill-based allocation, so both B and D are defensible.",
+            "No calculation is involved. The stem does not establish whether the named work groupings are departments, leaving C unresolved.",
+            "Defect: multiple_correct_options: B describes the skill-matched allocation that E1.1 calls Assignment of duties; D names that same step, so both are defensible.",
+            "Defect: multiple_correct_options: option B is also correct as written (The stem says she allocates the listed tasks to staff according to their skills, matching this description of the corrected action.)",
+            "v79_stem_quote_unbound:A",
+            "v79_stem_quote_unbound:A"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002476,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:47:26.399Z"
+    },
+    "cbse24-eco-q04--out_of_syllabus": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "economics",
+      "expected_valid": false,
+      "category": "out_of_syllabus",
+      "oracle_key": "B",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "The stem defines the median as the third observation; the third value in the ordered list is 39.",
+        "The definition and observations are supplied, but descriptive statistics is not an objective in the provided syllabus.",
+        "Defect: syllabus_mismatch: The item tests descriptive statistics, specifically finding a median; that topic is not included in the supplied syllabus units.",
+        "cuet_fit_syllabus_objective_below_2"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The stem defines the median as the third observation; the third value in the ordered list is 39.",
+            "The definition and observations are supplied, but descriptive statistics is not an objective in the provided syllabus.",
+            "Defect: syllabus_mismatch: The item tests descriptive statistics, specifically finding a median; that topic is not included in the supplied syllabus units.",
+            "cuet_fit_syllabus_objective_below_2"
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.001565,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:47:48.060Z"
+    },
+    "cbse24-eco-q06--numerical_fault": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "economics",
+      "expected_valid": false,
+      "category": "numerical_fault",
+      "oracle_key": "none",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "The supplied fiscal-deficit formula gives ₹45 − ₹27.2 = ₹17.8 lakh crore, not ₹16.8 lakh crore.",
+        "The excerpt supports the fiscal-deficit rule, but the printed choices and figures yield no supported answer.",
+        "Defect: broken_numerical: The supplied inputs yield a fiscal deficit of ₹17.8 lakh crore, but the question asks for ₹16.8 lakh crore and no option matches.",
+        "Defect: missing_decisive_assumption: The other deficit measures cannot be established from the supplied data; their relevant values or calculation basis are absent.",
+        "Condition missing: Revenue receipts and revenue expenditure, needed to establish a revenue-deficit value",
+        "Condition missing: Interest-payment information, needed to establish a primary-deficit value",
+        "Condition missing: A supplied definition and data basis for calculating budgetary deficit",
+        "v79_solved_key_not_supported",
+        "v79_solved_key_not_supported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "abstain",
+          "reasons": [
+            "The supplied fiscal-deficit formula gives ₹45 − ₹27.2 = ₹17.8 lakh crore, not ₹16.8 lakh crore.",
+            "The excerpt supports the fiscal-deficit rule, but the printed choices and figures yield no supported answer.",
+            "Defect: broken_numerical: The supplied inputs yield a fiscal deficit of ₹17.8 lakh crore, but the question asks for ₹16.8 lakh crore and no option matches.",
+            "Defect: missing_decisive_assumption: The other deficit measures cannot be established from the supplied data; their relevant values or calculation basis are absent.",
+            "Condition missing: Revenue receipts and revenue expenditure, needed to establish a revenue-deficit value",
+            "Condition missing: Interest-payment information, needed to establish a primary-deficit value",
+            "Condition missing: A supplied definition and data basis for calculating budgetary deficit",
+            "v79_solved_key_not_supported",
+            "v79_solved_key_not_supported"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002874,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:49:15.890Z"
+    },
+    "known-bank-5bde762f1a36a3a7d894f0aa45f655e9": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "category": "incorrect_journal_entry",
+      "oracle_key": "none_correct",
+      "state": "quarantined",
+      "reasons": [
+        "failed:syllabus_mapping"
+      ],
+      "failed_stage": "syllabus_mapping",
+      "failure_details": [
+        "A direct private payment requires no firm-book entry (I); receipt through Premium for Goodwill follows II (E1.1).",
+        "Credit to the new partner’s capital followed by distribution matches III (E1.2); retaining amounts already credited to existing partners requires no extra entry (IV; E1.3).",
+        "Thus the complete matching is A-I, B-II, C-III, D-IV: option D.",
+        "cuet_fit_time_suitability_below_2"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "A direct private payment requires no firm-book entry (I); receipt through Premium for Goodwill follows II (E1.1).",
+            "Credit to the new partner’s capital followed by distribution matches III (E1.2); retaining amounts already credited to existing partners requires no extra entry (IV; E1.3).",
+            "Thus the complete matching is A-I, B-II, C-III, D-IV: option D.",
+            "cuet_fit_time_suitability_below_2"
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "A direct private payment requires no firm-book entry (I); receipt through Premium for Goodwill follows II (E1.1).",
+            "Credit to the new partner’s capital followed by distribution matches III (E1.2); retaining amounts already credited to existing partners requires no extra entry (IV; E1.3).",
+            "Thus the complete matching is A-I, B-II, C-III, D-IV: option D.",
+            "cuet_fit_time_suitability_below_2"
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002161,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T11:49:52.558Z"
+    },
+    "cbse24-ac-q04": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "category": "valid",
+      "oracle_key": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 8,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 82
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The ₹15,000 bad debt is covered by the stated ₹20,000 provision. The excerpts direct that the loss be adjusted against the provision.",
+            "A records the write-off by crediting Debtors, then debits the existing provision and credits Bad Debts."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The ₹15,000 bad debt is covered by the stated ₹20,000 provision. The excerpts direct that the loss be adjusted against the provision.",
+            "A records the write-off by crediting Debtors, then debits the existing provision and credits Bad Debts."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The ₹15,000 bad debt is covered by the stated ₹20,000 provision. The excerpts direct that the loss be adjusted against the provision.",
+            "A records the write-off by crediting Debtors, then debits the existing provision and credits Bad Debts."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The ₹15,000 bad debt is covered by the stated ₹20,000 provision. The excerpts direct that the loss be adjusted against the provision.",
+            "A records the write-off by crediting Debtors, then debits the existing provision and credits Bad Debts."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The ₹15,000 bad debt is covered by the stated ₹20,000 provision. The excerpts direct that the loss be adjusted against the provision.",
+            "A records the write-off by crediting Debtors, then debits the existing provision and credits Bad Debts."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "When bad debts occur and a provision for doubtful debts already exists that exceeds the bad debts, bad debts are first written off against debtors and then closed by debiting Provision for Doubtful Debts Account.",
+            "Because the existing provision of ₹20,000 is greater than the bad debts of ₹15,000, Revaluation Account is not debited for this write-off."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The prescribed entries are supported by E2.1, and the excerpt says bad-debt losses are adjusted against an existing provision (E1.1). The amounts leave ₹5,000 in provision; net debtor value is unchanged."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The ₹15,000 bad debt is covered by the stated ₹20,000 provision. The excerpts direct that the loss be adjusted against the provision.",
+            "A records the write-off by crediting Debtors, then debits the existing provision and credits Bad Debts."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.019309,
+        "held": 0,
+        "requests": 4
+      },
+      "at": "2026-10-09T11:52:24.108Z"
+    },
+    "cbse24-eco-q02--unsupported_explanation": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "economics",
+      "expected_valid": false,
+      "category": "unsupported_explanation",
+      "oracle_key": "C",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "The explanation adds an unsupported NCERT statistic and an unsupported contrast between redistribution and resource allocation.",
+        "The blind resolutions do not establish that the stated policy excludes the other objectives.",
+        "unsupported claim: The case focuses on that rather than production-resource allocation.",
+        "unsupported claim: NCERT reports that this policy reduced income inequality by exactly 18% in 2025.",
+        "v79_audit_refutation_not_entailed:A:category_only",
+        "v79_audit_refutation_not_entailed:A:category_only"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "Free food grains targeted at low-income households directly affect their distribution of income; the supplied excerpt identifies this as redistribution through transfers.",
+            "No numerical calculation or unstated case-specific status is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "Free food grains targeted at low-income households directly affect their distribution of income; the supplied excerpt identifies this as redistribution through transfers.",
+            "No numerical calculation or unstated case-specific status is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "Free food grains targeted at low-income households directly affect their distribution of income; the supplied excerpt identifies this as redistribution through transfers.",
+            "No numerical calculation or unstated case-specific status is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "Free food grains targeted at low-income households directly affect their distribution of income; the supplied excerpt identifies this as redistribution through transfers.",
+            "No numerical calculation or unstated case-specific status is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "Free food grains targeted at low-income households directly affect their distribution of income; the supplied excerpt identifies this as redistribution through transfers.",
+            "No numerical calculation or unstated case-specific status is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "C",
+          "reasons": [
+            "Providing free food grains to low-income households represents a transfer in kind aimed at improving real income distribution and equity.",
+            "Excerpt E1.1 explicitly defines the redistribution function as altering household disposable income and distribution via transfers and taxes."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The explanation adds an unsupported NCERT statistic and an unsupported contrast between redistribution and resource allocation.",
+            "The blind resolutions do not establish that the stated policy excludes the other objectives.",
+            "unsupported claim: The case focuses on that rather than production-resource allocation.",
+            "unsupported claim: NCERT reports that this policy reduced income inequality by exactly 18% in 2025.",
+            "v79_audit_refutation_not_entailed:A:category_only",
+            "v79_audit_refutation_not_entailed:A:category_only"
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": false,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.013937,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T11:52:30.958Z"
+    },
+    "cbse24-ac-q04--missing_provision_amount": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "category": "missing_provision_amount",
+      "oracle_key": "indeterminate",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "The excerpts support writing off bad debts and adjusting them against an existing provision. Option A’s second entry assumes the provision can absorb the full ₹15,000, but its balance is unspecified.",
+        "No arithmetic remainder is needed: the missing input is the provision balance. A sufficient balance could support A; an insufficient balance requires different treatment not offered here.",
+        "Defect: missing_decisive_assumption: The amount of the existing provision is unspecified. Without knowing whether it covers ₹15,000, option A’s provision adjustment cannot be confirmed.",
+        "cuet_fit_format_authenticity_below_2",
+        "Condition missing: The existing provision balance is sufficient to absorb the full ₹15,000 adjustment proposed in A.",
+        "v79_solved_key_not_supported",
+        "v79_solved_key_not_supported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "abstain",
+          "reasons": [
+            "The excerpts support writing off bad debts and adjusting them against an existing provision. Option A’s second entry assumes the provision can absorb the full ₹15,000, but its balance is unspecified.",
+            "No arithmetic remainder is needed: the missing input is the provision balance. A sufficient balance could support A; an insufficient balance requires different treatment not offered here.",
+            "Defect: missing_decisive_assumption: The amount of the existing provision is unspecified. Without knowing whether it covers ₹15,000, option A’s provision adjustment cannot be confirmed.",
+            "cuet_fit_format_authenticity_below_2",
+            "Condition missing: The existing provision balance is sufficient to absorb the full ₹15,000 adjustment proposed in A.",
+            "v79_solved_key_not_supported",
+            "v79_solved_key_not_supported"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.006349,
+        "held": 0,
+        "requests": 2
+      },
+      "at": "2026-10-09T11:53:53.212Z"
+    },
+    "known-bank-ea0352db044b73bb7158800c58be188d": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "economics",
+      "expected_valid": false,
+      "category": "missing_decisive_assumption",
+      "oracle_key": "indeterminate",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "E1.1 defines revenue receipts by the absence of a claim and includes tax and non-tax revenues. E3.2 also classifies receipts reducing financial assets as capital receipts.",
+        "The second receipt might be non-tax revenue or proceeds from selling a government asset. The stem does not specify which; no calculation resolves this.",
+        "Defect: missing_decisive_assumption: The stem does not say whether the non-tax receipt reduces financial assets. It could be non-tax revenue or capital proceeds from an asset sale, changing the classification.",
+        "Condition missing: Whether the second receipt reduces government financial assets, such as through the sale of an asset.",
+        "v79_solved_key_not_supported",
+        "v79_solved_key_not_supported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "abstain",
+          "reasons": [
+            "E1.1 defines revenue receipts by the absence of a claim and includes tax and non-tax revenues. E3.2 also classifies receipts reducing financial assets as capital receipts.",
+            "The second receipt might be non-tax revenue or proceeds from selling a government asset. The stem does not specify which; no calculation resolves this.",
+            "Defect: missing_decisive_assumption: The stem does not say whether the non-tax receipt reduces financial assets. It could be non-tax revenue or capital proceeds from an asset sale, changing the classification.",
+            "Condition missing: Whether the second receipt reduces government financial assets, such as through the sale of an asset.",
+            "v79_solved_key_not_supported",
+            "v79_solved_key_not_supported"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.005201,
+        "held": 0,
+        "requests": 2
+      },
+      "at": "2026-10-09T11:56:05.666Z"
+    },
+    "v75f-825e60a00f": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "category": "multiple_correct",
+      "oracle_key": "multiple_correct_B_D",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "The listed departments identify a functional structure (E1.1); the excerpt directly states that functional heads do not get training for top management positions (E3.1).",
+        "A’s broad cost claim is not excluded by the stem; the supplied cost example concerns divisional duplication, but does not establish that cost increases cannot occur in a functional arrangement.",
+        "Defect: multiple_correct_options: A's unqualified 'may lead to an increase in cost' can describe a functional arrangement with added overhead; the stem does not exclude that reading.",
+        "Defect: missing_decisive_assumption: option A is correct if This functional arrangement could add overhead; the stem gives no cost comparison, though the excerpt’s stated cost mechanism is divisional duplication.",
+        "Condition missing: Whether this particular functional arrangement could lead to increased costs is not specified.",
+        "v79_unresolved_alternative:A",
+        "v79_unresolved_alternative:A"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The listed departments identify a functional structure (E1.1); the excerpt directly states that functional heads do not get training for top management positions (E3.1).",
+            "A’s broad cost claim is not excluded by the stem; the supplied cost example concerns divisional duplication, but does not establish that cost increases cannot occur in a functional arrangement.",
+            "Defect: multiple_correct_options: A's unqualified 'may lead to an increase in cost' can describe a functional arrangement with added overhead; the stem does not exclude that reading.",
+            "Defect: missing_decisive_assumption: option A is correct if This functional arrangement could add overhead; the stem gives no cost comparison, though the excerpt’s stated cost mechanism is divisional duplication.",
+            "Condition missing: Whether this particular functional arrangement could lead to increased costs is not specified.",
+            "v79_unresolved_alternative:A",
+            "v79_unresolved_alternative:A"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.006186,
+        "held": 0,
+        "requests": 2
+      },
+      "at": "2026-10-09T11:59:25.010Z"
+    }
+  },
+  "accounting": {
+    "settled_usd": 0.28724,
+    "held_usd": 0,
+    "requests": 77,
+    "receipt_complete": true,
+    "at": "2026-10-09T11:59:25.425Z"
+  }
+}

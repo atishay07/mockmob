@@ -32,9 +32,9 @@ test('missing schema and read errors never produce a balance', () => {
 });
 
 test('paused paid AI shows real stored balances but nothing is spendable', () => {
-  // 4 Oct 2026: model replies opened by the owner; AI purchases (top-ups) stay closed.
+  // 4 Oct 2026: model replies opened by the owner. 5 Oct 2026: AI purchases (top-ups) opened too.
   assert.equal(CAPABILITIES.optionalAi.state, 'available');
-  assert.notEqual(CAPABILITIES.aiTopUps.state, 'available', 'top-up checkout stays paused');
+  assert.equal(CAPABILITIES.aiTopUps.state, 'available');
   const w = projectWallet(row(), { paid: true, includedMonthlyCredits: 50, paidAiOpen: false, now: NOW });
   assert.equal(w.state, 'paused');
   assert.equal(w.spendable, false);

@@ -23,7 +23,7 @@ import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 export const metadata = seoMetadata({
   title: 'PrepOS Credits',
   description:
-    'View your preserved PrepOS credits. New top-ups and paid model replies are paused pending spending and staging checks. Purchased credits do not expire.',
+    'Top up PrepOS credits for AI replies, Mistake Repair and AI Rival. Monthly credits are included with Free and Pro; purchased credits never expire.',
   path: '/pricing/prepos',
 });
 
@@ -38,7 +38,7 @@ const faqs = [
   },
   {
     q: 'Is Pro still separate?',
-    a: 'Yes. Pro is billed separately from the optional PrepOS wallet. New top-ups are currently paused and existing balances are preserved.',
+    a: 'Yes. Pro is billed separately from the PrepOS wallet. Pro includes more monthly PrepOS credits, and you can top up at any time.',
   },
 ];
 

@@ -1,0 +1,32 @@
+{
+  "date_ist": "2026-10-06",
+  "migration": "supabase/migrations/20261005185759_question_factory.sql",
+  "sha256": "7a9808dc18406727c1e007041bcbe05dd14ea38da0968fff9a0db08390ea1ca2",
+  "engine": "PGlite 0.5.8",
+  "state": "passed_local_isolated_fixture",
+  "test": "migration dry run protects RLS, permanent worker binding, idempotent publication and stale screening",
+  "actual_checks": [
+    "Entire saved migration executes against minimal questions/passage_groups schema and anon/authenticated/service_role roles",
+    "A second worker cannot claim the permanent ledger binding even after lease expiry",
+    "Paused publication refuses writes",
+    "Single publication retries do not duplicate inventory",
+    "Passage children cannot publish individually",
+    "Passage group failure rolls back both parent and children",
+    "Complete passage group retry is idempotent",
+    "Screening import rejects changed key and parent passage snapshots",
+    "Question dispute atomically records reviewed content version and applies a hold",
+    "Authenticated role cannot read factory jobs or execute worker claim RPC",
+    "Pilot defaults to 800 and rejects unbalanced target 101"
+  ],
+  "production_changes": 0,
+  "staging_migration_performed": false,
+  "production_migration_performed": false,
+  "limitations": [
+    "Minimal SQL fixture is not the complete linked Supabase schema",
+    "Real foreign keys, existing schema types, service-role API/RLS, storage and authenticated repair/import flows need staging proof",
+    "Application verifies evidence HMAC; service-role SQL fixture signatures are intentionally software-only",
+    "AGENTS.md requires staging evidence and explicit approval before production migration"
+  ],
+  "refreshed_at": "2026-10-06T06:01:48.086Z",
+  "latest_test_receipt": "factory-tests-2026-10-06.log"
+}

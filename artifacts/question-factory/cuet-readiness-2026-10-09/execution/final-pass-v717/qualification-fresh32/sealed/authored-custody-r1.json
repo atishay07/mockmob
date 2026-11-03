@@ -1,0 +1,1960 @@
+{
+  "schema": "cuet-v717-authored-custody-revision-v1",
+  "study_id": "cuet-v717-one-bounded-qualification",
+  "author_id": "/root/fresh_construction_r3",
+  "author": "/root/fresh_construction_r3; authored after V717 execution freeze from registered source facts only; no native model evaluation informed construction",
+  "created_at": "2026-10-10T05:30:14.042Z",
+  "started_at": "2026-10-10T05:23:09.007Z",
+  "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd",
+  "contract_sha256": "045cf8d93ece2742fbd651fb3f272532b8ff96cb554fed92230f788dbb66e533",
+  "scorecard_prompt_sha256": "d51311949ff24aa226cd11726c4ee3fcaa5fb4eb826879de6c01ba883c547246",
+  "source_registry_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v717/qualification-fresh32/source-registry.json",
+  "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+  "source_packs": {
+    "cuet2024-english-bookA": {
+      "version": 12,
+      "state": "active"
+    },
+    "cuet2024-accountancy-bookA": {
+      "version": 13,
+      "state": "active"
+    },
+    "cuet2024-business_studies-bookA": {
+      "version": 11,
+      "state": "active"
+    },
+    "cuet2024-economics-bookA": {
+      "version": 12,
+      "state": "active"
+    },
+    "original-english-reference-v1": {
+      "version": 1,
+      "state": "active"
+    }
+  },
+  "source_ids": [
+    "ncertcol-leac204-v1",
+    "ncertcol-lebs201-v1",
+    "ncertcol-leec203-v1",
+    "oxford-quality-prudent",
+    "oxford-quality-conspicuous",
+    "mockmob-original-stimulus-factual-passage",
+    "oxford-quality-benevolent"
+  ],
+  "counts": {
+    "total": 32,
+    "per_subject": {
+      "accountancy": {
+        "total": 8,
+        "valid": 5,
+        "defects": 3,
+        "valid_keys": {
+          "A": 2,
+          "B": 1,
+          "C": 1,
+          "D": 1
+        },
+        "defect_keys": {
+          "A": 1,
+          "B": 1,
+          "C": 1,
+          "D": 0
+        }
+      },
+      "business_studies": {
+        "total": 8,
+        "valid": 5,
+        "defects": 3,
+        "valid_keys": {
+          "A": 1,
+          "B": 2,
+          "C": 1,
+          "D": 1
+        },
+        "defect_keys": {
+          "A": 0,
+          "B": 1,
+          "C": 1,
+          "D": 1
+        }
+      },
+      "economics": {
+        "total": 8,
+        "valid": 5,
+        "defects": 3,
+        "valid_keys": {
+          "A": 1,
+          "B": 1,
+          "C": 2,
+          "D": 1
+        },
+        "defect_keys": {
+          "A": 1,
+          "B": 0,
+          "C": 1,
+          "D": 1
+        }
+      },
+      "english": {
+        "total": 8,
+        "valid": 5,
+        "defects": 3,
+        "valid_keys": {
+          "A": 1,
+          "B": 1,
+          "C": 1,
+          "D": 2
+        },
+        "defect_keys": {
+          "A": 1,
+          "B": 1,
+          "C": 0,
+          "D": 1
+        }
+      }
+    },
+    "valid_key_counts": {
+      "A": 5,
+      "B": 5,
+      "C": 5,
+      "D": 5
+    },
+    "defect_key_counts": {
+      "A": 3,
+      "B": 3,
+      "C": 3,
+      "D": 3
+    },
+    "overall_key_counts": {
+      "A": 8,
+      "B": 8,
+      "C": 8,
+      "D": 8
+    },
+    "valid": 20,
+    "controlled_defects": 12
+  },
+  "construction_note": "One fixed 32-case qualification construction. Prior inspected drafts were used only for exclusion/novelty screening, never as answer templates; no native-model outputs or paid/API results informed any item. Expected labels and answers are sealed here. Six pre-registration custody revisions fix established source/syllabus construction gaps; no paid evaluation, outcomes or registration existed. Original drafts and independent derivations preserved.",
+  "items": [
+    {
+      "id": "v717-fresh32-a-v1-custody-r1",
+      "slot": "A_V1",
+      "family_id": "v717-fresh32-A_V1-custody-r1",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Analysis of Financial Statements",
+        "concept": "common-size-inter-firm-expense-comparison",
+        "question_type": "numerical_calculation",
+        "difficulty": "medium",
+        "body": "Company P has revenue from operations of ₹800 lakh and expenses of ₹600 lakh. Company Q has revenue from operations of ₹200 lakh and expenses of ₹160 lakh. Using common-size statements, which comparison is correct?",
+        "options": [
+          "P has expenses of 75% of revenue, against Q’s 80%; P has the lower expense share.",
+          "Q has the lower expense share because its expenses are lower in rupees.",
+          "P has expenses of 80% of revenue, against Q’s 75%; Q has the lower expense share.",
+          "The expense shares are equal because each company’s expenses are below its revenue."
+        ],
+        "key": "A",
+        "explanation": "Common-size profit-and-loss statements express expenses as a percentage of revenue from operations. P: 600 ÷ 800 × 100 = 75%; Q: 160 ÷ 200 × 100 = 80%. P has the lower expense share despite its larger absolute expenses.",
+        "sources": [
+          [
+            "ncertcol-leac204-v1",
+            "p4-c0-g2-s0"
+          ],
+          [
+            "ncertcol-leac204-v1",
+            "p12-c0-g2-s0"
+          ]
+        ],
+        "syllabus_unit": "Unit V: Analysis of Financial Statements",
+        "objective": "Compare expense shares of differently sized companies using the common-size revenue basis."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-leac204-v1",
+            "p5-c0-g1-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-accountancy-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd",
+        "prior_draft_id": "v717-fresh32-a-v1",
+        "pre_registration_revision": "Replace trend computation whose official syllabus entitlement was not established with explicitly entitled common-size comparison."
+      }
+    },
+    {
+      "id": "v717-fresh32-a-v2",
+      "slot": "A_V2",
+      "family_id": "v717-fresh32-A_V2",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Analysis of Financial Statements",
+        "concept": "comparative-statement-relative-change",
+        "question_type": "numerical_calculation",
+        "difficulty": "medium",
+        "body": "A comparative balance sheet shows reserves and surplus of ₹4 lakh in the earlier year and ₹3 lakh in the later year. What is the percentage change, using the earlier year as the base?",
+        "options": [
+          "20% decrease",
+          "25% decrease",
+          "33⅓% decrease",
+          "25% increase"
+        ],
+        "key": "B",
+        "explanation": "The absolute change is ₹3 lakh − ₹4 lakh = −₹1 lakh. Relative to the earlier ₹4 lakh, the decrease is ₹1 lakh ÷ ₹4 lakh × 100 = 25%. Comparative statements use absolute and relative changes between the two periods.",
+        "sources": [
+          [
+            "ncertcol-leac204-v1",
+            "p6-c0-g1-s0"
+          ],
+          [
+            "ncertcol-leac204-v1",
+            "p9-c0-g1-s0"
+          ]
+        ],
+        "syllabus_unit": "Unit V: Analysis of Financial Statements",
+        "objective": "Interpret and calculate a relative change from a two-period balance-sheet comparison."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-leac204-v1",
+            "p6-c0-g1-s0"
+          ],
+          [
+            "ncertcol-leac204-v1",
+            "p9-c0-g1-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-accountancy-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-a-v3",
+      "slot": "A_V3",
+      "family_id": "v717-fresh32-A_V3",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Analysis of Financial Statements",
+        "concept": "common-size-balance-sheet-component",
+        "question_type": "numerical_calculation",
+        "difficulty": "medium",
+        "body": "A company reports total assets of ₹40 lakh, including inventory of ₹8 lakh. In a common-size balance sheet, what percentage of total assets is inventory?",
+        "options": [
+          "12.5%",
+          "15%",
+          "20%",
+          "25%"
+        ],
+        "key": "C",
+        "explanation": "A common-size balance sheet expresses each asset as a percentage of total assets. Inventory is ₹8 lakh ÷ ₹40 lakh × 100 = 20%.",
+        "sources": [
+          [
+            "ncertcol-leac204-v1",
+            "p12-c0-g2-s0"
+          ]
+        ],
+        "syllabus_unit": "Unit V: Analysis of Financial Statements",
+        "objective": "Apply the common-size percentage basis to one asset using a supplied total."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-leac204-v1",
+            "p12-c0-g2-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-accountancy-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-a-v4",
+      "slot": "A_V4",
+      "family_id": "v717-fresh32-A_V4",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Analysis of Financial Statements",
+        "concept": "comparative-versus-common-size-tools",
+        "question_type": "conceptual_mcq",
+        "difficulty": "easy",
+        "body": "Which statement is NOT correct?",
+        "options": [
+          "A comparative statement presents figures for two periods.",
+          "Comparative statements can show absolute and relative changes.",
+          "Common-size statements express items as percentages of a relevant aggregate.",
+          "A comparative statement of profit and loss necessarily expresses each expense as a percentage of revenue."
+        ],
+        "key": "D",
+        "explanation": "The first three statements describe the tools. Expressing each profit-and-loss item as a percentage of revenue is a common-size presentation, not a necessary feature of every comparative statement.",
+        "sources": [
+          [
+            "ncertcol-leac204-v1",
+            "p6-c0-g1-s0"
+          ],
+          [
+            "ncertcol-leac204-v1",
+            "p12-c0-g2-s0"
+          ]
+        ],
+        "syllabus_unit": "Unit V: Analysis of Financial Statements",
+        "objective": "Distinguish the purpose of comparative statements from common-size statements."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-leac204-v1",
+            "p6-c0-g1-s0"
+          ],
+          [
+            "ncertcol-leac204-v1",
+            "p12-c0-g2-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-accountancy-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-a-v5",
+      "slot": "A_V5",
+      "family_id": "v717-fresh32-A_V5",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Analysis of Financial Statements",
+        "concept": "comparative-profit-after-tax-growth",
+        "question_type": "numerical_calculation",
+        "difficulty": "medium",
+        "body": "A comparative statement reports profit after tax of ₹3.6 lakh in the earlier year and ₹5.4 lakh in the later year. What is the percentage increase over the earlier year?",
+        "options": [
+          "50%",
+          "25%",
+          "40%",
+          "60%"
+        ],
+        "key": "A",
+        "explanation": "The increase is ₹5.4 lakh − ₹3.6 lakh = ₹1.8 lakh. Relative to the earlier amount, ₹1.8 lakh ÷ ₹3.6 lakh × 100 = 50%.",
+        "sources": [
+          [
+            "ncertcol-leac204-v1",
+            "p6-c0-g1-s0"
+          ],
+          [
+            "ncertcol-leac204-v1",
+            "p8-c0-g3-s0"
+          ]
+        ],
+        "syllabus_unit": "Unit V: Analysis of Financial Statements",
+        "objective": "Calculate and interpret a percentage increase from a comparative statement."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-leac204-v1",
+            "p6-c0-g1-s0"
+          ],
+          [
+            "ncertcol-leac204-v1",
+            "p8-c0-g3-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-accountancy-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-a-d1",
+      "slot": "A_D1",
+      "family_id": "v717-fresh32-A_D1",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "defect_class": "wrong_key",
+      "defect_note": "The percentage increase must use the earlier-year amount as the base: (20−16)/16 × 100 = 25%. The candidate keys 20%, obtained by dividing by the later amount.",
+      "answer_set": [
+        "B"
+      ],
+      "candidate": {
+        "chapter": "Analysis of Financial Statements",
+        "concept": "comparative-revenue-percent-defective-key",
+        "question_type": "numerical_calculation",
+        "difficulty": "medium",
+        "body": "Revenue from operations rose from ₹16 lakh to ₹20 lakh. What was the percentage increase over the earlier year?",
+        "options": [
+          "20%",
+          "25%",
+          "₹4 lakh",
+          "125%"
+        ],
+        "key": "A",
+        "explanation": "The increase is ₹4 lakh. Dividing it by the later ₹20 lakh gives 20%, so option A is the increase.",
+        "sources": [
+          [
+            "ncertcol-leac204-v1",
+            "p6-c0-g1-s0"
+          ],
+          [
+            "ncertcol-leac204-v1",
+            "p8-c0-g3-s0"
+          ]
+        ],
+        "syllabus_unit": "Unit V: Analysis of Financial Statements",
+        "objective": "Calculate relative change from two reported periods; the keyed result incorrectly uses the later value as denominator."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-leac204-v1",
+            "p6-c0-g1-s0"
+          ],
+          [
+            "ncertcol-leac204-v1",
+            "p8-c0-g3-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-accountancy-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-a-d2-custody-r1",
+      "slot": "A_D2",
+      "family_id": "v717-fresh32-A_D2-custody-r1",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "defect_class": "missing_decisive_input",
+      "defect_note": "Revenue from operations is missing. Different positive revenues produce different percentages; the proposed numeric key is not determined.",
+      "answer_set": [],
+      "candidate": {
+        "chapter": "Analysis of Financial Statements",
+        "concept": "common-size-missing-revenue-base",
+        "question_type": "numerical_calculation",
+        "difficulty": "medium",
+        "body": "A company reports expenses of ₹100 lakh. In its common-size statement of profit and loss, what percentage of revenue from operations do these expenses represent?",
+        "options": [
+          "80%",
+          "125%",
+          "100%",
+          "20%"
+        ],
+        "key": "B",
+        "explanation": "Common-size profit-and-loss statements express expenditure as a percentage of revenue from operations. Revenue is not supplied, so no percentage can be determined from the printed information.",
+        "sources": [
+          [
+            "ncertcol-leac204-v1",
+            "p12-c0-g2-s0"
+          ]
+        ],
+        "syllabus_unit": "Unit V: Analysis of Financial Statements",
+        "objective": "Identify a missing decisive revenue base in a common-size expense calculation."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-leac204-v1",
+            "p5-c0-g1-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-accountancy-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd",
+        "prior_draft_id": "v717-fresh32-a-d2",
+        "pre_registration_revision": "Remove incidental trend syllabus gap; retain the intended missing decisive input defect."
+      }
+    },
+    {
+      "id": "v717-fresh32-a-d3-custody-r1",
+      "slot": "A_D3",
+      "family_id": "v717-fresh32-A_D3-custody-r1",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "defect_class": "false_explanation",
+      "defect_note": "The correct expense/revenue ratio is 150/200 = 75%, option C. The explanation gives the reversed ratio 200/150 = 133.33% and misstates the common-size rule.",
+      "answer_set": [
+        "C"
+      ],
+      "candidate": {
+        "chapter": "Analysis of Financial Statements",
+        "concept": "common-size-explanation-inverts-ratio",
+        "question_type": "numerical_calculation",
+        "difficulty": "medium",
+        "body": "Revenue from operations is ₹200 lakh and cost of goods sold is ₹150 lakh. In a common-size statement of profit and loss, what percentage of revenue is cost of goods sold?",
+        "options": [
+          "25%",
+          "133.33%",
+          "75%",
+          "50%"
+        ],
+        "key": "C",
+        "explanation": "Common-size analysis divides revenue by expenditure: ₹200 lakh ÷ ₹150 lakh × 100 = 133.33%. Therefore option C is correct.",
+        "sources": [
+          [
+            "ncertcol-leac204-v1",
+            "p12-c0-g2-s0"
+          ]
+        ],
+        "syllabus_unit": "Unit V: Analysis of Financial Statements",
+        "objective": "Calculate an expense share; the keyed result is correct but the explanation inverts the ratio."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-leac204-v1",
+            "p5-c0-g1-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-accountancy-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd",
+        "prior_draft_id": "v717-fresh32-a-d3",
+        "pre_registration_revision": "Remove incidental trend syllabus gap while preserving an independently false explanation."
+      }
+    },
+    {
+      "id": "v717-fresh32-b-v1",
+      "slot": "B_V1",
+      "family_id": "v717-fresh32-B_V1",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Financial Management",
+        "concept": "capital-budgeting-long-term-investment-case",
+        "question_type": "case_application",
+        "difficulty": "medium",
+        "body": "A company is deciding whether to replace an old production line with a costly new machine. The outlay is large, the choice affects earning capacity for many years and reversing it later would be expensive. Which financial decision is central?",
+        "options": [
+          "Working-capital collection",
+          "Capital budgeting",
+          "Dividend declaration",
+          "Short-term cash budgeting"
+        ],
+        "key": "B",
+        "explanation": "A long-term investment in a new machine is a capital-budgeting decision. Such decisions involve large amounts, affect long-run earning capacity and are difficult to reverse except at high cost.",
+        "sources": [
+          [
+            "ncertcol-lebs201-v1",
+            "p5-c0-g1-s0"
+          ]
+        ],
+        "syllabus_unit": "Unit IX: Business Finance",
+        "objective": "Classify a long-term, difficult-to-reverse investment decision in a business case."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          3,
+          0,
+          1,
+          2
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-lebs201-v1",
+            "p5-c0-g1-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-business_studies-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-b-v2",
+      "slot": "B_V2",
+      "family_id": "v717-fresh32-B_V2",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Financial Management",
+        "concept": "compare-project-returns-at-equal-risk",
+        "question_type": "numerical_application",
+        "difficulty": "medium",
+        "body": "Two investment proposals have the same assessed risk. Proposal P is expected to return 9% and proposal Q 13%. Under normal circumstances, which proposal should be selected on the stated comparison?",
+        "options": [
+          "Neither can be compared without dividend data",
+          "Proposal P",
+          "Proposal Q",
+          "Both must be selected because risk is equal"
+        ],
+        "key": "C",
+        "explanation": "When risk is the same, the proposal with the higher expected return is preferred under normal circumstances. Q offers 13% compared with P’s 9%.",
+        "sources": [
+          [
+            "ncertcol-lebs201-v1",
+            "p6-c0-g1-s0"
+          ]
+        ],
+        "syllabus_unit": "Unit IX: Business Finance",
+        "objective": "Compare expected returns when the risk of two investment proposals is stated to be equal."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          3,
+          0,
+          1,
+          2
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-lebs201-v1",
+            "p6-c0-g1-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-business_studies-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-b-v3",
+      "slot": "B_V3",
+      "family_id": "v717-fresh32-B_V3",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Financial Management",
+        "concept": "cash-flow-position-financing-choice",
+        "question_type": "case_based_mcq",
+        "difficulty": "medium",
+        "body": "A firm has a stronger cash-flow position and is comparing debt financing with equity financing. Which inference is supported by the stated financing factor?",
+        "options": [
+          "The firm should declare a dividend before assessing finance.",
+          "Equity must always be chosen because it has no repayment date.",
+          "Strong cash flow rules out borrowing.",
+          "Debt financing may be more viable than equity financing."
+        ],
+        "key": "D",
+        "explanation": "The source states that a stronger cash-flow position may make debt financing more viable than funding through equity. It does not make debt compulsory.",
+        "sources": [
+          [
+            "ncertcol-lebs201-v1",
+            "p8-c0-g1-s0"
+          ]
+        ],
+        "syllabus_unit": "Unit IX: Business Finance",
+        "objective": "Apply a stated cash-flow determinant to a financing choice without treating it as an absolute rule."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          3,
+          0,
+          1,
+          2
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-lebs201-v1",
+            "p8-c0-g1-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-business_studies-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-b-v4",
+      "slot": "B_V4",
+      "family_id": "v717-fresh32-B_V4",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Financial Management",
+        "concept": "short-versus-long-term-financial-planning",
+        "question_type": "conceptual_mcq",
+        "difficulty": "medium",
+        "body": "Which statement about financial planning is NOT supported?",
+        "options": [
+          "Long-term planning focuses on detailed action for a period of one year or less.",
+          "It considers growth, investments and the requirement for funds.",
+          "It includes short-term and long-term planning.",
+          "A plan for one year or less is termed a budget."
+        ],
+        "key": "A",
+        "explanation": "Financial planning considers growth, performance, investments and fund requirements. The source distinguishes long-term plans for growth and capital expenditure from short-term budgets for one year or less; it does not define long-term plans as detailed action for one year or less.",
+        "sources": [
+          [
+            "ncertcol-lebs201-v1",
+            "p11-c0-g1-s0"
+          ]
+        ],
+        "syllabus_unit": "Unit IX: Business Finance",
+        "objective": "Distinguish long-term financial planning from short-term budgets in a NOT-stem item."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          3,
+          0,
+          1,
+          2
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-lebs201-v1",
+            "p11-c0-g1-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-business_studies-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-b-v5",
+      "slot": "B_V5",
+      "family_id": "v717-fresh32-B_V5",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Financial Management",
+        "concept": "growth-opportunity-dividend-policy-case",
+        "question_type": "case_application",
+        "difficulty": "medium",
+        "body": "A company has good growth opportunities and expects to finance new investment from its earnings. Which dividend-policy tendency is supported by this condition?",
+        "options": [
+          "Treat cash availability as irrelevant to dividend payment.",
+          "Retain more earnings, with a relatively smaller dividend.",
+          "Pay a larger dividend because growth opportunities guarantee cash.",
+          "Keep the dividend unchanged regardless of investment needs."
+        ],
+        "key": "B",
+        "explanation": "Companies with good growth opportunities retain more of their earnings to finance required investment; their dividends are therefore smaller than those of non-growth companies, other relevant conditions aside.",
+        "sources": [
+          [
+            "ncertcol-lebs201-v1",
+            "p9-c0-g1-s0"
+          ]
+        ],
+        "syllabus_unit": "Unit IX: Business Finance",
+        "objective": "Apply the growth-opportunity factor to a stated dividend-policy situation."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          3,
+          0,
+          1,
+          2
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-lebs201-v1",
+            "p9-c0-g1-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-business_studies-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-b-d1",
+      "slot": "B_D1",
+      "family_id": "v717-fresh32-B_D1",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "defect_class": "wrong_key",
+      "defect_note": "At equal risk, the source-supported comparison favors the 12% Project B, not the keyed 10% Project A.",
+      "answer_set": [
+        "C"
+      ],
+      "candidate": {
+        "chapter": "Financial Management",
+        "concept": "same-risk-return-comparison-key-mismatch",
+        "question_type": "numerical_application",
+        "difficulty": "medium",
+        "body": "Two projects have the same assessed risk. Project A is expected to return 10% and Project B 12%. Which should normally be selected on the stated comparison?",
+        "options": [
+          "Neither; return is irrelevant when risk is equal",
+          "Project A",
+          "Project B",
+          "Both are equally preferable because risk is equal"
+        ],
+        "key": "B",
+        "explanation": "Project A is the correct choice because equal risk makes its lower 10% return preferable to 12%.",
+        "sources": [
+          [
+            "ncertcol-lebs201-v1",
+            "p6-c0-g1-s0"
+          ]
+        ],
+        "syllabus_unit": "Unit IX: Business Finance",
+        "objective": "Compare expected returns at equal risk; the keyed project contradicts the stated criterion."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          3,
+          0,
+          1,
+          2
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-lebs201-v1",
+            "p6-c0-g1-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-business_studies-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-b-d2",
+      "slot": "B_D2",
+      "family_id": "v717-fresh32-B_D2",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "defect_class": "multiple_defensible_answers",
+      "defect_note": "Both a stronger cash-flow position and lower fixed operating costs can support debt financing according to the source; the single-answer stem has two defensible options.",
+      "answer_set": [
+        "B",
+        "C"
+      ],
+      "candidate": {
+        "chapter": "Financial Management",
+        "concept": "two-independent-debt-favoring-factors",
+        "question_type": "conceptual_mcq",
+        "difficulty": "medium",
+        "body": "Which single factor can make debt financing more viable?",
+        "options": [
+          "A weak cash-flow position",
+          "A stronger cash-flow position",
+          "Lower fixed operating costs",
+          "High fixed operating costs"
+        ],
+        "key": "C",
+        "explanation": "Lower fixed operating costs can make debt more viable because the business can bear the fixed financing cost. A stronger cash-flow position also makes debt more viable, so both A and B are supported.",
+        "sources": [
+          [
+            "ncertcol-lebs201-v1",
+            "p8-c0-g1-s0"
+          ]
+        ],
+        "syllabus_unit": "Unit IX: Business Finance",
+        "objective": "Identify a financing determinant; two different printed options independently support greater debt viability."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          3,
+          0,
+          1,
+          2
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-lebs201-v1",
+            "p8-c0-g1-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-business_studies-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-b-d3",
+      "slot": "B_D3",
+      "family_id": "v717-fresh32-B_D3",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "defect_class": "false_explanation",
+      "defect_note": "The key is the source-supported covenant check, but the explanation states that loan-agreement restrictions never affect dividend declarations, directly contradicting the source.",
+      "answer_set": [
+        "D"
+      ],
+      "candidate": {
+        "chapter": "Financial Management",
+        "concept": "loan-covenant-explanation-contradiction",
+        "question_type": "case_application",
+        "difficulty": "medium",
+        "body": "A company’s loan agreement places a condition on dividend payments. What should management do before declaring a dividend?",
+        "options": [
+          "Treat the restriction as applying only to equity issues.",
+          "Ignore the agreement because dividends are independent of borrowing.",
+          "Declare the dividend first and review the agreement later.",
+          "Ensure the proposed dividend does not violate the loan-agreement terms."
+        ],
+        "key": "D",
+        "explanation": "Loan agreements may impose restrictions on dividend payments, and companies are required to ensure that a dividend does not violate those terms. The agreement therefore must be checked before declaration.",
+        "sources": [
+          [
+            "ncertcol-lebs201-v1",
+            "p10-c0-g1-s0"
+          ]
+        ],
+        "syllabus_unit": "Unit IX: Business Finance",
+        "objective": "Apply a loan-agreement restriction to dividend planning; the keyed answer is supported but the explanation denies the source rule."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          3,
+          0,
+          1,
+          2
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-lebs201-v1",
+            "p10-c0-g1-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-business_studies-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-e-v1",
+      "slot": "E_V1",
+      "family_id": "v717-fresh32-E_V1",
+      "subject": "economics",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Production & Costs",
+        "concept": "marginal-product-from-total-product-schedule",
+        "question_type": "numerical_calculation",
+        "difficulty": "medium",
+        "body": "With all other inputs held constant, a firm’s total output is 10 units with 1 worker, 22 with 2 workers, 37 with 3 workers and 48 with 4 workers. What is the marginal product of the fourth worker?",
+        "options": [
+          "10 units",
+          "15 units",
+          "11 units",
+          "48 units"
+        ],
+        "key": "C",
+        "explanation": "Marginal product is the change in output per additional unit of the variable input, with other inputs held constant. For the fourth worker, output changes from 37 to 48, so MP = 11 units.",
+        "sources": [
+          [
+            "ncertcol-leec203-v1",
+            "p4-c0-g3-s16"
+          ]
+        ],
+        "syllabus_unit": "Course I, Unit II: Production and Costs",
+        "objective": "Calculate marginal product from adjacent total-product observations."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-leec203-v1",
+            "p4-c0-g3-s16"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-economics-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-e-v2",
+      "slot": "E_V2",
+      "family_id": "v717-fresh32-E_V2",
+      "subject": "economics",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Production & Costs",
+        "concept": "average-product-from-marginal-products",
+        "question_type": "numerical_calculation",
+        "difficulty": "medium",
+        "body": "The marginal products of the first three units of labour are 8, 12 and 10 units. What is the average product at the third unit of labour?",
+        "options": [
+          "8 units",
+          "9 units",
+          "12 units",
+          "10 units"
+        ],
+        "key": "D",
+        "explanation": "Average product at a level of employment is the average of all marginal products up to that level. (8 + 12 + 10) ÷ 3 = 10 units.",
+        "sources": [
+          [
+            "ncertcol-leec203-v1",
+            "p5-c0-g2-s0"
+          ]
+        ],
+        "syllabus_unit": "Course I, Unit II: Production and Costs",
+        "objective": "Compute average product from the marginal products up to the stated employment level."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-leec203-v1",
+            "p5-c0-g2-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-economics-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-e-v3",
+      "slot": "E_V3",
+      "family_id": "v717-fresh32-E_V3",
+      "subject": "economics",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Production & Costs",
+        "concept": "variable-proportions-marginal-product-pattern",
+        "question_type": "conceptual_mcq",
+        "difficulty": "medium",
+        "body": "Which pattern is consistent with the source’s description of marginal product under the law of variable proportions?",
+        "options": [
+          "Marginal product initially rises and, after a level of employment, starts falling.",
+          "Marginal product falls at every successive unit from the outset.",
+          "Marginal product remains constant at every level of employment.",
+          "Marginal product continues to rise at every higher level of employment."
+        ],
+        "key": "A",
+        "explanation": "The source describes marginal product as initially rising and then falling after a certain level of employment. The other choices describe continuous decline, no change or continuous rise.",
+        "sources": [
+          [
+            "ncertcol-leec203-v1",
+            "p6-c0-g2-s20"
+          ]
+        ],
+        "syllabus_unit": "Course I, Unit II: Production and Costs",
+        "objective": "Interpret the stated marginal-product pattern in a four-option conceptual item."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-leec203-v1",
+            "p6-c0-g2-s20"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-economics-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-e-v4-custody-r1",
+      "slot": "E_V4",
+      "family_id": "v717-fresh32-E_V4-custody-r1",
+      "subject": "economics",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Production & Costs",
+        "concept": "marginal-cost-adjacent-output-schedule",
+        "question_type": "numerical_calculation",
+        "difficulty": "medium",
+        "body": "A firm’s total cost is ₹44 when output is 3 units and ₹49 when output is 4 units. What is the marginal cost of increasing output from 3 to 4 units?",
+        "options": [
+          "₹4",
+          "₹5",
+          "₹6",
+          "₹8"
+        ],
+        "key": "B",
+        "explanation": "Short-run marginal cost is the change in total cost per unit of change in output. Output rises by one unit, so MC = (₹49 − ₹44) ÷ (4 − 3) = ₹5.",
+        "sources": [
+          [
+            "ncertcol-leec203-v1",
+            "p9-c0-g0-s23"
+          ]
+        ],
+        "syllabus_unit": "Course I, Unit II: Production and Costs",
+        "objective": "Compute marginal cost from the change in total cost between adjacent output levels."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-leec203-v1",
+            "p10-c0-g3-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-economics-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd",
+        "prior_draft_id": "v717-fresh32-e-v4",
+        "pre_registration_revision": "Supply the decisive marginal-cost definition and remove the unsupported claim about the headerless schedule."
+      }
+    },
+    {
+      "id": "v717-fresh32-e-v5",
+      "slot": "E_V5",
+      "family_id": "v717-fresh32-E_V5",
+      "subject": "economics",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Production & Costs",
+        "concept": "short-run-average-cost-from-schedule",
+        "question_type": "numerical_calculation",
+        "difficulty": "medium",
+        "body": "At an output of 5 units, a firm has total fixed cost ₹20 and total variable cost ₹33. What is its short-run average cost?",
+        "options": [
+          "₹9.83",
+          "₹10",
+          "₹10.60",
+          "₹12.25"
+        ],
+        "key": "C",
+        "explanation": "Total cost is TFC + TVC = ₹20 + ₹33 = ₹53. Short-run average cost is total cost per unit: ₹53 ÷ 5 = ₹10.60.",
+        "sources": [
+          [
+            "ncertcol-leec203-v1",
+            "p9-c0-g0-s0"
+          ],
+          [
+            "ncertcol-leec203-v1",
+            "p10-c0-g3-s0"
+          ]
+        ],
+        "syllabus_unit": "Course I, Unit II: Production and Costs",
+        "objective": "Combine fixed and variable costs, then compute total cost per unit."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-leec203-v1",
+            "p9-c0-g0-s0"
+          ],
+          [
+            "ncertcol-leec203-v1",
+            "p10-c0-g3-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-economics-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-e-d1-custody-r1",
+      "slot": "E_D1",
+      "family_id": "v717-fresh32-E_D1-custody-r1",
+      "subject": "economics",
+      "expected_valid": false,
+      "defect_class": "wrong_key",
+      "defect_note": "The independently determined answer is B, ₹5; the candidate key C is ₹8.",
+      "answer_set": [
+        "B"
+      ],
+      "candidate": {
+        "chapter": "Production & Costs",
+        "concept": "source-marginal-cost-key-mismatch",
+        "question_type": "numerical_calculation",
+        "difficulty": "medium",
+        "body": "A firm’s total cost is ₹44 at output 3 and ₹49 at output 4. What is the short-run marginal cost when output rises from 3 units to 4 units?",
+        "options": [
+          "₹6",
+          "₹5",
+          "₹8",
+          "₹10"
+        ],
+        "key": "C",
+        "explanation": "The change in total cost per unit of output change is (₹49 − ₹44) ÷ (4 − 3) = ₹5 (option B).",
+        "sources": [
+          [
+            "ncertcol-leec203-v1",
+            "p9-c0-g0-s23"
+          ]
+        ],
+        "syllabus_unit": "Course I, Unit II: Production and Costs",
+        "objective": "Compute marginal cost from printed adjacent total costs; the candidate key differs from the calculation."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-leec203-v1",
+            "p10-c0-g3-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-economics-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd",
+        "prior_draft_id": "v717-fresh32-e-d1",
+        "pre_registration_revision": "Print all decisive values and supply the marginal-cost definition; preserve the wrong-key defect."
+      }
+    },
+    {
+      "id": "v717-fresh32-e-d2",
+      "slot": "E_D2",
+      "family_id": "v717-fresh32-E_D2",
+      "subject": "economics",
+      "expected_valid": false,
+      "defect_class": "missing_decisive_input",
+      "defect_note": "All three printed bundles can produce 50 units, but no factor prices are given. The source makes least-cost choice depend on input prices and technology.",
+      "answer_set": [],
+      "candidate": {
+        "chapter": "Production & Costs",
+        "concept": "least-cost-input-bundle-missing-factor-prices",
+        "question_type": "case_application",
+        "difficulty": "medium",
+        "body": "A firm can produce 50 units using any one of these input bundles: (L=6, K=3), (L=4, K=4) or (L=3, K=6). Which bundle is the least-cost choice?",
+        "options": [
+          "(L=6, K=3)",
+          "(L=4, K=4)",
+          "(L=3, K=6)",
+          "All three necessarily have the same cost"
+        ],
+        "key": "A",
+        "explanation": "The source says the least-cost input combination is selected given factor prices and technology. Factor prices are not supplied, so the least-cost bundle cannot be identified from the printed information.",
+        "sources": [
+          [
+            "ncertcol-leec203-v1",
+            "p8-c0-g2-s0"
+          ]
+        ],
+        "syllabus_unit": "Course I, Unit II: Production and Costs",
+        "objective": "Recognise that factor prices are decisive in choosing among physically equivalent input bundles."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-leec203-v1",
+            "p8-c0-g2-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-economics-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-e-d3-custody-r1",
+      "slot": "E_D3",
+      "family_id": "v717-fresh32-E_D3-custody-r1",
+      "subject": "economics",
+      "expected_valid": false,
+      "defect_class": "false_explanation",
+      "defect_note": "Total costs are ₹80 and ₹95, so the incremental cost is ₹15, D. The explanation falsely defines MC as TVC/output, which is AVC.",
+      "answer_set": [
+        "D"
+      ],
+      "candidate": {
+        "chapter": "Production & Costs",
+        "concept": "average-cost-explanation-misstates-marginal-cost",
+        "question_type": "numerical_calculation",
+        "difficulty": "medium",
+        "body": "A firm’s fixed cost is ₹20 at both output levels. Variable cost is ₹60 at output 8 and ₹75 at output 9. What is its short-run marginal cost of increasing output from 8 to 9?",
+        "options": [
+          "₹8.33",
+          "₹10.55",
+          "₹13",
+          "₹15"
+        ],
+        "key": "D",
+        "explanation": "Marginal cost is total variable cost divided by output: ₹75 ÷ 9 = ₹8.33. The keyed answer is D, ₹15.",
+        "sources": [
+          [
+            "ncertcol-leec203-v1",
+            "p9-c0-g0-s0"
+          ],
+          [
+            "ncertcol-leec203-v1",
+            "p9-c0-g0-s23"
+          ]
+        ],
+        "syllabus_unit": "Course I, Unit II: Production and Costs",
+        "objective": "Apply incremental cost with unchanged fixed cost; the key is correct but the explanation substitutes average variable cost."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "ncertcol-leec203-v1",
+            "p10-c0-g3-s0"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-economics-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd",
+        "prior_draft_id": "v717-fresh32-e-d3",
+        "pre_registration_revision": "Remove unlabeled schedule dependence and explicit-answer retrieval; preserve the false explanation."
+      }
+    },
+    {
+      "id": "v717-fresh32-l-v1",
+      "slot": "L_V1",
+      "family_id": "v717-fresh32-L_V1",
+      "subject": "english",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Vocabulary",
+        "concept": "contextual-vocabulary-prudent",
+        "question_type": "correct_word_usage",
+        "difficulty": "medium",
+        "target_term": "prudent",
+        "body": "Before accepting a supplier’s offer, Leena compared the warranty, delivery record and total cost, checking the risks before deciding. Her approach was:",
+        "options": [
+          "benevolent",
+          "conspicuous",
+          "inevitable",
+          "prudent"
+        ],
+        "key": "D",
+        "explanation": "Prudent means sensible and careful in making judgements or decisions, while avoiding unnecessary risks. Leena checked relevant conditions before deciding.",
+        "sources": [
+          [
+            "oxford-quality-prudent",
+            "definition"
+          ]
+        ],
+        "syllabus_unit": "Verbal Ability: Choosing the correct word",
+        "objective": "Use a verified lexical sense in a decision-making context."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "oxford-quality-prudent",
+            "definition"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-english-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-l-v2",
+      "slot": "L_V2",
+      "family_id": "v717-fresh32-L_V2",
+      "subject": "english",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Vocabulary",
+        "concept": "contextual-vocabulary-conspicuous",
+        "question_type": "correct_word_usage",
+        "difficulty": "medium",
+        "target_term": "conspicuous",
+        "body": "The bright orange evacuation sign was easy to see from the far end of the crowded corridor. The sign was:",
+        "options": [
+          "conspicuous",
+          "authentic",
+          "inevitable",
+          "prudent"
+        ],
+        "key": "A",
+        "explanation": "Conspicuous means easy to see or notice, or likely to attract attention. The sign’s colour and visibility match that meaning.",
+        "sources": [
+          [
+            "oxford-quality-conspicuous",
+            "definition"
+          ]
+        ],
+        "syllabus_unit": "Verbal Ability: Choosing the correct word",
+        "objective": "Apply a source-verified word meaning to a concrete context."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "oxford-quality-conspicuous",
+            "definition"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-english-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-l-v3",
+      "slot": "L_V3",
+      "family_id": "v717-fresh32-english-factual-passage",
+      "subject": "english",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Factual Passage",
+        "concept": "factual-passage-record-limitation-inference",
+        "question_type": "reading_comprehension",
+        "difficulty": "medium",
+        "passage_text": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience.",
+        "body": "Why did the librarian propose discussing some of the students’ notes before deciding whether to continue the programme?",
+        "options": [
+          "To grade every note and rank the students.",
+          "To supplement return counts with evidence about students’ experience.",
+          "To determine exactly how carefully each book had been read from the return totals.",
+          "To require students to borrow more than two books at a time."
+        ],
+        "key": "B",
+        "explanation": "The passage says the records showed when books were returned, not how carefully they were read, and the librarian proposed discussing notes before deciding. The discussion would add evidence about students’ experience to the numerical record.",
+        "sources": [
+          [
+            "mockmob-original-stimulus-factual-passage",
+            "stimulus"
+          ]
+        ],
+        "syllabus_unit": "Reading Comprehension: Factual Passage",
+        "objective": "Infer why the proposed discussion complements the limits of the numerical records."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "mockmob-original-stimulus-factual-passage",
+            "stimulus"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-english-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-l-v4",
+      "slot": "L_V4",
+      "family_id": "v717-fresh32-english-factual-passage",
+      "subject": "english",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Factual Passage",
+        "concept": "factual-passage-not-supported-control",
+        "question_type": "reading_comprehension",
+        "difficulty": "medium",
+        "passage_text": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience.",
+        "body": "Which statement is NOT supported by the passage?",
+        "options": [
+          "The trial lasted four weeks.",
+          "Students could borrow two books at a time.",
+          "The librarian graded the students’ notes.",
+          "Returns increased during the second and third weeks before decreasing slightly in the fourth."
+        ],
+        "key": "C",
+        "explanation": "The passage explicitly says the librarian did not grade the notes. The other choices restate printed details.",
+        "sources": [
+          [
+            "mockmob-original-stimulus-factual-passage",
+            "stimulus"
+          ]
+        ],
+        "syllabus_unit": "Reading Comprehension: Factual Passage",
+        "objective": "Identify a claim that contradicts a stated detail in a factual passage."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "mockmob-original-stimulus-factual-passage",
+            "stimulus"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-english-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-l-v5",
+      "slot": "L_V5",
+      "family_id": "v717-fresh32-english-factual-passage",
+      "subject": "english",
+      "expected_valid": true,
+      "candidate": {
+        "chapter": "Factual Passage",
+        "concept": "factual-passage-proposed-next-step-detail",
+        "question_type": "reading_comprehension",
+        "difficulty": "medium",
+        "passage_text": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience.",
+        "body": "Before deciding whether to continue the programme, what did the librarian propose?",
+        "options": [
+          "To stop recording returns.",
+          "To grade every note.",
+          "To increase the borrowing limit immediately.",
+          "To discuss a few notes with students."
+        ],
+        "key": "D",
+        "explanation": "The passage says the librarian proposed discussing a few notes with students before deciding whether to continue.",
+        "sources": [
+          [
+            "mockmob-original-stimulus-factual-passage",
+            "stimulus"
+          ]
+        ],
+        "syllabus_unit": "Reading Comprehension: Factual Passage",
+        "objective": "Retrieve and interpret the proposed next step from the factual passage."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "mockmob-original-stimulus-factual-passage",
+            "stimulus"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-english-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-l-d1",
+      "slot": "L_D1",
+      "family_id": "v717-fresh32-L_D1",
+      "subject": "english",
+      "expected_valid": false,
+      "defect_class": "wrong_key",
+      "defect_note": "The context describes kindness and generosity, which matches the registered definition of benevolent at option A. The candidate keys D, whose meaning is not supported by that source.",
+      "answer_set": [
+        "A"
+      ],
+      "candidate": {
+        "chapter": "Vocabulary",
+        "concept": "benevolent-context-wrong-key",
+        "question_type": "correct_word_usage",
+        "difficulty": "medium",
+        "target_term": "benevolent",
+        "body": "A group of neighbours regularly donated food and spent time helping families after a flood. Their actions were:",
+        "options": [
+          "benevolent",
+          "inevitable",
+          "conspicuous",
+          "prudent"
+        ],
+        "key": "D",
+        "explanation": "The neighbours’ actions are benevolent, meaning sensible and careful when making decisions. Therefore option D is correct.",
+        "sources": [
+          [
+            "oxford-quality-benevolent",
+            "definition"
+          ]
+        ],
+        "syllabus_unit": "Verbal Ability: Choosing the correct word",
+        "objective": "Choose the verified lexical sense in a new context; the key conflicts with the source definition."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "oxford-quality-benevolent",
+            "definition"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-english-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-l-d2",
+      "slot": "L_D2",
+      "family_id": "v717-fresh32-english-factual-passage",
+      "subject": "english",
+      "expected_valid": false,
+      "defect_class": "passage_not_answerable",
+      "defect_note": "The passage reports only that returns rose in weeks two and three and decreased slightly in week four; it supplies no numerical count from which a four-week total could be calculated.",
+      "answer_set": [],
+      "candidate": {
+        "chapter": "Factual Passage",
+        "concept": "factual-passage-count-unanswerable",
+        "question_type": "reading_comprehension",
+        "difficulty": "medium",
+        "passage_text": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience.",
+        "body": "How many books in total were returned during the four-week trial?",
+        "options": [
+          "48",
+          "52",
+          "56",
+          "60"
+        ],
+        "key": "A",
+        "explanation": "The passage does not provide a total count or weekly counts. It gives only the pattern of change, so no listed number can be established.",
+        "sources": [
+          [
+            "mockmob-original-stimulus-factual-passage",
+            "stimulus"
+          ]
+        ],
+        "syllabus_unit": "Reading Comprehension: Factual Passage",
+        "objective": "Detect an unanswerable numerical question when the passage gives a trend but no counts."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "mockmob-original-stimulus-factual-passage",
+            "stimulus"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-english-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    },
+    {
+      "id": "v717-fresh32-l-d3",
+      "slot": "L_D3",
+      "family_id": "v717-fresh32-english-factual-passage",
+      "subject": "english",
+      "expected_valid": false,
+      "defect_class": "false_explanation",
+      "defect_note": "Option B is the passage-supported answer. The explanation asserts that records measured reading care, while the passage says they showed return timing rather than how carefully books had been read.",
+      "answer_set": [
+        "B"
+      ],
+      "candidate": {
+        "chapter": "Factual Passage",
+        "concept": "factual-passage-explanation-contradicts-text",
+        "question_type": "reading_comprehension",
+        "difficulty": "medium",
+        "passage_text": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience.",
+        "body": "What did the librarian say the borrowing records showed?",
+        "options": [
+          "How carefully each book had been read.",
+          "When books were returned.",
+          "Which students had written the best notes.",
+          "How many notes received high grades."
+        ],
+        "key": "B",
+        "explanation": "The records showed how carefully books had been read, so option A is the correct interpretation.",
+        "sources": [
+          [
+            "mockmob-original-stimulus-factual-passage",
+            "stimulus"
+          ]
+        ],
+        "syllabus_unit": "Reading Comprehension: Factual Passage",
+        "objective": "Read a stated limitation; the keyed detail is correct but the explanation reverses the passage."
+      },
+      "option_permutation": {
+        "new_position_to_original_index": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "provenance": {
+        "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+        "source_refs": [
+          [
+            "mockmob-original-stimulus-factual-passage",
+            "stimulus"
+          ]
+        ],
+        "syllabus_ref": [
+          "cuet2026-english-syllabus",
+          "full-syllabus"
+        ],
+        "created_at": "2026-10-10T05:23:09.007Z",
+        "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+      }
+    }
+  ],
+  "parent_authored_sha256": "c9dd8b9c70999bf55b989a83c7938cbc8d6008ed0b883628395d0eaf47e5e63b"
+}

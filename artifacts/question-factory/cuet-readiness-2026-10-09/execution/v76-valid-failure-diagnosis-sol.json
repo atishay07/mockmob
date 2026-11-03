@@ -1,0 +1,840 @@
+{
+  "schema": "v76-valid-failure-diagnosis-sol-v1",
+  "at_utc": "2026-10-08T22:13:12.3237486Z",
+  "reviewer": "independent-sol",
+  "scope": {
+    "target_ids": [
+      "v76f-71ed304404",
+      "cbse24-bs-q02",
+      "cbse24-eco-q02"
+    ],
+    "bounded_to_three_completed_failures": true,
+    "external_provider_calls": 0,
+    "official_key_lookup": false,
+    "official_keys_not_relied_upon": true,
+    "frozen_cases_labels_results_preserved": true,
+    "no_contract_or_candidate_edits": true,
+    "no_resubmission": true,
+    "no_paid_benchmark": true,
+    "note": "Parsed frozen target fixtures/results and source overlays. Embedded legacy official comparison metadata was not used to establish any answer. No broad custody re-audit performed."
+  },
+  "input_file_sha256": {
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\scripts\\pipeline\\lib\\factoryEvidenceV73.mjs": "99f4a2c474a038c5ddb4a8679c503794ed028bf32f5a94946fe486069e91656e",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\benchmark\\v76-qualification-2026-10-09-fresh-bounded-input\\run\\results.json": "3592993e5a17a3fbb8570e92646734a9e01fc4d6de55255c96c33c37ec68f8ae",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\data\\question-factory-runtime\\source-foundation\\business_studies-syllabus-2026.txt": "28db3d1fbd32bbcec67413ee49cee0bb027b13a9158d98492101ec21dcdff3f2",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\benchmark\\v76-qualification-2026-10-09-fresh-bounded-input\\scratch-registry-overlay.json": "80199d51456b6a1aaba9fc6855785f7d2a30113282a7d70fab70bd7c6058344a",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\benchmark\\v76-qualification-2026-10-09-fresh-bounded-input\\frozen.json": "cce1e6d69779f68e14f066fca8415e5a9763c73ad051317a2a46ee1477c3cbfd",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\scripts\\pipeline\\lib\\factoryEvidenceV76.mjs": "b691405c0095342ef224d3ea985d3f57c0676e6ce41957542ede96e860bcf6ba",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\data\\question-factory-runtime\\source-foundation\\economics-syllabus-2026.txt": "effd60c3152b3cad6fdbfc28636c15ff8b590885df7b73da658bcdbf3fa0d865",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\scripts\\pipeline\\lib\\factoryEvidenceV74.mjs": "7e1ba75a7c5f6460ec722cab3403b2c21cd057e3b0616dfa60374b4d69c78f91",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\v76-contract-freeze.json": "67495e13688cc4f31f3814a390dbf5c045a2a5cb7ef3c4aea545adf4f6e286ea",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\data\\question-factory-runtime\\source-foundation\\english-syllabus-2026.txt": "12ae62bd561349ccf1873913a35d1e5eb4e49e394bb7c3ef2fe75f6e6e6af3f5",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\benchmark\\v76-qualification-2026-10-09-regression-bounded-input\\run\\results.json": "437b5ca4e304795e08fa72dd4a221f4e6e99493eea398f1c6ebf0b2ef77f1ff1",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\benchmark\\v76-qualification-2026-10-09-regression-bounded-input\\frozen.json": "25afff09b19005cce29eb1027fd33257304830aa0e105f175e095e1f9be8b898",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\benchmark\\v76-qualification-2026-10-09-regression-bounded-input\\scratch-registry-overlay.json": "f2311256462600159e2796f37ce249e65c4cb0a045db99de504513645247f75c"
+  },
+  "pinned_contract": {
+    "verifier_version": "cuet-fit-validator-v7.6",
+    "validation_contract_hash": "1efe51bb4ccab33314f7fa91c1c7d1964e7b11e34ae453246ada1e67b08b33ec",
+    "V76_policy_file_sha256_matches_freeze": true,
+    "inherited_V74_instructions_read_exactly": true,
+    "exact_instruction_evidence": [
+      {
+        "locator": "scripts/pipeline/lib/factoryEvidenceV74.mjs:V74_ASSUMPTION_INSTRUCTIONS",
+        "quote": "For an item whose answer depends on the supplied literary/factual/narrative passage, identify the reading-comprehension chapter by that stimulus and record the vocabulary/inference skill as the topic. A standalone lexical question belongs to Vocabulary. Do not copy the assigned chapter to conceal a mismatch; verify the official syllabus and source coverage.",
+        "exact_substring_verified": true,
+        "comparison": "ordinal",
+        "utf16_offset": 1788,
+        "utf16_length": 359
+      },
+      {
+        "locator": "scripts/pipeline/lib/factoryEvidenceV76.mjs:V76_EXPLANATION_INSTRUCTIONS",
+        "quote": "Check every factual claim, including negatives and claims rejecting distractors, for correctness and source support. Read each sentence in its local context before splitting its asserted clauses; resolve pronouns and scope honestly, and do not broaden a local statement into a universal claim. Context does not exempt a factual negative or unsupported added fact.",
+        "exact_substring_verified": true,
+        "comparison": "ordinal",
+        "utf16_offset": 3734,
+        "utf16_length": 363
+      },
+      {
+        "locator": "scripts/pipeline/lib/factoryEvidenceV76.mjs:V76_EXPLANATION_INSTRUCTIONS",
+        "quote": "Logical deductions are legitimate when all premises are explicit in the stem or supplied excerpts; record the premises and inference in reasons and classify the claim by its actual supported basis (stem/excerpt, or arithmetic for calculation). A deduction is not a guessed case-specific input.",
+        "exact_substring_verified": true,
+        "comparison": "ordinal",
+        "utf16_offset": 4098,
+        "utf16_length": 293
+      }
+    ]
+  },
+  "summary": {
+    "total": 3,
+    "academic_question_defects": 0,
+    "academic_explanation_defects": 1,
+    "benchmark_metadata_construction_defects": 1,
+    "positive_control_complete_item_construction_gaps": 1,
+    "model_explanation_judgment_errors": 1,
+    "incomplete_or_error_outcomes_used_as_rejects": 0,
+    "recorded_states_overridden": 0,
+    "release_or_native_qualification_claimed": false,
+    "denominator_or_labels_changed": false,
+    "prior_fresh_custody_metadata_review_omission_acknowledged": true
+  },
+  "cases": [
+    {
+      "id": "v76f-71ed304404",
+      "cohort": "fresh",
+      "frozen_label": true,
+      "frozen_category": "valid",
+      "body": "In paragraph 1, “clouded in anonymity” most nearly means that Jibhi was:",
+      "options": [
+        {
+          "key": "A",
+          "text": "crowded with visitors from across the world"
+        },
+        {
+          "key": "B",
+          "text": "not widely known to potential visitors"
+        },
+        {
+          "key": "C",
+          "text": "closed to visitors by an official prohibition"
+        },
+        {
+          "key": "D",
+          "text": "already transformed into a concrete town"
+        }
+      ],
+      "proposed_key": "B",
+      "full_explanation": "The phrase is used in contrast with Srinagar’s many tourists. In this context, anonymity means being little known. The later growth and concrete buildings appear in paragraph 3, while no official prohibition is stated.",
+      "chapter": "Vocabulary",
+      "route": "passage",
+      "learning_objective": {
+        "syllabus_unit": "Reading Comprehension",
+        "objective": "Infer the contextual meaning of a phrase through the passage’s contrast.",
+        "target_term": "clouded in anonymity",
+        "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+      },
+      "source_refs": [
+        {
+          "id": "v76-original-adapted-jibhi",
+          "version": 1,
+          "locator": "supplied-stimulus",
+          "support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08"
+        }
+      ],
+      "source_evidence": [
+        {
+          "source_id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+          "stored_support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08",
+          "support_reference_matches_overlay": true,
+          "exact_quote_check": {
+            "locator": "v76-original-adapted-jibhi:supplied-stimulus",
+            "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+            "exact_substring_verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 1303
+          }
+        }
+      ],
+      "recorded_state": "quarantined",
+      "recorded_failed_stage": "syllabus_mapping",
+      "recorded_failure_details": [
+        "Paragraph 1 contrasts Srinagar welcoming many tourists with Jibhi remaining “clouded in anonymity”; in context, Jibhi was not widely known to potential visitors, so B is supported.",
+        "A transfers Srinagar’s tourist welcome to Jibhi, contrary to the contrast. C adds an official prohibition not expressed by the phrase. D conflicts with the passage’s later account of villages becoming towns and concrete buildings multiplying.",
+        "No authenticated comparator was supplied. This original practice question needs no past-paper counterpart.",
+        "No validator places this item in the syllabus unit of Vocabulary"
+      ],
+      "content_hash": "a3c645571cc221b5162e2669d2b4cbad2f0617f21f4799e632c8ca6f09811383",
+      "chapter_mapping": {
+        "ok": false,
+        "covered": [],
+        "source_mapped": false,
+        "relabelled_within_unit": false,
+        "validator_chapters": [
+          "Narrative Passage"
+        ],
+        "reason": "No validator places this item in the syllabus unit of Vocabulary"
+      },
+      "both_blind_solver_reviews": [
+        {
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "status": "judged",
+          "solved_key": "B",
+          "syllabus_chapter": "Narrative Passage",
+          "syllabus_topic": "Infer a phrase’s contextual meaning from contrast in a narrative passage.",
+          "reasons": [
+            "Paragraph 1 contrasts Srinagar welcoming many tourists with Jibhi remaining “clouded in anonymity”; in context, Jibhi was not widely known to potential visitors, so B is supported.",
+            "A transfers Srinagar’s tourist welcome to Jibhi, contrary to the contrast. C adds an official prohibition not expressed by the phrase. D conflicts with the passage’s later account of villages becoming towns and concrete buildings multiplying.",
+            "No authenticated comparator was supplied. This original practice question needs no past-paper counterpart."
+          ],
+          "single_defensible_answer": true,
+          "source_support": true,
+          "blocking_defects": [],
+          "fit_result": {
+            "pass": true,
+            "score": 9,
+            "levels": {
+              "syllabus_objective": 3,
+              "format_authenticity": 2,
+              "level_calibration": 3,
+              "discrimination_value": 2,
+              "time_suitability": 3
+            },
+            "reasons": [],
+            "derived_solve_seconds": 50,
+            "time_estimate_method": "heuristic_not_observed",
+            "reading_words": 80,
+            "reading_reference": {
+              "status": "no_matched_authenticated_examples",
+              "sample_size": 0,
+              "words": 80
+            },
+            "reasoning_steps": 1,
+            "contract": "cuet-fit-v1.2"
+          },
+          "adjudication": "Blind academic solution agrees with independent source reasoning.",
+          "supporting_span_checks": [
+            {
+              "locator": "openai:passage:stimulus",
+              "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People",
+              "exact_substring_verified": true,
+              "comparison": "ordinal",
+              "utf16_offset": 0,
+              "utf16_length": 647
+            },
+            {
+              "locator": "openai:passage:stimulus",
+              "quote": " built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey",
+              "exact_substring_verified": true,
+              "comparison": "ordinal",
+              "utf16_offset": 647,
+              "utf16_length": 645
+            }
+          ]
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-3.8-flash",
+          "status": "judged",
+          "solved_key": "B",
+          "syllabus_chapter": "Narrative Passage",
+          "syllabus_topic": "Contextual Vocabulary",
+          "reasons": [
+            "In paragraph 1, the author contrasts Srinagar welcoming many tourists with Jibhi remaining 'clouded in anonymity', which motivated the author to return and start tourism there.",
+            "'Anonymity' means the state of being unknown or unrecognised; hence 'clouded in anonymity' contextually means that Jibhi was not widely known to potential visitors.",
+            "Option B directly and accurately captures this meaning, whereas A directly contradicts the contrast, C introduces an unmentioned official ban, and D refers to later development described in paragraph 3."
+          ],
+          "single_defensible_answer": true,
+          "source_support": true,
+          "blocking_defects": [],
+          "fit_result": {
+            "pass": true,
+            "score": 10,
+            "levels": {
+              "syllabus_objective": 3,
+              "format_authenticity": 3,
+              "level_calibration": 3,
+              "discrimination_value": 3,
+              "time_suitability": 3
+            },
+            "reasons": [],
+            "derived_solve_seconds": 50,
+            "time_estimate_method": "heuristic_not_observed",
+            "reading_words": 80,
+            "reading_reference": {
+              "status": "no_matched_authenticated_examples",
+              "sample_size": 0,
+              "words": 80
+            },
+            "reasoning_steps": 1,
+            "contract": "cuet-fit-v1.2"
+          },
+          "adjudication": "Blind academic solution agrees with independent source reasoning.",
+          "supporting_span_checks": [
+            {
+              "locator": "gemini:passage:stimulus",
+              "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People",
+              "exact_substring_verified": true,
+              "comparison": "ordinal",
+              "utf16_offset": 0,
+              "utf16_length": 647
+            }
+          ]
+        }
+      ],
+      "explanation_check": {
+        "status": "not_reached",
+        "reason": "Deterministic syllabus mapping failed before explanation stage; no explanation receipt exists for either provider."
+      },
+      "disputed_explanation_quote": {
+        "locator": "candidate.explanation",
+        "quote": "The phrase is used in contrast with Srinagar’s many tourists.",
+        "exact_substring_verified": true,
+        "comparison": "ordinal",
+        "utf16_offset": 0,
+        "utf16_length": 61
+      },
+      "current_syllabus_evidence": {
+        "locator": "english-syllabus-2026.txt",
+        "quote": "b. Narrative",
+        "exact_substring_verified": true,
+        "comparison": "ordinal",
+        "utf16_offset": 315,
+        "utf16_length": 12
+      },
+      "independent_academic_key": "B",
+      "classification": "benchmark_metadata_construction_defect",
+      "academic_question_rejection": false,
+      "academic_explanation_defect": false,
+      "model_judgment_error": false,
+      "independent_adjudication": "Both blind solvers correctly derive B and correctly classify this passage-dependent contextual vocabulary task as Narrative Passage under the exact pinned V74 instruction. The frozen candidate chapter Vocabulary denotes a standalone lexical task under that contract, while its supplied narrative, route=passage and objective explicitly require paragraph-context inference. The deterministic chapter gate correctly exposes this benchmark metadata inconsistency. This is not failed academic solvability or model misclassification.",
+      "scope_analysis": "The phrase is solved through the contrast with Srinagar and paragraph chronology; it is not a standalone dictionary question. Current syllabus explicitly entitles narrative Reading Comprehension, and both solvers record vocabulary/inference as the topic.",
+      "counterexample_or_boundary": "The answer-free source alone establishes B; A reverses the tourist contrast, C introduces an unmentioned ban, D imports later construction. No plausible full competing answer is supplied.",
+      "historical_custody_note": "My v2 construction custody accepted Vocabulary as a canonical alias from factory scope but did not compare that alias to the exact V74 stimulus-first chapter instruction. That historical metadata-review judgment was incomplete. Preserve the v2 artifact and this correction separately; the academic B derivation remains valid.",
+      "future_action_boundary": "Record the construction metadata defect and prior review omission. Any future separately registered construction should place the passage chapter consistently with pinned V74 instructions. Do not relabel or repair this frozen cohort/result."
+    },
+    {
+      "id": "cbse24-bs-q02",
+      "cohort": "regression",
+      "frozen_label": true,
+      "frozen_category": "valid",
+      "body": "A museum marketing manager divides event work into graphic design, registration enquiries and bill payments, but gives each team member responsibility for an entire event rather than allocating these tasks. She holds regular feedback meetings, yet task quality suffers. Next season she allocates the tasks according to each member’s skills and competencies. Which organising step was previously not performed properly and is now performed?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Identification and division of work"
+        },
+        {
+          "key": "B",
+          "text": "Establishing reporting relationships"
+        },
+        {
+          "key": "C",
+          "text": "Departmentalisation"
+        },
+        {
+          "key": "D",
+          "text": "Assignment of duties"
+        }
+      ],
+      "proposed_key": "D",
+      "full_explanation": "The earlier tasks were identified, but allocation to staff did not follow their skills. The change explicitly matches tasks to competencies, which is assignment of duties. A: Task categories were already identified in the earlier season. B: The described correction is allocation by skills, not a reporting-line change. C: No creation or regrouping of departments is described. D: The source expressly matches allocation of jobs to employee skills and competencies.",
+      "chapter": "Organising",
+      "route": "conceptual",
+      "learning_objective": {
+        "syllabus_unit": "Unit V: Organising",
+        "objective": "Identify which step of the organising process a described managerial action performs.",
+        "target_term": "",
+        "why_answer_requires_it": "The student must distinguish the steps of the organising process."
+      },
+      "source_refs": [
+        {
+          "id": "fresh-v73-cbse24-bs-q02-excerpt-1",
+          "version": 1,
+          "locator": "decisive-excerpt",
+          "support_hash": "47c7ba98560225b2c27b4caf9eee6241322b48a1038c2bba1ef624b3b9ddb485"
+        }
+      ],
+      "source_evidence": [
+        {
+          "source_id": "fresh-v73-cbse24-bs-q02-excerpt-1",
+          "locator": "decisive-excerpt",
+          "quote": "Assignment of duties: It is necessary to define the work of different job positions and accordingly allocate work to various employees. Once departments have been formed, each of them is placed under the charge of an individual. Jobs are then allocated to the members of each department in accordance to their skills and competencies. It is essential for effective performance that a proper match is made between the nature of a job and the ability of an individual. The work must be assigned to those who are best fitted to perform it well.",
+          "identity_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+          "stored_support_hash": "47c7ba98560225b2c27b4caf9eee6241322b48a1038c2bba1ef624b3b9ddb485",
+          "support_reference_matches_overlay": true,
+          "exact_quote_check": {
+            "locator": "fresh-v73-cbse24-bs-q02-excerpt-1:decisive-excerpt",
+            "quote": "Assignment of duties: It is necessary to define the work of different job positions and accordingly allocate work to various employees. Once departments have been formed, each of them is placed under the charge of an individual. Jobs are then allocated to the members of each department in accordance to their skills and competencies. It is essential for effective performance that a proper match is made between the nature of a job and the ability of an individual. The work must be assigned to those who are best fitted to perform it well.",
+            "exact_substring_verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 541
+          }
+        }
+      ],
+      "recorded_state": "quarantined",
+      "recorded_failed_stage": "explanation_support",
+      "recorded_failure_details": [
+        "The stem says the earlier manager assigned whole events rather than the listed tasks, but does not establish whether those assignments matched employees’ skills. The explanation adds that unstated prior skill-match claim; its remaining claims are supported.",
+        "unsupported claim: The earlier allocation to staff did not follow their skills."
+      ],
+      "content_hash": "598993f680b1d46fa9306e858b3f424ec8028c706c614ff40a6f2b46521f48cd",
+      "chapter_mapping": {
+        "ok": true,
+        "covered": [
+          "Organising"
+        ],
+        "source_mapped": true,
+        "relabelled_within_unit": false,
+        "validator_chapters": [
+          "Organising"
+        ],
+        "reason": null
+      },
+      "both_blind_solver_reviews": [
+        {
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "status": "judged",
+          "solved_key": "D",
+          "syllabus_chapter": "Organising",
+          "syllabus_topic": "Steps in the process of organising: assignment of duties",
+          "reasons": [
+            "The stem says event work was divided into named tasks, so identifying and dividing the work is already described.",
+            "The change is to allocate tasks to employees according to their skills and competencies. E1.1 defines assignment of duties as allocating work to employees in accordance with their skills and competencies, so D fits."
+          ],
+          "single_defensible_answer": true,
+          "source_support": true,
+          "blocking_defects": [],
+          "fit_result": {
+            "pass": true,
+            "score": 9,
+            "levels": {
+              "syllabus_objective": 3,
+              "format_authenticity": 2,
+              "level_calibration": 3,
+              "discrimination_value": 2,
+              "time_suitability": 3
+            },
+            "reasons": [],
+            "derived_solve_seconds": 49,
+            "time_estimate_method": "heuristic_not_observed",
+            "reading_words": 77,
+            "reading_reference": {
+              "status": "thin_subject_format_sample",
+              "sample_size": 4,
+              "words": 77,
+              "median_words": 67,
+              "p95_words": 78,
+              "observed_max_words": 78
+            },
+            "reasoning_steps": 1,
+            "contract": "cuet-fit-v1.2"
+          },
+          "adjudication": "Blind academic solution agrees with independent source reasoning.",
+          "supporting_span_checks": [
+            {
+              "locator": "openai:fresh-v73-cbse24-bs-q02-excerpt-1:decisive-excerpt",
+              "quote": "Assignment of duties: It is necessary to define the work of different job positions and accordingly allocate work to various employees. Once departments have been formed, each of them is placed under the charge of an individual. Jobs are then allocated to the members of each department in accordance to their skills and competencies. It is essential for effective performance that a proper match is made between the nature of a job and the ability of an individual. The work must be assigned to those who are best fitted to perform it well.",
+              "exact_substring_verified": true,
+              "comparison": "ordinal",
+              "utf16_offset": 0,
+              "utf16_length": 541
+            }
+          ]
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-3.8-flash",
+          "status": "judged",
+          "solved_key": "D",
+          "syllabus_chapter": "Organising",
+          "syllabus_topic": "Steps in the process of organising",
+          "reasons": [
+            "Under NCERT Business Studies (Organising process), 'Assignment of duties' entails allocating specific jobs to members in accordance with their skills and competencies, ensuring a match between job nature and individual ability.",
+            "The stem states that the manager had already divided the event work into components, but initially gave each person an entire event rather than allocating specific tasks; she subsequently allocates tasks according to each member's skills and competencies, which exactly corresponds to 'Assignment of duties'."
+          ],
+          "single_defensible_answer": true,
+          "source_support": true,
+          "blocking_defects": [],
+          "fit_result": {
+            "pass": true,
+            "score": 10,
+            "levels": {
+              "syllabus_objective": 3,
+              "format_authenticity": 3,
+              "level_calibration": 3,
+              "discrimination_value": 3,
+              "time_suitability": 3
+            },
+            "reasons": [],
+            "derived_solve_seconds": 67,
+            "time_estimate_method": "heuristic_not_observed",
+            "reading_words": 77,
+            "reading_reference": {
+              "status": "thin_subject_format_sample",
+              "sample_size": 4,
+              "words": 77,
+              "median_words": 67,
+              "p95_words": 78,
+              "observed_max_words": 78
+            },
+            "reasoning_steps": 2,
+            "contract": "cuet-fit-v1.2"
+          },
+          "adjudication": "Blind academic solution agrees with independent source reasoning.",
+          "supporting_span_checks": [
+            {
+              "locator": "gemini:fresh-v73-cbse24-bs-q02-excerpt-1:decisive-excerpt",
+              "quote": "Assignment of duties: It is necessary to define the work of different job positions and accordingly allocate work to various employees. Once departments have been formed, each of them is placed under the charge of an individual. Jobs are then allocated to the members of each department in accordance to their skills and competencies. It is essential for effective performance that a proper match is made between the nature of a job and the ability of an individual. The work must be assigned to those who are best fitted to perform it well.",
+              "exact_substring_verified": true,
+              "comparison": "ordinal",
+              "utf16_offset": 0,
+              "utf16_length": 541
+            }
+          ]
+        }
+      ],
+      "explanation_check": {
+        "status": "completed",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "passed": false,
+        "claims": [
+          {
+            "claim": "The earlier tasks were identified.",
+            "basis": "stem"
+          },
+          {
+            "claim": "The earlier allocation to staff did not follow their skills.",
+            "basis": "unsupported"
+          },
+          {
+            "claim": "The change explicitly matches tasks to competencies.",
+            "basis": "stem"
+          },
+          {
+            "claim": "Matching jobs to employee skills and competencies is assignment of duties.",
+            "basis": "excerpt"
+          },
+          {
+            "claim": "Task categories were already identified in the earlier season.",
+            "basis": "stem"
+          },
+          {
+            "claim": "The described correction allocates tasks by skills.",
+            "basis": "stem"
+          },
+          {
+            "claim": "The described correction is not a reporting-line change.",
+            "basis": "stem"
+          },
+          {
+            "claim": "No creation or regrouping of departments is described.",
+            "basis": "stem"
+          },
+          {
+            "claim": "The source matches allocation of jobs to employee skills and competencies.",
+            "basis": "excerpt"
+          }
+        ],
+        "reasons": [
+          "The stem says the earlier manager assigned whole events rather than the listed tasks, but does not establish whether those assignments matched employees’ skills. The explanation adds that unstated prior skill-match claim; its remaining claims are supported.",
+          "unsupported claim: The earlier allocation to staff did not follow their skills."
+        ],
+        "evidence_ids": [
+          "E1.1"
+        ],
+        "gemini_separate_explanation_check": "not present: this topology records Luna explanation audit using both blind solutions",
+        "supporting_span_checks": [
+          {
+            "locator": "explanation:fresh-v73-cbse24-bs-q02-excerpt-1:decisive-excerpt",
+            "quote": "Assignment of duties: It is necessary to define the work of different job positions and accordingly allocate work to various employees. Once departments have been formed, each of them is placed under the charge of an individual. Jobs are then allocated to the members of each department in accordance to their skills and competencies. It is essential for effective performance that a proper match is made between the nature of a job and the ability of an individual. The work must be assigned to those who are best fitted to perform it well.",
+            "exact_substring_verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 541
+          }
+        ]
+      },
+      "disputed_explanation_quote": {
+        "locator": "candidate.explanation",
+        "quote": "The earlier tasks were identified, but allocation to staff did not follow their skills.",
+        "exact_substring_verified": true,
+        "comparison": "ordinal",
+        "utf16_offset": 0,
+        "utf16_length": 87
+      },
+      "current_syllabus_evidence": {
+        "locator": "business_studies-syllabus-2026.txt",
+        "quote": "Steps in the process of organising.",
+        "exact_substring_verified": true,
+        "comparison": "ordinal",
+        "utf16_offset": 1104,
+        "utf16_length": 35
+      },
+      "independent_academic_key": "D",
+      "classification": "academic_explanation_defect_and_positive_control_construction_gap",
+      "academic_question_rejection": false,
+      "academic_explanation_defect": true,
+      "model_judgment_error": false,
+      "independent_adjudication": "Both blind solvers correctly derive D from the new allocation of tasks by skills and competencies. The explanation independently asserts that the earlier allocation did not follow skills. The stem states whole-event allocation rather than specific tasks and reports poor task quality, but never states how staff were selected for those entire events. An event could have been assigned using broad event-management skills, with task quality still suffering because specialised tasks were not separately allocated. The missing earlier selection fact can vary while all printed facts and D remain unchanged. The completed Luna explanation rejection therefore correctly identifies an unsupported factual clause.",
+      "scope_analysis": "The task-allocation deficiency and the subsequent skill-based task correction support the key. They do not entail the stronger historical assertion that prior staff allocation lacked any skill basis. The explanation says it as a factual prior condition, not merely that the later method newly allocates specialist tasks.",
+      "counterexample_or_boundary": "Manager initially assigns an entire event to each person after considering each person capable of overall event delivery. Graphic design, enquiries and bill payment then suffer because each person lacks some specialist capabilities. Next season the manager allocates particular tasks according to each specialist skill. This satisfies every stem clause but contradicts the explanation assertion that the earlier allocation did not follow skills.",
+      "historical_custody_note": "This case was not within my earlier 28-case fresh explanation/label custody review.",
+      "future_action_boundary": "Treat this positive-control validity label as a construction gap for the complete question-plus-explanation item. Preserve its frozen expected_valid=true and recorded rejection; do not retroactively relabel or repair. A future construction may state the missing historical condition or avoid asserting it, under a new registration."
+    },
+    {
+      "id": "cbse24-eco-q02",
+      "cohort": "regression",
+      "frozen_label": true,
+      "frozen_category": "valid",
+      "body": "In a hypothetical budget policy, the government supplies free food grains to households with low incomes. Which budgetary objective is most directly illustrated?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Reallocation of resources"
+        },
+        {
+          "key": "B",
+          "text": "Economic stability"
+        },
+        {
+          "key": "C",
+          "text": "Redistribution of income"
+        },
+        {
+          "key": "D",
+          "text": "Economic instability"
+        }
+      ],
+      "proposed_key": "C",
+      "full_explanation": "Transfers targeted to low-income households change disposable income and its distribution. That is the redistribution objective directly illustrated; other possible macroeconomic effects are not the objective specified. A: The case focuses on who receives a transfer, rather than production-resource allocation. B: No cyclical stabilisation target is stated. C: The low-income transfer directly illustrates redistribution. D: Instability is not the stated objective.",
+      "chapter": "Government Budget & the Economy",
+      "route": "conceptual",
+      "learning_objective": {
+        "syllabus_unit": "Course II Unit IV: Government Budget and the Economy",
+        "objective": "Match a described budget policy to the budgetary objective it illustrates.",
+        "target_term": "",
+        "why_answer_requires_it": "The student must know the objectives of a government budget."
+      },
+      "source_refs": [
+        {
+          "id": "fresh-v73-cbse24-eco-q02-excerpt-1",
+          "version": 1,
+          "locator": "decisive-excerpt",
+          "support_hash": "021d9cc6ee7d134fdd98a0e942d344a57b6fa59d75606d530f79c9e5244e8eab"
+        }
+      ],
+      "source_evidence": [
+        {
+          "source_id": "fresh-v73-cbse24-eco-q02-excerpt-1",
+          "locator": "decisive-excerpt",
+          "quote": "The government sector affects the personal disposable income of households by making transfers and collecting taxes. It is through this that the government can change the distribution of income and bring about a distribution that is considered ‘fair’ by society. This is the redistribution function",
+          "identity_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+          "stored_support_hash": "021d9cc6ee7d134fdd98a0e942d344a57b6fa59d75606d530f79c9e5244e8eab",
+          "support_reference_matches_overlay": true,
+          "exact_quote_check": {
+            "locator": "fresh-v73-cbse24-eco-q02-excerpt-1:decisive-excerpt",
+            "quote": "The government sector affects the personal disposable income of households by making transfers and collecting taxes. It is through this that the government can change the distribution of income and bring about a distribution that is considered ‘fair’ by society. This is the redistribution function",
+            "exact_substring_verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 298
+          }
+        }
+      ],
+      "recorded_state": "quarantined",
+      "recorded_failed_stage": "explanation_support",
+      "recorded_failure_details": [
+        "The excerpt supports the redistribution rationale, and the stem identifies low-income recipients. However, neither establishes that production-resource allocation is the relevant meaning or contrast for option A, so that distractor rationale is unsupported.",
+        "unsupported claim: The case is about that transfer rather than production-resource allocation."
+      ],
+      "content_hash": "cd4bec3311c443b735cec1d7d89fc8275c77f4699d56cd185ba15e3848970463",
+      "chapter_mapping": {
+        "ok": true,
+        "covered": [
+          "Government Budget & the Economy"
+        ],
+        "source_mapped": true,
+        "relabelled_within_unit": false,
+        "validator_chapters": [
+          "Government Budget & the Economy"
+        ],
+        "reason": null
+      },
+      "both_blind_solver_reviews": [
+        {
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "status": "judged",
+          "solved_key": "C",
+          "syllabus_chapter": "Government Budget & the Economy",
+          "syllabus_topic": "Government budget objectives, especially the redistribution function",
+          "reasons": [
+            "Free food grains targeted to low-income households are a benefit that changes their access to resources. The excerpt states that government transfers can change household disposable income and distribution—the redistribution function (E1.1).",
+            "The low-income targeting makes redistribution the most direct objective. A generic shift of resources does not make reallocation the more direct objective; the stem supplies no stabilization context, and it does not illustrate economic instability.",
+            "This is an original-practice item with no authenticated comparator supplied; no past-paper counterpart is required."
+          ],
+          "single_defensible_answer": true,
+          "source_support": true,
+          "blocking_defects": [],
+          "fit_result": {
+            "pass": true,
+            "score": 9,
+            "levels": {
+              "syllabus_objective": 3,
+              "format_authenticity": 2,
+              "level_calibration": 3,
+              "discrimination_value": 2,
+              "time_suitability": 3
+            },
+            "reasons": [],
+            "derived_solve_seconds": 36,
+            "time_estimate_method": "heuristic_not_observed",
+            "reading_words": 33,
+            "reading_reference": {
+              "status": "no_matched_authenticated_examples",
+              "sample_size": 0,
+              "words": 33
+            },
+            "reasoning_steps": 1,
+            "contract": "cuet-fit-v1.2"
+          },
+          "adjudication": "Blind academic solution agrees with independent source reasoning.",
+          "supporting_span_checks": [
+            {
+              "locator": "openai:fresh-v73-cbse24-eco-q02-excerpt-1:decisive-excerpt",
+              "quote": "The government sector affects the personal disposable income of households by making transfers and collecting taxes. It is through this that the government can change the distribution of income and bring about a distribution that is considered ‘fair’ by society. This is the redistribution function",
+              "exact_substring_verified": true,
+              "comparison": "ordinal",
+              "utf16_offset": 0,
+              "utf16_length": 298
+            }
+          ]
+        },
+        {
+          "provider": "gemini",
+          "model": "gemini-3.8-flash",
+          "status": "judged",
+          "solved_key": "C",
+          "syllabus_chapter": "Government Budget & the Economy",
+          "syllabus_topic": "Objectives of Government Budget",
+          "reasons": [
+            "According to NCERT Macroeconomics, the redistribution function of the government budget focuses on altering the distribution of income to achieve a fairer distribution in society, accomplished through taxes and transfers (in-kind or cash) to households.",
+            "Providing free food grains specifically to low-income households is an in-kind transfer intended to support their real consumption and reduce income disparity, which directly illustrates the 'Redistribution of income' objective."
+          ],
+          "single_defensible_answer": true,
+          "source_support": true,
+          "blocking_defects": [],
+          "fit_result": {
+            "pass": true,
+            "score": 10,
+            "levels": {
+              "syllabus_objective": 3,
+              "format_authenticity": 3,
+              "level_calibration": 3,
+              "discrimination_value": 3,
+              "time_suitability": 3
+            },
+            "reasons": [],
+            "derived_solve_seconds": 36,
+            "time_estimate_method": "heuristic_not_observed",
+            "reading_words": 33,
+            "reading_reference": {
+              "status": "no_matched_authenticated_examples",
+              "sample_size": 0,
+              "words": 33
+            },
+            "reasoning_steps": 1,
+            "contract": "cuet-fit-v1.2"
+          },
+          "adjudication": "Blind academic solution agrees with independent source reasoning.",
+          "supporting_span_checks": [
+            {
+              "locator": "gemini:fresh-v73-cbse24-eco-q02-excerpt-1:decisive-excerpt",
+              "quote": "The government sector affects the personal disposable income of households by making transfers and collecting taxes. It is through this that the government can change the distribution of income and bring about a distribution that is considered ‘fair’ by society. This is the redistribution function",
+              "exact_substring_verified": true,
+              "comparison": "ordinal",
+              "utf16_offset": 0,
+              "utf16_length": 298
+            }
+          ]
+        }
+      ],
+      "explanation_check": {
+        "status": "completed",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "passed": false,
+        "claims": [
+          {
+            "claim": "Transfers targeted to low-income households change disposable income.",
+            "basis": "excerpt"
+          },
+          {
+            "claim": "Those transfers change the distribution of income.",
+            "basis": "excerpt"
+          },
+          {
+            "claim": "That effect is the redistribution objective directly illustrated.",
+            "basis": "excerpt"
+          },
+          {
+            "claim": "Other possible macroeconomic effects are not the objective specified.",
+            "basis": "stem"
+          },
+          {
+            "claim": "The case focuses on who receives a transfer.",
+            "basis": "stem"
+          },
+          {
+            "claim": "The case is about that transfer rather than production-resource allocation.",
+            "basis": "unsupported"
+          },
+          {
+            "claim": "No cyclical stabilisation target is stated.",
+            "basis": "stem"
+          },
+          {
+            "claim": "The low-income transfer directly illustrates redistribution.",
+            "basis": "excerpt"
+          },
+          {
+            "claim": "Economic instability is not the stated objective.",
+            "basis": "stem"
+          }
+        ],
+        "reasons": [
+          "The excerpt supports the redistribution rationale, and the stem identifies low-income recipients. However, neither establishes that production-resource allocation is the relevant meaning or contrast for option A, so that distractor rationale is unsupported.",
+          "unsupported claim: The case is about that transfer rather than production-resource allocation."
+        ],
+        "evidence_ids": [
+          "E1.1"
+        ],
+        "gemini_separate_explanation_check": "not present: this topology records Luna explanation audit using both blind solutions",
+        "supporting_span_checks": [
+          {
+            "locator": "explanation:fresh-v73-cbse24-eco-q02-excerpt-1:decisive-excerpt",
+            "quote": "The government sector affects the personal disposable income of households by making transfers and collecting taxes. It is through this that the government can change the distribution of income and bring about a distribution that is considered ‘fair’ by society. This is the redistribution function",
+            "exact_substring_verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 298
+          }
+        ]
+      },
+      "disputed_explanation_quote": {
+        "locator": "candidate.explanation",
+        "quote": "A: The case focuses on who receives a transfer, rather than production-resource allocation.",
+        "exact_substring_verified": true,
+        "comparison": "ordinal",
+        "utf16_offset": 220,
+        "utf16_length": 91
+      },
+      "current_syllabus_evidence": {
+        "locator": "economics-syllabus-2026.txt",
+        "quote": "Government budget - meaning, objectives and components",
+        "exact_substring_verified": true,
+        "comparison": "ordinal",
+        "utf16_offset": 2817,
+        "utf16_length": 54
+      },
+      "independent_academic_key": "C",
+      "classification": "model_explanation_judgment_error",
+      "academic_question_rejection": false,
+      "academic_explanation_defect": false,
+      "model_judgment_error": true,
+      "independent_adjudication": "Both blind solvers correctly derive C and accept the targeted-recipient contrast in their full-option reasoning. The disputed explanation sentence begins with The case focuses and is embedded in an answer to most directly illustrated. Its local assertion is about the dimension described in this scenario: who receives a free transfer. The stem expressly identifies low-income recipients, gives no production mix, sectoral resource direction or production input change, and the excerpt explicitly associates transfers and household income distribution with redistribution. Thus the local focus contrast is stem/excerpt-supported reasoning. It does not assert that providing food has no procurement/production effects or that every resource-reallocation policy is exclusively production allocation. Luna explanation auditing treated the contrast as requiring an unsupported external institutional exclusion, rather than respecting its local scenario-focus scope.",
+      "scope_analysis": "The explanation distinguishes the most direct objective illustrated by the printed low-income targeting; it never denies other possible effects. Its preceding clause expressly acknowledges other possible macroeconomic effects. Absence of a production premise identifies what is not described by this case; it is not evidence that production-resource effects are impossible or an option is universally false.",
+      "counterexample_or_boundary": "The food programme could procure grain or affect production incentives while still most directly illustrating redistribution through its targeted household transfer. Such side effects leave the explanation local focus claim true. Therefore the claim need not assume they do not exist.",
+      "historical_custody_note": "This case was not within my earlier 28-case fresh explanation/label custody review.",
+      "future_action_boundary": "Retain the recorded explanation rejection as a completed false rejection in this frozen cohort. A future general evaluation may test contextual scope, but no result override, contract edit or paid rerun is authorized here."
+    }
+  ]
+}

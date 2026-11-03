@@ -1,0 +1,194 @@
+{
+  "audit_id": "fresh-official-source-v73-control-oracle-first-pass-2026-10-08",
+  "input": {
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-08/benchmark/fresh-official-source-v73/frozen.json",
+    "sha256": "330e56bb2a6afdaff5f286fa46f0c8b013e49f1a4b41250f29e02d300eb91e6d",
+    "frozen_fixture_count": 42,
+    "positive_control_count": 22,
+    "expected_invalid_denominator": 20
+  },
+  "scope": {
+    "references_inspected": [
+      "docs/brain/QUALITY.md",
+      "data/question_factory_scope.json",
+      "artifacts/question-factory/cuet-readiness-2026-10-08/benchmark/fresh-official-source-v73/scratch-registry-overlay.json"
+    ],
+    "assessment": "First-pass human oracle review of frozen expected-invalid mutations against their strongest reasonable reading, cited excerpts, and the CUET-fit mandatory gates.",
+    "current_or_future_run_results_inspected": false,
+    "paid_model_calls_made": 0,
+    "ledger_or_bank_or_registry_accessed": false
+  },
+  "accounting": {
+    "all_expected_invalid_controls_retained": true,
+    "expected_invalid_denominator": 20,
+    "academic_controls_with_decisive_defect": 19,
+    "local_guard_proof_only": 1,
+    "uncertain_or_held": 0,
+    "note": "The false_authentic_pyq_claim is retained as its own local provenance-guard proof and is not evidence of paid-model correctness. The other 19 expected-invalid controls have academic defects suitable for paid scoring. No control was removed from the 20-item denominator."
+  },
+  "controls": [
+    {
+      "id": "cbse24-eng-q01--wrong_key",
+      "category": "wrong_key",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "The passage says notifications interrupt conversations and draw fingers to screens, which supports A. Frozen key D contradicts the passage; the other options do not match the stated effect.",
+      "evidence": ["fresh-v73-cbse24-eng-q01-excerpt-1"]
+    },
+    {
+      "id": "cbse24-ac-q01--wrong_key",
+      "category": "wrong_key",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "Each partner first bears a 60000 loss. Anthony's move from -60000 to the guaranteed +60000 requires a 120000 deficiency; Amar bears half, so his total debit is 60000 + 60000 = 120000 (B). Frozen key A omits the guarantee burden.",
+      "evidence": ["fresh-v73-cbse24-ac-q01-excerpt-1"]
+    },
+    {
+      "id": "cbse24-eco-q06--wrong_key",
+      "category": "wrong_key",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "The cited fiscal-deficit identity is total expenditure minus receipts excluding borrowing. 45 - 27.2 = 17.8 lakh crore, which is fiscal deficit (B), not revenue deficit (A).",
+      "evidence": ["fresh-v73-cbse24-eco-q06-excerpt-1"]
+    },
+    {
+      "id": "cbse24-eng-q01--overlapping_options",
+      "category": "overlapping_options",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "A says notifications draw attention away from conversations; B says they pull attention from spoken exchanges to phone screens. Both are defensible paraphrases of the same passage effect, so there is no unique answer.",
+      "evidence": ["fresh-v73-cbse24-eng-q01-excerpt-1"]
+    },
+    {
+      "id": "cbse24-bs-q02--overlapping_options",
+      "category": "overlapping_options",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "B describes allocating defined duties by staff skills, while D names assignment of duties. The cited rule expressly defines assignment of duties as allocating jobs according to skills and competencies; both options answer the stem.",
+      "evidence": ["fresh-v73-cbse24-bs-q02-excerpt-1"]
+    },
+    {
+      "id": "cbse24-eco-q06--overlapping_options",
+      "category": "overlapping_options",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "B names fiscal deficit and D restates the same expenditure-minus-non-borrowing-receipts identity. Both equal 17.8 lakh crore and are defensible under the stem.",
+      "evidence": ["fresh-v73-cbse24-eco-q06-excerpt-1"]
+    },
+    {
+      "id": "cbse24-ac-q01--missing_assumption",
+      "category": "missing_assumption",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "The stem expressly says the loss-sharing ratio is unequal but omits it. Amar's ordinary loss share therefore varies; for example, equal sharing yields a 120000 total debit, while an unequal allocation can yield a different debit. The guarantee split alone does not determine the answer.",
+      "evidence": ["fresh-v73-cbse24-ac-q01-excerpt-1"]
+    },
+    {
+      "id": "cbse24-ac-q08--missing_settlement_value",
+      "category": "missing_settlement_value",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "Book value is 50000, while the loan is 60000 and only partially settled. The agreed value credited for an asset taken over by a partner is the takeover/settlement value; neither the book value nor the amount of loan discharged establishes that value. Realisation's settlement-entry effect is therefore underdetermined.",
+      "evidence": ["fresh-v73-cbse24-ac-q08-excerpt-1", "fresh-v73-cbse24-ac-q08-excerpt-2"]
+    },
+    {
+      "id": "cbse24-ac-q04--missing_provision_amount",
+      "category": "missing_provision_amount",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "The amount of the existing doubtful-debt provision is missing. The excerpt supports adjusting bad debts against an existing provision, but without its amount one cannot know whether the full 15000 is absorbed or whether a residual must be charged elsewhere; the listed complete entry choices are not determined.",
+      "evidence": ["fresh-v73-cbse24-ac-q04-excerpt-1", "fresh-v73-cbse24-ac-q04-excerpt-2"]
+    },
+    {
+      "id": "cbse24-ac-q01--numerical_fault",
+      "category": "numerical_fault",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "The correct debit is 120000, but the mutated options are 60000, 110000, 90000, and 80000. None is correct, so no defensible answer is offered.",
+      "evidence": ["fresh-v73-cbse24-ac-q01-excerpt-1"]
+    },
+    {
+      "id": "cbse24-eco-q06--numerical_fault",
+      "category": "numerical_fault",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "The stem asks for a deficit of 16.8 lakh crore, but 45 - 27.2 = 17.8 lakh crore. The stated amount is false and is not supported by any listed deficit identity.",
+      "evidence": ["fresh-v73-cbse24-eco-q06-excerpt-1"]
+    },
+    {
+      "id": "cbse24-ac-q01--explanation_arithmetic",
+      "category": "explanation_arithmetic",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "The explanation correctly derives a 120000 guarantee deficiency, then appends a contradictory 110000 claim. The arithmetic is 60000 - (-60000) = 120000; the explanation contains a materially false calculation.",
+      "evidence": ["fresh-v73-cbse24-ac-q01-excerpt-1"]
+    },
+    {
+      "id": "cbse24-eng-q03--unsupported_explanation",
+      "category": "unsupported_explanation",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "The explanation adds a claim that 82% of Class XII students check phones hourly. Neither the supplied passage nor the cited excerpt contains a student sample, percentage, or hourly statistic; the factual explanation claim is unsupported.",
+      "evidence": ["fresh-v73-cbse24-eng-q03-excerpt-1"]
+    },
+    {
+      "id": "cbse24-eco-q02--unsupported_explanation",
+      "category": "unsupported_explanation",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "The explanation adds a dated claim that NCERT measured an exact 18% reduction in inequality in 2025. The selected excerpt states the redistribution function but contains no such measured effect or statistic.",
+      "evidence": ["fresh-v73-cbse24-eco-q02-excerpt-1"]
+    },
+    {
+      "id": "cbse24-eng-q07--incomplete_passage",
+      "category": "incomplete_passage",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "The question asks about paragraphs 3-4, but the candidate's passage_text is empty. Student-facing reading evidence is absent, so the passage question cannot be answered from the candidate as delivered.",
+      "evidence": ["fresh-v73-cbse24-eng-q07-excerpt-1"]
+    },
+    {
+      "id": "cbse24-eng-q03--missing_decisive_paragraph",
+      "category": "missing_decisive_paragraph",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "The candidate passage omits paragraph 2, which contains the absent-phone/phantom-limb comparison asked about. Internal source research cannot replace the missing student-visible paragraph.",
+      "evidence": ["fresh-v73-cbse24-eng-q03-excerpt-1"]
+    },
+    {
+      "id": "cbse24-eng-q04--passage_unanswerable",
+      "category": "passage_unanswerable",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "The passage says notifications repeatedly interrupt conversations but supplies no hourly count. None of the numerical options can be selected from the text.",
+      "evidence": ["fresh-v73-cbse24-eng-q04-excerpt-1"]
+    },
+    {
+      "id": "cbse24-eco-q07--boundary_explanation",
+      "category": "boundary_explanation",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "The cited source explicitly includes both boundary values and says maximum MPC can be 1. The appended explanation claim that equality is excluded and MPC must be strictly less than 1 directly contradicts that boundary rule.",
+      "evidence": ["fresh-v73-cbse24-eco-q07-excerpt-1"]
+    },
+    {
+      "id": "cbse24-ac-q04--false_authentic_pyq_claim",
+      "category": "false_authentic_pyq_claim",
+      "status": "invalid",
+      "assessment_layer": "local_guard_proof_only",
+      "decisive_proof": "The candidate labels a CBSE-reference practice adaptation as authentic_pyq and supplies anchor_id cbse-2024-not-a-cuet-pyq. This is a provenance contradiction. Per task context, the runner's assertBenchmarkProvenanceV73 preflight rejects it before paid calls; that guard result is not model-correctness evidence.",
+      "evidence": ["frozen candidate provenance", "task-provided local preflight behavior"],
+      "paid_fit_scoring": false
+    },
+    {
+      "id": "cbse24-eco-q04--out_of_syllabus",
+      "category": "out_of_syllabus",
+      "status": "invalid",
+      "assessment_layer": "academic",
+      "decisive_proof": "The actual task tests median calculation, a Statistics objective. The cited CUET Economics scope contains no Statistics unit; the Balance of Payments chapter label cannot make a different, out-of-scope objective eligible.",
+      "evidence": ["data/question_factory_scope.json", "fresh-v73-original-statistics-stimulus"]
+    }
+  ],
+  "uncertain_controls": [],
+  "conclusion": "All 20 frozen expected-invalid mutations have a decisive mandatory defect under a strongest reasonable reading. Nineteen are academic controls suitable for paid scoring; the false authentic PYQ claim remains a separate local provenance-guard proof. This is a control-oracle first pass only; it does not establish model correctness, fit performance, publication readiness, or a released v7.3 contract."
+}

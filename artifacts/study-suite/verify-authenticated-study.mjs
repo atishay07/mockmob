@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {writeFileSync} from 'node:fs';
+const root=process.env.NEXT_PUBLIC_SUPABASE_URL,key=process.env.SUPABASE_SERVICE_ROLE_KEY;
+const headers={apikey:key,Authorization:`Bearer ${key}`};
+const get=async path=>{const r=await fetch(`${root}/rest/v1/${path}`,{headers});if(!r.ok)throw new Error(`Verification HTTP ${r.status}`);return r.json();};
+const [run]=await get('study_runs?id=eq.9fd62677-414a-4be1-ba95-819a7406fa49&select=user_id,projection,revision');
+assert.equal(run.projection.cursor,1);assert.equal(run.projection.revealed,false);
+const [state]=await get(`study_card_states?user_id=eq.${encodeURIComponent(run.user_id)}&card_id=eq.english-word-candid&content_version=eq.1&select=schedule,revision`);
+assert.equal(state.revision,1);assert.equal(state.schedule.reps,1);assert.equal(state.schedule.due,run.projection.lastReview.due);
+const [lesson]=await get('study_runs?id=eq.ed5dcbc3-0479-44b5-8b85-74068f86d1a9&select=projection');
+assert.equal(lesson.projection.state,'complete');
+const [prefs]=await get(`study_preferences?user_id=eq.${encodeURIComponent(run.user_id)}&select=preferences`);
+assert.equal(prefs.preferences.minutes,20);
+const report={at:new Date().toISOString(),state:'passed',scope:'Read-only owner QA receipts; not student learning-outcome evidence',completedEnglishLesson:true,resumedRecallCursor:1,answerHiddenOnNextCard:true,runRevision:run.revision,cardRevision:state.revision,scheduledReviews:state.schedule.reps,nextReviewMatchesRunReceipt:true,timePreferenceRestored:20,productionWrites:0};
+writeFileSync('artifacts/study-suite/authenticated-study-receipt.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));

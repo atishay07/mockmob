@@ -1,0 +1,2512 @@
+{
+  "schema": "cuet-v713-blind_packet-v1",
+  "study_id": "cuet-v713-fresh-final",
+  "freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+  "created_at": "2026-10-09T18:44:08.541Z",
+  "items": [
+    {
+      "opaque_id": "b-c5c430441396a358",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "A garment manufacturer records two cash transactions during the year: receipts from customers who bought its garments and payments to suppliers for raw materials. Which classification best fits both transactions?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Both are operating cash flows."
+        },
+        {
+          "key": "B",
+          "text": "The customer receipts are investing; the supplier payments are financing."
+        },
+        {
+          "key": "C",
+          "text": "The customer receipts are financing; the supplier payments are investing."
+        },
+        {
+          "key": "D",
+          "text": "Both are investing cash flows."
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p2-c0-g2-s0",
+          "support_hash": "403101894f97442facd16aae5bf8a61d78453ff134cce1e151498c6576f43cf3"
+        },
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p4-c0-g1-s0",
+          "support_hash": "ba478cf2b0665c2ebc3513a75d17b5d7d5583b7360a237fd1022a114b6a5f708"
+        },
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p4-c0-g2-s0",
+          "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p2-c0-g2-s0",
+          "support_hash": "403101894f97442facd16aae5bf8a61d78453ff134cce1e151498c6576f43cf3",
+          "text": "6.1 Objectives of Cash Flow Statement\nA Cash flow statement shows inflow and outflow of cash and cash equivalents\nfrom various activities of a company during a specific period. The primary objective\nof cash flow statement is to provide useful information about cash flows (inflows\nand outflows) of an enterprise during a particular period under various heads,\ni.e., operating activities, investing activities and financing activities.\nThis information is useful in providing users of financial statements with a\nbasis to assess the ability of the enterprise to generate cash and cash equivalents\nand the needs of the enterprise to utilise those cash flows. The economic decisions\nthat are taken by users require an evaluation of the ability of an enterprise to\ngenerate cash and cash equivalents and the timing and certainty of their\ngeneration."
+        },
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p4-c0-g1-s0",
+          "support_hash": "ba478cf2b0665c2ebc3513a75d17b5d7d5583b7360a237fd1022a114b6a5f708",
+          "text": "6.5.1 Cash from Operating Activities\nOperating activities are the activities that constitute the primary or main activities\nof an enterprise. For example, for a company manufacturing garments, operating\nactivities are procurement of raw material, incurrence of manufacturing expenses,\nsale of garments, etc. These are the principal revenue generating activities (or\nthe main activities) of the enterprise and these activities are not investing or\nfinancing activities. The amount of cash from operations’ indicates the internal\nsolvency level of the company, and is regarded as the key indicator of the extent\nto which the operations of the enterprise have generated sufficient cash flows to\nmaintain the operating capability of the enterprise, paying dividends, making of\nnew investments and repaying of loans without recourse to external source of\nfinancing.\nCash flows from operating activities are primarily derived from the main\nactivities of the enterprise. They generally result from the transactions and other\nevents that enter into the determination of net profit or loss. Examples of cash\nflows from operating activities are:"
+        },
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p4-c0-g2-s0",
+          "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293",
+          "text": "Cash Inflows from operating activities\n cash receipts from sale of goods and the rendering of services.\n cash receipts from royalties, fees, commissions and other revenues."
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-accountancy-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "023199b5b56881bbe2164dbc82dde230a6700226a2013b2e566cab2edf9e3a82"
+        },
+        "sections": [
+          {
+            "id": "unit-v-cash-flow",
+            "slice_sha256": "a9010b6509d19907cfdf4ce64bbeb4f13112b869f554c4e3f833e068d38a4d5c",
+            "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI)."
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-83e5aab5d7208786",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "A lender is comparing two companies and wants evidence about each company’s ability to generate and use cash over the period, including the timing and certainty of those flows. Which statement is designed to provide this information?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cash flow statement"
+        },
+        {
+          "key": "B",
+          "text": "Statement of changes in owners’ capital only"
+        },
+        {
+          "key": "C",
+          "text": "Inventory record"
+        },
+        {
+          "key": "D",
+          "text": "Statement listing only non-cash transactions"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p2-c0-g2-s0",
+          "support_hash": "403101894f97442facd16aae5bf8a61d78453ff134cce1e151498c6576f43cf3"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p2-c0-g2-s0",
+          "support_hash": "403101894f97442facd16aae5bf8a61d78453ff134cce1e151498c6576f43cf3",
+          "text": "6.1 Objectives of Cash Flow Statement\nA Cash flow statement shows inflow and outflow of cash and cash equivalents\nfrom various activities of a company during a specific period. The primary objective\nof cash flow statement is to provide useful information about cash flows (inflows\nand outflows) of an enterprise during a particular period under various heads,\ni.e., operating activities, investing activities and financing activities.\nThis information is useful in providing users of financial statements with a\nbasis to assess the ability of the enterprise to generate cash and cash equivalents\nand the needs of the enterprise to utilise those cash flows. The economic decisions\nthat are taken by users require an evaluation of the ability of an enterprise to\ngenerate cash and cash equivalents and the timing and certainty of their\ngeneration."
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-accountancy-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "023199b5b56881bbe2164dbc82dde230a6700226a2013b2e566cab2edf9e3a82"
+        },
+        "sections": [
+          {
+            "id": "unit-v-cash-flow",
+            "slice_sha256": "a9010b6509d19907cfdf4ce64bbeb4f13112b869f554c4e3f833e068d38a4d5c",
+            "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI)."
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-0cb801a72d59d57c",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "A company receives cash when it sells an old production machine. In which category should that receipt be placed?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Investing cash inflow"
+        },
+        {
+          "key": "B",
+          "text": "Operating cash inflow from rendering services"
+        },
+        {
+          "key": "C",
+          "text": "Financing cash inflow from owners’ capital"
+        },
+        {
+          "key": "D",
+          "text": "Non-cash transaction excluded from the statement"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p4-c0-g4-s0",
+          "support_hash": "35acd4f37aacd48c3a57d32a82c17225dd23e1dfa32b187ba8a7ced55e7539e4"
+        },
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p5-c0-g3-s0",
+          "support_hash": "6ef8a52783ebc29b9be457d3658147cfd9681b614fcc3d9d5342206ced86cd0e"
+        },
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p4-c0-g2-s0",
+          "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p4-c0-g4-s0",
+          "support_hash": "35acd4f37aacd48c3a57d32a82c17225dd23e1dfa32b187ba8a7ced55e7539e4",
+          "text": "6.5.2 Cash from Investing Activities\nAs per AS-3, investing activities are the acquisition and disposal of long-term\nassets and other investments not included in cash equivalents. Investing\nactivities relate to purchase and sale of long-term assets or fixed assets such"
+        },
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p5-c0-g3-s0",
+          "support_hash": "6ef8a52783ebc29b9be457d3658147cfd9681b614fcc3d9d5342206ced86cd0e",
+          "text": "Cash Inflows from Investing Activities\n Cash receipt from disposal of fixed assets including intangibles.\n Cash receipt from the repayment of advances or loans made to third\nparties (except in case of financial enterprise).\n Cash receipt from disposal of shares, warrants or debt instruments of\nother enterprises except those held for trading purposes.\n Interest received in cash from loans and advances.\n Dividend received from investments in other enterprises."
+        },
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p4-c0-g2-s0",
+          "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293",
+          "text": "Cash Inflows from operating activities\n cash receipts from sale of goods and the rendering of services.\n cash receipts from royalties, fees, commissions and other revenues."
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-accountancy-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "023199b5b56881bbe2164dbc82dde230a6700226a2013b2e566cab2edf9e3a82"
+        },
+        "sections": [
+          {
+            "id": "unit-v-cash-flow",
+            "slice_sha256": "a9010b6509d19907cfdf4ce64bbeb4f13112b869f554c4e3f833e068d38a4d5c",
+            "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI)."
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-858571ec923d453a",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "A company receives cash from issuing equity shares. Which activity best describes the transaction?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Financing, because it changes owners’ capital"
+        },
+        {
+          "key": "B",
+          "text": "Investing, because every cash receipt is an investment"
+        },
+        {
+          "key": "C",
+          "text": "Operating, because issuing shares earns revenue from customers"
+        },
+        {
+          "key": "D",
+          "text": "Excluded, because share issue is always non-cash"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p5-c0-g4-s0",
+          "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5"
+        },
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p5-c0-g3-s0",
+          "support_hash": "6ef8a52783ebc29b9be457d3658147cfd9681b614fcc3d9d5342206ced86cd0e"
+        },
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p4-c0-g2-s0",
+          "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p5-c0-g4-s0",
+          "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5",
+          "text": "6.5.3 Cash from Financing Activities\nAs the name suggests, financing activities relate to long-term funds or capital of\nan enterprise, e.g., cash proceeds from issue of equity shares, debentures, raising\nlong-term bank loans, repayment of bank loan, etc. As per AS-3, financing\nactivities are activities that result in changes in the size and composition of the\nowners’ capital (including preference share capital in case of a company) and\nborrowings of the enterprise. Separate disclosure of cash flows arising from\nfinancing activities is important because it is useful in predicting claims on future\ncash flows by providers of funds ( both capital and borrowings ) to the enterprise.\nExamples of financing activities are:"
+        },
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p5-c0-g3-s0",
+          "support_hash": "6ef8a52783ebc29b9be457d3658147cfd9681b614fcc3d9d5342206ced86cd0e",
+          "text": "Cash Inflows from Investing Activities\n Cash receipt from disposal of fixed assets including intangibles.\n Cash receipt from the repayment of advances or loans made to third\nparties (except in case of financial enterprise).\n Cash receipt from disposal of shares, warrants or debt instruments of\nother enterprises except those held for trading purposes.\n Interest received in cash from loans and advances.\n Dividend received from investments in other enterprises."
+        },
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p4-c0-g2-s0",
+          "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293",
+          "text": "Cash Inflows from operating activities\n cash receipts from sale of goods and the rendering of services.\n cash receipts from royalties, fees, commissions and other revenues."
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-accountancy-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "023199b5b56881bbe2164dbc82dde230a6700226a2013b2e566cab2edf9e3a82"
+        },
+        "sections": [
+          {
+            "id": "unit-v-cash-flow",
+            "slice_sha256": "a9010b6509d19907cfdf4ce64bbeb4f13112b869f554c4e3f833e068d38a4d5c",
+            "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI)."
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-c72b933215922cff",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "A company acquires machinery by issuing its own equity shares directly to the seller; no cash or cash equivalent changes hands. How should this transaction be treated in the cash flow statement?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Exclude it from the cash flow statement and disclose it elsewhere in the financial statements."
+        },
+        {
+          "key": "B",
+          "text": "Record a cash investing outflow and an equal operating inflow."
+        },
+        {
+          "key": "C",
+          "text": "Record a financing cash inflow because shares were issued, even though no cash was received."
+        },
+        {
+          "key": "D",
+          "text": "Treat the machinery as a cash equivalent."
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p7-c0-g4-s0",
+          "support_hash": "d342c4a5b29405b88d1062e08b8108926674eac79c50e86b1cc261e6d702f69d"
+        },
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p4-c0-g4-s0",
+          "support_hash": "35acd4f37aacd48c3a57d32a82c17225dd23e1dfa32b187ba8a7ced55e7539e4"
+        },
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p5-c0-g4-s0",
+          "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p7-c0-g4-s0",
+          "support_hash": "d342c4a5b29405b88d1062e08b8108926674eac79c50e86b1cc261e6d702f69d",
+          "text": "Non-cash Transactions\nAs per AS-3, investing and financing transactions that do not require the use\nof cash or cash equivalents should be excluded from a cash flow statement.\nExamples of such transactions are – acquisition of machinery by issue of equity\nshares or redemption of debentures by issue of equity shares. Such transactions\nshould be disclosed elsewhere in the financial statements in a way that provide\nall the relevant information about these investing and financing activities.\nHence, assets acquired by issue of shares are not disclosed in cash flow\nstatement due to non-cash nature of the transaction."
+        },
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p4-c0-g4-s0",
+          "support_hash": "35acd4f37aacd48c3a57d32a82c17225dd23e1dfa32b187ba8a7ced55e7539e4",
+          "text": "6.5.2 Cash from Investing Activities\nAs per AS-3, investing activities are the acquisition and disposal of long-term\nassets and other investments not included in cash equivalents. Investing\nactivities relate to purchase and sale of long-term assets or fixed assets such"
+        },
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p5-c0-g4-s0",
+          "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5",
+          "text": "6.5.3 Cash from Financing Activities\nAs the name suggests, financing activities relate to long-term funds or capital of\nan enterprise, e.g., cash proceeds from issue of equity shares, debentures, raising\nlong-term bank loans, repayment of bank loan, etc. As per AS-3, financing\nactivities are activities that result in changes in the size and composition of the\nowners’ capital (including preference share capital in case of a company) and\nborrowings of the enterprise. Separate disclosure of cash flows arising from\nfinancing activities is important because it is useful in predicting claims on future\ncash flows by providers of funds ( both capital and borrowings ) to the enterprise.\nExamples of financing activities are:"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-accountancy-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "023199b5b56881bbe2164dbc82dde230a6700226a2013b2e566cab2edf9e3a82"
+        },
+        "sections": [
+          {
+            "id": "unit-v-cash-flow",
+            "slice_sha256": "a9010b6509d19907cfdf4ce64bbeb4f13112b869f554c4e3f833e068d38a4d5c",
+            "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI)."
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-52b14f952a4b9bd2",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "Which one of the following is an investing cash inflow?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cash proceeds from selling an old fixed asset"
+        },
+        {
+          "key": "B",
+          "text": "Cash dividend received from an investment in another enterprise"
+        },
+        {
+          "key": "C",
+          "text": "Cash interest received on a loan made to a third party"
+        },
+        {
+          "key": "D",
+          "text": "Cash proceeds from issuing equity shares"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p5-c0-g3-s0",
+          "support_hash": "6ef8a52783ebc29b9be457d3658147cfd9681b614fcc3d9d5342206ced86cd0e"
+        },
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p5-c0-g4-s0",
+          "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5"
+        },
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p4-c0-g2-s0",
+          "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p5-c0-g3-s0",
+          "support_hash": "6ef8a52783ebc29b9be457d3658147cfd9681b614fcc3d9d5342206ced86cd0e",
+          "text": "Cash Inflows from Investing Activities\n Cash receipt from disposal of fixed assets including intangibles.\n Cash receipt from the repayment of advances or loans made to third\nparties (except in case of financial enterprise).\n Cash receipt from disposal of shares, warrants or debt instruments of\nother enterprises except those held for trading purposes.\n Interest received in cash from loans and advances.\n Dividend received from investments in other enterprises."
+        },
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p5-c0-g4-s0",
+          "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5",
+          "text": "6.5.3 Cash from Financing Activities\nAs the name suggests, financing activities relate to long-term funds or capital of\nan enterprise, e.g., cash proceeds from issue of equity shares, debentures, raising\nlong-term bank loans, repayment of bank loan, etc. As per AS-3, financing\nactivities are activities that result in changes in the size and composition of the\nowners’ capital (including preference share capital in case of a company) and\nborrowings of the enterprise. Separate disclosure of cash flows arising from\nfinancing activities is important because it is useful in predicting claims on future\ncash flows by providers of funds ( both capital and borrowings ) to the enterprise.\nExamples of financing activities are:"
+        },
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p4-c0-g2-s0",
+          "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293",
+          "text": "Cash Inflows from operating activities\n cash receipts from sale of goods and the rendering of services.\n cash receipts from royalties, fees, commissions and other revenues."
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-accountancy-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "023199b5b56881bbe2164dbc82dde230a6700226a2013b2e566cab2edf9e3a82"
+        },
+        "sections": [
+          {
+            "id": "unit-v-cash-flow",
+            "slice_sha256": "a9010b6509d19907cfdf4ce64bbeb4f13112b869f554c4e3f833e068d38a4d5c",
+            "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI)."
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-cb2a617cc96b18d7",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "Which transaction is a financing cash inflow for a company?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cash proceeds from issuing shares"
+        },
+        {
+          "key": "B",
+          "text": "Cash proceeds from selling a fixed asset"
+        },
+        {
+          "key": "C",
+          "text": "Cash receipts from sales of goods"
+        },
+        {
+          "key": "D",
+          "text": "Cash payments to suppliers for goods"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p5-c0-g4-s0",
+          "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5"
+        },
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p5-c0-g3-s0",
+          "support_hash": "6ef8a52783ebc29b9be457d3658147cfd9681b614fcc3d9d5342206ced86cd0e"
+        },
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p4-c0-g2-s0",
+          "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p5-c0-g4-s0",
+          "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5",
+          "text": "6.5.3 Cash from Financing Activities\nAs the name suggests, financing activities relate to long-term funds or capital of\nan enterprise, e.g., cash proceeds from issue of equity shares, debentures, raising\nlong-term bank loans, repayment of bank loan, etc. As per AS-3, financing\nactivities are activities that result in changes in the size and composition of the\nowners’ capital (including preference share capital in case of a company) and\nborrowings of the enterprise. Separate disclosure of cash flows arising from\nfinancing activities is important because it is useful in predicting claims on future\ncash flows by providers of funds ( both capital and borrowings ) to the enterprise.\nExamples of financing activities are:"
+        },
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p5-c0-g3-s0",
+          "support_hash": "6ef8a52783ebc29b9be457d3658147cfd9681b614fcc3d9d5342206ced86cd0e",
+          "text": "Cash Inflows from Investing Activities\n Cash receipt from disposal of fixed assets including intangibles.\n Cash receipt from the repayment of advances or loans made to third\nparties (except in case of financial enterprise).\n Cash receipt from disposal of shares, warrants or debt instruments of\nother enterprises except those held for trading purposes.\n Interest received in cash from loans and advances.\n Dividend received from investments in other enterprises."
+        },
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p4-c0-g2-s0",
+          "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293",
+          "text": "Cash Inflows from operating activities\n cash receipts from sale of goods and the rendering of services.\n cash receipts from royalties, fees, commissions and other revenues."
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-accountancy-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "023199b5b56881bbe2164dbc82dde230a6700226a2013b2e566cab2edf9e3a82"
+        },
+        "sections": [
+          {
+            "id": "unit-v-cash-flow",
+            "slice_sha256": "a9010b6509d19907cfdf4ce64bbeb4f13112b869f554c4e3f833e068d38a4d5c",
+            "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI)."
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-eb4b4871aa93628a",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "Machinery is acquired by issuing equity shares, with no cash or cash equivalents used. Which statement best describes its treatment?",
+      "options": [
+        {
+          "key": "A",
+          "text": "It is excluded from the cash flow statement and disclosed elsewhere in the financial statements."
+        },
+        {
+          "key": "B",
+          "text": "It is reported as a cash investing outflow."
+        },
+        {
+          "key": "C",
+          "text": "It is reported as an operating cash receipt."
+        },
+        {
+          "key": "D",
+          "text": "It is reported as a cash financing outflow."
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p7-c0-g4-s0",
+          "support_hash": "d342c4a5b29405b88d1062e08b8108926674eac79c50e86b1cc261e6d702f69d"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p7-c0-g4-s0",
+          "support_hash": "d342c4a5b29405b88d1062e08b8108926674eac79c50e86b1cc261e6d702f69d",
+          "text": "Non-cash Transactions\nAs per AS-3, investing and financing transactions that do not require the use\nof cash or cash equivalents should be excluded from a cash flow statement.\nExamples of such transactions are – acquisition of machinery by issue of equity\nshares or redemption of debentures by issue of equity shares. Such transactions\nshould be disclosed elsewhere in the financial statements in a way that provide\nall the relevant information about these investing and financing activities.\nHence, assets acquired by issue of shares are not disclosed in cash flow\nstatement due to non-cash nature of the transaction."
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-accountancy-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "023199b5b56881bbe2164dbc82dde230a6700226a2013b2e566cab2edf9e3a82"
+        },
+        "sections": [
+          {
+            "id": "unit-v-cash-flow",
+            "slice_sha256": "a9010b6509d19907cfdf4ce64bbeb4f13112b869f554c4e3f833e068d38a4d5c",
+            "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI)."
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-a27677f38abb8f32",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "Which statement describes an accepted method for reporting cash flows from operating activities?",
+      "options": [
+        {
+          "key": "A",
+          "text": "The direct method discloses major classes of gross cash receipts and gross cash payments."
+        },
+        {
+          "key": "B",
+          "text": "The indirect method adjusts net profit or loss for specified effects."
+        },
+        {
+          "key": "C",
+          "text": "Both the direct and indirect descriptions above are accepted methods."
+        },
+        {
+          "key": "D",
+          "text": "Neither method is used to report operating cash flows."
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leac206-v1",
+          "version": 1,
+          "locator": "p9-c0-g1-s0",
+          "support_hash": "a98316b1b4cd83ad704cdebce58322c121dce5637dec4225860f8ce31a9e0d53"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p9-c0-g1-s0",
+          "support_hash": "a98316b1b4cd83ad704cdebce58322c121dce5637dec4225860f8ce31a9e0d53",
+          "text": "As per AS-3, an enterprise should report cash flows from operating\nactivities either by using :\n Direct method whereby major classes of gross cash receipts and gross\ncash payments are disclosed;\nor\n Indirect method whereby net profit or loss is duly adjusted for the\neffects of (1) transactions of a non-cash nature, (2) any deferrals or\naccruals of past/future operating cash receipts, and (3) items of\nincome or expenses associated with investing or financing cash flows.\nIt is important to mention here that under indirect method, the starting\npoint is net profit/loss before taxation and extra ordinary items as\nper Statement of Profit and Loss of the enterprise. Then this amount\nis for non-cash items, etc., adjusted for ascertaining cash flows from\noperating activities.\nAccordingly, cash flow from operating activities can be determined using\neither the Direct method or the Indirect method.The direct method provides\ninformation which is useful in estimating future cash flows. But such\ninformation is not available under the indirect method. However, in practice,\nindirect method is mostly used by the companies for arriving at the net cash\nflow from operating activities. The Chapter deals with preparing cash flow\nstatement using indirect method."
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-accountancy-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "023199b5b56881bbe2164dbc82dde230a6700226a2013b2e566cab2edf9e3a82"
+        },
+        "sections": [
+          {
+            "id": "unit-v-cash-flow",
+            "slice_sha256": "a9010b6509d19907cfdf4ce64bbeb4f13112b869f554c4e3f833e068d38a4d5c",
+            "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI)."
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-492c58e9bb6adde2",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "body": "A service firm sets a twelve-month customer-retention objective, develops several courses of action, compares them, and selects the most suitable one. Which management function is described?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Planning"
+        },
+        {
+          "key": "B",
+          "text": "Staffing"
+        },
+        {
+          "key": "C",
+          "text": "Controlling"
+        },
+        {
+          "key": "D",
+          "text": "Decentralisation"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-lebs104-v1",
+          "version": 1,
+          "locator": "p3-c1-g1-s0",
+          "support_hash": "4a341a83279ceca6424939bc5b6df743543d437c778e0d9a06848b2a18419d9e"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-lebs104-v1",
+          "locator": "p3-c1-g1-s0",
+          "support_hash": "4a341a83279ceca6424939bc5b6df743543d437c778e0d9a06848b2a18419d9e",
+          "text": "definition of planning? One of the\nways to do so would be to define\nplanning as setting objectives for\na given time period, formulating\nvarious courses of action to\nachieve them, and then selecting\nthe best possible alternative from\namong the various courses of\naction available."
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-business_studies-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "99e497fcccc92bd25e03f0f91da16e5af9c7c6a136842820a5308d4ec71beedb"
+        },
+        "sections": [
+          {
+            "id": "unit-iv-planning",
+            "slice_sha256": "fd6f8e7e5f66e377b497f2d8712cad8d5f81ff6e67026cf817a0eb430879990d",
+            "text": "Unit IV:  Planning \r\n• Meaning, features, importance, limitations. \r\n• Planning process. \r\n• Types of Plans – Objectives, Strategy, Policy, Procedure, Method, Rule, Budget, Programme."
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-ba4d6ec7b92a4d3e",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "body": "Before a retailer assigns staff, arranges work, or checks performance, its managers establish the plans within which those activities will occur. Which feature of planning does this illustrate?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Planning provides the basis or framework for other management functions."
+        },
+        {
+          "key": "B",
+          "text": "Planning is performed only by top management."
+        },
+        {
+          "key": "C",
+          "text": "Planning replaces the need for organising and staffing."
+        },
+        {
+          "key": "D",
+          "text": "Planning is limited to one-time projects."
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-lebs104-v1",
+          "version": 1,
+          "locator": "p5-c1-g1-s0",
+          "support_hash": "b41a1897f4f8e638e79ef8a01f4b14529e527b9eba44f64965d25d204f5fc5ff"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-lebs104-v1",
+          "locator": "p5-c1-g1-s0",
+          "support_hash": "b41a1897f4f8e638e79ef8a01f4b14529e527b9eba44f64965d25d204f5fc5ff",
+          "text": "contributes to the achievement\nof predetermined organisational\ngoals.\n(ii) Planning is a primary function\nof management: Planning lays\ndown the base for other\nfunctions of management. All\nother managerial functions are\nperformed within the framework of\nthe plans drawn. Thus, planning\nprecedes other functions. This is\nalso referred to as the primacy of\nplanning. The various functions\nof management are interrelated\nand equally important. However,\nplanning provides the basis of all\nother functions.\n(iii) Planning is pervasive: Planning\nis required at all levels of\nmanagement as well as in all\ndepartments of the organisation.\nIt is not an exclusive function\nof top management nor of any\nparticular department. But\nthe scope of planning differs at\ndifferent levels and among different\ndepartments. For example, the\ntop management undertakes\nplanning for the organisation as\na whole. Middle management\ndoes the departmental planning.\nAt the lowest level, day‑to‑day\noperational planning is done by\nsupervisors.\n(iv) Planning is continuous: Plans\nare prepared for a specific period\nof time, may be for a month, a\nquarter, or a year. At the end"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-business_studies-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "99e497fcccc92bd25e03f0f91da16e5af9c7c6a136842820a5308d4ec71beedb"
+        },
+        "sections": [
+          {
+            "id": "unit-iv-planning",
+            "slice_sha256": "fd6f8e7e5f66e377b497f2d8712cad8d5f81ff6e67026cf817a0eb430879990d",
+            "text": "Unit IV:  Planning \r\n• Meaning, features, importance, limitations. \r\n• Planning process. \r\n• Types of Plans – Objectives, Strategy, Policy, Procedure, Method, Rule, Budget, Programme."
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-d61dd7b60df8f7ee",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "body": "A company uses a standing policy for routine purchasing but prepares a one-time programme for opening a new branch. How is the branch-opening programme best classified?",
+      "options": [
+        {
+          "key": "A",
+          "text": "A single-use plan for a non-recurring project"
+        },
+        {
+          "key": "B",
+          "text": "A standing plan for activities repeated regularly"
+        },
+        {
+          "key": "C",
+          "text": "A method that specifies one task-step only"
+        },
+        {
+          "key": "D",
+          "text": "A rule that permits no managerial decision"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-lebs104-v1",
+          "version": 1,
+          "locator": "p11-c1-g1-s0",
+          "support_hash": "c0c5d568586a1297252760af304d97703345478d5383788475b04a8b62526a29"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-lebs104-v1",
+          "locator": "p11-c1-g1-s0",
+          "support_hash": "c0c5d568586a1297252760af304d97703345478d5383788475b04a8b62526a29",
+          "text": "operational goals. These plans can be\nclassified into single‑use plans and\nstanding plans.\nSingle-use Plan: A single‑use plan\nis developed for a one‑time event or\nproject. Such a course of action is not\nlikely to be repeated in future, i.e.,\nthey are for non‑recurring situations.\nThe duration of this plan may depend\nupon the type of the project. It may\nspan a week or a month. A project may\nsometimes be of only one day, such\nas, organising an event or a seminar\nor conference. These plans include\nbudgets, programmes and projects.\nThey consist of details, including\nthe names of employees who are\nresponsible for doing the work and\ncontributing to the single‑use plan. For\nexample, a programme may consist of\nidentifying steps, procedures required\nfor opening a new department to deal\nwith other minor work. Projects are\nsimilar to programmes but differ in\nscope and complexity. A budget is a\nstatement of expenses, revenue and\nincome for a specified period.\nStanding Plan: A standing plan is\nused for activities that occur regularly\nover a period of time. It is designed\nto ensure that internal operations of\nan organisation run smoothly. Such\na plan greatly enhances efficiency in\nroutine decision‑making. It is usually\ndeveloped once but is modified from\ntime to time to meet business needs\nas required. Standing plans include\npolicies, procedures, methods and\nrules.\nPolicies are general forms of standing\nplans that specifies the organisations"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-business_studies-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "99e497fcccc92bd25e03f0f91da16e5af9c7c6a136842820a5308d4ec71beedb"
+        },
+        "sections": [
+          {
+            "id": "unit-iv-planning",
+            "slice_sha256": "fd6f8e7e5f66e377b497f2d8712cad8d5f81ff6e67026cf817a0eb430879990d",
+            "text": "Unit IV:  Planning \r\n• Meaning, features, importance, limitations. \r\n• Planning process. \r\n• Types of Plans – Objectives, Strategy, Policy, Procedure, Method, Rule, Budget, Programme."
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-9ce0a2c98ccdb941",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "body": "A manager begins the planning process for a new service line. What should the manager do first according to the stated sequence?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Set the objectives"
+        },
+        {
+          "key": "B",
+          "text": "Compare final results with standards"
+        },
+        {
+          "key": "C",
+          "text": "Assign individual jobs to employees"
+        },
+        {
+          "key": "D",
+          "text": "Choose a distribution channel"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-lebs104-v1",
+          "version": 1,
+          "locator": "p12-c0-g2-s2",
+          "support_hash": "47986753ecceb8631bc2b7d6ccf8c1b4548d5a9b80881f3337df67a52552583d"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-lebs104-v1",
+          "locator": "p12-c0-g2-s2",
+          "support_hash": "47986753ecceb8631bc2b7d6ccf8c1b4548d5a9b80881f3337df67a52552583d",
+          "text": "The first step in planning is setting\nobjectives. Objectives, therefore,\ncan be said to be the desired future\nposition that the management\nwould like to reach. Objectives are"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-business_studies-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "99e497fcccc92bd25e03f0f91da16e5af9c7c6a136842820a5308d4ec71beedb"
+        },
+        "sections": [
+          {
+            "id": "unit-iv-planning",
+            "slice_sha256": "fd6f8e7e5f66e377b497f2d8712cad8d5f81ff6e67026cf817a0eb430879990d",
+            "text": "Unit IV:  Planning \r\n• Meaning, features, importance, limitations. \r\n• Planning process. \r\n• Types of Plans – Objectives, Strategy, Policy, Procedure, Method, Rule, Budget, Programme."
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-bbc71d55b375e512",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "body": "A firm’s long-term plan sets the broad direction and scope of the businesses it will operate in over the next five years. Which type of plan best matches that description?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Strategy"
+        },
+        {
+          "key": "B",
+          "text": "Method"
+        },
+        {
+          "key": "C",
+          "text": "Rule"
+        },
+        {
+          "key": "D",
+          "text": "Procedure"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-lebs104-v1",
+          "version": 1,
+          "locator": "p12-c1-g1-s2",
+          "support_hash": "1423734994b299a042b7b65e21bbbbd464bc39fa564d761688761933596a56da"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-lebs104-v1",
+          "locator": "p12-c1-g1-s2",
+          "support_hash": "1423734994b299a042b7b65e21bbbbd464bc39fa564d761688761933596a56da",
+          "text": "A strategy provides the broad contours\nof an organisation’s business. It will\nalso refer to future decisions defining\nthe organisations direction and scope\nin the long run. Thus, we can say\na strategy is a comprehensive plan"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-business_studies-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "99e497fcccc92bd25e03f0f91da16e5af9c7c6a136842820a5308d4ec71beedb"
+        },
+        "sections": [
+          {
+            "id": "unit-iv-planning",
+            "slice_sha256": "fd6f8e7e5f66e377b497f2d8712cad8d5f81ff6e67026cf817a0eb430879990d",
+            "text": "Unit IV:  Planning \r\n• Meaning, features, importance, limitations. \r\n• Planning process. \r\n• Types of Plans – Objectives, Strategy, Policy, Procedure, Method, Rule, Budget, Programme."
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-e138ce57d95e182d",
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "body": "Which one activity is part of marketing?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Planning the product and its price before sale"
+        },
+        {
+          "key": "B",
+          "text": "Selecting the distribution outlets where the product will be available"
+        },
+        {
+          "key": "C",
+          "text": "Transferring title to the buyer through a sale"
+        },
+        {
+          "key": "D",
+          "text": "All listed activities are within marketing’s broader range"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-lebs202-v1",
+          "version": 1,
+          "locator": "p7-c0-g3-s0",
+          "support_hash": "297374c4af702fd82e347e824f4403dd2c3806162d273fbb7b09f8b9529a9d2d"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-lebs202-v1",
+          "locator": "p7-c0-g3-s0",
+          "support_hash": "297374c4af702fd82e347e824f4403dd2c3806162d273fbb7b09f8b9529a9d2d",
+          "text": "Many people confuse ‘selling’ for ‘marketing’. They consider these two terms as one\nand the same. Marketing refers to a large set of activities of which selling is just one\npart. For example, a marketer of televisions, before making the sale, does a lot of\nother activities such as planning the type and model of televisions to be produced,\nthe price at which it would be sold and selecting the distribution outlets at which the\nsame would be available, etc. In short, marketing involves whole range of activities\nrelating to planning, pricing, promoting and distributing the products that satisfy\ncustomer’s needs."
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-business_studies-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "99e497fcccc92bd25e03f0f91da16e5af9c7c6a136842820a5308d4ec71beedb"
+        },
+        "sections": [
+          {
+            "id": "unit-iv-planning",
+            "slice_sha256": "fd6f8e7e5f66e377b497f2d8712cad8d5f81ff6e67026cf817a0eb430879990d",
+            "text": "Unit IV:  Planning \r\n• Meaning, features, importance, limitations. \r\n• Planning process. \r\n• Types of Plans – Objectives, Strategy, Policy, Procedure, Method, Rule, Budget, Programme."
+          },
+          {
+            "id": "unit-xi-marketing",
+            "slice_sha256": "045ef27794e0bed0d4fd0d38352d6895d9b6dcc9b3c026a1b105abaa2731fb67",
+            "text": "Unit XI:  Marketing \r\n• Marketing – meaning, functions, role and philosophies. \r\n• Distinction between marketing and selling. \r\n• Marketing mix – concept and elements: \r\n– Product – nature, classification, branding, labeling and packaging \r\n– Physical distribution: meaning, role; Components, Channels of distribution, – meaning, \r\ntypes, factors determining choice of channels. \r\n– Promotion – meaning and role, promotion mix, Advertising, Personal selling sales \r\npromotion and public relation, Role of Advertising, objections to Advertising. \r\n– Price: factors influencing pricing. \r\n\r\nPAGE 4"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-4def30affd9abc83",
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "body": "Which outcome does the source associate with customer-support services?",
+      "options": [
+        {
+          "key": "A",
+          "text": "They aim to provide maximum customer satisfaction."
+        },
+        {
+          "key": "B",
+          "text": "They can bring repeat sales and develop brand loyalty."
+        },
+        {
+          "key": "C",
+          "text": "They reduce the need to respond to customer complaints."
+        },
+        {
+          "key": "D",
+          "text": "They replace decisions about price and distribution."
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-lebs202-v1",
+          "version": 1,
+          "locator": "p12-c0-g0-s6",
+          "support_hash": "e588bbab2ace274d0d43bd85ce7a3657c08ebd2d3ba3c344b704fd3bfcd48dcd"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-lebs202-v1",
+          "locator": "p12-c0-g0-s6",
+          "support_hash": "e588bbab2ace274d0d43bd85ce7a3657c08ebd2d3ba3c344b704fd3bfcd48dcd",
+          "text": "A very important function of the\nmarketing management relates\nto developing customer support\nservices such as after sales services,\nhandling customer complaints\nand adjustments, procuring credit\nservices, maintenance services,\ntechnical services and consumer\ninformation. All these services aim\nat providing maximum satisfaction\nto the customers, which is the key to\nmarketing success in modern days."
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-business_studies-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "99e497fcccc92bd25e03f0f91da16e5af9c7c6a136842820a5308d4ec71beedb"
+        },
+        "sections": [
+          {
+            "id": "unit-iv-planning",
+            "slice_sha256": "fd6f8e7e5f66e377b497f2d8712cad8d5f81ff6e67026cf817a0eb430879990d",
+            "text": "Unit IV:  Planning \r\n• Meaning, features, importance, limitations. \r\n• Planning process. \r\n• Types of Plans – Objectives, Strategy, Policy, Procedure, Method, Rule, Budget, Programme."
+          },
+          {
+            "id": "unit-xi-marketing",
+            "slice_sha256": "045ef27794e0bed0d4fd0d38352d6895d9b6dcc9b3c026a1b105abaa2731fb67",
+            "text": "Unit XI:  Marketing \r\n• Marketing – meaning, functions, role and philosophies. \r\n• Distinction between marketing and selling. \r\n• Marketing mix – concept and elements: \r\n– Product – nature, classification, branding, labeling and packaging \r\n– Physical distribution: meaning, role; Components, Channels of distribution, – meaning, \r\ntypes, factors determining choice of channels. \r\n– Promotion – meaning and role, promotion mix, Advertising, Personal selling sales \r\npromotion and public relation, Role of Advertising, objections to Advertising. \r\n– Price: factors influencing pricing. \r\n\r\nPAGE 4"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-6bd2b23e1ca709b5",
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "body": "What is the role of physical distribution in marketing?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Moving goods from where they are produced to the places where they are needed for use or consumption"
+        },
+        {
+          "key": "B",
+          "text": "Choosing the amount of money customers pay for the product"
+        },
+        {
+          "key": "C",
+          "text": "Designing the verbal component of a brand"
+        },
+        {
+          "key": "D",
+          "text": "Communicating promotional messages to target customers"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-lebs202-v1",
+          "version": 1,
+          "locator": "p13-c0-g1-s2",
+          "support_hash": "eb8694dcfc1f7895f79ff9b0bb5c8d94f0086a141e4f5e0443331269331ac5bc"
+        },
+        {
+          "id": "ncertcol-lebs202-v1",
+          "version": 1,
+          "locator": "p13-c1-g1-s1",
+          "support_hash": "c51ef4e504453713cbbcd7f9a259a192cfb887e4175f6b6b2d8a03182c25c797"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-lebs202-v1",
+          "locator": "p13-c0-g1-s2",
+          "support_hash": "eb8694dcfc1f7895f79ff9b0bb5c8d94f0086a141e4f5e0443331269331ac5bc",
+          "text": "involves physical movement of goods\nfrom one place to the other. As\ngenerally the users of products,\nparticularly consumer products\nare wide spread and geographically\nseparated from the place these are\nproduced, it is necessary to move\nthem to the place where it is needed\nfor consumption or use, For example,\ntea produced in Assam has to be\ntransported not only within the state\nbut to other far off places like Tamil"
+        },
+        {
+          "source_id": "ncertcol-lebs202-v1",
+          "locator": "p13-c1-g1-s1",
+          "support_hash": "c51ef4e504453713cbbcd7f9a259a192cfb887e4175f6b6b2d8a03182c25c797",
+          "text": "The marketing mix consists of various\nelements, which have broadly been\nclassified into four categories, popularly\nknown as four Ps of marketing. These\nare: (i) Product, (ii) Price, (iii) Place,\nand (iv) Promotion. These are briefly\ndiscussed as follows:\n1. Product: Product means goods\nor services or ‘anything of value’,\nwhich is offered to the market for\nsale. For example, Hindustan lever\noffers number of consumer products\nlike toiletries (Close-Up toothpaste,\nLifebuoy soap, etc.), detergent powder\n(Surf, Wheel), food products (Refined"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-business_studies-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "99e497fcccc92bd25e03f0f91da16e5af9c7c6a136842820a5308d4ec71beedb"
+        },
+        "sections": [
+          {
+            "id": "unit-iv-planning",
+            "slice_sha256": "fd6f8e7e5f66e377b497f2d8712cad8d5f81ff6e67026cf817a0eb430879990d",
+            "text": "Unit IV:  Planning \r\n• Meaning, features, importance, limitations. \r\n• Planning process. \r\n• Types of Plans – Objectives, Strategy, Policy, Procedure, Method, Rule, Budget, Programme."
+          },
+          {
+            "id": "unit-xi-marketing",
+            "slice_sha256": "045ef27794e0bed0d4fd0d38352d6895d9b6dcc9b3c026a1b105abaa2731fb67",
+            "text": "Unit XI:  Marketing \r\n• Marketing – meaning, functions, role and philosophies. \r\n• Distinction between marketing and selling. \r\n• Marketing mix – concept and elements: \r\n– Product – nature, classification, branding, labeling and packaging \r\n– Physical distribution: meaning, role; Components, Channels of distribution, – meaning, \r\ntypes, factors determining choice of channels. \r\n– Promotion – meaning and role, promotion mix, Advertising, Personal selling sales \r\npromotion and public relation, Role of Advertising, objections to Advertising. \r\n– Price: factors influencing pricing. \r\n\r\nPAGE 4"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-88d188cde3cd40b4",
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "body": "Which one of the following is an element of the marketing mix?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Product"
+        },
+        {
+          "key": "B",
+          "text": "Price"
+        },
+        {
+          "key": "C",
+          "text": "Place"
+        },
+        {
+          "key": "D",
+          "text": "Promotion"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-lebs202-v1",
+          "version": 1,
+          "locator": "p13-c1-g1-s1",
+          "support_hash": "c51ef4e504453713cbbcd7f9a259a192cfb887e4175f6b6b2d8a03182c25c797"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-lebs202-v1",
+          "locator": "p13-c1-g1-s1",
+          "support_hash": "c51ef4e504453713cbbcd7f9a259a192cfb887e4175f6b6b2d8a03182c25c797",
+          "text": "The marketing mix consists of various\nelements, which have broadly been\nclassified into four categories, popularly\nknown as four Ps of marketing. These\nare: (i) Product, (ii) Price, (iii) Place,\nand (iv) Promotion. These are briefly\ndiscussed as follows:\n1. Product: Product means goods\nor services or ‘anything of value’,\nwhich is offered to the market for\nsale. For example, Hindustan lever\noffers number of consumer products\nlike toiletries (Close-Up toothpaste,\nLifebuoy soap, etc.), detergent powder\n(Surf, Wheel), food products (Refined"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-business_studies-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "99e497fcccc92bd25e03f0f91da16e5af9c7c6a136842820a5308d4ec71beedb"
+        },
+        "sections": [
+          {
+            "id": "unit-iv-planning",
+            "slice_sha256": "fd6f8e7e5f66e377b497f2d8712cad8d5f81ff6e67026cf817a0eb430879990d",
+            "text": "Unit IV:  Planning \r\n• Meaning, features, importance, limitations. \r\n• Planning process. \r\n• Types of Plans – Objectives, Strategy, Policy, Procedure, Method, Rule, Budget, Programme."
+          },
+          {
+            "id": "unit-xi-marketing",
+            "slice_sha256": "045ef27794e0bed0d4fd0d38352d6895d9b6dcc9b3c026a1b105abaa2731fb67",
+            "text": "Unit XI:  Marketing \r\n• Marketing – meaning, functions, role and philosophies. \r\n• Distinction between marketing and selling. \r\n• Marketing mix – concept and elements: \r\n– Product – nature, classification, branding, labeling and packaging \r\n– Physical distribution: meaning, role; Components, Channels of distribution, – meaning, \r\ntypes, factors determining choice of channels. \r\n– Promotion – meaning and role, promotion mix, Advertising, Personal selling sales \r\npromotion and public relation, Role of Advertising, objections to Advertising. \r\n– Price: factors influencing pricing. \r\n\r\nPAGE 4"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-1afe83f09f936a8a",
+      "subject": "economics",
+      "chapter": "National Income Accounting",
+      "body": "A factory located in India is owned by a company headquartered abroad. Its current-year production takes place inside India. Which aggregate includes this production on the basis described in the source?",
+      "options": [
+        {
+          "key": "A",
+          "text": "India’s Gross Domestic Product"
+        },
+        {
+          "key": "B",
+          "text": "India’s Gross National Product solely because the owner is foreign"
+        },
+        {
+          "key": "C",
+          "text": "India’s net factor income from abroad"
+        },
+        {
+          "key": "D",
+          "text": "India’s Consumer Price Index"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leec102-v1",
+          "version": 1,
+          "locator": "p17-c0-g1-s0",
+          "support_hash": "fd901f9e7e4663288e71143c295f1e28378b1fab4ef38e84b4c8c7241b921723"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p17-c0-g1-s0",
+          "support_hash": "fd901f9e7e4663288e71143c295f1e28378b1fab4ef38e84b4c8c7241b921723",
+          "text": "Gross Domestic Product measures the aggregate production of final goods and\nservices taking place within the domestic economy during a year. But the whole\nof it may not accrue to the citizens of the country. For example, a citizen of India\nworking in Saudi Arabia may be earning her wage and it will be included in the\nSaudi Arabian GDP. But legally speaking, she is an Indian. Is there a way to take\ninto account the earnings made by Indians abroad or by the factors of production\nowned by Indians? When we try to do this, in order to maintain symmetry, we\nmust deduct the earnings of the foreigners who are working within our domestic\neconomy, or the payments to the factors of production owned by the foreigners.\nFor example, the profits earned by the Korean-owned Hyundai car factory will\nhave to be subtracted\nfrom the GDP of India.\nThe macroeconomic\nvariable which takes\ninto account such\nadditions and\nsubtractions is\nknown as Gross\nNational Product"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-economics-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "738e7eba87fc659c5133e2db18a832b1061290b216e749529487ec6bd89daae3"
+        },
+        "sections": [
+          {
+            "id": "course-ii-unit-i-national-income",
+            "slice_sha256": "be233b3fd7f91f6e17f76f1a139d2e8bbdf19f5941fa49b7419bd8c1be516e4c",
+            "text": "Unit I: Introduction and National Income Accounting \r\n\r\nPAGE 3\r\n \r\n2 | P a g e   \r\n What is macroeconomics? \r\n Basic concepts in macroeconomics:  \r\n Circular flow of income; Methods of calculating National Income - Value \r\nAdded or Product method, Expenditure method, Income method \r\n Aggregates related to National Income: \r\nFactor Cost, Basic Prices and Market Price. \r\nGDP and Welfare"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-6dc619f8780a420e",
+      "subject": "economics",
+      "chapter": "National Income Accounting",
+      "body": "An economy records GDP of ₹640 crore and net factor income from abroad of ₹25 crore for the year. Using the stated relation, what is its GNP?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹665 crore"
+        },
+        {
+          "key": "B",
+          "text": "₹615 crore"
+        },
+        {
+          "key": "C",
+          "text": "₹640 crore"
+        },
+        {
+          "key": "D",
+          "text": "₹25 crore"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leec102-v1",
+          "version": 1,
+          "locator": "p17-c0-g1-s4",
+          "support_hash": "cfb8a01f1bda2d81c5021b13a03ba15f809ea1f67801f628c112a75768e9bdc3"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p17-c0-g1-s4",
+          "support_hash": "cfb8a01f1bda2d81c5021b13a03ba15f809ea1f67801f628c112a75768e9bdc3",
+          "text": "defined as follows\nGNP ≡ GDP + Factor income earned by the domestic factors of production\nemployed in the rest of the world – Factor income earned by the factors of\nproduction of the rest of the world employed in the domestic economy\nHence, GNP ≡ GDP + Net factor income from abroad\n(Net factor income from abroad = Factor income earned by the domestic factors\nof production employed in the rest of the world – Factor income earned by the\nfactors of production of the rest of the world employed in the domestic economy)."
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-economics-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "738e7eba87fc659c5133e2db18a832b1061290b216e749529487ec6bd89daae3"
+        },
+        "sections": [
+          {
+            "id": "course-ii-unit-i-national-income",
+            "slice_sha256": "be233b3fd7f91f6e17f76f1a139d2e8bbdf19f5941fa49b7419bd8c1be516e4c",
+            "text": "Unit I: Introduction and National Income Accounting \r\n\r\nPAGE 3\r\n \r\n2 | P a g e   \r\n What is macroeconomics? \r\n Basic concepts in macroeconomics:  \r\n Circular flow of income; Methods of calculating National Income - Value \r\nAdded or Product method, Expenditure method, Income method \r\n Aggregates related to National Income: \r\nFactor Cost, Basic Prices and Market Price. \r\nGDP and Welfare"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-800c0fc26f1bce39",
+      "subject": "economics",
+      "chapter": "National Income Accounting",
+      "body": "Farmers produce wheat worth ₹150. Bakers buy ₹60 of that wheat and use it to make bread worth ₹240; assume no other intermediate inputs. What total value is counted by the product method when intermediate value is not counted twice?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹330"
+        },
+        {
+          "key": "B",
+          "text": "₹390"
+        },
+        {
+          "key": "C",
+          "text": "₹240"
+        },
+        {
+          "key": "D",
+          "text": "₹150"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leec102-v1",
+          "version": 1,
+          "locator": "p9-c0-g0-s0",
+          "support_hash": "d8d20ada1f76c06e8df081a8453c9fab014ac93c4828925bad4869d7e18c1ce1"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p9-c0-g0-s0",
+          "support_hash": "d8d20ada1f76c06e8df081a8453c9fab014ac93c4828925bad4869d7e18c1ce1",
+          "text": "2.2.1 The Product or Value Added Method\nIn product method we calculate the aggregate annual value of goods and services\nproduced (if a year is the unit of time). How to go about doing this? Do we add\nup the value of all goods and services produced by all the firms in an economy?\nThe following example will help us to understand.\nLet us suppose that there are only two kinds of producers in the economy.\nThey are the wheat producers (or the farmers) and the bread makers (the bakers).\nThe wheat producers grow wheat and they do not need any input other than\nhuman labour. They sell a part of the wheat to the bakers. The bakers do not\nneed any other raw materials besides wheat to produce bread. Let us suppose\nthat in a year the total value of wheat that the farmers have produced is Rs 100.\nOut of this they have sold Rs 50 worth of wheat to the bakers. The bakers have\nused this amount of wheat completely during the year and have produced\nRs 200 worth of bread. What is the value of total production in the economy? If\nwe follow the simple way of aggregating the values of production of the sectors,\nwe would add Rs 200 (value of production of the bakers) to Rs 100 (value of\nproduction of farmers). The result will be Rs 300.\nA little reflection will tell us that the value of aggregate production is not Rs\n300. The farmers had produced Rs 100 worth of wheat for which it did not need\nassistance of any inputs. Therefore the entire Rs 100 is rightfully the contribution\nof the farmers. But the same is not true for the bakers. The bakers had to buy Rs\n50 worth of wheat to produce their bread. The Rs 200 worth of bread that they\nhave produced is not entirely their own contribution. To calculate the net\ncontribution of the bakers, we need to subtract the value of the wheat that they\nhave bought from the farmers. If we do not do this we shall commit the mistake\nof ‘double counting’. This is because Rs 50 worth of wheat will be counted twice.\nFirst it will be counted as part of the output produced by the farmers. Second\ntime, it will be counted as the imputed value of wheat in the bread produced by\nthe bakers."
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-economics-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "738e7eba87fc659c5133e2db18a832b1061290b216e749529487ec6bd89daae3"
+        },
+        "sections": [
+          {
+            "id": "course-ii-unit-i-national-income",
+            "slice_sha256": "be233b3fd7f91f6e17f76f1a139d2e8bbdf19f5941fa49b7419bd8c1be516e4c",
+            "text": "Unit I: Introduction and National Income Accounting \r\n\r\nPAGE 3\r\n \r\n2 | P a g e   \r\n What is macroeconomics? \r\n Basic concepts in macroeconomics:  \r\n Circular flow of income; Methods of calculating National Income - Value \r\nAdded or Product method, Expenditure method, Income method \r\n Aggregates related to National Income: \r\nFactor Cost, Basic Prices and Market Price. \r\nGDP and Welfare"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-8c16f1ee9c277ad1",
+      "subject": "economics",
+      "chapter": "National Income Accounting",
+      "body": "A national-income team estimates output by summing final expenditures on goods and services rather than summing firms’ production contributions or factor incomes. Which method is it using?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Expenditure method"
+        },
+        {
+          "key": "B",
+          "text": "Product or value-added method"
+        },
+        {
+          "key": "C",
+          "text": "Income method"
+        },
+        {
+          "key": "D",
+          "text": "Consumer price index method"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leec102-v1",
+          "version": 1,
+          "locator": "p13-c0-g5-s0",
+          "support_hash": "1790ed6078f0c616e652dbeefdf6bbca4aa73532e90d39a418c05dfb5d981aba"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p13-c0-g5-s0",
+          "support_hash": "1790ed6078f0c616e652dbeefdf6bbca4aa73532e90d39a418c05dfb5d981aba",
+          "text": "An alternative way to calculate the GDP is by looking at the demand side of the\nproducts. This method is referred to as the expenditure method. In the farmer-\nbaker example that we have described before, the aggregate value of the output\nin the economy by expenditure method will be calculated in the following way.\nIn this method we add the final expenditures that each firm makes. Final"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-economics-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "738e7eba87fc659c5133e2db18a832b1061290b216e749529487ec6bd89daae3"
+        },
+        "sections": [
+          {
+            "id": "course-ii-unit-i-national-income",
+            "slice_sha256": "be233b3fd7f91f6e17f76f1a139d2e8bbdf19f5941fa49b7419bd8c1be516e4c",
+            "text": "Unit I: Introduction and National Income Accounting \r\n\r\nPAGE 3\r\n \r\n2 | P a g e   \r\n What is macroeconomics? \r\n Basic concepts in macroeconomics:  \r\n Circular flow of income; Methods of calculating National Income - Value \r\nAdded or Product method, Expenditure method, Income method \r\n Aggregates related to National Income: \r\nFactor Cost, Basic Prices and Market Price. \r\nGDP and Welfare"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-cf90fb71c61816db",
+      "subject": "economics",
+      "chapter": "National Income Accounting",
+      "body": "GVA at factor cost is ₹200 crore. Net production taxes are ₹8 crore and net product taxes are ₹12 crore. According to the stated conversion sequence, what is GVA at market prices?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹220 crore"
+        },
+        {
+          "key": "B",
+          "text": "₹208 crore"
+        },
+        {
+          "key": "C",
+          "text": "₹212 crore"
+        },
+        {
+          "key": "D",
+          "text": "₹200 crore"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leec102-v1",
+          "version": 1,
+          "locator": "p16-c0-g5-s23",
+          "support_hash": "f89c6fef782e30ce0e10cf8972e488a480fa109b63655d87a20e2ec62b82aa8b"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p16-c0-g5-s23",
+          "support_hash": "f89c6fef782e30ce0e10cf8972e488a480fa109b63655d87a20e2ec62b82aa8b",
+          "text": "GVA at factor costs + Net production taxes = GVA at\nbasic prices\nGVA at basic prices + Net product taxes = GVA at\nmarket prices\nTable 2.5 at the end of the chapter gives the figures for GDP (at market prices)\nand GVA at basic prices, while Table 2.6 gives the composition of GDP from\nexpenditure side."
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-economics-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "738e7eba87fc659c5133e2db18a832b1061290b216e749529487ec6bd89daae3"
+        },
+        "sections": [
+          {
+            "id": "course-ii-unit-i-national-income",
+            "slice_sha256": "be233b3fd7f91f6e17f76f1a139d2e8bbdf19f5941fa49b7419bd8c1be516e4c",
+            "text": "Unit I: Introduction and National Income Accounting \r\n\r\nPAGE 3\r\n \r\n2 | P a g e   \r\n What is macroeconomics? \r\n Basic concepts in macroeconomics:  \r\n Circular flow of income; Methods of calculating National Income - Value \r\nAdded or Product method, Expenditure method, Income method \r\n Aggregates related to National Income: \r\nFactor Cost, Basic Prices and Market Price. \r\nGDP and Welfare"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-5ebc88695dd513a8",
+      "subject": "economics",
+      "chapter": "National Income Accounting",
+      "body": "Which measure values current output at a constant set of base-year prices so that changes reflect production volume rather than current price changes?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Real GDP"
+        },
+        {
+          "key": "B",
+          "text": "GDP calculated using constant base-year prices"
+        },
+        {
+          "key": "C",
+          "text": "Nominal GDP at current prices"
+        },
+        {
+          "key": "D",
+          "text": "Consumer Price Index"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leec102-v1",
+          "version": 1,
+          "locator": "p21-c0-g1-s0",
+          "support_hash": "1e101fb345f0a04f4f224be81858104c88b2e2a4afd794c6c4d5ded8c2464344"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p21-c0-g1-s0",
+          "support_hash": "1e101fb345f0a04f4f224be81858104c88b2e2a4afd794c6c4d5ded8c2464344",
+          "text": "One implicit assumption in all this discussion is that the prices of goods and\nservices do not change during the period of our study. If prices change, then\nthere may be difficulties in comparing GDPs. If we measure the GDP of a country\nin two consecutive years and see that the figure for GDP of the latter year is\ntwice that of the previous year, we may conclude that the volume of production\nof the country has doubled. But it is possible that only prices of all goods and\nservices have doubled between the two years whereas the production has\nremained constant.\nTherefore, in order to compare the GDP figures (and other macroeconomic\nvariables) of different countries or to compare the GDP figures of the same country\nat different points of time, we cannot rely on GDPs evaluated at current market\nprices. For comparison we take the help of real GDP. Real GDP is calculated in\na way such that the goods and services are evaluated at some constant set of\nprices (or constant prices). Since these prices remain fixed, if the Real GDP\nchanges we can be sure that it is the volume of production which is undergoing\nchanges. Nominal GDP, on the other hand, is simply the value of GDP at the\ncurrent prevailing prices. For example, suppose a country only produces bread.\nIn the year 2000 it had produced 100 units of bread, price was Rs 10 per bread.\nGDP at current price was Rs 1,000. In 2001 the same country produced 110\nunits of bread at price Rs 15 per bread. Therefore nominal GDP in 2001 was Rs\n1,650 (=110 × Rs 15). Real GDP in 2001 calculated at the price of the year 2000\n(2000 will be called the base year) will be 110 × Rs 10 = Rs 1,100.\nNotice that the ratio of nominal GDP to real GDP gives us an idea of how the\nprices have moved from the base year (the year whose prices are being used to\ncalculate the real GDP) to the current year. In the calculation of real and nominal\nGDP of the current year, the volume of production is fixed. Therefore, if these\nmeasures differ it is only due to change in the price level between the base year\nand the current year. The ratio of nominal to real GDP is a well known index of"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-economics-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "738e7eba87fc659c5133e2db18a832b1061290b216e749529487ec6bd89daae3"
+        },
+        "sections": [
+          {
+            "id": "course-ii-unit-i-national-income",
+            "slice_sha256": "be233b3fd7f91f6e17f76f1a139d2e8bbdf19f5941fa49b7419bd8c1be516e4c",
+            "text": "Unit I: Introduction and National Income Accounting \r\n\r\nPAGE 3\r\n \r\n2 | P a g e   \r\n What is macroeconomics? \r\n Basic concepts in macroeconomics:  \r\n Circular flow of income; Methods of calculating National Income - Value \r\nAdded or Product method, Expenditure method, Income method \r\n Aggregates related to National Income: \r\nFactor Cost, Basic Prices and Market Price. \r\nGDP and Welfare"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-853f577c4be265be",
+      "subject": "economics",
+      "chapter": "National Income Accounting",
+      "body": "Which description matches the Consumer Price Index method stated in the source?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Express the current-year cost of a given basket as a percentage of its base-year cost."
+        },
+        {
+          "key": "B",
+          "text": "Compare the cost of the same basket in the current year with its cost in the base year, in percentage terms."
+        },
+        {
+          "key": "C",
+          "text": "Add all current-year factor incomes to obtain an aggregate output measure."
+        },
+        {
+          "key": "D",
+          "text": "Subtract intermediate goods from firms’ production to obtain value added."
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leec102-v1",
+          "version": 1,
+          "locator": "p21-c0-g1-s23",
+          "support_hash": "78ad49d6ee5d3bcdf24c2b0532c967a26c1a6f67b8ea2ea5cc2775a9f9e388b2"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p21-c0-g1-s23",
+          "support_hash": "78ad49d6ee5d3bcdf24c2b0532c967a26c1a6f67b8ea2ea5cc2775a9f9e388b2",
+          "text": "There is another way to measure change of prices in an economy which is\nknown as the Consumer Price Index (CPI). This is the index of prices of a\ngiven basket of commodities which are bought by the representative consumer.\nCPI is generally expressed in percentage terms. We have two years under\nconsideration – one is the base year, the other is the current year. We calculate\nthe cost of purchase of a given basket of commodities in the base year. We also\ncalculate the cost of purchase of the same basket in the current year. Then we\nexpress the latter as a percentage of the former. This gives us the Consumer\nPrice Index of the current year vis-´a-vis the base year. For example let us take\nan economy which produces two goods, rice and cloth. A representative\nconsumer buys 90 kg of rice and 5 pieces of cloth in a year. Suppose in the"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-economics-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "738e7eba87fc659c5133e2db18a832b1061290b216e749529487ec6bd89daae3"
+        },
+        "sections": [
+          {
+            "id": "course-ii-unit-i-national-income",
+            "slice_sha256": "be233b3fd7f91f6e17f76f1a139d2e8bbdf19f5941fa49b7419bd8c1be516e4c",
+            "text": "Unit I: Introduction and National Income Accounting \r\n\r\nPAGE 3\r\n \r\n2 | P a g e   \r\n What is macroeconomics? \r\n Basic concepts in macroeconomics:  \r\n Circular flow of income; Methods of calculating National Income - Value \r\nAdded or Product method, Expenditure method, Income method \r\n Aggregates related to National Income: \r\nFactor Cost, Basic Prices and Market Price. \r\nGDP and Welfare"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-3be97e8538ab58d3",
+      "subject": "economics",
+      "chapter": "National Income Accounting",
+      "body": "A country’s GDP rises, but the increase is concentrated among a small group while most people’s real income falls. Which conclusion is supported by the source?",
+      "options": [
+        {
+          "key": "A",
+          "text": "The GDP rise alone does not establish that welfare for the country increased."
+        },
+        {
+          "key": "B",
+          "text": "The GDP rise proves that every household’s welfare increased."
+        },
+        {
+          "key": "C",
+          "text": "The distribution of income cannot affect welfare assessment."
+        },
+        {
+          "key": "D",
+          "text": "A change in GDP necessarily means prices were unchanged."
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leec102-v1",
+          "version": 1,
+          "locator": "p22-c0-g1-s23",
+          "support_hash": "f0b9d770124c9f540bb76665ef246f93f2d4d15ef5eae63adba42062df107c7b"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p22-c0-g1-s23",
+          "support_hash": "f0b9d770124c9f540bb76665ef246f93f2d4d15ef5eae63adba42062df107c7b",
+          "text": "1. Distribution of GDP – how uniform is it: If the GDP of the country is rising,\nthe welfare may not rise as a consequence. This is because the rise in GDP may\nbe concentrated in the hands of very few individuals or firms. For the rest, the\nincome may in fact have fallen. In such a case the welfare of the entire country\ncannot be said to have increased. For example, suppose in year 2000, an\nimaginary country had 100 individuals each earning Rs 10. Therefore the GDP\nof the country was Rs 1,000 (by income method). In 2001, let us suppose the\nsame country had 90 individuals earning Rs 9 each, and the rest 10 individual\nearning Rs 20 each. Suppose there had been no change in the prices of goods\nand services between these two periods. The GDP of the country in the year 2001\nwas 90 × (Rs 9) + 10 × (Rs 20) = Rs 810 + Rs 200 = Rs 1,010. Observe that"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-economics-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "738e7eba87fc659c5133e2db18a832b1061290b216e749529487ec6bd89daae3"
+        },
+        "sections": [
+          {
+            "id": "course-ii-unit-i-national-income",
+            "slice_sha256": "be233b3fd7f91f6e17f76f1a139d2e8bbdf19f5941fa49b7419bd8c1be516e4c",
+            "text": "Unit I: Introduction and National Income Accounting \r\n\r\nPAGE 3\r\n \r\n2 | P a g e   \r\n What is macroeconomics? \r\n Basic concepts in macroeconomics:  \r\n Circular flow of income; Methods of calculating National Income - Value \r\nAdded or Product method, Expenditure method, Income method \r\n Aggregates related to National Income: \r\nFactor Cost, Basic Prices and Market Price. \r\nGDP and Welfare"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-6f1e3ff6f49e79fb",
+      "subject": "economics",
+      "chapter": "National Income Accounting",
+      "body": "GVA at factor cost is ₹200 crore, net production taxes are ₹8 crore, and net product taxes are ₹12 crore. What is GVA at market prices?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹220 crore"
+        },
+        {
+          "key": "B",
+          "text": "₹208 crore"
+        },
+        {
+          "key": "C",
+          "text": "₹212 crore"
+        },
+        {
+          "key": "D",
+          "text": "₹200 crore"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncertcol-leec102-v1",
+          "version": 1,
+          "locator": "p16-c0-g5-s23",
+          "support_hash": "f89c6fef782e30ce0e10cf8972e488a480fa109b63655d87a20e2ec62b82aa8b"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p16-c0-g5-s23",
+          "support_hash": "f89c6fef782e30ce0e10cf8972e488a480fa109b63655d87a20e2ec62b82aa8b",
+          "text": "GVA at factor costs + Net production taxes = GVA at\nbasic prices\nGVA at basic prices + Net product taxes = GVA at\nmarket prices\nTable 2.5 at the end of the chapter gives the figures for GDP (at market prices)\nand GVA at basic prices, while Table 2.6 gives the composition of GDP from\nexpenditure side."
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-economics-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "738e7eba87fc659c5133e2db18a832b1061290b216e749529487ec6bd89daae3"
+        },
+        "sections": [
+          {
+            "id": "course-ii-unit-i-national-income",
+            "slice_sha256": "be233b3fd7f91f6e17f76f1a139d2e8bbdf19f5941fa49b7419bd8c1be516e4c",
+            "text": "Unit I: Introduction and National Income Accounting \r\n\r\nPAGE 3\r\n \r\n2 | P a g e   \r\n What is macroeconomics? \r\n Basic concepts in macroeconomics:  \r\n Circular flow of income; Methods of calculating National Income - Value \r\nAdded or Product method, Expenditure method, Income method \r\n Aggregates related to National Income: \r\nFactor Cost, Basic Prices and Market Price. \r\nGDP and Welfare"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-419b7ee0261018ff",
+      "subject": "english",
+      "chapter": "Vocabulary: Choosing the Correct Word",
+      "body": "After two prototypes failed, Mara continued testing revised designs through several rounds. She rejected a quick launch because the evidence was incomplete, then stayed with the testing plan until the device worked. The team described her as _____.",
+      "options": [
+        {
+          "key": "A",
+          "text": "resolute"
+        },
+        {
+          "key": "B",
+          "text": "hostile"
+        },
+        {
+          "key": "C",
+          "text": "sparse"
+        },
+        {
+          "key": "D",
+          "text": "tranquil"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "oxford-quality-resolute",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+        },
+        {
+          "id": "oxford-quality-hostile",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+        },
+        {
+          "id": "oxford-quality-sparse",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+        },
+        {
+          "id": "oxford-quality-tranquil",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "oxford-quality-resolute",
+          "locator": "definition",
+          "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c",
+          "text": "strong and determined"
+        },
+        {
+          "source_id": "oxford-quality-hostile",
+          "locator": "definition",
+          "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913",
+          "text": "aggressive or unfriendly and ready to argue or fight"
+        },
+        {
+          "source_id": "oxford-quality-sparse",
+          "locator": "definition",
+          "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205",
+          "text": "only present in small amounts or numbers and often spread over a large area"
+        },
+        {
+          "source_id": "oxford-quality-tranquil",
+          "locator": "definition",
+          "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d",
+          "text": "quiet and peaceful"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        },
+        "sections": [
+          {
+            "id": "reading-and-verbal-ability",
+            "slice_sha256": "82cffe71e5836545de6e33dab64c69e05de0e1cf6892c74fee8d198baa74cc41",
+            "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-7592ddeaa52f6909",
+      "subject": "english",
+      "chapter": "Vocabulary: Choosing the Correct Word",
+      "body": "Each evening, Arun checks every entry against the receipt, dates the record, and follows up on any missing figure before closing the register. His supervisor calls him a _____ record-keeper.",
+      "options": [
+        {
+          "key": "A",
+          "text": "diligent"
+        },
+        {
+          "key": "B",
+          "text": "obsolete"
+        },
+        {
+          "key": "C",
+          "text": "hostile"
+        },
+        {
+          "key": "D",
+          "text": "tranquil"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "oxford-quality-diligent",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+        },
+        {
+          "id": "oxford-quality-obsolete",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+        },
+        {
+          "id": "oxford-quality-hostile",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+        },
+        {
+          "id": "oxford-quality-tranquil",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "oxford-quality-diligent",
+          "locator": "definition",
+          "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703",
+          "text": "showing care and effort in your work or duties"
+        },
+        {
+          "source_id": "oxford-quality-obsolete",
+          "locator": "definition",
+          "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea",
+          "text": "no longer used because something new has been invented"
+        },
+        {
+          "source_id": "oxford-quality-hostile",
+          "locator": "definition",
+          "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913",
+          "text": "aggressive or unfriendly and ready to argue or fight"
+        },
+        {
+          "source_id": "oxford-quality-tranquil",
+          "locator": "definition",
+          "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d",
+          "text": "quiet and peaceful"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        },
+        "sections": [
+          {
+            "id": "reading-and-verbal-ability",
+            "slice_sha256": "82cffe71e5836545de6e33dab64c69e05de0e1cf6892c74fee8d198baa74cc41",
+            "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-28226e4420eeddce",
+      "subject": "english",
+      "chapter": "Vocabulary: Choosing the Correct Word",
+      "body": "The visiting team was met with insults, angry challenges, and threats of an argument from the spectators. The report described the reception as _____.",
+      "options": [
+        {
+          "key": "A",
+          "text": "hostile"
+        },
+        {
+          "key": "B",
+          "text": "coherent"
+        },
+        {
+          "key": "C",
+          "text": "sparse"
+        },
+        {
+          "key": "D",
+          "text": "resolute"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "oxford-quality-hostile",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+        },
+        {
+          "id": "oxford-quality-coherent",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327"
+        },
+        {
+          "id": "oxford-quality-sparse",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+        },
+        {
+          "id": "oxford-quality-resolute",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "oxford-quality-hostile",
+          "locator": "definition",
+          "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913",
+          "text": "aggressive or unfriendly and ready to argue or fight"
+        },
+        {
+          "source_id": "oxford-quality-coherent",
+          "locator": "definition",
+          "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327",
+          "text": "logical and well organized; easy to understand and clear"
+        },
+        {
+          "source_id": "oxford-quality-sparse",
+          "locator": "definition",
+          "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205",
+          "text": "only present in small amounts or numbers and often spread over a large area"
+        },
+        {
+          "source_id": "oxford-quality-resolute",
+          "locator": "definition",
+          "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c",
+          "text": "strong and determined"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        },
+        "sections": [
+          {
+            "id": "reading-and-verbal-ability",
+            "slice_sha256": "82cffe71e5836545de6e33dab64c69e05de0e1cf6892c74fee8d198baa74cc41",
+            "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-6daa3abcf06799cc",
+      "subject": "english",
+      "chapter": "Vocabulary: Choosing the Correct Word",
+      "body": "A field survey covered twelve locations, but the notebook contained observations from only two; several pages had no entries at all. The recorded observations were _____.",
+      "options": [
+        {
+          "key": "A",
+          "text": "sparse"
+        },
+        {
+          "key": "B",
+          "text": "meticulous"
+        },
+        {
+          "key": "C",
+          "text": "tranquil"
+        },
+        {
+          "key": "D",
+          "text": "obsolete"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "oxford-quality-sparse",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+        },
+        {
+          "id": "oxford-quality-meticulous",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "58600bc680a564b067d2a390dbd57c607ff98cb61a7c6e8f71a006c10da46609"
+        },
+        {
+          "id": "oxford-quality-tranquil",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+        },
+        {
+          "id": "oxford-quality-obsolete",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "oxford-quality-sparse",
+          "locator": "definition",
+          "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205",
+          "text": "only present in small amounts or numbers and often spread over a large area"
+        },
+        {
+          "source_id": "oxford-quality-meticulous",
+          "locator": "definition",
+          "support_hash": "58600bc680a564b067d2a390dbd57c607ff98cb61a7c6e8f71a006c10da46609",
+          "text": "paying careful attention to every detail"
+        },
+        {
+          "source_id": "oxford-quality-tranquil",
+          "locator": "definition",
+          "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d",
+          "text": "quiet and peaceful"
+        },
+        {
+          "source_id": "oxford-quality-obsolete",
+          "locator": "definition",
+          "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea",
+          "text": "no longer used because something new has been invented"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        },
+        "sections": [
+          {
+            "id": "reading-and-verbal-ability",
+            "slice_sha256": "82cffe71e5836545de6e33dab64c69e05de0e1cf6892c74fee8d198baa74cc41",
+            "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-1ff07befd37dfc44",
+      "subject": "english",
+      "chapter": "Vocabulary: Choosing the Correct Word",
+      "body": "The archive replaced its old storage reader with a newer system. The reader no longer works with current files, and staff stopped using it after the replacement arrived. The device is now _____.",
+      "options": [
+        {
+          "key": "A",
+          "text": "obsolete"
+        },
+        {
+          "key": "B",
+          "text": "diligent"
+        },
+        {
+          "key": "C",
+          "text": "hostile"
+        },
+        {
+          "key": "D",
+          "text": "coherent"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "oxford-quality-obsolete",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+        },
+        {
+          "id": "oxford-quality-diligent",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+        },
+        {
+          "id": "oxford-quality-hostile",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+        },
+        {
+          "id": "oxford-quality-coherent",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "oxford-quality-obsolete",
+          "locator": "definition",
+          "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea",
+          "text": "no longer used because something new has been invented"
+        },
+        {
+          "source_id": "oxford-quality-diligent",
+          "locator": "definition",
+          "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703",
+          "text": "showing care and effort in your work or duties"
+        },
+        {
+          "source_id": "oxford-quality-hostile",
+          "locator": "definition",
+          "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913",
+          "text": "aggressive or unfriendly and ready to argue or fight"
+        },
+        {
+          "source_id": "oxford-quality-coherent",
+          "locator": "definition",
+          "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327",
+          "text": "logical and well organized; easy to understand and clear"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        },
+        "sections": [
+          {
+            "id": "reading-and-verbal-ability",
+            "slice_sha256": "82cffe71e5836545de6e33dab64c69e05de0e1cf6892c74fee8d198baa74cc41",
+            "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-0eca5e8ab7a5864c",
+      "subject": "english",
+      "chapter": "Vocabulary: Choosing the Correct Word",
+      "body": "The editor reviewed the figures carefully, checking each small detail before approving the report. Which word best describes the editor?",
+      "options": [
+        {
+          "key": "A",
+          "text": "meticulous"
+        },
+        {
+          "key": "B",
+          "text": "careful about every detail"
+        },
+        {
+          "key": "C",
+          "text": "hostile"
+        },
+        {
+          "key": "D",
+          "text": "tranquil"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "oxford-quality-meticulous",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "58600bc680a564b067d2a390dbd57c607ff98cb61a7c6e8f71a006c10da46609"
+        },
+        {
+          "id": "oxford-quality-hostile",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+        },
+        {
+          "id": "oxford-quality-tranquil",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+        },
+        {
+          "id": "oxford-quality-diligent",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "oxford-quality-meticulous",
+          "locator": "definition",
+          "support_hash": "58600bc680a564b067d2a390dbd57c607ff98cb61a7c6e8f71a006c10da46609",
+          "text": "paying careful attention to every detail"
+        },
+        {
+          "source_id": "oxford-quality-hostile",
+          "locator": "definition",
+          "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913",
+          "text": "aggressive or unfriendly and ready to argue or fight"
+        },
+        {
+          "source_id": "oxford-quality-tranquil",
+          "locator": "definition",
+          "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d",
+          "text": "quiet and peaceful"
+        },
+        {
+          "source_id": "oxford-quality-diligent",
+          "locator": "definition",
+          "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703",
+          "text": "showing care and effort in your work or duties"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        },
+        "sections": [
+          {
+            "id": "reading-and-verbal-ability",
+            "slice_sha256": "82cffe71e5836545de6e33dab64c69e05de0e1cf6892c74fee8d198baa74cc41",
+            "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-00f9f4550aafda58",
+      "subject": "english",
+      "chapter": "Vocabulary: Choosing the Correct Word",
+      "body": "The expedition required long hours of climbing over steep ground, repeated equipment checks, and sustained physical effort across several days. The route was _____.",
+      "options": [
+        {
+          "key": "A",
+          "text": "arduous"
+        },
+        {
+          "key": "B",
+          "text": "coherent"
+        },
+        {
+          "key": "C",
+          "text": "tranquil"
+        },
+        {
+          "key": "D",
+          "text": "resolute"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "oxford-quality-arduous",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "bfa88982859e52dc8664cc27b0bac1e4c7e9e8da61ee364e17cf23a83a46188b"
+        },
+        {
+          "id": "oxford-quality-coherent",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327"
+        },
+        {
+          "id": "oxford-quality-tranquil",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+        },
+        {
+          "id": "oxford-quality-resolute",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "oxford-quality-arduous",
+          "locator": "definition",
+          "support_hash": "bfa88982859e52dc8664cc27b0bac1e4c7e9e8da61ee364e17cf23a83a46188b",
+          "text": "involving a lot of effort and energy, especially over a period of time"
+        },
+        {
+          "source_id": "oxford-quality-coherent",
+          "locator": "definition",
+          "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327",
+          "text": "logical and well organized; easy to understand and clear"
+        },
+        {
+          "source_id": "oxford-quality-tranquil",
+          "locator": "definition",
+          "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d",
+          "text": "quiet and peaceful"
+        },
+        {
+          "source_id": "oxford-quality-resolute",
+          "locator": "definition",
+          "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c",
+          "text": "strong and determined"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        },
+        "sections": [
+          {
+            "id": "reading-and-verbal-ability",
+            "slice_sha256": "82cffe71e5836545de6e33dab64c69e05de0e1cf6892c74fee8d198baa74cc41",
+            "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-108d625c1c025fc0",
+      "subject": "english",
+      "chapter": "Vocabulary: Choosing the Correct Word",
+      "body": "A committee combined four short notes into one statement. It placed related points together, used clear links between them, and removed sentences that did not follow from the central point. The final statement was _____.",
+      "options": [
+        {
+          "key": "A",
+          "text": "coherent"
+        },
+        {
+          "key": "B",
+          "text": "obsolete"
+        },
+        {
+          "key": "C",
+          "text": "hostile"
+        },
+        {
+          "key": "D",
+          "text": "sparse"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "oxford-quality-coherent",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327"
+        },
+        {
+          "id": "oxford-quality-obsolete",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+        },
+        {
+          "id": "oxford-quality-hostile",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+        },
+        {
+          "id": "oxford-quality-sparse",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "oxford-quality-coherent",
+          "locator": "definition",
+          "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327",
+          "text": "logical and well organized; easy to understand and clear"
+        },
+        {
+          "source_id": "oxford-quality-obsolete",
+          "locator": "definition",
+          "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea",
+          "text": "no longer used because something new has been invented"
+        },
+        {
+          "source_id": "oxford-quality-hostile",
+          "locator": "definition",
+          "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913",
+          "text": "aggressive or unfriendly and ready to argue or fight"
+        },
+        {
+          "source_id": "oxford-quality-sparse",
+          "locator": "definition",
+          "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205",
+          "text": "only present in small amounts or numbers and often spread over a large area"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        },
+        "sections": [
+          {
+            "id": "reading-and-verbal-ability",
+            "slice_sha256": "82cffe71e5836545de6e33dab64c69e05de0e1cf6892c74fee8d198baa74cc41",
+            "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms"
+          }
+        ]
+      }
+    },
+    {
+      "opaque_id": "b-e63e7defbe127cec",
+      "subject": "english",
+      "chapter": "Vocabulary: Choosing the Correct Word",
+      "body": "The courtyard was quiet and peaceful after the visitors had left. Which word best describes it?",
+      "options": [
+        {
+          "key": "A",
+          "text": "tranquil"
+        },
+        {
+          "key": "B",
+          "text": "calm and peaceful"
+        },
+        {
+          "key": "C",
+          "text": "hostile"
+        },
+        {
+          "key": "D",
+          "text": "arduous"
+        }
+      ],
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "oxford-quality-tranquil",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+        },
+        {
+          "id": "oxford-quality-hostile",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+        },
+        {
+          "id": "oxford-quality-arduous",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "bfa88982859e52dc8664cc27b0bac1e4c7e9e8da61ee364e17cf23a83a46188b"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "oxford-quality-tranquil",
+          "locator": "definition",
+          "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d",
+          "text": "quiet and peaceful"
+        },
+        {
+          "source_id": "oxford-quality-hostile",
+          "locator": "definition",
+          "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913",
+          "text": "aggressive or unfriendly and ready to argue or fight"
+        },
+        {
+          "source_id": "oxford-quality-arduous",
+          "locator": "definition",
+          "support_hash": "bfa88982859e52dc8664cc27b0bac1e4c7e9e8da61ee364e17cf23a83a46188b",
+          "text": "involving a lot of effort and energy, especially over a period of time"
+        }
+      ],
+      "syllabus": {
+        "source_ref": {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        },
+        "sections": [
+          {
+            "id": "reading-and-verbal-ability",
+            "slice_sha256": "82cffe71e5836545de6e33dab64c69e05de0e1cf6892c74fee8d198baa74cc41",
+            "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms"
+          }
+        ]
+      }
+    }
+  ]
+}

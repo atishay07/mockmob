@@ -9,7 +9,7 @@ import { writeFileSync, mkdirSync } from 'node:fs';
 const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
 const system = 'You are a CUET Accountancy tutor. Reply with one JSON object: {"reply": string} under 40 words.';
 const user = 'In one sentence: what is a sacrificing ratio?';
-const targets = [[process.env.AI_FAST_PROVIDER, process.env.AI_FAST_MODEL], [process.env.AI_DEFAULT_PROVIDER, process.env.AI_SMART_MODEL], [process.env.AI_FALLBACK_PROVIDER, process.env.AI_FALLBACK_MODEL]];
+const targets = [['openai', process.env.AI_LUNA_MODEL || 'gpt-6-luna']];
 const results = [];
 for (const [provider, model] of targets) {
   const key = `smoke:${model}:${randomUUID()}`; const maxTokens = 200;

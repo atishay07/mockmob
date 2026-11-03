@@ -1,0 +1,987 @@
+[
+  {
+    "url": "https://ug.preparoo.app/",
+    "width": 390,
+    "headings": [
+      {
+        "text": "Ace",
+        "y": 80
+      },
+      {
+        "text": "the CU",
+        "y": 80
+      },
+      {
+        "text": "",
+        "y": 0
+      },
+      {
+        "text": "Make the CUET feel simple",
+        "y": 843
+      },
+      {
+        "text": "cerebral",
+        "y": 1303
+      },
+      {
+        "text": "Ask Preparoo",
+        "y": 2008
+      },
+      {
+        "text": "Pricing",
+        "y": 3435
+      },
+      {
+        "text": "CUET All Access",
+        "y": 3545
+      },
+      {
+        "text": "CUET + IPMAT All Access",
+        "y": 4470
+      },
+      {
+        "text": "IPMAT All Access",
+        "y": 0
+      },
+      {
+        "text": "CUET + IPMAT All Access",
+        "y": 0
+      },
+      {
+        "text": "CUET",
+        "y": 0
+      },
+      {
+        "text": "IPMAT Indore",
+        "y": 0
+      },
+      {
+        "text": "IPMAT Rohtak",
+        "y": 0
+      },
+      {
+        "text": "JIPMAT",
+        "y": 0
+      },
+      {
+        "text": "Select CUET Subjects",
+        "y": 0
+      },
+      {
+        "text": "Choose your CUET subject",
+        "y": 0
+      },
+      {
+        "text": "Payment Successful",
+        "y": 0
+      },
+      {
+        "text": "Payment Issue",
+        "y": 0
+      },
+      {
+        "text": "FAQ",
+        "y": 5707
+      },
+      {
+        "text": "Answered questions.",
+        "y": 5734
+      },
+      {
+        "text": "Join our newsletter",
+        "y": 6254
+      },
+      {
+        "text": "Ace the CUET & IPMAT with Preparoo",
+        "y": 6654
+      }
+    ],
+    "initial": {
+      "width": 390,
+      "overflow": 0,
+      "height": 7121,
+      "images": [
+        {
+          "src": "https://ug.preparoo.app/images/preparoo-logo-white-hd.png",
+          "width": 499,
+          "height": 353,
+          "naturalWidth": 499
+        },
+        {
+          "src": "https://ug.preparoo.app/images/mask-p-500.png",
+          "width": 1918,
+          "height": 246,
+          "naturalWidth": 390
+        },
+        {
+          "src": "https://ug.preparoo.app/images/preparoo-logo-black-hd.png",
+          "width": 34,
+          "height": 24,
+          "naturalWidth": 499
+        },
+        {
+          "src": "",
+          "width": 0,
+          "height": 0,
+          "naturalWidth": 0
+        },
+        {
+          "src": "",
+          "width": 0,
+          "height": 0,
+          "naturalWidth": 0
+        },
+        {
+          "src": "",
+          "width": 0,
+          "height": 0,
+          "naturalWidth": 0
+        },
+        {
+          "src": "https://ug.preparoo.app/images/v2_dark_bg_mobile.webp",
+          "width": 366,
+          "height": 620,
+          "naturalWidth": 1536
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-progress.png",
+          "width": 48,
+          "height": 48,
+          "naturalWidth": 195
+        },
+        {
+          "src": "https://ug.preparoo.app/images/preparoo-logo-white-hd.png",
+          "width": 499,
+          "height": 353,
+          "naturalWidth": 499
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-progress.png",
+          "width": 195,
+          "height": 200,
+          "naturalWidth": 195
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-planning.png",
+          "width": 200,
+          "height": 200,
+          "naturalWidth": 200
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-concepts.png",
+          "width": 200,
+          "height": 200,
+          "naturalWidth": 200
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-next-steps.png",
+          "width": 195,
+          "height": 200,
+          "naturalWidth": 195
+        },
+        {
+          "src": "https://ug.preparoo.app/images/preparoo-logo-white-hd.png",
+          "width": 499,
+          "height": 353,
+          "naturalWidth": 499
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-concepts.png",
+          "width": 200,
+          "height": 200,
+          "naturalWidth": 200
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-concepts.png",
+          "width": 48,
+          "height": 48,
+          "naturalWidth": 200
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-planning.png",
+          "width": 48,
+          "height": 48,
+          "naturalWidth": 200
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-next-steps.png",
+          "width": 48,
+          "height": 48,
+          "naturalWidth": 195
+        },
+        {
+          "src": "https://ug.preparoo.app/images/faq-desk-v1.webp",
+          "width": 1200,
+          "height": 1490,
+          "naturalWidth": 1200
+        },
+        {
+          "src": "",
+          "width": 0,
+          "height": 0,
+          "naturalWidth": 0
+        },
+        {
+          "src": "",
+          "width": 0,
+          "height": 0,
+          "naturalWidth": 0
+        },
+        {
+          "src": "",
+          "width": 0,
+          "height": 0,
+          "naturalWidth": 0
+        },
+        {
+          "src": "",
+          "width": 0,
+          "height": 0,
+          "naturalWidth": 0
+        }
+      ],
+      "blur": [
+        {
+          "tag": "DIV",
+          "cls": "menu_bg-blur",
+          "filter": "blur(15px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-1",
+          "filter": "blur(16px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-2",
+          "filter": "blur(8px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-3",
+          "filter": "blur(4px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-4",
+          "filter": "blur(2px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-5",
+          "filter": "blur(1px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-6",
+          "filter": "blur(0.5px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-7",
+          "filter": "blur(0.25px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-8",
+          "filter": "blur(0.125px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-9",
+          "filter": "blur(0.0625px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-10",
+          "filter": "blur(0.03125px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "home-header_contact-infos",
+          "filter": "blur(12px)"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "tf-scroll-arrow tf-scroll-up",
+          "filter": "blur(4px)"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "tf-scroll-arrow tf-scroll-down",
+          "filter": "blur(4px)"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "tf-scroll-arrow tf-scroll-up",
+          "filter": "blur(4px)"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "tf-scroll-arrow tf-scroll-down",
+          "filter": "blur(4px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "",
+          "filter": "blur(3px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "pricing_block",
+          "filter": "blur(6px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "pricing_block",
+          "filter": "blur(6px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "pricing_block",
+          "filter": "blur(6px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "pricing_block",
+          "filter": "blur(6px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "pricing_block",
+          "filter": "blur(6px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "pricing_block",
+          "filter": "blur(6px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "pricing_block",
+          "filter": "blur(6px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "pricing_block",
+          "filter": "blur(6px)"
+        }
+      ]
+    },
+    "samples": [
+      {
+        "y": 780,
+        "heading": [
+          "Make the CUET feel simple",
+          "cerebral"
+        ]
+      },
+      {
+        "y": 1560,
+        "heading": [
+          "Ask Preparoo"
+        ]
+      },
+      {
+        "y": 2340,
+        "heading": []
+      },
+      {
+        "y": 3120,
+        "heading": [
+          "Pricing",
+          "CUET All Access"
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
+        "type": "text/css; charset=utf-8"
+      },
+      {
+        "url": "https://ug.preparoo.app/styles/navbar-tests.css",
+        "type": "text/css; charset=UTF-8"
+      },
+      {
+        "url": "https://ug.preparoo.app/css/preparoo.ef0833b7b.css",
+        "type": "text/css; charset=UTF-8"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/v2_dark_bg_mobile.webp",
+        "type": "image/webp"
+      },
+      {
+        "url": "https://ug.preparoo.app/css/nav-pricing.css",
+        "type": "text/css; charset=UTF-8"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/preparoo-logo-white-hd.png",
+        "type": "image/png"
+      },
+      {
+        "url": "https://ug.preparoo.app/styles/katex.min.css",
+        "type": "text/css; charset=UTF-8"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/preparoo-logo-white.png",
+        "type": "image/png"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/char-progress.png",
+        "type": "image/png"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/bdogrotesk-vf.ttf",
+        "type": "font/ttf"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/char-planning.png",
+        "type": "image/png"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/char-concepts.png",
+        "type": "image/png"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/faq-desk-v1.webp",
+        "type": "image/webp"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/char-next-steps.png",
+        "type": "image/png"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/preparoo-logo-black-hd.png",
+        "type": "image/png"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/mask-p-500.png",
+        "type": "image/png"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/pixel-201_white.svg",
+        "type": "image/svg+xml"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/robotomono-variablefont_wght.woff2",
+        "type": "font/woff2"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/intervariable.woff2",
+        "type": "font/woff2"
+      },
+      {
+        "url": "https://checkout-static-next.razorpay.com/build/chunks/v2.1e5f5bca.33524.css",
+        "type": "text/css"
+      },
+      {
+        "url": "https://www.google.com/pagead/1p-user-list/17984536135/?random=1791062919209&cv=11&fst=1791061200000&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45be69u2h1v9245078036za200zd9245078036xecxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118131808~118897920~118897930~120213116~120385423~120469145~120469153~121046263~121046271~121246026~121246034&u_w=390&u_h=844&url=https%3A%2F%2Fug.preparoo.app%2F&rcb=17&frm=0&tiba=Preparoo%20-%20Comprehensive%20Mocks%20for%20CUET%2C%20IPMAT&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=2112010860.1791062919&uaa=x86&uab=64&uafvl=Chromium%3B154.0.8037.97%7CGoogle%2520Chrome%3B154.0.8037.97%7CNot%2520A(Brand%3B99.0.0.0&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&ept=9&rfmt=3&fmt=3&is_vtc=1&cid=CAQS1AEAQM4h3AZmzfdi5ICW9t6sU6z6GVBjXlOS0vjTsLjuI42IpTbIBzYozFaxh0p5Fi1wE3DlWcmMYgErrwOvlyX010xU5_nrAuY4i4ExejzDnj_RaWdo80NkIq21MxK46PA-PWLdljDBVqjyMOUNnCiiyPwED8v11e3tmjmmkYWNwDX7E36UiD-9uzZkSa6y_FQAm5Y112m4Yh0G8yqFdAl3bFeh8WHn8ObdsrktvR40jRQOpFauKDiKIl9oef2_lCdEmYGpBUa8smXlMPnSuCoLaPCr3A&random=2901196199&rmt_tld=0&ipr=y",
+        "type": "image/gif"
+      },
+      {
+        "url": "https://www.google.co.in/pagead/1p-user-list/17984536135/?random=1791062919209&cv=11&fst=1791061200000&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45be69u2h1v9245078036za200zd9245078036xecxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115938466~115938469~118131808~118897920~118897930~120213116~120385423~120469145~120469153~121046263~121046271~121246026~121246034&u_w=390&u_h=844&url=https%3A%2F%2Fug.preparoo.app%2F&rcb=17&frm=0&tiba=Preparoo%20-%20Comprehensive%20Mocks%20for%20CUET%2C%20IPMAT&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=2112010860.1791062919&uaa=x86&uab=64&uafvl=Chromium%3B154.0.8037.97%7CGoogle%2520Chrome%3B154.0.8037.97%7CNot%2520A(Brand%3B99.0.0.0&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&ept=9&rfmt=3&fmt=3&is_vtc=1&cid=CAQS1AEAQM4h3AZmzfdi5ICW9t6sU6z6GVBjXlOS0vjTsLjuI42IpTbIBzYozFaxh0p5Fi1wE3DlWcmMYgErrwOvlyX010xU5_nrAuY4i4ExejzDnj_RaWdo80NkIq21MxK46PA-PWLdljDBVqjyMOUNnCiiyPwED8v11e3tmjmmkYWNwDX7E36UiD-9uzZkSa6y_FQAm5Y112m4Yh0G8yqFdAl3bFeh8WHn8ObdsrktvR40jRQOpFauKDiKIl9oef2_lCdEmYGpBUa8smXlMPnSuCoLaPCr3A&random=2901196199&rmt_tld=1&ipr=y",
+        "type": "image/gif"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/preparoo-favicon.png",
+        "type": "image/png"
+      }
+    ],
+    "errors": []
+  },
+  {
+    "url": "https://ug.preparoo.app/",
+    "width": 1280,
+    "headings": [
+      {
+        "text": "Ace",
+        "y": 96
+      },
+      {
+        "text": "the C",
+        "y": 96
+      },
+      {
+        "text": "",
+        "y": 0
+      },
+      {
+        "text": "Make the CUET feel simple",
+        "y": 972
+      },
+      {
+        "text": "cerebral",
+        "y": 1391
+      },
+      {
+        "text": "Ask Preparoo",
+        "y": 1975
+      },
+      {
+        "text": "Pricing",
+        "y": 3166
+      },
+      {
+        "text": "CUET All Access",
+        "y": 3334
+      },
+      {
+        "text": "CUET + IPMAT All Access",
+        "y": 3334
+      },
+      {
+        "text": "IPMAT All Access",
+        "y": 0
+      },
+      {
+        "text": "CUET + IPMAT All Access",
+        "y": 0
+      },
+      {
+        "text": "CUET",
+        "y": 0
+      },
+      {
+        "text": "IPMAT Indore",
+        "y": 0
+      },
+      {
+        "text": "IPMAT Rohtak",
+        "y": 0
+      },
+      {
+        "text": "JIPMAT",
+        "y": 0
+      },
+      {
+        "text": "Select CUET Subjects",
+        "y": 0
+      },
+      {
+        "text": "Choose your CUET subject",
+        "y": 0
+      },
+      {
+        "text": "Payment Successful",
+        "y": 0
+      },
+      {
+        "text": "Payment Issue",
+        "y": 0
+      },
+      {
+        "text": "FAQ",
+        "y": 4592
+      },
+      {
+        "text": "Answered questions.",
+        "y": 4621
+      },
+      {
+        "text": "Join our newsletter",
+        "y": 5363
+      },
+      {
+        "text": "Ace the CUET & IPMAT with Preparoo",
+        "y": 5877
+      }
+    ],
+    "initial": {
+      "width": 1280,
+      "overflow": 0,
+      "height": 6564,
+      "images": [
+        {
+          "src": "https://ug.preparoo.app/images/preparoo-logo-white-hd.png",
+          "width": 499,
+          "height": 353,
+          "naturalWidth": 499
+        },
+        {
+          "src": "https://ug.preparoo.app/images/mask-p-1600.png",
+          "width": 1918,
+          "height": 246,
+          "naturalWidth": 1280
+        },
+        {
+          "src": "https://ug.preparoo.app/images/preparoo-logo-black-hd.png",
+          "width": 34,
+          "height": 24,
+          "naturalWidth": 499
+        },
+        {
+          "src": "",
+          "width": 0,
+          "height": 0,
+          "naturalWidth": 0
+        },
+        {
+          "src": "",
+          "width": 0,
+          "height": 0,
+          "naturalWidth": 0
+        },
+        {
+          "src": "",
+          "width": 0,
+          "height": 0,
+          "naturalWidth": 0
+        },
+        {
+          "src": "https://ug.preparoo.app/images/v2_dark_bg.webp",
+          "width": 1256,
+          "height": 593,
+          "naturalWidth": 1824
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-progress.png",
+          "width": 48,
+          "height": 48,
+          "naturalWidth": 195
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-concepts.png",
+          "width": 48,
+          "height": 48,
+          "naturalWidth": 200
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-planning.png",
+          "width": 48,
+          "height": 48,
+          "naturalWidth": 200
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-next-steps.png",
+          "width": 48,
+          "height": 48,
+          "naturalWidth": 195
+        },
+        {
+          "src": "https://ug.preparoo.app/images/preparoo-logo-white-hd.png",
+          "width": 499,
+          "height": 353,
+          "naturalWidth": 499
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-progress.png",
+          "width": 195,
+          "height": 200,
+          "naturalWidth": 195
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-planning.png",
+          "width": 200,
+          "height": 200,
+          "naturalWidth": 200
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-concepts.png",
+          "width": 200,
+          "height": 200,
+          "naturalWidth": 200
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-next-steps.png",
+          "width": 195,
+          "height": 200,
+          "naturalWidth": 195
+        },
+        {
+          "src": "https://ug.preparoo.app/images/preparoo-logo-white-hd.png",
+          "width": 499,
+          "height": 353,
+          "naturalWidth": 499
+        },
+        {
+          "src": "https://ug.preparoo.app/images/char-concepts.png",
+          "width": 200,
+          "height": 200,
+          "naturalWidth": 200
+        },
+        {
+          "src": "https://ug.preparoo.app/images/faq-desk-v1.webp",
+          "width": 560,
+          "height": 675,
+          "naturalWidth": 1200
+        },
+        {
+          "src": "",
+          "width": 0,
+          "height": 0,
+          "naturalWidth": 0
+        },
+        {
+          "src": "",
+          "width": 0,
+          "height": 0,
+          "naturalWidth": 0
+        },
+        {
+          "src": "",
+          "width": 0,
+          "height": 0,
+          "naturalWidth": 0
+        },
+        {
+          "src": "",
+          "width": 0,
+          "height": 0,
+          "naturalWidth": 0
+        }
+      ],
+      "blur": [
+        {
+          "tag": "DIV",
+          "cls": "menu_bg-blur",
+          "filter": "blur(15px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-1",
+          "filter": "blur(16px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-2",
+          "filter": "blur(8px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-3",
+          "filter": "blur(4px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-4",
+          "filter": "blur(2px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-5",
+          "filter": "blur(1px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-6",
+          "filter": "blur(0.5px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-7",
+          "filter": "blur(0.25px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-8",
+          "filter": "blur(0.125px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-9",
+          "filter": "blur(0.0625px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "progressive-blur_panel is-10",
+          "filter": "blur(0.03125px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "home-header_contact-infos",
+          "filter": "blur(20px)"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "tf-scroll-arrow tf-scroll-up",
+          "filter": "blur(4px)"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "tf-scroll-arrow tf-scroll-down",
+          "filter": "blur(4px)"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "tf-scroll-arrow tf-scroll-up",
+          "filter": "blur(4px)"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "tf-scroll-arrow tf-scroll-down",
+          "filter": "blur(4px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "",
+          "filter": "blur(3px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "pricing_block",
+          "filter": "blur(15px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "pricing_block",
+          "filter": "blur(15px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "pricing_block",
+          "filter": "blur(15px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "pricing_block",
+          "filter": "blur(15px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "pricing_block",
+          "filter": "blur(15px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "pricing_block",
+          "filter": "blur(15px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "pricing_block",
+          "filter": "blur(15px)"
+        },
+        {
+          "tag": "DIV",
+          "cls": "pricing_block",
+          "filter": "blur(15px)"
+        }
+      ]
+    },
+    "samples": [
+      {
+        "y": 780,
+        "heading": [
+          "Make the CUET feel simple",
+          "cerebral"
+        ]
+      },
+      {
+        "y": 1560,
+        "heading": [
+          "Ask Preparoo"
+        ]
+      },
+      {
+        "y": 2340,
+        "heading": [
+          "Pricing"
+        ]
+      },
+      {
+        "y": 3120,
+        "heading": [
+          "Pricing",
+          "CUET All Access",
+          "CUET + IPMAT All Access"
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
+        "type": "text/css; charset=utf-8"
+      },
+      {
+        "url": "https://ug.preparoo.app/css/preparoo.ef0833b7b.css",
+        "type": "text/css; charset=UTF-8"
+      },
+      {
+        "url": "https://ug.preparoo.app/styles/navbar-tests.css",
+        "type": "text/css; charset=UTF-8"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/preparoo-logo-white.png",
+        "type": "image/png"
+      },
+      {
+        "url": "https://ug.preparoo.app/styles/katex.min.css",
+        "type": "text/css; charset=UTF-8"
+      },
+      {
+        "url": "https://ug.preparoo.app/css/nav-pricing.css",
+        "type": "text/css; charset=UTF-8"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/preparoo-logo-white-hd.png",
+        "type": "image/png"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/v2_dark_bg.webp",
+        "type": "image/webp"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/char-progress.png",
+        "type": "image/png"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/bdogrotesk-vf.ttf",
+        "type": "font/ttf"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/char-planning.png",
+        "type": "image/png"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/char-concepts.png",
+        "type": "image/png"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/faq-desk-v1.webp",
+        "type": "image/webp"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/char-next-steps.png",
+        "type": "image/png"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/preparoo-logo-black-hd.png",
+        "type": "image/png"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/mask-p-1600.png",
+        "type": "image/png"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/pixel-201_white.svg",
+        "type": "image/svg+xml"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/robotomono-variablefont_wght.woff2",
+        "type": "font/woff2"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/intervariable.woff2",
+        "type": "font/woff2"
+      },
+      {
+        "url": "https://www.google.com/pagead/1p-user-list/17984536135/?random=1791062930282&cv=11&fst=1791061200000&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45be69u2v9245078036za200zd9245078036xecxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115616986~115938465~115938468~118131809~118897920~118897930~120213116~120385423~120469145~120469153~121046262~121046270~121246027~121246035&u_w=1280&u_h=844&url=https%3A%2F%2Fug.preparoo.app%2F&rcb=18&frm=0&tiba=Preparoo%20-%20Comprehensive%20Mocks%20for%20CUET%2C%20IPMAT&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=350165288.1791062930&uaa=x86&uab=64&uafvl=Chromium%3B154.0.8037.97%7CGoogle%2520Chrome%3B154.0.8037.97%7CNot%2520A(Brand%3B99.0.0.0&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&ept=9&rfmt=3&fmt=3&is_vtc=1&cid=CAQS1AEAQM4h3JhVA4uX_Xs0lAGh2yetQ6E-5nqV2ia6mLxOmGWAYT8AdCNT-sV4ESATu2wYCR_mYKz2BotWKSKafKFViXQr56QakZhaXJFLvo8AdJxkDR2Z0LW792AL3QDIHmhfZWHCjy_xQA0H9LuTjsQY-Q35WNez7RNcbwqp3I77HX99jhQiK4LZcmgmxPI3yiDijb4JfN-Yjz4GUSeLCXjp6GCtz5DeQBbLuXAo1XaD33ST9uaSrJ1BPpUjd-qyymBpIO1IPPGFi7AyeQ6sWaZjimltxg&random=2176208031&rmt_tld=0&ipr=y",
+        "type": "image/gif"
+      },
+      {
+        "url": "https://www.google.co.in/pagead/1p-user-list/17984536135/?random=1791062930282&cv=11&fst=1791061200000&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45be69u2v9245078036za200zd9245078036xecxf1&gcd=13l3l3l3l1l1&dma=0&tag_exp=115616986~115938465~115938468~118131809~118897920~118897930~120213116~120385423~120469145~120469153~121046262~121046270~121246027~121246035&u_w=1280&u_h=844&url=https%3A%2F%2Fug.preparoo.app%2F&rcb=18&frm=0&tiba=Preparoo%20-%20Comprehensive%20Mocks%20for%20CUET%2C%20IPMAT&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=350165288.1791062930&uaa=x86&uab=64&uafvl=Chromium%3B154.0.8037.97%7CGoogle%2520Chrome%3B154.0.8037.97%7CNot%2520A(Brand%3B99.0.0.0&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&ept=9&rfmt=3&fmt=3&is_vtc=1&cid=CAQS1AEAQM4h3JhVA4uX_Xs0lAGh2yetQ6E-5nqV2ia6mLxOmGWAYT8AdCNT-sV4ESATu2wYCR_mYKz2BotWKSKafKFViXQr56QakZhaXJFLvo8AdJxkDR2Z0LW792AL3QDIHmhfZWHCjy_xQA0H9LuTjsQY-Q35WNez7RNcbwqp3I77HX99jhQiK4LZcmgmxPI3yiDijb4JfN-Yjz4GUSeLCXjp6GCtz5DeQBbLuXAo1XaD33ST9uaSrJ1BPpUjd-qyymBpIO1IPPGFi7AyeQ6sWaZjimltxg&random=2176208031&rmt_tld=1&ipr=y",
+        "type": "image/gif"
+      },
+      {
+        "url": "https://checkout-static-next.razorpay.com/build/chunks/v2.1e5f5bca.33524.css",
+        "type": "text/css"
+      },
+      {
+        "url": "https://ug.preparoo.app/images/preparoo-favicon.png",
+        "type": "image/png"
+      }
+    ],
+    "errors": []
+  }
+]

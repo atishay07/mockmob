@@ -1,0 +1,805 @@
+{
+  "id": "cuet-v713-final-fresh31-regression6-regression",
+  "created_at": "2026-10-09T20:34:47.105Z",
+  "verifier_contract": "f7d31a74138f497581e545b1199f57ac43a450edb56d38c5ab368aeb0500b72d",
+  "execution_freeze_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\CONTRACT-FREEZE.json",
+  "execution_freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+  "denominator": 6,
+  "valid_roots": 20,
+  "controlled_defects": 17,
+  "decision_rule": "zero eligible controlled defects; valid eligible >=85% pooled and >=70% per subject; every fixture terminal; unfinished/errors do not count as rejections",
+  "additional_rule": "Fresh partition alone must also achieve >=85% valid survival pooled and >=70% per subject. The unchanged joint 20-valid gate and zero false accepts across every invalid case still apply.",
+  "validity_by_role": {
+    "fresh": {
+      "valid": 18,
+      "invalid": 13
+    },
+    "regression": {
+      "valid": 2,
+      "invalid": 4
+    }
+  },
+  "publication": "never",
+  "exclusions": [],
+  "custody": {
+    "schema": "cuet-v713-custody-v2",
+    "study_id": "cuet-v713-fresh-final",
+    "freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+    "custody_basis": "local_delegated_review",
+    "artifacts": {
+      "authored": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\sealed\\authored-r3.json",
+        "sha256": "c1930133120d37aa1a367db90e0403e95036a9d00dfe21261587ab6264d0bff9"
+      },
+      "sealed_blind_map": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\sealed\\map-r3.json",
+        "sha256": "88feee50847183e517c55724463631cf7b4982b1cf5c173e2a0a3252ffc95928"
+      },
+      "blind_packet": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\blind\\packet-r3.json",
+        "sha256": "649fcd826def293914c8b8306c22ff45936f6db13ab289a587ba11121c3abb3d"
+      },
+      "blind_output": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\blind\\output-r3.json",
+        "sha256": "49348804a355e17a48ba4805c2b5321d5d82ec96296bf26f60819d3073bc8494"
+      },
+      "blind_freeze": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\blind\\blind-freeze-r3.json",
+        "sha256": "9eb9bfa14879ef780538a8c8216ba8bde1baad60294508a94ef8620799169d14"
+      },
+      "reveal": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\sealed\\reveal-r3.json",
+        "sha256": "1594068f2c90fbaf9fefb8996ab469dd801b6a798b2b39bcb43603b93a31c44b"
+      },
+      "explanation_audit": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\sealed\\explanation-audit-r3.json",
+        "sha256": "f4f18ffeff3cb70c8d78ed35e80719039bb63a69f2fca52331f39b5296955c1e"
+      },
+      "novelty_report": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\sealed\\novelty-r3-history-refresh.json",
+        "sha256": "80f6d5cfec72f8673abc84543746f87e2a9173eb0230b8ab4cf52dbec9dfec04"
+      },
+      "explanation_audit_clarification": {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\fresh-custody\\sealed\\explanation-audit-clarification-r3.json",
+        "sha256": "f7f89a46a845997126ed97d7995b2b9236ff87ad9b4cc3f3c03cff0df849d7e0"
+      }
+    }
+  },
+  "role_ids": {
+    "fresh": [
+      "f-c797dd7934bbaf7c",
+      "f-155f31f2eda73df9",
+      "f-80c4d9b3dc5ee51a",
+      "f-234e398c6040b350",
+      "f-2c7dfe572963691f",
+      "f-90b386844e029292",
+      "f-793e37a7f34732b6",
+      "f-77e94cc5395b2677",
+      "f-cb416cf89196c0bf",
+      "f-6eda2239b5467db1",
+      "f-46825bc2c14ef05c",
+      "f-2ce95d51cba0d537",
+      "f-6077c08612302c6d",
+      "f-9395f51e189443a6",
+      "f-1b75678e8ba8214c",
+      "f-c3a378b4d2de5478",
+      "f-3e5f9ea9839935c1",
+      "f-07957bcf309f84ab",
+      "f-db88f4c129bb9ecb",
+      "f-10586873a94495b4",
+      "f-2b0c7cb80a5b0ff1",
+      "f-d95fe16105eb4952",
+      "f-a537d870af8cd07f",
+      "f-538b04e18ffd75ea",
+      "f-ab86b54ef0601f16",
+      "f-958b02eadb40ed70",
+      "f-a7899d6bca12a82b",
+      "f-8b58fde354fa4d4d",
+      "f-844a877a73613f48",
+      "f-7a98463c79d8af56",
+      "f-6bdb69ae95a734ea"
+    ],
+    "regression": [
+      "f-f84de07c56f68390",
+      "f-184a13bcc63cf86c",
+      "f-5b234a758a448dc8",
+      "f-d9454913816921de",
+      "f-245cd38b73b4511b",
+      "v75f-825e60a00f"
+    ]
+  },
+  "historical_snapshot": {
+    "frozen_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\benchmark\\v75-fresh-cbse2022-2026-10-09\\frozen.json",
+    "frozen_sha256": "29276dbb5afc0056a8735d3ede298ae07a3922d39469d709893a5de2a857f324",
+    "execution_plan_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\benchmark\\v75-fresh-cbse2022-2026-10-09\\run\\execution-plan.json",
+    "execution_plan_sha256": "69e0a8012b1eb812b157fee33ec53c5c29cf205467076f85818bc4a0946523be",
+    "source_registry_hash": "f89e6e0cea6891dbc05639424e021886e96e85d229c89954c375c94edc550c99",
+    "independent_custody_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\benchmark\\v75-fresh-cbse2022-2026-10-09\\independent-key-custody.json",
+    "independent_custody_sha256": "7257e2c16a2569105ba3905a22e28cc7a2ba5abc687e1ba3eb5f0b573d622cfe",
+    "overlay_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\benchmark\\v75-fresh-cbse2022-2026-10-09\\scratch-registry-overlay.json",
+    "overlay_sha256": "cc2c75881e75486c9c7088fb4f6c85c466b9c3825db4ebd1d16f03447ef13e61",
+    "scoped_source_ids": [
+      "v75f-s-8d877e6df3cc",
+      "v75f-s-d70b6385c98d",
+      "v75f-s-c66a1d325241",
+      "v75f-s-6e21e3af87ba",
+      "v75f-s-5d7f6593d351"
+    ]
+  },
+  "construction": "Original 36 IDs/labels/content retained. Pre-evaluation independent novelty assigns five nonunique cases (two valid, three invalid) to regression; unchanged historical V75 false accept adds the sixth. Not 37 fresh cases. All 17 invalid count; no model outcome informed roles.",
+  "limitations": [
+    "Compact targeted study does not establish broad CUET representativeness or a premium-quality rating.",
+    "Seven author difficulty bands differ from the frozen independent reviewer; no post-evaluation relabeling is permitted.",
+    "All costs including failures and held usage count; one aggregate USD1 stop cap does not guarantee completion."
+  ],
+  "cap_usd": 1,
+  "repairs": 0,
+  "replacements": 0,
+  "payload_hash": "26ecce3fd83fe09475b79cdb8114d678b4376151cb560a1058c2b100c3985bb1",
+  "fixtures": [
+    {
+      "id": "f-f84de07c56f68390",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-f84de07c56f68390",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:investing-inflow-fixed-asset-disposal",
+        "body": "A company receives cash when it sells an old production machine. In which category should that receipt be placed?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Investing cash inflow"
+          },
+          {
+            "key": "B",
+            "text": "Operating cash inflow from rendering services"
+          },
+          {
+            "key": "C",
+            "text": "Financing cash inflow from owners’ capital"
+          },
+          {
+            "key": "D",
+            "text": "Non-cash transaction excluded from the statement"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Cash received from disposal of a fixed asset is listed as an investing cash inflow.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-23aa7f3fcbbef39f",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g4-s0",
+            "support_hash": "35acd4f37aacd48c3a57d32a82c17225dd23e1dfa32b187ba8a7ced55e7539e4"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p5-c0-g3-s0",
+            "support_hash": "6ef8a52783ebc29b9be457d3658147cfd9681b614fcc3d9d5342206ced86cd0e"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g2-s0",
+            "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "objective": "Classify cash receipts from disposal of a fixed asset.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac206-v1",
+          "adaptation_family": "fam-23aa7f3fcbbef39f",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        }
+      },
+      "subject": "accountancy",
+      "contested": false,
+      "measurement_role": "regression",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "Sale of a production machine is disposal of a fixed asset, so the cash receipt is investing.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g4-s0",
+            "support_hash": "35acd4f37aacd48c3a57d32a82c17225dd23e1dfa32b187ba8a7ced55e7539e4"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p5-c0-g3-s0",
+            "support_hash": "6ef8a52783ebc29b9be457d3658147cfd9681b614fcc3d9d5342206ced86cd0e"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g2-s0",
+            "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "Cash receipt from disposal of a fixed asset is expressly listed as an investing inflow.",
+        "blind_basis": "Sale of a production machine is disposal of a fixed asset, so the cash receipt is investing.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "36c63dfc7f44fc9f1e4bdb6568ab1ec5e3462d4eb66502018783b195ae6b0609"
+    },
+    {
+      "id": "f-184a13bcc63cf86c",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-184a13bcc63cf86c",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:indirect-method-starting-point",
+        "body": "According to the excerpt, what is the starting point under the indirect method for ascertaining cash flows from operating activities?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Net profit or loss before taxation and extraordinary items from the statement of profit and loss."
+          },
+          {
+            "key": "B",
+            "text": "Major classes of gross cash receipts and gross cash payments."
+          },
+          {
+            "key": "C",
+            "text": "Cash proceeds from issuing equity shares."
+          },
+          {
+            "key": "D",
+            "text": "Cash receipts from sales of goods and rendering services."
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "The excerpt states that the indirect method starts with net profit or loss before taxation and extraordinary items, then adjusts it. Option B describes the direct method, so it is not the correct answer.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-7f11b5b1ea5940a1",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p9-c0-g1-s0",
+            "support_hash": "a98316b1b4cd83ad704cdebce58322c121dce5637dec4225860f8ce31a9e0d53"
+          }
+        ],
+        "learning_objective": {
+          "target_term": "",
+          "objective": "Identify the starting point used by the indirect method for operating cash flows",
+          "syllabus_unit": "Unit V: Analysis of Financial Statements"
+        },
+        "provenance": {
+          "adaptation_family": "fam-7f11b5b1ea5940a1",
+          "kind": "original_practice",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "anchor_id": "ncertcol-leac206-v1",
+          "source_pack_version": 13,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "adaptation_type": "source-grounded-original-practice"
+        }
+      },
+      "defect_category": "incorrect_answer_key",
+      "defect_evidence": "Option A is uniquely supported as the indirect-method starting point. The keyed option B is the excerpt description of the direct method.",
+      "subject": "accountancy",
+      "contested": false,
+      "measurement_role": "regression",
+      "category": "incorrect_answer_key",
+      "oracle": {
+        "key": "A",
+        "basis": "Under the indirect method, the stated starting point is net profit or loss before tax and extraordinary items.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p9-c0-g1-s0",
+            "support_hash": "a98316b1b4cd83ad704cdebce58322c121dce5637dec4225860f8ce31a9e0d53"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": false,
+        "explanation_supported": true,
+        "defect_confirmed": true,
+        "decisive_basis": "The indirect method starts with net profit/loss before tax and extraordinary items; gross cash receipts/payments describe the direct method. Controlled defect: Option A is uniquely supported as the indirect-method starting point. The keyed option B is the excerpt description of the direct method.",
+        "blind_basis": "Under the indirect method, the stated starting point is net profit or loss before tax and extraordinary items.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "0fd55fe6e2bbe52bcd916a5dffbef063013868d4232606be36d277a5f3ccd472"
+    },
+    {
+      "id": "f-5b234a758a448dc8",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-5b234a758a448dc8",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:direct-indirect-operating-methods",
+        "body": "Which statement describes an accepted method for reporting cash flows from operating activities?",
+        "options": [
+          {
+            "key": "A",
+            "text": "The direct method discloses major classes of gross cash receipts and gross cash payments."
+          },
+          {
+            "key": "B",
+            "text": "The indirect method adjusts net profit or loss for specified effects."
+          },
+          {
+            "key": "C",
+            "text": "Both the direct and indirect descriptions above are accepted methods."
+          },
+          {
+            "key": "D",
+            "text": "Neither method is used to report operating cash flows."
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "The chapter recognises both the direct method, which discloses major classes of gross receipts and payments, and the indirect method, which adjusts net profit or loss.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-fa236b4797fdf6f6",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p9-c0-g1-s0",
+            "support_hash": "a98316b1b4cd83ad704cdebce58322c121dce5637dec4225860f8ce31a9e0d53"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "objective": "Distinguish the direct and indirect methods for reporting operating cash flows.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac206-v1",
+          "adaptation_family": "fam-fa236b4797fdf6f6",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        }
+      },
+      "defect_category": "multiple_defensible_answers",
+      "defect_evidence": "Options A and B each correctly describe one accepted method, so the single-choice stem has at least two supported answers (and option C also correctly combines them).",
+      "subject": "accountancy",
+      "contested": false,
+      "measurement_role": "regression",
+      "category": "multiple_defensible_answers",
+      "oracle": {
+        "key": null,
+        "basis": "Both A and B accurately describe accepted methods, and C accurately says both descriptions are accepted.",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p9-c0-g1-s0",
+            "support_hash": "a98316b1b4cd83ad704cdebce58322c121dce5637dec4225860f8ce31a9e0d53"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": null,
+        "mandatory_gates_passed": false,
+        "explanation_supported": true,
+        "defect_confirmed": true,
+        "decisive_basis": "The excerpt accepts both direct and indirect methods; options A and B are each correct descriptions and C is also true. Controlled defect: Options A and B each correctly describe one accepted method, so the single-choice stem has at least two supported answers (and option C also correctly combines them).",
+        "blind_basis": "Both A and B accurately describe accepted methods, and C accurately says both descriptions are accepted.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "e625d4470e204eef74b536fa2e9162e0c110fd2fdf24df57ee4104c8bc7972ad"
+    },
+    {
+      "id": "f-d9454913816921de",
+      "expected_valid": true,
+      "group": "authored_valid",
+      "candidate": {
+        "id": "f-d9454913816921de",
+        "subject": "business_studies",
+        "chapter": "Planning",
+        "concept_id": "business_studies:single-use-standing-plans",
+        "body": "A company uses a standing policy for routine purchasing but prepares a one-time programme for opening a new branch. How is the branch-opening programme best classified?",
+        "options": [
+          {
+            "key": "A",
+            "text": "A single-use plan for a non-recurring project"
+          },
+          {
+            "key": "B",
+            "text": "A standing plan for activities repeated regularly"
+          },
+          {
+            "key": "C",
+            "text": "A method that specifies one task-step only"
+          },
+          {
+            "key": "D",
+            "text": "A rule that permits no managerial decision"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "A programme for a one-time project is a single-use plan; standing plans support activities that recur over time.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-b53d88e97b9b3700",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p11-c1-g1-s0",
+            "support_hash": "c0c5d568586a1297252760af304d97703345478d5383788475b04a8b62526a29"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Planning",
+          "objective": "Distinguish single-use and standing plans using recurrence and purpose.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-lebs104-v1",
+          "adaptation_family": "fam-b53d88e97b9b3700",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 11
+        }
+      },
+      "subject": "business_studies",
+      "contested": false,
+      "measurement_role": "regression",
+      "category": "valid_control",
+      "oracle": {
+        "key": "A",
+        "basis": "A programme for a one-time branch opening is a single-use plan for a non-recurring project.",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p11-c1-g1-s0",
+            "support_hash": "c0c5d568586a1297252760af304d97703345478d5383788475b04a8b62526a29"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": true,
+        "explanation_supported": true,
+        "defect_confirmed": false,
+        "decisive_basis": "The branch-opening programme is a non-recurring project, which fits a single-use plan.",
+        "blind_basis": "A programme for a one-time branch opening is a single-use plan for a non-recurring project.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "9a9eed2ddef10c51b13161104eb152e2276ee1d55c6ef41bd82325b5d1e3c6d4"
+    },
+    {
+      "id": "f-245cd38b73b4511b",
+      "expected_valid": false,
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "f-245cd38b73b4511b",
+        "subject": "business_studies",
+        "chapter": "Planning",
+        "concept_id": "business_studies:single-use-vs-standing-plan-key",
+        "body": "A firm needs a plan for an event that will occur once and is not expected to recur. Which plan type best fits that purpose?",
+        "options": [
+          {
+            "key": "A",
+            "text": "A single-use plan"
+          },
+          {
+            "key": "B",
+            "text": "A standing plan"
+          },
+          {
+            "key": "C",
+            "text": "A policy for routine decisions"
+          },
+          {
+            "key": "D",
+            "text": "A recurring procedure"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "The excerpt defines a single-use plan as one developed for a one-time event or project not likely to be repeated. Standing plans support activities that occur regularly, so the keyed option conflicts with the stated scenario.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-39948ef3ce834e4a",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p11-c1-g1-s0",
+            "support_hash": "c0c5d568586a1297252760af304d97703345478d5383788475b04a8b62526a29"
+          }
+        ],
+        "learning_objective": {
+          "target_term": "",
+          "objective": "Distinguish one-time plans from plans used for recurring activities",
+          "syllabus_unit": "Unit IV: Planning"
+        },
+        "provenance": {
+          "adaptation_family": "fam-39948ef3ce834e4a",
+          "kind": "original_practice",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "anchor_id": "ncertcol-lebs104-v1",
+          "source_pack_version": 11,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "adaptation_type": "source-grounded-original-practice"
+        }
+      },
+      "defect_category": "incorrect_answer_key",
+      "defect_evidence": "Option A is uniquely supported because the scenario describes a one-time, non-recurring event. The keyed option B denotes a plan for activities that occur regularly.",
+      "subject": "business_studies",
+      "contested": false,
+      "measurement_role": "regression",
+      "category": "incorrect_answer_key",
+      "oracle": {
+        "key": "A",
+        "basis": "A plan for a non-recurring event is a single-use plan.",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p11-c1-g1-s0",
+            "support_hash": "c0c5d568586a1297252760af304d97703345478d5383788475b04a8b62526a29"
+          }
+        ]
+      },
+      "independent_custody": {
+        "complete": true,
+        "solved_key": "A",
+        "mandatory_gates_passed": false,
+        "explanation_supported": true,
+        "defect_confirmed": true,
+        "decisive_basis": "A one-time non-recurring event calls for a single-use plan; the keyed standing plan is for recurring activity. Controlled defect: Option A is uniquely supported because the scenario describes a one-time, non-recurring event. The keyed option B denotes a plan for activities that occur regularly.",
+        "blind_basis": "A plan for a non-recurring event is a single-use plan.",
+        "custody_basis": "local_delegated_review"
+      },
+      "local_findings": [],
+      "content_hash": "ac212cf7b56213593d1bf6bc5750eadb6606fd2bc1b0c484600cd41edfc88cf3"
+    },
+    {
+      "id": "v75f-825e60a00f",
+      "group": "controlled_defect",
+      "category": "multiple_correct",
+      "expected_valid": false,
+      "defect_origin": "natural",
+      "candidate": {
+        "id": "v75f-825e60a00f",
+        "subject": "business_studies",
+        "chapter": "Organising",
+        "concept_id": null,
+        "body": "An automobile company divides work into production, purchase, marketing, accounts and personnel. Which of the following is a disadvantage of this organisation structure?",
+        "options": [
+          {
+            "key": "A",
+            "text": "It may lead to an increase in cost."
+          },
+          {
+            "key": "B",
+            "text": "Managers may gain power, assert independence and ignore organisational interests."
+          },
+          {
+            "key": "C",
+            "text": "It ensures that different functions get due attention."
+          },
+          {
+            "key": "D",
+            "text": "Heads do not get training for top management positions."
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "Dividing work into production, purchase, marketing, accounts and personnel departments forms a functional structure. NCERT lists among its disadvantages that functional heads do not get training for top management positions because they cannot gather experience in diverse areas. Ensuring that different functions get due attention is an advantage of this structure.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "case_application",
+        "passage_text": "",
+        "family_id": "v75f-fam-c966ae5f",
+        "source_refs": [
+          {
+            "id": "v75f-s-8d877e6df3cc",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "64c84a8c892ca98082ac5abb189f2a1b44bcb319ab984b35e32d3fb48739e416"
+          },
+          {
+            "id": "v75f-s-d70b6385c98d",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "9636bea278fc0d399d67bf73eb71f6f96a34f2670eb42c73227503ff08123227"
+          },
+          {
+            "id": "v75f-s-c66a1d325241",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "0d9bb7cb71bd8692109bb3290f0931f1352b99ecf19a948aeaa43ccb2c50925b"
+          },
+          {
+            "id": "v75f-s-6e21e3af87ba",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "1a643aa5ad1774fef9170699f039f9473f41a50e4b969626d166128216625e9e"
+          },
+          {
+            "id": "v75f-s-5d7f6593d351",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "cb2084e0e9228781b312bc3f116392e0d1f3e93d854760082e582fa04e242691"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit V: Organising",
+          "objective": "Identify a disadvantage of a given organisation structure.",
+          "target_term": "",
+          "why_answer_requires_it": "The student must recognise the structure from its departments and recall its listed disadvantages."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v75f-fam-c966ae5f",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v75-fresh-cbse2022-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "multiple_correct_B_D",
+        "basis": "Both independent reviewers found the item contestable: the same functional-structure excerpt describes functional empires and departmental interests being pursued at the cost of organisational interests, so option B overlaps a functional-structure disadvantage while being worded like the divisional-structure one; the second reviewer also found option A defensible on a loose reading. The official key and the textbook-category key is D. Retained as a natural multiple-defensible defect (key shown is the official D).",
+        "source_refs": [
+          {
+            "id": "v75f-s-8d877e6df3cc",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "64c84a8c892ca98082ac5abb189f2a1b44bcb319ab984b35e32d3fb48739e416"
+          },
+          {
+            "id": "v75f-s-d70b6385c98d",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "9636bea278fc0d399d67bf73eb71f6f96a34f2670eb42c73227503ff08123227"
+          },
+          {
+            "id": "v75f-s-c66a1d325241",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "0d9bb7cb71bd8692109bb3290f0931f1352b99ecf19a948aeaa43ccb2c50925b"
+          },
+          {
+            "id": "v75f-s-6e21e3af87ba",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "1a643aa5ad1774fef9170699f039f9473f41a50e4b969626d166128216625e9e"
+          },
+          {
+            "id": "v75f-s-5d7f6593d351",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "cb2084e0e9228781b312bc3f116392e0d1f3e93d854760082e582fa04e242691"
+          }
+        ]
+      },
+      "provenance_label": "source_keyed_non_cuet",
+      "source_custody": {
+        "source_item_id": "v74-cbse22-bs-q03",
+        "subject": "business_studies",
+        "first_source_key": "held",
+        "independent_second_key": "D",
+        "official_comparison_key": "D",
+        "official_agrees": null,
+        "qualification_role": "natural_defect_multiple_defensible",
+        "custody_status": "held_ambiguous_or_disagreeing",
+        "hold_basis": "broad_alternative_overlap_requires_second_independent_review_before_truth_label | second: Options A and B are generic or divisional-structure disadvantages; a loose reading of A (cost increase) could be defended by some students, though it contradicts the functional-structure advantage of lower cost.",
+        "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+        "source_spans": [
+          {
+            "source_id": "cbse-sqp-2022-23-businessstudies",
+            "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/BusinessStudies-SQP.pdf",
+            "pdf_sha256": "417fb7d95e6e0c125c2641b13a7b297ee515dbbbd22536a55905ffe9638e6b36",
+            "cache_sha256": "a21e9bf86560ec09f04223783234d09d52d52fe6e8d94287afc611e86cf84699",
+            "physical_pdf_page": 1,
+            "quote_start": 1213,
+            "quote_end": 1703,
+            "quote": "Aarohan Ltd. is a company manufacturing automobiles where division of work into key\n3. areas includes production, purchase, marketing, accounts and personnel. Which of the 1\nfollowing is a disadvantage of the organization structure of Aarohan Ltd.?\na). It may lead to increase in cost\nb). Managers may gain power and assert independence and ignore organization interests.\nc). It ensures that different functions get due attention.\nd). Heads do not get training for top management positions."
+          }
+        ],
+        "adaptation_note": null,
+        "targeted_source_edits_used": 0,
+        "natural_defect": true
+      },
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "subject": "business_studies",
+      "measurement_role": "regression",
+      "regression_limitation": "Preserved disputed natural multiple-defensible label. Source-keyed CBSE practice, not fresh CUET evidence. No historical oracle is in provider blind views.",
+      "local_findings": [],
+      "content_hash": "3feb13228cc0b3c2d145ed931ea06c1565099977eaf9132c8709a4f1758894f7"
+    }
+  ],
+  "verifier_version": "cuet-fit-validator-v7.13-compact-demand",
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.13-compact-demand",
+    "prompt_hash": "a273fed3c6b7bb5ee7a900e04513bb39fedd1693acbb6ba519c40af922be970f",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "f7d31a74138f497581e545b1199f57ac43a450edb56d38c5ab368aeb0500b72d",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "underlying_frozen_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\qualification-fresh31-regression6\\frozen.json",
+  "underlying_frozen_sha256": "21d81b6a6011136d54cb20e03aef130cb08c62ec059d772b7383ef74aab9fb37",
+  "release_eligibility": {
+    "scope": "regression",
+    "classification": "regression",
+    "approved_before_evaluation": true,
+    "previously_read": true,
+    "tuned_on": true,
+    "preregistration_id": "cuet-v713-final-fresh31-regression6",
+    "custody_basis": "local_delegated_review"
+  }
+}
