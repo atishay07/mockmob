@@ -188,7 +188,7 @@ function StudyMode({ cards, isPro, inRevise, onAddChapter, adding, readHref, onR
     <div className="kc-session" data-study="">
       <div className="kc-progress" aria-hidden="true"><span style={{ transform: `scaleX(${at / total})` }} /></div>
       <KeyCardPlayer key={`${round}:${card.id}`} card={card} mode="study" position={<>{at + 1} of {total}{span ? <span className="kc-pos__of">{span}</span> : null}</>} feel arrive={at > 0 ? last : null} onRated={rated} onLimit={(kind) => { if (kind === 'new') markNewCardsUsed(); setLimited(kind); }} />
-      <p className="kc-fine">Each card you rate joins Revise: Missed brings it back soon, Got it and Easy space it out.<span className="kc-keyhint"> Space shows the answer; 1, 2 and 3 rate it.</span></p>
+      <p className="kc-fine">Each card you rate goes into Revise. Missed it brings it back soon. Got it and Easy bring it back later.<span className="kc-keyhint"> Space turns the card over; 1, 2 and 3 rate it.</span></p>
     </div>,
   );
 }
@@ -242,7 +242,7 @@ function LastLookMode({ cards }) {
         <button type="button" className="kc-btn kc-btn--line" onClick={() => go(-1)} disabled={at === 0}>Previous</button>
         <button type="button" className="kc-btn kc-btn--volt" data-page-primary="" onClick={() => go(1)}>{at + 1 === total ? 'Finish' : 'Next'}</button>
       </div>
-      <p className="kc-fine">Must-know only, and nothing is scheduled. Swipe to move on<span className="kc-keyhint">, or use the arrow keys</span>.</p>
+      <p className="kc-fine">Must-know cards only. This won&apos;t change when your cards come back. Swipe to move on<span className="kc-keyhint">, or use the arrow keys</span>.</p>
     </div>
   );
 }
@@ -312,7 +312,7 @@ export default function ChapterDeck({ chapterKey }) {
       setDeck((d) => (d ? { ...d, added: [...new Set([...(d.added || []), ...ids])] } : d));
       refreshHome();
     } catch (e) {
-      setAddError(isProRequired(e) ? 'Adding these cards needs Pro. Reading them stays open.' : 'The cards were not added. Try again.');
+      setAddError(isProRequired(e) ? 'Adding these cards needs Pro. Reading them stays open.' : "The cards weren't added. Try again.");
     } finally {
       setAdding(false);
     }
@@ -344,7 +344,7 @@ export default function ChapterDeck({ chapterKey }) {
       </div>,
     );
   }
-  if (state === 'error' || !deck) return shell(<ErrorState title="The cards did not load" message="Check your connection and try again. Nothing you added is lost." onRetry={retry} />);
+  if (state === 'error' || !deck) return shell(<ErrorState title="The cards didn't load" message="Check your connection and try again. Nothing you added is lost." onRetry={retry} />);
 
   const { chapter, counts } = deck;
   const ref = chapterRef(chapter.ncert, { title: chapter.title });
@@ -353,8 +353,8 @@ export default function ChapterDeck({ chapterKey }) {
   const origin = ref ? null : deckOrigin(deck.cards);
   const empty = !deck.cards?.length;
   const addLine = isPro
-    ? `Adds the ${plural(must.length, 'Must-know card')}. Good-to-know cards you add one at a time.`
-    : `Adds the ${plural(open.length, 'open card')}. Free reviews 10 cards a day.`;
+    ? `Adds the ${plural(must.length, 'Must-know card')}. You can add the other cards one at a time.`
+    : `Adds the ${plural(open.length, 'free card')}. On Free, you can rate 10 cards a day.`;
 
   return (
     <div className={`kc kc--deck ${ncertFont.variable}`} data-mode={mode}>
@@ -378,7 +378,7 @@ export default function ChapterDeck({ chapterKey }) {
           <h2>No cards for this chapter yet</h2>
           <p>{chapter.ncert
             ? 'Cards are written from the NCERT book and checked word for word before they open here. Until then, practise the chapter or read another one.'
-            : 'This chapter has no book chapter to take cards from, so it is practised with questions. Your other chapters have cards.'}</p>
+            : "This chapter isn't in an NCERT book, so it's practised with questions only. Your other chapters have cards."}</p>
           <Link className="kc-btn kc-btn--line" href={links.home(String(chapterKey).split('.')[0])}>See all chapters</Link>
         </div>
       ) : (

@@ -73,7 +73,7 @@ test('every contribution surface reads the flag; routes and data stay', () => {
   const practice = read('src/app/(app)/dashboard/DashboardPageClient.jsx');
   assert.match(practice, /\{contributeOn && <section className="pr-panel" aria-labelledby="pr-bank">/, 'the Practice Add a question panel');
   assert.match(practice, /if \(contributeOn\) optional\('\/api\/questions\/mine'/, 'no submissions read while off');
-  assert.match(read('src/components/feed/DiscoveryFeed.jsx'), /contributeOn \? <p className="ex-footnote">Community votes/);
+  assert.match(read('src/components/feed/DiscoveryFeed.jsx'), /contributeOn \? <p className="ex-footnote">Votes from other students/);
   // The hidden routes answer the calm paused page, never a 404 (COMMUNITY-1018 W3 and W4); the pages themselves stay.
   const paused = read('src/components/contribute/ContributionsPaused.jsx');
   assert.match(read('src/app/(app)/upload/page.js'), /contributeEnabled\(\) \? <UploadPageClient \/> : <ContributionsPaused \/>/);

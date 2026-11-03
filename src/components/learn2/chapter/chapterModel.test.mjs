@@ -15,7 +15,7 @@ test('the head: the unit only when it does not repeat the title; the ref is the 
 test('a pile: in, left out, held by Free, and "2 of 3" mistakes (A4 3.2.4)', () => {
   assert.equal(pileView({ id: 'cards', label: 'Key cards', count: 16, minutes: 4 }).line, 'about 4 min');
   assert.equal(pileView({ id: 'lesson', label: 'Lesson', count: 1, minutes: 7 }).line, '7 min');
-  assert.equal(pileView({ id: 'questions', label: 'Questions', left: true }).line, 'Tap to put back');
+  assert.equal(pileView({ id: 'questions', label: 'Questions', left: true }).line, 'Tap to add it back');
   const held = pileView({ id: 'questions', label: 'Questions', left: true, held: true });
   assert.deepEqual([held.state, held.line], ['held', 'Back tomorrow']);
   const m = pileView({ id: 'mistakes', label: 'Your mistakes', count: 2, of: 3, minutes: 2 });
@@ -53,12 +53,12 @@ test('the quiet line under Start, by priority; never the old Ratings note (A4 3.
 test('"Everything in this chapter": rows that lead somewhere, the rest in one quiet line (A4 3.2.6)', () => {
   const pro = shelfView({ shelf: { cards: { count: 46, open: 46, inRevise: 12 }, questions: { total: 10 }, mistakes: { open: 3 }, lesson: null, print: { mustKnow: 12, locked: false } } }, { mistakeMinutes: (n) => n });
   assert.deepEqual(pro.rows.map((r) => [r.title, r.line]), [
-    ['Key cards', 'All 46, 12 in Revise'], ['Questions only', '10 questions in this chapter'], ['Your mistakes', 'Fix 3 open mistakes · 3 min'], ['Print sheet', '12 Must-know lines, with your name'],
+    ['Key cards', 'All 46, 12 in Revise'], ['Questions only', '10 questions in this chapter'], ['Your mistakes', 'Fix 3 open mistakes · 3 min'], ['Chapter sheet', '12 Must-know lines, with your name on it'],
   ]);
   assert.equal(pro.missing, null, 'R2 ruling 9: what is missing is never announced');
   const free = shelfView({ freeSession: { used: true }, shelf: { cards: { count: 46, open: 5 }, questions: { total: 0 }, mistakes: { open: 0 }, lesson: { id: 'l', title: 'Goodwill', minutes: 7, read: false }, print: { mustKnow: 12, locked: true } } });
   assert.deepEqual(free.rows.map((r) => [r.title, r.line, Boolean(r.link)]), [
-    ['Key cards', '46 cards. 5 open on Free.', true], ['Goodwill', 'Lesson · 7 min, not read yet', true], ['Print sheet', 'Part of Pro', true],
+    ['Key cards', '46 cards. 5 open on Free.', true], ['Goodwill', 'Lesson · 7 min, not read yet', true], ['Chapter sheet', 'Part of Pro', true],
   ]);
   assert.equal(free.missing, null);
 });
@@ -191,7 +191,7 @@ test('LK37: the piles are real switches (role=switch, aria-checked) with In or O
   const { readFileSync } = await import('node:fs');
   const page = readFileSync(new URL('./ChapterPage.jsx', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
   assert.match(page, /role="switch"\n\s+aria-checked=\{!pile\.left\}/);
-  assert.match(page, /What's in this run/);
+  assert.match(page, /What's in this session/);
   assert.match(page, /runSummary\(data, piles\)/);
   assert.match(page, /v\.state === 'in' \? 'In' : 'Out'/);
   assert.match(page, /if \(inRun\.length <= 1\) \{\n\s+setShake\(pile\.id\);/, 'the last pile in cannot be switched off');

@@ -39,7 +39,7 @@ test('Up next: a move from an Or row has its headline without minutes, one line 
   assert.equal(fix.why, 'In Accounting for Partnership: Basic Concepts.');
   assert.equal(fix.key.label, 'Start · 3 min');
   const feed = upNextMoves({ ...PICKUP, or: [PICKUP.or[2]] })[1];
-  assert.equal(feed.key.label, 'Play · 10 min', 'a feed plays, at the length in its address');
+  assert.equal(feed.key.label, 'Start · 10 min', 'a feed starts, at the length in its address');
 });
 
 test('Up next: the footer shows every move but the one on the card, the server pick first', () => {

@@ -210,7 +210,7 @@ export function LessonItem({ item, cardRef }) {
           <div className="kc-head"><span className="kc-kind">{m ? `Lesson, ${m} min` : 'Lesson'}</span></div>
           <div className="lr-face__body">
             <h2 className="lr-front" id={`lr-q-${item.id}`}>{item.lesson?.title || 'This chapter’s lesson'}</h2>
-            <p className="lr-lesson__line">Read this first. Its cards come next in this run.</p>
+            <p className="lr-lesson__line">Read this first. Its cards come next.</p>
           </div>
           <span />
         </section>
@@ -246,7 +246,7 @@ function LinePanel({ line, back, sci = false }) {
       </div>
       <ClampLine>{sci ? <SciNcert card={line} className="lr-ncert lr-ncert--line" /> : <NcertText card={line} className="lr-ncert lr-ncert--line" />}</ClampLine>
       {sourceText(line) ? <p className="lr-src">{sourceText(line)}</p> : null}
-      {back ? <p className="lr-line__back">You&apos;ll see this card again later in this run.</p> : null}
+      {back ? <p className="lr-line__back">You&apos;ll see this card again later in this session.</p> : null}
     </section>
   );
 }
@@ -297,13 +297,13 @@ export function QuestionItem({ item, state, streak, cardRef, onPick, onSeePro, p
           );
         })}
       </div>
-      {state?.status === 'failed' ? <p className="lr-q__fail" role="alert">That answer was not saved. Try again.</p> : null}
+      {state?.status === 'failed' ? <p className="lr-q__fail" role="alert">That answer wasn&apos;t saved. Try again.</p> : null}
       {result ? (
         <div className="lr-verdict" data-correct={result.correct || undefined}>
           {fixedText ? <FixedVerdict text={fixedText} /> : result.correct ? (
             <p className="lr-verdict__line"><Check size={18} strokeWidth={2.6} aria-hidden="true" /><span><b>{rightLine(streak)}</b>{firstLine(explanation) ? ` ${firstLine(explanation)}` : ''}</span></p>
           ) : (
-            <p className="lr-verdict__line"><X size={18} strokeWidth={2.6} aria-hidden="true" /><span><b>Not quite. It&rsquo;s {result.key}.</b></span></p>
+            <p className="lr-verdict__line"><X size={18} strokeWidth={2.6} aria-hidden="true" /><span><b>Not quite. The answer is {result.key}.</b></span></p>
           )}
           {!result.correct && locked ? (
             <p className="lr-locked">{locked} <button type="button" className="lr-textkey" onClick={onSeePro}>See Pro</button></p>

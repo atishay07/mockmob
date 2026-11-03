@@ -157,7 +157,7 @@ function Results({ subject, text }) {
   if (!searching || results.status === 'loading') {
     body = <PanelSkeleton />;
   } else if (results.status === 'error' || !r) {
-    body = <ErrorState title="Search did not load" message="Check your connection and try again." onRetry={results.refresh} />;
+    body = <ErrorState title="Search didn't load" message="Check your connection and try again." onRetry={results.refresh} />;
   } else if (!nCards && !chapterRows.length && !lessonRows.length && !lockedMatches) {
     body = <div className="l2c-empty"><h2>Nothing matches “{query}”.</h2><p>Check the spelling, or try a term from the book.</p></div>;
   } else {
@@ -170,7 +170,7 @@ function Results({ subject, text }) {
               <div className="l2c-keys">
                 <Link className={panel.showPickBar ? 'kc-btn kc-btn--line kc-btn--small' : 'kc-btn kc-btn--volt kc-btn--small'} data-page-primary={panel.showPickBar ? undefined : ''} href={runHref(ids)}>Study these {nCards}</Link>
               </div>
-            ) : <p className="kc-fine l2f-over">{nCards} cards match. Pick up to {RUN_CARDS_MAX} to study them, or add a word.</p>}
+            ) : <p className="kc-fine l2f-over">{nCards} cards match. Pick up to {RUN_CARDS_MAX} to study, or type another word to narrow it.</p>}
           </>
         ) : null}
         <Notices actions={actions} />
@@ -194,11 +194,11 @@ function Results({ subject, text }) {
               groupHref={groupHref}
               idPrefix="l2f-sec"
               onSections={panel.setGroups}
-              lockedLine={lockedMatches ? `${lockedMatches} more ${lockedMatches === 1 ? 'card matches' : 'cards match'} in cards Pro opens. ${PRO_LINE}` : null}
+              lockedLine={lockedMatches ? `${lockedMatches} more matching ${lockedMatches === 1 ? 'card is' : 'cards are'} part of Pro. ${PRO_LINE}` : null}
             />
           </div>
         ) : null}
-        {r.more ? <p className="kc-fine">{countWord(r.more, 'more card')} match. Add a word to narrow it.</p> : null}
+        {r.more ? <p className="kc-fine">{countWord(r.more, 'more card')} match. Type another word to narrow it.</p> : null}
       </>
     );
   }
@@ -225,9 +225,9 @@ function Results({ subject, text }) {
 // ------------------------------------------------------------------------------------------------------------ a set
 
 const EMPTY_SET = {
-  due: ['Nothing here now.', 'Cards you rate in a run come back here on the day they are due.'],
-  missed: ['Nothing here now.', 'A card you miss in a run shows here until you get it right.'],
-  revise: ['Nothing here now.', 'Rate a card in a run and it joins Revise.'],
+  due: ['Nothing here now.', "Cards you rate come back here on the day they're due."],
+  missed: ['Nothing here now.', 'A card you miss shows here until you get it right.'],
+  revise: ['Nothing here now.', 'Rate a card and it goes into Revise.'],
   must: ['Nothing here now.', 'No Must-know cards are open in this subject yet.'],
 };
 
@@ -281,7 +281,7 @@ function SetPanel({ subject, shelf, shelves, onShelf, onBack }) {
   if (read.status === 'loading') {
     body = <PanelSkeleton label="Loading the cards" />;
   } else if (read.status === 'error' || !read.data) {
-    body = <ErrorState title="The cards did not load" message="Check your connection and try again." onRetry={read.refresh} />;
+    body = <ErrorState title="The cards didn't load" message="Check your connection and try again." onRetry={read.refresh} />;
   } else if (dueFallback) {
     body = <DueFallback home={home.data} shelves={shelves} links={links} />;
   } else if (!total) {

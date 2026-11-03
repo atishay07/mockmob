@@ -228,7 +228,7 @@ export function DiscoveryFeed() {
             {saved > 0 ? <b className="ex-saved__n">{saved.toLocaleString('en-IN')}</b> : null}
           </Link>
         </div>
-        {subjectState === 'error' && <ErrorState message="Subjects did not load. Check your connection and try again." onRetry={() => setSubjectRetry((count) => count + 1)} />}
+        {subjectState === 'error' && <ErrorState message="Subjects didn’t load. Check your connection and try again." onRetry={() => setSubjectRetry((count) => count + 1)} />}
         {subjectState !== 'error' ? <ExploreCovers enabled subject={filters.subject} subjectName={realName} onQuestions={openQuestions} onCovers={setCoverData} /> : null}
         <section className="ex-singles" aria-labelledby="ex-questions">
           <div className="ex-qhead">
@@ -240,16 +240,16 @@ export function DiscoveryFeed() {
             </form>
             <span className="sr-only" role="status">{busy ? 'Loading questions' : `${list.length} questions shown`}</span>
           </div>
-          {chapterState === 'error' && <ErrorState title="Chapter filters did not load" message="You can still practise all chapters." onRetry={() => setChapterRetry((count) => count + 1)} />}
+          {chapterState === 'error' && <ErrorState title="Chapter filters didn’t load" message="You can still practise all chapters." onRetry={() => setChapterRetry((count) => count + 1)} />}
           <div aria-busy={busy}>
             {list.map((question) => <QuestionCard key={`${filters.subject}-${question.id}`} row={question} onProgressChange={onProgress} chapterTitle={titleOf(question)} closed />)}
             {busy && <div className="ex-loading" role="status"><span>Finding questions…</span><SkeletonLines count={3} /></div>}
           </div>
-          {page.state === 'error' && <ErrorState scene="unreachable" title="Questions did not load" message="Your answers above are still here. Try loading this page again." onRetry={() => loadPage(page.error.offset, page.error.reset)} />}
+          {page.state === 'error' && <ErrorState scene="unreachable" title="Questions didn’t load" message="Your answers above are still here. Try loading this page again." onRetry={() => loadPage(page.error.offset, page.error.reset)} />}
           {page.state === 'ready' && !singles.length && <EmptyState scene={page.hasMore ? 'nothingYet' : 'noResults'} title={page.hasMore ? 'No ready questions on this page.' : 'No questions for these filters yet.'} message={page.hasMore ? 'Some questions are held for checks. Continue to the next page.' : 'Try all chapters or another subject. Held questions stay out of practice.'} actionLabel={hasFilters ? 'Clear filters' : undefined} onAction={() => setFilters((current) => ({ ...current, chapter: '', difficulty: '' }))} />}
           {hidden > 0 || page.hasMore ? <button ref={moreButton} type="button" className="ex-more ex-more--quiet" aria-disabled={busy} onClick={more}>{busy ? 'Loading…' : 'More questions'}{busy ? null : <ChevronRight size={16} strokeWidth={2.2} aria-hidden="true" />}</button> : null}
-          {page.state === 'ready' && !page.hasMore && hidden <= 0 && singles.length > 0 && <p ref={endStatus} tabIndex={-1} className="ex-end" role="status">That is every question for these filters.</p>}
-          {contributeOn ? <p className="ex-footnote">Community votes help organise the feed. They do not certify an answer.</p> : null}
+          {page.state === 'ready' && !page.hasMore && hidden <= 0 && singles.length > 0 && <p ref={endStatus} tabIndex={-1} className="ex-end" role="status">That’s every question for these filters. Your saved questions are ready when you want them.</p>}
+          {contributeOn ? <p className="ex-footnote">Votes from other students sort this feed. They don’t prove an answer is right.</p> : null}
         </section>
       </div>
     );
@@ -257,7 +257,7 @@ export function DiscoveryFeed() {
 
   return (
     <div className="ex-page">
-      <ArenaHead eyebrow="Explore · untimed practice" title="One question. One useful step." lede="Try it, check the reasoning, save what needs another go. This is practice, separate from your timed mock score." />
+      <ArenaHead eyebrow="Explore: practice without a timer" title="One question. One useful step." lede="Try it, check the reasoning, save what needs another go. This is practice, separate from your timed mock score." />
       <div className="ex-layout">
         <div className="ex-main">
           <form className="ex-filters" aria-label="Filter practice questions" onSubmit={(event) => event.preventDefault()}>
@@ -265,23 +265,23 @@ export function DiscoveryFeed() {
             <label><span id="ex-f-chapter">Chapter</span><Listbox labelledBy="ex-f-chapter" sheetTitle="Chapter" value={filters.chapter} disabled={chapterState !== 'ready'} options={[{ value: '', label: chapterState === 'loading' ? 'Loading chapters…' : 'All chapters' }, ...chapters.flatMap((group) => group.chapters.map((chapter) => ({ value: chapter.name, label: chapter.name, group: group.name })))]} onChange={(value) => setFilters((current) => ({ ...current, chapter: value }))} /></label>
             <label><span id="ex-f-difficulty">Difficulty</span><Listbox labelledBy="ex-f-difficulty" sheetTitle="Difficulty" value={filters.difficulty} options={DIFFICULTY_OPTIONS} onChange={(value) => setFilters((current) => ({ ...current, difficulty: value }))} /></label>
           </form>
-          {subjectState === 'error' && <ErrorState message="Subjects did not load. Check your connection and try again." onRetry={() => setSubjectRetry((count) => count + 1)} />}
-          {chapterState === 'error' && <ErrorState title="Chapter filters did not load" message="You can still practise all chapters." onRetry={() => setChapterRetry((count) => count + 1)} />}
+          {subjectState === 'error' && <ErrorState message="Subjects didn’t load. Check your connection and try again." onRetry={() => setSubjectRetry((count) => count + 1)} />}
+          {chapterState === 'error' && <ErrorState title="Chapter filters didn’t load" message="You can still practise all chapters." onRetry={() => setChapterRetry((count) => count + 1)} />}
           {subjectState !== 'error' ? <ExploreCovers subject={filters.subject} /> : null}
           <div className="ex-listhead"><span className="ex-listhead__obj" aria-hidden="true">{filters.subject ? <SubjectObject key={filters.subject} id={filters.subject} size={96} framed={false} lit className="mk-pop" /> : null}</span><h2>{subjectName}</h2>{hasFilters && <button type="button" className="ex-action" onClick={() => setFilters((current) => ({ ...current, chapter: '', difficulty: '' }))}>Clear filters</button>}<span className="sr-only" role="status">{busy ? 'Loading questions' : `${page.questions.length} questions loaded`}</span></div>
           <div aria-busy={busy}>
             {page.questions.map((question) => <QuestionCard key={`${filters.subject}-${question.id}`} row={question} />)}
             {busy && <div className="ex-loading" role="status"><span>Finding questions…</span><SkeletonLines count={4} /></div>}
           </div>
-          {page.state === 'error' && <ErrorState scene="unreachable" title="Questions did not load" message="Your answers above are still here. Try loading this page again." onRetry={() => loadPage(page.error.offset, page.error.reset)} />}
+          {page.state === 'error' && <ErrorState scene="unreachable" title="Questions didn’t load" message="Your answers above are still here. Try loading this page again." onRetry={() => loadPage(page.error.offset, page.error.reset)} />}
           {page.state === 'ready' && !page.questions.length && <EmptyState scene={page.hasMore ? 'nothingYet' : 'noResults'} title={page.hasMore ? 'No ready questions on this page.' : 'No questions for these filters yet.'} message={page.hasMore ? 'Some questions are held for checks. Continue to the next page.' : 'Try all chapters or another subject. Held questions stay out of practice.'} actionLabel={hasFilters ? 'Clear filters' : undefined} onAction={() => setFilters((current) => ({ ...current, chapter: '', difficulty: '' }))} />}
           {page.hasMore && <button ref={moreButton} type="button" className="ex-more" aria-disabled={busy} onClick={() => { if (!busy) loadPage(page.nextOffset); }}>{busy ? 'Loading…' : 'Load more questions'}</button>}
-          {page.state === 'ready' && !page.hasMore && page.questions.length > 0 && <p ref={endStatus} tabIndex={-1} className="ex-end" role="status">You’re up to date for these filters. Saved questions are ready for your next round.</p>}
+          {page.state === 'ready' && !page.hasMore && page.questions.length > 0 && <p ref={endStatus} tabIndex={-1} className="ex-end" role="status">That’s every question for these filters. Your saved questions are ready when you want them.</p>}
         </div>
         <aside className="ex-aside" aria-label="Make practice count">
-          <span className="mono-label">Tonight’s rule</span><h2>Answer first.<br />Then ask why.</h2><p>A wrong answer with a clear reason is worth coming back to. Keep those questions close.</p>
+          <span className="mono-label">One habit that helps</span><h2>Answer first.<br />Then ask why.</h2><p>A wrong answer with a clear reason is worth coming back to. Keep those questions close.</p>
           <Link href="/saved" className="ex-route">Open saved questions</Link><Link href="/review" className="ex-route">Review your timed sessions</Link>
-          {contributeOn ? <p className="ex-footnote">Community votes help organise the feed. They do not certify an answer.</p> : null}
+          {contributeOn ? <p className="ex-footnote">Votes from other students sort this feed. They don’t prove an answer is right.</p> : null}
         </aside>
       </div>
     </div>

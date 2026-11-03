@@ -5,7 +5,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { apiGet } from '@/lib/fetcher';
 
-export const REVISE_ERROR = 'Revise could not be loaded. Try again shortly.';
+export const REVISE_ERROR = "Revise couldn't be loaded. Try again shortly.";
 const CAP_KEY = 'mm.revise.cap';
 
 export function readCap() {

@@ -82,10 +82,10 @@ test('C1: /api/learn/home and /api/learn/shelves give the same due.all and due.b
 
 test('C1: the Learn home Revise row reads that same count and the shelves\' own minutes', async () => {
   const { learn } = setup({ isPro: true, tables: { key_card_states: dueRows(PLANNING.slice(0, 7)) } });
-  // R4 owner-eye#9: with due cards the offer's line leads with them ("7 due cards first, then new ones here"), so no Revise row.
+  // R4 owner-eye#9: with due cards the offer's line leads with them ("7 due cards first, then new cards from this chapter"), so no Revise row.
   const today = (await learn.home('u1', P(SUBJECT))).body.roadmap;
   assert.equal(today.mode, 'today');
-  assert.equal(today.sub, '7 due cards first, then new ones here');
+  assert.equal(today.sub, '7 due cards first, then new cards from this chapter');
   assert.ok(!today.or.some((o) => o.kind === 'revise'), 'one of the two, never both');
   // A pick-up does not hold the due cards: the Revise row leads its Or rows.
   const run = (await learn.start('u1', { chapterKey: ST, minutes: 5, kind: 'mix', requestKey: 'r3-revise-st01' })).body;

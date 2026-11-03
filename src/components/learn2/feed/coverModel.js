@@ -77,17 +77,17 @@ export function mixLineOf(c = {}, minutes = 10, { free = false, history = true }
   const parts = [n.cards ? plural(n.cards, 'Key card') : null, n.questions ? plural(n.questions, 'question') : null].filter(Boolean);
   if (!parts.length) return '';
   const short = !free && !n.capped && Number(n.minutes) < Number(minutes);
-  return `${parts.join(', ')}${short ? ', all it has today' : ''}`;
+  return `${parts.join(', ')}${short ? ", that's all for today" : ''}`;
 }
 
 /**
- * The key's words (R3 ruling W): "Play · 10 min", "Continue · 4 min" (also at Free's daily limit: the feed resumes its own run, M3), or at
+ * The key's words (R3 ruling W): "Start · 10 min", "Continue · 4 min" (also at Free's daily limit: the feed resumes its own run, M3), or at
  * Free's daily limit, for a chapter with no feed to resume, "Questions on this chapter".
  */
 export function keyLabelOf(c = {}, minutes = 10, { freeDone = false } = {}) {
   if (c.resume && c.resume.of) return withMinutes(WORDS.continue, c.resume.minutesLeft || 1);
   if (freeDone) return 'Questions on this chapter';
-  return withMinutes('Play', countsOf(c, minutes).minutes || minutes);
+  return withMinutes('Start', countsOf(c, minutes).minutes || minutes);
 }
 
 /** A fill-in-the-blank card front: a run of 2 or more underscores or dashes, or "[...]", standing for the missing word. */

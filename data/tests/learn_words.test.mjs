@@ -25,7 +25,7 @@ test('mistakes, due cards, Today questions and the pile', () => {
   assert.equal(fixMistakes(1, 1), 'Fix 1 open mistake · 1 min');
   assert.equal(reviseDue(9, 2.5), 'Revise 9 due cards · 3 min');
   assert.equal(reviseDue(1, 1), 'Revise 1 due card · 1 min');
-  assert.equal(reviseQuestions(5), 'Revise · 5 questions');
+  assert.equal(reviseQuestions(5), 'Revise 5 questions');
   assert.equal(pileLabel(4), '4 to revise');
 });
 
@@ -62,11 +62,11 @@ test('R5 LK38: when a rated card comes back, in words', () => {
 
 test('R5 LK38: the keys, the stamp and the coach line use one set of words', () => {
   assert.equal(WORDS.missedIt, 'Missed it');
-  assert.equal(WORDS.coachRatings, 'Missed it brings a card back soonest. Easy sends it furthest away.');
+  assert.equal(WORDS.coachRatings, 'How well did you know it? Missed it brings the card back soon. Got it, in a few days. Easy, much later.');
   assert.equal(backStamp(returnWords(1)), 'Back tomorrow');
   assert.equal(backStamp(returnWords(3)), 'Back in 3 days');
   assert.equal(backLine(returnWords(14)), 'back in 2 weeks');
-  assert.equal(missedWords('tomorrow', true), 'in this run, then tomorrow');
+  assert.equal(missedWords('tomorrow', true), 'in this session, then tomorrow');
   assert.equal(missedWords('tomorrow', false), 'tomorrow');
   assert.equal(WORDS.revise, 'Revise');
 });

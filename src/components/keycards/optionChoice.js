@@ -42,11 +42,11 @@ export function choiceReducer(state, action) {
 export function finePrint({ phase, saved, word, all }) {
   if (phase === 'saving') return { kind: 'status', text: 'Saving your choice' };
   if (phase === 'refreshing') return { kind: 'status', text: 'Updating the chapter list' };
-  if (phase === 'stale') return { kind: 'stale', text: 'Saved. The chapter list did not refresh.' };
-  if (phase === 'save-failed') return { kind: 'error', text: 'Your choice was not saved. Try again.' };
+  if (phase === 'stale') return { kind: 'stale', text: "Saved. The chapter list didn't refresh." };
+  if (phase === 'save-failed') return { kind: 'error', text: "Your choice wasn't saved. Try again." };
   return saved
     ? { kind: 'plain', text: `Only that ${word}’s chapters show here and in your practice. You can change it at any time.` }
-    : { kind: 'plain', text: `Choose your ${word} and only its chapters show here and in your practice. Until then, ${all} show.` };
+    : { kind: 'plain', text: `Pick your ${word} to see only its chapters here and in practice. Until then, ${all} show.` };
 }
 
 /** Whether a chapter row that mounts now enters with the staggered rise (the list's first draw) or only a fade (a later arrival). */

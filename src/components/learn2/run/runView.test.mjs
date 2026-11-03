@@ -90,7 +90,7 @@ test('the Revise summary, the moved line and the state keys', () => {
 });
 
 test('the lead names its length on a run and its own verb otherwise; Free splits its line', () => {
-  assert.deepEqual(leadView({ kind: 'next', title: 'Next: Goodwill', minutes: 10, evidence: 'The next chapter in your book.', run: { kind: 'mix', minutes: 10 } }), { heading: 'Next: Goodwill', reason: 'The next chapter in your book.', key: 'Start 10 minutes' });
+  assert.deepEqual(leadView({ kind: 'next', title: 'Next: Goodwill', minutes: 10, evidence: 'The next chapter in your book.', run: { kind: 'mix', minutes: 10 } }), { heading: 'Next: Goodwill', reason: 'The next chapter in your book.', key: 'Start · 10 min' });
   assert.deepEqual(leadView({ kind: 'revise', title: 'Revise 12 due cards', minutes: 3, href: '/review/revise' }), { heading: null, reason: null, key: 'Revise 12 due cards' });
   assert.deepEqual(freeEndLines({ line: 'Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like.' }), { head: 'Your free Learn session for today is done.', rest: 'Explore questions stay free. Pro has as many as you like.' });
   assert.deepEqual(endTitle('10 minutes on Goodwill'), { lead: '10 minutes on', name: 'Goodwill' });
@@ -194,12 +194,12 @@ import { chapterPlace } from '../../../../data/learn/words.js';
 const source = async (f) => (await import('node:fs')).readFileSync(new URL(f, new URL('../', import.meta.url)), 'utf8').replace(/\r\n/g, '\n');
 
 test('R4 first-timer#4: a Free bar says the rest open with Pro once the free cards are all seen', () => {
-  assert.equal(FREE_REST_PRO, 'the rest open with Pro');
-  assert.equal(progressLabel({ seen: 5, of: 45, open: 5 }), '5 of 45 cards seen · the rest open with Pro');
+  assert.equal(FREE_REST_PRO, 'The rest open with Pro.');
+  assert.equal(progressLabel({ seen: 5, of: 45, open: 5 }), '5 of 45 cards seen. The rest open with Pro.');
   assert.equal(progressLabel({ seen: 3, of: 45, open: 5 }), '3 of 45 cards seen', 'free cards still to see');
   assert.equal(progressLabel({ seen: 20, of: 45 }), '20 of 45 cards seen', 'Pro sends no open count');
   assert.equal(progressLabel({ seen: 45, of: 45, open: 45 }), '45 of 45 cards seen', 'a chapter Free opens whole');
-  assert.equal(endProgress({ of: 45, seen: 5, before: 0, open: 5 }).label, '5 of 45 cards seen · the rest open with Pro');
+  assert.equal(endProgress({ of: 45, seen: 5, before: 0, open: 5 }).label, '5 of 45 cards seen. The rest open with Pro.');
   assert.equal(endProgress({ of: 45, seen: 20, before: 14 }).label, '20 of 45 cards seen');
 });
 
@@ -309,11 +309,11 @@ test('R5 LK45 fix 2: the stop sheet line carries the same number', () => {
 // ---------------------------------------------------------------- R5 LK38: a moved card takes the fresh words
 
 test('R5 LK38: a card moved closer by a wrong answer takes the fresh `returns` (its one second showing is used)', () => {
-  const list = [card('a'), card('b'), card('c'), card('d', 'dc', { returns: { missed: 'in this run, then tomorrow', got: 'in 3 days', easy: 'in 8 days' } })];
+  const list = [card('a'), card('b'), card('c'), card('d', 'dc', { returns: { missed: 'in this session, then tomorrow', got: 'in 3 days', easy: 'in 8 days' } })];
   const fresh = { missed: 'tomorrow', got: 'in 3 days', easy: 'in 8 days' };
   const out = placeReinsert(list, { itemId: 'd', at: 2, moved: true, item: { id: 'd', returns: fresh } }, { current: 0 });
   assert.deepEqual(out.map((x) => x.id), ['a', 'b', 'd', 'c']);
   assert.deepEqual(out[2].returns, fresh);
   const same = placeReinsert(list, { itemId: 'd', at: 2, moved: true }, { current: 0 });
-  assert.equal(same[2].returns.missed, 'in this run, then tomorrow', 'no fresh words sent: kept');
+  assert.equal(same[2].returns.missed, 'in this session, then tomorrow', 'no fresh words sent: kept');
 });

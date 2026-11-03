@@ -60,7 +60,7 @@ const R = COPY.revise;
 const RUN = R.run;
 const LETTERS = 'ABCDEFGH';
 const fill = (t, v) => String(t).replace(/\{(\w+)\}/g, (w, k) => (k in v ? String(v[k]) : w));
-const SEND_FAILED = 'Your answer was not saved. Try again.';
+const SEND_FAILED = "Your answer wasn't saved. Try again.";
 // The head line with the right number word: a short Key cards run can take one minute ("about 1 minute", never "1 minutes").
 const runHead = (total, minutes) => headLine(total, minutes).replace(/about 1 minutes/, 'about 1 minute');
 const FILTERED_KEYCARDS = 'Showing your Key cards.';

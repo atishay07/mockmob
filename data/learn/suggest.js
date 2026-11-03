@@ -169,7 +169,7 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
       const m = levelMinutes(n);
       return {
         kind: 'level', chapterKey: first?.key || null, title: WORDS.skipKnown, headline: WORDS.skipKnown, chapterTitle: null,
-        evidence: `${plural(n, 'question')} · about ${wholeMinutes(m)} min`,
+        evidence: `${plural(n, 'question')}, about ${wholeMinutes(m)} min`,
         action: { label: withMinutes('Start', m), run: { chapterKey: first?.key || null, minutes: n, leaveOut: [], kind: 'level' } },
       };
     },
@@ -187,7 +187,7 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
       const n = subject?.cards || 0;
       return {
         kind: 'search', chapterKey: null, title: n ? 'Search any card' : 'Search chapters', headline: n ? 'Search any card' : 'Search chapters', chapterTitle: null,
-        evidence: n ? `${n} ${name} cards, by term or line.` : `Every ${name} chapter and lesson, by name.`,
+        evidence: n ? `Search ${n} ${name} cards by a word or a line.` : `Every ${name} chapter and lesson, by name.`,
         action: { label: n ? 'Search cards' : 'Search', href: `/learn/find?subject=${encodeURIComponent(subject?.id || '')}`, go: 'find' },
       };
     },
@@ -257,7 +257,7 @@ export function endOptions({ subject = null, chapter, minutes = 10, kind = 'mix'
   const recap = mustKnow > 0 ? (() => {
     const m = recapMinutes(mustKnow, recapSeconds);
     const label = withMinutes(WORDS.quickRecap, m);
-    return { kind: 'recap', title: label, minutes: m, label, evidence: `Its ${plural(mustKnow, 'Must-know line')}, answers showing.`, run: { chapterKey: chapter.key, minutes: m, leaveOut: [], kind: 'recap' } };
+    return { kind: 'recap', title: label, minutes: m, label, evidence: `Its ${plural(mustKnow, 'Must-know line')}, with answers shown.`, run: { chapterKey: chapter.key, minutes: m, leaveOut: [], kind: 'recap' } };
   })() : null;
   const fix = mistakes?.count ? (() => {
     const m = fixMinutes(mistakes.count, mistakes.seconds);

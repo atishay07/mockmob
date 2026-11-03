@@ -53,7 +53,7 @@ test('a new student: Start with the first chapter, Skip what you already know, t
   assert.deepEqual(list[0].action.run, { chapterKey: 'accountancy.partnership-fundamentals', minutes: 10, leaveOut: [], kind: 'mix' });
   assert.equal(list[1].title, 'Skip what you already know');
   assert.equal(list[1].headline, 'Skip what you already know');
-  assert.equal(list[1].evidence, '6 questions · about 6 min');
+  assert.equal(list[1].evidence, '6 questions, about 6 min');
   assert.equal(list[1].action.label, 'Start · 6 min');
   assert.deepEqual([list[2].title, list[2].headline, list[2].evidence, list[2].action.label, list[2].action.go], ['Chapter 1 as a feed', 'As a feed', 'One card or question at a time, 10 minutes.', 'Open the feed', 'feed']);
   assert.equal(list[2].action.href, '/explore/run?chapter=accountancy.partnership-fundamentals&min=10');
@@ -316,5 +316,5 @@ test('routes: the level run\'s end names the chapter to start, the lowest score 
   assert.ok(end.level?.chapterKey && end.level.title, 'the end names a chapter');
   assert.equal(end.lead.label, `Start with ${end.level.title}`);
   assert.deepEqual(end.lead.run, { kind: 'mix', chapterKey: end.level.chapterKey, minutes: 10, leaveOut: [] });
-  assert.equal(end.lead.evidence, `Your lowest score here: ${end.level.right} of ${end.level.of} right.`);
+  assert.equal(end.lead.evidence, `Your weakest part: ${end.level.right} of ${end.level.of} right.`);
 });

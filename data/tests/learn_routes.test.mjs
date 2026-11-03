@@ -374,7 +374,7 @@ test('rate: Got it stamps a real date; Missed comes back once; its re-rating is 
   assert.match(got.stamp, /^Back (tomorrow|in \d+ (days|weeks|months))$/);
   assert.equal(got.revisePile.count, 1);
   const missed = (await learn.rate('u1', run.id, { itemId: run.items[1].id, rating: 1 })).body;
-  assert.equal(missed.stamp, 'Back in this run, then tomorrow');
+  assert.equal(missed.stamp, 'Back in this session, then tomorrow');
   assert.equal(missed.reinsert.at, 4);
   assert.equal(missed.reinsert.item.stage, 'again');
   const replay = (await learn.rate('u1', run.id, { itemId: run.items[1].id, rating: 3 })).body;
@@ -412,7 +412,7 @@ test('keep: an add (manual, reps 0), no review and no allowance; a card already 
     assert.match(k2.line, /^In Revise, back /);
   }
   const end = (await learn.end('u1', feed.id)).body;
-  assert.equal(end.feed.kept.line, `${end.feed.kept.count} kept. They are first in Revise.`);
+  assert.equal(end.feed.kept.line, `${end.feed.kept.count} ${end.feed.kept.count === 1 ? 'card' : 'cards'} kept. They'll come first in Revise.`);
   assert.equal(end.feed.lead.run.fresh, true, '"Another 10 minutes" starts a new feed');
 });
 
@@ -655,7 +655,7 @@ test('cards: the four filters, the locked line on Free, and the subject-wide rea
   const { learn } = setup();
   const pl = (await learn.cards('u1', P({ chapter: PL, filter: 'all' }))).body;
   assert.deepEqual([pl.counts.total, pl.counts.all], [14, 5]);
-  assert.equal(pl.lockedLine, '9 more cards in this chapter. Pro opens every card in every chapter and keeps them on a schedule.');
+  assert.equal(pl.lockedLine, "9 more cards in this chapter. Pro opens every card in every chapter and brings each one back when it's due.");
   const all = (await learn.cards('u1', P({ subject: 'business_studies', filter: 'all' }))).body;
   const st = (await learn.cards('u1', P({ chapter: ST, filter: 'all' }))).body;
   assert.deepEqual(all.chapters.map((c) => c.key), [PL, ST]);
@@ -1038,13 +1038,13 @@ test('R5 LK38: every rateable card carries `returns` from FSRS; the stamp after 
   const run = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'cards', requestKey: 'ret-0000001' })).body;
   const cards = run.items.filter((i) => i.type === 'card');
   assert.ok(cards.length >= 3);
-  for (const c of cards) assert.deepEqual(c.returns, { missed: 'in this run, then tomorrow', got: 'in 3 days', easy: 'in 8 days' }, 'a new card: FSRS gives 1, 3 and 8 days');
+  for (const c of cards) assert.deepEqual(c.returns, { missed: 'in this session, then tomorrow', got: 'in 3 days', easy: 'in 8 days' }, 'a new card: FSRS gives 1, 3 and 8 days');
   const got = (await learn.rate('u1', run.id, { itemId: cards[0].id, rating: 3 })).body;
   assert.equal(got.stamp, `Back ${cards[0].returns.got}`);
   const easy = (await learn.rate('u1', run.id, { itemId: cards[1].id, rating: 4 })).body;
   assert.equal(easy.stamp, `Back ${cards[1].returns.easy}`);
   const missed = (await learn.rate('u1', run.id, { itemId: cards[2].id, rating: 1 })).body;
-  assert.equal(missed.stamp, 'Back in this run, then tomorrow');
+  assert.equal(missed.stamp, 'Back in this session, then tomorrow');
   assert.equal(missed.reinsert.item.returns, undefined, 'a missed card back in the run is a last look: it has no words');
 });
 
@@ -1055,7 +1055,7 @@ test("R5 LK38: a reviewed (due) card reads its own stored schedule, not a new ca
   const item = run.items.find((i) => i.type === 'card' && i.card.id === PLANNING[0].id);
   assert.ok(item, 'the due card is in the run');
   const words = (r) => returnWords(schedule(state, r, T0).interval_days);
-  assert.deepEqual(item.returns, { missed: `in this run, then ${words(1)}`, got: words(3), easy: words(4) });
+  assert.deepEqual(item.returns, { missed: `in this session, then ${words(1)}`, got: words(3), easy: words(4) });
   assert.notEqual(item.returns.got, 'in 3 days');
   const got = (await learn.rate('u1', run.id, { itemId: item.id, rating: 3 })).body;
   assert.equal(got.stamp, `Back ${item.returns.got}`, "the stamp is the key's promise");

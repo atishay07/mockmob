@@ -142,12 +142,12 @@ export function marksOrder(parts) {
   });
 }
 
-/** The map's sorts. "Marks open" is offered only when at least one chapter carries a figure (A3-11). */
+/** The map's sorts. "Most marks left" is offered only when at least one chapter carries a figure (A3-11). */
 export const SORTS = Object.freeze([
   { id: 'book', label: 'Book order' },
   { id: 'due', label: 'Due first' },
   { id: 'needs', label: 'Needs work first' },
-  { id: 'marks', label: 'Marks open' },
+  { id: 'marks', label: 'Most marks left' },
 ]);
 export const hasMarks = (parts) => flatRows(parts || []).some(({ row }) => Boolean(marksText(row)));
 export const sortsFor = (parts) => SORTS.filter((s) => s.id !== 'marks' || hasMarks(parts));
@@ -191,16 +191,17 @@ export const chapterTotal = (parts) => flatRows(parts || []).length;
 /** The chapters behind one choice of "Your part": "5 chapters", "1 chapter" (A3-25). */
 export const optionChapterCount = (units, optionId) => (units || []).filter((u) => u.optionId === optionId).reduce((n, u) => n + (u.chapters?.length || 0), 0);
 
-/** "−35": the marks a chapter still has open, with a real minus sign. Empty when the server has no figure. */
+/** "35 marks": the marks a chapter still has open, said with a word (a bare minus reads as a penalty). Empty when the server has no figure. */
 export function marksText(row) {
   if (!Number.isFinite(row?.marksOpen) || row.marksOpen === 0) return '';
-  return `−${Math.abs(row.marksOpen)}`;
+  const n = Math.abs(row.marksOpen);
+  return `${n} ${n === 1 ? 'mark' : 'marks'}`;
 }
 
 /** What a screen reader hears for a row: name, reference, state, count, meta, and the marks when they are shown. */
 export function rowSpoken(row, { marks = false } = {}) {
   const m = marks ? marksText(row) : '';
-  return [displayTitle(row.title), row.ref, row.state?.label, cardsText(row), metaLine(row), m ? `${m.slice(1)} marks open` : ''].filter(Boolean).join('. ');
+  return [displayTitle(row.title), row.ref, row.state?.label, cardsText(row), metaLine(row), m ? `${m} left in this chapter` : ''].filter(Boolean).join('. ');
 }
 
 /** The suggestion's destination: its `run` (the key starts at once) or its `href`. */
@@ -218,7 +219,7 @@ export const distinctKinds = (suggestions) => new Set((suggestions || []).map((s
 export const displayTitle = (text) => String(text || '').replace(/(\p{L})\/(\p{L})/gu, '$1 and $2').replace(/\s+\/\s+/g, ', ');
 
 /** The word above a suggestion's title (the label role): what kind of move it is. */
-const KIND_WORD = { pickup: 'Pick up', due: 'Due', fix: 'Fix', next: 'Next', start: 'Start', level: 'Level', recap: 'Recap', search: 'Search' };
+const KIND_WORD = { pickup: 'Pick up', due: 'Due', fix: 'Fix', next: 'Next', start: 'Start', level: 'Skip ahead', recap: 'Recap', search: 'Search' };
 export const kindWord = (kind) => KIND_WORD[kind] || '';
 
 /** The key's short form for a phone row: "Revise these" is "Revise", "Fix them, 10 minutes" is "Fix, 10 min". The full label stays the key's name. */
@@ -277,7 +278,7 @@ export function shelfKeys(shelves, subjectName = '') {
 export function verdictText(row) {
   const word = row?.verdict ?? verdictOf(row?.state?.key);
   if (!word) return null;
-  return row?.needsWorkFrom === 'papers' ? `${word} · from your papers` : word;
+  return row?.needsWorkFrom === 'papers' ? `${word}, from your papers` : word;
 }
 
 /**
@@ -348,11 +349,11 @@ function whyOf(o) {
   if (o.line) { const l = displayTitle(o.line); return /[.!?]$/.test(l) ? l : `${l}.`; }
   return MOVE_WHY[o.kind] || null;
 }
-/** The key of a move from an Or row: "Start · 2 min" for a run, "Play · 10 min" for a feed, else the row's own label. */
+/** The key of a move from an Or row: "Start · 2 min" for a run or a feed (one word for starting, E-ENGLISH row 26), else the row's own label. */
 function keyOf(o) {
   const m = minutesOf(o);
   if (o.kind === 'continue') return o.label;
-  if (o.go === 'feed' && m) return `Play · ${m} min`;
+  if (o.go === 'feed' && m) return `Start · ${m} min`;
   if (o.run && m) return `Start · ${m} min`;
   return o.label;
 }

@@ -93,7 +93,7 @@ test('chapter rows: counts and states in words, no percentage, no forbidden word
   assert.equal(todayLine({ due: 14, minutes: 4 }), '14 cards due today, about 4 minutes.');
   assert.equal(todayLine({ due: 1, minutes: 1 }), '1 card due today, about 1 minute.');
   assert.equal(todayLine({ due: 0 }), 'Nothing due today.');
-  assert.deepEqual(endCounts({ 1: 2, 3: 5 }), [{ label: 'Missed', n: 2 }, { label: 'Got it', n: 5 }, { label: 'Easy', n: 0 }]);
+  assert.deepEqual(endCounts({ 1: 2, 3: 5 }), [{ label: 'Missed it', n: 2 }, { label: 'Got it', n: 5 }, { label: 'Easy', n: 0 }]);
   assert.deepEqual(RATINGS.map((r) => [r.rating, r.key]), [[1, '1'], [3, '2'], [4, '3']]);
   assert.deepEqual(backLines('a\n\nb\n'), ['a', 'b']);
 });
@@ -180,7 +180,7 @@ test('Revise plays Key cards after the other sources, in the server item shape, 
 });
 
 test('the Pro line is the spec line, with its own reason, and the copy is clean', () => {
-  assert.equal(PRO_LINE, 'Pro opens every card in every chapter and keeps them on a schedule.');
+  assert.equal(PRO_LINE, 'Pro opens every card in every chapter and brings each one back when it’s due.');
   assert.ok(PLACEMENTS.includes('keycards'));
   assert.ok(TRIGGERS.includes('keycards'));
   assert.deepEqual(inlineCopy('keycards'), { text: PRO_LINE, action: 'See Pro', trigger: 'keycards' });
@@ -230,11 +230,11 @@ test('402 copy differs by reason and obeys the copy rules', () => {
   assert.equal(limitKind('keycard_reviews'), 'reviews');
   assert.equal(limitKind(null), 'reviews');
   const n = limitCopy('new');
-  assert.equal(`${n.lead} ${PRO_LINE}`, 'That is today’s 5 new cards on Free. Pro opens every card in every chapter and keeps them on a schedule.');
+  assert.equal(`${n.lead} ${PRO_LINE}`, 'You’ve studied today’s 5 new cards on Free. Pro opens every card in every chapter and brings each one back when it’s due.');
   assert.equal(limitCopy('card').title, 'This card is part of Pro');
   for (const where of ['study', 'revise']) {
     const r = limitCopy('reviews', { where });
-    assert.match(r.title, /free (card )?reviews are used/);
+    assert.match(r.title, /free card ratings are used/);
     assert.notEqual(r.title, n.title);
     for (const kind of ['new', 'card', 'reviews']) {
       const c = limitCopy(kind, { where });
@@ -244,7 +244,7 @@ test('402 copy differs by reason and obeys the copy rules', () => {
       }
     }
   }
-  assert.doesNotMatch(limitCopy('card').title, /reviews are used/);
+  assert.doesNotMatch(limitCopy('card').title, /ratings are used/);
 });
 
 test('LK5: Study motion leaves calm and quick, and the CSS carries the same numbers', () => {

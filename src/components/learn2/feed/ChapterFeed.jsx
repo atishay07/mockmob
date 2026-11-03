@@ -45,10 +45,10 @@ import './feed.css';
 // after that first move, never when it is shown.
 const NUDGE = 'learn2.feed.nudge.v2';
 const LEFT_OUT = {
-  question_changed: 'This question changed a moment ago, so it is left out.',
-  question_held: 'This question is in an open Mob paper, so it is left out for now.',
+  question_changed: 'This question was just updated, so we skipped it.',
+  question_held: "This question is in a Mob paper that's still open, so we skipped it for now.",
 };
-const CLOSED_LINE = 'This feed is finished, so this one is not counted.';
+const CLOSED_LINE = "This feed has ended, so this answer wasn't counted.";
 const seenFlag = (k) => { try { return localStorage.getItem(k) === '1'; } catch { return true; } };
 const markFlag = (k) => { try { localStorage.setItem(k, '1'); } catch { /* shown again next time */ } };
 const typing = (el) => Boolean(el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)));
@@ -131,8 +131,8 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     setDirty(0);
     setLoad({ status: all.length || done ? 'ready' : 'empty', run: r });
     if (done > 0 && all.length) {
-      setNote(`Picked up at ${done + 1} of ${done + all.length}`);
-      setTimeout(() => setNote((n) => (n && n.startsWith('Picked up') && window.innerWidth < 1200 ? null : n)), 2400);
+      setNote(`Carrying on from ${done + 1} of ${done + all.length}`);
+      setTimeout(() => setNote((n) => (n && n.startsWith('Carrying on') && window.innerWidth < 1200 ? null : n)), 2400);
     } else setNote(null);
     if (!r.id) return;
     held.set(r.id, { run: r, list: all, states: all[0]?.type === 'card' ? { [all[0].id]: { seen: true } } : {}, active: 0, base: done, streak: 0, closed: false, furthest: 0 });
@@ -292,8 +292,8 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     } catch (e) {
       if (isRunClosed(e)) { patch(item.id, { keeping: false }); setClosed(true); go(endAt); return; }
       const pro = e.status === 402;
-      patch(item.id, { keeping: false, keepPro: pro, stamp: pro ? { text: 'This card is on Pro.' } : { text: 'Not added. Try again.', bad: true } });
-      speak(pro ? 'This card is on Pro.' : 'Could not add that card to Revise. Try again.');
+      patch(item.id, { keeping: false, keepPro: pro, stamp: pro ? { text: 'This card is part of Pro.' } : { text: 'Not added. Try again.', bad: true } });
+      speak(pro ? 'This card is part of Pro.' : "Couldn't add that card to Revise. Try again.");
     }
   }, [states, run, patch, speak, router, go, endAt]);
 
@@ -302,7 +302,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     if (st.savePro) { seePro('saved', null, router.push); return; }
     if (st.saved || st.saving) return;
     patch(item.id, { saving: true });
-    try { await saveQuestion(item.question.id); patch(item.id, { saved: true, saving: false }); speak('Saved.'); } catch (e) { patch(item.id, { saving: false, savePro: e.status === 402 }); speak(e.status === 402 ? 'Saving more questions is on Pro.' : 'Could not save that question. Try again.'); }
+    try { await saveQuestion(item.question.id); patch(item.id, { saved: true, saving: false }); speak('Saved.'); } catch (e) { patch(item.id, { saving: false, savePro: e.status === 402 }); speak(e.status === 402 ? 'Saving more questions is part of Pro.' : "Couldn't save that question. Try again."); }
   }, [states, patch, speak, router]);
 
   const choose = useCallback(async (item, choice) => {
@@ -331,7 +331,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
       if (isQuestionSkipped(e)) { patch(item.id, { answer: null, skipped: LEFT_OUT[e.kind] }); speak(LEFT_OUT[e.kind]); return; }
       if (isRunClosed(e)) { patch(item.id, { answer: null }); setClosed(true); go(endAt); return; }
       if (isSessionUsed(e)) { patch(item.id, { answer: null, skipped: e.data?.line || 'Your free Learn session for today is done.' }); setClosed(true); speak(e.data?.line || ''); return; }
-      patch(item.id, { answer: null, error: 'That answer was not saved. Try again.' });
+      patch(item.id, { answer: null, error: "That answer wasn't saved. Try again." });
     }
   }, [states, closed, run, patch, streak, base, speak, go, endAt]);
 
@@ -470,7 +470,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   if (load.status === 'error') {
     return centerState(
       <div className="st-state">
-        <h2 className="st-state__title">The feed did not start</h2>
+        <h2 className="st-state__title">The feed didn&apos;t start</h2>
         <p className="st-state__line">Check your connection and try again.</p>
         <div className="st-state__keys">
           <button type="button" className="kc-btn kc-btn--volt" onClick={() => begin()}>Try again</button>
@@ -491,7 +491,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   if (load.status === 'empty') {
     return centerState(
       <div className="st-state">
-        <h2 className="st-state__title">Nothing to play here yet</h2>
+        <h2 className="st-state__title">Nothing here yet</h2>
         <p className="st-state__line">This chapter&apos;s cards and questions are still being checked.</p>
         <div className="st-state__keys">
           <Link className="kc-btn kc-btn--volt" href={links.explore()}>Back to Explore</Link>
@@ -625,7 +625,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
           close={closeKey}
           titleRef={endTitleEl}
           loading={end.status === 'loading' || end.status === 'idle'}
-          error={end.status === 'error' ? { title: 'Your feed is saved', line: 'Its summary did not load.' } : null}
+          error={end.status === 'error' ? { title: 'Your feed is saved', line: "The summary didn't load, but everything you did is saved." } : null}
           onRetry={() => run?.id && readEnd(run.id, dirty, { stop: stoppedHere })}
           retryKeys={<Link className="st-textkey st-textkey--quiet" href={links.explore()}>Back to Explore</Link>}
           chapter={endTitle(d, run)}

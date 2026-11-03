@@ -113,7 +113,7 @@ export function Verdict({ res, letter, streak = 0 }) {
       </p>
     );
   }
-  return <p className="st-verdict" data-bad="" aria-hidden="true"><X size={18} strokeWidth={2.6} /><span>{`Not quite. It\u2019s ${letter}.`}</span></p>;
+  return <p className="st-verdict" data-bad="" aria-hidden="true"><X size={18} strokeWidth={2.6} /><span>{`Not quite. The answer is ${letter}.`}</span></p>;
 }
 
 /** The line you needed, opened in place under the options (never a sheet over them). */

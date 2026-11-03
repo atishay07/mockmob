@@ -50,7 +50,7 @@ export function StateRing({ shape }) {
 
 // R7 W (LK59): a row says its state in one word ("Needs work"); where that comes from ("from your papers") is said once, under the
 // roadmap's head (and stays in the row's spoken name), so the list never repeats a recommendation on every weak row.
-const verdictWord = (text) => String(text || '').split(' · ')[0];
+const verdictWord = (text) => String(text || '').split(', ')[0];
 
 function Row({ row, href, here }) {
   // The row never says "free" (the header says it once) and its card count is the chapter's real size on Free and Pro alike (R4
@@ -171,7 +171,7 @@ function PartSwitch({ part, at, choice, status, onChoose }) {
       </div>
       {implied && status !== 'saving' && status !== 'failed' ? <p className="lh-opt__hint lh-opt__implied">{implied}</p> : null}
       {status === 'saving' || status === 'failed'
-        ? <p className="lh-opt__hint" role={status === 'failed' ? 'alert' : 'status'} data-failed={status === 'failed' || undefined}>{status === 'failed' ? 'Your choice was not saved. Try again.' : 'Saving your choice'}</p>
+        ? <p className="lh-opt__hint" role={status === 'failed' ? 'alert' : 'status'} data-failed={status === 'failed' || undefined}>{status === 'failed' ? "Your choice wasn't saved. Try again." : 'Saving your choice'}</p>
         : null}
     </div>
   );
@@ -229,7 +229,7 @@ export function MapSkeleton() {
 export function MapError({ onRetry, busy }) {
   return (
     <div className="lh-err" role="alert">
-      <h3>Learn did not load</h3>
+      <h3>Learn didn&apos;t load</h3>
       <p>Check your connection and try again. Your cards and their schedule are safe.</p>
       <button type="button" className="lh-key lh-key--line" onClick={onRetry} disabled={busy}>Try again</button>
     </div>

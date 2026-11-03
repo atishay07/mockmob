@@ -148,7 +148,7 @@ function NextPile({ next, added, plus, minutes, index, busy, onToggle }) {
   return (
     <li className="lc-pile" data-kind="next" data-added={added ? '' : undefined} style={{ '--i': index }}>
       <button type="button" className="lc-pile__btn" aria-pressed={Boolean(added)} aria-busy={busy || undefined} onClick={onToggle}
-        aria-label={added ? `${title} added to this run. Tap to remove it` : `Add the next chapter, ${title}, to fill your ${minutes} minutes`}>
+        aria-label={added ? `${title} added to this session. Tap to remove it` : `Add the next chapter, ${title}, to fill your ${minutes} minutes`}>
         <span className="lc-fan">
           {added ? <><span className="lc-sheet lc-sheet--c" aria-hidden="true" /><span className="lc-sheet lc-sheet--b" aria-hidden="true" /></> : null}
           <span className={`lc-sheet lc-sheet--a${added ? '' : ' lc-sheet--dash'}`}>
@@ -171,7 +171,7 @@ function NextPile({ next, added, plus, minutes, index, busy, onToggle }) {
 /** Before the first dry run: the whole page in outline, so nothing on screen moves when the answer lands. */
 function PageSkeleton() {
   return (
-    <div className="lc-skel" aria-busy="true" aria-label="Lining up this chapter">
+    <div className="lc-skel" aria-busy="true" aria-label="Getting this chapter ready">
       <div className="lc-lined">
         <div className="lc-lined__in">
           <div className="lc-ctl"><span className="skeleton lc-skel__h" /><span className="skeleton lc-skel__len" /></div>
@@ -248,7 +248,7 @@ function Shelf({ data, chapterKey, minutes, links, failed = false }) {
     <aside className="lc-shelf" aria-labelledby="lc-shelf-h">
       <h2 className="lc-shelf__h" id="lc-shelf-h">Everything in this chapter</h2>
       <ul className="lc-shelf__rows">
-        {view.rows.map((r) => <ShelfRow key={r.id} id={r.id} title={r.title} line={r.id === 'print' && printer.busy ? 'Getting the sheet ready' : r.id === 'print' && printer.failed ? 'The sheet did not load. Try again.' : r.line} locked={r.locked} href={r.link ? hrefOf[r.id] : null} onPress={r.action === 'print' ? printer.start : null} busy={r.action === 'print' && printer.busy} />)}
+        {view.rows.map((r) => <ShelfRow key={r.id} id={r.id} title={r.title} line={r.id === 'print' && printer.busy ? 'Getting the sheet ready' : r.id === 'print' && printer.failed ? "The sheet didn't load. Try again." : r.line} locked={r.locked} href={r.link ? hrefOf[r.id] : null} onPress={r.action === 'print' ? printer.start : null} busy={r.action === 'print' && printer.busy} />)}
       </ul>
       {printer.sheet}
     </aside>
@@ -447,13 +447,13 @@ export default function ChapterPage({ chapterKey, minutes: asked = null }) {
 
                         {read.status === 'error' ? (
                           <div className="lc-error" role="alert">
-                            <p>We could not line this up.</p>
+                            <p>We couldn&apos;t set up this session.</p>
                             <button type="button" className="kc-btn kc-btn--line kc-btn--small" onClick={read.retry}>Try again</button>
                           </div>
                         ) : (
                           <>
                             <div className="lc-incl">
-                              <h3 className="lc-incl__h" id={`${headId}-incl`}>{"What's in this run"}</h3>
+                              <h3 className="lc-incl__h" id={`${headId}-incl`}>{"What's in this session"}</h3>
                               <p className="lc-incl__sum" aria-live="polite">{runSummary(data, piles)}</p>
                             </div>
                             <ul className="lc-piles" aria-labelledby={`${headId}-incl`} data-n={n}>
@@ -465,7 +465,7 @@ export default function ChapterPage({ chapterKey, minutes: asked = null }) {
                               ) : null}
                             </ul>
                             {coach && piles.length > 1 ? <p className="lc-coach" data-done={coach === 'done' || undefined} aria-hidden={coach === 'done' || undefined}>Tap a pile to leave it out.</p> : null}
-                            {read.status === 'stale' ? <p className="lc-fine" role="status">We could not update this. The last lined-up run is shown.</p> : null}
+                            {read.status === 'stale' ? <p className="lc-fine" role="status">We couldn&apos;t update the plan. You&apos;re seeing the last one.</p> : null}
 
                             <div className="lc-go" data-resume={resume ? '' : undefined}>
                               <div className="lc-go__bar">

@@ -98,11 +98,11 @@ test('Z: the road stops lead with their goal while nothing is counted: "1 sessio
   assert.equal(dueStop({ ...l.today, rest: true, items: [], total: 0 }).unit, 'nothing due');
 });
 
-test('Z and W: Revise with nothing asked yet reads "Revise · 5 questions" (reviseQuestions), never "Revise 0 of 5 questions"', () => {
-  assert.equal(reviseQuestions(5), 'Revise · 5 questions');
+test('Z and W: Revise with nothing asked yet reads "Revise 5 questions" (reviseQuestions), never "Revise 0 of 5 questions"', () => {
+  assert.equal(reviseQuestions(5), 'Revise 5 questions');
   const l = layersFor({ revise: { due: 5, answeredToday: 0 }, firstDay: false, move: { id: 'practice', title: 'Practise a fresh set', key: { minutes: 10, href: '/dashboard' } } });
   const rev = l.today.items.find((i) => i.id === 'revise');
-  assert.equal(rev.title, 'Revise · 5 questions');
+  assert.equal(rev.title, 'Revise 5 questions');
   assert.equal(rev.detail, '');
   assert.equal(hasZeroCount(`${rev.title} ${rev.detail}`), false);
   const part = layersFor({ revise: { due: 3, answeredToday: 2 }, firstDay: false }).today.items.find((i) => i.id === 'revise');

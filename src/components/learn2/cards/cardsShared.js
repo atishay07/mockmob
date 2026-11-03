@@ -88,7 +88,7 @@ export function useAddToRevise({ isPro, onAdded } = {}) {
       return true;
     } catch (e) {
       if (isProRequired(e)) openUpgrade({ trigger: 'keycards', opener });
-      else setError('The cards were not added. Try again.');
+      else setError("The cards weren't added. Try again.");
       return false;
     } finally {
       setBusy(false);

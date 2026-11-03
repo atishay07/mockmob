@@ -30,7 +30,7 @@ const SHELF = [
   { name: 'questions', title: 'Questions only', line: '10 questions in this chapter' },
   { name: 'mistakes', title: 'Your mistakes', line: 'Fix 2 open mistakes · 2 min' },
   { name: 'lesson', title: 'Revaluation of assets and liabilities', line: 'Lesson · 7 min, not read yet' },
-  { name: 'print', title: 'Print sheet', line: '15 Must-know lines, with your name' },
+  { name: 'print', title: 'Chapter sheet', line: '15 Must-know lines, with your name on it' },
 ];
 
 const noop = () => () => {};

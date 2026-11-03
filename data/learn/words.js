@@ -13,7 +13,7 @@ export const WORDS = Object.freeze({
   inRevise: 'In Revise',
   revise: 'Revise',
   missedIt: 'Missed it',
-  coachRatings: 'Missed it brings a card back soonest. Easy sends it furthest away.',
+  coachRatings: 'How well did you know it? Missed it brings the card back soon. Got it, in a few days. Easy, much later.',
   save: 'Save',
   saved: 'Saved',
   skipKnown: 'Skip what you already know',
@@ -45,9 +45,9 @@ export function reviseDue(n, minutes) {
   return withMinutes(`Revise ${plural(count(n), 'due card')}`, minutes);
 }
 
-/** "Revise · 5 questions" (Today's paper questions to revise; never "Revise 0 of 5 questions"). */
+/** "Revise 5 questions" (Today's paper questions to revise; never "Revise 0 of 5 questions"; the dot is for a length only). */
 export function reviseQuestions(n) {
-  return `Revise · ${plural(count(n), 'question')}`;
+  return `Revise ${plural(count(n), 'question')}`;
 }
 
 /** "4 to revise" (the Revise-later pile's visible label on desktop; the pile shows only from 1). */
@@ -90,6 +90,6 @@ export const backLine = (words) => `back ${words}`;
 
 /**
  * The words for a Missed card. FSRS always schedules it; when the run also shows it again (a missed card comes back 3 items on,
- * once per card per run) the words say so: "in this run, then tomorrow". `scheduled` is the returnWords of its schedule.
+ * once per card per session) the words say so: "in this session, then tomorrow". `scheduled` is the returnWords of its schedule.
  */
-export const missedWords = (scheduled, inRun) => (inRun ? `in this run, then ${scheduled}` : scheduled);
+export const missedWords = (scheduled, inRun) => (inRun ? `in this session, then ${scheduled}` : scheduled);

@@ -68,11 +68,11 @@ export function endProgress(progress) {
 }
 
 /** The Free bar's tail once every free card is seen (R4 first-timer#4): one line, no extra block. */
-export const FREE_REST_PRO = 'the rest open with Pro';
+export const FREE_REST_PRO = 'The rest open with Pro.';
 
 /**
  * The bar's label: "20 of 45 cards seen". On Free (`open`, the cards Free opens in this chapter, is sent and is fewer than
- * the chapter's cards) once the seen cards reach the free count: "5 of 45 cards seen · the rest open with Pro". Pro never
+ * the chapter's cards) once the seen cards reach the free count: "5 of 45 cards seen. The rest open with Pro." Pro never
  * sends `open` (or sends the whole chapter), so it never reads the tail.
  */
 export function progressLabel({ seen = 0, of = 0, open = null } = {}) {
@@ -80,7 +80,7 @@ export function progressLabel({ seen = 0, of = 0, open = null } = {}) {
   const o = num(of);
   const base = `${s} of ${o} cards seen`;
   const free = open === null || open === undefined || open === '' ? null : num(open);
-  return free !== null && free > 0 && free < o && s >= free ? `${base} · ${FREE_REST_PRO}` : base;
+  return free !== null && free > 0 && free < o && s >= free ? `${base}. ${FREE_REST_PRO}` : base;
 }
 
 /**

@@ -290,7 +290,7 @@ test('#10: "Done for tonight" with mistakes still due says so, keys Revise in ou
   const rev = layers.today.items.find((i) => i.id === 'revise');
   assert.equal(rev.extra, true);
   assert.equal(rev.detail, 'extra tonight', 'R3 Z: never "0 of 5 questions"');
-  assert.equal(rev.title, 'Revise · 5 questions');
+  assert.equal(rev.title, 'Revise 5 questions');
   assert.equal(rev.minutes, 5);
   assert.equal(layers.today.left, 'Everything due today is done. 5 Revise questions are extra tonight, about 5 min.');
   // With any other lead, Revise counts as before.

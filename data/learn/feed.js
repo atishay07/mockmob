@@ -23,7 +23,7 @@ export const FEED_RULES = Object.freeze({
 
 /** The line under a feed when Free's day is used. Kept under its old name for older importers (LK15, allowance.js). */
 export const FREE_FEED_DONE = FREE_SESSION_DONE;
-export const CHECKPOINT_LINE = 'Keep going, or end here. What you kept is already in Revise.';
+export const CHECKPOINT_LINE = 'Keep going, or stop here. The cards you kept are already in Revise.';
 
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
@@ -129,8 +129,8 @@ export function feedEndLines({ answered = 0, right = 0, fixed = 0, mistakes = 0 
   return lines;
 }
 
-/** The kept line of a feed end: "6 kept. They are first in Revise." (no return day: none is scheduled yet), null at 0. */
-export const keptLine = (count) => (count > 0 ? `${count} kept. They are first in Revise.` : null);
+/** The kept line of a feed end: "6 cards kept. They'll come first in Revise." (no return day: none is scheduled yet), null at 0. */
+export const keptLine = (count) => (count > 0 ? `${count} ${count === 1 ? 'card' : 'cards'} kept. They'll come first in Revise.` : null);
 
 /**
  * Problems with a feed's order, [] when it keeps the feed's shape. Items: { type: 'card' } | { type: 'question' }.

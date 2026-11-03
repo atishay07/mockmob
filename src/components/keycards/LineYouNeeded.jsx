@@ -13,7 +13,7 @@ import { addedLine, plural } from './kinds';
 import { ncertFont } from './ncertFont';
 import './keycards.css';
 
-const SOURCE_LABEL = { linked: 'Linked to this question', matched: 'Matched by its words' };
+const SOURCE_LABEL = { linked: 'Linked to this question', matched: 'Matched by the question’s words' };
 
 export default function LineYouNeeded({ questionId }) {
   const [read, setRead] = useState({ state: 'loading', body: null });
@@ -60,7 +60,7 @@ export default function LineYouNeeded({ questionId }) {
         {add === 'added' ? (
           <p className="kc-inrevise" role="status"><Check size={16} strokeWidth={2.4} aria-hidden="true" />{said}</p>
         ) : add === 'pro' ? (
-          <p className="kc-fine" role="status">Adding {cards.length > 1 ? 'these cards' : 'this card'} needs Pro. Pro opens every card in every chapter and keeps them on a schedule.</p>
+          <p className="kc-fine" role="status">Adding {cards.length > 1 ? 'these cards' : 'this card'} needs Pro. Pro opens every card in every chapter and brings each one back when it’s due.</p>
         ) : (
           <button type="button" className="kc-btn kc-btn--line kc-btn--small" onClick={addAll} disabled={add === 'adding'}>{add === 'adding' ? 'Adding' : cards.length > 1 ? 'Add both to Revise' : 'Add to Revise'}</button>
         )}

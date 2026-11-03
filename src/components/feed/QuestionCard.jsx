@@ -90,19 +90,19 @@ export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, 
     } catch (error) {
       // The 25 free saves are full: the Upgrade sheet says so and what Pro keeps (D80), in place of a toast.
       if (error.status === 402) openUpgrade({ trigger: 'saves' });
-      else toast.error('Could not update saved questions. Check your connection and try again.');
+      else toast.error('Couldn’t update saved questions. Check your connection and try again.');
     } finally { saveLock.current = false; setSaving(false); }
   }
 
   return (
     <article ref={card} className="ex-question" data-closed={!open && !savedList ? '' : undefined}>
-      <header className="ex-question__meta" data-solo={hideChapter || undefined}>{hideChapter ? null : <span>{chapterTitle || q.chapter || 'Practice question'}</span>}<span className="ex-difficulty" data-level={q.difficulty}>{['easy', 'medium', 'hard'].includes(q.difficulty) ? q.difficulty : 'Unlabelled'}</span></header>
+      <header className="ex-question__meta" data-solo={hideChapter || undefined}>{hideChapter ? null : <span>{chapterTitle || q.chapter || 'Practice question'}</span>}<span className="ex-difficulty" data-level={q.difficulty}>{['easy', 'medium', 'hard'].includes(q.difficulty) ? q.difficulty : 'No difficulty'}</span></header>
       {(q.passage_text || q.passageText) && <section aria-label="Reading passage" className="ex-passage"><p className="ex-passage__label">Reading passage</p><div>{q.passage_text || q.passageText}</div></section>}
       {savedList && !open ? (
         <h3 className="ex-question__body ex-question__body--key"><button type="button" className="ex-question__open" aria-expanded="false" onClick={() => setOpen(true)}>
-          <span>{formatQuestionText(q.body ?? q.question ?? 'Question unavailable')}</span><ChevronDown size={18} strokeWidth={2.2} aria-hidden="true" />
+          <span>{formatQuestionText(q.body ?? q.question ?? 'This question didn’t load')}</span><ChevronDown size={18} strokeWidth={2.2} aria-hidden="true" />
         </button></h3>
-      ) : <h3 className="ex-question__body">{formatQuestionText(q.body ?? q.question ?? 'Question unavailable')}</h3>}
+      ) : <h3 className="ex-question__body">{formatQuestionText(q.body ?? q.question ?? 'This question didn’t load')}</h3>}
       {open ? <div className="ex-options" role="group" aria-label="Answer options">
         {options.map((option, index) => {
           const correct = revealed && feedback.correctKey != null && String(option.key) === String(feedback.correctKey);
@@ -111,14 +111,14 @@ export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, 
         })}
       </div> : null}
       {revealed && <div ref={feedbackNode} className="ex-feedback" data-state={feedback.state} tabIndex={-1} role="status"><div className="ex-feedback__row"><b>{feedback.state === 'correct' ? 'Correct. Keep the reasoning.' : feedback.state === 'incorrect' ? `The answer is ${feedback.correctKey}. Here’s why.` : feedback.state === 'revealed' ? `Answer: ${feedback.correctKey}` : 'The answer is unavailable.'}</b>{react && mobiOwner === q.id ? <MobiReact act={react} size={44} facing="left" /> : null}</div><p>{q.explanation || 'An explanation is not available for this question.'}</p></div>}
-      {recordError && <p className="ex-recorderror" role="status">Feedback is shown, but this activity could not be recorded.</p>}
-      {feedback.state === 'unavailable' && !revealed && <p className="ex-recorderror">This question has no usable answer key. Try the next one.</p>}
+      {recordError && <p className="ex-recorderror" role="status">Here’s the answer, but this attempt wasn’t saved.</p>}
+      {feedback.state === 'unavailable' && !revealed && <p className="ex-recorderror">This question’s answer is missing, so we can’t check it. Try the next one.</p>}
       {savedList ? (
         <footer className="ex-question__actions ex-question__actions--saved">
           {actions}
         </footer>
       ) : <footer className="ex-question__actions">
-        <VoteControls questionId={q.id} initialScore={q.score} initialUserVote={q.userVote} onError={() => toast.error('Your vote did not save. Try again when your connection is back.')} />
+        <VoteControls questionId={q.id} initialScore={q.score} initialUserVote={q.userVote} onError={() => toast.error('Your vote didn’t save. Try again when your connection is back.')} />
         <div className="ex-question__tools">{!open ? <button type="button" className="ex-action ex-action--open" aria-expanded="false" onClick={() => setOpen(true)}>Answer it</button> : null}<button type="button" className="ex-action" aria-pressed={saved} disabled={saving} onClick={save}><AppIcon name="saved" size={16} />{saving ? 'Saving…' : saved ? 'Saved' : 'Save'}</button>{open && !revealed && feedback.state !== 'unavailable' && <button type="button" className="ex-action" onClick={(event) => reveal(null, event.detail === 0)}>Show answer</button>}</div>
       </footer>}
     </article>

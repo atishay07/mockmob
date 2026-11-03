@@ -26,9 +26,9 @@ import './cards.css';
 
 const FILTERS = ['all', 'must', 'revise', 'missed'];
 const EMPTY = {
-  must: ['No Must-know cards in this chapter.', 'Every card here is a good one to know; none is marked Must-know yet.'],
-  revise: ['No cards from this chapter are in Revise yet.', 'Rate a card in a run and it joins.'],
-  missed: ['No missed cards in the last 14 days.', 'A card you miss in a run shows here until you get it right.'],
+  must: ['No Must-know cards in this chapter.', "None of this chapter's cards is marked Must-know yet."],
+  revise: ['No cards from this chapter are in Revise yet.', 'Rate a card and it goes into Revise.'],
+  missed: ['No missed cards in the last 14 days.', 'A card you miss shows here until you get it right.'],
   all: ['No cards for this chapter yet.', 'Cards are written from the NCERT book and checked before they open here.'],
 };
 
@@ -237,7 +237,7 @@ export default function CardsView({ chapterKey, filter: initialFilter = 'all' })
   const shell = (body) => <div className={`kc l2c ${ncertFont.variable}`}><div className="l2c-layout">{back}<div className="l2c-main">{body}</div></div></div>;
 
   if (read.status === 'loading') return <Loading back={back} />;
-  if (read.status === 'error' || !data) return shell(<ErrorState title="The cards did not load" message="Check your connection and try again. Nothing you added is lost." onRetry={read.refresh} />);
+  if (read.status === 'error' || !data) return shell(<ErrorState title="The cards didn't load" message="Check your connection and try again. Nothing you added is lost." onRetry={read.refresh} />);
 
   const options = [
     { value: 'all', label: 'All', count: counts.all },

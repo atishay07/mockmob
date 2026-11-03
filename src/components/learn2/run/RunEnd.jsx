@@ -36,7 +36,7 @@ export default function RunEnd({ state, tally, kind = 'mix', chapter = {}, close
   if (state.status === 'error' || !state.data) {
     return (
       <EndScreen close={close} titleRef={headRef} onRetry={onRetry}
-        error={{ title: 'Your run is saved', line: 'Its summary did not load. Every rating and answer is already in.' }} />
+        error={{ title: 'Your session is saved', line: "The summary didn't load, but every rating and answer is saved." }} />
     );
   }
   const d = state.data;
@@ -62,7 +62,7 @@ export default function RunEnd({ state, tally, kind = 'mix', chapter = {}, close
   const keyOf = (option, main) => {
     const to = keyTarget(option, links);
     const label = option.label || option.title;
-    const sub = main ? (option.kind === 'next' ? option.chapterTitle || null : runKind === 'level' && d.level ? `Your lowest score: ${d.level.right} of ${d.level.of} right` : null) : null;
+    const sub = main ? (option.kind === 'next' ? option.chapterTitle || null : runKind === 'level' && d.level ? `Your weakest part: ${d.level.right} of ${d.level.of} right` : null) : null;
     if (main) {
       if (to.pro) return <EndKey onClick={seePro}>{label}</EndKey>;
       if (to.href) return <EndKey as={Link} href={to.href} sub={sub}>{label}</EndKey>;

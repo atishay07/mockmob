@@ -3,7 +3,7 @@
 //   tomorrow         due the next India day        "Back tomorrow"
 //   2 to 6 days      the weekday                   "Back Tue"
 //   7 days or more   the count                     "Back in 12 days"
-// A Missed card that comes back inside the run says "Back later in this run".
+// A Missed card that comes back inside the session says "Back later in this session".
 // A card due at or before now says "Due now" (R16), never "Back later today".
 // The session end groups the Revise pile by the same day: "back on Tue", "back tomorrow", "later today", "back in 12 days".
 // Also here (BUILD-1101 1.8, R10.1 and R16): the IST-day rule of a mistake's retry, the row meta's "done today", the "moved"
@@ -12,7 +12,7 @@
 const IST_MS = 19_800_000;
 const DAY = 86_400_000;
 const WEEKDAYS = Object.freeze(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']);
-export const IN_RUN = 'Back later in this run';
+export const IN_RUN = 'Back later in this session';
 
 const time = (v) => { const t = v instanceof Date ? v.getTime() : typeof v === 'number' ? v : Date.parse(v); return Number.isFinite(t) ? t : null; };
 /** Whole India calendar days from `now` to `at` (0 = the same day). */

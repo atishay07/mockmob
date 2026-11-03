@@ -1320,7 +1320,7 @@ export function createLearn(deps) {
     const out = await record({ kind: 'rate', card_id: item.cardId, rating, due_at: dueAt, body: { stamp, saved: true } }, { reinsert });
     if (out?.status === 'replay') return ok({ ok: true, replay: true, stamp: out.body?.stamp ?? stamp, revisePile: await pileNow(), limit: null });
     const back = out?.reinsert ? await hydrateReinsert({ pub: await published() }, row, out.reinsert) : null;
-    if (back) stamp = words ? `Back in this run, then ${words}` : IN_RUN;
+    if (back) stamp = words ? `Back in this session, then ${words}` : IN_RUN;
     return ok({ ok: true, stamp, revisePile: pile(pileOf(ev).count + 1), limit: null, reinsert: back });
   }
 
@@ -1378,7 +1378,7 @@ export function createLearn(deps) {
     // R16: "moved" only between answer-based states, never from Not started.
     const startState = metaOf(row);
     const moved = S.isPro && info && !spans ? movedLine(info.title, startState, info.state) : null;
-    const free = !S.isPro && row.limit_line && info ? { text: `Free opened ${info.counts.open} of this chapter's ${info.counts.cards} cards. Pro opens all of them and keeps them on a schedule.` } : null;
+    const free = !S.isPro && row.limit_line && info ? { text: `Free opened ${info.counts.open} of this chapter's ${info.counts.cards} cards. Pro opens all of them and brings each one back when it's due.` } : null;
     // The length the student chose, unless the run was shrunk (R4): the title and the next options use it.
     const length = metaOf(row).shrink ? Number(row.minutes) : Number(row.asked_minutes) || Number(row.minutes);
     // R5 LK45 fix 4: a card run over several chapters is "Revise", as its head line was; the end says the same.
@@ -1427,7 +1427,7 @@ export function createLearn(deps) {
       if (pick) {
         level = { chapterKey: pick.key, title: pick.title, right: pick.right, of: pick.of };
         if (!sessionDone) {
-          const start = { kind: 'next', title: `Start with ${pick.title}`, minutes: 10, label: `Start with ${pick.title}`, evidence: `Your lowest score here: ${pick.right} of ${pick.of} right.`, run: { kind: 'mix', chapterKey: pick.key, minutes: 10, leaveOut: [] } };
+          const start = { kind: 'next', title: `Start with ${pick.title}`, minutes: 10, label: `Start with ${pick.title}`, evidence: `Your weakest part: ${pick.right} of ${pick.of} right.`, run: { kind: 'mix', chapterKey: pick.key, minutes: 10, leaveOut: [] } };
           opts = { lead: start, options: [opts.lead, ...opts.options].filter((o) => o && !(o.run && o.run.chapterKey === pick.key && o.run.kind === 'mix')).slice(0, 1) };
         }
       }
@@ -1667,7 +1667,7 @@ export function createLearn(deps) {
     const lockedCount = info.counts.cards - info.counts.open;
     return ok({
       chapter: { key: info.key, title: info.title, ref: info.ref, place: info.place }, plan: S.isPro ? 'pro' : 'free', counts, sections, lockedCount,
-      lockedLine: !S.isPro && lockedCount > 0 ? `${lockedCount} more ${lockedCount === 1 ? 'card' : 'cards'} in this chapter. Pro opens every card in every chapter and keeps them on a schedule.` : null,
+      lockedLine: !S.isPro && lockedCount > 0 ? `${lockedCount} more ${lockedCount === 1 ? 'card' : 'cards'} in this chapter. Pro opens every card in every chapter and brings each one back when it's due.` : null,
     });
   }
 

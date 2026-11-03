@@ -71,10 +71,10 @@ test('the start offer: the exact copy for each state (ruling 1)', () => {
   assert.equal(fresh.mode, 'new');
   assert.equal(fresh.headline, 'Start learning Accountancy');
   assert.equal(fresh.key.label, 'Start chapter 1 · 10 min');
-  assert.equal(fresh.line, 'Chapter 1 of 5 · Chapter title 1');
+  assert.equal(fresh.line, 'Chapter 1 of 5: Chapter title 1');
   assert.deepEqual(fresh.key.run, { chapterKey: BOOK[0].key, minutes: 10, kind: 'mix', leaveOut: [] });
   assert.deepEqual(fresh.or.map((o) => o.label), ['Skip what you already know', 'Play this chapter as a feed']);
-  assert.equal(fresh.or[0].line, '6 questions · about 6 min');
+  assert.equal(fresh.or[0].line, '6 questions, about 6 min');
   assert.equal(fresh.or[0].label, WORDS.skipKnown, 'the level check is "Skip what you already know" on Learn');
 
   const run = { id: 'lr_1', chapterKey: BOOK[3].key, title: 'Admission of a Partner', done: 6, of: 16, minutesLeft: 6, kind: 'mix', leaveOut: [] };
@@ -92,12 +92,12 @@ test('the start offer: the exact copy for each state (ruling 1)', () => {
   assert.equal(today.headline, "Today's 10 minutes in Accountancy");
   assert.equal(today.key.label, 'Start · 10 min');
   assert.deepEqual(today.key.run, { chapterKey: BOOK[1].key, minutes: 10, kind: 'mix', leaveOut: [], cardIds: ['b', 'a'] });
-  assert.equal(today.sub, '2 due cards first, then new ones here');
+  assert.equal(today.sub, '2 due cards first, then new cards from this chapter');
   // R4 owner-eye#9: the line already leads with the due cards the Start key plays, so no "Revise 2 due cards" Or row as well.
   assert.ok(!today.or.some((o) => o.kind === 'revise'), 'one of the two, never both');
   assert.deepEqual(today.or.map((o) => o.label), ['Fix 2 open mistakes · 2 min', 'Play this chapter as a feed']);
   assert.equal(today.or[0].run.fresh, true, 'R4 server-security#3: the fix row is a NEW mistakes-only run, never a resume');
-  assert.equal(today.or[1].line, 'Scroll through the chapter, stop any time', 'R4 first-timer#7: the feed row says what is different');
+  assert.equal(today.or[1].line, 'Scroll through the chapter and stop any time.', 'R4 first-timer#7: the feed row says what is different');
   assert.deepEqual(today.chapter.place, { n: 2, of: 5 }, 'R4 ruling N: the position chapter\'s place');
   // The Revise row still leads where the offer does not hold the due cards (a pick-up): a cards run, never counted on Free.
   const pickDue = roadmap({ subject: ACC, chapters: returning, due, run: { id: 'lr_2', chapterKey: BOOK[1].key, title: 'Chapter title 2', done: 2, of: 9, minutesLeft: 5, kind: 'mix', leaveOut: [] } });
@@ -127,7 +127,7 @@ test('the start offer: the exact copy for each state (ruling 1)', () => {
 test('C2: a chapter with no cards is never counted, never a position and never "Chapter 1 of N"', () => {
   const book = [{ ...ch(1), of: 0, cards: 0, questions: 3 }, ch(2), ch(3), { ...ch(4), of: 0, cards: 0, questions: 0 }, ch(5)];
   const r = roadmap({ subject: ACC, chapters: book });
-  assert.equal(r.line, 'Chapter 1 of 3 · Chapter title 2');
+  assert.equal(r.line, 'Chapter 1 of 3: Chapter title 2');
   assert.equal(r.key.label, 'Start chapter 1 · 10 min');
   assert.equal(hasCards(book[0]), false);
   assert.equal(hasCards(book[1]), true);
@@ -304,7 +304,7 @@ test('R4: reviseRowOf is the one Revise row: its count is its cardIds.length, ca
 });
 
 test('R4: the fix row and the feed row (owner-eye#9, first-timer#7, server-security#3)', () => {
-  assert.equal(FEED_ROW_LINE, 'Scroll through the chapter, stop any time');
+  assert.equal(FEED_ROW_LINE, 'Scroll through the chapter and stop any time.');
   const returning = BOOK.map((c, i) => (i === 0 ? { ...c, seen: 10, unseen: 30, learnAt: T, mistakes: 3 } : c));
   const r = roadmap({ subject: ACC, chapters: returning });
   const fix = r.or.find((o) => o.kind === 'fix');

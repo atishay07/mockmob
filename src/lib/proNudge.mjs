@@ -188,7 +188,7 @@ export function inlineCopy(placement, facts = {}) {
       return { text: 'Unlimited mocks, NTA mode and Smart practice. One Pro price, no credits needed for practice.', action: 'See Pro', trigger: 'generic' };
     // Key cards home (KEYCARDS-BUILD-SPEC.md section 3, Free): the spec's own factual line.
     case 'keycards':
-      return { text: 'Pro opens every card in every chapter and keeps them on a schedule.', action: 'See Pro', trigger: 'keycards' };
+      return { text: 'Pro opens every card in every chapter and brings each one back when it’s due.', action: 'See Pro', trigger: 'keycards' };
     default:
       return null;
   }
@@ -219,7 +219,7 @@ const HEADS = Object.freeze({
   difficulty: { title: 'Choose how hard it gets', lede: 'Set easy, medium or hard for Quick practice and Full mocks. Warm up gently, or train where it is toughest.' },
   review: { title: 'See every chapter that costs you marks', lede: 'Full chapter review ranks every chapter, with your pace and the answers you changed, so you know exactly what to fix next.' },
   compass: { title: 'Know what your practice is worth', lede: 'Compass Pro projects each CUET paper from your own practice, with a range, and checks it against your DU shortlist. A projection, not a prediction.' },
-  saves: { title: 'Your 25 free saves are full', lede: 'This question was not saved. Remove one to make room, or keep every question worth keeping with Pro, ready for revision.' },
+  saves: { title: 'Your 25 free saves are full', lede: 'This question wasn’t saved. Remove one to make room, or keep every question worth keeping with Pro, ready for revision.' },
   credits: { title: 'Stop rationing your practice', lede: 'With Pro, Quick practice and Full mocks need no credits. Take the paper you need, the moment you need it.' },
   mob: { title: 'See your whole Mob, every week', lede: 'Pro opens the full side-by-side: who picked what, who changed an answer and how long each question took. Plus past weeks and up to 3 Mobs you start.' },
   // The Mob limit the student just hit on Free (release 9 rules, src/lib/mob/model.mjs): one Mob paper a week across all their
@@ -231,7 +231,7 @@ const HEADS = Object.freeze({
   // The benchmark rivals (src/components/ai/AIRivalArena.jsx, src/services/usage/getDailyUsage.js LIMITS.paid).
   benchmark: { title: 'All four rivals, no daily limit', lede: 'Free includes one benchmark a day against one rival. Pro opens all four standard rivals with no daily limit. The stronger rivals also use credits.' },
   // Key cards (data/keycards.js KEYCARD_RULES.free): 5 cards a chapter, 10 reviews a day on Free.
-  keycards: { title: 'Every Key card, on a schedule', lede: 'Pro opens every card in every chapter and keeps them on a schedule. Free opens 5 cards a chapter and 10 card reviews a day.' },
+  keycards: { title: 'Every Key card, on a schedule', lede: 'Pro opens every card in every chapter and brings each one back when it’s due. Free opens 5 cards a chapter and 10 card ratings a day.' },
   // Never counts papers: the sheet can open on a later paper in the first session (a paper within 2 minutes of
   // onboarding, or one the student left before the sheet was due, does not open it), so "first" would not always be true.
   first_session: { title: 'Paper done. Now take the limits off.', lede: 'Pro gives you unlimited mocks from one central bank, NTA mode and Smart practice, for one price. No credits needed for practice.' },

@@ -51,7 +51,7 @@ export const LIST_KINDS = Object.freeze(['list', 'steps', 'types']);
 export const BLANK_KINDS = Object.freeze(['term', 'key_line']);
 
 export const RATINGS = Object.freeze([
-  { rating: 1, label: 'Missed', key: '1' },
+  { rating: 1, label: 'Missed it', key: '1' },
   { rating: 3, label: 'Got it', key: '2' },
   { rating: 4, label: 'Easy', key: '3' },
 ]);
@@ -63,7 +63,7 @@ export const MODES = Object.freeze([
 ]);
 
 /** The one factual Pro line (spec section 3, Free). */
-export const PRO_LINE = 'Pro opens every card in every chapter and keeps them on a schedule.';
+export const PRO_LINE = 'Pro opens every card in every chapter and brings each one back when it’s due.';
 
 export const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
@@ -425,11 +425,11 @@ export function limitKind(reason) {
   return reason === 'keycard_new' ? 'new' : reason === 'keycards' ? 'card' : 'reviews';
 }
 export function limitCopy(kind, { where = 'study' } = {}) {
-  if (kind === 'new') return { title: 'Today’s new cards are used', line: null, lead: 'That is today’s 5 new cards on Free.', rest: where === 'study' ? 'Reading the cards stays open, and new cards come back tomorrow.' : null };
+  if (kind === 'new') return { title: 'Today’s new cards are used', line: null, lead: 'You’ve studied today’s 5 new cards on Free.', rest: where === 'study' ? 'You can still read every card. New cards open again tomorrow.' : null };
   if (kind === 'card') return { title: 'This card is part of Pro', line: null, lead: null, rest: null };
   return where === 'study'
-    ? { title: 'Today’s free reviews are used', line: 'Free includes 10 card reviews a day. Reading the cards stays open, and the reviews come back tomorrow.', lead: null, rest: null }
-    : { title: 'Today’s free card reviews are used', line: 'Free includes 10 Key card reviews a day. These cards stay due and come back tomorrow.', lead: null, rest: null };
+    ? { title: 'Today’s free card ratings are used', line: 'Free has 10 card ratings a day. You can still read every card; ratings open again tomorrow.', lead: null, rest: null }
+    : { title: 'Today’s free card ratings are used', line: 'Free has 10 card ratings a day. These cards stay due and come back tomorrow.', lead: null, rest: null };
 }
 
 /**
@@ -441,7 +441,7 @@ export function addedLine(added, asked) {
   const got = Number.isFinite(n) ? Math.max(0, Math.min(asked, n)) : asked;
   if (got >= asked) return asked > 1 ? 'Both are in Revise. They come back when due.' : 'In Revise. It comes back when due.';
   if (got === 0) return asked > 1 ? 'These cards were already in Revise.' : 'This card was already in Revise.';
-  return `${plural(got, 'card')} added to Revise. The other was already there or is part of Pro.`;
+  return `${plural(got, 'card')} added to Revise. The other was already in Revise or is part of Pro.`;
 }
 
 /**

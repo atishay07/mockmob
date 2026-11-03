@@ -10,8 +10,8 @@
 //                line break in the book's words is kept.
 //   CardSource   "Business Studies Part 1, Ch 1, p. 3"
 //   InShort      the optional paraphrase, labelled, in the app's own face so it never passes for the book
-//   KeyCardPlayer   one card to recall: front first, Show answer (space, the key, or a tap anywhere on the card), then
-//                   Missed / Got it / Easy (1, 2, 3).
+//   KeyCardPlayer   one card to recall: front first, Turn over (space, the key, or a tap anywhere on the card), then
+//                   Missed it / Got it / Easy (1, 2, 3).
 //                   The rating counts only once the server has it; until then the key shows it is saving.
 //                   With `feel` (Study), the press puts a small badge on the card's corner at once, and `arrive` marks a card
 //                   that rose in behind a rated one: its rating keys stay shut until the old card has gone (studyMotion.js).
@@ -19,6 +19,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Check, CheckCheck, LoaderCircle, MoreHorizontal, RotateCcw } from 'lucide-react';
 import { openUpgrade } from '@/components/pro/proNudgeStore';
+import { WORDS } from '@/../data/learn/words.js';
 import { BLANK_KINDS, LIST_KINDS, PRO_LINE, RATINGS, backLines, blankRuns, gapClass, cardFace, entryRows, formulaLines, isNcert, limitKind, markBlanks, ownMarker, plural, sourceLine, startsMidSentence, stampFor, texBackRows, withLead } from './kinds';
 import { TexHtml } from './TexHtml';
 import { isProRequired, proReason, sendReport, sendReview } from './api';
@@ -183,17 +184,17 @@ export function ReportForm({ card, onClose }) {
     setState('sending');
     try { await sendReport({ cardId: card.id, reason: reason.trim() }); setState('sent'); } catch { setState('failed'); }
   }
-  if (state === 'sent') return <p className="kc-report kc-report--sent" role="status">Thank you. Your report is saved, and reported cards are checked against the book.</p>;
+  if (state === 'sent') return <p className="kc-report kc-report--sent" role="status">Thanks. We&apos;ll check this card against the book before it comes back.</p>;
   return (
     <form className="kc-report" onSubmit={send}>
-      <label htmlFor={id}>What looks wrong with this card?</label>
+      <label htmlFor={id}>What&apos;s wrong with this card?</label>
       <textarea id={id} ref={field} maxLength={300} rows={3} value={reason} onChange={(e) => setReason(e.target.value)} placeholder="For example: a word differs from the book, or the page is wrong" />
       <div className="kc-report__row">
         <button type="submit" className="kc-btn kc-btn--line" disabled={!reason.trim() || state === 'sending'}>{state === 'sending' ? 'Sending' : 'Send report'}</button>
         <button type="button" className="kc-btn kc-btn--quiet" onClick={onClose}>Cancel</button>
         <span className="kc-report__count" aria-hidden="true">{reason.length} / 300</span>
       </div>
-      {state === 'failed' ? <p className="kc-err" role="alert">The report was not sent. Your words are still here. Try again.</p> : null}
+      {state === 'failed' ? <p className="kc-err" role="alert">The report didn&apos;t send. Your words are still here; try again.</p> : null}
     </form>
   );
 }
@@ -267,7 +268,7 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
       onRated?.({ rating, result, cardId: card.id });
     } catch (e) {
       if (isProRequired(e)) { onLimit?.(limitKind(proReason(e))); return; }
-      setError('That rating was not saved. Try again.');
+      setError("That rating wasn't saved. Try again.");
       setBusy(null);
       setPressed(null);
     }
@@ -301,7 +302,7 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
   return (
     <section className="kc-play" aria-labelledby={headId} data-revealed={revealed || undefined}>
       {position ? <p className="kc-pos">{position}</p> : null}
-      {/* A tap anywhere on the front shows the answer too (the Show answer key is the named, focusable way). */}
+      {/* A tap anywhere on the front shows the answer too (the Turn over key is the named, focusable way). */}
       <div className="kc-play__card" data-tap={revealed ? undefined : ''} data-arrive={arrive ? '' : undefined} onClick={(e) => { if (!revealed && !reporting && !e.target.closest('button, a, textarea, input, [role="menu"]')) reveal(); }}>
         <CardHead card={card} onReport={() => setReporting(true)} />
         {detail ? <p className="kc-detail">{detail}</p> : null}
@@ -323,10 +324,10 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
       </div>
       {!revealed ? (
         <div className="kc-play__keys">
-          <button ref={showRef} type="button" className="kc-btn kc-btn--volt kc-btn--wide" data-page-primary="" onClick={reveal}>Show answer<kbd className="kc-kbd" aria-hidden="true">Space</kbd></button>
+          <button ref={showRef} type="button" className="kc-btn kc-btn--volt kc-btn--wide" data-page-primary="" onClick={reveal}>{WORDS.turnOver}<kbd className="kc-kbd" aria-hidden="true">Space</kbd></button>
         </div>
       ) : (
-        <div className="kc-rate" ref={rateRow} role="group" aria-label="How well did you recall it?">
+        <div className="kc-rate" ref={rateRow} role="group" aria-label="How well did you know it?">
           {RATINGS.map((r, i) => (
             <button key={r.rating} ref={r.rating === 3 ? firstRate : undefined} type="button" className="kc-rate__btn" data-rating={r.rating} data-page-primary={r.rating === 3 ? '' : undefined} disabled={Boolean(busy)} aria-busy={busy === r.rating || undefined} onClick={() => rate(r.rating)}>
               {busy === r.rating ? <LoaderCircle className="kc-spin" size={16} strokeWidth={2.2} aria-hidden="true" /> : null}

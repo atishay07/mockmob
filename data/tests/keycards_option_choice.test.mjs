@@ -52,7 +52,7 @@ test('a failed re-read after a saved choice keeps the tapped option, says so onc
   assert.equal(shownOption(s, 'part1'), 'part2', 'the choice was saved, so it stays selected while the old list shows');
   assert.equal(isBusy(s), false, 'the list is not dimmed for ever');
   const line = finePrint({ phase: s.phase, saved: 'part1', word: 'part', all: 'both parts' });
-  assert.deepEqual(line, { kind: 'stale', text: 'Saved. The chapter list did not refresh.' });
+  assert.deepEqual(line, { kind: 'stale', text: "Saved. The chapter list didn't refresh." });
   assert.equal(canChoose(s, 'part2', 'part1'), false, 'the choice is already saved: no second PUT');
   assert.equal(isBusy(run(['retry'], s)), true);
   assert.deepEqual(run(['retry', 'refreshed'], s), INITIAL_CHOICE);

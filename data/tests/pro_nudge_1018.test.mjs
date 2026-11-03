@@ -273,7 +273,7 @@ test('every Pro gate opens the sheet: Compass Pro, the Mob, full saves', () => {
   assert.match(read('src/components/feed/QuestionCard.jsx'), /if \(error\.status === 402\) openUpgrade\(\{ trigger: 'saves' \}\)/);
   assert.equal(benefitLines('mob', {})[0].id, 'mob');
   assert.match(sheetHead('saves').title, /25 free saves are full/);
-  assert.match(sheetHead('saves').lede, /^This question was not saved\./);
+  assert.match(sheetHead('saves').lede, /^This question wasn’t saved\./);
   // The result page names a chapter only when it truly had the most mistakes.
   assert.match(read('src/app/(app)/result/[id]/ResultPageClient.jsx'), /weakChapter: weakestChapter\(chapterCounts\)/);
   assert.match(read('src/components/review/ReviewChapters.jsx'), /facts=\{\{ focusChapter: row\.name \}\}/);

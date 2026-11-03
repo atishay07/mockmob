@@ -19,7 +19,7 @@
 //              then the open mistakes, then "Skip what you already know" while the subject has no Learn activity, then the feed).
 // R3 ruling C2: a subject's chapter count is its playable chapters, those with cards; a chapter with no cards is not a position and
 // not a number in "Chapter 1 of 14".
-// R4 (owner-eye#9): when the offer's line already says "N due cards first, then new ones here", the Start key holds those due cards,
+// R4 (owner-eye#9): when the offer's line already says "N due cards first, then new cards from this chapter", the Start key holds those due cards,
 // so the "Revise N due cards" Or row is not drawn as well (one of the two, never both). R4 ruling N: `chapter.place` is { n, of },
 // the position chapter's place among the playable chapters (data/learn/words.js chapterPlace draws it).
 // Never a zero: a count that is 0 is left out of every line (ruling 1). Never "mastered", never a %, never marks (ruling 12).
@@ -65,7 +65,7 @@ export const coverageShare = (row) => (num(row?.of) > 0 ? Math.min(1, num(row.se
 export const verdictOf = (stateKey) => (stateKey === 'needs_work' ? 'Needs work' : null);
 
 /** The feed Or row's one line: what is different from the chapter run (first-timer#7). */
-export const FEED_ROW_LINE = 'Scroll through the chapter, stop any time';
+export const FEED_ROW_LINE = 'Scroll through the chapter and stop any time.';
 
 const byDueAt = (a, b) => (time(a.dueAt) ?? 0) - (time(b.dueAt) ?? 0) || String(a.id).localeCompare(String(b.id));
 
@@ -177,7 +177,7 @@ export function roadmap({ subject, chapters = [], run = null, due = [], freeDone
     return {
       ...base, mode: 'pickup',
       headline: `Pick up ${run.title}`,
-      line: done > 0 ? `${done} of ${num(run.of)} done` : `${plural(num(run.of), 'step')} lined up`,
+      line: done > 0 ? `${done} of ${num(run.of)} done` : `${num(run.of)} left`,
       progress: done > 0 ? { done, of: num(run.of) } : null,
       key: { label: withMinutes(WORDS.continue, left), run: { chapterKey: run.chapterKey, minutes: left, kind: run.kind || 'mix', leaveOut: run.leaveOut || [], resume: run.id } },
       // Free after the day's session: a fix run is a counted chapter run (Key cards only), so only the Revise row is offered.
@@ -204,12 +204,12 @@ export function roadmap({ subject, chapters = [], run = null, due = [], freeDone
   if (isNew) {
     const n = Math.min(LEARN_RULES.levelQuestions, num(level?.questions));
     const levelRow = n > 0 && !levelPick
-      ? { kind: 'level', label: WORDS.skipKnown, line: `${plural(n, 'question')} · about ${levelMinutes(n)} min`, run: { chapterKey: level?.chapterKey || pos.key, minutes: n, kind: 'level', leaveOut: [] } }
+      ? { kind: 'level', label: WORDS.skipKnown, line: `${plural(n, 'question')}, about ${levelMinutes(n)} min`, run: { chapterKey: level?.chapterKey || pos.key, minutes: n, kind: 'level', leaveOut: [] } }
       : null;
     return {
       ...base, mode: 'new',
       headline: `Start learning ${name}`,
-      line: `Chapter ${index} of ${list.length} · ${pos.title}`,
+      line: `Chapter ${index} of ${list.length}: ${pos.title}`,
       key: { label: `Start chapter ${index} · ${minutes} min`, run: startRun() },
       or: or(reviseRow, levelRow, feedRow),
     };
@@ -217,12 +217,12 @@ export function roadmap({ subject, chapters = [], run = null, due = [], freeDone
   const today = todayDue(due, minutes);
   const unseen = num(pos.unseen);
   const sub = today.ids.length
-    ? `${plural(today.ids.length, 'due card')} first, then ${unseen > 0 ? 'new ones here' : 'this chapter'}`
+    ? `${plural(today.ids.length, 'due card')} first, then ${unseen > 0 ? 'new cards from this chapter' : 'this chapter'}`
     : unseen > 0 ? `${unseen} new ${unseen === 1 ? 'card' : 'cards'} left here` : null;
   return {
     ...base, mode: 'today',
     headline: `Today's ${minutes} minutes in ${name}`,
-    line: `Chapter ${index} of ${list.length} · ${pos.title}`,
+    line: `Chapter ${index} of ${list.length}: ${pos.title}`,
     sub,
     key: { label: `Start · ${minutes} min`, run: startRun(today.ids) },
     due: { count: today.ids.length },

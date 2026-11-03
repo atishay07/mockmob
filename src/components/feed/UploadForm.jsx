@@ -76,12 +76,12 @@ export function UploadForm() {
     try {
       const result = await uploadQuestion({ ...form, body: form.body.trim(), options: options.filter((option) => option.text.trim()).map((option) => ({ ...option, text: option.text.trim() })), explanation: form.explanation.trim() || null, tags: form.tags.split(',').map((tag) => tag.trim()).filter(Boolean) });
       setState('success');
-      setMessage(result.warning ? 'Saved, but checks could not start yet. Track it in My uploads.' : 'Saved for checks. It is not live in practice yet.');
+      setMessage(result.warning ? 'Saved. The checks haven’t started yet; you can follow it in My uploads.' : 'Saved for checks. It is not live in practice yet.');
       setWarnings((result.rule_violations || []).map((violation) => violation.message));
       setForm(BLANK); setOptions(initialOptions()); setChapters([]);
     } catch (error) {
       setState('error');
-      setMessage(error.data?.rule_violations?.map((violation) => violation.message).join(' · ') || error.message || 'This did not submit. Your draft is still here.');
+      setMessage(error.data?.rule_violations?.map((violation) => violation.message).join(' · ') || error.message || 'This didn’t submit. Your draft is still here.');
     } finally { submitLock.current = false; }
   }
   const props = (name) => ({ id: `con-${name}`, disabled: busy, value: form[name], onChange: (event) => set(name, event.target.value), 'aria-invalid': Boolean(errors[name]), 'aria-describedby': errors[name] ? `con-${name}-error` : undefined });
@@ -90,21 +90,21 @@ export function UploadForm() {
 
   return <div className="con-page student-page student-page--upload">
     <ArenaHead eyebrow="Contribute" title="A good question helps the next person." lede="Write an original question with a clear answer and reasoning. It stays out of practice until its checks pass." />
-    <p className="con-note">No credit reward is promised for a submission. <Link href="/my-uploads">Track your uploads</Link></p>
-    {catalogState === 'error' && <ErrorState message="Subjects did not load. Your draft is still here." onRetry={() => setRetry((count) => count + 1)} />}
+    <p className="con-note">You don’t earn credits for sending a question. <Link href="/my-uploads">Track your uploads</Link></p>
+    {catalogState === 'error' && <ErrorState message="Subjects didn’t load. Your draft is still here." onRetry={() => setRetry((count) => count + 1)} />}
     <form ref={formNode} onSubmit={submit} className="con-form" noValidate>
       <div className="con-pair">
         <Field name="subject" label="Subject" error={errors.subject}><Listbox {...listProps('subject', 'Subject')} disabled={busy || catalogState !== 'ready'} placeholder={catalogState === 'loading' ? 'Loading subjects…' : 'Choose a subject'} options={subjects.map((subject) => ({ value: subject.id, label: subject.name }))} /></Field>
         <Field name="chapter" label="Chapter" error={errors.chapter}><Listbox {...listProps('chapter', 'Chapter')} disabled={busy || chapterState !== 'ready'} placeholder={chapterState === 'loading' ? 'Loading chapters…' : 'Choose a chapter'} options={chapters.flatMap((group) => group.chapters.map((chapter) => ({ value: chapter.name, label: chapter.name, group: group.name })))} /></Field>
       </div>
-      {chapterState === 'error' && <ErrorState title="Chapters did not load" message="Retry to choose a chapter. Your question text is safe here." onRetry={() => setRetry((count) => count + 1)} />}
+      {chapterState === 'error' && <ErrorState title="Chapters didn’t load" message="Retry to choose a chapter. Your question text is safe here." onRetry={() => setRetry((count) => count + 1)} />}
       <Field name="body" label="Question" error={errors.body}><textarea className="textarea" {...props('body')} rows={4} placeholder="Write the full question. Include the facts needed to solve it." /></Field>
-      <fieldset className="con-options"><legend>Options · tap a letter to mark the correct answer</legend>{options.map((option, index) => <div key={option.key} className="con-option"><button type="button" className="con-key" disabled={busy} aria-label={`Mark option ${option.key} as correct`} aria-pressed={form.correct_answer === option.key} onClick={() => set('correct_answer', option.key)}>{option.key}</button><input className="input" value={option.text} disabled={busy} aria-label={`Option ${option.key}`} onChange={(event) => setOptions((current) => current.map((entry, i) => i === index ? { ...entry, text: event.target.value } : entry))} placeholder={`Option ${option.key}`} />{options.length > 2 && <button type="button" className="con-remove" disabled={busy} onClick={() => remove(index)} aria-label={`Remove option ${option.key}`}>×</button>}</div>)}{(errors.options || errors.correct_answer) && <p className="con-error" role="alert">{errors.options || errors.correct_answer}</p>}{options.length < 5 && <button type="button" className="ex-action" disabled={busy} onClick={() => setOptions((current) => [...current, { key: 'ABCDE'[current.length], text: '' }])}>Add option</button>}</fieldset>
+      <fieldset className="con-options"><legend>Options: tap a letter to mark the right answer</legend>{options.map((option, index) => <div key={option.key} className="con-option"><button type="button" className="con-key" disabled={busy} aria-label={`Mark option ${option.key} as correct`} aria-pressed={form.correct_answer === option.key} onClick={() => set('correct_answer', option.key)}>{option.key}</button><input className="input" value={option.text} disabled={busy} aria-label={`Option ${option.key}`} onChange={(event) => setOptions((current) => current.map((entry, i) => i === index ? { ...entry, text: event.target.value } : entry))} placeholder={`Option ${option.key}`} />{options.length > 2 && <button type="button" className="con-remove" disabled={busy} onClick={() => remove(index)} aria-label={`Remove option ${option.key}`}>×</button>}</div>)}{(errors.options || errors.correct_answer) && <p className="con-error" role="alert">{errors.options || errors.correct_answer}</p>}{options.length < 5 && <button type="button" className="ex-action" disabled={busy} onClick={() => setOptions((current) => [...current, { key: 'ABCDE'[current.length], text: '' }])}>Add option</button>}</fieldset>
       <div className="con-pair"><Field name="difficulty" label="Difficulty"><Listbox {...listProps('difficulty', 'Difficulty')} disabled={busy} options={DIFFICULTIES} /></Field><Field name="tags" label="Tags (optional)"><input className="input" {...props('tags')} placeholder="ratio, partnership" /></Field></div>
-      <Field name="explanation" label="Reasoning (recommended)"><textarea className="textarea" {...props('explanation')} rows={4} placeholder="Explain the rule, show the working and name your source where possible." /></Field>
+      <Field name="explanation" label="Why this is the answer (recommended)"><textarea className="textarea" {...props('explanation')} rows={4} placeholder="Explain the rule, show the working and name your source where possible." /></Field>
       {message && <div className="con-message" data-state={state} role={state === 'error' ? 'alert' : 'status'}><b>{message}</b>{warnings.map((warning, index) => <p key={index}>{warning}</p>)}</div>}
-      <button type="submit" className="btn-volt lg" disabled={busy || catalogState !== 'ready'}>{busy ? 'Submitting…' : 'Submit for checks'}</button>
-      <p className="con-fine">Uncertain questions stay held. Submission does not mean publication.</p>
+      <button type="submit" className="btn-volt lg" disabled={busy || catalogState !== 'ready'}>{busy ? 'Sending…' : 'Send for checking'}</button>
+      <p className="con-fine">We check every question first. If we’re not sure it’s right, it isn’t published.</p>
     </form>
   </div>;
 }

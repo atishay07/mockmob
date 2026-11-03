@@ -202,11 +202,11 @@ export default function KeycardsHome() {
     return frame(
       <div className="kc-quiet-state">
         <h2>Key cards are not open yet</h2>
-        <p>They open here once the first chapters are checked against the book. Lessons and practice are all still open.</p>
+        <p>They&apos;ll show here once the first chapters are checked against the book. Lessons and practice are open as usual.</p>
       </div>,
     );
   }
-  if (read.state === 'error') return frame(<ErrorState title="Key cards did not load" message="Check your connection and try again. Your cards and their schedule are safe." onRetry={read.retry} />);
+  if (read.state === 'error') return frame(<ErrorState title="Key cards didn't load" message="Check your connection and try again. Your cards and their schedule are safe." onRetry={read.retry} />);
 
   const today = data.today || {};
   const due = Number(today.due) || 0;

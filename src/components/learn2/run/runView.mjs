@@ -174,13 +174,13 @@ export function endLines(data, { kind = 'mix' } = {}) {
   return out;
 }
 
-/** The lead's heading, reason and key (A4 3.4.3): a run's key names its length ("Start 10 minutes"); else its own verb. */
+/** The lead's heading, reason and key (A4 3.4.3): a run's key names its length ("Start · 10 min"); else its own verb. */
 export function leadView(option) {
   if (!option) return null;
   const title = option.title || String(option.label || '').replace(/, \d+ minutes?$/, '').replace(/, \d+ min$/, '');
   const minutes = Number(option.run?.minutes) || Number(option.minutes) || null;
   const isRun = option.run && (option.run.kind === 'mix' || option.run.kind === 'feed' || !option.run.kind) && minutes;
-  const key = isRun ? `Start ${minutes} minutes` : title;
+  const key = isRun ? `Start · ${minutes} min` : title;
   return { heading: key === title ? null : title, reason: option.evidence || null, key };
 }
 

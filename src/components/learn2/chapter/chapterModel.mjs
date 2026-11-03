@@ -37,7 +37,7 @@ export function pileView(pile, { minutes = null } = {}) {
   const label = pile?.label || '';
   const state = pile?.held ? 'held' : pile?.left ? 'left' : 'in';
   if (state === 'held') return { state, line: 'Back tomorrow', of: null, note: null, aria: `${label}, back tomorrow` };
-  if (state === 'left') return { state, line: 'Tap to put back', of: null, note: null, aria: `${label}, left out. Tap to put it back` };
+  if (state === 'left') return { state, line: 'Tap to add it back', of: null, note: null, aria: `${label}, left out. Tap to add it back` };
   const of = pile?.id === 'mistakes' && Number(pile?.of) > Number(pile?.count) ? Number(pile.of) : null;
   // R4 owner-eye#9: a mistakes pile that holds fewer than the chapter has says why ("2 fit in 10 min"), so its "2 of 3" never
   // reads as a different number from the "Fix 3 open mistakes" row under it.
@@ -59,10 +59,10 @@ export function runSummary(data, piles = []) {
 
 // R2 ruling 9: the first-visit line under Start is gone (the run's own first card says how it works). Kept as a name only so
 // older callers and tests read that it is never shown.
-export const FIRST_VISIT_LINE = 'Cards and questions, one at a time. Stop whenever you like; what you do is saved.';
+export const FIRST_VISIT_LINE = 'Cards and questions, one at a time. Stop whenever you like; everything you do is saved.';
 export const ONLY_CARDS_LINE = "Only Key cards here for now. This chapter's questions are still being checked.";
 export const ONLY_QUESTIONS_LINE = "Only questions here for now. This chapter's Key cards are not ready yet.";
-export const RATINGS_USED_LINE = "You've used today's 10 free card ratings. Cards in this run show their answers but won't be added to Revise.";
+export const RATINGS_USED_LINE = "You've used today's 10 free card ratings. In this session, cards show their answers but won't go into Revise.";
 
 /**
  * The one quiet line under the Start key, by priority (3.2.5): Free's Key-cards-only day, Free's 10-minute cap (only when more
@@ -74,7 +74,7 @@ export function chapterQuietLine(data) {
   if (data.freeSession?.used && data.free?.text) return data.free.text;
   if (data.capped?.text) return data.capped.text;
   if (data.shrink?.text && !data.added) return dueWords(data.shrink.text);
-  if (/ratings are used/i.test(String(data.free?.text || ''))) return RATINGS_USED_LINE;
+  if (/ratings are used|used today's 10 free card ratings/i.test(String(data.free?.text || ''))) return RATINGS_USED_LINE;
   const shelf = data.shelf;
   if (shelf) {
     const cards = Number(shelf.cards?.count) || 0;
@@ -117,7 +117,7 @@ export function shelfView(data, { mistakeMinutes = (n) => n } = {}) {
     rows.push({ id: 'mistakes', title: 'Your mistakes', line: used ? `${plural(mistakes, 'open mistake')}, back tomorrow` : fixMistakes(mistakes, mistakeMinutes(mistakes)), link: !used });
   } else missing.push('No open mistakes.');
   const must = Number(shelf.print?.mustKnow) || 0;
-  if (must) rows.push({ id: 'print', title: 'Print sheet', line: shelf.print.locked ? 'Part of Pro' : `${plural(must, 'Must-know line')}, with your name`, locked: Boolean(shelf.print.locked), link: Boolean(shelf.print.locked), action: shelf.print.locked ? null : 'print' });
+  if (must) rows.push({ id: 'print', title: 'Chapter sheet', line: shelf.print.locked ? 'Part of Pro' : `${plural(must, 'Must-know line')}, with your name on it`, locked: Boolean(shelf.print.locked), link: Boolean(shelf.print.locked), action: shelf.print.locked ? null : 'print' });
   // The rows in the order a student reaches for them: cards, questions, mistakes, the lesson, the print sheet.
   const order = ['cards', 'questions', 'mistakes', 'lesson', 'print'];
   rows.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));

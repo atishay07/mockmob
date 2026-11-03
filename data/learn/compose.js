@@ -51,9 +51,9 @@ export const PILE_IDS = Object.freeze(['cards', 'questions', 'mistakes', 'lesson
 export const PILE_LABELS = Object.freeze({ cards: 'Key cards', questions: 'Questions', mistakes: 'Your mistakes', lesson: 'Lesson' });
 export const RUN_KINDS = Object.freeze(['mix', 'cards', 'recap', 'feed', 'level']);
 export const SHRINK_REASONS = Object.freeze(['pool', 'cap', 'mistakes']);
-export const NOTE = 'Ratings join Revise. Questions are free.';
-export const NOTE_FIRST = 'Ratings join Revise, so cards come back when they are due.';
-export const RATINGS_USED = "Today's 10 free card ratings are used. Your cards show without ratings; questions are free.";
+export const NOTE = 'Cards you rate go into Revise. Questions are free.';
+export const NOTE_FIRST = "Cards you rate go into Revise and come back when they're due.";
+export const RATINGS_USED = "You've used today's 10 free card ratings. Cards show without rating keys; questions are still free.";
 
 const DAY = 86_400_000;
 const DIFFICULTY_RANK = Object.freeze({ easy: 0, medium: 1, hard: 2 });
@@ -392,14 +392,14 @@ export function openingCard(items, cardOf) {
 const shrinkMinutes = (n) => plural(n, 'minute');
 /** The shrink line for its reason (BUILD-1101 1.5). */
 export function shrinkText(reason, { minutes = 0, mistakes = 0, cap = LEARN_RULES.maxNewCards, due = 0 } = {}) {
-  if (!(minutes > 0)) return 'Nothing is lined up in this chapter yet.';
+  if (!(minutes > 0)) return 'Nothing is ready in this chapter yet.';
   if (reason === 'mistakes') return `Your ${plural(mistakes, 'open mistake')} ${mistakes === 1 ? 'takes' : 'take'} about ${shrinkMinutes(minutes)}.`;
   if (reason === 'cap') {
     return due > LEARN_RULES.overduePauseNew
-      ? `Revise first: ${due} due. Until then a run takes at most ${plural(cap, 'new card')}, about ${shrinkMinutes(minutes)}.`
-      : `One run takes at most ${plural(cap, 'new card')}, about ${shrinkMinutes(minutes)}.`;
+      ? `Revise your ${plural(due, 'due card')} first. Until then, a session adds at most ${plural(cap, 'new card')} (about ${shrinkMinutes(minutes)}).`
+      : `A session adds at most ${plural(cap, 'new card')}, about ${shrinkMinutes(minutes)}.`;
   }
-  return `This chapter has about ${shrinkMinutes(minutes)} of new things today.`;
+  return `This chapter has about ${shrinkMinutes(minutes)} of new work for today.`;
 }
 
 /**

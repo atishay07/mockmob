@@ -98,7 +98,7 @@ test('LK15: one Learn session a day for mix and feed; 10 minutes at most; after 
   assert.deepEqual(['mix', 'feed', 'cards', 'recap', 'level'].map(isCounted), [true, true, false, false, false]);
   // R3-SPEC ruling F: the 402 line is the shared headline and line, word for word.
   assert.equal(FREE_SESSION_DONE, "That was today's free session. Questions come back tomorrow. Your Key cards stay open.");
-  assert.equal(FREE_CAPPED, 'Free sessions are up to 10 minutes. Pro has any length.');
+  assert.equal(FREE_CAPPED, 'On Free, a session is up to 10 minutes. With Pro, pick any length.');
   assert.equal(FREE_CARDS_ONLY, "That was today's free session, so this one is Key cards only. Questions come back tomorrow.");
   assert.deepEqual(freeSession({ isPro: true, kind: 'feed', minutes: 20, claimedByOther: true }), { minutes: 20, capped: null, cardsOnly: false, refuse: false, line: null });
   assert.deepEqual(freeSession({ kind: 'mix', minutes: 10 }), { minutes: 10, capped: null, cardsOnly: false, refuse: false, line: null }, 'the line shows only past the limit');
@@ -158,13 +158,13 @@ test('shrink only when the chapter has no more, with its reason and text: pool, 
   const pla = composeRun({ kind: 'mix', minutes: 10, cards: free(PLA), states: new Map(), now: NOW, questions: PLA.questions });
   assert.equal(pla.shrunk, true);
   assert.equal(pla.shrink.reason, 'pool');
-  assert.equal(pla.shrink.text, `This chapter has about ${pla.realMinutes} ${pla.realMinutes === 1 ? 'minute' : 'minutes'} of new things today.`);
+  assert.equal(pla.shrink.text, `This chapter has about ${pla.realMinutes} ${pla.realMinutes === 1 ? 'minute' : 'minutes'} of new work for today.`);
   // cap: 40 new cards a run, the chapter has more.
   const cards = Array.from({ length: 200 }, (_, i) => ({ id: `c${i}`, order: i, importance: i % 4 ? 'good' : 'must' }));
   const cap = composeRun({ kind: 'cards', minutes: 60, cards, now: NOW });
   assert.equal(cap.items.length, 40);
   assert.equal(cap.shrink.reason, 'cap');
-  assert.equal(cap.shrink.text, `One run takes at most 40 new cards, about ${cap.realMinutes} minutes.`);
+  assert.equal(cap.shrink.text, `A session adds at most 40 new cards, about ${cap.realMinutes} minutes.`);
   // mistakes: only Your mistakes is in.
   const { states, mistakes } = returning(PF);
   const fix = composeRun({ kind: 'mix', minutes: 10, leaveOut: ['questions', 'cards', 'lesson'], cards: PF.cards, states, now: NOW, questions: PF.questions, mistakes });
@@ -173,7 +173,10 @@ test('shrink only when the chapter has no more, with its reason and text: pool, 
   assert.equal(fix.shrink.reason, 'mistakes');
   assert.equal(fix.shrink.text, `Your 3 open mistakes take about ${fix.realMinutes} minutes.`);
   assert.equal(shrinkText('mistakes', { minutes: 1, mistakes: 1 }), 'Your 1 open mistake takes about 1 minute.');
-  assert.equal(shrinkText('pool', { minutes: 0 }), 'Nothing is lined up in this chapter yet.');
+  assert.equal(shrinkText('pool', { minutes: 0 }), 'Nothing is ready in this chapter yet.');
+  // E-ENGLISH rows 51 and 52: past the overdue pause the line says what to do first, with a count that names its cards.
+  assert.equal(shrinkText('cap', { minutes: 5, cap: 4, due: 46 }), 'Revise your 46 due cards first. Until then, a session adds at most 4 new cards (about 5 minutes).');
+  assert.equal(shrinkText('cap', { minutes: 5, cap: 4, due: 41 }).includes('Revise your 41 due cards first.'), true);
   // Not shrunk when the time is short only by the size of an item: the pools still hold more.
   const ok = composeRun({ kind: 'mix', minutes: 10, cards: free(PF), states: new Map(), now: NOW, questions: PF.questions });
   assert.equal(ok.exhausted, false);
@@ -315,7 +318,7 @@ test('Free: only the open cards, looks past the day\'s ratings (in the order sho
   assert.equal(dry.free.text, "Free opens 5 of this chapter's 46 cards.");
   const used = composeRun({ kind: 'mix', minutes: 10, cards: open, states: new Map(), now: NOW, questions: PF.questions, mistakes: [], ratingsLeft: 0, newLeft: 5 });
   assert.ok(used.items.filter((i) => i.type === 'card').every((c) => c.look));
-  assert.match(dryRun({ run: used, isPro: false, ratingsLeft: 0, chapter: { total: 46, open: 5 } }).free.text, /10 free card ratings are used/);
+  assert.match(dryRun({ run: used, isPro: false, ratingsLeft: 0, chapter: { total: 46, open: 5 } }).free.text, /used today's 10 free card ratings/);
   const withStubs = composeRun({ kind: 'mix', minutes: 10, cards: [...open, { id: 'x', locked: true }], states: new Map(), now: NOW, questions: [], mistakes: [] });
   assert.ok(!withStubs.items.some((i) => i.cardId === 'x'));
 });
@@ -447,7 +450,7 @@ test('stamps: the real return day in the student\'s words; "Due now" for a card 
   assert.equal(returnDay(NOW + 12 * DAY, NOW).stamp, 'Back in 12 days');
   assert.deepEqual(returnDay(NOW - DAY, NOW), { days: 0, stamp: 'Due now', group: 'due now' });
   assert.equal(returnDay(NOW, NOW).stamp, 'Due now');
-  assert.equal(IN_RUN, 'Back later in this run');
+  assert.equal(IN_RUN, 'Back later in this session');
   const groups = revisePileGroups([NOW + 3 * DAY, NOW + 3 * DAY, NOW + 6 * DAY, NOW + 3_600_000], NOW);
   assert.deepEqual(groups, [{ label: 'later today', count: 1 }, { label: 'back on Tue', count: 2 }, { label: 'back on Fri', count: 1 }]);
   assert.equal(revisePileLine(groups), '1 later today, 2 back on Tue, 1 back on Fri');

@@ -169,6 +169,6 @@ test('road layers: the week\'s share of the mock target, one a fortnight, never 
 test('road layers: with Revise in the lead, today lists a plain study session and Revise once, never Revise twice', () => {
   const fig = roadFigures({ today: '2026-10-13', plan: {}, goal: 4, taken: 3 });
   const r = roadLayers({ today: '2026-10-13', rhythm: { ...rhythm, studyDayDates: [] }, weekdays: [1], revise: { due: 4, answeredToday: 0 }, move: { id: 'revise', title: 'Revise what came back', key: { minutes: 5, href: '/review/revise' } }, fig, target: 14, taken: 3 });
-  assert.deepEqual(r.today.items.map((i) => [i.id, i.title, i.href]), [['session', 'A study session', '/dashboard'], ['revise', 'Revise · 4 questions', '/review/revise']], 'R3 W: "Revise · 4 questions", never "Revise 0 of 4"');
+  assert.deepEqual(r.today.items.map((i) => [i.id, i.title, i.href]), [['session', 'A study session', '/dashboard'], ['revise', 'Revise 4 questions', '/review/revise']], 'R3 W: "Revise · 4 questions", never "Revise 0 of 4"');
   assert.equal(r.today.left, 'Left: a study session, and 4 Revise questions.');
 });

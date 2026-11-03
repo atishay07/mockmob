@@ -288,7 +288,7 @@ export default function ExploreCovers({ subject, subjectName = null, enabled, on
   const chooseLength = (m) => {
     storeLength(m);
     setSwap(true);
-    setStatus(`Showing ${m} minute feeds.`);
+    setStatus(`Showing ${m}-minute feeds.`);
   };
 
   if (!on) return null;
@@ -320,7 +320,7 @@ export default function ExploreCovers({ subject, subjectName = null, enabled, on
       {phase === 'loading' ? <><Skeleton /><span className="fxc-pager fxc-pager--skel" aria-hidden="true" /></> : null}
       {phase === 'error' ? (
         <div className="fxc-msg">
-          <p>Chapter feeds did not load.</p>
+          <p>Chapter feeds didn&apos;t load.</p>
           <button type="button" className="fxc-textkey" onClick={() => read.refresh()}>Try again</button>
         </div>
       ) : null}

@@ -73,7 +73,7 @@ test('runs/preview: the piles of A1 for both plans, the lesson pile at 20 minute
   const p10 = (await pro('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 10, leaveOut: [] } })).body;
   assert.equal(p10.startLabel, 'Start 10 minutes');
   assert.deepEqual(p10.piles.map((p) => p.id), ['cards', 'questions', 'mistakes']);
-  assert.equal(p10.note, 'Ratings join Revise. Questions are free.');
+  assert.equal(p10.note, 'Cards you rate go into Revise. Questions are free.');
   assert.match(p10.recap.label, /^Or a quick recap: the \d+ Must-know lines, about \d+ min$/);
   assert.equal(p10.chapter.partTitle, 'Part 1, Partnership Accounts');
   assert.deepEqual(p10.shelf.mistakes, { open: 3 });
@@ -108,7 +108,7 @@ test('a run end to end: no keys before an answer, a fixed mistake, the line you 
   // Missed: back later in this run, 3 items on.
   const second = items.findIndex((i, k) => k > 0 && i.type === 'card');
   const missed = (await call(`/api/learn/runs/${run.id}/rate`, { method: 'POST', body: { itemId: items[second].id, rating: 1 } })).body;
-  assert.equal(missed.stamp, 'Back in this run, then tomorrow');
+  assert.equal(missed.stamp, 'Back in this session, then tomorrow');
   assert.equal(missed.reinsert.at, second + 3);
   assert.equal(missed.reinsert.item.stage, 'again');
   // The first mistake answered right: fixed, with the line collapsed under it.
@@ -201,7 +201,7 @@ test('cards, shelves and search answer the contract for both plans', async () =>
     for (const c of cards.sections.flatMap((s) => s.cards)) assert.deepEqual([typeof c.inRevise, typeof c.missedLately, c.locked], ['boolean', 'boolean', false]);
     if (plan === 'free') {
       assert.equal(cards.counts.all, 5);
-      assert.equal(cards.lockedLine, '40 more cards in this chapter. Pro opens every card in every chapter and keeps them on a schedule.');
+      assert.equal(cards.lockedLine, "40 more cards in this chapter. Pro opens every card in every chapter and brings each one back when it's due.");
     } else {
       assert.equal(cards.counts.all, 45);
       assert.equal(cards.lockedLine, null);

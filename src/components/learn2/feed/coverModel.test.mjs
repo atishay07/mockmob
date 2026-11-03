@@ -51,14 +51,14 @@ test('history: the server flag, else any line that is not New to you', () => {
 test('mix line and key: the picked length, short chapters, Free, resume and the day limit', () => {
   const c = { counts: { 5: { cards: 8, questions: 2, minutes: 5 }, 10: { cards: 16, questions: 5, minutes: 10 }, 20: { cards: 16, questions: 0, minutes: 4 } } };
   assert.equal(mixLineOf(c, 10), '16 Key cards, 5 questions');
-  assert.equal(mixLineOf(c, 20), '16 Key cards, all it has today');
+  assert.equal(mixLineOf(c, 20), "16 Key cards, that's all for today");
   assert.equal(mixLineOf({ counts: { 10: { cards: 0, questions: 8, minutes: 10 } } }, 10), '8 questions');
   assert.equal(mixLineOf({ counts: { 10: { cards: 1, questions: 1, minutes: 10 } } }, 10), '1 Key card, 1 question');
   assert.equal(mixLineOf({ counts: { 10: { cards: 5, questions: 0, minutes: 1 } } }, 10, { free: true }), '5 Key cards');
   assert.equal(mixLineOf({ counts: { 20: { cards: 5, questions: 7, minutes: 9, capped: true } } }, 20), '5 Key cards, 7 questions');
-  assert.equal(keyLabelOf(c, 10), 'Play · 10 min');
-  assert.equal(keyLabelOf(c, 20), 'Play · 4 min');
-  assert.equal(keyLabelOf({ counts: { 10: { cards: 5, questions: 0, minutes: 1 } } }, 10), 'Play · 1 min');
+  assert.equal(keyLabelOf(c, 10), 'Start · 10 min');
+  assert.equal(keyLabelOf(c, 20), 'Start · 4 min');
+  assert.equal(keyLabelOf({ counts: { 10: { cards: 5, questions: 0, minutes: 1 } } }, 10), 'Start · 1 min');
   const r = { ...c, resume: { done: 6, of: 16, minutesLeft: 4 } };
   assert.equal(keyLabelOf(r, 20), 'Continue · 4 min', 'R3 W: one word for resuming, "Continue · N min"');
   assert.equal(mixLineOf(r, 5), '', 'the key carries the time, so the line does not repeat it');

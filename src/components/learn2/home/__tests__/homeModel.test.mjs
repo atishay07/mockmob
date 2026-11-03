@@ -97,7 +97,7 @@ test('the part switch shows both parts until one is chosen, then only that one',
 test('marks open sorts the largest first, with chapters that have no figure last in book order', () => {
   const order = marksOrder(parts).map((x) => x.row.key);
   assert.deepEqual(order, ['b', 'd', 'a', 'c', 'e', 'f', 'g']);
-  assert.equal(marksText(row('x', { marksOpen: 35 })), '−35');
+  assert.equal(marksText(row('x', { marksOpen: 35 })), '35 marks');
   assert.equal(marksText(row('x', { marksOpen: null })), '');
   assert.equal(marksText(row('x', { marksOpen: 0 })), '');
 });
@@ -249,12 +249,12 @@ test('R4 ui-correctness#1 and first-timer#1: a Free row shows the real chapter s
 });
 
 test('R4 ruling V: "Needs work" says "from your papers" when that is its only evidence', () => {
-  assert.equal(verdictText({ state: { key: 'needs_work' }, needsWorkFrom: 'papers' }), 'Needs work · from your papers');
-  assert.equal(verdictText({ verdict: 'Needs work', needsWorkFrom: 'papers' }), 'Needs work · from your papers');
+  assert.equal(verdictText({ state: { key: 'needs_work' }, needsWorkFrom: 'papers' }), 'Needs work, from your papers');
+  assert.equal(verdictText({ verdict: 'Needs work', needsWorkFrom: 'papers' }), 'Needs work, from your papers');
   assert.equal(verdictText({ state: { key: 'needs_work' }, needsWorkFrom: 'learn' }), 'Needs work');
   assert.equal(verdictText({ state: { key: 'needs_work' } }), 'Needs work', 'a body without the field reads plainly');
   assert.equal(verdictText({ state: { key: 'holding' }, needsWorkFrom: 'papers' }), null, 'no verdict, no suffix');
-  assert.equal(roadmapRow({ cards: 10, progress: { of: 5, seen: 0, questions: 0, tried: 0 }, state: { key: 'needs_work' }, needsWorkFrom: 'papers' }).verdict, 'Needs work · from your papers');
+  assert.equal(roadmapRow({ cards: 10, progress: { of: 5, seen: 0, questions: 0, tried: 0 }, state: { key: 'needs_work' }, needsWorkFrom: 'papers' }).verdict, 'Needs work, from your papers');
 });
 
 test('R4 owner-eye#4 and first-timer#8: until an option is saved, one line names the option the list shows (from data)', () => {

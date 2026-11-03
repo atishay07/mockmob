@@ -43,8 +43,8 @@ const typing = (el) => el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$
 const onControl = (el) => el && (el.tagName === 'BUTTON' || el.tagName === 'A');
 const ROUND = 20;
 const SKIP_LINES = {
-  question_changed: 'This question was updated, so it was skipped.',
-  question_held: 'This question is in a paper that is still open, so it was skipped.',
+  question_changed: 'This question was just updated, so we skipped it.',
+  question_held: "This question is in a Mob paper that's still open, so we skipped it for now.",
 };
 
 // A11: each first-run coach line shows once per student, then never again (R4 owner-eye#15: per student, not per run; this
@@ -154,7 +154,7 @@ export default function RunPlayer(props) {
 
 function Skeleton() {
   return (
-    <div className="lr-body" aria-busy="true" aria-label="Lining up your run">
+    <div className="lr-body" aria-busy="true" aria-label="Getting your session ready">
       <div className="lr-frame lr-frame--skel">
         <aside className="lr-panel lr-panel--skel" aria-hidden="true">
           <span className="skeleton lr-skel__line lr-skel__line--t" />
@@ -428,7 +428,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
       setBusy(null);
       if (isRunClosed(e)) { finish(); return; }
       if (e?.status === 402) { setLookLine(e.data?.limit?.text || lookLine); setLookSaid(true); return; }
-      setError('That rating was not saved. Try again.');
+      setError("That rating wasn't saved. Try again.");
       return;
     }
     flying.current = true;
@@ -522,7 +522,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
       setSaved((s) => ({ ...s, [q.id]: 'saved' }));
     } catch (e) {
       setSaved((s) => ({ ...s, [q.id]: e?.status === 402 ? 'pro' : null }));
-      if (e?.status !== 402) showNote('That question was not saved. Try again.', 3000);
+      if (e?.status !== 402) showNote("That question wasn't saved. Try again.", 3000);
     }
   }, [item, saved, showNote]);
 
@@ -603,7 +603,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
       : stamp ? { text: stamp.text, stamp: true, key: stamp.n }
         : coachFront && item?.type === 'card' && !isTurned ? { text: WORDS.turnCue, cue: true }
           : coachRate && item?.type === 'card' && isTurned && !look ? { text: WORDS.coachRatings }
-            : coachRecap ? { text: 'Answers are showing. Nothing is scheduled.' }
+            : coachRecap ? { text: "Answers are shown. This won't change when your cards come back." }
                 : look && isTurned && lookLine && item?.look ? { text: lookLine } : null;
 
   const live = <p className="sr-only" aria-live="polite" aria-atomic="true">{announce}</p>;
@@ -632,7 +632,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
           </>
         ) : (
           <>
-            <h1 className="lr-state__title">This run did not start</h1>
+            <h1 className="lr-state__title">This session didn&apos;t start</h1>
             <p>Nothing was lost. Check your connection and try again.</p>
             <div className="lr-state__keys">
               <button type="button" className="kc-btn kc-btn--volt" onClick={() => begin(params)}>Try again</button>
@@ -646,8 +646,8 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   if (!items.length && phase === 'play') {
     return frame(
       <div className="lr-body"><div className="lr-state">
-        <h1 className="lr-state__title">Nothing to line up here yet</h1>
-        <p>This chapter has no cards or questions for this run.</p>
+        <h1 className="lr-state__title">Nothing here yet</h1>
+        <p>This chapter has no cards or questions for this session.</p>
         <div className="lr-state__keys"><Link className="kc-btn kc-btn--line" href={closeHref}>Back to the chapter</Link></div>
       </div></div>,
     );
@@ -692,7 +692,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
         <div className="lr-body">
           <section className="lr-round" aria-labelledby="lr-round-h">
             <p className="lr-round__n" id="lr-round-h">{ROUND}<span>cards rated</span></p>
-            <p className="lr-round__line">{leftCards} more {leftCards === 1 ? 'is' : 'are'} lined up.</p>
+            <p className="lr-round__line">{leftCards} more to go.</p>
             <div className="lr-round__keys">
               <button type="button" className="kc-btn kc-btn--volt" autoFocus onClick={() => setPhase('play')}>Next round</button>
               <button type="button" className="kc-btn kc-btn--line" onClick={() => finish(offset + at)}>Finish here</button>
@@ -726,7 +726,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
     }
     if (item.type === 'card') {
       return (
-        <div className="lr-keys lr-keys--rate" role="group" aria-label="How well did you recall it?">
+        <div className="lr-keys lr-keys--rate" role="group" aria-label="How well did you know it?">
           {RATINGS.map((r) => {
             // R5 LK38: each key says when the card would come back (the server's `returns`, from FSRS); none when it has no words.
             const when = item.returns?.[FLIGHT[r.rating]] || null;

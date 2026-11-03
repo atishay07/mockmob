@@ -19,7 +19,7 @@ export const FREE_DONE_LINE = 'Questions come back tomorrow. Your Key cards stay
 export const FREE_SESSION_DONE = `${FREE_DONE_HEADLINE} ${FREE_DONE_LINE}`;
 /** The one quiet line of a Free run end or feed end once the day's session is used (ruling F), directly above the keys. */
 export const FREE_END_LINE = `${FREE_DONE_HEADLINE} Questions come back tomorrow.`;
-export const FREE_CAPPED = 'Free sessions are up to 10 minutes. Pro has any length.';
+export const FREE_CAPPED = 'On Free, a session is up to 10 minutes. With Pro, pick any length.';
 export const FREE_CARDS_ONLY = "That was today's free session, so this one is Key cards only. Questions come back tomorrow.";
 
 /** True for the kinds that count as Free's one session ('mix' and 'feed'). */

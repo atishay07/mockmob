@@ -45,7 +45,7 @@ test('checkpoints: after item 8, 16, ... only when 4 or more items follow; never
   const s = feedSlots(items(30));
   for (let i = 1; i < s.length; i += 1) assert.ok(!(s[i].type === 'checkpoint' && s[i - 1].type === 'checkpoint'));
   assert.deepEqual(s.filter((x) => x.type === 'item').map((x) => x.n), Array.from({ length: 30 }, (_, i) => i + 1));
-  assert.equal(CHECKPOINT_LINE, 'Keep going, or end here. What you kept is already in Revise.');
+  assert.equal(CHECKPOINT_LINE, 'Keep going, or stop here. The cards you kept are already in Revise.');
 });
 
 // A5 section 4 item 7: no checkpoint with fewer than 4 items after it, over every composed feed.
@@ -162,7 +162,7 @@ test('the feed end rows (R16): "Open mistakes: 1 still open" when none was fixed
   assert.deepEqual(feedEndLines({ fixed: 2, mistakes: 2 }), [{ label: 'Fixed', text: '2 open mistakes' }]);
   assert.deepEqual(feedEndLines({ fixed: 1, mistakes: 2 }), [{ label: 'Fixed', text: '1 of 2 open mistakes' }]);
   assert.deepEqual(feedEndLines({}), []);
-  assert.equal(keptLine(6), '6 kept. They are first in Revise.');
+  assert.equal(keptLine(6), "6 cards kept. They'll come first in Revise.");
   assert.equal(keptLine(0), null);
 });
 
@@ -218,7 +218,7 @@ test('preview: the Pro feed keeps its shape, no answer key before an answer, Kee
   assert.equal(end.feed.kept.stamp, keep.stamp);
   // BUILD-1101 1.3 with R3 W: "Keep going · 10 min" sends fresh, so it never resumes the feed just played.
   assert.deepEqual(end.feed.lead, { label: 'Keep going · 10 min', run: { kind: 'feed', chapterKey: AOP, minutes: 10, fresh: true } });
-  assert.equal(end.feed.kept.line, '1 kept. They are first in Revise.');
+  assert.equal(end.feed.kept.line, "1 card kept. They'll come first in Revise.");
   assert.equal(end.feed.free, null);
   assert.deepEqual([end.feed.next.label, end.feed.next.title], ['Next chapter · 10 min', 'Retirement and Death of a Partner']);
   // R3 L5: the end's own keys are a feed's too: one main key, at most one quiet link, each a feed or a new run.
