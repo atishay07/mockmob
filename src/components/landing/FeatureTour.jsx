@@ -4,27 +4,26 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Pause, Play } from 'lucide-react';
 import { createDemoPlayback } from '@/../data/demo_playback.mjs';
+import { BrandIcon } from '@/components/brand/BrandIcon';
 import { DemoPlaybackContext, TOUR_SCREENS } from './TourScreens';
 import ScrollStory from './ScrollStory';
 import { undrawn } from './undrawn';
 
 export const TOUR_ADVANCE_MS = 4800;
 
-// Phones show one sentence under each tool's title (wide screens show the full paragraph and its points),
-// so a phone never says less than a laptop. A slide's own `lede` wins.
-const LEDE = {
-  arena: 'A quick drill on a free evening, or a full 50-question, 60-minute mock on the real clock.',
-  repair: 'Why your pick was tempting, where it breaks, and the rule to keep. From the official key, or not at all.',
-  learn: 'Short lessons with worked examples, then recall cards that come back before you forget.',
-  replay: 'Every changed answer, every slow question and every skip, in the order it happened.',
-  radar: 'Every miss traced back to its chapter, so tonight has one clear target.',
-  prepos: 'Ask about your own record and get one next step, the same one Today shows you.',
-  compass: 'Your score against the published 2026 DU cutoffs, by college, category and round.',
-  combo: 'Pick your DU goals and see which five-paper combinations the 2026 rules keep open.',
-  rival: 'A short timed run against a fixed target for accuracy and pace.',
-  mob: 'Your friends get the same five questions for 24 hours, then you fix what caught you, together.',
-};
-
+// Phones show one sentence under each tool's title (wide screens show the paragraph and its points), so a phone never says
+// less than a laptop. The sentence is the slide's own `lede` (homeCopy.mjs).
+// The rail's icons are the lamp-lit desk objects (BrandIcon, LK73), 32 px so the object never turns to mush; Ask Mobi's is the
+// brass desk bell. The chevrons and the play control stay plain line icons: controls are the interface's verbs.
+const RAIL_ICON = 32;
+function RailIcon({ name }) {
+  if (typeof name !== 'string') return name; // a ready-made node (an older caller's line icon) is drawn as given
+  if (name === 'bell') {
+    // eslint-disable-next-line @next/next/no-img-element -- a 10 KB pre-sized webp, no optimizer round trip for a 32 px mark
+    return <img className="ft__bell" src="/brand/mascot/ask-deskbell.webp" width={RAIL_ICON} height={29} alt="" decoding="async" loading="lazy" draggable={false} />;
+  }
+  return <BrandIcon name={name} size={RAIL_ICON} />;
+}
 function TourVideo({ slide, playing }) {
   const ref = useRef(null);
   useEffect(() => {
@@ -179,7 +178,7 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
       <ul className="ft__list" ref={navRef} aria-label="Feature chapters" data-fade={fade} onScroll={readFade}>
         {slides.map((slide, i) => <li key={slide.id} data-chapter={i}>
           <button type="button" className="ft__row" data-on={active === i ? 'true' : 'false'} aria-current={active === i ? 'step' : undefined} onClick={event => goTo(i, { keyboard: event.detail === 0 })}>
-            <span className="ft__ico" aria-hidden="true">{slide.icon}</span><span>{slide.label}</span>
+            <span className="ft__ico" aria-hidden="true" style={{ width: RAIL_ICON, height: RAIL_ICON }}><RailIcon name={slide.icon} /></span><span>{slide.label}</span>
           </button>
         </li>)}
       </ul>
@@ -187,7 +186,7 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
       <div className="ft__room">
         <div className="ft__stage" data-ss-fit="0.6" data-ss-end="">
           <div className="ft__chrome">
-            <div className="ft__chapter"><span className="ft__counter">{String(active + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}</span><b>{slides[active]?.label}</b></div>
+            <div className="ft__chapter"><span className="lp-sr">{`Feature ${active + 1} of ${slides.length}`}</span><b>{slides[active]?.label}</b></div>
             <span className="ft__status"><i aria-hidden="true" />{status}</span>
             <button type="button" className="ft__play" aria-label={paused ? 'Play the demos' : 'Pause the demos'} disabled={reduced} onClick={() => { setPlaying(paused); setKeyboardHold(false); }}>
               {paused ? <Play size={16} aria-hidden="true" /> : <Pause size={16} aria-hidden="true" />}
@@ -216,7 +215,7 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
                   <div className="ft__copy">
                     <h3 className="ft__title">{slide.title}</h3>
                     <p className="ft__body">{slide.body}</p>
-                    <p className="ft__lede">{slide.lede || LEDE[slide.id] || slide.line}</p>
+                    <p className="ft__lede">{slide.lede || slide.line}</p>
                     <p className="ft__summary">{slide.chip || slide.line}</p>
                     {slide.points?.length ? <ul className="ft__points">{slide.points.map(point => <li key={point}>{point}</li>)}</ul> : null}
                     <Link href={slide.href} className="lp-link ft__cta">{slide.cta}</Link>

@@ -311,6 +311,7 @@ export function BenchmarkScreen({ play }) {
 // the Fold they play as, then the week's quest, the chain and the fix that follows the game. Names and marks are
 // illustrative; the rules are the Mob's own (src/lib/mob/v3/denCopy.mjs: same questions for 24 hours, the weekly
 // quest, the chain in weeks, Fix it together shows only your own pick).
+const FOLD_HEAD = 48; // the Fold characters read at 48 px, not the 20 px chips they were (LK73)
 const MOB_T = [...lineUp(3), 420];
 const MOB_RUNS = [
   { fold: 'dart', name: 'Dart, you', marks: 19, you: true },
@@ -324,9 +325,9 @@ export function MobScreen({ play }) {
       <p className="ts__meta">Everyone gets the same questions for 24 hours.</p>
       <div className="ts__lanes">
         {MOB_RUNS.map((run, i) => (
-          <div key={run.fold} className="ts__lane ts__lane--fold" data-run={on(step >= 1)} data-target={run.you ? undefined : 'true'}>
+          <div key={run.fold} className="ts__lane ts__lane--fold" data-run={on(step >= 1)} data-target={run.you ? undefined : 'true'} style={{ gridTemplateColumns: 'minmax(0, 9.5rem) 1fr 36px' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <span><img src={`/mob/folds/fold-${run.fold}-head@128.webp`} alt="" width={20} height={20} loading="lazy" decoding="async" />{run.name}</span>
+            <span><img src={`/mob/folds/fold-${run.fold}-head@128.webp`} alt="" width={FOLD_HEAD} height={FOLD_HEAD} style={{ flex: `0 0 ${FOLD_HEAD}px`, width: FOLD_HEAD, height: FOLD_HEAD }} loading="lazy" decoding="async" />{run.name}</span>
             <i><b style={{ '--w': `${Math.round((run.marks / 25) * 100)}%`, '--t': `${0.9 + i * 0.2}s` }} /></i>
             <em>+{run.marks}</em>
           </div>

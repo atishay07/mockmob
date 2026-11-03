@@ -70,7 +70,7 @@ test('a11y: the sample drill\'s progress pips carry their label on an image role
 });
 
 test('a11y: no complementary landmark sits inside main on the landing exam preview or the pricing page', () => {
-  assert.doesNotMatch(read('src/components/landing/ExamComparator.jsx'), /<aside className="lp-exam__palette"/);
+  assert.doesNotMatch(read('src/components/landing/ExamScreen.jsx'), /<aside className="lp-exam__palette"/); // its review panel is one labelled aside inside the frame, never the old palette aside
   assert.doesNotMatch(read('src/app/pricing/page.js'), /<aside className="mm-plans__note"/);
 });
 
@@ -88,10 +88,14 @@ test('a11y: /pricing headings step down in order (the Pro card under the h1 is a
 test('truth: the Mob is on the landing tour, the FAQ and the pricing table only while it is live', () => {
   const page = read('src/app/page.js');
   assert.match(page, /const MOB_LIVE = process\.env\.MOB_ENABLED === 'true' && process\.env\.MOB_V3_ENABLED === 'true';/);
-  assert.match(page, /\.\.\.\(MOB_LIVE \? \[\{ id: 'mob', label: 'The Mob'/);
-  assert.match(page, /\.\.\.\(MOB_LIVE \? \[\{ question: 'What is the Mob\?'/);
+  // The words moved to homeCopy.mjs (1104 P5): the slide and the FAQ answer are built only when the page passes mobLive.
+  const copy = read('src/components/landing/homeCopy.mjs');
+  assert.match(page, /buildTour\(\{[^}]*mobLive: MOB_LIVE/);
+  assert.match(page, /buildFaqs\(\{ offer: OFFER, mobLive: MOB_LIVE \}\)/);
+  assert.match(copy, /\.\.\.\(mobLive \? \[slide\('mob', \{ label: 'The Mob'/);
+  assert.match(copy, /\.\.\.\(mobLive \? \[\{ question: 'What is the Mob\?'/);
   // Its claims are the Mob's own rules.
-  assert.match(page, /Everyone gets the same five questions for 24 hours/);
+  assert.match(copy, /same five questions for 24 hours/);
   assert.match(read('src/lib/mob/v3/denCopy.mjs'), /Everyone gets the same questions for 24 hours and races the runs before them\./);
   assert.match(read('src/components/landing/TourScreens.jsx'), /\n {2}mob: MobScreen,\n/);
   const pricing = read('src/app/pricing/page.js');
@@ -101,7 +105,9 @@ test('truth: the Mob is on the landing tour, the FAQ and the pricing table only 
 });
 
 test('truth: the landing says a credit buys a whole Mobi job on every plan (C-dec 3/3b), never "AI replies"', () => {
-  const page = stripComments(read('src/app/page.js'));
+  const page = stripComments(read('src/app/page.js') + read('src/components/landing/homeCopy.mjs'));
   assert.doesNotMatch(page, /AI replies use monthly credits/);
-  assert.match(page, /One credit buys a whole Mobi job, a mistake fixed for good or a doubt answered and tested, and every plan gets 50 free credits a month/);
+  // Shortened for the tour's word budget (1104 P5): the two facts stay, each on its own line.
+  assert.match(page, /'One credit buys a whole Mobi job'/);
+  assert.match(page, /'Every plan gets 50 free credits a month\.'/);
 });

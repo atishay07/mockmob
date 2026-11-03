@@ -17,6 +17,7 @@ import { useReadableRegion } from './useReadableRegion';
 import ScrollStory from './ScrollStory';
 import { MascotSeat } from '@/components/brand/Mascot';
 import { durations } from '@/lib/motion/tokens.g.js';
+import { RECOVERY_STEPS } from './homeCopy.mjs';
 import { SESSION as STORY, MARK as MARKS, PAPER_PACE_SEC, clock, marksLedger } from './labStory.mjs';
 
 // The story's rows in the replay's terms ('skip' for a blank), with the clock times of every change.
@@ -37,12 +38,8 @@ const ABOUT = {
   other_wrong: (qs) => `${qList(qs)} ${qs.length > 1 ? 'were' : 'was'} wrong from the first pick.`,
   other_blank: (qs) => `${qList(qs)} ${qs.length > 1 ? 'were' : 'was'} opened and left blank.`,
 };
-const STEPS = [
-  { key: 'replay', title: 'Replay the session', body: 'Every answer and every minute, with the marks each one cost.', ms: 4800 },
-  { key: 'leak', title: 'Find where marks leaked', body: 'Every mark you missed, sorted by how it went: changed answers, wrong picks and blanks.', ms: 4800 },
-  { key: 'move', title: 'Get one next move', body: 'One next step, the same one Today shows you.', ms: 4800 },
-  { key: 'check', title: 'Check it on fresh questions', body: 'New questions, days apart, show whether the fix held.', ms: 4800 },
-];
+// The four steps' words live in homeCopy.mjs (RECOVERY_STEPS), held to their word budget by landingCopy.test.mjs.
+const STEPS = RECOVERY_STEPS;
 // The ten tiles deal one shared stagger step apart (the app's staggerStep), so the replay is whole within
 // about half a second of its step coming on and a reader scrolling on never meets a half-dealt board.
 const REVEAL_MS = durations.staggerStep;
@@ -248,7 +245,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
       <figure className="ml__stage" data-ss-fit="0.62" data-ss-end="" aria-label="Sample Accountancy session, 10 questions">
         <div className="ml__bar-top">
           <div className="ml__session-label"><span>Sample Accountancy session, 10 questions</span></div>
-          <MascotSeat station="lab-inline" pose="attentive" label="Mobi follows the replay." className="pip-seat--lab-inline" />
+          <MascotSeat station="lab-inline" pose="thinking" label="Mobi follows the replay." className="pip-seat--lab-inline" />
         </div>
 
         <div className="ml__panels">

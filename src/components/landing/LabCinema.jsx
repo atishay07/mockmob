@@ -14,6 +14,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeftRight, Check, LayoutGrid, Minus, ShieldCheck, Timer, Wrench, X } from 'lucide-react';
 import { labStory, REPAIR, repairRecordLine, signed } from './labStory.mjs';
+import { LAB_SCENES } from './homeCopy.mjs';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import ScrollStory from './ScrollStory';
 
@@ -21,24 +22,10 @@ const S = labStory();
 const VERDICT = { right: 'right', wrong: 'wrong', blank: 'left blank' };
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
-const timeTake = S.time.wrongAllOver && S.time.underAllRight
-  ? `All ${S.facts.wrong} wrong answers ran over pace. Every quick one was right.`
-  : `${S.time.overCount} questions ran over pace.`;
-
-const SCENES = [
-  { key: 'time', tab: 'Time', Icon: Timer, title: 'Find the minutes that cost you.',
-    body: `Every question runs against CUET’s pace of ${S.pace}. The overruns light up, and so does what they bought you.`,
-    take: timeTake },
-  { key: 'changes', tab: 'Changes', Icon: ArrowLeftRight, title: 'Every second thought, on the clock.',
-    body: 'Your first pick, what you switched to and when, and the marks every switch won or cost.',
-    take: `${S.changes.length} changes. Net ${signed(S.net)} marks.` },
-  { key: 'repair', tab: 'Repair', Icon: Wrench, title: 'Repair the reason, not just the answer.',
-    body: 'Why your pick was tempting, where it breaks, and the rule to keep. Written from the official key, or not written at all.',
-    take: 'If the AI can’t match the key, the question waits. You never pay for a guess.' },
-  { key: 'swot', tab: 'SWOT', Icon: LayoutGrid, title: 'Leave every mock with a plan.',
-    body: 'A SWOT after every mock, built from your answers, your times and your earlier mocks, with the exact sets to do next. Free. No credits.',
-    take: `Partnership cost marks in each of your last ${S.swot.partnershipLost.length} mocks. That set goes first.` },
-];
+// The scenes' words (title, body and take) live in homeCopy.mjs, held to their word budget by landingCopy.test.mjs; only the
+// icon each tab wears is chosen here.
+const ICON = { time: Timer, changes: ArrowLeftRight, repair: Wrench, swot: LayoutGrid };
+const SCENES = LAB_SCENES.map((scene) => ({ ...scene, Icon: ICON[scene.key] }));
 
 const verdictIcon = (v, size = 12) => (v === 'right' ? <Check size={size} aria-hidden="true" /> : v === 'wrong' ? <X size={size} aria-hidden="true" /> : <Minus size={size} aria-hidden="true" />);
 
