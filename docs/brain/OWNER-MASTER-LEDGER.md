@@ -687,3 +687,11 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | OPEN | **LK61** The English everywhere must be improved (repeat). |
 | OPEN | **LK62** The mobile website is now nearly a copy of the app, but the website has more features and must be a full-fledged experience; plan how, especially Learn. |
 
+## Ship for real, 3 Nov about 11:55 pm (LK63-LK66; verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md, section "3 Nov 2026, about 11:55 pm")
+
+| Status | Item |
+| --- | --- |
+| IN PROGRESS | **LK63** Finish every open lane (Physics, app 1.0.20+18, web cards/top bar/icons/full website, English), then review the UI against all his past feedback and keep improving until satisfied. |
+| IN PROGRESS | **LK64** No prototype links or test builds: a final AAB he uploads straight to Google Play, and the final web changes deployed to www.mockmob.in so he sees them on every device. Supersedes "ship each web change only after his live look" for this round. |
+| IN PROGRESS | **LK65** Commit all uncommitted work; the project final and up to date today, recorded as a proper checkpoint, for handing over and onboarding other members. |
+| TO ASK | **LK66** His message ends "Everything then should be sent to": where? |

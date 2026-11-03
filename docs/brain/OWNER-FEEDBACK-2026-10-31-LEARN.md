@@ -187,3 +187,14 @@ Found at once: the verified bank's keys are skewed to A (Accountancy 1,206 of 1,
 
 Reading (dictation): "barware" is likely "the bar where" (the top bar showing credits and Pro); "Guard look" is likely "Card look" (the card preview link looked the same as before). He opened http://192.168.1.8:3463 (the LAN preview from the app port session, r6-cards).
 
+
+## 3 Nov 2026, about 11:55 pm IST: finish everything, then ship for real: a Play build and the live website, no prototypes (verbatim)
+
+> What I want you to do is just keep going after everything that was specified in the form. Do that. Once you are done, just see the UI and the previous feedback that I had given. Upon that, keep working until you are satisfied with a good enough UI and fixture of everything.
+>
+> Once all is done from our side, don't give me prototype links or builds. Give me a final build which I can upload straight to Google Play, and deploy the final changes to the website, main website only, so that I can see everything properly on every device (rather than making some localhost links or some emulator builds). Leave all that.
+>
+> Also, just check for any uncommitted work or anything in the work. Please commit everything and make everything in the project final and up to date for right now, because I might have to transfer some things and focus on some onboarding stuff (onboarding of other members). So, up till today, all should have been recorded as a proper checkpoint. Again, just to inform: everything should be committed to get the final build for the Play Store app with all the fixes that we have been discussing for days. Everything then should be sent to
+
+Reading: "the form" is likely the four lanes of the new-account prompt (A Physics, B app 1.0.20+18, C web, D English); "fixture" is likely "finish" or "fixing". The message ends mid-sentence at "should be sent to": asked him where (running question list).
+What this changes: the rule "ship each web change only after his live look" is lifted for this round. He judges on the live site and the Play build; no LAN links, no prototype APKs. The CTO decides the UI against his past feedback (LK24-LK62) and ships it to www.mockmob.in after the usual gates (suites, eslint, both builds, the look at 390 and 1440 Night and Day, deploy check).
