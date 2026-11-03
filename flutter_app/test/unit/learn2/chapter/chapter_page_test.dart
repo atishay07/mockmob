@@ -231,8 +231,8 @@ void main() {
       await settleChapter(tester);
       expect(h.api.previews.last.minutes, 35);
       expect(h.store.values[LearnPrefs.minutesKey], 35, reason: 'the length is kept on the phone');
-      // Pressing it again opens the sheet again.
-      await tester.tap(find.text('35 min'));
+      // Pressing it again opens the sheet again: the chosen segment carries a key of its own over its words.
+      await tester.tap(find.bySemanticsLabel('Your own length, 35 min. Change it'));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 500));
       expect(find.text('Your own length'), findsOneWidget);

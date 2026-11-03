@@ -331,7 +331,8 @@ void main() {
       await tap(tester, find.bySemanticsLabel('Close the feed'));
       await tap(tester, find.text('Stop here'));
       expect(ctl(tester).mode, FeedMode.end);
-      await tap(tester, find.bySemanticsLabel('Close the feed'));
+      // The end's own Close, the one a finger reaches (a covered one stays in the tree under it).
+      await tap(tester, find.bySemanticsLabel('Close the feed').hitTestable());
       expect(find.text('host'), findsOneWidget);
       await finish(tester);
     });

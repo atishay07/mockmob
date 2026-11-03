@@ -191,7 +191,8 @@ void main() {
 
     testWidgets('a tap on the card turns it too, and a tap on its back brings the front and Turn over again', (tester) async {
       await pumpRun(tester, FixtureLearnApi());
-      await tester.tap(find.textContaining('Define partnership').first);
+      // The front's words sit under its tap target (a button over the face), as a finger meets them.
+      await tester.tap(find.bySemanticsLabel(RegExp(r'^Turn over: Define partnership')));
       await runSettle(tester);
       expect(find.text('Got it'), findsOneWidget);
       await tester.tap(find.byType(CardFace).first);
@@ -603,7 +604,8 @@ void main() {
       await toEnd(tester, api);
       expect(api.ended.length, 1);
       expect(find.byType(CardFace), findsNothing);
-      await tap(tester, find.bySemanticsLabel('Close'));
+      // The end's own X, the one a finger reaches (a covered one stays in the tree under it).
+      await tap(tester, find.bySemanticsLabel('Close').hitTestable());
       expect(find.text('host'), findsOneWidget);
       await finish(tester);
     });
