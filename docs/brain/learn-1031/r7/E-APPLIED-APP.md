@@ -96,9 +96,9 @@ profile, billing, the result and review pages, Google Play lines in `pro_nudge/c
   `cover_model_parity_test`, `explore_screen_test`, `feed_controller_test`, `feed_screen_test`, `learn_home_test`, `learn2_pill_test`,
   `run_controller_test`, `run_screen_test`, `question_view_test`, `end_form_test`, `stage_frame_test`, `stage_states_test`, `revise_test`,
   `keycards_widgets_test` (a "no reviews left" check now says "ratings left"), `learn_cards_golden_test` (a finder).
-- Goldens re-recorded because only text changed (or a line wrapped because of it): 96 images, Night and Day each: 32 in `golden/keycards` (16 kc_* shots),
+- Goldens re-recorded because only text changed (or a line wrapped because of it): 97 images, Night and Day each (one is Day only): 32 in `golden/keycards` (16 kc_* shots),
   4 in `learn2/cards` (find_results_free, view_empty_filter), 4 in `chapter` (error, offline), 24 in `explore` (every cover: the key reads
-  "Start · 10 min"), 4 in `feed` (error, wrong line), 4 in `home` (error, pro_returning_412), 16 in `run` (card revealed, card revealed at text 1.3, error,
+  "Start · 10 min"), 5 in `feed` (error, wrong line, the This feed sheet in Day), 4 in `home` (error, pro_returning_412), 16 in `run` (card revealed, card revealed at text 1.3, error,
   lesson, recap, round, stop sheet, wrong line), 4 in `stage` (wrong line, read) and 4 in `practice` (the Explore door, text 1 and 1.3). Looked at after recording: Explore, Practice's Explore door at text 1.3, the run at text 1.3, Find with the locked line, Key cards'
   Study (the three keys), the Revise cap, Key cards offline and the chapter page offline: nothing cut or overflowing.
 - Not re-recorded (already failing before this change, with layout drift of their own): `chapter_first_visit`, `chapter_free_20_capped`,
