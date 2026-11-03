@@ -694,4 +694,4 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | IN PROGRESS | **LK63** Finish every open lane (Physics, app 1.0.20+18, web cards/top bar/icons/full website, English), then review the UI against all his past feedback and keep improving until satisfied. |
 | IN PROGRESS | **LK64** No prototype links or test builds: a final AAB he uploads straight to Google Play, and the final web changes deployed to www.mockmob.in so he sees them on every device. Supersedes "ship each web change only after his live look" for this round. |
 | IN PROGRESS | **LK65** Commit all uncommitted work; the project final and up to date today, recorded as a proper checkpoint, for handing over and onboarding other members. |
-| TO ASK | **LK66** His message ends "Everything then should be sent to": where? |
+| ANSWERED 4 Nov ~12:10 am: "Push branches to GitHub" (his button answer) | **LK66** His message ends "Everything then should be sent to": where? Push every branch to GitHub, after the production web deploy so preview builds do not queue ahead of it. |
