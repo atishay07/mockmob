@@ -7,7 +7,7 @@ import 'mm_colors.dart';
 class MmBandInk {
   const MmBandInk({required this.text, required this.band, required this.line});
 
-  /// The kind word. AA on [band] in both themes (Night 6.98 to 7.32:1, Day 4.98 to 6.30:1).
+  /// The kind word. AA on [band] in both themes (Night 6.94 to 7.32:1, Day 4.98 to 6.30:1).
   final Color text;
 
   /// The band: [text] at 12% over Night's paper, 13% over Day's (the web's `--kc-band`).
