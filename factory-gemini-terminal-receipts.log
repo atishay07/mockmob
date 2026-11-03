@@ -1,0 +1,1733 @@
+
+> mockmob@0.1.0 test:factory
+> node --test scripts/pipeline/tests/*.test.mjs data/tests/factory_phase_budget.test.mjs data/tests/practice_availability.test.mjs data/tests/factory_inventory.test.mjs
+
+✔ historical withheld receipts and unrelated usable legacy items cannot fill factory yield (2.1286ms)
+✔ a thousand historical publications with one withheld item do not satisfy the thousand usable gate (2.0077ms)
+✔ lifetime forecast includes existing spending and conservative holds once (0.4565ms)
+✔ missing cost evidence never creates an affordable-inventory or cost claim (0.2195ms)
+✔ a 10,000 target forecast cannot deadlock an affordable 1,000 checkpoint (1.0825ms)
+✔ completed pilot releases a funded checkpoint without a redundant ten-thousand forecast gate (0.2761ms)
+✔ phase budgets retain conservative holds and fail closed on missing or invalid measurements (0.196ms)
+✔ existing unscreened live and verified active library rows preserve their reading contract (1.1804ms)
+✔ existing holds and modern factory provenance cannot use legacy compatibility (0.2347ms)
+✔ screened legacy content remains withheld when a receipt fails or content changes (1.1574ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'english',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'english',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+✔ A/B harness runs in no-publish mode and compares models (56.3183ms)
+✔ A/B harness does not enable OpenAI generation automatically (2.0821ms)
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_para_jumbles_1',
+  selected_anchor_concept_id: 'english::para_jumbles',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'para_jumble',
+  selected_question_type: 'para_jumble',
+  requested_english_family: 'para_jumble',
+  selected_english_family: 'para_jumble',
+  english_family_match: true
+}
+[anchor] selected {
+  requested_subject: 'english',
+  requested_chapter: 'Para Jumbles',
+  requested_concept_id: 'english::para_jumbles',
+  selected_anchor_id: 'structured_english_para_jumbles_1',
+  selected_anchor_concept_id: 'english::para_jumbles',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: true
+}
+[pyq_anchor] selected_anchor {
+  subject: 'english',
+  requested_concept_id: 'english::narrative_passage',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 3,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'inference',
+  selected_question_type: 'statement_based',
+  requested_english_family: 'passage',
+  selected_english_family: 'passage',
+  english_family_match: true
+}
+[anchor] selected {
+  requested_subject: 'english',
+  requested_chapter: 'Narrative Passage',
+  requested_concept_id: 'english::narrative_passage',
+  selected_anchor_id: 'structured_english_narrative_passage_1',
+  selected_anchor_concept_id: 'english::narrative_passage',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: true
+}
+[pyq_anchor] selected_anchor {
+  subject: 'physics',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  selected_anchor_id: 'structured_physics_electromagnetic_induction_1',
+  selected_anchor_concept_id: 'physics::electromagnetic_induction',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 1,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'assertion_reason',
+  selected_question_type: 'assertion_reason',
+  requested_english_family: null,
+  selected_english_family: null,
+  english_family_match: null
+}
+[anchor] selected {
+  requested_subject: 'physics',
+  requested_chapter: 'Electromagnetic Induction',
+  requested_concept_id: 'physics::electromagnetic_induction',
+  selected_anchor_id: 'structured_physics_electromagnetic_induction_1',
+  selected_anchor_concept_id: 'physics::electromagnetic_induction',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: null
+}
+✔ Para Jumbles does not select Narrative Passage as a direct anchor (5.3996ms)
+✔ Narrative Passage does not select Para Jumbles as a direct anchor (1.0646ms)
+✔ Physics EMI anchor selection is exact or low-confidence structure, not Dual Nature direct (0.7179ms)
+[pyq_anchor] selected_anchor {
+  subject: 'computer_science',
+  requested_concept_id: 'computer_science::boolean_algebra',
+  selected_anchor_id: 'structured_computer_science_boolean_algebra_1',
+  selected_anchor_concept_id: 'computer_science::boolean_algebra',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based',
+  requested_english_family: null,
+  selected_english_family: null,
+  english_family_match: null
+}
+[anchor] selected {
+  requested_subject: 'computer_science',
+  requested_chapter: 'Boolean Algebra',
+  requested_concept_id: 'computer_science::boolean_algebra',
+  selected_anchor_id: 'structured_computer_science_boolean_algebra_1',
+  selected_anchor_concept_id: 'computer_science::boolean_algebra',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'chemistry',
+  requested_concept_id: 'chemistry::aldehydes_ketones_and_carboxylic_acids',
+  selected_anchor_id: 'structured_chemistry_aldehydes_ketones_and_carboxylic_acids_1',
+  selected_anchor_concept_id: 'chemistry::aldehydes_ketones_and_carboxylic_acids',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based',
+  requested_english_family: null,
+  selected_english_family: null,
+  english_family_match: null
+}
+[anchor] selected {
+  requested_subject: 'chemistry',
+  requested_chapter: 'Aldehydes, Ketones & Carboxylic Acids',
+  requested_concept_id: 'chemistry::aldehydes_ketones_and_carboxylic_acids',
+  selected_anchor_id: 'structured_chemistry_aldehydes_ketones_and_carboxylic_acids_1',
+  selected_anchor_concept_id: 'chemistry::aldehydes_ketones_and_carboxylic_acids',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'biology',
+  requested_concept_id: 'biology::molecular_basis_of_inheritance',
+  selected_anchor_id: 'structured_biology_molecular_basis_of_inheritance_1',
+  selected_anchor_concept_id: 'biology::molecular_basis_of_inheritance',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based',
+  requested_english_family: null,
+  selected_english_family: null,
+  english_family_match: null
+}
+[anchor] selected {
+  requested_subject: 'biology',
+  requested_chapter: 'Molecular Basis of Inheritance',
+  requested_concept_id: 'biology::molecular_basis_of_inheritance',
+  selected_anchor_id: 'structured_biology_molecular_basis_of_inheritance_1',
+  selected_anchor_concept_id: 'biology::molecular_basis_of_inheritance',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: null
+}
+[pyq_anchor] selected_anchor {
+  subject: 'economics',
+  requested_concept_id: 'economics::money_and_banking',
+  selected_anchor_id: 'structured_economics_money_and_banking_1',
+  selected_anchor_concept_id: 'economics::money_and_banking',
+  anchor_tier: 1,
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  fallback_used: false,
+  concept_mismatch_risk: 'low',
+  candidates: 5,
+  requested_difficulty: 'medium',
+  selected_difficulty: 'medium',
+  requested_question_type: 'statement_based',
+  selected_question_type: 'statement_based',
+  requested_english_family: null,
+  selected_english_family: null,
+  english_family_match: null
+}
+[anchor] selected {
+  requested_subject: 'economics',
+  requested_chapter: 'Money & Banking',
+  requested_concept_id: 'economics::money_and_banking',
+  selected_anchor_id: 'structured_economics_money_and_banking_1',
+  selected_anchor_concept_id: 'economics::money_and_banking',
+  anchor_match_level: 'exact_chapter',
+  anchor_confidence: 'high',
+  concept_mismatch_risk: 'low',
+  fallback_used: false,
+  english_family_match: null
+}
+✔ Boolean Algebra selects exact chapter anchor (5.3332ms)
+✔ Aldehydes exact anchor is selected (1.0051ms)
+✔ Molecular Basis exact anchor is selected (0.6934ms)
+✔ Money & Banking exact anchor is selected (0.823ms)
+✔ success and typed pre-inference rejection collect separate output/error files exactly once (235.1276ms)
+✔ a failed response with token usage charges that usage instead of zero (152.6341ms)
+✔ unknown server failure keeps its full proven hold and permits only bounded continuation (177.3385ms)
+✔ explicit unexecuted batch expiry settles separately; duplicate identities never release a hold (311.2471ms)
+✔ native Gemini service failures retain exact receipts, full holds and quarantine-only publication across restart (150.2418ms)
+✔ Gemini failed records with usage charge candidate and reasoning tokens instead of guessing zero (189.3147ms)
+✔ missing or duplicate Gemini record identities retain their maximum and block publication (415.3024ms)
+✔ dictionary definitions do not establish a universal both-qualities rule for antonyms (6.5925ms)
+✔ same passage fact is withheld despite different concept labels and pronoun paraphrases (2.927ms)
+✔ reading novelty guard preserves different facts, quantities, negations and short common answers (0.9092ms)
+✔ publisher passage contracts quarantine mixed chapters, changed stimuli and incomplete groups before RPCs (3.7477ms)
+✔ cross-cohort duplicate detection withholds the newcomer and never modifies prior publication (0.6653ms)
+✔ cross-cohort duplicate failure withholds every sibling in an atomic passage group (0.4903ms)
+✔ a universal exact clause claim cannot replace the supported at-least qualification (0.3465ms)
+✔ loan classification needs a stipulated sequence when reasoning steps can commute (0.6331ms)
+✔ inspection rejects duplicated content despite reordered options and preserves recalculated numericals (0.5357ms)
+✔ similar specific idea and same answer is conservatively withheld, but a broad shared concept is insufficient (0.5785ms)
+✔ invalid evidence is withheld independently of high craft and complete count (0.2821ms)
+✔ paraphrased usage sentences for one named word cannot inflate lexical coverage (0.7279ms)
+✔ changed distractors and concept labels do not create a new question with the same stem, passage and answer (0.5046ms)
+✔ model passes cannot compensate for an unstated financial-enterprise condition in cash-flow classification (0.6101ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ target 10 with Flash batch 8 plans a second sub-batch (3.6364ms)
+✔ normal Flash jobs can generate 8-16 candidates while Pro stays small (0.5704ms)
+✔ lexical briefs avoid already published and preregistered targets (18.7267ms)
+✔ commerce prefers an unused source section without inventing support (0.6835ms)
+✔ missing, exercise-only or unpermitted material returns no supported brief (0.4253ms)
+✔ restart immediately recovers a dead local worker without stealing a living process lease (177.8555ms)
+✔ a dead dispatch owner recovers as unresolved and never returns to the upload queue (169.3017ms)
+✔ bounded missing usage stays unresolved and committed; unbounded and overrun holds still block (189.6021ms)
+✔ late usage shrinks only its own hold and cannot double settle (159.369ms)
+✔ independent workers serialize reservations under the lifetime cap while retaining a bounded hold (293.528ms)
+✔ a lost real-time receipt with a persisted key cannot resubmit after restart (152.5458ms)
+✔ native cohort uploads once, preserves per-item reservations and reconciles accepted IDs idempotently (398.4805ms)
+✔ lost grouped acceptance recovers every matching ID from the saved file and metadata without reposting (235.5674ms)
+✔ Gemini grouped responses are mapped by opaque per-item IDs rather than response order (160.1426ms)
+✔ a long-running worker refreshes pending batch status without reposting accepted IDs (162.0923ms)
+✔ a known pre-inference rejection is terminal and cannot repost or block unrelated work as uncertain usage (109.9392ms)
+✔ only one live scheduler may create cohorts; a dead scheduler can recover (150.0594ms)
+✔ a concurrent cohort is not added to preparation or gross costs of an earlier cohort (2.4196ms)
+✔ pending holds and failed receipts use persisted request identity without assuming zero (1.1779ms)
+✔ a terminal failed quarantined item retains its hold while unaffected approved items can publish (3.6332ms)
+✔ publication readiness reads actual SQLite reservations and terminal receipts, preserving failed holds (205.352ms)
+✔ accepted pending requests, unknown acceptance and invalid identities never permit publication (0.3815ms)
+✔ an uncertain failed request on an approved item cannot be hidden behind another passing check (0.2326ms)
+✔ Gemini native errors require terminal batch state, exact metadata identity and quarantine (0.4628ms)
+✔ completed comparable cohorts retain failures and preparation is added only once (2.2985ms)
+✔ partial approvals never become reliability or final unit-cost evidence (0.2387ms)
+✔ conservative held costs remain gross and explicitly unsettled (0.224ms)
+✔ bounded receipt-only failures do not deadlock unrelated provider work or masquerade as finished (1.8135ms)
+✔ four active cohorts, a reached content ceiling or an unbounded hold prevent expansion (2.3514ms)
+✔ the usable target prevents more candidate registration but accepted work must still finish (0.7499ms)
+✔ unused concurrency does not buy another cohort while accepted candidates can fill the gap (1.3614ms)
+✔ terminal conservative receipt holds never supply fictitious delivery capacity (0.2641ms)
+✔ new catalog avoids provider-rejected newlines while retaining exact contiguous source substrings (1.5848ms)
+✔ accepted v2 requests preserve the full revised body and its original persistent key (2.4422ms)
+✔ quote choices are bounded exact source substrings, never invented text (0.3655ms)
+✔ old requests and all validation stages preserve their original transport contract (0.2421ms)
+✔ new authoring schema and full revised body bind the persistent cache key (0.6517ms)
+✔ DeepSeek generation uses model-specific timeout and message (1.242ms)
+✔ DeepSeek timeout or empty response retries once with smaller batch before DeepSeek fallback (0.2663ms)
+✔ legacy generation keeps explicit optional Kimi and credential-dependent DeepSeek routing (0.2752ms)
+✔ DeepSeek health disables Pro after repeated empty or timeout responses (0.1985ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[json_recovery] {
+  direct_parse_ok: false,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: false,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: true,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+✔ content empty plus reasoning_content length finish reason length is not parsed blindly (2.0334ms)
+✔ finish_reason length with partial objects extracts complete questions only (10.1047ms)
+✔ Flash invalid JSON attempts repair before selfCheck (5.3262ms)
+✔ repaired invalid objects are dropped (0.5827ms)
+✔ reasoning exhausted output budget participates in Pro health handling (0.3409ms)
+✔ DeepSeek Pro, Flash, Chat are the generation priority order (1.3504ms)
+✔ GPT is not present in generation model constants or worker generation fallback (0.4646ms)
+✔ OpenAI generation override is blocked when disabled, while GPT validator models remain configured (0.2752ms)
+✔ all DeepSeek generation failures defer the job instead of generating with GPT (0.3403ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ extractGenerationText parses choices[0].message.content (1.2872ms)
+✔ extractGenerationText parses alternate response shapes (0.251ms)
+✔ reasoning_content is accepted only when it contains final JSON (1.5896ms)
+✔ raw shape log omits content while reporting shape (1.2692ms)
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[english_mode] {
+  chapter: 'Narrative Passage',
+  mode: 'passage_rc',
+  requires_passage: true,
+  passage_type: 'narrative',
+  allowed_in_quick_practice: false
+}
+[english_mode] {
+  chapter: 'Narrative Passage',
+  mode: 'passage_rc',
+  requires_passage: true,
+  passage_type: 'narrative',
+  allowed_in_quick_practice: false
+}
+[english_mode] {
+  chapter: 'Reading Comprehension',
+  mode: 'passage_rc',
+  requires_passage: true,
+  passage_type: 'factual',
+  allowed_in_quick_practice: false
+}
+[english_mode] {
+  chapter: 'Prose',
+  mode: 'passage_rc',
+  requires_passage: true,
+  passage_type: 'prose',
+  allowed_in_quick_practice: false
+}
+[english_mode] {
+  chapter: 'Vocabulary',
+  mode: 'vocabulary',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[english_mode] {
+  chapter: 'Grammar',
+  mode: 'grammar',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+✔ Para Jumbles maps to para_jumble without passage (2.8122ms)
+✔ passage chapters map to passage_rc (1.4005ms)
+✔ Vocabulary and Grammar map to standalone modes (0.6481ms)
+[english_mode] {
+  chapter: 'Narrative Passage',
+  mode: 'passage_rc',
+  requires_passage: true,
+  passage_type: 'narrative',
+  allowed_in_quick_practice: false
+}
+[passage_group] normalized {
+  passage_id: 'passage_1',
+  temporary_group_key: 'tmp_passage_1_1',
+  linked_question_count: 4,
+  has_passage_text: true,
+  has_group_id: false
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 4,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 4
+}
+[passage_group] normalized {
+  passage_id: 'passage_1',
+  temporary_group_key: 'tmp_passage_1_1',
+  linked_question_count: 4,
+  has_passage_text: true,
+  has_group_id: false
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 4,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 4
+}
+[passage_group] normalized {
+  passage_id: 'passage_1',
+  temporary_group_key: 'tmp_passage_1_1',
+  linked_question_count: 5,
+  has_passage_text: true,
+  has_group_id: false
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 5,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 5
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 1,
+  flattened_questions: 0,
+  structural_rejected: 5,
+  normalized_count_before_selfcheck: 0
+}
+✔ English NTA passage chapters require passage mode (2.3417ms)
+✔ passage_group normalizes children with temporary group key (2.3484ms)
+✔ passage groups are excluded from quick practice and included in NTA mode (0.7445ms)
+✔ passage mode requires enough generated children before self-check (0.6951ms)
+✔ permutation helper rejects repeated or missing labels (1.2607ms)
+✔ selfCheck accepts mature para jumble with valid close permutations (6.2273ms)
+✔ selfCheck rejects invalid para jumble permutations and missing ordering logic (1.1539ms)
+✔ selfCheck rejects childish obvious para jumble story (0.5948ms)
+✔ selfCheck rejects passage child without passage text (1.824ms)
+✔ blind checks never receive generator key or explanation; cached verdicts preserve exact IDs (171.4484ms)
+✔ duplicate stems stop before paid stages and one failed targeted repair stays quarantined (225.5317ms)
+✔ empty or family/source-overlapping academic benchmarks cannot release (0.6511ms)
+✔ evidence signatures survive nested JSONB key ordering while array order and content remain bound (2.2753ms)
+✔ valid legacy signatures remain accepted as signatures, while a modified record is untrusted (1.3885ms)
+✔ a nullable database index cannot override a real letter key (1.8506ms)
+✔ pending, unbalanced, historical and realtime cohorts cannot authorize scaling (19.679ms)
+✔ cost denominator excludes duplicates and includes rejected candidates and full spend (2.4517ms)
+✔ source documents alone and legacy tags cannot claim syllabus coverage (1.5451ms)
+✔ local test claims and a production ref cannot substitute for authenticated staging (0.629ms)
+✔ dissolution aliases count as one official chapter rather than missing coverage (1.0042ms)
+✔ a completed historical probe cannot qualify a revised verifier (0.2176ms)
+✔ freeze refuses previously observed anchors and shared passage units (10.1002ms)
+✔ only the ledger-bound frozen fixture can claim unseen evaluation (16.9669ms)
+✔ factory-authored valid explanation is evaluated later without rewriting the frozen official item (9.3445ms)
+✔ a historical passage exceeding the current English word limit cannot be a positive release fixture (1.1088ms)
+✔ a different payload cannot recycle previously frozen official holdout units (4.653ms)
+✔ only a reconciled conservative hold permits unrelated items after uncertain acceptance (1.9454ms)
+✔ an affordable hold never bypasses the ceiling, input bound, pricing or live-worker guards (0.2513ms)
+✔ topic-rich exercises cannot displace the decisive normative formula (3.2043ms)
+✔ four lexical definitions support matching briefs and vary deterministically across gaps (16.9435ms)
+✔ a stored excerpt hash mismatch fails closed before generation (0.8011ms)
+✔ one real quotation cannot conceal a fabricated second quotation (2.277ms)
+✔ empty author support is withheld and a changed registered excerpt fails closed (1.0066ms)
+[json_recovery] {
+  direct_parse_ok: true,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: false,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: false,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: true,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 1,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: true,
+  extracted_objects: 1,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: false,
+  extracted_objects: 0,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 0,
+  used_model_repair: false
+}
+[json_recovery] {
+  direct_parse_ok: true,
+  extracted_objects: 2,
+  dropped_incomplete: 0,
+  dropped_meta_commentary: 1,
+  used_model_repair: false
+}
+✔ repairs markdown-wrapped JSON and preserves valid question (3.857ms)
+✔ removes commentary outside JSON (1.0332ms)
+✔ drops incomplete truncated question while keeping complete objects (0.9854ms)
+✔ drops question containing meta-commentary (0.4837ms)
+✔ drops contradictory answer_check (0.5371ms)
+✔ returns empty array if no valid questions remain (2.0925ms)
+✔ does not create new questions (1.7293ms)
+✔ exports structural helpers (0.8817ms)
+✔ extractJsonCandidates reports partial object recovery (5.5444ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'english',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'english',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+[english_mode] {
+  chapter: 'Vocabulary',
+  mode: 'vocabulary',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'english',
+  expected_chapter: 'Vocabulary',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+✔ Kimi A/B harness writes no-publish comparison report (78.013ms)
+✔ A/B harness does not switch production provider automatically (13.6285ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ Kimi cost estimate uses env pricing defaults (1.9833ms)
+✔ model usage breakdown cost_usd is nonzero when token usage exists (0.268ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[kimi_health_debug] {
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  request_has_authorization_header: true,
+  status: 200,
+  error_type: null,
+  error_message: null
+}
+[kimi_health] { ok: true, model: 'kimi-k2.6', latency_ms: 1, error: null }
+[kimi_models] {
+  ok: true,
+  model_ids: [ 'kimi-k2.6' ],
+  configured_model_available: true
+}
+[kimi_models] { ok: false, model_ids: [], error: 'models_http_500' }
+✔ Kimi config defaults safely and missing key disables provider (1.8001ms)
+✔ Kimi chat completion parser handles choices message content and missing usage (1.8844ms)
+✔ Kimi model discovery handles /models failure without crashing (1.6834ms)
+✔ Kimi model discovery lists configured models (0.5903ms)
+✔ GENERATOR_PROVIDER=kimi uses Kimi when explicitly enabled (394.8606ms)
+✔ Kimi disabled falls back to DeepSeek routing and never GPT generation (398.7032ms)
+✔ premium mode still routes validators separately in source (477.28ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ Flash selected for simple standalone questions (2.23ms)
+✔ Pro selected for passage, mathematics, and exact-anchor Physics numerical/application tasks (0.2612ms)
+✔ low-confidence anchors no longer force Pro for normal jobs (0.1848ms)
+✔ GPT is never selected for generation (0.4605ms)
+✔ Gemini is primary repair provider and GPT-4o-mini is repair fallback or validator only (0.3166ms)
+✔ DeepSeek Chat is final repair fallback (0.2974ms)
+✔ Pro disabled after repeated reasoning exhausted output budget (0.2226ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ Flash is selected for normal speed-first jobs (1.4661ms)
+✔ Pro is selected only for complex jobs (0.332ms)
+✔ GPT is never selected for generation (0.2658ms)
+✔ English numbered sections retain exact chapter-specific official phrases (2.9459ms)
+✔ English coverage fills an official section only on independent tag agreement (27.4283ms)
+✔ Planning selects its official unit, without management keywords importing other units (0.5306ms)
+✔ the two Accountancy Unit V alternatives remain separate (0.6272ms)
+✔ repeated Economics unit numbers and the missing colon preserve exact entitlement (0.7929ms)
+✔ Money & Banking questions align exactly to platform taxonomy (1.5658ms)
+✔ wrong chapter Economics questions are not kept in Money & Banking (0.3699ms)
+✔ offline dedupe rejects repeated candidates in the same batch (2.6363ms)
+✔ offline generator creates unique valid raw questions with required fields (28.373ms)
+✔ offline schema rejects meta stems and rationale-option mismatch (0.7537ms)
+✔ offline mini validator permits direct wording and catches an extreme option giveaway (29.118ms)
+✔ offline dry-run import does not write DB (125.7883ms)
+✔ offline write is blocked unless OFFLINE_IMPORT_ALLOW_DB_WRITE is true (60.5979ms)
+✔ generated offline batch files are valid JSON with 10 questions each (25.9029ms)
+✔ passage group normalizer publish helper defaults to at least two validated children (1.4708ms)
+✔ child without parent passage metadata cannot publish as group (0.2451ms)
+✔ order_index can be preserved by sorting children (1.0486ms)
+✔ balanced passage group publishes as partial with two accepted children when passage passes (0.9834ms)
+✔ speed passage group publishes with two accepted children (0.3205ms)
+✔ premium passage group requires at least three accepted children (0.2396ms)
+✔ passage below quality threshold rejects whole group (0.3186ms)
+✔ partial group creates refill payload (0.2816ms)
+[passage_group] normalized {
+  passage_id: 'passage_1',
+  temporary_group_key: 'tmp_passage_1_1',
+  linked_question_count: 5,
+  has_passage_text: true,
+  has_group_id: false
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 5,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 5
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 0,
+  structural_rejected: 1,
+  normalized_count_before_selfcheck: 0
+}
+[normalizer] {
+  raw_questions: 1,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 1,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 1
+}
+[normalizer] {
+  raw_questions: 1,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 1,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 0,
+  structural_rejected: 1,
+  normalized_count_before_selfcheck: 0
+}
+[normalizer] {
+  raw_questions: 0,
+  raw_passage_groups: 1,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 1,
+  flattened_questions: 0,
+  structural_rejected: 5,
+  normalized_count_before_selfcheck: 0
+}
+✔ passage_group questions flatten with passage metadata (9.1317ms)
+✔ missing passage_text rejects passage group children (0.7529ms)
+✔ standalone questions still normalize normally (4.7094ms)
+✔ requires_passage rejects raw questions output before selfCheck (0.5723ms)
+✔ requires_passage requires at least 4 linked children (0.4392ms)
+✔ passage central idea with plausible distractors passes (10.1814ms)
+✔ vocabulary without passage context fails (1.4044ms)
+✔ vocabulary-in-context with phrase and evidence passes (1.4829ms)
+✔ central idea stem is not rejected as direct definition in passage mode (2.0984ms)
+✔ author purpose stem is not rejected as direct definition in passage mode (1.4494ms)
+✔ vocabulary-in-context fails when quoted phrase is absent from passage (1.1812ms)
+✔ passage child without group id cannot pass passage selfCheck (1.1871ms)
+✔ repair layer cannot bypass selfCheck (1.4952ms)
+✔ repaired question cannot publish without validation (0.2808ms)
+✔ no unvalidated publish and no fallback publish are still guarded (0.233ms)
+✔ GPT and Gemini are not original generation providers (1.3961ms)
+✔ premium quality rejects trigger explicit retry guidance (0.5209ms)
+✔ Quick Practice excludes passage groups and passage-linked questions (1.2134ms)
+✔ Full Mock and NTA allow passage groups (0.3033ms)
+✔ standalone English verbal items remain available in Quick Practice (0.3186ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[quality_mode] {
+  mode: 'speed',
+  thresholds: {
+    score: 0.72,
+    exam_quality: 0.7,
+    distractor_quality: 0.7,
+    conceptual_depth: 0.6,
+    answer_confidence: 0,
+    allowed_bands: [ 'A_PLUS', 'A', 'B' ],
+    strict_required: false
+  }
+}
+[config] difficultyOverride: null
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'missing_cuet_rationale',
+  body: "Read the statements about Boolean identities: Statement I: A + AB = A. Statement II: A + A'B = A + B"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'missing_distractor_rationale',
+  body: "Read the statements about Boolean identities: Statement I: A + AB = A. Statement II: A + A'B = A + B"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'missing_cuet_rationale',
+  body: "Read the statements about Boolean identities: Statement I: A + AB = A. Statement II: A + A'B = A + B"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'missing_distractor_rationale',
+  body: "Read the statements about Boolean identities: Statement I: A + AB = A. Statement II: A + A'B = A + B"
+}
+[pipeline] pre_validation_quality_warning_log_only {
+  reason: 'weak_options',
+  body: "Read the statements about Boolean identities: Statement I: A + AB = A. Statement II: A + A'B = A + B"
+}
+✔ Boolean Algebra identities are not hard rejected as advanced (5.8238ms)
+✔ weak options are not hard rejected before selfCheck (1.5747ms)
+✔ invalid para-jumble permutation is still hard rejected (0.3556ms)
+✔ unsupported figure reference is hard rejected (0.2162ms)
+✔ speed mode publishes A/B if thresholds pass (1.5328ms)
+✔ balanced mode escalates low anchor and mini score below 8.5 (0.4712ms)
+✔ premium mode requires strict/audit validator (0.2279ms)
+✔ premium mode rejects score 8.0 (0.2386ms)
+✔ premium mode rejects low anchor unless strict score reaches 9 (0.2311ms)
+✔ passage child with supported answer can pass balanced lower child threshold (0.5293ms)
+✔ passage child with answer_supported_by_passage=false rejects (0.2676ms)
+✔ passage child answerable_without_passage=true rejects (0.3375ms)
+✔ preflight makes only credential-isolated GETs and classifies invalid keys without exposing them (43.7074ms)
+✔ raw Gemini operation response settles nested inline output without resubmission and rejects unidentified records (463.2222ms)
+✔ cost report separates settled reasoning-inclusive usage, pending holds and preparation (236.3924ms)
+✔ typed pre-inference rejection retains diagnostics and counts failure; unknown failures retain spending holds (231.7137ms)
+✔ a credit-exhausted 429 settles at zero while an ordinary rate limit keeps its hold (134.106ms)
+✔ cheaper models are calibration-only and cannot reuse another model response (94.6742ms)
+✔ mirrored papers require complete independent copies and the exact official booklet key (9.6974ms)
+✔ new ledger uses the owner ceiling but paid calls require historical reconciliation (46.8776ms)
+✔ Responses reserves tools and all reasoning usage; missing usage retains its full bounded hold (87.4368ms)
+✔ OpenAI accepted batch survives restart and settles once without another submission (77.1728ms)
+✔ Gemini native transport counts thinking tokens and batches only one independent evaluation (62.4389ms)
+✔ unknown batch acceptance is held unresolved and is never resubmitted (59.2829ms)
+✔ process leases prevent two workers using the same ledger (71.7397ms)
+✔ local pilot reconciles accepted batches while missing source gates prevent generation or site access (70.8118ms)
+✔ local passage quarantine propagates through persisted jobs before any publication (66.0242ms)
+✔ a pending repair resumes the same input after restart without acquiring another attempt (56.3922ms)
+✔ selected evidence is exact source text; unknown IDs cannot acquire evidence (0.8884ms)
+✔ paper identity establishes format but cannot be selected as academic truth (0.1793ms)
+✔ same-family agreement cannot bypass exact chapter, task or student presentation checks (255.1835ms)
+✔ a billed truncated response permits one durable completion retry and charges both attempts (76.6511ms)
+✔ an explicit calculation cannot bypass numerical checks through author labels (0.3233ms)
+✔ only the explanation audit receives authenticated original key provenance (86.9966ms)
+✔ LLM policy uses one Gemini call, checks numeric boundaries, hides keys and invalidates provenance edits (82.2307ms)
+✔ screening omission stays incomplete; a changed key cannot reuse a clean legacy receipt (1.4395ms)
+✔ numerical questions inside passages retain numerical and boundary checks (64.9999ms)
+✔ abstention and nonverbatim academic quotes quarantine the item without stopping its batch (113.7283ms)
+✔ subscription environment strips API credentials and provider overrides (0.3541ms)
+✔ verified evidence precedence survives usage ranking and family caps (0.8046ms)
+✔ source registration refuses missing paper/key authentication and permission (1.7756ms)
+✔ migration dry run protects RLS, permanent worker binding, idempotent publication and stale screening (1804.0533ms)
+✔ subscription guard refuses API login, purchased or unknown credits and exhausted included limits (0.5448ms)
+✔ terminal batch record mismatch retains its bound and cannot trigger a duplicate submission (78.9566ms)
+✔ uncertain accepted batch can be attached only after provider identity matches the saved file (73.4935ms)
+✔ budget exhaustion stops before dispatch and retired models cannot route through the factory (52.4598ms)
+✔ new factory queues originals first, balances backed chapters and never splits passage groups (75.5601ms)
+✔ passage publication requires every authenticated child and identical passage content (0.3671ms)
+✔ passage authoring attaches the authenticated stimulus locally without quoted schema literals (1.1512ms)
+✔ repairing an authenticated original can change only its explanation (0.2184ms)
+✔ new repairs reserve reasoning headroom and constrain keys, routes and immutable passage groups (0.2582ms)
+✔ calibration measures blind answers independently of survival and fails closed on empty or claimed releases (0.7635ms)
+✔ authenticated calibration splits bind real items and reserve whole passage units (1.4593ms)
+✔ factory queue cannot consume reserved calibration or unsupported source-only anchors (0.2694ms)
+✔ pending Luna calibration does not prevent independent Gemini dispatch (3.4528ms)
+✔ dispute versions normalize public snapshots and change with passage, key and explanation edits (0.2352ms)
+✔ verified questions fill a difficulty shortage before screened legacy questions (0.405ms)
+✔ authenticated source pack maps official option IDs to the final-key row and retires superseded evidence (12.7435ms)
+✔ presentation lint rejects markup, unseen references, all/none options and non-bijective matching options (0.2959ms)
+✔ author evidence quotes must appear verbatim in non-paper references (0.103ms)
+✔ chapter mapping accepts units and aliases but not other units (0.1166ms)
+✔ academic-only calibration receipts and v4 receipts without a positive polish gate cannot be published (84.4409ms)
+✔ chapter mapping is source-backed: a cited document must cover the tag, and evaluator consensus elsewhere still fails (0.2282ms)
+✔ a different-family check that finds a missing assumption quarantines a Luna pass (70.34ms)
+✔ missing answer conditions and an unsourced decisive rule fail; implied decisive assumptions fail and stated conventions pass (0.1239ms)
+✔ lint rejects self-labelled options, definition-phrase vocabulary options and unseen lists, but keeps matching and statement options (0.543ms)
+✔ craft 7 through 10 passes while every blocking defect still fails (0.1325ms)
+✔ free presentation checks stop a saved defective candidate before any paid adapter (0.1978ms)
+✔ a saved passing signature cannot bypass a newly detected presentation defect (77.3978ms)
+✔ flattened matching lists restore both columns without changing stored question or key (0.4746ms)
+✔ three-entry matching choices must also be distinct bijections (0.1904ms)
+✔ same skill across different anchor formats cannot inflate a plan (0.2259ms)
+✔ cache reads and writes are partitioned once and missing write pricing holds usage (119.5852ms)
+✔ accepted legacy batches reconcile cache-write pricing without a second submission (63.4685ms)
+✔ CUET blanks are plain text while Markdown emphasis and excessive English passage length fail (0.318ms)
+✔ cache-only recovery never reserves, dispatches or bypasses saved model identity (57.25ms)
+✔ legacy chapters cannot borrow current CUET syllabus entitlement (0.2588ms)
+✔ restart retains reservations; zero yield pauses; missing usage prevents dispatch (322.6496ms)
+✔ concurrent processes cannot reserve beyond a shared ceiling (522.0499ms)
+✔ transport counts every request and stops on absent usage, unknown prices or wrong provider (172.6401ms)
+✔ complete direct-recall fixture passes without a conceptual-depth requirement (1.3862ms)
+✔ missing, swapped, mock, changed, false citation and quarantined family evidence fails (1.5421ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[english_mode] {
+  chapter: 'Para Jumbles',
+  mode: 'para_jumble',
+  requires_passage: false,
+  passage_type: null,
+  allowed_in_quick_practice: true
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'english',
+  prompt_subject_name: 'English',
+  expected_chapter: 'Para Jumbles',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+[llm] GENERATION_CALL_INPUT: {
+  expected_subject: 'physics',
+  prompt_subject_name: 'Physics',
+  expected_chapter: 'Electromagnetic Induction',
+  requested_count: 12,
+  difficulty_override: null
+}
+[normalizer] {
+  raw_questions: 10,
+  raw_passage_groups: 0,
+  raw_passages: 0,
+  raw_questions_rejected_requires_passage: 0,
+  passage_groups_below_min_children: 0,
+  flattened_questions: 10,
+  structural_rejected: 0,
+  normalized_count_before_selfcheck: 10
+}
+✔ runs one mock route and writes JSON + Markdown report (57.1205ms)
+✔ stops after max iterations (35.4379ms)
+✔ detects passage_group_linking_bug (1.6287ms)
+✔ detects generator_quality_weak (0.3479ms)
+✔ detects self_check_too_strict (0.261ms)
+✔ detects model_routing_bad (1.381ms)
+✔ detects cost_speed_bottleneck (0.234ms)
+✔ standalone route PASS classification works (3.1678ms)
+✔ route with one usable publish is degraded, not hidden as pass (3.1418ms)
+✔ zero publish route fails (0.3678ms)
+✔ passage route passes with partial group and refill allowed (0.7499ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ writes raw/normalized/validator/publish dumps (26.0242ms)
+✔ selfCheck accepts valid CUET-style Physics statement question (8.2085ms)
+✔ short direct stems pass structure; independent academic checks remain required (1.2263ms)
+✔ optional author trap metadata cannot determine structural acceptance (0.737ms)
+✔ author distractor labels are optional; pointing a distractor at the key is rejected (0.5455ms)
+✔ selfCheck does not reject scientifically valid absolute wording by itself (0.4442ms)
+✔ selfCheck rejects clearly outside-CUET derivation pattern (0.6635ms)
+✔ source adapters reject missing document identity before dispatch and invented supporting quotes (2.5825ms)
+✔ exam fit needs final-key-matched authentic examples; numerical routes cannot silently use a model solver (0.2965ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[quality_mode] {
+  mode: 'speed',
+  thresholds: {
+    score: 0.72,
+    exam_quality: 0.7,
+    distractor_quality: 0.7,
+    conceptual_depth: 0.6,
+    answer_confidence: 0,
+    allowed_bands: [ 'A_PLUS', 'A', 'B' ],
+    strict_required: false
+  }
+}
+[config] difficultyOverride: null
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: 'Narrative Passage',
+  parsed_chapters: [ 'Narrative Passage' ],
+  source: 'env'
+}
+[override_parse_debug] {
+  raw_argv: [ '--chapters=Narrative Passage,Factual Passage' ],
+  raw_chapters_cli: 'Narrative Passage,Factual Passage',
+  raw_chapters_env: '',
+  parsed_chapters: [ 'Narrative Passage', 'Factual Passage' ],
+  source: 'cli'
+}
+[override_parse_debug] {
+  raw_argv: [ '--chapters', 'Narrative Passage,Factual Passage' ],
+  raw_chapters_cli: 'Narrative Passage,Factual Passage',
+  raw_chapters_env: '',
+  parsed_chapters: [ 'Narrative Passage', 'Factual Passage' ],
+  source: 'cli'
+}
+[override_parse_debug] {
+  raw_argv: [
+    '--subjects=english',
+    '--mode=nta',
+    '--quality=balanced',
+    '--chapters',
+    'Narrative Passage,Factual Passage,Literary Passage,Reading Comprehension',
+    '--max-jobs=5'
+  ],
+  raw_chapters_cli: 'Narrative Passage,Factual Passage,Literary Passage,Reading Comprehension',
+  raw_chapters_env: '',
+  parsed_chapters: [
+    'Narrative Passage',
+    'Factual Passage',
+    'Literary Passage',
+    'Reading Comprehension'
+  ],
+  source: 'cli'
+}
+[override] invalid_chapter_override_boolean { raw_chapters_cli: true, action: 'clearing_chapters' }
+[override_parse_debug] {
+  raw_argv: [ '--chapters' ],
+  raw_chapters_cli: true,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: 'Narrative Passage,Factual Passage',
+  parsed_chapters: [ 'Narrative Passage', 'Factual Passage' ],
+  source: 'env'
+}
+[override_parse_debug] {
+  raw_argv: [ '--chapters', 'Narrative Passage,Factual Passage' ],
+  raw_chapters_cli: 'Narrative Passage,Factual Passage',
+  raw_chapters_env: 'Vocabulary',
+  parsed_chapters: [ 'Narrative Passage', 'Factual Passage' ],
+  source: 'cli'
+}
+[override] invalid_chapter_override_boolean { raw_chapters_cli: 'true', action: 'falling_back_to_env' }
+[override_parse_debug] {
+  raw_argv: [ '--chapters=true' ],
+  raw_chapters_cli: 'true',
+  raw_chapters_env: 'Reading Comprehension',
+  parsed_chapters: [ 'Reading Comprehension' ],
+  source: 'env'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [ '--subjects=english' ],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [
+    '--subjects=english',
+    '--mode=nta',
+    '--chapters',
+    'Narrative Passage,Factual Passage,Literary Passage,Reading Comprehension'
+  ],
+  raw_chapters_cli: 'Narrative Passage,Factual Passage,Literary Passage,Reading Comprehension',
+  raw_chapters_env: '',
+  parsed_chapters: [
+    'Narrative Passage',
+    'Factual Passage',
+    'Literary Passage',
+    'Reading Comprehension'
+  ],
+  source: 'cli'
+}
+✔ subject override filters planner jobs to English (2.4482ms)
+✔ chapter override keeps only requested chapter (0.7162ms)
+✔ parses --chapters equals form with display names (1.4457ms)
+✔ parses --chapters followed by quoted comma list (0.4318ms)
+✔ parses PowerShell style --chapters and next token value (0.3601ms)
+✔ does not parse chapters as true (0.3064ms)
+✔ env CUET_ONLY_CHAPTERS works (0.1934ms)
+✔ CLI chapters override env chapters (0.2007ms)
+✔ boolean chapter CLI falls back to env override (0.4208ms)
+✔ worker fallback cannot pick Sociology when subject override is English (0.7817ms)
+✔ CLI override beats env override (0.2928ms)
+✔ exclude subject removes Psychology from planner priority selection (0.413ms)
+✔ planner receives only listed chapters (1.1755ms)
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+✔ core CUET subjects have higher priority tiers than Sociology and Psychology (3.3132ms)
+✔ English outranks Sociology even when both have coverage gaps (3.0033ms)
+✔ GAT and science subjects outrank Psychology/Sociology (16.3307ms)
+✔ planner selection preserves some lower tier coverage when higher tiers are healthy (1.0207ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[quality_mode] {
+  mode: 'speed',
+  thresholds: {
+    score: 0.72,
+    exam_quality: 0.7,
+    distractor_quality: 0.7,
+    conceptual_depth: 0.6,
+    answer_confidence: 0,
+    allowed_bands: [ 'A_PLUS', 'A', 'B' ],
+    strict_required: false
+  }
+}
+[config] difficultyOverride: null
+✔ run metrics include live question and candidate rates (2.0603ms)
+✔ model performance metrics expose latency and cost fields when present (0.5059ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+✔ validator result mismatch keeps returned candidate results (1.8467ms)
+✔ validator results can still align by index when candidate_id is absent (0.5687ms)
+GEMINI API KEY: LOADED
+[llm] generator_config {
+  primary_provider: 'deepseek',
+  primary_model: 'deepseek-v4-pro',
+  fallback_model: 'deepseek-v4-flash',
+  second_fallback_model: 'deepseek-chat',
+  allow_openai_generation: false,
+  allow_kimi_generation: false,
+  kimi_key_loaded: true,
+  deepseek_key_loaded: true
+}
+[kimi_config] {
+  enabled: false,
+  provider: 'moonshot',
+  base_url: 'https://api.moonshot.ai/v1',
+  endpoint: '/chat/completions',
+  model: 'kimi-k2.6',
+  api_key_loaded: true,
+  api_key_prefix: 'sk-sk-',
+  api_key_length: 54,
+  timeout_ms: 120000,
+  batch_size: 8,
+  passage_batch_size: 1,
+  max_output_tokens: 8000,
+  temperature: 0.45,
+  disable_thinking: true,
+  discover_models: false,
+  fallback_provider: 'deepseek',
+  fallback_model: 'deepseek-v4-flash'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[quality_mode] {
+  mode: 'speed',
+  thresholds: {
+    score: 0.72,
+    exam_quality: 0.7,
+    distractor_quality: 0.7,
+    conceptual_depth: 0.6,
+    answer_confidence: 0,
+    allowed_bands: [ 'A_PLUS', 'A', 'B' ],
+    strict_required: false
+  }
+}
+[config] difficultyOverride: null
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+[override_parse_debug] {
+  raw_argv: [],
+  raw_chapters_cli: undefined,
+  raw_chapters_env: '',
+  parsed_chapters: [],
+  source: 'none'
+}
+✔ worker picks highest planner priority job before coverage fallback (1.7204ms)
+✔ coverage fallback is used only when no preferred queued jobs exist (0.9403ms)
+✔ original priority is not overwritten by coverage priority 75 (0.382ms)
+ℹ tests 328
+ℹ suites 0
+ℹ pass 328
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6642.1884
