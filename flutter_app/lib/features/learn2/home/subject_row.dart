@@ -43,31 +43,42 @@ class LearnSubjectPicker extends StatelessWidget {
     final type = context.mmType;
     final now = subjects.firstWhere((s) => s.id == current, orElse: () => subjects.first);
     final many = subjects.length > 1;
-    return MmSurface.plain(
-      key: const ValueKey('lh-picker'),
-      radius: 16,
-      padding: const EdgeInsets.fromLTRB(10, 6, 14, 6),
-      onTap: many ? () => _open(context) : null,
-      semanticsLabel: HomeCopy.pickerLabel(HomeModel.displayTitle(now.name), many: many),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 44),
-        child: Row(
-          children: [
-            SizedBox.square(dimension: 40, child: SubjectEmblem(subject: now.id, size: 40, framed: false)),
-            const SizedBox(width: MmSpace.s12),
-            Expanded(
-              child: Text(
-                shortName(now.name),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                softWrap: false,
-                style: type.title.copyWith(fontSize: 17, height: 1.2, letterSpacing: -0.01 * 17, color: colors.ink),
-              ),
+    // The subject is the page's heading (C-LEARN-CALM 2.1), not a third outlined box: the object, the name in display type and the
+    // chevron, on the ground. The whole row is still the 56 dp key that opens the sheet.
+    final row = ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 56),
+      child: Row(
+        children: [
+          SizedBox.square(dimension: 44, child: SubjectEmblem(subject: now.id, size: 44, framed: false)),
+          const SizedBox(width: MmSpace.s12),
+          Flexible(
+            child: Text(
+              shortName(now.name),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: false,
+              style: type.title.copyWith(fontSize: 24, height: 1.15, letterSpacing: -0.025 * 24, color: colors.ink),
             ),
-            if (many) Icon(LucideIcons.chevronDown, size: 20, color: colors.ink2),
+          ),
+          if (many) ...[
+            const SizedBox(width: MmSpace.s8),
+            DecoratedBox(
+              decoration: ShapeDecoration(color: colors.ink.withValues(alpha: colors.isNight ? 0.08 : 0.06), shape: const CircleBorder()),
+              child: Padding(padding: const EdgeInsets.all(5), child: Icon(LucideIcons.chevronDown, size: 18, color: colors.ink2)),
+            ),
           ],
-        ),
+        ],
       ),
+    );
+    if (!many) return Semantics(key: const ValueKey('lh-picker'), container: true, label: HomeCopy.pickerLabel(HomeModel.displayTitle(now.name), many: false), child: ExcludeSemantics(child: row));
+    return MmPressable(
+      key: const ValueKey('lh-picker'),
+      semanticsLabel: HomeCopy.pickerLabel(HomeModel.displayTitle(now.name), many: many),
+      focusRadius: MmRadius.smallAll,
+      pressedScale: 0.97,
+      haptic: MmPressHaptic.selection,
+      onTap: () => _open(context),
+      builder: (context, pressed, _) => Align(alignment: Alignment.centerLeft, widthFactor: 1, child: row),
     );
   }
 }

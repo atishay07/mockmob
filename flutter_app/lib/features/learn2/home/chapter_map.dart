@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -7,6 +8,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../data/learn_models.dart';
+import '../learn2_pill.dart';
 import 'home_copy.dart';
 import 'home_entrance.dart';
 import 'home_model.dart';
@@ -170,11 +172,11 @@ class _ChapterMapState extends State<ChapterMap> {
       body.add(
         _Rows(
           children: [
-            for (final f in flat)
-              HomeRise(
-                index: slot++,
-                child: _ChapterRow(key: ValueKey('lh-row-${f.row.key}'), row: f.row, here: _hereOf(f.row.key), onTap: () => widget.onOpen(f.row.key)),
-              ),
+            for (final (i, f) in flat.indexed)
+              (rail) => HomeRise(
+                    index: slot + i,
+                    child: _ChapterRow(key: ValueKey('lh-row-${f.row.key}'), row: f.row, here: _hereOf(f.row.key), rail: rail, onTap: () => widget.onOpen(f.row.key)),
+                  ),
           ],
         ),
       );
@@ -225,13 +227,13 @@ class _ChapterMapState extends State<ChapterMap> {
             container: true,
             label: part.title,
             child: Padding(
-              padding: EdgeInsets.only(top: p == 0 ? MmSpace.s8 : 28),
+              padding: EdgeInsets.only(top: p == 0 ? MmSpace.s12 : MmSpace.group),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 6),
-                    child: Semantics(header: true, child: Text(HomeModel.displayTitle(part.title), style: type.title.copyWith(fontSize: 17, height: 1.25, color: colors.ink))),
+                    child: Semantics(header: true, child: Text(HomeModel.displayTitle(part.title), style: type.title.copyWith(fontSize: 20, height: 1.2, letterSpacing: -0.02 * 20, color: colors.ink))),
                   ),
                   if (part.option != null)
                     _PartSwitch(
@@ -317,7 +319,7 @@ class _MapHead extends StatelessWidget {
 
 // ------------------------------------------------------------------------------------------------------------ units, rows
 
-/// One unit: its heading (only when it says something the chapter's own name does not) and its rows.
+/// One unit: its heading (only when it says something the chapter's own name does not) and its rows on one path.
 class _UnitBlock extends StatelessWidget {
   const _UnitBlock({super.key, required this.unit, required this.here, required this.onOpen, required this.firstIndex, this.first = false});
 
@@ -337,16 +339,25 @@ class _UnitBlock extends StatelessWidget {
       children: [
         if (heading != null)
           Padding(
-            padding: EdgeInsets.only(top: first ? 4 : 12, bottom: 4),
-            child: Semantics(header: true, child: Text(HomeModel.displayTitle(heading), style: type.body.copyWith(fontSize: 13.5, height: 1.3, fontWeight: FontWeight.w600, color: colors.ink3))),
+            padding: EdgeInsets.only(top: first ? 6 : 18, bottom: 2),
+            child: Semantics(
+              header: true,
+              child: Text(HomeModel.displayTitle(heading), style: type.body.copyWith(fontSize: 13, height: 1.35, fontWeight: FontWeight.w600, color: colors.ink3)),
+            ),
           ),
         _Rows(
           children: [
             for (var i = 0; i < unit.chapters.length; i++)
-              HomeRise(
-                index: firstIndex + i,
-                child: _ChapterRow(key: ValueKey('lh-row-${unit.chapters[i].key}'), row: unit.chapters[i], here: here(unit.chapters[i].key), onTap: () => onOpen(unit.chapters[i].key)),
-              ),
+              (rail) => HomeRise(
+                    index: firstIndex + i,
+                    child: _ChapterRow(
+                      key: ValueKey('lh-row-${unit.chapters[i].key}'),
+                      row: unit.chapters[i],
+                      here: here(unit.chapters[i].key),
+                      rail: rail,
+                      onTap: () => onOpen(unit.chapters[i].key),
+                    ),
+                  ),
           ],
         ),
       ],
@@ -354,35 +365,43 @@ class _UnitBlock extends StatelessWidget {
   }
 }
 
-/// Rows divided by hairlines: one at the top, one under every row.
+/// Where a row sits on its unit's path: the rail runs down from the first node to the last (C-LEARN-CALM 2.4).
+enum _Rail { alone, first, middle, last }
+
+/// Rows on one path: no hairlines; each row is told where it sits so the 2 dp rail joins its node to the next.
 class _Rows extends StatelessWidget {
   const _Rows({required this.children});
 
-  final List<Widget> children;
+  final List<Widget Function(_Rail rail)> children;
 
   @override
   Widget build(BuildContext context) {
-    final line = BorderSide(color: context.mmColors.line);
-    return DecoratedBox(
-      decoration: BoxDecoration(border: Border(top: line)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          for (final child in children) DecoratedBox(decoration: BoxDecoration(border: Border(bottom: line)), child: child),
-        ],
-      ),
+    final n = children.length;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (var i = 0; i < n; i++)
+          children[i](n == 1 ? _Rail.alone : (i == 0 ? _Rail.first : (i == n - 1 ? _Rail.last : _Rail.middle))),
+      ],
     );
   }
 }
 
-/// A chapter of the roadmap: its name with, beside it, the volt "Start here" or "Up next" or the one verdict, then one coverage
-/// line and (once started) a 3 dp bar of the cards seen. At least 64 dp; the whole row is the target.
+/// A chapter of the roadmap (C-LEARN-CALM 2.4): a node with the chapter's place number and, once started, the arc of the cards seen
+/// (the coverage the 3 dp bar showed, never mastery); beside it the name with its tag ("Up next" or "Start here" in volt, else the one
+/// verdict "Needs work") and one coverage line. The chapter the student is in has a volt node. At least 64 dp; the whole row is the
+/// target; pressed, the row takes the veil and the node gives a little.
 class _ChapterRow extends StatelessWidget {
-  const _ChapterRow({super.key, required this.row, required this.here, required this.onTap});
+  const _ChapterRow({super.key, required this.row, required this.here, required this.onTap, this.rail = _Rail.alone});
 
   final LearnChapterRow row;
   final String? here;
   final VoidCallback onTap;
+  final _Rail rail;
+
+  /// The node's size and where its centre sits from the row's top.
+  static const double node = 36;
+  static const double nodeTop = 12;
 
   @override
   Widget build(BuildContext context) {
@@ -391,111 +410,174 @@ class _ChapterRow extends StatelessWidget {
     final view = HomeModel.roadmapRow(row);
     final line = view.line.isNotEmpty ? view.line : HomeModel.metaLine(row);
     final verdict = view.verdict;
+    final parts = verdict?.split(' · ');
+    const centre = nodeTop + node / 2;
     return MmPressable(
       semanticsLabel: HomeModel.rowSpoken(row, here: here),
       focusRadius: MmRadius.smallAll,
-      pressedScale: 0.99,
+      pressedScale: 0.985,
       highlight: true,
       haptic: MmPressHaptic.selection,
       onTap: onTap,
-      builder: (context, pressed, _) => ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 64),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: 10),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Wrap(
-                      spacing: 10,
-                      runSpacing: 2,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        Text(HomeModel.displayTitle(row.title), style: type.body.copyWith(fontSize: 16, height: 1.35, fontWeight: FontWeight.w700, color: colors.ink)),
-                        if (here != null)
-                          DecoratedBox(
-                            decoration: ShapeDecoration(color: colors.volt, shape: const StadiumBorder()),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 9),
-                              child: SizedBox(
-                                height: 22,
-                                child: Center(
-                                  widthFactor: 1,
-                                  child: Text(here!, style: type.label.copyWith(fontSize: 12, height: 1, fontWeight: FontWeight.w700, letterSpacing: 0.12, color: colors.voltInk)),
-                                ),
-                              ),
-                            ),
-                          )
-                        else if (verdict != null)
-                          Text(verdict, style: type.label.copyWith(fontSize: 13, height: 1.3, fontWeight: FontWeight.w700, color: colors.warnText)),
-                      ],
+      builder: (context, pressed, _) => Stack(
+        children: [
+          if (rail != _Rail.alone)
+            Positioned(
+              left: MmSpace.s4 + node / 2 - 1,
+              width: 2,
+              top: rail == _Rail.first ? centre : 0,
+              bottom: rail == _Rail.last ? null : 0,
+              height: rail == _Rail.last ? centre : null,
+              child: ColoredBox(color: colors.line),
+            ),
+          ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 64),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(MmSpace.s4, 0, MmSpace.s4, 0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: nodeTop, bottom: nodeTop),
+                    child: AnimatedScale(
+                      scale: pressed ? 0.9 : 1,
+                      duration: Motion.of(context, const Duration(milliseconds: 100)),
+                      curve: Motion.out,
+                      child: _Node(key: view.seen > 0 ? const ValueKey('lh-node-arc') : null, place: row.place?.n, share: view.seen > 0 ? view.share : 0, here: here != null),
                     ),
-                    if (line.isNotEmpty) ...[
-                      const SizedBox(height: 4),
-                      Text(
-                        line,
-                        style: type.body.copyWith(fontSize: 13.5, height: 1.4, fontWeight: FontWeight.w500, color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()]),
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 11),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 4,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              Text(HomeModel.displayTitle(row.title), style: type.body.copyWith(fontSize: 16, height: 1.35, fontWeight: FontWeight.w700, color: colors.ink)),
+                              if (here != null)
+                                LearnPill(label: here!, tone: LearnPillTone.here)
+                              else if (parts != null)
+                                LearnPill(label: parts.first, trailing: parts.length > 1 ? parts.skip(1).join(' · ') : null, tone: LearnPillTone.warn),
+                            ],
+                          ),
+                          if (line.isNotEmpty) ...[
+                            const SizedBox(height: 3),
+                            Text(
+                              line,
+                              style: type.body.copyWith(fontSize: 13.5, height: 1.4, fontWeight: FontWeight.w500, color: colors.ink3, fontFeatures: const [FontFeature.tabularFigures()]),
+                            ),
+                          ],
+                        ],
                       ),
-                    ],
-                    if (view.seen > 0) ...[
-                      const SizedBox(height: 8),
-                      _Bar(share: view.share, here: here != null),
-                    ],
-                  ],
-                ),
+                    ),
+                  ),
+                  const SizedBox(width: MmSpace.s8),
+                  Padding(
+                    padding: const EdgeInsets.only(top: centre - 8),
+                    child: Icon(LucideIcons.chevronRight, size: 16, color: colors.ink4),
+                  ),
+                ],
               ),
-              const SizedBox(width: MmSpace.s12),
-              Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 }
 
-/// The 3 dp bar of the cards seen (coverage, never mastery): at most 320 dp wide, filled once in 600 ms when its row first draws
-/// (at rest under reduced motion). The rows themselves do not animate in: the panel arrives with its own fade.
-class _Bar extends StatelessWidget {
-  const _Bar({required this.share, required this.here});
+/// The row's node: the place number in a circle on the ground (so the rail stops at its edge), a quiet ring, and the arc of the
+/// cards seen drawn over it once in 600 ms (at rest under reduced motion). The chapter the student is in is a filled volt disc.
+/// Without a place the node is a small dot. Decorative to a screen reader (the row speaks for itself).
+class _Node extends StatelessWidget {
+  const _Node({super.key, required this.place, required this.share, required this.here});
 
+  final int? place;
   final double share;
   final bool here;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 320),
-        child: SizedBox(
-          height: 3,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(2),
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                ColoredBox(color: colors.line),
-                TweenAnimationBuilder<double>(
-                  tween: Tween<double>(begin: 0, end: share),
-                  duration: Motion.of(context, const Duration(milliseconds: 600)),
-                  curve: Motion.out,
-                  builder: (context, v, _) => Align(
-                    alignment: Alignment.centerLeft,
-                    child: FractionallySizedBox(widthFactor: v.clamp(0.0, 1.0), heightFactor: 1, child: ColoredBox(color: here ? colors.accentText : colors.ink2)),
-                  ),
-                ),
-              ],
+    final type = context.mmType;
+    const size = _ChapterRow.node;
+    final number = place == null
+        ? Container(width: 8, height: 8, decoration: BoxDecoration(color: here ? colors.voltInk : colors.ink3, shape: BoxShape.circle))
+        : Text(
+            '$place',
+            style: type.label.copyWith(
+              fontSize: 14,
+              height: 1,
+              fontWeight: FontWeight.w800,
+              color: here ? colors.voltInk : colors.ink,
+              fontFeatures: const [FontFeature.tabularFigures()],
             ),
+          );
+    return ExcludeSemantics(
+      child: SizedBox.square(
+        dimension: size,
+        child: TweenAnimationBuilder<double>(
+          tween: Tween<double>(begin: 0, end: share),
+          duration: Motion.of(context, const Duration(milliseconds: 600)),
+          curve: Motion.out,
+          builder: (context, v, child) => CustomPaint(
+            painter: _NodePainter(
+              fill: here ? colors.volt : colors.ground,
+              ring: here ? colors.volt : colors.lineStrong,
+              arc: here ? colors.voltInk : colors.accentText,
+              share: v.clamp(0.0, 1.0),
+            ),
+            child: child,
           ),
+          child: Center(child: number),
         ),
       ),
     );
   }
+}
+
+class _NodePainter extends CustomPainter {
+  const _NodePainter({required this.fill, required this.ring, required this.arc, required this.share});
+
+  final Color fill;
+  final Color ring;
+  final Color arc;
+  final double share;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final c = size.center(Offset.zero);
+    final r = size.shortestSide / 2;
+    canvas.drawCircle(c, r, Paint()..color = fill);
+    canvas.drawCircle(c, r - 1, Paint()
+      ..color = ring
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5);
+    if (share > 0) {
+      // At least a visible sliver once anything is seen ("3 of 165" must not draw as nothing).
+      final sweep = 2 * math.pi * math.max(share, 0.04);
+      canvas.drawArc(
+        Rect.fromCircle(center: c, radius: r - 1.5),
+        -math.pi / 2,
+        sweep,
+        false,
+        Paint()
+          ..color = arc
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 3
+          ..strokeCap = StrokeCap.round,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(_NodePainter old) => old.fill != fill || old.ring != ring || old.arc != arc || old.share != share;
 }
 
 // ----------------------------------------------------------------------------------------------------- the part switch
@@ -581,14 +663,12 @@ class _PartPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
     return MmPressable(
       semanticsLabel: chapters > 0 ? '$label, ${HomeModel.plural(chapters, 'chapter')}' : label,
       selected: chosen,
       inMutuallyExclusiveGroup: true,
       focusRadius: BorderRadius.circular(18),
-      pressedScale: 0.98,
+      pressedScale: 0.96,
       haptic: MmPressHaptic.selection,
       onTap: onTap,
       builder: (context, pressed, _) => ConstrainedBox(
@@ -596,30 +676,7 @@ class _PartPill extends StatelessWidget {
         child: Center(
           // As wide as its words: the pills flow in the row from the left, as the web's, never one to a line across the width.
           widthFactor: 1,
-          child: AnimatedContainer(
-            duration: Motion.of(context, const Duration(milliseconds: 200)),
-            curve: Motion.out,
-            constraints: const BoxConstraints(minHeight: 36),
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            decoration: ShapeDecoration(
-              color: chosen ? colors.ink : colors.ink.withValues(alpha: 0),
-              // The web's `border-radius: 18px` with a text that wraps (min-height 36): a long name at large text grows the pill, it
-              // never overflows or is cut.
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18), side: BorderSide(color: chosen ? colors.ink : colors.lineStrong)),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (chosen) ...[
-                  Icon(LucideIcons.check, size: 15, color: colors.ground),
-                  const SizedBox(width: 6),
-                ],
-                Flexible(
-                  child: Text(label, style: type.body.copyWith(fontSize: 14, height: 1.2, fontWeight: FontWeight.w600, color: chosen ? colors.ground : colors.ink2)),
-                ),
-              ],
-            ),
-          ),
+          child: LearnPill(label: label, tone: chosen ? LearnPillTone.chosen : LearnPillTone.choice),
         ),
       ),
     );
@@ -740,7 +797,7 @@ class _OptionGroupState extends State<_OptionGroup> with SingleTickerProviderSta
 
 // ----------------------------------------------------------------------------------------------------- loading, failing
 
-/// The map before its data, at its final shape: the head and eight rows of 64.
+/// The map before its data, at its final shape: the head and eight path rows of 64.
 class ChapterMapSkeleton extends StatelessWidget {
   const ChapterMapSkeleton({super.key});
 
@@ -751,10 +808,29 @@ class ChapterMapSkeleton extends StatelessWidget {
       children: [
         const Align(alignment: Alignment.centerLeft, child: Skeleton(width: 130, height: 26, radius: 8)),
         const SizedBox(height: 12),
-        for (var i = 0; i < 8; i++) ...[
-          if (i > 0) const SizedBox(height: 1),
-          const Skeleton(height: 64, radius: 0),
-        ],
+        // Eight rows at the path's shape: a node and two lines, 64 dp each.
+        for (var i = 0; i < 8; i++)
+          const SizedBox(
+            height: 64,
+            child: Row(
+              children: [
+                SizedBox(width: MmSpace.s4),
+                Skeleton(width: 36, height: 36, radius: 18),
+                SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FractionallySizedBox(widthFactor: 0.72, child: Skeleton(height: 16, radius: 6)),
+                      SizedBox(height: 8),
+                      FractionallySizedBox(widthFactor: 0.4, child: Skeleton(height: 12, radius: 6)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
       ],
     );
   }

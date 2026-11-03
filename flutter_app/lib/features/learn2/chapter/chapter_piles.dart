@@ -565,7 +565,13 @@ class PileGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // At 390 a chapter with one or two piles shares the full row (two columns); three share it in thirds, four in two columns of two.
+    // A lone pile is not half a row with a void beside it (C-LEARN-CALM 2.9): it stands centred, a little larger.
+    if (cells.length == 1) {
+      return MmStagger(
+        child: Center(child: FractionallySizedBox(widthFactor: 0.56, child: MmStaggerItem(index: 0, rise: 8, child: cells.first))),
+      );
+    }
+    // At 390 two piles share the full row (two columns); three share it in thirds, four in two columns of two.
     final columns = cells.length == 4 || cells.length <= 2 ? 2 : 3;
     final hGap = columns == 2 ? 14.0 : 12.0;
     final rows = <Widget>[];

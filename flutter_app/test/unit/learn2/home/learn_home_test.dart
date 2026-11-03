@@ -619,7 +619,7 @@ void main() {
       expect(find.descendant(of: _row(_pf), matching: find.text('12 of 45 cards seen · 3 of 10 questions tried')), findsOneWidget);
       expect(find.descendant(of: _row(_pl), matching: find.text('11 of 42 cards seen · 1 question')), findsOneWidget);
       expect(find.descendant(of: _row(_aop), matching: find.text('58 cards · 2 of 10 questions tried')), findsOneWidget, reason: 'no card seen yet: the total, never "0 of"');
-      expect(find.descendant(of: _row(_cpsr), matching: find.text('Needs work · from your papers')), findsOneWidget);
+      expect(find.descendant(of: _row(_cpsr), matching: find.text('Needs work · from your papers', findRichText: true)), findsOneWidget);
       expect(find.descendant(of: _row(_aop), matching: find.text('Up next')), findsOneWidget);
       expect(find.text('Start here'), findsNothing);
       for (final gone in ['Getting there', 'Holding', 'Too few answers', 'Not started']) {
@@ -628,10 +628,10 @@ void main() {
       _plainWords(tester);
     });
 
-    testWidgets('the 3 dp bar is drawn only for a chapter with a card seen', (tester) async {
+    testWidgets('the arc of the cards seen (the old 3 dp bar, now on the row node) is drawn only for a chapter with a card seen', (tester) async {
       await pumpHome(tester, overrides: homeOverrides(HomeLearnApi()));
       await settleHome(tester);
-      Finder bar(String key) => find.descendant(of: _row(key), matching: find.byType(FractionallySizedBox));
+      Finder bar(String key) => find.descendant(of: _row(key), matching: find.byKey(const ValueKey('lh-node-arc')));
       expect(bar(_pf), findsOneWidget);
       expect(bar(_pl), findsOneWidget);
       expect(bar(_aop), findsNothing);
