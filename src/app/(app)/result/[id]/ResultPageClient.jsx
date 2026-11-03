@@ -410,6 +410,8 @@ export default function ResultPageClient({ previewId = null }) {
                     ) : null}
                     {isWrong && Number.isInteger(given) ? (
                       <MistakeRepair key={`${q.id}:${epochs[q.id] || 0}`} attemptId={attempt.id} questionId={q.id} number={number} nta={isNtaAttempt} chosen={LETTERS[given]} answer={Number.isInteger(q.correctIndex) ? LETTERS[q.correctIndex] : null}
+                        question={{ text: displayValue(q.question ?? q.body, ''), passage: typeof q.passageText === 'string' && q.passageText.trim() ? q.passageText.trim() : null, options: q.options.map((opt, j) => displayValue(plainOptionTexts(q.options)[j] ?? opt, 'Option')) }}
+                        before={given} repaired={Array.isArray(attempt.repairedIds) && attempt.repairedIds.includes(q.id)}
                         autoStart={autoRepair === q.id} onSettled={settled} initialReview={review} onReview={reviewReceived}
                         insights={repairInsights}
                         isCurrent={!engaged || runCurrent === q.id} onStart={noteStart} onStep={engaged ? stepFrom : undefined} onFinish={() => setEnding(true)}

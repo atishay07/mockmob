@@ -11,6 +11,7 @@ import { optionHash } from '../../../data/option_hash.js';
 import { correctIndexOf } from '../../../data/mistake_repair.js';
 import { REVISE_RULES, REVISE_VERSION, addDays, capFrom, dayLabel, gradeCard, istDate, planSeeds, resultLine, reviseBody, todaysQueue } from '../../../data/revise.js';
 import COPY from '../../../data/mistake_lab.copy.json' with { type: 'json' };
+import { reviseRuleBody } from '../../../data/repair_retry.mjs';
 
 const BATCH = 100;
 const CARD_COLUMNS = 'question_id,box,due_day,state,right_total,last_recalled_day,key_hash,wrong_at,created_at,updated_at';
@@ -114,11 +115,21 @@ function unavailable() {
   return { http: 503, body: { version: REVISE_VERSION, state: 'unavailable', message: COPY.revise.unavailable, items: [] } };
 }
 
+export const RULE_BUDGET_MS = 2_500;
+async function ruleOf(ruleFor, userId, questionId) {
+  if (typeof ruleFor !== 'function') return null;
+  let timer;
+  try {
+    const stop = new Promise((resolve) => { timer = setTimeout(() => resolve(null), RULE_BUDGET_MS); });
+    return reviseRuleBody(await Promise.race([Promise.resolve().then(() => ruleFor(userId, questionId)), stop]));
+  } catch { return null; } finally { clearTimeout(timer); }
+}
+
 /**
  * POST /api/me/revise/answer { questionId, choice }. `choice` is the index into the options as GET /api/me/revise sent
  * them. Returns { http, body }. The card must be in today's queue; a second answer to the same card is 409 not_due.
  */
-export async function answerRevise(userId, { questionId, choice } = {}, { db, now = Date.now(), cap = REVISE_RULES.cap } = {}) {
+export async function answerRevise(userId, { questionId, choice } = {}, { db, now = Date.now(), cap = REVISE_RULES.cap, ruleFor = null } = {}) {
   if (typeof questionId !== 'string' || !questionId || !Number.isInteger(choice) || choice < 0) {
     return { http: 422, body: { ok: false, error: 'invalid_request', message: 'questionId and a choice are required.' } };
   }
@@ -155,10 +166,13 @@ export async function answerRevise(userId, { questionId, choice } = {}, { db, no
   if (moved.error) return unavailable(moved.error);
   if (!moved.data?.length) return { http: 409, body: { ok: false, error: 'not_due', message: COPY.revise.notDue } };
   const explanation = typeof question.explanation === 'string' ? question.explanation.trim() : typeof question.explanation?.text === 'string' ? question.explanation.text.trim() : '';
+  // The student's own rule from their repair of this question comes back with it, after the answer (never before: it would hint).
+  // A free extra: it never holds the answer back for more than RULE_BUDGET_MS, and any failure is simply no rule.
+  const rule = await ruleOf(ruleFor, userId, questionId);
   return {
     http: 200,
     body: {
-      ok: true, version: REVISE_VERSION, correct, keyIndex, explanation: explanation ? explanation.slice(0, 1500) : null,
+      ok: true, version: REVISE_VERSION, correct, keyIndex, explanation: explanation ? explanation.slice(0, 1500) : null, ...(rule ? { rule } : {}),
       outcome: next.outcome, box: next.box, retired: next.state === 'retired',
       dueDay: next.state === 'retired' ? null : next.due_day, dueLabel: next.state === 'retired' ? null : dayLabel(next.due_day),
       line: resultLine(next.outcome, next.due_day, today),

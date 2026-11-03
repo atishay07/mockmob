@@ -34,6 +34,9 @@ export async function GET(request, { params }) {
     //    lab.prove.later (which wrong answers come back in Revise, and when); each is left out on its own failure, and a failed
     //    atlas read leaves only the format tags (data/lab_loop.js buildLabSlice4);
     //  - swot: the post-mock SWOT and "Do these next" (left out entirely when SWOT_ENABLED=off).
+    // Which of this paper's wrong answers already have a saved repair, read from the same repairs the Lab's rules use (no extra read): a
+    // repair opened again is free and has no try, so the screen says so before it asks anything. Left out when the rules could not be read.
+    let repairedIds;
     const history = await resultHistory({
       attempt,
       answerReviews: reviews.answerReviews,
@@ -43,7 +46,11 @@ export async function GET(request, { params }) {
       missedBeforeOf: buildMissedBefore,
       cohortOf: readCohort,
       labLoop: true,
-      ruleSourcesOf: ({ allAttempts }) => loadRuleSources(session.user.id, allAttempts),
+      ruleSourcesOf: async ({ allAttempts }) => {
+        const sources = await loadRuleSources(session.user.id, allAttempts);
+        repairedIds = [...new Set((sources.repairs || []).filter((r) => r.attemptId === attempt.id).map((r) => r.questionId))];
+        return sources;
+      },
       labSlice4: {
         atlasOf: ({ attempt: paper }) => atlasForAttempt(paper),
         cardsOf: ({ attempt: paper }) => cardsFor(session.user.id, (paper.questionsSnapshot || []).map((q) => q?.id)),
@@ -51,7 +58,7 @@ export async function GET(request, { params }) {
       swotEnabled: process.env.SWOT_ENABLED !== 'off',
       warn: (part, e) => console.warn(`[api/attempts/:id] ${part} skipped:`, e?.message),
     });
-    return NextResponse.json({ ...attempt, ...reviews, ...history }, { headers: { 'Cache-Control': 'no-store' } });
+    return NextResponse.json({ ...attempt, ...reviews, ...history, ...(repairedIds ? { repairedIds } : {}) }, { headers: { 'Cache-Control': 'no-store' } });
   } catch (e) {
     console.error('[api/attempts/:id] GET failed:', e);
     return NextResponse.json({ error: 'Failed to load attempt' }, { status: 500 });

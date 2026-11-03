@@ -151,7 +151,7 @@ test('requestRepair returns the answer and clears its timer; a dropped connectio
 test('the Mistake Repair component sends through requestRepair, resets the id after charged: 0 and shows the server message', () => {
   const src = read('src/components/recovery/MistakeRepair.jsx');
   assert.match(src, /import \{ requestRepair, planRepairFailure \} from '@\/\.\.\/data\/repair_client\.mjs';/);
-  assert.match(src, /requestRepair\(fetch, '\/api\/recovery\/repair', \{ attemptId, questionId, requestId: requestId\.current \}\)/);
+  assert.match(src, /requestRepair\(fetch, '\/api\/recovery\/repair', \{ attemptId, questionId, requestId: requestId\.current, \.\.\.\(retryRef\.current \? \{ retry_pick: retryRef\.current\.pick \} : \{\}\) \}\)/);
   assert.match(src, /requestId\.current \?\?= newRequestId\(\);/);
   assert.match(src, /if \(failure\.resetRequest\) requestId\.current = null;/);
   assert.match(src, /setState\(\{ status: failure\.status, message: failure\.message, canRetry: failure\.canRetry \}\)/);

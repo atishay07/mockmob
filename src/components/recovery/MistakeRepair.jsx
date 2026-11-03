@@ -17,6 +17,8 @@ import AnswerCorrectionNotice from './AnswerCorrectionNotice';
 import RepairMobi from './RepairMobi';
 import RepairCheck from './RepairCheck';
 import RepairAsk from './RepairAsk';
+import RepairTry, { RepairVerdict } from './RepairTry';
+import { RETRY_COPY, requestRetry, retryKind, retryMood } from '@/../data/repair_retry.mjs';
 import { RUN_COPY, arrowIntent, swipeIntent } from './repairRun';
 import './mistake-repair.css';
 
@@ -28,10 +30,12 @@ const LONG_AFTER_MS = REPAIR_LOADING.longAfterMs;
 
 // What a repair costs and what the student has, in the one spend line: "This repair uses 1 AI credit. You have 9."
 // The balance is the one the top bar already read (reused for five minutes); unknown shows no number.
-function RepairCost() {
+// `what` is "The reason" under the try step's "Check my answer"; a repair already saved is free to open again and says so.
+function RepairCost({ what = 'This repair', repaired = false }) {
   const auth = useContext(AuthContext);
   const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
-  return <p className="mr-cost">{usesLine({ what: 'This repair', cost: 1, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null })}</p>;
+  if (repaired) return <p className="mr-cost">{RETRY_COPY.reopenLead}</p>;
+  return <p className="mr-cost">{usesLine({ what, cost: 1, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null })}</p>;
 }
 
 // "Q7. Your pick B. Key C." as a small reveal: the pick settles, then the key's ring draws and fills.
@@ -132,7 +136,7 @@ function AnotherWay({ text, style }) {
 
 // A finished repair (spec A.1): blocks 1 to 12 in order, one column. Exported so fixture payloads can be rendered
 // on their own (data/tests/repair_wiring.test.mjs): v1, v2 and v3 payloads each keep their own set of blocks.
-export function RepairDone({ state, attemptId = null, questionId = null, chosen = null, answer = null, number = null, scheme = 'cuet', insights = null, folded = true, onToggleFold, mobi = null, nextButton = null, next = null }) {
+export function RepairDone({ state, attemptId = null, questionId = null, chosen = null, answer = null, number = null, scheme = 'cuet', insights = null, folded = true, onToggleFold, mobi = null, nextButton = null, next = null, retry = null }) {
   const blocks = repairBlocks(state.repair);
   if (!blocks) return null;
   const fresh = state.status === 'explained';
@@ -143,8 +147,9 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
   // and the repair response's `check` field.
   const showCheck = !!(state.check && attemptId && questionId);
   // Blocks 2 onwards rise in order on a fresh repair (50 ms apart); a stored repair renders at once.
+  const tried = !!retryKind(retry);
   const order = [
-    'head', 'trap', 'wrong', v3 && 'right', v3 && blocks.others.length > 0 && 'others', !v3 && blocks.anotherWay && 'v2another',
+    tried && 'verdict', 'head', 'trap', 'wrong', v3 && 'right', v3 && blocks.others.length > 0 && 'others', !v3 && blocks.anotherWay && 'v2another',
     'rule', v3 && blocks.anotherWay && 'another', !v3 && blocks.nextStep && 'nextStep', showCheck && 'ask', showCheck && 'check', record.length > 0 && 'record',
     stake && 'marks', state.practiceHref && 'do', 'foot',
   ].filter(Boolean);
@@ -152,7 +157,8 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
   const practiceLabel = REPAIR_COPY.practise(state.practiceAction?.chapter || null);
   return (
     <section className="mr mr--panel mr--done" data-fold={folded ? 'folded' : 'open'} data-fresh={fresh || undefined} data-version={blocks.version} aria-label="Mistake Repair">
-      <FoldLine number={number} chosen={chosen} answer={answer} folded={folded} onToggle={onToggleFold} animate={fresh} />
+      <FoldLine number={number} chosen={chosen} answer={answer} folded={folded} onToggle={onToggleFold} animate={fresh && !tried} />
+      {tried ? <RepairVerdict retry={retry} stagger={stagger('verdict')} /> : null}
       <header className="mr-head" data-stagger style={stagger('head')}>
         {mobi}
         <div className="mr-head__text">
@@ -211,7 +217,7 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
 //   onFinish   there is nothing left to open: the last key says Finish and shows the ending
 //   handover   'a' | 'b': this panel was just brought back by the track and rises in over 160 ms
 //   insights   { lines: [{ kind, text }] } | null: this answer's "From your record" sentences, built on the server
-export default function MistakeRepair({ attemptId, questionId, chosen, answer, number = null, scheme = 'cuet', nta = false, autoStart = false, onSettled, onReview, initialReview = null, next = null, isCurrent = true, earlier = null, onStart, onStep, onFinish, handover = null, insights = null }) {
+export default function MistakeRepair({ attemptId, questionId, chosen, answer, number = null, scheme = 'cuet', nta = false, autoStart = false, question = null, before = null, source = null, repaired = false, onSettled, onReview, initialReview = null, next = null, isCurrent = true, earlier = null, onStart, onStep, onFinish, handover = null, insights = null }) {
   const [state, setState] = useState({ status: 'idle' });
   const [slow, setSlow] = useState(false);
   const [long, setLong] = useState(false);
@@ -221,6 +227,30 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
   const requestId = useRef(null);
   const started = useRef(false);
   const inFlight = useRef(false);
+  // The try before the key. `retry` is the server's marking of the student's second try; `retryRef` is what the paid call carries.
+  const [pick, setPick] = useState(null);
+  const [retry, setRetry] = useState(null);
+  const [checking, setChecking] = useState(false);
+  const [checkFailed, setCheckFailed] = useState(false);
+  const retryRef = useRef(null);
+  const canTry = !!(question && Array.isArray(question.options) && question.options.length >= 2) && !repaired;
+
+  // "Check my answer": the server marks the pick at once (free), the verdict shows, and the reason is written under it.
+  async function check() {
+    if (pick === null || checking || inFlight.current) return;
+    setChecking(true);
+    setCheckFailed(false);
+    const outcome = await requestRetry(fetch, { attemptId, questionId, retry_pick: pick });
+    setChecking(false);
+    if (outcome.kind === 'failed') { setCheckFailed(true); return; }
+    // Declined (a key under review, not a mistake): the repair says why in its own words, with no verdict.
+    retryRef.current = outcome.kind === 'marked' ? outcome.retry : null;
+    setRetry(retryRef.current);
+    run();
+  }
+  // "Show the reason now": the same repair with no try and no verdict.
+  function skip() { retryRef.current = null; setRetry(null); run(); }
+  function openTry() { started.current = true; onStart?.(questionId); setState({ status: 'try' }); }
 
   async function run() {
     if (inFlight.current) return;
@@ -232,7 +262,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
       setLong(false);
       setState({ status: 'loading' });
       // Stops waiting after 95 s (the route's own budget is 90 s), then says so calmly.
-      const outcome = await requestRepair(fetch, '/api/recovery/repair', { attemptId, questionId, requestId: requestId.current });
+      const outcome = await requestRepair(fetch, '/api/recovery/repair', { attemptId, questionId, requestId: requestId.current, ...(retryRef.current ? { retry_pick: retryRef.current.pick } : {}) });
       if (outcome.kind !== 'response') {
         const failure = planRepairFailure(outcome);
         setState({ status: failure.status, message: failure.message, canRetry: failure.canRetry });
@@ -279,7 +309,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
   useEffect(() => {
     if (!autoStart || started.current || initialReview) return;
     started.current = true;
-    queueMicrotask(run);
+    queueMicrotask(canTry ? openTry : run);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoStart, initialReview]);
 
@@ -287,7 +317,10 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
   const nextButton = next
     ? <button type="button" className="mr-next-btn" onClick={next.go}>Next mistake: Q{next.number}</button>
     : onFinish ? <button type="button" className="mr-next-btn" onClick={onFinish}>{RUN_COPY.finish}</button> : null;
-  const mobi = nta ? null : <RepairMobi status={state.status} slow={slow} stepKey={`${attemptId}/${questionId}`} visible={isCurrent} />;
+  // With a verdict on screen Mobi keeps its act while the reason is written; before it he listens.
+  const verdicted = !!retryKind(retry);
+  const mobiStatus = verdicted && (state.status === 'try' || state.status === 'loading') ? retryMood(retryKind(retry)) : state.status;
+  const mobi = nta ? null : <RepairMobi status={mobiStatus} slow={slow} stepKey={`${attemptId}/${questionId}`} visible={isCurrent} />;
 
   const review = state.review || initialReview;
 
@@ -319,17 +352,28 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
     if (state.status === 'idle') {
       return (
         <div className="mr">
-          <button type="button" className="mr-start" onClick={() => { started.current = true; run(); }}>
+          <button type="button" className="mr-start" onClick={() => { if (canTry) openTry(); else { started.current = true; run(); } }}>
             <span className="mr-start__icon" aria-hidden="true"><Wrench size={18} strokeWidth={2.4} /></span>
-            <span className="mr-start__text"><b>Repair this mistake</b><small>Why {chosen ? `option ${chosen}` : 'your answer'} looked right, why the key is right and one rule to keep</small></span>
-            <span className="mr-start__cost">1 AI credit</span>
+            <span className="mr-start__text"><b>{repaired ? 'Open your repair' : 'Repair this mistake'}</b><small>Why {chosen ? `option ${chosen}` : 'your answer'} looked right, why the key is right and one rule to keep</small></span>
+            <span className="mr-start__cost">{repaired ? 'Free' : '1 AI credit'}</span>
           </button>
-          <RepairCost />
+          <RepairCost repaired={repaired} />
         </div>
       );
     }
+    // The try step: the question again with no key (pick, checking), then the verdict with the reason being written under it.
+    const tryPanel = (phase, under = null) => (
+      <RepairTry number={number} question={question} options={question.options} before={before} source={source} phase={phase} pick={pick} retry={retry}
+        failed={checkFailed} onPick={setPick} onCheck={check} onSkip={skip} cost={<RepairCost what="The reason" />} mobi={mobi}>{under}</RepairTry>
+    );
+    if (state.status === 'try') return tryPanel(checking ? 'checking' : 'pick');
     if (state.status === 'loading') {
       const line = long ? REPAIR_LOADING.long : slow ? REPAIR_LOADING.slow : REPAIR_LOADING.writing(number);
+      if (verdicted) {
+        return tryPanel('checked', (
+          <div role="status" aria-live="polite"><p className="mr-wait" data-phase={long ? 'long' : slow ? 'slow' : 'writing'}><span className="mr-wait__ring" aria-hidden="true" /><span key={line} className="mr-wait__line">{line}</span></p></div>
+        ));
+      }
       return (
         <div className="mr mr--panel mr--loading" role="status" aria-live="polite" data-has-mobi={mobi ? true : undefined}>
           <div className="mr-top">
@@ -341,6 +385,17 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
           </div>
         </div>
       );
+    }
+    if ((state.status === 'error' || state.status === 'waiting') && verdicted) {
+      return tryPanel('checked', (
+        <>
+          <p className="mr-note" role={state.status === 'waiting' ? 'status' : 'alert'}>{state.message}</p>
+          {state.canRetry ? <button type="button" className="mr-retry" onClick={run}>{state.status === 'waiting' ? 'Check again' : 'Try again'}</button> : null}
+          {state.code === 'insufficient_ai_credits' ? (
+            <p className="mr-note mr-ways"><Link href="/dashboard?mode=quick&count=5">Practise 5 fresh questions</Link> <Link href="/pricing/ai-credits">See your AI credits</Link></p>
+          ) : null}
+        </>
+      ));
     }
     if (state.status === 'error' || state.status === 'waiting') {
       return (
@@ -363,6 +418,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
     if (state.status === 'not_explained') {
       return (
         <div className="mr mr--panel" role="status" data-tone="warn">
+          {verdicted ? <RepairVerdict retry={retry} focus={false} /> : null}
           <div className="mr-top">
             {mobi}
             <div className="mr-top__text">
@@ -378,7 +434,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
       );
     }
     return <RepairDone state={state} attemptId={attemptId} questionId={questionId} chosen={chosen} answer={answer} number={number} scheme={scheme} insights={insights}
-      folded={folded} onToggleFold={() => setFolded(f => !f)} mobi={mobi} nextButton={nextButton} next={next} />;
+      folded={folded} onToggleFold={() => setFolded(f => !f)} mobi={mobi} nextButton={nextButton} next={next} retry={state.retry || retry} />;
   })();
   return <div className="mr-shell" data-handover={handover || undefined} {...shellProps}>{earlierEl}{content}</div>;
 }
