@@ -9,6 +9,8 @@ cd "$(dirname "$0")/.."
 source tool/android_env.sh
 SLOTS="${MOCKMOB_FLUTTER_SLOTS:-2}"
 BASE="${TMP:-/tmp}/mockmob-flutter.lock"
+# A machine-wide override (a number in $BASE.max) lets the orchestrator widen or narrow the slots live.
+if [ -f "$BASE.max" ]; then m="$(tr -dc 0-9 < "$BASE.max")"; [ -n "$m" ] && SLOTS="$m"; fi
 waited=0
 LOCK=""
 while [ -z "$LOCK" ]; do
