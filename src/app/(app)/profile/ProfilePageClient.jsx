@@ -9,6 +9,7 @@
 // Every setting that was on this page is still here. The page paints at once: only the mock counts wait
 // for the server, and a failure there never hides a setting. Links to /profile#plan, #appearance, #goal,
 // #privacy, #delete and the rest land on their section. One Mobi on screen (lookMobiStore.js).
+import { firstName } from '@/lib/firstName';
 import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { Button } from '@/components/ui/Button';
 import { DrawnCheck } from '@/components/ui/DrawnCheck';
@@ -150,7 +151,6 @@ function DeleteAccountSection() {
   );
 }
 
-const firstName = (name) => String(name || '').trim().split(/\s+/)[0] || '';
 
 export default function ProfilePageClient() {
   const { user, status, refreshSession } = useAuth();
@@ -260,6 +260,7 @@ export default function ProfilePageClient() {
                 onChange={(e) => setDraftName(e.target.value)}
                 placeholder="Enter your display name"
                 autoComplete="name"
+                maxLength={80}
                 aria-describedby="profile-name-help"
               />
               <span id="profile-name-help" className="acct-field__help">Your initials are your avatar. They update when you save your name.</span>

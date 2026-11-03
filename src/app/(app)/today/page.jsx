@@ -7,6 +7,7 @@ import { TodayColleges } from '@/components/colleges/MyColleges';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { useAuth } from '@/components/AuthProvider';
 import { useInsights } from '@/components/ai/useInsights';
+import { firstName } from '@/lib/firstName';
 
 // Today opens on the date, the way the app's Today does: it leads the lede, in the reading line,
 // not as a kicker above the headline. The server render leaves it out.
@@ -16,7 +17,7 @@ const dayLine = () => new Date().toLocaleDateString('en-IN', { weekday: 'long', 
 export default function Today() {
   const { user } = useAuth();
   const day = useSyncExternalStore(noSubscribe, dayLine, () => '');
-  const first = user?.name ? user.name.split(' ')[0] : '';
+  const first = firstName(user?.name);
   // One read of the record: the plan's why (the chapter with the most marks open) and the glimpse below it.
   const insights = useInsights(user?.id);
   const top = insights.status === 'ready' ? insights.insights?.chapters?.ranked?.[0] || null : null;

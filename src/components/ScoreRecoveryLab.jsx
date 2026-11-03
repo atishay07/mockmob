@@ -225,7 +225,7 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
                   const first = led.get(r.q.id);
                   return (
                     <button key={r.q.id} type="button" className="srl-queue__item" data-done={repaired.has(r.q.id) || undefined} data-led={first?.reason}
-                      title={first?.line || undefined} aria-label={first ? `Q${r.number}, ${r.chapter}. ${first.line}` : undefined} onClick={() => onJump(r.number)}>
+                      title={first?.line || r.chapter || undefined} aria-label={first ? `Q${r.number}, ${r.chapter}. ${first.line}` : undefined} onClick={() => onJump(r.number)}>
                       {first ? <Users className="srl-queue__led" size={13} strokeWidth={2.4} aria-hidden="true" /> : null}Q{r.number}<span>{r.chapter}</span>
                     </button>
                   );
