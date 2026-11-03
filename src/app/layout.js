@@ -44,6 +44,8 @@ const hanken = localFont({
 // so it no longer competes with the headline face for a slow phone's first second. It is self-hosted (the
 // variable face from geist@1.8.1, OFL, src/app/fonts/GeistMono-OFL.txt), so a build never fetches it from
 // Google: 2 of 4 production builds failed on that fetch on 2 Nov 2026.
+// Literata (the home page's question voice) is declared in src/components/landing/HomeFonts.jsx, not here, so it is preloaded
+// on "/" only and costs every other route nothing.
 const geistMono = localFont({
   src: "./fonts/GeistMono-Variable.woff2",
   variable: "--font-geist-mono",
@@ -85,7 +87,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#F4F5F0",
+  themeColor: "#F3EFE6",
 };
 
 export default function RootLayout({ children }) {

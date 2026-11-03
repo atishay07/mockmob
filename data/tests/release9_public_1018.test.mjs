@@ -206,14 +206,20 @@ test('feature tour: from 900 px the chips wrap with no mask (none clipped); belo
 // LOW: the lime "aurora" wash behind the hero and the close (the glow L-019 forbids).
 // ---------------------------------------------------------------------------------------------------------------------
 
-test('landing backdrop: no aurora layer or rule anywhere; the grid and dots stay', () => {
+test('landing backdrop: no aurora layer or rule anywhere; the hero draws no ambient pattern, the close band keeps its neutral grid and dots', () => {
   const src = fileURLToPath(new URL('src/', root));
   for (const file of walk(src, ['.css', '.jsx', '.js'])) {
     assert.doesNotMatch(stripComments(readFileSync(file, 'utf8')), /lp-bg__aurora|lp-depth-far/, file);
   }
-  const backdrop = read('src/components/landing/HeroBackdrop.jsx');
-  assert.match(backdrop, /lp-bg__grid/);
-  assert.match(backdrop, /lp-bg__dots/);
+  // 4 Nov 2026 (home spec decision 12, slop C6 and M7): the hero's grid, dot matrix and pointer-lit volt dots are gone. The 18 Oct
+  // line "the grid and dots stay" was an agent's lock, not an owner ask; the aurora ban stays. The pointer became Mobi's gaze.
+  const backdrop = stripComments(read('src/components/landing/HeroBackdrop.jsx'));
+  assert.doesNotMatch(backdrop, /lp-bg__(grid|dots|spot|fade)|pointermove|requestAnimationFrame/);
+  const landing = stripComments(read('src/app/landing.css'));
+  assert.doesNotMatch(landing, /lp-bg__spot/);
+  const pattern = landing.slice(landing.indexOf('.lp-bg__grid {'), landing.indexOf('.lp-bg__fade {'));
+  assert.ok(pattern.length > 40, 'the close band keeps its grid and dots rules');
+  assert.doesNotMatch(pattern, /d2f000|210, ?240, ?0/i, 'the pattern is neutral hairlines, never volt');
   assert.match(read('src/app/page.js'), /<div className="lp-bg lp-bg--static" aria-hidden="true">\n\s+<div className="lp-bg__grid" \/>\n\s+<div className="lp-bg__dots" \/>/);
 });
 

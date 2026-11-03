@@ -22,15 +22,16 @@ test('the thumb is one element, with no icon glyphs to cross-fade', () => {
   assert.doesNotMatch(css, /mm-theme-toggle__(sun|moon)/);
 });
 
+// 4 Nov 2026 (home spec decision, slop C3): the thumb's 0 0 0 3px and 0 0 12px glows are gone; the crescent shadow and the travel stay.
 test('sun to crescent is one interpolated inset shadow while the thumb travels and turns', () => {
   const day = rule('.mm-theme-toggle__thumb');
   const night = rule("html[data-theme='dark'] .mm-theme-toggle__thumb");
   assert.match(day, /background-color: #ffcb3a/);
-  assert.match(day, /box-shadow: inset 0 0 0 0 #edf1df/);
+  assert.match(day, /box-shadow: inset 0 0 0 0 #ece6d9;/);
   assert.match(day, /transform \.6s cubic-bezier\(\.34, 1\.4, \.5, 1\)/);
   assert.match(night, /background-color: transparent/);
   assert.match(night, /transform: translateX\(28px\) rotate\(-28deg\)/);
-  assert.match(night, /box-shadow: inset -6px -2px 0 0 #edf1df/);
+  assert.match(night, /box-shadow: inset -6px -2px 0 0 #ece6d9;/);
 });
 
 test('the day sky has its cloud, which sinks away at night; the stars land after the thumb', () => {

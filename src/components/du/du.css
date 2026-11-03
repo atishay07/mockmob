@@ -1570,3 +1570,40 @@ html[data-motion='reduced'] .du-delta { opacity: 1; }
 
 /* The landing's DU teaser: its live count sits in the flow, not stuck over the chips of its own section. */
 .lp .du-live { position: static; }
+
+/* ---------- Home and public DU pages (.lp): calm Night, 4 Nov 2026 (slop C1, C2, C4, C8, M3) ----------
+   Volt is a fill that carries dark ink (the selected chip, the segment, the sticky bar's key); every edge is a neutral hairline,
+   every wash is a quiet surface, and "good" is the good-text colour. The rules above stay as they were: the app's Colleges
+   and Compass screens share them and keep their lit surfaces (G28, du-flat.css). Pinned by data/tests/night_calm_1104.test.mjs. */
+.lp .du-sum { border-color: var(--line-strong); }
+.lp .du-sum button[data-primary] { border-color: transparent; }
+.lp .du-preset { border-color: var(--line-strong); background: rgb(var(--tint, 244 240 230) / 0.05); }
+.lp .du-alias { border-color: var(--line-strong); background: rgb(var(--tint, 244 240 230) / 0.05); }
+.lp .du-chip[aria-pressed="true"] { border-color: transparent; background: var(--volt); color: var(--volt-ink); }
+.lp .du-chip[aria-pressed="true"] .du-chip__tick { border-color: var(--volt-ink); background: var(--volt-ink); color: var(--volt); }
+.lp .du-seg__btn[aria-checked="true"] { border-color: transparent; background: var(--volt); color: var(--volt-ink); }
+.lp .du-select--full[data-active="true"] select { border-color: var(--ink-3); background-color: var(--paper-raised-2); color: var(--ink); }
+.lp .du-tray button { border-color: var(--line-strong); background: rgb(var(--tint, 244 240 230) / 0.05); }
+.lp .du-unlocks { border-color: var(--line-strong); background: rgb(var(--tint, 244 240 230) / 0.04); }
+.lp .du-unlocks button b { background: var(--ink); color: var(--paper); }
+.lp .du-unlocks button { transition: border-color 0.15s ease, transform 180ms cubic-bezier(0.23, 1, 0.32, 1); }
+.lp .du-unlocks button:active { transition-duration: 90ms, 90ms; }
+.lp .du-verdict[data-tone="good"] { background: color-mix(in srgb, var(--good-text, #3d6600) 14%, transparent); color: var(--good-text, #3d6600); }
+.lp .du-rules li[data-ok="true"] { border-color: var(--line-strong); background: rgb(var(--tint, 244 240 230) / 0.04); }
+.lp .du-rules li[data-ok="true"] .du-rules__mark { background: var(--ink); color: var(--paper); }
+.lp .du-rules li[data-ok="true"] small { color: var(--good-text, #3d6600); }
+.lp .du-clearing { border-color: var(--line-strong); background: rgb(var(--tint, 244 240 230) / 0.05); }
+.lp .du-seat[data-status="r1"] .du-seat__status { background: color-mix(in srgb, var(--good-text, #3d6600) 14%, transparent); color: var(--good-text, #3d6600); }
+.lp .du-cta { border-color: var(--line-strong); background: var(--paper-raised); }
+.lp .du-teaser__out { border-color: var(--line-strong); background: rgb(var(--tint, 244 240 230) / 0.04); }
+.lp .du-teaser__streams b { background: var(--ink-2); }
+.lp .du-live { border-color: var(--line-strong); background: var(--paper-raised-2); }
+.lp .du-clear { background: var(--good-text, #3d6600); box-shadow: none; }
+.lp .du-delta[data-dir='up'] { background: color-mix(in srgb, var(--good-text, #3d6600) 18%, transparent); color: var(--good-text, #3d6600); }
+@media (hover: hover) {
+  .lp .du-preset:hover { border-color: var(--ink-3); background: rgb(var(--tint, 244 240 230) / 0.08); }
+  .lp .du-chip[aria-pressed="true"]:hover { border-color: var(--volt-ink); }
+  .lp .du-tray button:hover { border-color: var(--ink-3); background: rgb(var(--tint, 244 240 230) / 0.08); }
+  .lp .du-unlocks button:hover { border-color: var(--ink-3); }
+  .lp .du-sources a:hover { border-color: var(--ink-3); }
+}

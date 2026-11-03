@@ -16,17 +16,19 @@
 @media (max-width: 760px) {
   .mm.lp .lp-title { font-size: clamp(1.5rem, 11cqi, 4.3rem); }
 }
+/* The ladder (landing.css tokens): section h2 750, h3 700, the statement 650 for weight contrast, the close 800. */
 .mm.lp .lp-h2 {
   max-width: 18ch;
-  font-size: clamp(2rem, 4.9vw, 3.6rem);
-  line-height: 1.02;
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-h2);
+  line-height: var(--lh-h2);
   letter-spacing: -0.036em;
 }
-.mm.lp .lp-h2--xl { max-width: 15ch; font-size: clamp(2.4rem, 7.2vw, 5rem); }
-.mm.lp .lp-h3 { letter-spacing: -0.028em; line-height: 1.1; }
-.mm.lp .lp-sub { max-width: 50ch; line-height: 1.58; }
+.mm.lp .lp-h2--xl { max-width: 15ch; font-size: var(--fs-close); font-weight: var(--fw-display); line-height: 1; }
+.mm.lp .lp-h3 { font-size: var(--fs-h3); font-weight: var(--fw-h3); letter-spacing: -0.028em; line-height: var(--lh-h3); }
+.mm.lp .lp-sub { max-width: 50ch; font-size: var(--fs-body); line-height: var(--lh-body); }
 .mm.lp .lp-head { gap: 1.1rem; }
-.mm.lp .lp-statement__text { letter-spacing: -0.04em; line-height: 1.04; }
+.mm.lp .lp-statement__text { font-weight: var(--fw-statement); letter-spacing: -0.04em; }
 
 /* The kicker reads as a quiet sentence-case label, not a tracked monospace eyebrow. */
 .mm.lp .lp-kicker {
@@ -40,7 +42,7 @@
   font: 700 0.875rem/1.2 var(--font-body);
   letter-spacing: 0;
   text-transform: none;
-  color: var(--accent-text);
+  color: var(--ink-3);
 }
 /* No dot before the kicker (W-076: no eyebrow dots); it is a plain sentence-case label. */
 
@@ -126,12 +128,18 @@
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     :root:not([data-motion='reduced']) .lp-shelf .subj-obj--alive .subj-obj__float {
-      animation: subj-obj-float 7.2s infinite both, lp-shelf-in backwards, lp-shelf-out forwards;
+      animation: subj-obj-float 7.2s 2 both, lp-shelf-in backwards, lp-shelf-out forwards;
       animation-delay: calc(var(--obj-phase) * -7.2s), 0s, 0s;
       animation-timeline: auto, --lp-statement, --lp-statement;
       animation-range: normal, cover calc(4% + var(--k, 0) * 5%) cover calc(40% + var(--k, 0) * 5%), exit 0% exit 100%;
     }
     :root:not([data-motion='reduced']) .lp-shelf .subj-obj[data-offscreen] .subj-obj__float { animation-play-state: paused, running, running; }
+    /* Only the lit object keeps floating (M2, decision 19): the others float twice and rest on their shadow, as in the arena. ObjectLife
+       marks the one under the pointer, the focus or the reader's eye with [data-lit]; until it does, nothing on the shelf loops. The
+       iteration counts are longhands so the phone story's own name and range lists (hero-depth.css) stay aligned with them. */
+    :root:not([data-motion='reduced']) .lp-shelf .subj-obj--alive .subj-obj__shadow { animation-iteration-count: 2; }
+    :root:not([data-motion='reduced']) .lp-shelf .subj-obj--alive[data-lit] .subj-obj__float { animation-iteration-count: infinite, 1, 1; }
+    :root:not([data-motion='reduced']) .lp-shelf .subj-obj--alive[data-lit] .subj-obj__shadow { animation-iteration-count: infinite; }
     :root:not([data-motion='reduced']) .lp-shelf :is(.subj-obj__occl, .subj-obj__contact) {
       animation: lp-shelf-ground-in backwards, lp-shelf-ground-out forwards;
       animation-timeline: --lp-statement, --lp-statement;
@@ -195,6 +203,17 @@
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
 }
+/* Wide windows keep the statement scrub, at the ladder size; the phone's held story sets its own size to fit its window (hero-depth.css). */
 @media (min-width: 960px) {
-  .mm.lp .lp-statement__text { font-size: clamp(2.2rem, 4.2vw, 3.7rem); }
+  .mm.lp .lp-statement__text { font-size: var(--fs-statement); line-height: var(--lh-statement); }
+}
+
+/* ---------- Question stems: Literata 600, the printed-paper voice (decision 16) ----------
+   The hero sample, the tour screens (tour-screens.css) and the Lab's mock screens (lab-cinema.css) set their stems in --font-stem. */
+.mm.lp .mm-drill__q {
+  font-family: var(--font-stem);
+  font-size: var(--fs-stem);
+  font-weight: var(--fw-stem);
+  line-height: var(--lh-stem);
+  letter-spacing: 0;
 }

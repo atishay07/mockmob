@@ -12,28 +12,29 @@
 
 .mm {
   /* Surfaces */
-  --paper: #f4f5f0;
-  --paper-raised: #ffffff;
-  --paper-sunken: #eaece3;
+  --paper: #f3efe6;
+  --paper-raised: #fffdf8;
+  --paper-raised-2: #ece6d9;
+  --paper-sunken: #eae4d8;
   /* Ink — all three clear 4.5:1 on --paper */
-  --ink: #10140e;
-  --ink-2: #3e453b;
-  --ink-3: #5c6357;
+  --ink: #1b1914;
+  --ink-2: #4a453b;
+  --ink-3: #6b6457;
   /* Structure */
-  --line: #d9dcd0;
-  --line-strong: #c1c5b6;
+  --line: rgba(27, 25, 20, 0.1);
+  --line-strong: rgba(27, 25, 20, 0.22);
   /* Action. Volt is a fill that carries dark ink, never a glow. */
   --volt: #d2f000;
   --volt-edge: #9db400;
-  --volt-soft: #eefbaa;
+  --volt-soft: #eceec4;
   --volt-ink: #0b1000;
   /* Night — the product's own screens */
-  --slate: #0f130e;
-  --slate-2: #1a211a;
-  --slate-3: #29322a;
-  --slate-line: rgba(244, 245, 240, 0.13);
-  --chalk: #f4f5f0;
-  --chalk-2: #a6ae9f;
+  --slate: #14130f;
+  --slate-2: #1e1c17;
+  --slate-3: #2c2a24;
+  --slate-line: rgba(244, 240, 230, 0.13);
+  --chalk: #f4f0e6;
+  --chalk-2: #ada9a0;
   /* Alert */
   --flag: #b93225;
   --flag-soft: #fbe9e7;
@@ -44,9 +45,9 @@
   --r-4: 28px;
 
   /* Depth: real offset + blur. No zero-offset halos anywhere in this system. */
-  --sh-1: 0 1px 2px rgba(16, 20, 14, 0.05), 0 2px 6px rgba(16, 20, 14, 0.05);
-  --sh-2: 0 2px 4px rgba(16, 20, 14, 0.05), 0 10px 24px rgba(16, 20, 14, 0.08);
-  --sh-3: 0 6px 12px rgba(16, 20, 14, 0.06), 0 26px 56px rgba(16, 20, 14, 0.11);
+  --sh-1: 0 1px 2px rgba(20, 18, 14, 0.05), 0 2px 6px rgba(20, 18, 14, 0.05);
+  --sh-2: 0 2px 4px rgba(20, 18, 14, 0.05), 0 10px 24px rgba(20, 18, 14, 0.08);
+  --sh-3: 0 6px 12px rgba(20, 18, 14, 0.06), 0 26px 56px rgba(20, 18, 14, 0.11);
 
   --gutter: 20px;
   --rhythm: 56px;
@@ -71,7 +72,7 @@ html:has(.mm) {
 
 /* Paint the overscroll area to match, so the old dark body never flashes. */
 body:has(.mm) {
-  background: #f4f5f0;
+  background: #f5f3f1;
 }
 
 
@@ -323,7 +324,7 @@ body:has(.mm) {
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
-  text-decoration-color: var(--volt-edge);
+  text-decoration-color: var(--ink-3);
 }
 @media (hover: hover) {
   .mm-link:hover {
@@ -605,7 +606,7 @@ body:has(.mm) {
   gap: 0.75rem;
   padding: 0.625rem var(--gutter);
   padding-bottom: calc(0.625rem + env(safe-area-inset-bottom));
-  background: rgba(244, 245, 240, 0.92);
+  background: rgba(244, 240, 230, 0.92);
   border-top: 1px solid var(--line);
   transform: translateY(0);
   transition: transform 0.24s cubic-bezier(0.2, 0.8, 0.3, 1);
@@ -683,8 +684,8 @@ body:has(.mm) {
 }
 @media (hover: hover) {
   .mm-chip:hover {
-    background: var(--volt-soft);
-    border-color: var(--volt-edge);
+    background: var(--paper-raised-2);
+    border-color: var(--ink-3);
   }
 }
 .mm-tag {
@@ -974,7 +975,9 @@ body:has(.mm) {
 }
 @media (hover: hover) {
   .mm-foot li a:hover {
-    color: var(--volt);
+    color: var(--chalk);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
   }
 }
 .mm-foot__base {
@@ -1023,7 +1026,7 @@ body:has(.mm) {
 }
 @media (hover: hover) {
   .mm-foot__social:hover {
-    border-color: var(--volt);
+    border-color: var(--chalk-2);
   }
 }
 
@@ -1112,7 +1115,7 @@ body:has(.mm) {
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  color: var(--volt);
+  color: var(--chalk-2);
 }
 
 .mm-compass {
@@ -1125,7 +1128,7 @@ body:has(.mm) {
   font-weight: 800;
   line-height: 0.9;
   letter-spacing: -0.045em;
-  color: var(--volt);
+  color: var(--chalk);
 }
 .mm-compass__score span {
   margin-left: 0.35rem;
@@ -1167,7 +1170,7 @@ body:has(.mm) {
   font-weight: 500;
 }
 .mm-compass__rows em[data-fit="likely"] {
-  color: var(--volt);
+  color: var(--good-text, #b6e36e);
 }
 .mm-compass__rows em[data-fit="stretch"] {
   color: #e0b93f;
@@ -1282,7 +1285,7 @@ body:has(.mm) {
   transition: background-color 0.25s ease;
 }
 .mm-drill__pip[data-state="past"] {
-  background: var(--volt-edge);
+  background: var(--chalk-2);
 }
 .mm-drill__pip[data-state="now"] {
   background: var(--volt);
@@ -1320,7 +1323,7 @@ body:has(.mm) {
   border: 1px solid var(--slate-3);
   border-radius: var(--r-2);
   background: var(--slate-2);
-  box-shadow: 0 var(--edge) 0 #0a0d09;
+  box-shadow: 0 var(--edge) 0 #0d0c09;
   transform: translateY(calc(var(--edge) * -1));
   color: var(--chalk);
   font-family: var(--font-body);
@@ -1335,12 +1338,12 @@ body:has(.mm) {
 }
 .mm-drill__option:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: 0 0 0 #0a0d09;
+  box-shadow: 0 0 0 #0d0c09;
 }
 @media (hover: hover) {
   .mm-drill__option:not(:disabled):hover {
-    border-color: var(--volt-edge);
-    background: #1f271e;
+    border-color: var(--chalk-2);
+    background: #26241f;
   }
 }
 .mm-drill__option:disabled {
@@ -1352,15 +1355,15 @@ body:has(.mm) {
    Nothing else on this page animates on interaction. */
 .mm-drill__option[data-state="correct"] {
   transform: translateY(0);
-  box-shadow: 0 0 0 #0a0d09;
+  box-shadow: 0 0 0 #0d0c09;
   background: var(--volt);
-  border-color: var(--volt);
+  border-color: transparent;
   color: var(--volt-ink);
   animation: mm-settle 0.34s cubic-bezier(0.2, 0.9, 0.3, 1) both;
 }
 .mm-drill__option[data-state="wrong"] {
   transform: translateY(0);
-  box-shadow: 0 0 0 #0a0d09;
+  box-shadow: 0 0 0 #0d0c09;
   background: #2a1614;
   border-color: #7d3128;
   color: #ffc9c2;
@@ -1476,7 +1479,7 @@ body:has(.mm) {
 .mm-drill__why strong {
   font-family: var(--font-display);
   font-weight: 800;
-  color: var(--volt);
+  color: var(--good-text, #b6e36e);
 }
 .mm-drill__why strong[data-ok="false"] {
   color: #ff9d92;
@@ -1500,7 +1503,7 @@ body:has(.mm) {
   font-weight: 800;
   line-height: 0.9;
   letter-spacing: -0.05em;
-  color: var(--volt);
+  color: var(--chalk);
 }
 .mm-drill__score span {
   color: var(--chalk-2);
@@ -1551,7 +1554,7 @@ body:has(.mm) {
   font-weight: 600;
 }
 .mm-drill__readout li svg {
-  color: var(--volt);
+  color: var(--good-text, #b6e36e);
   flex-shrink: 0;
 }
 .mm-drill__actions {
@@ -1978,7 +1981,7 @@ body:has(.mm) {
   color: var(--ink);
 }
 .mm-plan[data-featured="true"] .mm-plan__features li svg {
-  color: var(--volt-edge);
+  color: var(--good-text, #3d6600);
 }
 .mm-plan__cta {
   margin-top: 1.5rem;
@@ -2052,7 +2055,7 @@ body:has(.mm) {
 .mm-checkout__applied svg {
   width: 15px;
   height: 15px;
-  color: var(--volt-edge);
+  color: var(--good-text, #3d6600);
 }
 .mm-checkout__hint {
   display: block;
@@ -2202,7 +2205,7 @@ body:has(.mm) {
 }
 .mm-cmp__row[data-popular="true"] .mm-cmp__feature { font-weight: 700; color: var(--ink); }
 .mm-cmp__row[data-popular="true"] + .mm-cmp__row[data-popular="true"] {
-  border-top-color: rgba(16, 20, 14, 0.12);
+  border-top-color: rgba(20, 18, 14, 0.12);
 }
 .mm-cmp__row[data-popular="true"] .mm-cmp__feature {
   color: var(--ink);
@@ -2379,7 +2382,7 @@ body:has(.mm) {
   color: var(--chalk);
 }
 .mm-readout__verdict strong {
-  color: var(--volt);
+  color: var(--good-text, #b6e36e);
   font-weight: 800;
 }
 .mm-readout__rows {
