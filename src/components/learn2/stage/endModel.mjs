@@ -27,11 +27,18 @@ export function endHeadline({ reached = 0, of = 0, minutes = null, stopped = fal
   return `${Math.min(r, o)} of ${o} done`;
 }
 
-/** "in Revise, back Wed" from the server's return groups ([{ label: 'back on Wed', count }]): the soonest one. */
+/**
+ * The Revise line's words from the server's return groups ([{ label: 'back on Wed', count }], in date order). One rule on web
+ * and app (walk I2): when every card in Revise comes back in the same group the line says when ("in Revise, back Wed"); when the
+ * groups differ it says only that the soonest is that early ("in Revise, the first back Wed"), never "back tomorrow" for cards
+ * that come back at different times. A group that is not a "back" one reads "due now" / "back later today".
+ */
 export function reviseLabel(groups) {
-  const first = (groups || []).find((g) => num(g?.count) > 0);
-  const when = first ? String(first.label || '').replace(/^back on /, 'back ').trim() : '';
-  return when ? `in Revise, ${when}` : 'in Revise';
+  const list = (groups || []).filter((g) => num(g?.count) > 0);
+  const when = list.length ? String(list[0].label || '').replace(/^back on /, 'back ').trim() : '';
+  if (!when) return 'in Revise';
+  if (list.length === 1) return `in Revise, ${when}`;
+  return `in Revise, the first ${/^back /.test(when) || when === 'due now' ? when : `back ${when}`}`;
 }
 
 /**

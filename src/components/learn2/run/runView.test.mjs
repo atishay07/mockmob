@@ -144,6 +144,18 @@ test('R3 L5 end formula: up to 3 numbers with one set of labels, every zero drop
   assert.equal(reviseLabel([]), 'in Revise');
 });
 
+// Walk I2: one group keeps "back <when>"; groups that differ say "the first back <when>".
+test('I2: the Revise line says "the first back" when the cards come back at different times', () => {
+  assert.equal(reviseLabel([{ label: 'back tomorrow', count: 3 }]), 'in Revise, back tomorrow');
+  assert.equal(reviseLabel([{ label: 'back on Wed', count: 3 }]), 'in Revise, back Wed');
+  assert.equal(reviseLabel([{ label: 'back tomorrow', count: 2 }, { label: 'back on Fri', count: 1 }]), 'in Revise, the first back tomorrow');
+  assert.equal(reviseLabel([{ label: 'back on Wed', count: 2 }, { label: 'back in 12 days', count: 1 }]), 'in Revise, the first back Wed');
+  assert.equal(reviseLabel([{ label: 'later today', count: 1 }, { label: 'back tomorrow', count: 1 }]), 'in Revise, the first back later today');
+  assert.equal(reviseLabel([{ label: 'due now', count: 1 }, { label: 'back tomorrow', count: 1 }]), 'in Revise, the first due now');
+  assert.equal(reviseLabel([{ label: 'back tomorrow', count: 0 }, { label: 'back on Fri', count: 2 }]), 'in Revise, back Fri', 'an empty group is not a group');
+  assert.equal(endNumbers({ revise: 3, reviseText: reviseLabel([{ label: 'back tomorrow', count: 2 }, { label: 'back on Fri', count: 1 }]) })[0].label, 'in Revise, the first back tomorrow');
+});
+
 test('R2 end formula: the progress bar grows from before to now, and is absent when nothing is seen', () => {
   assert.deepEqual(endProgress({ of: 46, seen: 31, before: 15 }), { from: 15 / 46, to: 31 / 46, label: '31 of 46 cards seen' });
   assert.equal(endProgress({ of: 46, seen: 0, before: 0 }), null);

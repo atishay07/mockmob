@@ -33,12 +33,12 @@ import { CardFace } from '../stage/CardFace';
 import { QuestionView, letterOf } from '../stage/Question';
 import { EndKey, EndScreen, KeptFan } from '../stage/EndForm';
 import FreeUsed from '../stage/FreeUsed';
-import { endHeadline, endNumbers, endProgress, reachedPlace, reviseLabel } from '../stage/endModel.mjs';
+import { endHeadline, endNumbers, endProgress, reviseLabel } from '../stage/endModel.mjs';
 import { Sheet, StopSheet } from '../stage/Sheet';
 import { usePager } from '../stage/usePager';
 import { keyAction, scrollerThatCanMove } from '../stage/pagerModel.mjs';
 import { optionTexts, speakable, timeLeft } from '../stage/stageText.mjs';
-import { checkpointText, feedNumbers, stoppedCount, secondsFrom, sheetRows, spliceReinsert, upNextText } from './feedModel.mjs';
+import { checkpointText, continueKey, feedNumbers, itemsDone as countDone, stoppedCount, secondsFrom, sheetRows, spliceReinsert, upNextText } from './feedModel.mjs';
 import './feed.css';
 
 // The first feed's cue (R2 ruling 7): a chip with Mobi's head until the student moves once, by any means. Marked seen only
@@ -87,6 +87,8 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   const [again, setAgain] = useState(false);
   const [hints, setHints] = useState({ nudge: false, leaving: false, desk: false });
   const stopping = useRef(false);
+  // Walk I12: the seconds the feed had left where it stopped (the checkpoint's own figure), for the end's "Continue · N min".
+  const [stopSeconds, setStopSeconds] = useState(null);
   const [stoppedHere, setStoppedHere] = useState(false);
   const [furthest, setFurthest] = useState(() => kept0?.furthest || 0);
   const rootRef = useRef(null);
@@ -119,6 +121,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     const done = Number(r.resumed?.done) || 0;
     sent.current = new Set();
     stopping.current = false;
+    setStopSeconds(null);
     setStoppedHere(false);
     setList(all);
     setStates(all[0]?.type === 'card' ? { [all[0].id]: { seen: true } } : {});
@@ -224,6 +227,10 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     setActive(n);
     setNote((t) => (t && t.startsWith('Picked up') ? null : t));
     const s = n < endAt ? slots[n] : null;
+    if (n >= endAt && active < endAt) {
+      const was = slots[active];
+      setStopSeconds(secondsFrom(items, was?.type === 'item' ? was.n - 1 : was?.type === 'checkpoint' ? was.after : items.length));
+    }
     if (s?.type === 'item') {
       setFurthest((f) => Math.max(f, s.n));
       if (s.item.type === 'card') patch(s.item.id, { seen: true });
@@ -241,7 +248,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
       setTimeout(() => setHints((h) => ({ ...h, nudge: false })), still() ? 0 : 160);
     }
     announce(n);
-  }, [endAt, slots, patch, run, items.length, end.status, end.version, dirty, readEnd, announce, active, hints.nudge, hints.leaving]);
+  }, [endAt, slots, items, patch, run, end.status, end.version, dirty, readEnd, announce, active, hints.nudge, hints.leaving]);
   const stopHere = useCallback(() => { stopping.current = true; setStoppedHere(true); setSheet(null); go(endAt); }, [go, endAt]);
 
   usePager({ rootRef, viewRef, trackRef, index: active, count: endAt + 1, go, enabled: load.status === 'ready' && !onlyEnd && sheet !== 'feed' && sheet !== 'stop' });
@@ -338,9 +345,9 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   const close = useCallback(() => (window.history.length > 1 ? router.back() : router.push(links.explore())), [router, links]);
   // The one stop rule (critic 2 row 9): before any item is done, Close leaves; after at least one, Close and Escape open the
   // "Stop for now?" sheet. The end is past the items, so its own Close leaves.
-  // R5 LK45 fix 2: "N of M done" is the end's own count (the place of the last item the server holds an event for: a card kept, a
-  // question answered). A card only turned over writes nothing, so it is not counted here and not at the end.
-  const itemsDone = reachedPlace(items, (i) => { const st = states[i.id] || {}; return i.type === 'card' ? Boolean(st.kept) : Boolean(st.answer?.res); }, base);
+  // R5 LK45 fix 2: "N of M done" is the end's own count: the place of the last item held (a card kept, a card turned over, a
+  // question answered; walk I4: a turned card is done, a question only skipped is not). One rule in feedModel.itemsDone.
+  const itemsDone = countDone(items, states, base);
   const askClose = useCallback(() => {
     if (mode === 'items' && itemsDone > 0) setSheet('stop');
     else close();
@@ -594,8 +601,10 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     // What a key does, as data: { label, sub, href } for a link, { label, act: 'pro' | 'again' | 'resume', id } for a button.
     const specOf = (o, isMain) => {
       if (!o) return null;
-      const label = o.label || o.title;
       const r = o.run || null;
+      let label = o.label || o.title;
+      // Walk I12: a stopped feed's Continue key says the same minutes as its checkpoint (this feed's own seconds).
+      if (r?.kind === 'feed' && r.resume && !onlyEnd) label = continueKey(label, stopSeconds);
       const sub = isMain && o.kind === 'next' ? o.chapterTitle || null : null;
       if (o.go === 'pro') return { label, act: 'pro' };
       if (o.href) return { label, sub, href: links.resolve(o.href) };

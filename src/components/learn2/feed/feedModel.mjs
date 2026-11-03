@@ -1,7 +1,8 @@
 // The Explore feed's client rules (A1 3.3, 3.8, 3.10; A8 F6, F9, F11, F17, F18): pure, so node --test holds them
 // (feedModel.test.mjs). One definition of every count (B7 G): "Questions" are plain questions; old mistakes have their own
 // line; "seen" counts cards that were on screen, not positions passed.
-import { checkpointLines } from '../stage/endModel.mjs';
+import { checkpointLines, reachedPlace } from '../stage/endModel.mjs';
+import { leftMinutes, timeLeft } from '../stage/stageText.mjs';
 
 const secondsOf = (item) => {
   const own = Number(item?.seconds);
@@ -42,18 +43,35 @@ export function feedNumbers(items, states) {
 export function checkpointText(numbers, { done, of, seconds }) {
   // done is the one count the stopped end and the stop sheet use (stoppedCount); a zero is left out of the line.
   const n = numbers || {};
-  const left = timeLeftOf(seconds);
+  const left = timeLeft(seconds);
   const { big, line } = checkpointLines({ answered: n.answered, right: n.right, seen: n.seen, kept: n.kept }, { done, of, left });
   return { big, status: line, line: null };
 }
 
 /**
- * The one "done" count of a feed: the place of the last card kept or question answered, capped at the feed's length. The checkpoint,
- * the Close stop sheet and the stopped end all print this, so one stop never reads two numbers (a turned card holds nothing).
+ * Whether the feed holds this item as done (walk I4): a card kept OR turned over (it was looked at), a question answered. A question
+ * only skipped is not done. This one rule drives the checkpoint's line, the Close stop sheet and the stopped end.
+ */
+export const feedHeld = (item, st) => (item?.type === 'card' ? Boolean(st?.kept || st?.turned || st?.seenBack) : Boolean(st?.answer?.res));
+
+/** The place of the last held item of the feed, after `base` items done before this page's list (a resumed feed's prefix). */
+export const itemsDone = (items, states, base = 0) => reachedPlace(items, (i) => feedHeld(i, states?.[i.id]), base);
+
+/**
+ * The one "done" count of a feed: the place of the last card kept or turned or question answered, capped at the feed's length. The
+ * checkpoint, the Close stop sheet and the stopped end all print this, so one stop never reads two numbers.
  */
 export const stoppedCount = (of, itemsDone) => Math.max(0, Math.min(Number(of) || 0, Number(itemsDone) || 0));
 
-const timeLeftOf = (seconds) => (seconds > 0 ? (seconds * 1.1 < 60 ? 'Under a minute left' : `About ${Math.max(1, Math.round((seconds * 1.1) / 60))} min left`) : null);
+/**
+ * The stopped end's "Continue · N min" (walk I12): the same figure the checkpoint's "About N min left" gives for the rest of this
+ * feed (its seconds, the 10 percent rule), not the server's own count. Only a "Continue" key is touched; no seconds left keeps the
+ * server's label.
+ */
+export function continueKey(label, seconds) {
+  const m = leftMinutes(seconds);
+  return m && /^Continue\b/.test(String(label || '')) ? `Continue · ${m} min` : label;
+}
 
 /** "Up next: ..." from the next slot (A1 3.3), null when nothing follows. */
 export function upNextText(slot) {

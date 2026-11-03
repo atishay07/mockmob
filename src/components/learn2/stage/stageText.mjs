@@ -110,12 +110,18 @@ export function doneLine({ reached = 0, of = 0, minutes = null } = {}) {
   return `You stopped at ${Math.max(0, reached)} of ${of}.`;
 }
 
-/** "About 6 min left" / "Under a minute left" from seconds (Learn's one minutes rule: the 10 percent, rounded, at least 1). */
+/** The whole minutes left from seconds (Learn's one minutes rule: the 10 percent, rounded, at least 1); null with nothing left. */
+export function leftMinutes(seconds) {
+  const s = Number(seconds) || 0;
+  return s > 0 ? Math.max(1, Math.round((s * 1.1) / 60)) : null;
+}
+
+/** "About 6 min left" / "Under a minute left" from seconds. */
 export function timeLeft(seconds) {
   const s = Number(seconds) || 0;
   if (s <= 0) return null;
   if (s * 1.1 < 60) return 'Under a minute left';
-  return `About ${Math.max(1, Math.round((s * 1.1) / 60))} min left`;
+  return `About ${leftMinutes(s)} min left`;
 }
 
 /** The book line of a chapter: "Ch 4, Accountancy Part 1" (either part may be missing). */
