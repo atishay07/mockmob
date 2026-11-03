@@ -1,5 +1,12 @@
 # NOW: MockMob current state
 
+## 3 Nov 2026, about 9:15 pm IST: all work stopped for the move to a new account; one session from here on
+- His words: stop everything; hand off to a new account where everything happens in a single session, with workflows or
+  subagents for parallel work (no sub-sessions, no forks). Full state and next steps: HANDOFF-2026-11-03-SINGLE-SESSION.md;
+  paste-ready prompt: PROMPT-NEW-ACCOUNT-2026-11-03.md.
+- Live: main f0186302f. Unfinished: Physics formula cards (reviewed, not published), app 1.0.20+18 (branches, 4 new test
+  failures), web prototypes awaiting his look, English rewrite table.
+
 ## 3 Nov 2026, about 3:15 pm IST: STOPPED by the owner; feedback LK55-LK62 recorded; he restarts the PC, then we continue
 - His words verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md ("3 Nov 2026, about 3:15 pm"); ledger LK55-LK62. "Don't start doing anything right now. Just record everything that I said."
 - Live: main f0186302f (Mathematics 548, fonts self-hosted, LK37 run choices). Nothing of the Key cards session is running.
