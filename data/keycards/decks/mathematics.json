@@ -1,6 +1,6 @@
 {
   "subject": "mathematics",
-  "version": 5,
+  "version": 6,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -310,6 +310,38 @@
       "order": 85,
       "tex": {
         "back": "Let $f$ be continuous on $[a, b]$ and differentiable on the open interval $(a, b)$. Then\n(a) $f$ is increasing in $[a, b]$ if $f'(x) \\ge 0$ for each $x \\in (a, b)$\n(b) $f$ is decreasing in $[a, b]$ if $f'(x) \\le 0$ for each $x \\in (a, b)$\n(c) $f$ is a constant function in $[a, b]$ if $f'(x) = 0$ for each $x \\in (a, b)$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.application-of-derivatives.fact-generalised-theorem1",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.application-of-derivatives",
+      "chapter": "Application of Derivatives",
+      "unit": "Calculus",
+      "kind": "fact",
+      "front": "Generalised form of Theorem 1: if f′(x) > 0 (or < 0) in an interval excluding its end points and f is continuous in it, what follows?",
+      "back": "There is a more generalised theorem, which states that if f¢(x) > 0 for x in an interval excluding the end points and f is continuous in the interval, then f is increasing. Similarly, if f¢(x) < 0 for x in an interval excluding the end points and f is continuous in the interval, then f is decreasing.",
+      "quote": "There is a more generalised theorem, which states that if f¢(x) > 0 for x in an interval excluding the end points and f is continuous in the interval, then f is increasing. Similarly, if f¢(x) < 0 for x in an interval excluding the end points and f is continuous in the interval, then f is decreasing.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part I",
+        "code": "lemh106",
+        "chapterNo": 6,
+        "page": 154,
+        "section": "Increasing and Decreasing Functions"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "first-derivative",
+        "increasing"
+      ],
+      "order": 105,
+      "tex": {
+        "back": "There is a more generalised theorem, which states that if $f'(x) > 0$ for $x$ in an interval excluding the end points and $f$ is continuous in the interval, then $f$ is increasing. Similarly, if $f'(x) < 0$ for $x$ in an interval excluding the end points and $f$ is continuous in the interval, then $f$ is decreasing."
       },
       "addedIn": "tex-1102"
     },
@@ -1371,6 +1403,38 @@
       "order": 90
     },
     {
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.application-of-integrals",
+      "chapter": "Application of Integrals",
+      "unit": "Calculus",
+      "blanks": [],
+      "asked": 0,
+      "id": "kc.mathematics.application-of-integrals.formula-area-above-and-below",
+      "kind": "formula",
+      "front": "Formula: area A between y = f(x), the x-axis, x = a and x = b when A₁ < 0 is the part below the x-axis and A₂ > 0 the part above",
+      "back": "Here, A1 < 0 and A2 > 0. Therefore, the area A bounded by the curve y = f (x), x-axis and the ordinates x = a and x = b is given by\nA = | A1| + A2.",
+      "quote": "Here, A1 < 0 and A2 > 0. Therefore, the area A bounded by the curve y = f (x), x-axis and the ordinates x = a and x = b is given by A = | A1| + A2.",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh202",
+        "chapterNo": 8,
+        "page": 293,
+        "section": "8.2 Area under Simple Curves"
+      },
+      "importance": "must",
+      "tags": [
+        "negative-area",
+        "area-under-curve"
+      ],
+      "order": 97,
+      "tex": {
+        "back": "Here, $A_1 < 0$ and $A_2 > 0$. Therefore, the area $A$ bounded by the curve $y = f(x)$, $x$-axis and the ordinates $x = a$ and $x = b$ is given by\n$$A = |A_1| + A_2.$$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
       "id": "kc.mathematics.application-of-integrals.fact-circle-symmetry",
       "v": 1,
       "subject": "mathematics",
@@ -2109,6 +2173,40 @@
       "order": 200
     },
     {
+      "id": "kc.mathematics.continuity-and-differentiability.fact-converse-not-true",
+      "v": 3,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.continuity-and-differentiability",
+      "chapter": "Continuity & Differentiability",
+      "unit": "Calculus",
+      "kind": "formula",
+      "front": "Is every continuous function differentiable? Give NCERT's example f(x) = |x| at 0, with its one-sided limits.",
+      "back": "We remark that the converse of the above statement is not true. Indeed we have seen that the function defined by f (x) = | x | is a continuous function. Consider the left hand limit\nlim f (0 + h) − f (0) = −h = −1 h→0– h h\nThe right hand limit\nlim f (0 + h) − f (0) = h = 1 h→0+ h h\nf (0 + h) − f (0) Since the above left and right hand limits at 0 are not equal, lim h→0 h does not exist and hence f is not differentiable at 0.",
+      "quote": "We remark that the converse of the above statement is not true. Indeed we have seen that the function defined by f (x) = | x | is a continuous function. Consider the left hand limit lim f (0 + h) − f (0) = −h = −1 h→0– h h The right hand limit lim f (0 + h) − f (0) = h = 1 h→0+ h h f (0 + h) − f (0) Since the above left and right hand limits at 0 are not equal, lim h→0 h does not exist and hence f is not differentiable at 0.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part I",
+        "code": "lemh105",
+        "chapterNo": 5,
+        "page": 120,
+        "section": "Differentiability"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "differentiability",
+        "continuity",
+        "modulus"
+      ],
+      "order": 220,
+      "note": "The modulus function is continuous at 0 but not differentiable there.",
+      "tex": {
+        "back": "We remark that the converse of the above statement is not true. Indeed we have seen that the function defined by $f(x) = |x|$ is a continuous function. Consider the left hand limit\n$$\\lim_{h \\to 0^-} \\frac{f(0+h) - f(0)}{h} = \\frac{-h}{h} = -1$$\nThe right hand limit\n$$\\lim_{h \\to 0^+} \\frac{f(0+h) - f(0)}{h} = \\frac{h}{h} = 1$$\nSince the above left and right hand limits at $0$ are not equal, $\\lim_{h \\to 0} \\frac{f(0+h) - f(0)}{h}$ does not exist and hence $f$ is not differentiable at $0$."
+      },
+      "addedIn": "tex-1102"
+    },
+    {
       "id": "kc.mathematics.continuity-and-differentiability.term-chain-rule-summary",
       "v": 1,
       "subject": "mathematics",
@@ -2691,6 +2789,37 @@
       "addedIn": "tex-1102"
     },
     {
+      "id": "kc.mathematics.continuity-and-differentiability.list-log-observations",
+      "v": 3,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.continuity-and-differentiability",
+      "chapter": "Continuity & Differentiability",
+      "unit": "Calculus",
+      "kind": "list",
+      "front": "State NCERT's first five observations about the log function: domain, range, a graph point, growth, and behaviour near zero.",
+      "back": "We cannot make a meaningful definition of logarithm of non-positive numbers and hence the domain of log function is R+.\nThe range of log function is the set of all real numbers.\nThe point (1, 0) is always on the graph of the log function.\nThe log function is ever increasing, i.e., as we move from left to right the graph rises above.\nFor x very near to zero, the value of log x can be made lesser than any given real number. In other words in the fourth quadrant the graph approaches y-axis (but never meets it).",
+      "quote": "(1) We cannot make a meaningful definition of logarithm of non-positive numbers and hence the domain of log function is R+. (2) The range of log function is the set of all real numbers. (3) The point (1, 0) is always on the graph of the log function. (4) The log function is ever increasing, i.e., as we move from left to right the graph rises above. (5) For x very near to zero, the value of log x can be made lesser than any given real number. In other words in the fourth quadrant the graph approaches y-axis (but never meets it).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part I",
+        "code": "lemh105",
+        "chapterNo": 5,
+        "page": 128,
+        "section": "Exponential and Logarithmic Functions"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "logarithm"
+      ],
+      "order": 400,
+      "tex": {
+        "back": "We cannot make a meaningful definition of logarithm of non-positive numbers and hence the domain of log function is $\\mathbf{R}^+$.\nThe range of log function is the set of all real numbers.\nThe point $(1, 0)$ is always on the graph of the log function.\nThe log function is ever increasing, i.e., as we move from left to right the graph rises above.\nFor $x$ very near to zero, the value of $\\log x$ can be made lesser than any given real number. In other words in the fourth quadrant the graph approaches $y$-axis (but never meets it)."
+      },
+      "addedIn": "tex-1102"
+    },
+    {
       "id": "kc.mathematics.continuity-and-differentiability.fact-exp-log-mirror",
       "v": 1,
       "subject": "mathematics",
@@ -2717,6 +2846,38 @@
         "logarithm"
       ],
       "order": 420
+    },
+    {
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.continuity-and-differentiability",
+      "chapter": "Continuity & Differentiability",
+      "unit": "Calculus",
+      "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.continuity-and-differentiability.formula-log-change-of-base",
+      "kind": "formula",
+      "front": "Formula: the change of base rule, log_a p in terms of log_b p",
+      "back": "There is a standard change of base rule to obtain loga p in terms of logb p. Let loga p = α, logb p = β and logb a = γ. This means a α = p, b β = p and b γ = a.\nSubstituting the third equation in the first one, we have\n(b γ ) α = b γα = p\nUsing this in the second equation, we get\nb β = p = b γα\nwhich implies β = αγ or α = β γ . But then\nloga p = log log b b p a",
+      "quote": "There is a standard change of base rule to obtain loga p in terms of logb p. Let loga p = α, logb p = β and logb a = γ. This means a α = p, b β = p and b γ = a. Substituting the third equation in the first one, we have (b γ ) α = b γα = p Using this in the second equation, we get b β = p = b γα which implies β = αγ or α = β γ . But then loga p = log log b b p a",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part I",
+        "code": "lemh105",
+        "chapterNo": 5,
+        "page": 128,
+        "section": "Exponential and Logarithmic Functions"
+      },
+      "importance": "good",
+      "tags": [
+        "logarithm",
+        "properties"
+      ],
+      "order": 422,
+      "tex": {
+        "back": "There is a standard change of base rule to obtain $\\log_a p$ in terms of $\\log_b p$. Let $\\log_a p = \\alpha$, $\\log_b p = \\beta$ and $\\log_b a = \\gamma$. This means $a^{\\alpha} = p$, $b^{\\beta} = p$ and $b^{\\gamma} = a$.\nSubstituting the third equation in the first one, we have\n$$(b^{\\gamma})^{\\alpha} = b^{\\gamma\\alpha} = p$$\nUsing this in the second equation, we get\n$$b^{\\beta} = p = b^{\\gamma\\alpha}$$\nwhich implies $\\beta = \\alpha\\gamma$ or $\\alpha = \\frac{\\beta}{\\gamma}$. But then\n$$\\log_a p = \\frac{\\log_b p}{\\log_b a}$$"
+      }
     },
     {
       "v": 1,
@@ -3004,6 +3165,38 @@
       "addedIn": "tex-1102"
     },
     {
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.continuity-and-differentiability",
+      "chapter": "Continuity & Differentiability",
+      "unit": "Calculus",
+      "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.continuity-and-differentiability.formula-derivative-of-a-to-x",
+      "kind": "formula",
+      "front": "Formula: the derivative of aˣ with respect to x, where a is a positive constant",
+      "back": "Differentiate ax w.r.t. x, where a is a positive constant.\nSolution Let y = ax. Then\nlog y = x log a\nDifferentiating both sides w.r.t. x, we have\n1 dy y dx = log a\nor\ndy dx = y log a\nThus\nd (ax ) = ax log a dx",
+      "quote": "Example 28 Differentiate ax w.r.t. x, where a is a positive constant. Solution Let y = ax. Then log y = x log a Differentiating both sides w.r.t. x, we have 1 dy y dx = log a or Thus Alternatively dy dx = y log a d (ax ) = ax log a dx",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part I",
+        "code": "lemh105",
+        "chapterNo": 5,
+        "page": 131,
+        "section": "Logarithmic Differentiation"
+      },
+      "importance": "good",
+      "tags": [
+        "derivative",
+        "exponential"
+      ],
+      "order": 442,
+      "tex": {
+        "back": "Differentiate $a^x$ w.r.t. $x$, where $a$ is a positive constant.\nSolution Let $y = a^x$. Then\n$$\\log y = x \\log a$$\nDifferentiating both sides w.r.t. $x$, we have\n$$\\frac{1}{y} \\frac{dy}{dx} = \\log a$$\nor\n$$\\frac{dy}{dx} = y \\log a$$\nThus\n$$\\frac{d}{dx}(a^x) = a^x \\log a$$"
+      }
+    },
+    {
       "id": "kc.mathematics.continuity-and-differentiability.def-parametric-link",
       "v": 1,
       "subject": "mathematics",
@@ -3083,6 +3276,38 @@
         "parametric"
       ],
       "order": 470
+    },
+    {
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.continuity-and-differentiability",
+      "chapter": "Continuity & Differentiability",
+      "unit": "Calculus",
+      "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.continuity-and-differentiability.formula-second-order-derivative",
+      "kind": "formula",
+      "front": "Formula: the second order derivative d²y/dx² of y = f(x), and its other notations",
+      "back": "Let y = f(x). Then\ndy dx = f ′(x) ... (1)\nIf f ′(x) is differentiable, we may differentiate (1) again w.r.t. x. Then, the left hand side becomes d dy dx dx which is called the second order derivative of y w.r.t. x and is denoted by 2 2 d y dx .\nThe second order derivative of f(x) is denoted by f ″(x). It is also denoted by D2 y or y″ or y 2 if y = f(x).",
+      "quote": "Let y = f(x). Then dy dx = f ′(x) ... (1) If f ′(x) is differentiable, we may differentiate (1) again w.r.t. x. Then, the left hand side becomes d dy dx dx which is called the second order derivative of y w.r.t. x and is denoted by 2 2 d y dx . The second order derivative of f(x) is denoted by f ″(x). It is also denoted by D2 y or y″ or y 2 if y = f(x).",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part I",
+        "code": "lemh105",
+        "chapterNo": 5,
+        "page": 137,
+        "section": "Second Order Derivative"
+      },
+      "importance": "must",
+      "tags": [
+        "second-derivative",
+        "notation"
+      ],
+      "order": 477,
+      "tex": {
+        "back": "Let $y = f(x)$. Then\n$$\\frac{dy}{dx} = f'(x) \\quad \\ldots (1)$$\nIf $f'(x)$ is differentiable, we may differentiate (1) again w.r.t. $x$. Then, the left hand side becomes $\\frac{d}{dx}\\left(\\frac{dy}{dx}\\right)$ which is called the second order derivative of $y$ w.r.t. $x$ and is denoted by $\\frac{d^2 y}{dx^2}$.\nThe second order derivative of $f(x)$ is denoted by $f''(x)$. It is also denoted by $\\mathrm{D}^2 y$ or $y''$ or $y_2$ if $y = f(x)$."
+      }
     },
     {
       "id": "kc.mathematics.continuity-and-differentiability.fact-algebra-continuous",
@@ -5216,6 +5441,38 @@
       "addedIn": "tex-1102"
     },
     {
+      "id": "kc.mathematics.differential-equations.formula-homogeneous-dx-dy-substitution",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.differential-equations",
+      "chapter": "Differential Equations",
+      "unit": "Calculus",
+      "kind": "formula",
+      "front": "Formula: the substitution for a homogeneous equation in the form dx/dy = F(x, y)",
+      "back": "If the homogeneous differential equation is in the form\ndx = F(x, y) dy\nwhere, F (x, y) is homogenous function of degree zero, then we make substitution x = v i.e., x = vy and we proceed further to find the general solution as discussed y\nabove by writing dx dy = F(x, y) = h x y .",
+      "quote": "If the homogeneous differential equation is in the form dx = F(x, y) dy where, F (x, y) is homogenous function of degree zero, then we make substitution x = v i.e., x = vy and we proceed further to find the general solution as discussed y above by writing dx dy = F(x, y) = h x y .",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics",
+        "code": "lemh203",
+        "chapterNo": 9,
+        "page": 314,
+        "section": "Homogeneous differential equations"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "homogeneous",
+        "substitution"
+      ],
+      "order": 229,
+      "tex": {
+        "back": "If the homogeneous differential equation is in the form\n$$\\frac{dx}{dy} = F(x, y)$$\nwhere, $F(x, y)$ is homogenous function of degree zero, then we make substitution $\\frac{x}{y} = v$ i.e., $x = vy$ and we proceed further to find the general solution as discussed\nabove by writing $\\frac{dx}{dy} = F(x, y) = h\\left(\\frac{x}{y}\\right).$"
+      },
+      "addedIn": "tex-1102"
+    },
+    {
       "id": "kc.mathematics.differential-equations.fact-homogeneous-degree-zero",
       "v": 1,
       "subject": "mathematics",
@@ -5270,6 +5527,37 @@
       "order": 241,
       "tex": {
         "back": "A differential equation of the from\n$$\\frac{dy}{dx} + Py = Q$$\nwhere, $P$ and $Q$ are constants or functions of $x$ only, is known as a first order linear differential equation."
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.differential-equations.formula-linear-other-form-in-y",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.differential-equations",
+      "chapter": "Differential Equations",
+      "unit": "Calculus",
+      "kind": "formula",
+      "front": "Formula: first order linear differential equation with x as the dependent variable and P1, Q1 constants or functions of y only",
+      "back": "dx dy + P1x = Q1\nwhere, P1 and Q1 are constants or functions of y only.",
+      "quote": "Another form of first order linear differential equation is dx dy + P1x = Q1 where, P1 and Q1 are constants or functions of y only.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics",
+        "code": "lemh203",
+        "chapterNo": 9,
+        "page": 322,
+        "section": "Linear differential equations"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "linear"
+      ],
+      "order": 251,
+      "tex": {
+        "back": "$$\\frac{dx}{dy} + P_1 x = Q_1$$\nwhere, $P_1$ and $Q_1$ are constants or functions of $y$ only."
       },
       "addedIn": "tex-1102"
     },
@@ -5362,6 +5650,38 @@
       "order": 262,
       "tex": {
         "back": "$$y = e^{-\\int P\\,dx} \\cdot \\int \\left( Q \\cdot e^{\\int P\\,dx} \\right) dx + C$$\nwhich is the general solution of the differential equation."
+      },
+      "addedIn": "tex-1102"
+    },
+    {
+      "id": "kc.mathematics.differential-equations.formula-linear-in-y-solution",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.differential-equations",
+      "chapter": "Differential Equations",
+      "unit": "Calculus",
+      "kind": "formula",
+      "front": "Formula: the solution of dx/dy + P1 x = Q1 in terms of its integrating factor I.F",
+      "back": "x . (I.F) = ∫ (Q1 × I.F) dy + C",
+      "quote": "the solution of the differential equation is given by x . (I.F) = ∫ (Q1 × I.F) dy + C",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics",
+        "code": "lemh203",
+        "chapterNo": 9,
+        "page": 324,
+        "section": "Linear differential equations"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "linear",
+        "integrating factor"
+      ],
+      "order": 263,
+      "tex": {
+        "back": "$$x \\cdot (\\text{I.F}) = \\int (Q_1 \\times \\text{I.F})\\,dy + C$$"
       },
       "addedIn": "tex-1102"
     },
@@ -6787,6 +7107,102 @@
       "order": 340
     },
     {
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.integrals.formula-pf-two-linear-factors",
+      "kind": "formula",
+      "front": "Formula: partial fractions of (px + q)/((x − a)(x − b)) and of (px + q)/(x − a)²",
+      "back": "( ) ( ) px q x a x b + − − = A B x a x b + − − , a ≠ b\n2 ( ) px q x a + − = 2 A B x a ( ) x a + − −",
+      "quote": "1. ( ) ( ) px q x a x b + − − = A B x a x b + − − , a ≠ b 2. 2 ( ) px q x a + − = 2 A B x a ( ) x a + − −",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 288,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "tags": [
+        "partial-fractions",
+        "table-7-2"
+      ],
+      "order": 345.1,
+      "tex": {
+        "back": "$$\\dfrac{px + q}{(x - a)(x - b)} = \\dfrac{A}{x - a} + \\dfrac{B}{x - b}, \\; a \\neq b$$\n$$\\dfrac{px + q}{(x - a)^2} = \\dfrac{A}{x - a} + \\dfrac{B}{(x - a)^2}$$"
+      }
+    },
+    {
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.integrals.formula-pf-three-factors",
+      "kind": "formula",
+      "front": "Formula: partial fractions of (px² + qx + r)/((x − a)(x − b)(x − c)) and of (px² + qx + r)/((x − a)²(x − b))",
+      "back": "2 ( ) ( ) ( ) px qx r x a x b x c + + − − − = A B C x a x b x c + + − − −\n2 2 ( ) ( ) px qx r x a x b + + − − = 2 A B C x a ( ) x a x b + + − − −",
+      "quote": "3. 2 ( ) ( ) ( ) px qx r x a x b x c + + − − − = A B C x a x b x c + + − − − 4. 2 2 ( ) ( ) px qx r x a x b + + − − = 2 A B C x a ( ) x a x b + + − − −",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 289,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "tags": [
+        "partial-fractions",
+        "table-7-2"
+      ],
+      "order": 345.2,
+      "tex": {
+        "back": "$$\\dfrac{px^2 + qx + r}{(x - a)(x - b)(x - c)} = \\dfrac{A}{x - a} + \\dfrac{B}{x - b} + \\dfrac{C}{x - c}$$\n$$\\dfrac{px^2 + qx + r}{(x - a)^2 (x - b)} = \\dfrac{A}{x - a} + \\dfrac{B}{(x - a)^2} + \\dfrac{C}{x - b}$$"
+      }
+    },
+    {
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.integrals.formula-pf-quadratic-factor",
+      "kind": "formula",
+      "front": "Formula: partial fractions of (px² + qx + r)/((x − a)(x² + bx + c)) when x² + bx + c cannot be factorised",
+      "back": "2 2 ( ) ( ) px qx r x a x bx c + + − + + = 2 A B + C x x a x bx c + − + +\nwhere x 2 + bx + c can not be factorised further.",
+      "quote": "5. 2 2 ( ) ( ) px qx r x a x bx c + + − + + = 2 A B + C x x a x bx c + − + + where x 2 + bx + c can not be factorised further.",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 289,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "tags": [
+        "partial-fractions",
+        "table-7-2"
+      ],
+      "order": 345.3,
+      "tex": {
+        "back": "$$\\dfrac{px^2 + qx + r}{(x - a)(x^2 + bx + c)} = \\dfrac{A}{x - a} + \\dfrac{Bx + C}{x^2 + bx + c}$$\nwhere $x^2 + bx + c$ can not be factorised further."
+      }
+    },
+    {
       "id": "kc.mathematics.integrals.kl-identity",
       "v": 1,
       "subject": "mathematics",
@@ -7642,6 +8058,38 @@
       "order": 575.4,
       "tex": {
         "back": "$$\\int_0^{2a} f(x)\\,dx = \\int_0^a f(x)\\,dx + \\int_0^a f(2a - x)\\,dx$$"
+      }
+    },
+    {
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Calculus",
+      "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.integrals.formula-prop-p6-double-interval-cases",
+      "kind": "formula",
+      "front": "Formula: ∫ from 0 to 2a of f(x) dx when f(2a − x) = f(x) and when f(2a − x) = −f(x)",
+      "back": "2 0 0 ( ) 2 ( ) , if (2 ) ( ) a a f x dx f x dx f a x f x = − = ∫ ∫ and\n0 if f (2a – x) = – f (x)",
+      "quote": "2 0 0 ( ) 2 ( ) , if (2 ) ( ) a a f x dx f x dx f a x f x = − = ∫ ∫ and 0 if f (2a – x) = – f (x)",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 274,
+        "section": "7.10 Some Properties of Definite Integrals"
+      },
+      "importance": "good",
+      "tags": [
+        "definite-integral",
+        "properties"
+      ],
+      "order": 575.5,
+      "tex": {
+        "back": "$$\\int_0^{2a} f(x)\\,dx = 2\\int_0^a f(x)\\,dx, \\text{ if } f(2a - x) = f(x) \\text{ and}$$\n$$0 \\text{ if } f(2a - x) = -f(x)$$"
       }
     },
     {
@@ -9817,6 +10265,38 @@
       }
     },
     {
+      "id": "kc.mathematics.matrices.formula-matrix-difference",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.matrices",
+      "chapter": "Matrices",
+      "unit": "Algebra",
+      "kind": "formula",
+      "front": "Formula: how is the difference A – B of two matrices of the same order defined?",
+      "back": "If A = [aij], B = [bij] are two matrices of the same order, say m × n, then difference A – B is defined as a matrix D = [dij], where\ndij = aij – bij, for all value of i and j.\nIn other words, D = A – B = A + (–1) B, that is sum of the matrix A and the matrix – B.",
+      "quote": "If A = [aij], B = [bij] are two matrices of the same order, say m × n, then difference A – B is defined as a matrix D = [dij], where dij = aij – bij, for all value of i and j. In other words, D = A – B = A + (–1) B, that is sum of the matrix A and the matrix – B.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh103",
+        "chapterNo": 3,
+        "page": 46,
+        "section": "Multiplication of a matrix by a scalar"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "matrices",
+        "subtraction"
+      ],
+      "order": 248,
+      "addedIn": "tex-1102",
+      "tex": {
+        "back": "If $A = [a_{ij}]$, $B = [b_{ij}]$ are two matrices of the same order, say $m \\times n$, then difference $A - B$ is defined as a matrix $D = [d_{ij}]$, where\n$$d_{ij} = a_{ij} - b_{ij}, \\quad \\text{for all value of } i \\text{ and } j$$\nIn other words, $D = A - B = A + (-1)B$, that is sum of the matrix $A$ and the matrix $-B$."
+      }
+    },
+    {
       "id": "kc.mathematics.matrices.list-add-properties",
       "v": 3,
       "subject": "mathematics",
@@ -10730,6 +11210,38 @@
       ],
       "order": 480,
       "note": "A square matrix that has an inverse is called invertible."
+    },
+    {
+      "id": "kc.mathematics.matrices.fact-inverse-notation",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.matrices",
+      "chapter": "Matrices",
+      "unit": "Algebra",
+      "kind": "fact",
+      "front": "How is the inverse of a square matrix A denoted, and what is A called when its inverse exists?",
+      "back": "If A is a square matrix of order m, and if there exists another square matrix B of the same order m, such that AB = BA = I, then B is called the inverse matrix of A and it is denoted by A– 1. In that case A is said to be invertible.",
+      "quote": "If A is a square matrix of order m, and if there exists another square matrix B of the same order m, such that AB = BA = I, then B is called the inverse matrix of A and it is denoted by A– 1. In that case A is said to be invertible.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh103",
+        "chapterNo": 3,
+        "page": 68,
+        "section": "Invertible Matrices"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "matrices",
+        "inverse"
+      ],
+      "order": 485,
+      "addedIn": "tex-1102",
+      "tex": {
+        "back": "If $A$ is a square matrix of order $m$, and if there exists another square matrix $B$ of the same order $m$, such that $AB = BA = I$, then $B$ is called the inverse matrix of $A$ and it is denoted by $A^{-1}$. In that case $A$ is said to be invertible."
+      }
     },
     {
       "id": "kc.mathematics.matrices.fact-inverse-rect",
@@ -13065,6 +13577,38 @@
         "direction ratios"
       ],
       "order": 90
+    },
+    {
+      "id": "kc.mathematics.three-dimensional-geometry.formula-dc-from-dr",
+      "v": 2,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.three-dimensional-geometry",
+      "chapter": "Three Dimensional Geometry",
+      "unit": "Vectors and Three-Dimensional Geometry",
+      "kind": "formula",
+      "front": "Formula: direction cosines l, m, n of a line whose direction ratios are a, b, c",
+      "back": "l=± a ,m= ± b ,n= ± c a2 +b2 + c2 a2 +b2 + c2 a2 +b2 + c2",
+      "quote": "Hence, from (1), the d.c.’s of the line are l=± a ,m= ± b ,n= ± c a2 +b2 + c2 a2 +b2 + c2 a2 +b2 + c2 where, depending on the desired sign of k, either a positive or a negative sign is to be taken for l, m and n.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh205",
+        "chapterNo": 11,
+        "page": 379,
+        "section": "Direction Cosines and Direction Ratios of a Line"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "direction cosines",
+        "direction ratios"
+      ],
+      "order": 108,
+      "tex": {
+        "back": "$$l = \\pm\\frac{a}{\\sqrt{a^2 + b^2 + c^2}}, \\quad m = \\pm\\frac{b}{\\sqrt{a^2 + b^2 + c^2}}, \\quad n = \\pm\\frac{c}{\\sqrt{a^2 + b^2 + c^2}}$$"
+      },
+      "addedIn": "tex-1102"
     },
     {
       "id": "kc.mathematics.three-dimensional-geometry.fact-dr-sets-proportional",

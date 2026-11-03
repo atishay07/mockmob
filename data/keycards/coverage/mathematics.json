@@ -2,11 +2,11 @@
   "subject": "mathematics",
   "chapters": {
     "mathematics.application-of-derivatives": {
-      "published": 37,
-      "quarantined": 14,
+      "published": 38,
+      "quarantined": 13,
       "byKind": {
         "formula": 2,
-        "fact": 14,
+        "fact": 15,
         "definition": 16,
         "list": 3,
         "key_line": 1,
@@ -14,45 +14,45 @@
       },
       "byImportance": {
         "must": 13,
-        "good": 24
+        "good": 25
       },
       "coverage_note": null,
-      "mustShare": 0.35,
+      "mustShare": 0.34,
       "belowMinimum": false
     },
     "mathematics.application-of-integrals": {
-      "published": 11,
-      "quarantined": 10,
+      "published": 12,
+      "quarantined": 9,
       "byKind": {
         "fact": 7,
         "definition": 1,
-        "formula": 3
+        "formula": 4
       },
       "byImportance": {
-        "must": 6,
+        "must": 7,
         "good": 5
       },
       "coverage_note": "Short NCERT chapter since the 2023 rationalisation (8 pages: area under simple curves, the circle and the ellipse); every result it states has a card or was held by review.",
-      "mustShare": 0.55,
+      "mustShare": 0.58,
       "belowMinimum": false
     },
     "mathematics.continuity-and-differentiability": {
-      "published": 57,
-      "quarantined": 19,
+      "published": 62,
+      "quarantined": 14,
       "byKind": {
         "definition": 11,
-        "formula": 18,
+        "formula": 22,
         "fact": 19,
-        "list": 2,
+        "list": 3,
         "term": 3,
         "key_line": 4
       },
       "byImportance": {
-        "must": 20,
-        "good": 37
+        "must": 23,
+        "good": 39
       },
       "coverage_note": null,
-      "mustShare": 0.35,
+      "mustShare": 0.37,
       "belowMinimum": false
     },
     "mathematics.determinants": {
@@ -75,32 +75,32 @@
       "belowMinimum": false
     },
     "mathematics.differential-equations": {
-      "published": 30,
-      "quarantined": 24,
+      "published": 33,
+      "quarantined": 21,
       "byKind": {
         "definition": 9,
         "key_line": 6,
         "fact": 4,
-        "formula": 11
+        "formula": 14
       },
       "byImportance": {
-        "must": 12,
-        "good": 18
+        "must": 13,
+        "good": 20
       },
       "coverage_note": null,
-      "mustShare": 0.4,
+      "mustShare": 0.39,
       "belowMinimum": false
     },
     "mathematics.integrals": {
-      "published": 82,
-      "quarantined": 19,
+      "published": 86,
+      "quarantined": 15,
       "byKind": {
         "definition": 9,
         "types": 2,
         "list": 2,
         "key_line": 12,
         "fact": 14,
-        "formula": 38,
+        "formula": 42,
         "term": 2,
         "example": 1,
         "steps": 1,
@@ -108,10 +108,10 @@
       },
       "byImportance": {
         "must": 30,
-        "good": 52
+        "good": 56
       },
       "coverage_note": null,
-      "mustShare": 0.37,
+      "mustShare": 0.35,
       "belowMinimum": false
     },
     "mathematics.inverse-trigonometric-functions": {
@@ -149,21 +149,21 @@
       "belowMinimum": false
     },
     "mathematics.matrices": {
-      "published": 58,
-      "quarantined": 16,
+      "published": 60,
+      "quarantined": 14,
       "byKind": {
         "definition": 16,
-        "fact": 21,
-        "formula": 13,
+        "fact": 22,
+        "formula": 14,
         "list": 5,
         "key_line": 3
       },
       "byImportance": {
         "must": 24,
-        "good": 34
+        "good": 36
       },
       "coverage_note": null,
-      "mustShare": 0.41,
+      "mustShare": 0.4,
       "belowMinimum": false
     },
     "mathematics.probability": {
@@ -221,11 +221,11 @@
       "belowMinimum": false
     },
     "mathematics.three-dimensional-geometry": {
-      "published": 41,
-      "quarantined": 6,
+      "published": 42,
+      "quarantined": 5,
       "byKind": {
         "definition": 6,
-        "formula": 16,
+        "formula": 17,
         "key_line": 4,
         "fact": 12,
         "steps": 1,
@@ -233,16 +233,16 @@
         "term": 1
       },
       "byImportance": {
-        "must": 14,
+        "must": 15,
         "good": 27
       },
       "coverage_note": null,
-      "mustShare": 0.34,
+      "mustShare": 0.36,
       "belowMinimum": false
     },
     "mathematics.vector-algebra": {
       "published": 56,
-      "quarantined": 16,
+      "quarantined": 15,
       "byKind": {
         "definition": 13,
         "list": 2,

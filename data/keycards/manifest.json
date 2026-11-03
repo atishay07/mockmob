@@ -45,9 +45,9 @@
     "cards": 1587
   },
   "mathematics": {
-    "version": 5,
-    "sha256": "4e5bc93e2afd5fb01d3980f6444e079622945ca45e4dab6762826b8d8b2bc8da",
-    "cards": 531
+    "version": 6,
+    "sha256": "d6332175c7bb116f1e74fdcbb3c7156dfd748f34f4228e394fecddb33fe429a1",
+    "cards": 548
   },
   "physics": {
     "version": 3,
