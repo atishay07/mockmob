@@ -1,4 +1,4 @@
-## 4 Nov 2026, about 1:30 am IST: Learn and Explore refinements to production (owner LK39, LK41-LK43, LK48, LK56-LK62; his 3 Nov ~11:55 pm "deploy the final changes to the website")
+## 4 Nov 2026, about 1 am IST: Learn and Explore refinements to production (owner LK39, LK41-LK43, LK48, LK56-LK62; his 3 Nov ~11:55 pm "deploy the final changes to the website")
 
 **What shipped (branch web/1104-english = web/1103-proto + cards + icons + webfull + R8 cards + the English pass):**
 - **Key cards look like cards (LK39, LK43, LK58):** warm paper (Day) and neutral charcoal (Night), a header band in the card's family colour with its kind word, faint ruled lines on the back that the NCERT words sit on, the source as a footer; Night has one quiet hairline and no light rim. The run card sits on a two-card stack; the feed's peek is the next card's band. Meaning family is now a calm green (lime is the primary key's alone). Bigger stage and type on a computer from 1360 px (LK41).
