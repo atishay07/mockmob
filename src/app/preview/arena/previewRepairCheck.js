@@ -12,6 +12,8 @@
 //   absent           no `check` field at all (an older server): nothing renders
 // The questions are original and illustrative, never bank rows. The shapes follow
 // data/tests/fixtures/repair4/contract_check_v1.json.
+import { markRetry } from '../../../../data/repair_retry.mjs';
+
 const CHECK_HREF = '/api/recovery/check?attemptId=fixture-attempt&questionId=fixture-q2';
 const CHECK_ASK = '/mentor?tab=ask&q=fixture-attempt:fixture-q2';
 const CHECK_RULE = 'Illustrative: sacrifice = old share − new share, for each partner.';
@@ -91,6 +93,19 @@ export function fixtureCheckPost(kind = 'ready', body = {}, memory = freshCheckM
   if (!Number.isInteger(body.pick) || body.pick < 0 || body.pick > 3) return { http: 422, delay: 0, body: { ok: false, error: 'invalid_pick', message: 'Pick one of the four options.' } };
   if (memory.answer) return { http: 200, delay: 0, body: { ok: true, status: 'answered', replayed: true, charged: 0, result: stored(memory.answer.index, memory.answer.pick, kind) } };
   return { http: 200, delay: 700, body: { ok: true, status: 'answered', replayed: false, charged: 0, result: stored(index, body.pick, kind) }, remember: { answer: { index, pick: body.pick } } };
+}
+
+/**
+ * POST /api/recovery/retry for the paper the preview served last: marks one try against that paper's own key, like the server does
+ * (data/repair_retry.mjs markRetry). Without a remembered paper it uses the fixture repair's own key (C) and the pick it assumes (A).
+ */
+export function fixtureRetryMark(paper, questionId, pick) {
+  const q = (paper?.questionsSnapshot || []).find((x) => x.id === questionId);
+  const d = (paper?.details || []).find((x) => x.qid === questionId);
+  return markRetry({
+    pick, keyIndex: Number.isInteger(q?.correctIndex) ? q.correctIndex : 2, chosenIndex: Number.isInteger(d?.givenIndex) ? d.givenIndex : 0,
+    optionCount: Array.isArray(q?.options) ? q.options.length : 4,
+  });
 }
 
 /** GET /api/recovery/ask-context: the short preview the Ask screen shows for the question handed over. */
