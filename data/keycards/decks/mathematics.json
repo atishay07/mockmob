@@ -1,6 +1,6 @@
 {
   "subject": "mathematics",
-  "version": 6,
+  "version": 7,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -11390,7 +11390,7 @@
     },
     {
       "id": "kc.mathematics.probability.formula-conditional-probability-counts",
-      "v": 1,
+      "v": 2,
       "subject": "mathematics",
       "chapterKey": "mathematics.probability",
       "chapter": "Probability",
@@ -11415,7 +11415,7 @@
       ],
       "order": 42,
       "tex": {
-        "back": "$$P(E|F) = \\frac{\\text{Number of elementary events favourable to } E \\cap F}{\\text{Number of elementary events which are favourable to } F} = \\frac{n(E \\cap F)}{n(F)}$$"
+        "back": "$P(E|F) =$ (Number of elementary events favourable to $E \\cap F$)/(Number of elementary events which are favourable to $F$) $= \\dfrac{n(E \\cap F)}{n(F)}$"
       },
       "addedIn": "tex-1102"
     },
