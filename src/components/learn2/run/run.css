@@ -594,3 +594,69 @@ html[data-motion='reduced'] .lr .lr-face { transition: opacity 120ms linear !imp
   .lr-card[data-size='m'] .lr-front { font-size: 41px; }
   .lr-card[data-size='l'] .lr-front { font-size: 32px; }
 }
+
+/* ---------- R8 (3 Nov 2026): an index card from a deck, phone first; the same card as the feed's (stage.css R8) ----------
+   Paper (keycards.css --kc-paper), one quiet hairline and a soft shadow, no light rim. CardHead is the header band across the
+   card's top in its family's wash (the kind word on the left; "Asked in", the stage tag and the menu stay where they were).
+   The back sits on faint ruled lines at the reading pitch, edge to edge. A run has no peek, so its deck is two card edges
+   under the card (the same paper, each a little narrower and lower); they stay put while the top card turns. Nothing new moves. */
+.lr.kc { --kc-surface: var(--kc-grain), var(--kc-paper); }
+.lr-face { --lr-fx: 20px; padding-inline: var(--lr-fx); border-color: var(--kc-paper-line); background: var(--kc-surface); box-shadow: var(--kc-paper-shadow); }
+.lr-face--back { box-shadow: var(--kc-paper-shadow); }
+.lr-card[data-family] .lr-face { border-top-color: var(--kc-paper-line); }
+:where(html:not([data-theme='light'])) .lr-face { border-color: var(--kc-paper-line); box-shadow: var(--kc-paper-shadow); }
+.lr-face > .kc-head, .lr-card[data-family] .lr-face > .kc-head {
+  align-items: center; min-height: 48px; margin-inline: calc(-1 * var(--lr-fx)); padding: 6px var(--lr-fx);
+  background: var(--kc-band, color-mix(in srgb, var(--a-ink) 6%, var(--kc-paper))); border-bottom: 1px solid var(--kc-band-line, var(--kc-paper-line));
+}
+.lr-face > .kc-head .kc-head__tags, .lr-card[data-family] .lr-face .kc-head__tags { min-height: 0; align-items: center; }
+.lr-face > .kc-head .kc-kind, .lr-card[data-family] .lr-face .kc-kind {
+  display: inline; min-height: 0; padding: 0; border-radius: 0; background: none; color: var(--kc-fam, var(--a-ink-2)); font: 650 15px/1.25 var(--font-body); letter-spacing: 0; white-space: normal;
+}
+.lr-card[data-family] .lr-face .kc-head > :not(.kc-head__tags) { margin-top: 0; }
+.lr-card[data-family] .lr-face .lr-stage-tag { padding-top: 0; color: var(--a-ink-2); }
+.lr-face .kc-menu__btn { color: var(--a-ink-2); }
+/* The front: the prompt optically centred, no ruling. */
+.lr-face--front > .lr-face__body { padding-bottom: 20px; }
+.lr-src { border-top-color: var(--kc-paper-line); }
+/* The back on ruled lines: one pitch for the asked line, NCERT's words and the short note. */
+.lr-back { --lr-pitch: 29px; }
+.lr-face--back > .lr-back {
+  flex: 1 0 auto; align-content: start; margin: 0 calc(-1 * var(--lr-fx)); padding: 0 var(--lr-fx) var(--lr-pitch);
+  background-image: linear-gradient(to top, var(--kc-rule) 1px, transparent 1px); background-size: 100% var(--lr-pitch); background-repeat: repeat;
+}
+.lr-back .lr-back__ask { line-height: var(--lr-pitch); }
+.lr-back .lr-back__rule { height: 0; margin: 0; }
+.lr-back .lr-ncert.kc-ncert { line-height: var(--lr-pitch); }
+.lr-back :is(.kc-ncert--list, .kc-ncert--paras, .kc-ncert--formula) { gap: 0; }
+.lr-back .kc-formula, .lr-back .kc-short { line-height: var(--lr-pitch); }
+.lr-back .kc-short { margin-top: 0; }
+.lr-face--back > .lr-back:has(.kc-ncert--entry, .katex-display) { background-image: none; padding-bottom: 0; }
+/* The deck under the card: two edges of the same paper, a shade deeper each (the light falls on the top card), the nearer
+   one 7 px down and 10 px in, the farther 14 px down and 20 px in. */
+.lr-card:not(.lr-card--lesson) { margin-bottom: 14px; }
+.lr-card:not(.lr-card--lesson)::before, .lr-card:not(.lr-card--lesson)::after {
+  content: ''; position: absolute; z-index: -1; left: 10px; right: 10px; bottom: -7px; height: 48px; pointer-events: none;
+  border: 1px solid var(--kc-paper-line); border-radius: 0 0 22px 22px; background: var(--kc-edge-1); box-shadow: var(--kc-paper-shadow);
+}
+.lr-card:not(.lr-card--lesson)::before { left: 20px; right: 20px; bottom: -14px; background: var(--kc-edge-2); }
+@media (min-width: 768px) {
+  .lr-face { --lr-fx: 28px; }
+  .lr-face > .kc-head, .lr-card[data-family] .lr-face > .kc-head { min-height: 52px; }
+  .lr-face > .kc-head .kc-kind, .lr-card[data-family] .lr-face .kc-kind { font-size: 16px; }
+  .lr-back { --lr-pitch: 30px; }
+  .lr-card:not(.lr-card--lesson) { margin-bottom: 16px; }
+  .lr-card:not(.lr-card--lesson)::after { left: 14px; right: 14px; bottom: -8px; }
+  .lr-card:not(.lr-card--lesson)::before { left: 28px; right: 28px; bottom: -16px; }
+}
+@media (min-width: 1200px) {
+  .lr-face { --lr-fx: 36px; }
+  .lr-back { --lr-pitch: 31px; }
+}
+@media (min-width: 1360px) {
+  .lr-face { --lr-fx: 44px; padding-inline: var(--lr-fx); }
+  .lr-face > .kc-head, .lr-card[data-family] .lr-face > .kc-head { min-height: 56px; }
+  .lr-face > .kc-head .kc-kind, .lr-card[data-family] .lr-face .kc-kind { font-size: 16.5px; }
+  .lr-face--front > .lr-face__body { padding-bottom: 28px; }
+  .lr-back { --lr-pitch: 35px; }
+}

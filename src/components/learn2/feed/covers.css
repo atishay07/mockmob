@@ -179,7 +179,8 @@ html[data-theme='light'] .fxc {
 .fxc-tab { position: absolute; top: 0; right: 16px; min-height: 34px; padding-top: 4px; }
 .fxc-media[data-family] .fxc-ref { padding-right: 118px; }
 .fxc-cover:has(.fxc-media[data-family]) { border-top-color: var(--kc-fam-edge); }
-.fxc-cover:has(.fxc-media[data-family='meaning']) { --kc-fam: var(--a-accent-text); }
+.fxc-cover:has(.fxc-media[data-family='meaning']) { --kc-fam: #8fd3b0; }
+html[data-theme='light'] .fxc-cover:has(.fxc-media[data-family='meaning']) { --kc-fam: #2a6246; }
 .fxc-cover:has(.fxc-media[data-family='rule']) { --kc-fam: var(--a-purple-text); }
 .fxc-cover:has(.fxc-media[data-family='parts']) { --kc-fam: var(--a-warn-text); }
 .fxc-cover:has(.fxc-media[data-family='fact']) { --kc-fam: #9cc0ff; }
