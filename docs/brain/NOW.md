@@ -1,5 +1,11 @@
 # NOW: MockMob current state
 
+## 4 Nov 2026, about 12:30 am IST: new account, one session; Physics live; final Play build and live website in progress (LK63-LK66)
+- **His words (3 Nov ~11:55 pm), verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md:** finish every lane, review the UI against his past feedback until satisfied, then NO prototype links or test builds: a final AAB he uploads to Play and the final web changes on www.mockmob.in; commit all uncommitted work for handover/onboarding. Ledger LK63-LK66. His message was cut off at "Everything then should be sent to" (asked).
+- **Live:** main dadc12807 = Physics 1,090 to 1,403 cards (312 typeset; ~7.2 h), deployment dpl_HmnRzrJPoKdNYyjuxw3YSwHVhEze READY, no runtime errors.
+- **Running (subagents of this one session):** app test fixes on ui/1103-app-18; a stronger Key card look on web/1103-webfull (merged with web/1103-icons at 867376462: Up next module, Find's sets, top-bar capsule, brand icons); English table, web half, on web/1104-english; top bar + brand icons ported to the app on ui/1104-app-look; WIP snapshot commits of old worktrees on their own branches (none pushed).
+- **Next:** merge, gate, ship the web to main; app English + card look port, emulator walk, 1.0.20+18 AAB in Desktop/MockMob-build-18.
+
 ## 3 Nov 2026, about 9:15 pm IST: all work stopped for the move to a new account; one session from here on
 - His words: stop everything; hand off to a new account where everything happens in a single session, with workflows or
   subagents for parallel work (no sub-sessions, no forks). Full state and next steps: HANDOFF-2026-11-03-SINGLE-SESSION.md;
