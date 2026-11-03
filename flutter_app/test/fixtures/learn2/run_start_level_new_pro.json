@@ -1,5 +1,5 @@
 {
-  "id": "lr_56a621471be2958c2b569a15",
+  "id": "lr_4fc8c12b8d85b452b2f4c7c4",
   "kind": "level",
   "chapter": {
     "key": "accountancy.partnership-fundamentals",
@@ -16,7 +16,7 @@
   "asked": 6,
   "items": [
     {
-      "id": "lr_56a621471be2958c2b569a15-i1",
+      "id": "lr_4fc8c12b8d85b452b2f4c7c4-i1",
       "type": "question",
       "origin": "chapter",
       "question": {
@@ -33,11 +33,11 @@
           },
           {
             "key": "C",
-            "text": "(B), (C), (A), (D)"
+            "text": "(B), (A), (D), (C)"
           },
           {
             "key": "D",
-            "text": "(B), (A), (D), (C)"
+            "text": "(B), (C), (A), (D)"
           }
         ]
       },
@@ -45,7 +45,7 @@
       "seconds": 55
     },
     {
-      "id": "lr_56a621471be2958c2b569a15-i2",
+      "id": "lr_4fc8c12b8d85b452b2f4c7c4-i2",
       "type": "question",
       "origin": "chapter",
       "question": {
@@ -74,7 +74,7 @@
       "seconds": 55
     },
     {
-      "id": "lr_56a621471be2958c2b569a15-i3",
+      "id": "lr_4fc8c12b8d85b452b2f4c7c4-i3",
       "type": "question",
       "origin": "chapter",
       "question": {
@@ -87,15 +87,15 @@
           },
           {
             "key": "B",
-            "text": "Their oral agreement is itself a Partnership Deed."
-          },
-          {
-            "key": "C",
             "text": "Their oral agreement can establish the partnership; a written document is not compulsory."
           },
           {
-            "key": "D",
+            "key": "C",
             "text": "Their partnership can come into existence without an agreement if they prepare a written deed later."
+          },
+          {
+            "key": "D",
+            "text": "Their oral agreement is itself a Partnership Deed."
           }
         ]
       },
@@ -103,7 +103,7 @@
       "seconds": 55
     },
     {
-      "id": "lr_56a621471be2958c2b569a15-i4",
+      "id": "lr_4fc8c12b8d85b452b2f4c7c4-i4",
       "type": "question",
       "origin": "chapter",
       "question": {
@@ -112,19 +112,19 @@
         "options": [
           {
             "key": "A",
-            "text": "The provisions of the Indian Partnership Act, 1932"
-          },
-          {
-            "key": "B",
-            "text": "The terms of a specific agreement between the partners"
-          },
-          {
-            "key": "C",
             "text": "The rules for calculating interest on drawings"
           },
           {
-            "key": "D",
+            "key": "B",
+            "text": "The provisions of the Indian Partnership Act, 1932"
+          },
+          {
+            "key": "C",
             "text": "The adjustments made when a partner is admitted or dies"
+          },
+          {
+            "key": "D",
+            "text": "The terms of a specific agreement between the partners"
           }
         ]
       },
@@ -132,7 +132,7 @@
       "seconds": 55
     },
     {
-      "id": "lr_56a621471be2958c2b569a15-i5",
+      "id": "lr_4fc8c12b8d85b452b2f4c7c4-i5",
       "type": "question",
       "origin": "chapter",
       "question": {
@@ -141,7 +141,7 @@
         "options": [
           {
             "key": "A",
-            "text": "The provisions of the Indian Partnership Act, 1932 apply."
+            "text": "Rules for admission, retirement, death or dissolution govern the distribution."
           },
           {
             "key": "B",
@@ -153,7 +153,7 @@
           },
           {
             "key": "D",
-            "text": "Rules for admission, retirement, death or dissolution govern the distribution."
+            "text": "The provisions of the Indian Partnership Act, 1932 apply."
           }
         ]
       },
@@ -161,7 +161,7 @@
       "seconds": 55
     },
     {
-      "id": "lr_56a621471be2958c2b569a15-i6",
+      "id": "lr_4fc8c12b8d85b452b2f4c7c4-i6",
       "type": "question",
       "origin": "chapter",
       "question": {
@@ -170,19 +170,19 @@
         "options": [
           {
             "key": "A",
-            "text": "It is increased by the share of profit allocated to R."
-          },
-          {
-            "key": "B",
-            "text": "It remains unchanged during the year."
-          },
-          {
-            "key": "C",
             "text": "It is reduced by the ordinary drawings made by R."
           },
           {
-            "key": "D",
+            "key": "B",
             "text": "It is adjusted for both the share of profit and the ordinary drawings."
+          },
+          {
+            "key": "C",
+            "text": "It is increased by the share of profit allocated to R."
+          },
+          {
+            "key": "D",
+            "text": "It remains unchanged during the year."
           }
         ]
       },

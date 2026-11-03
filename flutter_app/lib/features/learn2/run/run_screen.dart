@@ -14,7 +14,7 @@
 ///   first run   once per student: "Tap the card to turn it over", "Got it: it comes back when it’s due." and "Pick the answer
 ///               you think is right." above the first question's options
 ///   Got it, Easy the card flies into the counter "3 of 21" (the stamp says the server's real day); Missed tilts and drops away:
-///               "Back later in this run"
+///               "Back in this run, then tomorrow"
 ///   stop rule   before any item is done, Close and the system Back leave; after one, they ask "Stop for now?" ("5 of 20 done.
 ///               It’s all saved.", Stop here, Back to it); Stop here shows the end and the server keeps the run open
 ///   end         one end screen (`EndScreen`): the chapter, a headline with Mobi, the small fan of the cards sent to Revise, up to

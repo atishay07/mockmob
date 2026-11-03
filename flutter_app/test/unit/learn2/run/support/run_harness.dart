@@ -28,13 +28,14 @@ import '../../support/fixture_learn_api.dart';
 export '../../support/fixture_learn_api.dart';
 
 /// A synthetic card item (a card that parses): `i<n>` of the run `lr_script`.
-Map<String, Object?> scriptedCard(int n, {bool look = false, String stage = 'new', String? reason, int seconds = 15}) => {
+Map<String, Object?> scriptedCard(int n, {bool look = false, String stage = 'new', String? reason, int seconds = 15, Map<String, String>? returns}) => {
   'id': 'lr_script-i$n',
   'type': 'card',
   'stage': stage,
   'look': look,
   'recap': false,
   'reason': ?reason,
+  'returns': ?returns,
   'seconds': seconds,
   'card': {
     'id': 'kc.script.c$n',
@@ -48,11 +49,15 @@ Map<String, Object?> scriptedCard(int n, {bool look = false, String stage = 'new
 };
 
 /// A run the test writes itself: [items] under the chapter Partnership Fundamentals.
-LearnRun scriptedRun(List<Map<String, Object?>> items, {String kind = 'cards', Map<String, Object?>? looks, Map<String, Object?>? resumed, int pile = 0}) =>
+///
+/// [spans]: a run over several chapters, as the server heads it (round 5, LK45 fix 4): "Revise", no place, no ref.
+LearnRun scriptedRun(List<Map<String, Object?>> items, {String kind = 'cards', Map<String, Object?>? looks, Map<String, Object?>? resumed, int pile = 0, bool spans = false}) =>
     LearnRun.parse({
       'id': 'lr_script',
       'kind': kind,
-      'chapter': {'key': l2Pf, 'title': 'Accounting for Partnership: Basic Concepts', 'ref': 'Ch 1', 'partTitle': 'Part 1, Partnership Accounts', 'number': 1},
+      'chapter': spans
+          ? {'key': l2Pf, 'title': 'Revise', 'ref': null, 'partTitle': null, 'number': null, 'place': null, 'spans': true}
+          : {'key': l2Pf, 'title': 'Accounting for Partnership: Basic Concepts', 'ref': 'Ch 1', 'partTitle': 'Part 1, Partnership Accounts', 'number': 1},
       'minutes': 10,
       'asked': 10,
       'items': items,
@@ -91,10 +96,10 @@ class ScriptedRunApi implements LearnApi {
     ratings.add((itemId: itemId, rating: rating));
     final custom = rates;
     if (custom != null) return custom(itemId, rating);
-    if (rating != 1) piled += 1;
+    piled += 1;
     return LearnRateResult(
       ok: true,
-      stamp: rating == 1 ? 'Back later in this run' : 'Back Wed',
+      stamp: rating == 1 ? 'Back in this run, then tomorrow' : 'Back in 3 days',
       revisePile: piled,
       raw: {
         'ok': true,
@@ -242,6 +247,9 @@ Future<GoRouter> pumpRun(
   RunHaptics? haptics,
   bool proNudges = false,
   EdgeInsets padding = EdgeInsets.zero,
+
+  /// False: the run is the first page (a link opened it), so Close has nothing to pop to.
+  bool pushed = true,
 }) async {
   tester.view.physicalSize = size * 2;
   tester.view.devicePixelRatio = 2;
@@ -272,7 +280,11 @@ Future<GoRouter> pumpRun(
       ),
     ),
   );
-  unawaited(router.push<void>(Learn2Links.run(launch)));
+  if (pushed) {
+    unawaited(router.push<void>(Learn2Links.run(launch)));
+  } else {
+    router.go(Learn2Links.run(launch));
+  }
   await runSettle(tester);
   return router;
 }

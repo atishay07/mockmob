@@ -67,11 +67,11 @@ void main() {
       expect(groups.map((g) => g.id).toSet(), hasLength(2));
     });
 
-    test('reads the recorded chapter: 16 sections and 58 cards, and Free\'s 5 with the server\'s line', () {
+    test('reads the recorded chapter: 16 sections and 60 cards, and Free\'s 5 with the server\'s line', () {
       final pro = LearnChapterCards.parse(LearnFixtures.json('cards_aop_all_pro'));
       final proGroups = CardsModel.visibleSections(pro.sections, pro.lockedLine);
       expect(proGroups, hasLength(16));
-      expect(CardsModel.ids(proGroups), hasLength(58));
+      expect(CardsModel.ids(proGroups), hasLength(60));
       final free = LearnChapterCards.parse(LearnFixtures.json('cards_aop_all_free'));
       final freeGroups = CardsModel.visibleSections(free.sections, free.lockedLine);
       expect(CardsModel.ids(freeGroups), hasLength(5));
@@ -96,20 +96,20 @@ void main() {
       expect(groups.first.cards.first.match.spans('front'), isNotEmpty);
     });
 
-    test('groups the Pro recording 32, 13, 4 and 1', () {
+    test('groups the Pro recording 34, 13, 2 and 1', () {
       final groups = CardsModel.resultGroups(LearnSearch.parse(LearnFixtures.json('search_goodwill_pro')).cards);
-      expect(groups.map((g) => g.cards.length), [32, 13, 4, 1]);
+      expect(groups.map((g) => g.cards.length), [34, 13, 2, 1]);
     });
   });
 
   group('the lines', () {
     test('the Cards view says the subject, the chapter and how many cards', () {
       final pro = LearnChapterCards.parse(LearnFixtures.json('cards_aop_all_pro'));
-      expect(CardsModel.headLine('accountancy.admission-of-partner', pro), 'Accountancy, Ch 2, 58 cards');
+      expect(CardsModel.headLine('accountancy.admission-of-partner', pro), 'Accountancy, Ch 2, 60 cards');
       final free = LearnChapterCards.parse(LearnFixtures.json('cards_aop_all_free'));
-      expect(CardsModel.headLine('accountancy.admission-of-partner', free), 'Accountancy, Ch 2, 5 of 58 cards open on Free');
+      expect(CardsModel.headLine('accountancy.admission-of-partner', free), 'Accountancy, Ch 2, 5 of 60 cards open on Free');
       final body = asJson(pro.raw)..['chapter'] = {'key': 'business_studies.x', 'title': 'X'};
-      expect(CardsModel.headLine('business_studies.x', LearnChapterCards.parse(body)), 'Business Studies, 58 cards');
+      expect(CardsModel.headLine('business_studies.x', LearnChapterCards.parse(body)), 'Business Studies, 60 cards');
     });
 
     test('a search says what it found', () {
@@ -124,7 +124,7 @@ void main() {
       final groups = CardsModel.resultGroups(search.cards);
       expect(CardsModel.chapterLinks(search, groups), isEmpty);
       expect(CardsModel.chapterLinks(search, const []), hasLength(1));
-      expect(CardsModel.chapterLinks(search, const []).single.meta, 'chapter, 46 cards');
+      expect(CardsModel.chapterLinks(search, const []).single.meta, 'chapter, 48 cards');
     });
 
     test('a filter from a link is one of the four, else All', () {

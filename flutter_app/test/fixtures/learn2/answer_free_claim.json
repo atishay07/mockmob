@@ -1,10 +1,10 @@
 {
   "correct": true,
-  "key": "B",
-  "choice": "B",
+  "key": "C",
+  "choice": "C",
   "explanation": "Existing goodwill is considered an accumulated profit/loss of the old partnership and is therefore written off by debiting the old partners' capital accounts in their old profit-sharing ratio.",
   "fixed": true,
-  "fixedText": "Right this time. Back on Thu to check it held.",
+  "fixedText": "Right this time. Back on Fri to check it held.",
   "retired": false,
   "line": {
     "card": {

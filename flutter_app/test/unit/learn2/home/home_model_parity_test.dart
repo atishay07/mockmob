@@ -175,7 +175,7 @@ void main() {
         (id: 'due', title: 'Due today', line: '9 cards · about 2 min'),
         (id: 'missed', title: 'Missed lately', line: '6 cards'),
         (id: 'revise', title: 'In Revise', line: '26 cards'),
-        (id: 'must', title: 'Must-know lines', line: '235 cards in 14 chapters'),
+        (id: 'must', title: 'Must-know lines', line: '236 cards in 14 chapters'),
       ]);
       // A student with nothing in the three sets still has the book's Must-know lines (and then Find says a word to try).
       expect(HomeModel.findRows(LearnShelves.parse(_file('test/fixtures/learn2/shelves_new_pro.json'))).map((r) => r.id), ['must']);

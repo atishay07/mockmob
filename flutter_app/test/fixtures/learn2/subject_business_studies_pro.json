@@ -24,7 +24,7 @@
   "subject": {
     "id": "business_studies",
     "name": "Business Studies",
-    "cards": 901,
+    "cards": 902,
     "chapters": 11,
     "lessons": 5,
     "note": null
@@ -359,7 +359,7 @@
                 "n": 6,
                 "of": 11
               },
-              "cards": 98,
+              "cards": 99,
               "mustKnow": 25,
               "due": 0,
               "mistakes": 0,
@@ -377,9 +377,9 @@
               "meta": "1 lesson",
               "marksOpen": null,
               "progress": {
-                "of": 98,
+                "of": 99,
                 "seen": 0,
-                "unseen": 98,
+                "unseen": 99,
                 "questions": 0,
                 "tried": 0
               },

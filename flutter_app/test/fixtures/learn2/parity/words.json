@@ -1,5 +1,5 @@
 {
- "web": "wt-1102-web 31af5f9dc",
+ "web": "wt-1102-web 4b5f67e34",
  "note": "Written by tool/learn2_parity/words.mjs from the web's own words.js and allowance.js. Do not edit by hand.",
  "words": {
   "turnOver": "Turn over",
@@ -10,6 +10,9 @@
   "nextChapter": "Next chapter",
   "reviseLater": "Revise later",
   "inRevise": "In Revise",
+  "revise": "Revise",
+  "missedIt": "Missed it",
+  "coachRatings": "Missed it brings a card back soonest. Easy sends it furthest away.",
   "save": "Save",
   "saved": "Saved",
   "skipKnown": "Skip what you already know",
@@ -863,6 +866,123 @@
   {
    "n": "x",
    "out": "0 to revise"
+  }
+ ],
+ "returnWords": [
+  {
+   "days": 0,
+   "out": "tomorrow"
+  },
+  {
+   "days": 0.4,
+   "out": "tomorrow"
+  },
+  {
+   "days": 1,
+   "out": "tomorrow"
+  },
+  {
+   "days": 1.49,
+   "out": "tomorrow"
+  },
+  {
+   "days": 1.5,
+   "out": "in 2 days"
+  },
+  {
+   "days": 2,
+   "out": "in 2 days"
+  },
+  {
+   "days": 2.4,
+   "out": "in 2 days"
+  },
+  {
+   "days": 3,
+   "out": "in 3 days"
+  },
+  {
+   "days": 8,
+   "out": "in 8 days"
+  },
+  {
+   "days": 13,
+   "out": "in 13 days"
+  },
+  {
+   "days": 13.4,
+   "out": "in 13 days"
+  },
+  {
+   "days": 14,
+   "out": "in 2 weeks"
+  },
+  {
+   "days": 20,
+   "out": "in 3 weeks"
+  },
+  {
+   "days": 35,
+   "out": "in 5 weeks"
+  },
+  {
+   "days": 55,
+   "out": "in 8 weeks"
+  },
+  {
+   "days": 55.4,
+   "out": "in 8 weeks"
+  },
+  {
+   "days": 56,
+   "out": "in 2 months"
+  },
+  {
+   "days": 95,
+   "out": "in 3 months"
+  },
+  {
+   "days": 200,
+   "out": "in 7 months"
+  },
+  {
+   "days": -3,
+   "out": "tomorrow"
+  },
+  {
+   "days": "NaN",
+   "out": "tomorrow"
+  },
+  {
+   "days": null,
+   "out": "tomorrow"
+  },
+  {
+   "days": null,
+   "out": "tomorrow"
+  }
+ ],
+ "backs": [
+  {
+   "words": "tomorrow",
+   "stamp": "Back tomorrow",
+   "line": "back tomorrow",
+   "missedInRun": "in this run, then tomorrow",
+   "missed": "tomorrow"
+  },
+  {
+   "words": "in 3 days",
+   "stamp": "Back in 3 days",
+   "line": "back in 3 days",
+   "missedInRun": "in this run, then in 3 days",
+   "missed": "in 3 days"
+  },
+  {
+   "words": "in 2 weeks",
+   "stamp": "Back in 2 weeks",
+   "line": "back in 2 weeks",
+   "missedInRun": "in this run, then in 2 weeks",
+   "missed": "in 2 weeks"
   }
  ],
  "places": [

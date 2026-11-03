@@ -1,5 +1,5 @@
 {
- "web": "wt-1102-web 31af5f9dc",
+ "web": "wt-1102-web 4b5f67e34",
  "note": "Written by tool/learn2_parity/cover_model.mjs from the web's own coverModel.js. Do not edit by hand.",
  "lengths": [
   5,
@@ -1419,19 +1419,19 @@
       },
       "20": {
        "counts": {
-        "cards": 32,
+        "cards": 35,
         "questions": 0,
-        "minutes": 11,
+        "minutes": 12,
         "capped": false
        },
        "mix": {
-        "pro": "32 Key cards, all it has today",
-        "free": "32 Key cards",
+        "pro": "35 Key cards, all it has today",
+        "free": "35 Key cards",
         "noHistory": "Cards, one at a time",
         "freeNoHistory": "Cards, one at a time"
        },
        "key": {
-        "open": "Play · 11 min",
+        "open": "Play · 12 min",
         "done": "Questions on this chapter"
        },
        "media": {
@@ -1948,7 +1948,7 @@
       },
       "20": {
        "counts": {
-        "cards": 20,
+        "cards": 21,
         "questions": 10,
         "minutes": 20,
         "capped": false
@@ -1965,7 +1965,7 @@
        },
        "media": {
         "kind": "cards",
-        "text": "20 Key cards",
+        "text": "21 Key cards",
         "note": "and 10 questions"
        }
       }
@@ -2717,19 +2717,19 @@
       },
       "20": {
        "counts": {
-        "cards": 32,
+        "cards": 35,
         "questions": 0,
-        "minutes": 11,
+        "minutes": 12,
         "capped": false
        },
        "mix": {
-        "pro": "32 Key cards, all it has today",
-        "free": "32 Key cards",
+        "pro": "35 Key cards, all it has today",
+        "free": "35 Key cards",
         "noHistory": "Cards, one at a time",
         "freeNoHistory": "Cards, one at a time"
        },
        "key": {
-        "open": "Play · 11 min",
+        "open": "Play · 12 min",
         "done": "Questions on this chapter"
        },
        "media": {
@@ -8644,19 +8644,19 @@
       },
       "20": {
        "counts": {
-        "cards": 32,
+        "cards": 35,
         "questions": 0,
-        "minutes": 11,
+        "minutes": 12,
         "capped": false
        },
        "mix": {
-        "pro": "32 Key cards, all it has today",
-        "free": "32 Key cards",
+        "pro": "35 Key cards, all it has today",
+        "free": "35 Key cards",
         "noHistory": "Cards, one at a time",
         "freeNoHistory": "Cards, one at a time"
        },
        "key": {
-        "open": "Play · 11 min",
+        "open": "Play · 12 min",
         "done": "Questions on this chapter"
        },
        "media": {

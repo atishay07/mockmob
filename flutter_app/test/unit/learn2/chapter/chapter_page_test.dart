@@ -91,7 +91,10 @@ void main() {
       expect(find.text('All 45, 12 in Revise'), findsOneWidget);
       expect(find.text('10 questions in this chapter'), findsOneWidget);
       expect(find.text('Fix 3 open mistakes · 3 min'), findsOneWidget);
-      expect(find.text('12 Must-know lines'), findsOneWidget, reason: 'no name promised until the app builds the watermarked sheet');
+      // Round 5, fix 3: the row is named for what it opens in the app, its count is the note (the web's "Print sheet" prints).
+      expect(find.text('Must-know lines'), findsOneWidget);
+      expect(find.text('12 lines'), findsOneWidget);
+      expect(find.text('Print sheet'), findsNothing);
       expect(find.text('No lesson yet.'), findsNothing);
     });
 
@@ -521,9 +524,9 @@ void main() {
       expect(find.text('Free sessions are up to 10 minutes. Pro has any length.'), findsNothing);
     });
 
-    testWidgets('Free\'s taste is on the shelf only: "Free opens 5"; the Print sheet is part of Pro', (tester) async {
+    testWidgets('Free\'s taste is on the shelf only: "Free opens 5"; the Must-know lines row is part of Pro', (tester) async {
       await pumpChapter(tester, api: _aop(pro: false), chapter: l2Aop);
-      expect(find.text('58 cards. 5 open on Free.'), findsOneWidget);
+      expect(find.text('60 cards. 5 open on Free.'), findsOneWidget);
       expect(find.text('Part of Pro'), findsOneWidget);
       expect(find.byIcon(LucideIcons.lock), findsOneWidget);
       expect(_texts(tester).where((t) => t.contains('Free opens 5 of')), isEmpty, reason: 'not a limit line');
@@ -553,7 +556,7 @@ void main() {
         await tester.pump(const Duration(milliseconds: 400));
       }
 
-      await open('All 58, by section');
+      await open('All 60, by section');
       expect(Uri.parse(h.visited.last).path, '/learn/c/$l2Aop/cards');
       expect(Uri.parse(h.visited.last).queryParameters, isEmpty);
       h.router.pop();
@@ -574,7 +577,7 @@ void main() {
       h.router.pop();
       await settleChapter(tester);
 
-      await open('15 Must-know lines');
+      await open('Must-know lines');
       expect(Uri.parse(h.visited.last).path, '/learn/c/$l2Aop/cards');
       expect(_query(h), {'f': 'must'});
     });

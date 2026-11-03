@@ -17,7 +17,7 @@ abstract final class PracticeCopy {
   static const String waysHeading = 'Ways to practise';
 
   // Practice's four doors (19 Oct PM, D126, Practice C; Explore since 3 Nov, LK51): the switch under the title, in the
-  // website's words and order: Practise, Papers, Learn, Explore.
+  // words and order of the website: Practise, Papers, Learn, Explore.
   static const String doorPractise = 'Practise';
   static const String doorPapers = 'Papers';
   static const String doorLearn = 'Learn';

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Records the Learn v2 routes from the web dev preview into test/fixtures/learn2/ (APP-1101 section 3, APP-1102-A section 2), for
-# the data models, FixtureLearnApi, the widget tests and the goldens. Source: the live web, origin/main 31af5f9dc (rounds 2 to 4,
+# the data models, FixtureLearnApi, the widget tests and the goldens. Source: the live web, origin/main 4b5f67e34 (rounds 2 to 5,
 # worktree wt-1102-web), whose preview dev server runs on port 3452.
 #
 # Usage, from flutter_app:   bash tool/record_learn2_fixtures.sh [tag]
@@ -24,7 +24,7 @@ PORT="${LEARN2_PREVIEW_PORT:-3452}"
 BASE="http://localhost:$PORT/preview/arena/realdeck"
 TAG="${1:-$(date +%m%d%H%M)}"
 OUT="test/fixtures/learn2"
-WEB_COMMIT="31af5f9dc"
+WEB_COMMIT="4b5f67e34"
 
 PRO="_student=commerce&_plan=pro&_s=app-rec2-$TAG"
 FREE="_student=commerce&_plan=free&_s=app-rec2-$TAG"
@@ -257,6 +257,14 @@ if [ -n "$DUE_RUN" ]; then
   DUE_BODY="$(printf '%s' "$DUE_RUN" | node -e 'let s="";process.stdin.on("data",(d)=>{s+=d;}).on("end",()=>{const r=JSON.parse(s);process.stdout.write(JSON.stringify({kind:"cards",chapterKey:r.chapterKey,cardIds:r.cardIds,minutes:r.minutes,leaveOut:[],requestKey:process.argv[1]}));});' "$(newkey)")"
   rec run_start_cards_due_pro "$PRO" POST /api/learn/runs "" "$DUE_BODY" 200 "Revise these: the due suggestion's cards as a cards run"
 fi
+# Round 5 (LK45 fix 4): a cards run over several chapters (the first due card of two chapters) is headed Revise, with no place.
+SPAN_CH="$(get "$OUT/cards_subject_due_pro.json" 'j.chapters.filter((c) => c.cards.length)[0].key')"
+SPAN_IDS="$(get "$OUT/cards_subject_due_pro.json" 'JSON.stringify(j.chapters.filter((c) => c.cards.length).slice(0, 2).map((c) => c.cards[0].id))')"
+SPAN_BODY="$(printf '{"kind":"cards","chapterKey":"%s","cardIds":%s,"minutes":5,"leaveOut":[],"requestKey":"%s"}' "$SPAN_CH" "$SPAN_IDS" "$(newkey)")"
+rec run_start_cards_span_pro "$PRO" POST /api/learn/runs "" "$SPAN_BODY" 200 "A cards run over two chapters (Revise's due cards): headed Revise, chapter.spans, no place"
+check "$OUT/run_start_cards_span_pro.json" 'j.chapter.spans === true && j.chapter.title === "Revise" && j.chapter.place === null'
+SPAN_ID="$(get "$OUT/run_start_cards_span_pro.json" 'j.id')"
+rec run_end_cards_span_stopped_pro "$PRO" GET "/api/learn/runs/$SPAN_ID/end" "stop=1" "" 200 "The Revise run stopped before anything was done: Revise as its head, no chapter bar (progress null)"
 
 RESUME_ID="$(get "$OUT/run_start_mix_aop_resume_pro.json" 'j.id')"
 rec run_end_mix_aop_stopped_pro "$PRO" GET "/api/learn/runs/$RESUME_ID/end" "stop=1" "" 200 "A run stopped part way (Stop here): not ended, stopped true, Continue and the fix key"

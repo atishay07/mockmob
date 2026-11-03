@@ -1,15 +1,15 @@
 {
   "ok": true,
-  "stamp": "Back later in this run",
+  "stamp": "Back in this run, then tomorrow",
   "revisePile": {
-    "count": 0
+    "count": 1
   },
   "limit": null,
   "reinsert": {
-    "itemId": "lr_a93bbe63268cd2ca045bf8d4-r1",
+    "itemId": "lr_882199e73ca562cae0462cbc-r1",
     "at": 3,
     "item": {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-r1",
+      "id": "lr_882199e73ca562cae0462cbc-r1",
       "type": "card",
       "stage": "again",
       "card": {

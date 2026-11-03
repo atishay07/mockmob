@@ -8,7 +8,7 @@
   },
   "stopped": true,
   "progress": {
-    "of": 58,
+    "of": 60,
     "seen": 1,
     "before": 1
   },
@@ -52,7 +52,7 @@
       "minutes": 8,
       "leaveOut": [],
       "kind": "mix",
-      "resume": "lr_4c9a70e34a1a7b054d3439f3"
+      "resume": "lr_f39e3a7ba685473567fef4fc"
     }
   },
   "options": [

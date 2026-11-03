@@ -1,5 +1,5 @@
 {
-  "id": "lr_0e2bcf07502277f395b25116",
+  "id": "lr_b5564c09f4affc211fa40577",
   "kind": "feed",
   "chapter": {
     "key": "accountancy.admission-of-partner",
@@ -16,7 +16,7 @@
   "asked": 10,
   "items": [
     {
-      "id": "lr_0e2bcf07502277f395b25116-i2",
+      "id": "lr_b5564c09f4affc211fa40577-i2",
       "type": "card",
       "stage": "new",
       "card": {
@@ -55,7 +55,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_0e2bcf07502277f395b25116-i3",
+      "id": "lr_b5564c09f4affc211fa40577-i3",
       "type": "card",
       "stage": "new",
       "card": {
@@ -91,7 +91,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_0e2bcf07502277f395b25116-i4",
+      "id": "lr_b5564c09f4affc211fa40577-i4",
       "type": "card",
       "stage": "new",
       "card": {
@@ -127,7 +127,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_0e2bcf07502277f395b25116-i6",
+      "id": "lr_b5564c09f4affc211fa40577-i6",
       "type": "card",
       "stage": "new",
       "card": {
@@ -163,7 +163,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_0e2bcf07502277f395b25116-i7",
+      "id": "lr_b5564c09f4affc211fa40577-i7",
       "type": "card",
       "stage": "new",
       "card": {
@@ -199,7 +199,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_0e2bcf07502277f395b25116-i8",
+      "id": "lr_b5564c09f4affc211fa40577-i8",
       "type": "question",
       "origin": "mistake",
       "question": {
@@ -232,7 +232,7 @@
       "seconds": 60
     },
     {
-      "id": "lr_0e2bcf07502277f395b25116-i9",
+      "id": "lr_b5564c09f4affc211fa40577-i9",
       "type": "card",
       "stage": "new",
       "card": {
@@ -268,7 +268,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_0e2bcf07502277f395b25116-i10",
+      "id": "lr_b5564c09f4affc211fa40577-i10",
       "type": "question",
       "origin": "mistake",
       "question": {
@@ -277,19 +277,19 @@
         "options": [
           {
             "key": "A",
-            "text": "Written off by debiting partners' capital accounts in their new ratio."
+            "text": "Credited to the Revaluation Account."
           },
           {
             "key": "B",
-            "text": "Written off by debiting partners' capital accounts in their old ratio."
+            "text": "Written off by debiting partners' capital accounts in their new ratio."
           },
           {
             "key": "C",
-            "text": "Retained at its book value."
+            "text": "Written off by debiting partners' capital accounts in their old ratio."
           },
           {
             "key": "D",
-            "text": "Credited to the Revaluation Account."
+            "text": "Retained at its book value."
           }
         ]
       },
@@ -301,7 +301,7 @@
       "seconds": 60
     },
     {
-      "id": "lr_0e2bcf07502277f395b25116-i11",
+      "id": "lr_b5564c09f4affc211fa40577-i11",
       "type": "card",
       "stage": "new",
       "card": {
@@ -337,7 +337,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_0e2bcf07502277f395b25116-i12",
+      "id": "lr_b5564c09f4affc211fa40577-i12",
       "type": "card",
       "stage": "new",
       "card": {
@@ -373,7 +373,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_0e2bcf07502277f395b25116-i14",
+      "id": "lr_b5564c09f4affc211fa40577-i14",
       "type": "card",
       "stage": "new",
       "card": {
@@ -411,7 +411,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_0e2bcf07502277f395b25116-i15",
+      "id": "lr_b5564c09f4affc211fa40577-i15",
       "type": "card",
       "stage": "new",
       "card": {
@@ -450,7 +450,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_0e2bcf07502277f395b25116-r1",
+      "id": "lr_b5564c09f4affc211fa40577-r1",
       "type": "card",
       "stage": "again",
       "card": {
@@ -487,7 +487,7 @@
       "reason": "earlier"
     },
     {
-      "id": "lr_0e2bcf07502277f395b25116-i16",
+      "id": "lr_b5564c09f4affc211fa40577-i16",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -496,7 +496,7 @@
         "options": [
           {
             "key": "A",
-            "text": "Sacrifice ratio"
+            "text": "Capital ratio"
           },
           {
             "key": "B",
@@ -504,11 +504,11 @@
           },
           {
             "key": "C",
-            "text": "Profit sharing ratio"
+            "text": "Sacrifice ratio"
           },
           {
             "key": "D",
-            "text": "Capital ratio"
+            "text": "Profit sharing ratio"
           }
         ]
       },

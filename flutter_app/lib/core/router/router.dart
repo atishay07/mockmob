@@ -296,14 +296,15 @@ String? _keyCardsToLearn2(BuildContext context, GoRouterState state) {
 /// Explore's covers are Learn v2's (APP-1101 6) and Practice's fourth door (LK51): while Learn v2 is on, `/explore` opens that door
 /// in place (`/practice?door=explore`, with its `?subject=`); while it is off, `/explore` is the question stream it was before.
 /// A feed (`/explore/feed`) keeps its own path.
-String? _exploreRedirect(BuildContext context, GoRouterState state) {
-  if (state.uri.path != AppRoutes.explore) return null;
-  final subject = state.uri.queryParameters['subject'];
-  if (ProviderScope.containerOf(context, listen: false).read(learnOnProvider)) {
-    return AppRoutes.practiceDoorLocation('explore', from: Uri(queryParameters: {'subject': ?subject}));
-  }
+String? exploreRedirectFor(Uri uri, {required bool learnOn}) {
+  if (uri.path != AppRoutes.explore) return null;
+  final subject = uri.queryParameters['subject'];
+  if (learnOn) return AppRoutes.practiceDoorLocation('explore', from: Uri(queryParameters: {'subject': ?subject}));
   return Uri(path: AppRoutes.practiceStream, queryParameters: subject == null ? null : {'subject': subject}).toString();
 }
+
+String? _exploreRedirect(BuildContext context, GoRouterState state) =>
+    exploreRedirectFor(state.uri, learnOn: ProviderScope.containerOf(context, listen: false).read(learnOnProvider));
 
 /// A page over the bar that was opened with nothing under it (`go` from a screen outside the shell):
 /// system Back goes to Today instead of closing the app (L04). With a page under it, Back pops as

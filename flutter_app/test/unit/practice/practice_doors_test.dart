@@ -111,14 +111,14 @@ void main() {
       expect(router.state.uri.toString(), '/practice?door=papers');
     });
 
-    testWidgets('Your papers counts the open mistakes, and a screen reader hears them', (tester) async {
+    testWidgets('Papers counts the open mistakes, and a screen reader hears them', (tester) async {
       final handle = tester.ensureSemantics();
       await pump(tester, openRepairs: 12);
       expect(find.descendant(of: _door('papers'), matching: find.text('12')), findsOneWidget);
-      expect(tester.getSemantics(_door('papers')).label, contains('Your papers, 12 mistakes to repair'));
+      expect(tester.getSemantics(_door('papers')).label, contains('Papers, 12 mistakes to repair'));
       handle.dispose();
-      expect(PracticeCopy.doorPapersSemantics(1), 'Your papers, 1 mistake to repair');
-      expect(PracticeCopy.doorPapersSemantics(0), 'Your papers');
+      expect(PracticeCopy.doorPapersSemantics(1), 'Papers, 1 mistake to repair');
+      expect(PracticeCopy.doorPapersSemantics(0), 'Papers');
     });
 
     testWidgets('with Learn switched off on the server there are two doors, and a Learn link opens Practise', (tester) async {

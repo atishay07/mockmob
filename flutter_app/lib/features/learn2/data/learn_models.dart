@@ -1483,7 +1483,7 @@ class LearnRateResult {
 
   final bool ok;
 
-  /// "Back Tue" | "Back in 20 days" | "Back later in this run" | "In Revise" | "Due now".
+  /// "Back tomorrow" | "Back in 3 days" | "Back in this run, then tomorrow" | "In Revise" | "Due now".
   final String? stamp;
 
   /// Keep's line: "In Revise" | "In Revise, back Wed" | "In Revise, due now".

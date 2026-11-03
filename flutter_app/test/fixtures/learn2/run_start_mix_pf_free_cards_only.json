@@ -1,5 +1,5 @@
 {
-  "id": "lr_e139bba5d526e91ef46276ee",
+  "id": "lr_50e2af0b0133849db6b28092",
   "kind": "mix",
   "chapter": {
     "key": "accountancy.partnership-fundamentals",
@@ -16,7 +16,7 @@
   "asked": 10,
   "items": [
     {
-      "id": "lr_e139bba5d526e91ef46276ee-i1",
+      "id": "lr_50e2af0b0133849db6b28092-i1",
       "type": "card",
       "stage": "due",
       "card": {
@@ -49,10 +49,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 12
+      "seconds": 12,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 6 days"
+      }
     },
     {
-      "id": "lr_e139bba5d526e91ef46276ee-i2",
+      "id": "lr_50e2af0b0133849db6b28092-i2",
       "type": "card",
       "stage": "due",
       "card": {
@@ -87,10 +92,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 12
+      "seconds": 12,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 weeks",
+        "easy": "in 5 weeks"
+      }
     },
     {
-      "id": "lr_e139bba5d526e91ef46276ee-i3",
+      "id": "lr_50e2af0b0133849db6b28092-i3",
       "type": "card",
       "stage": "due",
       "card": {
@@ -124,10 +134,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 12
+      "seconds": 12,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 weeks",
+        "easy": "in 5 weeks"
+      }
     },
     {
-      "id": "lr_e139bba5d526e91ef46276ee-i4",
+      "id": "lr_50e2af0b0133849db6b28092-i4",
       "type": "card",
       "stage": "new",
       "card": {
@@ -162,10 +177,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_e139bba5d526e91ef46276ee-i5",
+      "id": "lr_50e2af0b0133849db6b28092-i5",
       "type": "card",
       "stage": "new",
       "card": {
@@ -199,7 +219,12 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     }
   ],
   "revisePile": {

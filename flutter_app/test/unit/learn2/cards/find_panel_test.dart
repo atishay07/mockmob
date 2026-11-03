@@ -34,6 +34,12 @@ class _SearchApi extends FixtureLearnApi {
   }
 }
 
+/// The first line of a card's back, at most 24 characters: a line that holds a line break is drawn in two, so a finder looks for one.
+String _firstLine(String back) {
+  final first = back.split(RegExp(r'\s*\n\s*')).first.trim();
+  return first.length > 24 ? first.substring(0, 24) : first;
+}
+
 void main() {
   setUpAll(loadAppFonts);
 
@@ -102,7 +108,7 @@ void main() {
       await pumpFind(tester, FixtureLearnApi());
       expect(find.text('Results for “goodwill”'), findsOneWidget);
       expect(find.text('50 cards in 4 chapters'), findsOneWidget);
-      expect(proGroups.map((g) => g.cards.length), [32, 13, 4, 1]);
+      expect(proGroups.map((g) => g.cards.length), [34, 13, 2, 1]);
       var y = -1.0;
       for (final g in proGroups) {
         final bar = find.text(g.title);
@@ -241,9 +247,9 @@ void main() {
   group('a row', () {
     testWidgets('keeps NCERT\'s line folded until Show, and Show turns to Hide', (tester) async {
       await pumpFind(tester, FixtureLearnApi());
-      final entry = proGroups.first.cards[1];
+      final entry = proGroups.first.cards.skip(1).firstWhere((e) => !e.card.back.contains(String.fromCharCode(10)));
       final row = find.byKey(ValueKey('card-row-${entry.id}'));
-      final line = find.descendant(of: row, matching: find.textContaining(entry.card.back.substring(0, 24), findRichText: true));
+      final line = find.descendant(of: row, matching: find.textContaining(_firstLine(entry.card.back), findRichText: true));
       expect(line, findsNothing);
       await tapAt(tester, find.byKey(ValueKey('card-show-${entry.id}')));
       expect(line, findsWidgets);
@@ -257,8 +263,8 @@ void main() {
       expect(find.byKey(ValueKey('card-show-$firstId')), findsOneWidget);
       await tapAt(tester, find.byKey(const ValueKey('cards-show-answers')));
       expect(find.byKey(ValueKey('card-show-$firstId')), findsNothing);
-      final entry = proGroups.first.cards[1];
-      expect(find.descendant(of: find.byKey(ValueKey('card-row-${entry.id}')), matching: find.textContaining(entry.card.back.substring(0, 24), findRichText: true)), findsWidgets);
+      final entry = proGroups.first.cards.skip(1).firstWhere((e) => !e.card.back.contains(String.fromCharCode(10)));
+      expect(find.descendant(of: find.byKey(ValueKey('card-row-${entry.id}')), matching: find.textContaining(_firstLine(entry.card.back), findRichText: true)), findsWidgets);
     });
 
     testWidgets('opens in place to the full words, the source and its actions, and one row is open at a time', (tester) async {

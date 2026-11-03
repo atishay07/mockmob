@@ -1,5 +1,5 @@
 {
-  "id": "lr_32e55b9270a80189c669c455",
+  "id": "lr_2d53c497d687cd20e46217ee",
   "kind": "feed",
   "chapter": {
     "key": "accountancy.admission-of-partner",
@@ -16,7 +16,7 @@
   "asked": 10,
   "items": [
     {
-      "id": "lr_32e55b9270a80189c669c455-i1",
+      "id": "lr_2d53c497d687cd20e46217ee-i1",
       "type": "card",
       "stage": "new",
       "card": {
@@ -52,7 +52,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_32e55b9270a80189c669c455-i2",
+      "id": "lr_2d53c497d687cd20e46217ee-i2",
       "type": "question",
       "origin": "mistake",
       "question": {
@@ -61,19 +61,19 @@
         "options": [
           {
             "key": "A",
-            "text": "Written off by debiting partners' capital accounts in their new ratio."
+            "text": "Credited to the Revaluation Account."
           },
           {
             "key": "B",
-            "text": "Written off by debiting partners' capital accounts in their old ratio."
+            "text": "Written off by debiting partners' capital accounts in their new ratio."
           },
           {
             "key": "C",
-            "text": "Retained at its book value."
+            "text": "Written off by debiting partners' capital accounts in their old ratio."
           },
           {
             "key": "D",
-            "text": "Credited to the Revaluation Account."
+            "text": "Retained at its book value."
           }
         ]
       },
@@ -85,7 +85,7 @@
       "seconds": 60
     },
     {
-      "id": "lr_32e55b9270a80189c669c455-i3",
+      "id": "lr_2d53c497d687cd20e46217ee-i3",
       "type": "card",
       "stage": "new",
       "card": {
@@ -121,7 +121,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_32e55b9270a80189c669c455-i4",
+      "id": "lr_2d53c497d687cd20e46217ee-i4",
       "type": "question",
       "origin": "mistake",
       "question": {
@@ -154,7 +154,7 @@
       "seconds": 60
     },
     {
-      "id": "lr_32e55b9270a80189c669c455-i5",
+      "id": "lr_2d53c497d687cd20e46217ee-i5",
       "type": "card",
       "stage": "new",
       "card": {
@@ -190,7 +190,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_32e55b9270a80189c669c455-i6",
+      "id": "lr_2d53c497d687cd20e46217ee-i6",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -203,11 +203,11 @@
           },
           {
             "key": "B",
-            "text": "12:8"
+            "text": "1:1"
           },
           {
             "key": "C",
-            "text": "1:1"
+            "text": "12:8"
           },
           {
             "key": "D",
@@ -219,7 +219,7 @@
       "seconds": 50
     },
     {
-      "id": "lr_32e55b9270a80189c669c455-i7",
+      "id": "lr_2d53c497d687cd20e46217ee-i7",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -228,7 +228,7 @@
         "options": [
           {
             "key": "A",
-            "text": "Sacrifice ratio"
+            "text": "Capital ratio"
           },
           {
             "key": "B",
@@ -236,11 +236,11 @@
           },
           {
             "key": "C",
-            "text": "Profit sharing ratio"
+            "text": "Sacrifice ratio"
           },
           {
             "key": "D",
-            "text": "Capital ratio"
+            "text": "Profit sharing ratio"
           }
         ]
       },
@@ -248,7 +248,7 @@
       "seconds": 50
     },
     {
-      "id": "lr_32e55b9270a80189c669c455-i8",
+      "id": "lr_2d53c497d687cd20e46217ee-i8",
       "type": "card",
       "stage": "new",
       "card": {
@@ -284,7 +284,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_32e55b9270a80189c669c455-i9",
+      "id": "lr_2d53c497d687cd20e46217ee-i9",
       "type": "question",
       "origin": "chapter",
       "question": {
@@ -293,19 +293,19 @@
         "options": [
           {
             "key": "A",
-            "text": "₹25,200, ₹16,800 and Nil"
-          },
-          {
-            "key": "B",
             "text": "₹30,000, ₹22,500 and ₹22,500"
           },
           {
+            "key": "B",
+            "text": "₹25,200, ₹16,800 and Nil"
+          },
+          {
             "key": "C",
-            "text": "₹45,000, ₹30,000 and Nil"
+            "text": "₹37,500, ₹37,500 and Nil"
           },
           {
             "key": "D",
-            "text": "₹37,500, ₹37,500 and Nil"
+            "text": "₹45,000, ₹30,000 and Nil"
           }
         ]
       },
@@ -313,7 +313,7 @@
       "seconds": 85
     },
     {
-      "id": "lr_32e55b9270a80189c669c455-i10",
+      "id": "lr_2d53c497d687cd20e46217ee-i10",
       "type": "card",
       "stage": "new",
       "card": {
@@ -349,7 +349,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_32e55b9270a80189c669c455-i11",
+      "id": "lr_2d53c497d687cd20e46217ee-i11",
       "type": "question",
       "origin": "chapter",
       "question": {
@@ -358,19 +358,19 @@
         "options": [
           {
             "key": "A",
-            "text": "Both Assertion and Reason are true and Reason explains the Assertion"
+            "text": "Assertion false but Reason true"
           },
           {
             "key": "B",
-            "text": "Both are true but Reason does not explain the Assertion"
-          },
-          {
-            "key": "C",
             "text": "Assertion true but Reason false"
           },
           {
+            "key": "C",
+            "text": "Both Assertion and Reason are true and Reason explains the Assertion"
+          },
+          {
             "key": "D",
-            "text": "Assertion false but Reason true"
+            "text": "Both are true but Reason does not explain the Assertion"
           }
         ]
       },
@@ -378,7 +378,7 @@
       "seconds": 90
     },
     {
-      "id": "lr_32e55b9270a80189c669c455-i12",
+      "id": "lr_2d53c497d687cd20e46217ee-i12",
       "type": "question",
       "origin": "chapter",
       "question": {
@@ -387,19 +387,19 @@
         "options": [
           {
             "key": "A",
-            "text": "The new partner only"
-          },
-          {
-            "key": "B",
             "text": "The old partners only for profits earned before admission"
           },
           {
-            "key": "C",
+            "key": "B",
             "text": "The firm as retained earnings to be shared equally including new partner"
           },
           {
-            "key": "D",
+            "key": "C",
             "text": "Creditors of the firm"
+          },
+          {
+            "key": "D",
+            "text": "The new partner only"
           }
         ]
       },

@@ -10,8 +10,8 @@
   },
   "plan": "pro",
   "counts": {
-    "total": 58,
-    "all": 58,
+    "total": 60,
+    "all": 60,
     "must": 15,
     "revise": 0,
     "missed": 2,
@@ -353,6 +353,38 @@
             "sacrifice"
           ],
           "order": 130,
+          "authorImportance": "good",
+          "inRevise": false,
+          "missedLately": false,
+          "locked": false
+        },
+        {
+          "id": "kc.accountancy.admission-of-partner.fact-new-share-decided-mutually",
+          "v": 2,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.admission-of-partner",
+          "chapter": "Admission of Partner",
+          "unit": "Reconstitution of a Partnership firm",
+          "kind": "fact",
+          "front": "On admission, how are the new partner's share, and how he acquires it from the old partners, decided?",
+          "back": "what will be the share of new partner and how he will acquire it from the existing partners is decided mutually among the old partners and the new partner.",
+          "quote": "But, what will be the share of new partner and how he will acquire it from the existing partners is decided mutually among the old partners and the new partner.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 50,
+            "section": "2.3 New Profit Sharing Ratio"
+          },
+          "importance": "good",
+          "asked": 0,
+          "tags": [
+            "new profit sharing ratio"
+          ],
+          "order": 135,
+          "addedIn": "top-1102",
           "authorImportance": "good",
           "inRevise": false,
           "missedLately": false,
@@ -1702,6 +1734,38 @@
           ],
           "order": 1000,
           "authorImportance": "must",
+          "inRevise": false,
+          "missedLately": false,
+          "locked": false
+        },
+        {
+          "id": "kc.accountancy.admission-of-partner.fact-reval-entries-amount-note",
+          "v": 2,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.admission-of-partner",
+          "chapter": "Admission of Partner",
+          "unit": "Reconstitution of a Partnership firm",
+          "kind": "fact",
+          "front": "Entries for a rise or fall in an asset's or a liability's value: what amount is recorded in them?",
+          "back": "are recorded only with the amount increase and decrease in the value of assets and liabilities.",
+          "quote": "Note: Entries (i), (ii), (iii) and (iv) are recorded only with the amount increase and decrease in the value of assets and liabilities.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 78,
+            "section": "2.7 Revaluation of Assets and Reassessment of Liabilities"
+          },
+          "importance": "good",
+          "asked": 0,
+          "tags": [
+            "revaluation"
+          ],
+          "order": 1001,
+          "addedIn": "top-1102",
+          "authorImportance": "good",
           "inRevise": false,
           "missedLately": false,
           "locked": false

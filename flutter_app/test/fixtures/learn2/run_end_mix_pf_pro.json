@@ -47,7 +47,7 @@
       "count": 1
     },
     {
-      "label": "back on Thu",
+      "label": "back on Fri",
       "count": 1
     },
     {
@@ -56,6 +56,12 @@
     }
   ],
   "reviseCards": [
+    {
+      "id": "kc.accountancy.partnership-fundamentals.def-partnership-section-4",
+      "kind": "definition",
+      "front": "Define partnership (Section 4, Indian Partnership Act 1932).",
+      "mustKnow": true
+    },
     {
       "id": "kc.accountancy.partnership-fundamentals.term-partners-firm",
       "kind": "term",

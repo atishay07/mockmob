@@ -213,7 +213,8 @@ void main() {
       final router = await pumpHome(tester, overrides: homeOverrides(api));
       await settleHome(tester);
       final (path, q) = await _go(tester, find.text('Answer single questions'), router);
-      expect(path, '/explore');
+      expect(path, '/practice', reason: 'Explore is the fourth door of Practice');
+      expect(q['door'], 'explore');
       expect(q['subject'], 'accountancy');
     });
 
@@ -515,7 +516,7 @@ void main() {
       expect(find.byType(FindHome), findsNothing);
       expect(find.text('Due today'), findsOneWidget);
       expect(find.text('9 cards in 3 chapters, about 2 min'), findsOneWidget);
-      for (final chip in ['Due today 9', 'Missed lately 6', 'In Revise 26', 'Must-know 235']) {
+      for (final chip in ['Due today 9', 'Missed lately 6', 'In Revise 26', 'Must-know 236']) {
         expect(find.text(chip), findsOneWidget, reason: chip);
       }
       expect(find.byType(RoadmapOffer), findsNothing, reason: 'the offer is hidden while a set is open');
@@ -618,7 +619,7 @@ void main() {
       await settleHome(tester);
       expect(find.descendant(of: _row(_pf), matching: find.text('12 of 45 cards seen · 3 of 10 questions tried')), findsOneWidget);
       expect(find.descendant(of: _row(_pl), matching: find.text('11 of 42 cards seen · 1 question')), findsOneWidget);
-      expect(find.descendant(of: _row(_aop), matching: find.text('58 cards · 2 of 10 questions tried')), findsOneWidget, reason: 'no card seen yet: the total, never "0 of"');
+      expect(find.descendant(of: _row(_aop), matching: find.text('60 cards · 2 of 10 questions tried')), findsOneWidget, reason: 'no card seen yet: the total, never "0 of"');
       expect(find.descendant(of: _row(_cpsr), matching: find.text('Needs work · from your papers')), findsOneWidget);
       expect(find.descendant(of: _row(_aop), matching: find.text('Up next')), findsOneWidget);
       expect(find.text('Start here'), findsNothing);

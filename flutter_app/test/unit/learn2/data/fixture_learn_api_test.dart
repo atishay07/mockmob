@@ -67,12 +67,15 @@ void main() {
     final run = await api.startRun(mix);
     final cards = run.items.whereType<LearnCardItem>().toList();
     final missed = await api.rate(run.id, cards[0].id, 1);
-    expect(missed.stamp, 'Back later in this run');
+    expect(missed.stamp, 'Back in this run, then tomorrow');
     expect((missed.reinsert!.item! as LearnCardItem).stage, 'again');
+    expect((missed.reinsert!.item! as LearnCardItem).returns, isNull, reason: 'the copy put back is a last look: it has no words');
     final got = await api.rate(run.id, cards[1].id, 3);
-    expect(got.revisePile, 1);
+    expect(got.revisePile, 2, reason: 'Missed it is in Revise too (every rated card is scheduled)');
     final easy = await api.rate(run.id, cards[2].id, 4);
-    expect(easy.revisePile, 2);
+    expect(easy.revisePile, 3);
+    expect(got.stamp, 'Back ${cards[1].returns!.got}', reason: "the stamp is the key's promise");
+    expect(easy.stamp, 'Back ${cards[2].returns!.easy}');
     expect((await api.rate(run.id, cards[1].id, 4)).replay, isTrue);
     await expectLater(api.rate(run.id, cards[3].id, 2), throwsA(isA<LearnError>()));
     expect(api.ratings, hasLength(5));
@@ -155,7 +158,7 @@ void main() {
     expect((await FixtureLearnApi(newStudent: true).home('accountancy')).roadmap!.mode, 'new');
     expect((await FixtureLearnApi(pro: false, freeUsed: true).home('accountancy')).roadmap!.mode, 'freeDone');
     final free = FixtureLearnApi(pro: false);
-    expect((await free.chapterCards(l2Aop)).lockedCount, 53);
+    expect((await free.chapterCards(l2Aop)).lockedCount, 55);
     expect((await free.preview(chapterKey: l2Aop, minutes: 20)).capped, isNotNull);
     expect((await free.saveQuestion('q1')).limit, 25);
   });

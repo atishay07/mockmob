@@ -47,7 +47,7 @@
   },
   "shrink": null,
   "free": {
-    "text": "Free opens 5 of this chapter's 58 cards."
+    "text": "Free opens 5 of this chapter's 60 cards."
   },
   "resume": null,
   "firstUp": [
@@ -82,7 +82,7 @@
   "added": null,
   "shelf": {
     "cards": {
-      "count": 58,
+      "count": 60,
       "open": 5,
       "mustKnow": 15,
       "inRevise": 0
