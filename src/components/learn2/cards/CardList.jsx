@@ -14,7 +14,7 @@ import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Check, Lock } from 'lucide-react';
 import { CardSource, InShort, NcertText, ReportForm } from '@/components/keycards/KeyCard';
-import { blankRuns, gapClass, cardFace } from '@/components/keycards/kinds';
+import { blankRuns, gapClass, cardFace, kindFamily } from '@/components/keycards/kinds';
 import { TexHtml } from '@/components/keycards/TexHtml';
 import { openUpgrade } from '@/components/pro/proNudgeStore';
 import { hitParts, snippet } from './cardsShared';
@@ -47,13 +47,13 @@ function Row({ card, isPro, showAnswers, pickMode, picked, onPick, open, onToggl
   const line = source ? snippet(source, query, 210) : '';
   const must = card.importance === 'must';
   return (
-    <li ref={rowRef} className="l2c-row" id={`l2c-card-${card.id}`} data-open={open || undefined} data-line={lineOn || undefined} data-picked={picked || undefined}>
+    <li ref={rowRef} className="l2c-row" id={`l2c-card-${card.id}`} data-open={open || undefined} data-line={lineOn || undefined} data-picked={picked || undefined} data-family={kindFamily(card.kind)}>
       <label className="l2c-pick">
         <input type="checkbox" checked={picked} onChange={() => onPick(card.id)} aria-label={`Pick this card: ${front}`} />
         <span className="l2c-pick__box" aria-hidden="true"><Check size={13} strokeWidth={3} /></span>
       </label>
       <p className="l2c-kind">
-        <span>{label}</span>
+        <span className="kc-famtag">{label}</span>
         {must && !hideTags.includes('must') ? <span className="l2c-must">Must-know</span> : null}
         {card.missedLately && !hideTags.includes('missed') ? <span className="l2c-missed">Missed lately</span> : null}
         {inRevise && !hideTags.includes('revise') ? <span className="l2c-inrev">In Revise</span> : null}
