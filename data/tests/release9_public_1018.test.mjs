@@ -90,19 +90,20 @@ test('onboarding (M-006): every step has a bolder headline and lead, true and pl
 // MEDIUM: the landing still said "leaderboard" three times; LOW: "The mob speaks." and "Mob solved in" used Mob for the crowd.
 // ---------------------------------------------------------------------------------------------------------------------
 
+// The landing's words moved to homeCopy.mjs on 4 Nov 2026 (SPEC-HOME-1104 P5; page.js renders them), so both are read.
 test('landing: no "leaderboard" in any visible line (the route /leaderboard stays), and "Your standing" is said instead', () => {
-  const page = read('src/app/page.js');
+  const page = `${read('src/app/page.js')}\n${read('src/components/landing/homeCopy.mjs')}`;
   const visible = stripComments(page).replace(/'\/leaderboard'/g, "'/standing-route'");
   assert.doesNotMatch(visible, /leaderboard/i);
-  assert.match(page, /'Your standing',\n\];/, 'the Free plan item');
-  assert.match(page, /kicker: 'Benchmarks and your standing'/);
-  assert.match(page, /'Every mock earns points for accuracy and speed toward your standing'/);
+  assert.match(page, /'Weekly progress tracking', '25 saved questions', 'Your standing'\]/, 'the Free plan item');
+  assert.match(page, /'Every mock earns points toward your standing'/);
   assert.match(page, /cta: 'See your standing'/);
 });
 
 test('landing: the crowd is "students", never "the mob", now that Mob means your friends', () => {
   assert.doesNotMatch(read('src/app/page.js'), /The mob speaks/i);
-  assert.match(read('src/app/page.js'), /Students, in their own words\./);
+  assert.match(read('src/components/landing/homeCopy.mjs'), /Students, in their own words\./);
+  assert.match(read('src/app/page.js'), /<h2 className="lp-h2">\{WALL_HEAD\.h2\}<\/h2>/);
   const arena = read('src/components/landing/ArenaPreview.jsx');
   assert.doesNotMatch(arena, /Mob solved/);
   assert.match(arena, /Students solved it in <strong>/);
@@ -141,8 +142,9 @@ test('price framing: /pricing and the landing read the same helpers, and checkou
   assert.match(pricing, /\.\.\.priceTag\(offer\),/);
   assert.doesNotMatch(pricing, /\{`Pro is ₹\$\{offer\.monthly\.rupees\} a month\.`\}/, 'the H1 no longer hard-codes "a month"');
   const home = read('src/app/page.js');
-  // R3 H2: the same line, now as segments that each stay whole (heroTrustSegments); still built from priceLine(OFFER).
-  assert.ok(home.includes("<p className=\"lp-trust-line\">{heroTrustSegments(priceLine(OFFER), { monthly: OFFER.purchasable === 'monthly' }).map("));
+  // 4 Nov 2026 (SPEC-HOME-1104 P2): the same reassurances as one sentence pair with no middle dots (heroTrustSentence),
+  // still built from priceLine(OFFER).
+  assert.ok(home.includes("<p className=\"lp-trust-line\">{heroTrustSentence(priceLine(OFFER), { monthly: OFFER.purchasable === 'monthly' })}</p>"));
   // What a buyer is charged today (checkout code, unchanged): the one-time plan is ₹99, live, through 31 July 2027;
   // the monthly plan opens only when its Razorpay plan id is configured.
   const plans = read('src/lib/payments/plans.js');

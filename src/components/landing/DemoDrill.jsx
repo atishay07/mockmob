@@ -3,14 +3,21 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Icon } from '@/components/ui/Icons';
-import { Mascot } from '@/components/brand/Mascot';
 import { pipReact } from '@/components/brand/pipEvents';
 import { mobiMoment, runMood } from '@/lib/mobiMoments';
-import { markDemoAnswered } from './demoSignal.mjs';
+import { markDemoAnswered, sendDemoState } from './demoSignal.mjs';
+import { deskStateAfter } from './heroTaps.mjs';
 
 // Five original sample questions, playable with no signup. Not authenticated PYQs. This is the
 // onboarding: the drill opens already on question 1 so the first thing a
 // visitor can do on a phone is answer something, not read about answering.
+//
+// On the home page it is the card on Mobi's desk (1104 "Desk Light"): it follows the page's theme (no forced night
+// screen), its head is the subject and "1 of 5" as two plain spans (no middle dot), the stem is set in Literata (the
+// printed-paper voice) and the options carry plain letter chips. Mobi beside it answers each pick: every answer sends
+// the sample's state (demoSignal.mjs sendDemoState), which is the only thing that changes his bubble and fills one
+// bubble of Night's painted answer sheet. The card's own small Mobi retired (one Mobi in view, one finish). `note` is
+// the line under the options (the no-signup note and the other-subjects link, L-015).
 const DRILL = [
   {
     subject: 'English',
@@ -61,7 +68,7 @@ const DRILL = [
 
 const KEYS = ['A', 'B', 'C', 'D'];
 
-export function DemoDrill() {
+export function DemoDrill({ note = null }) {
   const [index, setIndex] = useState(0);
   const [picked, setPicked] = useState(null);
   const [score, setScore] = useState(0);
@@ -76,6 +83,7 @@ export function DemoDrill() {
 
   const question = DRILL[index];
   const answered = picked !== null;
+  const answeredCount = index + (answered ? 1 : 0);
 
   useEffect(() => {
     const target = focusNext.current;
@@ -92,9 +100,9 @@ export function DemoDrill() {
     if (!answered) return undefined;
     const node = footRef.current;
     if (!node) return undefined;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Instant, never a programmatic glide (LK47): only when the key is out of reach, and only by what is needed.
     const id = window.setTimeout(() => {
-      node.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+      node.scrollIntoView({ block: 'nearest', behavior: 'auto' });
     }, 320);
     return () => window.clearTimeout(id);
   }, [answered, index]);
@@ -104,6 +112,7 @@ export function DemoDrill() {
     focusNext.current = 'next';
     setPicked(optionIndex);
     markDemoAnswered();
+    sendDemoState(deskStateAfter({ index, correct: optionIndex === question.correct, total: DRILL.length }), index + 1);
     if (event.detail > 0) pipReact('hero', mobiMoment(optionIndex === question.correct ? 'rightAnswer' : 'wrongAnswer'));
     if (optionIndex === question.correct) {
       setScore((s) => s + 1);
@@ -127,6 +136,7 @@ export function DemoDrill() {
   }
 
   function restart() {
+    sendDemoState('load', 0);
     setIndex(0);
     setPicked(null);
     setScore(0);
@@ -136,15 +146,12 @@ export function DemoDrill() {
 
   if (done) {
     return (
-      <div className="mm-screen mm-drill" aria-live="polite">
-        <div className="mm-screen__bar">
-          <span className="mm-screen__live" aria-hidden="true" />
-          Drill complete
-          <span className="mm-drill__timer mm-measure">5 / 5</span>
+      <div className="lp-card mm-drill" aria-live="polite">
+        <div className="lp-card__head">
+          <span className="lp-card__sub"><b>Drill complete</b><span>5 of 5</span></span>
         </div>
-        <div className="mm-screen__body mm-drill__result" ref={resultRef} tabIndex={-1} aria-label={`Drill complete. You scored ${score} out of 5.`}>
-          <div className="pip-drill-result"><Mascot pose={runMood(score, DRILL.length) === 'encourage' ? 'encouraging' : 'celebrating'} /></div>
-          <p className="mm-drill__score mm-measure">
+        <div className="lp-card__body mm-drill__result" ref={resultRef} tabIndex={-1} aria-label={`Drill complete. You scored ${score} out of 5.`}>
+          <p className="mm-drill__score">
             {score}
             <span>/5</span>
           </p>
@@ -176,7 +183,7 @@ export function DemoDrill() {
           )}
 
           <div className="mm-drill__actions">
-            <Link href="/signup" className="mm-btn mm-btn--onnight">
+            <Link href="/signup" className="mm-btn mm-btn--primary">
               Start practising free
             </Link>
             <button type="button" className="mm-drill__replay" onClick={restart}>
@@ -189,11 +196,10 @@ export function DemoDrill() {
   }
 
   return (
-    <div className="mm-screen mm-drill">
-      <div className="mm-screen__bar">
-        <span className="mm-screen__live" aria-hidden="true" />
-        {question.subject}
-        <span className="mm-drill__progress" role="img" aria-label={`Question ${index + 1} of ${DRILL.length}`}>
+    <div className="lp-card mm-drill" data-answered={answeredCount}>
+      <div className="lp-card__head">
+        <span className="lp-card__sub"><b>{question.subject}</b><span>{index + 1} of {DRILL.length}</span></span>
+        <span className="mm-drill__progress" aria-hidden="true">
           {DRILL.map((item, i) => (
             <span
               key={item.q}
@@ -204,7 +210,7 @@ export function DemoDrill() {
         </span>
       </div>
 
-      <div className="mm-screen__body">
+      <div className="lp-card__body">
         <p className="mm-drill__q">{question.q}</p>
 
         <div className="mm-drill__options" role="group" aria-label="Answer options" ref={optionsRef}>
@@ -246,11 +252,8 @@ export function DemoDrill() {
         <div className="mm-drill__foot" aria-live="polite" ref={footRef}>
           {answered ? (
             <>
-              {/* Mobi answers the pick: a hop for a right one, a head tilt in his warm pose for a wrong one (brand-pip.css,
-                  Round 7). Where the hero's Mobi is in view (the host beside the stage, or the room's on a phone) he
-                  answers instead and this one steps aside (hero-scene.css). */}
+              {/* Mobi on the desk answers the pick (HeroMobi, from the sample's state); the card has no Mobi of its own. */}
               <p className="mm-drill__why pip-drill-reaction" data-verdict={picked === question.correct ? 'right' : 'wrong'}>
-                <Mascot pose={picked === question.correct ? 'celebrating' : 'encouraging'} />
                 <span>
                 <strong data-ok={picked === question.correct ? 'true' : 'false'}>
                   {picked === question.correct ? 'Correct.' : 'Not quite.'}
@@ -258,13 +261,14 @@ export function DemoDrill() {
                 {question.why}
                 </span>
               </p>
-              <button type="button" className="mm-btn mm-btn--onnight" onClick={next}>
+              <button type="button" className="mm-btn mm-btn--primary" onClick={next}>
                 {index + 1 >= DRILL.length ? 'See your readout' : 'Next question'}
               </button>
             </>
           ) : null}
         </div>
         </div>
+        {note ? <p className="lp-card__note">{note}</p> : null}
       </div>
     </div>
   );

@@ -62,10 +62,17 @@ test('one data-motion=reduced block calms the site, and it keeps Mobi still and 
   assert.match(globals, /@import "\.\/motion-kit\.css";/);
   assert.match(globals, /:root\[data-motion='reduced'\] \*,/);
   assert.match(globals, /:root\[data-motion='reduced'\] \.skeleton::after \{ animation: none !important; \}/);
-  // Mobi has no CSS animation to switch off: under Reduce motion MobiReact runs no frame loop and draws his still pose.
+  // Under Reduce motion MobiReact runs no frame loop and draws his still pose. The only CSS animations in mobi-figure.css
+  // are the home hero's idle="css" breathe and blink (4 Nov 2026, SPEC-HOME-1104 P2), and both sit inside a
+  // prefers-reduced-motion: no-preference block that also excludes the site's own data-motion=reduced switch.
   const react = read('src/components/brand/MobiReact.jsx');
   assert.ok(react.includes('if (resolved.live) return;'), 'a still Mobi runs no sim');
-  assert.ok(!css.includes('animation:'), 'mobi-figure.css animates nothing');
+  const animated = css.split('\n').filter((line) => line.includes('animation:'));
+  assert.equal(animated.length, 2, 'only the breathe and the blink');
+  for (const line of animated) assert.match(line, /animation: mb-(breathe|blink) /);
+  const motionBlock = css.slice(css.indexOf('@media (prefers-reduced-motion: no-preference) {'));
+  assert.ok(motionBlock.includes("mb-breathe 3.6s") && motionBlock.includes('mb-blink 170ms'), 'both only under no-preference');
+  assert.match(motionBlock, /:root:not\(\[data-motion='reduced'\]\) \.mobi-react\[data-idle='css'\]/);
 });
 
 test('the Look and feel card uses the app words', () => {

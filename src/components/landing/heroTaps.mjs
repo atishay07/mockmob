@@ -1,52 +1,87 @@
-// The home hero's Mobi lines (LK32, LK29; hero.md item 3) and the hero's two quiet fact lines (item 4). Pure: no
-// browser, no clock, so the words are tested (heroTaps.test.mjs). Word for word as decided; change them here only.
+// The home hero's words that are not the headline (1104 "Desk Light", decisions 13, 14, 18): Mobi's bubble on the
+// desk, the two fact sentences under the key and the four sentence links of the second beat. Pure: no browser, no
+// clock, so the words are tested (heroTaps.test.mjs, homeHero.test.mjs). Word for word as decided; change them here.
 //
-// On load his bubble says how he works ("Tap me."). Each tap shows the next line, one per tap, six in all; the sixth
-// stays and later taps only squash him. Tap 3 carries the live bank count, the real stored inventory the page already
-// reads (/api/stats bankSize, through bankStats.js); without it the line still holds, with no number (never made up).
+// The bubble's lines come only from the sample's state, never from taps (decision 13): on load he hands you the first
+// question; a right answer and a miss each get a line; the fifth answer gets the last. A tap gives one reaction act
+// and leaves the line as it is. The six tap-only pitch lines (LK32) retired: their facts now live in the lead, the
+// typed line and the bank line.
 
-export const HERO_LINE_LOAD = 'Hi, I’m Mobi. Tap me.';
-export const HERO_TAP_COUNT = 6;
-/** The step (1 to 6) whose tap also lifts the "Try five questions" key once (his "Try five questions?"). */
-export const HERO_KEY_LIFT_STEP = 4;
+/** The bubble's four lines, by the sample's state. Each at most 44 characters, sentence case, no hype. */
+export const DESK_LINES = Object.freeze({
+  load: 'Your first question. Go.',
+  right: 'Right. The why is under it.',
+  miss: 'Close one. Read the why.',
+  five: 'That’s five. Pick your subject next.',
+});
+export const DESK_STATES = Object.freeze(Object.keys(DESK_LINES));
+
+/** The line for a sample state ('load', 'right', 'miss' or 'five'); anything else is the load line. */
+export function deskLine(state) {
+  return DESK_LINES[state] || DESK_LINES.load;
+}
+
+/**
+ * The sample's state after an answer: the last of `total` questions answered is 'five' (whatever the pick), before
+ * that a right pick is 'right' and a wrong one 'miss'. `index` is the answered question's place, from 0.
+ */
+export function deskStateAfter({ index, correct, total = 5 }) {
+  if (Number(index) + 1 >= total) return 'five';
+  return correct ? 'right' : 'miss';
+}
+
+/** Mobi's act for a sample state: right is the app's `correct`, a miss `encourage`, the fifth `cheer`. */
+export function deskAct(state) {
+  return { right: 'correct', miss: 'encourage', five: 'cheer' }[state] || null;
+}
 
 const n = (count) => Number(count).toLocaleString('en-IN');
 const hasCount = (count) => Number.isFinite(count) && count > 0;
 
-/** The line for a tap step: 0 is the load line, 1 to 6 the taps; past 6 the sixth stays. */
-export function heroTapLine(step, bankSize = null) {
-  const s = Math.max(0, Math.min(HERO_TAP_COUNT, Math.floor(Number(step) || 0)));
-  switch (s) {
-    case 0: return HERO_LINE_LOAD;
-    case 1: return 'I find where your marks slip.';
-    case 2: return 'One timed mock shows me the chapter.';
-    case 3: return hasCount(bankSize) ? `${n(bankSize)} questions. A fresh mock every time.` : 'One big bank. A fresh mock every time.';
-    case 4: return 'Okay, okay. Try five questions?';
-    case 5: return 'Free to start. These five need no signup.';
-    default: return 'That’s all my tips. Go on, try one.';
-  }
-}
-
-/** Every line in order (load, then taps 1 to 6), for the tests and anyone checking the copy. */
-export function heroTapLines(bankSize = null) {
-  return Array.from({ length: HERO_TAP_COUNT + 1 }, (_, i) => heroTapLine(i, bankSize));
-}
-
-/** The next step after a tap (it stops at the sixth line). */
-export const nextHeroStep = (step) => Math.min(HERO_TAP_COUNT, (Number(step) || 0) + 1);
-
-/** The hero's bank line, one short line under the reassurances (the long sentence stays in the FAQ and the shelf). */
+/** The hero's bank line, one short sentence (the long sentence stays in the FAQ and the shelf). Live count only. */
 export function heroBankLine(bankSize = null) {
   return hasCount(bankSize) ? `One bank of ${n(bankSize)} questions. No cap on Pro.` : 'One live question bank. No cap on Pro.';
 }
 
-/** The reassurances as separate parts, in order, so the page can keep each one whole on a line (R3 H2: never break
- *  inside "No auto-renewal" or the price). `price` is priceLine(OFFER); `monthly` picks the last part. */
+/** The reassurances as separate parts, in order. `price` is priceLine(OFFER); `monthly` picks the last part. */
 export function heroTrustSegments(price, { monthly = true } = {}) {
   return ['Free to start', price, monthly ? 'Cancel anytime' : 'No auto-renewal'].filter(Boolean);
 }
 
-/** The three reassurances as one line with middle dots. */
+/**
+ * The reassurances as one sentence pair, with no middle dots (slop T6): "Free to start. Pro ₹99 a month, cancel
+ * anytime." The one-time offer reads "Free to start. Pro ₹99 once, through 31 July 2027, no auto-renewal."
+ */
+export function heroTrustSentence(price, { monthly = true } = {}) {
+  const [first, ...rest] = heroTrustSegments(price, { monthly });
+  if (!rest.length) return `${first}.`;
+  const tail = rest.map((part, i) => (i === 0 ? part : part.charAt(0).toLowerCase() + part.slice(1))).join(', ');
+  return `${first}. ${tail}.`;
+}
+
+/** @deprecated The old dotted line (R3 H2). Kept only until heroLines.test.mjs moves to heroTrustSentence. */
 export function heroTrustLine(price, options) {
   return heroTrustSegments(price, options).join(' · ');
 }
+
+/**
+ * The second beat (decision 14): four sentence links in a hairline row, no big numbers, no glass. The facts are
+ * unchanged from the old proof strip: five free questions, the DU programme count (DU_FACTS, live from the index),
+ * two exam screens, the 60-minute 50-question clock. `programmes` is duIndexFacts().programmes, or null.
+ */
+export function heroBeat(programmes = null) {
+  return [
+    { href: '#try-practice', title: 'Five questions free', line: 'Each with the why, no signup' },
+    ...(Number.isFinite(programmes) && programmes > 0
+      ? [{ href: '#du-eligibility', title: `${programmes} DU programmes`, line: 'Matched to your subjects' }]
+      : []),
+    { href: '#exam-experience', title: 'Two exam screens', line: 'Practise calm, rehearse NTA style' },
+    { href: '#your-prep', title: '60 minutes, 50 questions', line: 'The full CUET clock' },
+  ];
+}
+
+/** The lead (LK70): what MockMob is, in one sentence. The first clause is set in ink at weight 650. */
+export const HERO_LEAD = Object.freeze({
+  strong: 'MockMob is CUET UG mock tests',
+  rest: ' with a review that finds the chapter behind every mark you lose.',
+});

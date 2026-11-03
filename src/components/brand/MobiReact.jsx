@@ -29,6 +29,19 @@
 // `theme` ('night' or 'day') pins the light; by default he follows the page's theme.
 // To replay the same act, change the component's key. `eagerFirst` is accepted and ignored (there is
 // no image to load).
+//
+// The home hero's Mobi (1104 P2) adds four things, all off by default so every other Mobi is unchanged:
+//   idle="css"   between acts no frame loop runs at all: the rig steps only while an act (and a short settle) is
+//                moving, then stops. His rest is a CSS breathe on the compositor (mobi-figure.css, 3.6 s, scale 1
+//                to 1.012) and a blink every 4.2 s from one timer (a 170 ms CSS scale on the eyes). This removes
+//                the idle rAF and style work the audit measured (52 rAF/s, 73 style recalcs/s).
+//   gaze         desktop with a fine pointer only ((hover: hover) and (pointer: fine)): his eyes follow the
+//                pointer by at most 2.5 px, one translate on the eye group, set in one rAF per pointer move and
+//                only while he is on screen. No listener on phones, none under Reduce motion. This is the hero's
+//                old pointer spotlight, converted into his gaze (1104 decision 4).
+//   tapCycle     the acts a tap plays, in order (default the app's TAP_CYCLE).
+//   enterAt      for his first act only: start it this far through (0 to 1). The first frame is the act's still
+//                pose, so a poster drawn from that pose hands over to the moving rig without a jump.
 
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import MobiFigure from './MobiFigure';
@@ -41,6 +54,7 @@ import { useMobiPrefs } from '@/lib/mobiPrefs';
 import { MOBI_ACTS, REACTION_ACTS, SPEC, actWait, resolveAct, stanceAfter } from './mobiActs';
 import { FOLLOW, TAP_CYCLE, createTapRun, underLevel } from '@/lib/mobiMoments';
 import { useInView } from '@/lib/motion/useInView';
+import { BLINK_EVERY_MS, GAZE_MEDIA, gazeOffset } from './mobiGaze.mjs';
 
 export { MOBI_ACTS, resolveAct };
 
@@ -60,6 +74,7 @@ function seedOf(id) {
 export default function MobiReact({
   act = 'idle', size = 96, still = false, label, onDone, facing = 'right', className = '',
   mood = 'calm', interactive = false, follow = false, onTap, theme,
+  idle = 'rig', gaze = false, tapCycle = TAP_CYCLE, enterAt = 0,
 }) {
   const prefs = useMobiPrefs();
   const id = useId();
@@ -87,8 +102,11 @@ export default function MobiReact({
   const px = size / 168;
   const lite = size < 56;
 
-  // The first frame (also the server's): the stance he starts from, or his still pose.
-  const [initial] = useState(() => poseRig(moves, book, resolved.act, moodName, { live: resolved.live }));
+  // The first frame (also the server's): the stance he starts from, or his still pose (also when he enters part
+  // way through his first act, so it matches a poster drawn from that pose).
+  const [initial] = useState(() => poseRig(moves, book, resolved.act, moodName, { live: resolved.live && !(enterAt > 0) }));
+  const enterRef = useRef(enterAt > 0 ? Math.min(0.95, enterAt) : 0);
+  const cssIdle = idle === 'css';
 
   const doneRef = useRef(onDone);
   useEffect(() => { doneRef.current = onDone; }, [onDone]);
@@ -117,10 +135,11 @@ export default function MobiReact({
   const paint = useCallback((rig) => { figRef.current?.paint(rig, { px: pxRef.current }); }, []);
   const loopRef = useRef(null);
   useEffect(() => {
-    const loop = createLoop(() => simRef.current, (rig) => figRef.current?.paint(rig, { px: pxRef.current }));
+    const draw = (rig) => figRef.current?.paint(rig, { px: pxRef.current });
+    const loop = cssIdle ? createActLoop(() => simRef.current, draw) : createLoop(() => simRef.current, draw);
     loopRef.current = loop;
     return () => { loop.stop(); loopRef.current = null; };
-  }, []);
+  }, [cssIdle]);
   const wake = useCallback(() => loopRef.current?.wake(), []);
   const stop = useCallback(() => loopRef.current?.stop(), []);
 
@@ -145,14 +164,19 @@ export default function MobiReact({
       sim.step(1 / 120);
       simRef.current = sim;
       played.current.key = null;
-      paint(sim.rig);
+      if (!enterRef.current) paint(sim.rig);
     }
     if (played.current.key !== bodyKey) {
       const first = played.current.key === null;
       played.current.key = bodyKey;
       // A held act he is already standing in needs no play (a once act's settle, or the first frame).
       const redundant = spec.held && !spec.ms && sim.stance === spec.stance && sim.act == null;
-      if (!(redundant || (first && spec.held && !spec.ms))) sim.play(resolved.act);
+      if (!(redundant || (first && spec.held && !spec.ms))) {
+        sim.play(resolved.act);
+        // Entering part way through the first act: run the sim to that point before anything is drawn.
+        if (first && enterRef.current && spec.ms) { sim.run((spec.ms / 1000) * enterRef.current); paint(sim.rig); }
+      }
+      enterRef.current = 0;
     }
     wake();
   }, [resolved.live, resolved.act, bodyKey, moodName, id, paint, wake]);
@@ -179,7 +203,7 @@ export default function MobiReact({
       wake();
     };
     const current = (tapState.base === act && tapState.stance) || act;
-    if (!tapRun.current) tapRun.current = createTapRun(TAP_CYCLE);
+    if (!tapRun.current) tapRun.current = createTapRun(tapCycle);
     const sleeping = current === 'sleep';
     let next = sleeping ? 'wake' : tapRun.current.tap(Date.now());
     // A tap the Celebrations setting holds back still squashes (the app's rule).
@@ -225,6 +249,53 @@ export default function MobiReact({
     };
   }, [follow, live, facing, wake]);
 
+  // CSS idle: a blink every 4.2 s from one timer, while he is on screen and at rest (no act playing).
+  const acting = Boolean(tapState.playing) || (once && settled !== act);
+  useEffect(() => {
+    if (!cssIdle || !live || acting) return undefined;
+    const el = rootRef.current;
+    if (!el) return undefined;
+    let off = 0;
+    const blink = () => {
+      el.dataset.blink = 'true';
+      off = window.setTimeout(() => { delete el.dataset.blink; }, 180);
+    };
+    const every = window.setInterval(blink, BLINK_EVERY_MS);
+    return () => { window.clearInterval(every); window.clearTimeout(off); delete el.dataset.blink; };
+  }, [cssIdle, live, acting]);
+
+  // The gaze: fine pointers only, on screen only, never under Reduce motion. One rAF per pointer move.
+  useEffect(() => {
+    if (!gaze || !live || prefs.reduced || typeof window.matchMedia !== 'function') return undefined;
+    if (!window.matchMedia(GAZE_MEDIA).matches) return undefined;
+    const el = rootRef.current;
+    if (!el) return undefined;
+    let raf = 0;
+    let at = null;
+    const onMove = (event) => {
+      if (event.pointerType === 'touch') return;
+      at = [event.clientX, event.clientY];
+      if (raf) return;
+      raf = window.requestAnimationFrame(() => {
+        raf = 0;
+        const box = el.getBoundingClientRect();
+        if (!at || !box.height) return;
+        const [gx, gy] = gazeOffset(at, box);
+        el.style.setProperty('--gx', `${gx}px`);
+        el.style.setProperty('--gy', `${gy}px`);
+      });
+    };
+    el.dataset.gaze = 'on';
+    window.addEventListener('pointermove', onMove, { passive: true });
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      window.cancelAnimationFrame(raf);
+      delete el.dataset.gaze;
+      el.style.removeProperty('--gx');
+      el.style.removeProperty('--gy');
+    };
+  }, [gaze, live, prefs.reduced]);
+
   const accessibleName = label || (interactive ? 'Mobi' : undefined);
   return (
     <span
@@ -236,6 +307,8 @@ export default function MobiReact({
       data-mood={moodName}
       data-mb-theme={theme === 'night' || theme === 'day' ? theme : undefined}
       data-interactive={interactive ? 'true' : undefined}
+      data-idle={cssIdle ? 'css' : undefined}
+      data-acting={cssIdle && acting ? 'true' : undefined}
       role={label && !interactive ? 'img' : undefined}
       aria-label={label && !interactive ? label : undefined}
       aria-hidden={label || interactive ? undefined : true}
@@ -247,4 +320,28 @@ export default function MobiReact({
       {interactive ? <button type="button" className="mobi-react__hit" aria-label={accessibleName} onClick={onTapHit} /> : null}
     </span>
   );
+}
+
+// The frame loop for idle="css": it steps the sim while an act plays, lets the springs settle for at most 0.6 s
+// after it, then stops. No idle beats: the breathe and the blink are CSS.
+function createActLoop(getSim, paint) {
+  let raf = 0;
+  let last = 0;
+  let after = 0;
+  function frame(now) {
+    raf = 0;
+    const sim = getSim();
+    if (!sim) return;
+    const dt = last ? Math.min(0.1, (now - last) / 1000) : 1 / 60;
+    last = now;
+    sim.step(dt);
+    paint(sim.rig);
+    if (sim.act != null) after = 0; else after += dt;
+    if (sim.busy && after < 0.6) { raf = window.requestAnimationFrame(frame); return; }
+    last = 0;
+  }
+  return {
+    wake() { if (!getSim()) return; after = 0; if (!raf) { last = 0; raf = window.requestAnimationFrame(frame); } },
+    stop() { if (raf) window.cancelAnimationFrame(raf); raf = 0; last = 0; },
+  };
 }

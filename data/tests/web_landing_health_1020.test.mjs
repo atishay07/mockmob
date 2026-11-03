@@ -44,10 +44,13 @@ test('SEO: the share card speaks for the whole site (no "Commerce" only, no midd
   assert.match(og, /Unlimited mocks on Pro, from one central question bank\./);
 });
 
-test('LCP: the headline\'s still lines share one box, so the typed line never becomes a late largest paint', () => {
+// Updated 4 Nov 2026 (SPEC-HOME-1104 P2, decision 7): the h1 is three block lines of server text in one heading; the third
+// is HeroTyped, whose server text is the resting line, so the largest paint is the whole h1 at first render.
+test('LCP: the headline is server text in one h1; the typed line\'s server text is its resting line', () => {
   const page = read('src/app/page.js');
-  assert.match(page, /lp-title__line--run lp-title__brand">\{HERO_LINES\[0\]\}<\/span>\{' '\}<br \/>/);
-  assert.match(read('src/app/landing.css'), /\.lp-title__line--run \{\n\s+display: inline;\n\}/);
+  assert.match(page, /<span className="lp-title__line lp-title__brand">\{HERO_LINES\[0\]\}<\/span>\{' '\}/);
+  assert.match(page, /<HeroTyped \/>/);
+  assert.match(read('src/components/landing/HeroTyped.jsx'), /const text = view \? view\.text : REST;/);
 });
 
 test('LCP: the hero bank line (a phone\'s largest text) rises but is never invisible on its first frame', () => {
@@ -65,8 +68,11 @@ test('a11y: the feature tour slides are groups inside a plain container, not lis
   assert.doesNotMatch(tour, /<li[^>]*role="group"/);
 });
 
-test('a11y: the sample drill\'s progress pips carry their label on an image role', () => {
-  assert.match(read('src/components/landing/DemoDrill.jsx'), /<span className="mm-drill__progress" role="img" aria-label=\{`Question \$\{index \+ 1\} of/);
+// Updated 4 Nov 2026 (SPEC-HOME-1104 P2): the card's head says "1 of 5" in text, so the pips are decoration.
+test('a11y: the sample drill says where you are in text ("1 of 5"), and its progress pips are hidden from screen readers', () => {
+  const drill = read('src/components/landing/DemoDrill.jsx');
+  assert.match(drill, /<span>\{index \+ 1\} of \{DRILL\.length\}<\/span>/);
+  assert.match(drill, /<span className="mm-drill__progress" aria-hidden="true">/);
 });
 
 test('a11y: no complementary landmark sits inside main on the landing exam preview or the pricing page', () => {

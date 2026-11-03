@@ -1,74 +1,67 @@
 'use client';
 
-// The home hero's Mobi (LK32; hero.md items 2, 3, 5, 8, 9, 10, 14): the real rigged Mobi (MobiReact, the app's rig)
-// that answers taps with a line in his bubble.
+// The home hero's Mobi on the desk (1104 "Desk Light"; LK67, decisions 2, 4, 5, 13): the real rigged Mobi (MobiReact,
+// the app's rig) standing in his lamp-lit room (HeroRoom), handing you the real first question (DemoDrill, the card
+// attached to the room's foot). One variant, the same at every width; only his size changes (hero-scene.css).
 //
-//   variant="room"  phones (up to 760 px): he stands in the painted room's pool of light (HeroRoom), his bubble over
-//                   the window. 3.5 s after load, if nobody has tapped him, he looks down at the key once (curious).
-//   variant="host"  tablets and desktop (761 px up): he is the sample's host, standing in the gutter at the stage's
-//                   lower left, his feet on the stage's bottom line, facing the card; he points at it (nudge) and
-//                   answers the sample (a right answer `correct`, a wrong one `encourage`, from DemoDrill's
-//                   'pip:react' for the hero). His bubble sits above his head.
+//   First frame   the open-eyed wave (decision 2): the server draws the wave's still pose from a generated SVG
+//                 (MobiPoster, mobiPoster.generated.js). MobiReact loads on idle (or on the first press) and enters
+//                 the wave part way through, from that same pose, so nothing jumps; then he stands at ease.
+//   Rest          no frame loop (MobiReact idle="css"): a CSS breathe and a blink every 4.2 s.
+//   Gaze          desktop with a fine pointer only: his eyes follow the pointer by at most 2.5 px (the hero's old
+//                 pointer spotlight, converted; decision 4). Phones: nothing.
+//   The headline  when a typed phrase completes (HeroTyped's window event mm:hero-typed), his eyes glance 2 px
+//                 toward the h1 over 140 ms and back over 160 ms; on the final phrase he nods once (decision 5).
+//   The sample    every answer sends its state (demoSignal.mjs): a right answer plays `correct`, a miss
+//                 `encourage`, the fifth `cheer`, and only then does his bubble change (heroTaps.mjs deskLine).
+//   Taps          one reaction act each (hop, tilt, startle; never the same twice; MobiReact's tap run). The
+//                 bubble never changes on a tap (decision 13). On Android an act-playing tap buzzes 8 ms.
 //
-// Cost: no image bytes and no rig code before the page is idle. The server draws his first frame from a generated
-// SVG (MobiPoster, mobiPoster.generated.js); MobiReact loads on idle (or on the first press of his button) and draws
-// the same frame in the same commit, so nothing jumps. A tap before it has loaded changes the line at once and plays
-// the act when it arrives. A Mobi that is not shown (the other variant at this width) never loads the rig.
-//
-// Taps: each tap shows the next of six lines (heroTaps.mjs); MobiReact plays the app's tap cycle (hello, tilt, hop,
-// startle; never the same twice; reset after 8 s; 6 a visit, then only the squash). Tap 1 winks the site bar's Mobi
-// once; tap 4 ("Try five questions?") lifts that key by 2 px once. On Android each act-playing tap buzzes 8 ms.
-// Reduce motion: no acts, no wink, no lift, no buzz; the line still changes (a 120 ms fade). Celebrations follow
-// MobiReact's rule (Quiet: the hop is a nod; Off: the hop is only the squash) and Off also drops the buzz. No sound.
+// The bubble never changes size: all four lines sit in one grid cell (the widest sets the box) and the shown one
+// cross-fades in over 180 ms with a 4 px rise. A screen reader hears the current line once, from a polite live region.
+// Reduce motion: no acts, no gaze, no glance, no breathe; the line still changes (a fade). No sound.
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
-import { loadBankSize } from './bankStats';
-import { HERO_KEY_LIFT_STEP, heroTapLine, nextHeroStep } from './heroTaps.mjs';
+import { DEMO_STATE_EVENT } from './demoSignal.mjs';
+import { DESK_LINES, DESK_STATES, deskAct, deskLine } from './heroTaps.mjs';
+import { GLANCE as HERO_GLANCE, glanceOffset } from '@/components/brand/mobiGaze.mjs';
 
-export const HERO_TAP_EVENT = 'mm:mobi-tap';
-const LABEL = 'Mobi. Tap for a tip.';
-const SIZE = { room: 178, host: 140 };
-// The sample's answers he takes (DemoDrill's pipReact('hero', ...)); anything else leaves him as he is.
-const ANSWER_ACTS = new Set(['correct', 'encourage', 'cheer', 'celebrate', 'nod']);
+export const HERO_TYPED_EVENT = 'mm:hero-typed';
+const LABEL = 'Mobi. Tap him.';
+/** His drawn height in px at the desk's widest (hero-scene.css sets the real size per width). */
+const SIZE = 180;
+/** The first act and how far through it he enters (the poster is its still pose). */
+export const HERO_FIRST_ACT = 'wave';
+const ENTER_AT = 0.55;
+/** A tap plays these, in turn (never the same twice), capped at 6 a visit; then only the squash. */
+export const HERO_TAP_CYCLE = Object.freeze({ acts: ['hop', 'tilt', 'startle'], resetAfterMs: 8000, cap: 6 });
 
 function loadRig() {
   return import('@/components/brand/MobiReact').then((m) => m.default);
 }
 
-function useBubbleLine(line) {
-  // Old line out in 90 ms, the new one in over 210 ms (fadeThroughOut / fadeThroughIn); CSS does the motion. While a
-  // new line waits its 90 ms, the old one is marked out.
-  const [shown, setShown] = useState({ text: line, n: 0 });
-  useEffect(() => {
-    if (line === shown.text) return undefined;
-    const t = window.setTimeout(() => setShown((s) => ({ text: line, n: s.n + 1 })), 90);
-    return () => window.clearTimeout(t);
-  }, [line, shown.text]);
-  return { ...shown, out: line !== shown.text };
-}
-
-export default function HeroMobi({ variant = 'room', poster = null }) {
+export default function HeroMobi({ poster = null }) {
   const prefs = useMobiPrefs();
   const rootRef = useRef(null);
   const [Rig, setRig] = useState(null);
-  const [step, setStep] = useState(0);
-  const [bank, setBank] = useState(null);
-  const [act, setAct] = useState(variant === 'host' ? 'nudge' : 'idle');
-  const pendingTap = useRef(false);
-  const synthetic = useRef(false);
+  const [state, setState] = useState('load');
+  const [act, setAct] = useState(HERO_FIRST_ACT);
   const loading = useRef(false);
-  const tappedAt = useRef(0);
 
   // The rig swaps in only between presses: a press that began on the poster's button ends on it, so its click lands.
   const pressing = useRef(false);
   const ready = useRef(null);
+  const applyRef = useRef(null);
   const apply = useCallback(() => {
     if (!ready.current || pressing.current) return;
+    // While the opening (OpeningMo) still covers the page, he waits for its hand-off, so the wave is seen.
+    if (openingRunning()) { waitForHandoff(() => applyRef.current?.()); return; }
     const Component = ready.current;
     ready.current = null;
     setRig(() => Component);
   }, []);
+  useEffect(() => { applyRef.current = apply; }, [apply]);
   const load = useCallback(() => {
     if (loading.current) return;
     loading.current = true;
@@ -77,14 +70,7 @@ export default function HeroMobi({ variant = 'room', poster = null }) {
   const pressStart = () => { pressing.current = true; load(); };
   const pressEnd = () => { window.setTimeout(() => { pressing.current = false; apply(); }, 0); };
 
-  // The real bank count for the third line (the same /api/stats answer the bank line uses).
-  useEffect(() => {
-    let live = true;
-    loadBankSize().then((size) => { if (live && size) setBank(size); });
-    return () => { live = false; };
-  }, []);
-
-  // Load the rig on idle once he is actually on screen (the other variant is display: none and never intersects).
+  // Load the rig on idle once he is on screen.
   useEffect(() => {
     const node = rootRef.current;
     if (!node || typeof IntersectionObserver === 'undefined') return undefined;
@@ -101,43 +87,21 @@ export default function HeroMobi({ variant = 'room', poster = null }) {
     };
   }, [load]);
 
-  // One Mobi in view (W-074): while the room's Mobi is mostly on screen, the sample's own small Mobi steps aside
-  // (hero-scene.css reads data-hero-mobi on the root).
+  // When he waves, the site bar's Mobi (Logo B, the second o) blinks once: they are the same character.
   useEffect(() => {
-    const node = rootRef.current;
-    if (variant !== 'room' || !node || typeof IntersectionObserver === 'undefined') return undefined;
-    const root = document.documentElement;
-    const watch = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && entry.intersectionRatio >= 0.5) root.dataset.heroMobi = 'in';
-      else delete root.dataset.heroMobi;
-    }, { threshold: [0, 0.5, 1] });
-    watch.observe(node);
-    return () => { watch.disconnect(); delete root.dataset.heroMobi; };
-  }, [variant]);
+    if (!Rig || prefs.reduced) return;
+    wink();
+  }, [Rig, prefs.reduced]);
 
-  // A tap that came before the rig: once it is drawn, play the act that tap asked for (MobiReact's own cycle).
+  // The sample's state: his act and his bubble (the only thing that changes the bubble).
   useEffect(() => {
-    if (!Rig || !pendingTap.current) return;
-    pendingTap.current = false;
-    const hit = rootRef.current?.querySelector('.mobi-react__hit');
-    if (!hit) return;
-    synthetic.current = true;
-    hit.click();
-    synthetic.current = false;
-  }, [Rig]);
-
-  // Phones: if he has not been tapped 3.5 s after load, he looks down at the key once. Never repeated.
-  useEffect(() => {
-    if (variant !== 'room' || !Rig || prefs.reduced) return undefined;
-    const t = window.setTimeout(() => { if (!tappedAt.current) setAct('curious'); }, Math.max(0, 3500 - performance.now()));
-    return () => window.clearTimeout(t);
-  }, [variant, Rig, prefs.reduced]);
-
-  // The sample's answer: the host (and the room's Mobi, if he is still on screen) answers it.
-  useEffect(() => {
-    const onReact = (event) => {
-      const { station, mood } = event.detail || {};
-      if (station !== 'hero' || !ANSWER_ACTS.has(mood)) return;
+    const onState = (event) => {
+      const next = event.detail?.state;
+      if (!DESK_STATES.includes(next)) return;
+      setState(next);
+      const mood = deskAct(next);
+      if (!mood) return;
+      if (!Rig) load();
       setAct((current) => {
         if (current !== mood) return mood;
         // The same act again: step through idle so MobiReact sees a change and plays it once more.
@@ -145,42 +109,64 @@ export default function HeroMobi({ variant = 'room', poster = null }) {
         return 'idle';
       });
     };
-    window.addEventListener('pip:react', onReact);
-    return () => window.removeEventListener('pip:react', onReact);
-  }, []);
+    window.addEventListener(DEMO_STATE_EVENT, onState);
+    return () => window.removeEventListener(DEMO_STATE_EVENT, onState);
+  }, [Rig, load]);
 
-  const onTapped = (event) => {
-    if (synthetic.current) return;
-    if (!event.target.closest?.('.mobi-react__hit')) return;
-    tappedAt.current = performance.now();
-    const next = nextHeroStep(step);
-    setStep(next);
-    window.dispatchEvent(new CustomEvent(HERO_TAP_EVENT, { detail: { step: next, variant } }));
-    if (!prefs.reduced) {
-      if (next === 1 && step === 0) wink();
-      if (next === HERO_KEY_LIFT_STEP && step !== HERO_KEY_LIFT_STEP) liftKey();
-    }
-    if (!Rig) { pendingTap.current = true; load(); }
-  };
+  // The headline: a glance toward the h1 when a typed phrase completes, and one nod on the final one.
+  useEffect(() => {
+    if (prefs.reduced) return undefined;
+    const node = rootRef.current;
+    let back = 0;
+    let done = 0;
+    const onTyped = (event) => {
+      if (!node) return;
+      const h1 = document.querySelector('.lp-hero .lp-title');
+      const fig = node.querySelector('.lp-desk__figure');
+      if (!h1 || !fig) return;
+      const [x, y] = glanceOffset(h1.getBoundingClientRect(), fig.getBoundingClientRect());
+      window.clearTimeout(back);
+      window.clearTimeout(done);
+      node.style.setProperty('--glance-ms', `${HERO_GLANCE.inMs}ms`);
+      node.style.setProperty('--glx', `${x}px`);
+      node.style.setProperty('--gly', `${y}px`);
+      node.dataset.glance = 'on';
+      back = window.setTimeout(() => {
+        node.style.setProperty('--glance-ms', `${HERO_GLANCE.outMs}ms`);
+        node.style.setProperty('--glx', '0px');
+        node.style.setProperty('--gly', '0px');
+        done = window.setTimeout(() => { delete node.dataset.glance; }, HERO_GLANCE.outMs);
+      }, HERO_GLANCE.inMs + HERO_GLANCE.holdMs);
+      if (event.detail?.final) setAct((current) => (current === 'nod' ? current : 'nod'));
+    };
+    window.addEventListener(HERO_TYPED_EVENT, onTyped);
+    return () => { window.removeEventListener(HERO_TYPED_EVENT, onTyped); window.clearTimeout(back); window.clearTimeout(done); };
+  }, [prefs.reduced]);
 
   // MobiReact calls this only when a tap plays an act (never under Reduce motion, never for the squash alone).
   const onAct = () => {
     if (prefs.celebrations === 'off' || !prefs.touch) return;
     try { navigator.vibrate?.(8); } catch { /* no vibration */ }
   };
+  // A tap before the rig has loaded loads it (the act plays on the next tap; the line never changes on a tap).
+  const onTapped = (event) => {
+    if (!Rig && event.target.closest?.('.mobi-react__hit')) load();
+  };
 
-  const shown = useBubbleLine(heroTapLine(step, bank));
-  const size = SIZE[variant] || SIZE.room;
+  const line = deskLine(state);
   return (
-    <div ref={rootRef} className={`lp-mobi lp-mobi--${variant}`} data-rig={Rig ? 'on' : 'off'} data-step={step} onClick={onTapped} onPointerDown={pressStart} onPointerUp={pressEnd} onPointerCancel={pressEnd} onKeyDown={load}>
-      <p className="lp-mobi__bubble" aria-live="polite">
-        <span key={shown.n} className="lp-mobi__line" data-out={shown.out ? 'true' : undefined}>{shown.text}</span>
+    <div ref={rootRef} className="lp-mobi lp-desk__mobi" data-rig={Rig ? 'on' : 'off'} data-state={state} onClick={onTapped} onPointerDown={pressStart} onPointerUp={pressEnd} onPointerCancel={pressEnd} onKeyDown={load}>
+      <p className="lp-desk__bubble" aria-hidden="true">
+        {DESK_STATES.map((key) => (
+          <span key={key} className="lp-desk__line" data-on={key === state ? 'true' : undefined}>{DESK_LINES[key]}</span>
+        ))}
       </p>
-      <div className="lp-mobi__figure">
+      <span className="sr-only" aria-live="polite">{line}</span>
+      <div className="lp-desk__figure">
         {Rig ? (
-          <Rig act={act} size={size} interactive follow={variant === 'host' || undefined} label={LABEL} onTap={onAct} />
+          <Rig act={act} size={SIZE} interactive idle="css" gaze tapCycle={HERO_TAP_CYCLE} enterAt={ENTER_AT} label={LABEL} onTap={onAct} />
         ) : (
-          <span className="mobi-react lp-mobi__poster" data-act="idle" data-interactive="true" style={{ '--mobi-size': `${size}px`, '--mobi-ar': '0.8333' }}>
+          <span className="mobi-react lp-mobi__poster" data-act={HERO_FIRST_ACT} data-interactive="true" style={{ '--mobi-size': `${SIZE}px`, '--mobi-ar': '0.8333' }}>
             {poster}
             <button type="button" className="mobi-react__hit" aria-label={LABEL} />
           </span>
@@ -190,15 +176,29 @@ export default function HeroMobi({ variant = 'room', poster = null }) {
   );
 }
 
-// Tap 1: the site bar's Mobi (Logo B, the second o) closes and opens his eyes once (hero-scene.css).
+// The opening (openingGate.mjs) publishes its phase on window.__mmOpening and says 'handoff' and 'done' with the window
+// event mm:opening. A page without it, or one that skipped it, never waits.
+function openingRunning() {
+  return typeof window !== 'undefined' && window.__mmOpening?.phase === 'run';
+}
+let handoffWaiters = null;
+function waitForHandoff(fn) {
+  if (!handoffWaiters) {
+    handoffWaiters = new Set();
+    const go = () => {
+      window.removeEventListener('mm:opening', go);
+      const list = handoffWaiters;
+      handoffWaiters = null;
+      list.forEach((f) => f());
+    };
+    window.addEventListener('mm:opening', go);
+  }
+  handoffWaiters.add(fn);
+}
+
+// The site bar's Mobi (Logo B, the second o) closes and opens his eyes once (hero-scene.css).
 function wink() {
   const root = document.documentElement;
   root.dataset.mobiWink = 'true';
   window.setTimeout(() => { delete root.dataset.mobiWink; }, 220);
-}
-
-// Tap 4: "Try five questions?" and that key lifts 2 px and settles once (240 ms, transform only, no glow).
-function liftKey() {
-  const key = document.querySelector('.lp-hero .lp-cta a[href="/#try-practice"]');
-  key?.animate?.([{ translate: '0 0' }, { translate: '0 -2px', offset: 0.45 }, { translate: '0 0' }], { duration: 240, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' });
 }

@@ -1,7 +1,8 @@
-// The home hero as the Play app's welcome (LK32, 1 Nov 2026; hero.md): the app's own painted room instead of the
-// redrawn SVG (V16, D191, retired), the rigged Mobi standing in its light, his line in a bubble, one key and a quiet
-// text link, two quiet fact lines, and the sample on the first screen. Tablets and desktop: no room; Mobi hosts the
-// sample. The headless walk (scripts/design-audit/hero-1101-r2-capture.mjs) checks the same on the running page.
+// The home hero's desk (1104 "Desk Light", SPEC-HOME-1104 P2; LK67): one hero idea at every width. The room
+// (HeroRoom, the app's own painted file), Mobi standing in its lamp pool (HeroMobi, the rigged Mobi), his bubble on
+// the floor, and the real sample card (DemoDrill) attached to the room's foot. Phones stack it; desktop puts the
+// desk in the right column. Source-level, so no server is needed; tmp/home-1104/build-p2/shoot.mjs and
+// homeHero.test.mjs (HOME_HERO_URL) check the same on the running page.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync, statSync } from 'node:fs';
@@ -16,14 +17,61 @@ const PAGE = read('../../app/page.js');
 const DRILL = read('./DemoDrill.jsx');
 const strip = (css) => css.replace(/\/\*[\s\S]*?\*\//g, '');
 const pub = (src) => new URL(`../../../public${src}`, import.meta.url);
+const HERO = PAGE.slice(PAGE.indexOf('<section className="lp-hero">'), PAGE.indexOf('STATEMENT (scroll-scrubbed)'));
+// Every @media block's body, so a rule can be checked inside or outside them.
+const mediaBlocks = (css) => {
+  const out = [];
+  const re = /@media[^{]*\{/g;
+  let m;
+  while ((m = re.exec(css))) {
+    let depth = 1;
+    let i = re.lastIndex;
+    while (depth && i < css.length) { if (css[i] === '{') depth += 1; else if (css[i] === '}') depth -= 1; i += 1; }
+    out.push(css.slice(m.index, i));
+  }
+  return out;
+};
 
-test('the room is the app\'s painted file, not a drawn SVG room', () => {
+test('LK67: one desk at every width, the room and Mobi inside it, the card attached to its foot', () => {
+  assert.match(HERO, /<div className="lp-desk" id="try-practice">\s*<div className="lp-desk__stage">\s*<HeroRoom \/>\s*<HeroMobi poster=\{<MobiPoster id="desk" \/>\} \/>\s*<\/div>\s*<div className="lp-desk__card">\s*<DemoDrill note=\{/);
+  assert.equal((HERO.match(/<HeroMobi /g) || []).length, 1, 'one Mobi in the hero');
+  assert.doesNotMatch(PAGE, /variant="(room|host)"|lp-hero__greeting|lp-stage__heading|lp-stage__note/);
+  assert.doesNotMatch(MOBI, /variant\s*=|\{ variant/, 'HeroMobi has one variant');
+  assert.match(ROOM, /className="lp-room lp-desk__room"/);
+  assert.match(MOBI, /className="lp-mobi lp-desk__mobi"/);
+});
+
+test('LK67: no media query hides the room, Mobi, his bubble or the desk', () => {
+  const css = strip(CSS);
+  for (const block of mediaBlocks(css)) {
+    assert.doesNotMatch(block, /\.lp-(room|desk|desk__room|desk__mobi|desk__figure|desk__bubble|desk__stage)\s*\{[^}]*display:\s*none/, block.slice(0, 80));
+  }
+  // The only display: none on the room's parts is the other theme's painting.
+  const nones = [...css.matchAll(/([^{}]+)\{[^}]*display:\s*none[^}]*\}/g)].map((m) => m[1].trim());
+  for (const sel of nones) assert.match(sel, /lp-room__paint--(night|day)/, sel);
+});
+
+test('LK67: Mobi\'s size rule (134 px on phones, 180 px on desktop) and his place in the lamp pool', () => {
+  const css = strip(CSS);
+  assert.match(css, /--mobi-h: min\(134px, calc\(var\(--desk-h, 212px\) - 34px\)\);/);
+  assert.match(css, /@media \(min-width: 960px\) \{[\s\S]*\.lp-desk__figure \{ --mobi-h: 180px; left: 46px;/);
+  assert.match(css, /--desk-h: clamp\(10\.5rem, 25svh, 13\.25rem\);/, 'the phone room: 168 to 212 px');
+  assert.match(css, /\.mm\.lp \.lp-desk \{ --desk-h: 318px; margin: 0; \}/, 'the desktop room: 318 px');
+  assert.match(css, /grid-template-columns: minmax\(0, 1fr\) 520px;/);
+});
+
+test('the room is the app\'s painted file, not a drawn SVG room, and only the shown theme\'s file is fetched', () => {
   assert.ok(!existsSync(new URL('./HeroScene.jsx', import.meta.url)), 'HeroScene.jsx is gone');
-  assert.doesNotMatch(PAGE, /HeroScene|lp-scene__art|lp-hero__for|For CUET UG 2027/);
   assert.doesNotMatch(ROOM, /<rect|<polygon|<path/, 'no drawn room shapes');
   assert.match(ROOM, /sceneArt\('welcomeBand'\)/);
   assert.match(ROOM, /sceneArt\('allClear', \{ night: false \}\)/);
-  assert.match(PAGE, /<div className="lp-hero__greeting"><HeroRoom \/><HeroMobi variant="room" poster=\{<MobiPoster id="room" \/>\} \/><\/div>/);
+  assert.equal((ROOM.replace(/^\s*\/\/.*$/gm, '').match(/loading="lazy"/g) || []).length, 1, 'one Picture component, lazy');
+  assert.match(ROOM, /decoding="async"/);
+  assert.match(ROOM, /width=\{art\.width\} height=\{art\.height\} alt=""/);
+  const css = strip(CSS);
+  assert.match(css, /\.lp-room__paint--night \{ display: none;/);
+  assert.match(css, /:root\[data-theme='dark'\] \.lp-room__paint--night \{ display: block; \}/);
+  assert.match(css, /:root\[data-theme='dark'\] \.lp-room__paint--day \{ display: none; \}/);
 });
 
 test('the band files exist within budget and the scene model knows them', () => {
@@ -34,112 +82,80 @@ test('the band files exist within budget and the scene model knows them', () => 
   const kb = (w, f) => statSync(pub(sceneSrc(band, w, f))).size / 1000;
   assert.ok(kb(780, 'avif') <= 55, `780w avif ${kb(780, 'avif')} KB`);
   assert.ok(kb(1170, 'avif') <= 95, `1170w avif ${kb(1170, 'avif')} KB`);
-  for (const w of band.widths) assert.ok(existsSync(pub(sceneSrc(band, w, 'webp'))));
   const day = sceneArt('allClear', { night: false });
   assert.ok(statSync(pub(sceneSrc(day, 768, 'avif'))).size / 1000 <= 30);
 });
 
-test('only the shown theme\'s file is fetched, and nothing shifts when it decodes', () => {
-  // Both pictures are lazy; the other theme's box is display: none, which a browser never fetches.
-  assert.equal((ROOM.replace(/^\s*\/\/.*$/gm, '').match(/loading="lazy"/g) || []).length, 1, 'one Picture component, lazy');
-  assert.match(ROOM, /decoding="async"/);
-  assert.match(ROOM, /width=\{art\.width\} height=\{art\.height\} alt=""/);
-  assert.match(ROOM, /<Picture art=\{NIGHT\} sizes="100vw"/);
-  assert.match(ROOM, /<Picture art=\{DAY\} sizes="150vw"/);
+test('the painting\'s place: Night keeps its answer sheet in view at any room height; Day is overscanned to 118 %', () => {
   const css = strip(CSS);
-  assert.match(css, /\.lp-room__paint--night \{ display: none;/);
-  assert.match(css, /:root\[data-theme='dark'\] \.lp-room__paint--night \{ display: block; \}/);
-  assert.match(css, /:root\[data-theme='dark'\] \.lp-room__paint--day \{ display: none; \}/);
-  // The room's height is fixed before anything loads.
-  assert.match(css, /--room-h: clamp\(17rem, 38svh, 20rem\);/);
-  assert.match(css, /height: var\(--room-h\);/);
-});
-
-test('the painting sits where hero.md places it: the floor ellipse 28 px above the room\'s foot', () => {
-  const css = strip(CSS);
-  // Night: W wide, 1.25 W tall; top = room - 28 px - 0.853 x 1.25 W.
-  assert.equal(+(anchors.welcome.ellipse.cy * 125).toFixed(3), 106.625);
-  assert.match(css, /\.lp-room__paint--night \{[^}]*height: 125cqw; top: calc\(var\(--room-h\) - 28px - 106\.625cqw\); \}/);
-  // Day: 1.5 W wide, 1.0 W tall, centred; ellipse at 0.785.
-  assert.equal(anchors.vignette.scenes.allClear.life.ellipseY, 0.785);
-  assert.match(css, /\.lp-room__paint--day \{ left: -25cqw; width: 150cqw; height: 100cqw; top: calc\(var\(--room-h\) - 28px - 78\.5cqw\); \}/);
-  // The band file inside the painting's frame.
+  // The sheet's top row (y 0.4214) sits under the top: the painting's y 0.405 at 4 px, its box 1.25 W tall.
+  const top = Math.min(...anchors.welcome.sheetBubbles.centers.map(([, y]) => y)) - anchors.welcome.sheetBubbles.r;
+  assert.ok(top > 0.405, 'the top bubble is below the line held 4 px under the room\'s top');
+  assert.equal(+(0.405 * 125).toFixed(3), 50.625);
+  assert.match(css, /\.lp-room__paint--night \{ display: none; left: 0; width: 100cqw; height: 125cqw; top: calc\(4px - 50\.625cqw\); \}/);
   assert.match(css, /\.lp-room__file--night \{ top: 20%; height: 75%; \}/);
+  assert.match(css, /\.lp-room__paint--day \{ left: -9cqw; width: 118cqw; height: 78\.667cqw; bottom: -12%; \}/);
+  assert.equal(+(118 / 1.5).toFixed(3), 78.667, 'the Day file is 3:2');
 });
 
-test('each tap fills the next of six measured sheet bubbles at Night, 120 ms after the tap; Day has no overlay', () => {
+test('decision 13: the Night sheet fills one bubble per sample answer (not per tap), 120 ms after it; Day has no overlay', () => {
   const bubbles = anchors.welcome.sheetBubbles;
   assert.equal(bubbles.centers.length, 6);
-  for (const [x, y] of bubbles.centers) assert.ok(x > anchors.welcome.sheetLeft && x < 0.9 && y > 0.4 && y < 0.6, 'on the sheet');
-  assert.match(ROOM, /viewBox=\{`0 0 \$\{PAINT\.width\} \$\{PAINT\.height\}`\}/);
-  assert.match(ROOM, /window\.setTimeout\(\(\) => setFilled[\s\S]{0,120}\), 120\);/);
+  assert.match(ROOM, /window\.addEventListener\(DEMO_STATE_EVENT, onState\)/);
+  assert.doesNotMatch(ROOM, /HERO_TAP_EVENT|mm:mobi-tap/, 'taps fill nothing');
+  assert.match(ROOM, /setFilled\(\(n\) => Math\.max\(n, Math\.min\(BUBBLES\.centers\.length, answered\)\)\), SHEET_FILL_DELAY_MS\)/);
+  assert.match(ROOM, /export const SHEET_FILL_DELAY_MS = 120;/);
   assert.equal((ROOM.match(/lp-room__sheet/g) || []).length, 1, 'one overlay, inside the Night painting');
   assert.ok(ROOM.indexOf('lp-room__sheet') < ROOM.indexOf('lp-room__paint--day'));
   assert.match(strip(CSS), /\.lp-room__dot\[data-on\] \{ transform: none; opacity: 1; transition: transform 180ms cubic-bezier\(0\.23, 1, 0\.32, 1\)/);
+});
+
+test('decision 13: the bubble never changes size; the line cross-fades over 180 ms with a 4 px rise', () => {
+  assert.match(MOBI, /\{DESK_STATES\.map\(\(key\) => \(\s*<span key=\{key\} className="lp-desk__line" data-on=\{key === state \? 'true' : undefined\}>\{DESK_LINES\[key\]\}<\/span>/);
+  assert.match(MOBI, /<span className="sr-only" aria-live="polite">\{line\}<\/span>/, 'a screen reader hears the current line');
+  const css = strip(CSS);
+  assert.match(css, /\.lp-desk__bubble \{[^}]*display: grid;[^}]*width: 9\.75rem;/);
+  assert.match(css, /\.lp-desk__line \{\n\s+grid-area: 1 \/ 1;/, 'all lines share one cell, so the widest sets the box');
+  assert.match(css, /transform: translate3d\(0, 4px, 0\);\n\s+transition: opacity 180ms/);
+  assert.doesNotMatch(css, /\.lp-desk__bubble[^{]*\{[^}]*(transition|animation)[^}]*(width|height)/);
+});
+
+test('decision 2: his first frame is the open-eyed wave (the poster), and the rig enters that same act', () => {
+  assert.match(MOBI, /export const HERO_FIRST_ACT = 'wave';/);
+  assert.match(MOBI, /useState\(HERO_FIRST_ACT\)/);
+  assert.match(MOBI, /enterAt=\{ENTER_AT\}/);
+  assert.match(read('../../../scripts/brand/build-mobi-poster.mjs'), /const ACT = 'wave';\nconst initial = poseRig\(moves, book, ACT, 'calm', \{ live: false \}\);/);
+  assert.match(read('./mobiPoster.generated.js'), /the wave's still pose, mood calm, eyes open/);
+  assert.doesNotMatch(MOBI, /'hello'/, 'never the closed-eye hello squint');
+  assert.match(MOBI, /export const HERO_TAP_CYCLE = Object\.freeze\(\{ acts: \['hop', 'tilt', 'startle'\]/, 'taps never squint either');
+});
+
+test('the sample: a theme-aware card with the subject and "1 of 5" as two spans, a Literata stem, the reasoning only once answered', () => {
+  assert.match(DRILL, /<span className="lp-card__sub"><b>\{question\.subject\}<\/b><span>\{index \+ 1\} of \{DRILL\.length\}<\/span><\/span>/);
+  assert.doesNotMatch(DRILL, /mm-screen|·|Mascot/, 'no forced night screen, no middle dot, no second Mobi');
+  assert.match(DRILL, /<div className="mm-drill__reveal" data-open=\{answered \? 'true' : 'false'\}>/);
+  assert.match(HERO, /No signup for these five\. Other subjects\? <Link href="\/signup">Pick yours free<\/Link>/);
+  const css = strip(CSS);
+  assert.match(css, /\.mm\.lp \.lp-desk \.mm-drill__q \{[^}]*font-family: var\(--font-stem, Georgia, 'Times New Roman', serif\);/);
+  assert.match(css, /grid-template-rows: 0fr; transition: grid-template-rows 240ms/);
+  assert.match(css, /\.mm-drill__reveal\[data-open='true'\] \{ grid-template-rows: 1fr; \}/);
 });
 
 test('the room breathes once and rests; never under Reduce motion', () => {
   assert.match(ROOM, /<SceneLife scene="welcome" night breaths=\{1\} \/>/);
   assert.match(ROOM, /<SceneLife scene="allClear" night=\{false\} breaths=\{1\} \/>/);
   const life = lifeLayers(anchors, 'welcome');
-  assert.equal(life.glow.x, anchors.welcome.lamp.x);
-  assert.equal(life.motes.length, anchors.vignette.life.motes);
   assert.equal(life.aspect, 1.25);
   assert.match(read('../scenes/SceneLife.jsx'), /if \(!run \|\| done \|\| prefs\.reduced \|\| saveData\(\)\) return null;/);
 });
 
-test('phones only: wider screens never draw the room', () => {
+test('nothing in the hero loops; reduce motion gets fades or nothing', () => {
   const css = strip(CSS);
-  assert.match(css, /^\.lp-room,\n\.lp-mobi--room,\n\.lp-mobi--host \{ display: none; \}/m);
-  const outside = css.replace(/@media \(max-width: 760px\)[^{]*\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/g, '');
-  assert.doesNotMatch(outside, /\.lp-room \{|\.lp-room__paint--(night|day) \{|\.lp-mobi--room \{/);
-  assert.match(css, /@media \(min-width: 761px\) \{\n\s+\.mm\.lp \.lp-hero__greeting \{ display: none; \}/);
-});
-
-test('the details band is two quiet lines: no eyebrow, no stacked checks, no three-line bank sentence', () => {
-  // R3 H2: the line is the segments, each in its own nowrap span (heroLines.test.mjs pins the markup).
-  assert.ok(PAGE.includes('<p className="lp-trust-line">{heroTrustSegments(priceLine(OFFER), '));
-  assert.match(PAGE, /<QuestionBankLine variant="short" className="lp-bank lp-bank--short" \/>/);
-  assert.doesNotMatch(PAGE, /<ul className="lp-trust"/);
-  assert.match(strip(CSS), /\.lp \.lp-hero__facts > p \{ margin: 0; max-width: none; font-size: 0\.8125rem;/);
-});
-
-test('the sample loses its repeated lines and opens the reasoning only once answered', () => {
-  assert.doesNotMatch(DRILL, /Tap an answer\. No signup needed\.|mm-drill__ghost|The reasoning shows up here/);
-  assert.match(DRILL, /<div className="mm-drill__reveal" data-open=\{answered \? 'true' : 'false'\}>/);
-  assert.doesNotMatch(PAGE, /lp-stage__path|Read why it’s right/);
-  assert.match(PAGE, /<p className="lp-stage__note">Five CUET-style questions, each with the why\.<\/p>/);
-  const css = strip(CSS);
-  assert.match(css, /grid-template-rows: 0fr;\n\s+transition: grid-template-rows 240ms/);
-  assert.match(css, /\.mm-drill__reveal\[data-open='true'\] \{ grid-template-rows: 1fr; \}/);
-});
-
-test('the entrance plays once in hero.md\'s order; nothing loops', () => {
-  const css = strip(CSS);
-  assert.match(css, /\.lp-mobi--room \.lp-mobi__figure \{ animation: lp-mobi-appear 750ms [^;]* 150ms backwards; \}/);
-  assert.match(css, /\.lp-title \{ animation: lp-scene-rise 420ms [^;]* 240ms backwards; \}/);
-  assert.match(css, /\.lp-cta\[data-hero\] \{ animation-delay: 330ms; \}/);
-  assert.match(css, /\.lp-mobi--room \.lp-mobi__bubble \{ animation: lp-scene-bubble 260ms [^;]* 900ms backwards; \}/);
-  assert.match(css, /@keyframes lp-scene-rise \{ from \{ transform: translate3d\(0, 8px, 0\); \} \}/, 'the title never starts invisible');
   assert.doesNotMatch(css, /infinite/);
-  assert.match(css, /transition: opacity 200ms/, 'the room fades in once decoded');
-});
-
-test('reduce motion (the system setting or the site switch) gets fades only', () => {
-  const css = strip(CSS);
-  assert.match(css, /@media \(max-width: 760px\) and \(prefers-reduced-motion: reduce\) \{[^}]*\{ animation: lp-scene-fade 240ms ease-out backwards; \}/);
-  assert.match(css, /:root\[data-motion='reduced'\] \.lp-mobi--room \.lp-mobi__bubble \{ animation: lp-scene-fade 240ms ease-out backwards; \}/);
-  assert.match(css, /:root\[data-motion='reduced'\] \.lp-mobi__line \{ animation: lp-line-fade 120ms ease-out both; \}/);
-  assert.match(css, /:root\[data-motion='reduced'\] \.lp-room__dot\[data-on\] \{ transform: none; transition: opacity 120ms ease-out; \}/);
-});
-
-test('one key: the second hero action is a quiet text link with a 44 px target and a visible focus ring', () => {
-  const css = strip(CSS);
-  assert.match(css, /\.lp \.lp-cta \.mm-actions > a:nth-child\(2\) \{\n\s+min-height: 44px;[\s\S]*?background: transparent;\n\s+box-shadow: none;/);
-  assert.match(css, /\.lp \.lp-cta \.mm-actions > a:focus-visible \{ outline: 2px solid/);
+  assert.match(css, /:root\[data-motion='reduced'\] \.lp-desk__line \{ transform: none; \}/);
+  assert.match(css, /:root\[data-motion='reduced'\] \.lp-room__dot\[data-on\] \{ transition: opacity 120ms ease-out; \}/);
 });
 
 test('no video, GIF or frame sequence anywhere in the hero', () => {
-  const hero = PAGE.slice(PAGE.indexOf('<section className="lp-hero">'), PAGE.indexOf('{/* Second hero beat'));
-  for (const src of [hero, ROOM, MOBI]) assert.doesNotMatch(src, /<video|\.mp4|\.webm|\.gif|mobi3d/);
+  for (const src of [HERO, ROOM, MOBI]) assert.doesNotMatch(src, /<video|\.mp4|\.webm|\.gif|mobi3d/);
 });

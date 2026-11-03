@@ -31,3 +31,13 @@ export function heroKeyClass({ answered: isAnswered }) {
 export function resetDemoSignal() {
   answered = false;
 }
+
+// The sample's state for the desk (1104 decision 13): DemoDrill sends it after every answer and on a restart, and
+// the desk listens. HeroMobi turns it into his bubble line and his act (heroTaps.mjs deskLine, deskAct); HeroRoom
+// fills one bubble of Night's painted answer sheet per answer. detail: { state, answered }, where state is 'load',
+// 'right', 'miss' or 'five' and answered is how many of the five are answered (0 to 5).
+export const DEMO_STATE_EVENT = 'mm:demo-state';
+
+export function sendDemoState(state, answered, target = typeof window === 'undefined' ? null : window) {
+  target?.dispatchEvent?.(new CustomEvent(DEMO_STATE_EVENT, { detail: { state, answered } }));
+}

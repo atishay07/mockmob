@@ -1,44 +1,49 @@
 'use client';
 
-// The phone hero's room (LK32; hero.md items 1, 7, 8, 9, 11): the Play app's own painted welcome room, not a redrawn
-// SVG. Phones only (up to 760 px); hero-scene.css lays it out and wider screens never draw it.
+// The desk's room (1104 "Desk Light"; LK67): the Play app's own painted room behind Mobi, at every width. Phones and
+// desktop get the same desk (the room, Mobi in its lamp pool, his bubble, the sample card attached to its foot);
+// only the arrangement around it differs. hero-scene.css sizes it (.lp-desk__room).
 //
-//   Night  the welcome room (the app's welcome screen), as its band file scene-welcome-band-night (y 0.20 to 0.95 of
-//          the 1296 x 1620 painting), drawn W wide so the floor ellipse's centre sits 28 px above the room's foot.
-//   Day    the app's Day welcome room (scene-empty-allclear-day), drawn 1.5 W wide and centred, its feathered sides
-//          running off the screen (the app's dayGrow 1.5).
+//   Night  the welcome room's band file (scene-welcome-band-night, y 0.20 to 0.95 of the 1296 x 1620 painting),
+//          drawn the room's full width and placed so the pinned answer sheet's top row sits 4 px under the room's top
+//          edge at any room height (the sheet is the room's mechanic, so it must stay in view).
+//   Day    the app's Day room (scene-empty-allclear-day), overscanned to 118 % of the room's width so its feathered
+//          edges never show inside the frame.
 //
 // Both pictures are in the markup with loading="lazy": the other theme's is display: none, which a browser never
-// fetches, so a phone loads one file. Width, height and the box's own size are set, so nothing shifts; each fades in
-// over 200 ms once decoded. Decoration only (alt="", aria-hidden): Mobi and his line carry the meaning.
+// fetches, so a page loads one file. Width, height and the box's own size are set, so nothing shifts; each fades in
+// over 200 ms once decoded. Decoration only (alt="", aria-hidden): Mobi, his line and the card carry the meaning.
 //
-// Night's pinned answer sheet answers Mobi's taps: each tap fills the next of six empty bubbles in volt
-// (data/scene-anchors.json welcome.sheetBubbles, measured from the master), 120 ms after the tap. The Day sheet is
-// already full ("all clear"), so it has no overlay. The room breathes once (SceneLife, one 8 s breath) and rests.
+// Night's pinned answer sheet answers the sample, not taps: each answer fills the next of its six empty bubbles in
+// volt (data/scene-anchors.json welcome.sheetBubbles, measured from the master), 120 ms after the answer, so the
+// room's mechanic means something (decision 13). The Day sheet is already full ("all clear"), so it has no overlay.
+// The room breathes once (SceneLife, one 8 s breath) and rests.
 
 import { useEffect, useRef, useState } from 'react';
 import anchors from '@/components/scenes/anchors';
 import { sceneArt, sceneSrc, sceneSrcSet } from '@/components/scenes/sceneModel.mjs';
 import SceneLife from '@/components/scenes/SceneLife';
 import { useSceneTheme } from '@/components/scenes/SceneImage';
-import { HERO_TAP_EVENT } from './HeroMobi';
+import { DEMO_STATE_EVENT } from './demoSignal.mjs';
 
 const NIGHT = sceneArt('welcomeBand');
 const DAY = sceneArt('allClear', { night: false });
 const BUBBLES = anchors.welcome.sheetBubbles;
 const PAINT = anchors.welcome.file;
+/** Milliseconds after an answer before its bubble fills. */
+export const SHEET_FILL_DELAY_MS = 120;
 
-function Picture({ art, sizes, className, onReady }) {
+function Picture({ art, sizes, className }) {
   const ref = useRef(null);
   const [ready, setReady] = useState(false);
   useEffect(() => {
     const img = ref.current;
     if (!img) return undefined;
-    const done = () => { setReady(true); onReady?.(); };
+    const done = () => setReady(true);
     if (img.complete && img.naturalWidth) { done(); return undefined; }
     img.addEventListener('load', done, { once: true });
     return () => img.removeEventListener('load', done);
-  }, [onReady]);
+  }, []);
   return (
     <picture>
       <source type="image/avif" srcSet={sceneSrcSet(art, 'avif')} sizes={sizes} />
@@ -53,20 +58,20 @@ export function HeroRoom() {
   const [filled, setFilled] = useState(0);
   useEffect(() => {
     let timer = 0;
-    const onTap = (event) => {
-      const step = event.detail?.step || 0;
+    const onState = (event) => {
+      const answered = Number(event.detail?.answered) || 0;
+      if (!answered) return;
       window.clearTimeout(timer);
-      // 120 ms after the tap, so the fill lands on the hop's apex.
-      timer = window.setTimeout(() => setFilled((n) => Math.max(n, Math.min(BUBBLES.centers.length, step))), 120);
+      timer = window.setTimeout(() => setFilled((n) => Math.max(n, Math.min(BUBBLES.centers.length, answered))), SHEET_FILL_DELAY_MS);
     };
-    window.addEventListener(HERO_TAP_EVENT, onTap);
-    return () => { window.removeEventListener(HERO_TAP_EVENT, onTap); window.clearTimeout(timer); };
+    window.addEventListener(DEMO_STATE_EVENT, onState);
+    return () => { window.removeEventListener(DEMO_STATE_EVENT, onState); window.clearTimeout(timer); };
   }, []);
 
   return (
-    <div className="lp-room" aria-hidden="true">
+    <div className="lp-room lp-desk__room" aria-hidden="true">
       <div className="lp-room__paint lp-room__paint--night">
-        <Picture art={NIGHT} sizes="100vw" className="lp-room__file--night" />
+        <Picture art={NIGHT} sizes="(max-width: 760px) calc(100vw - 32px), 520px" className="lp-room__file--night" />
         <svg className="lp-room__sheet" viewBox={`0 0 ${PAINT.width} ${PAINT.height}`} preserveAspectRatio="none" focusable="false">
           {BUBBLES.centers.map(([x, y], i) => (
             <circle key={i} className="lp-room__dot" data-on={i < filled ? 'true' : undefined} cx={(x * PAINT.width).toFixed(1)} cy={(y * PAINT.height).toFixed(1)} r={(BUBBLES.r * PAINT.width).toFixed(1)} />
@@ -75,7 +80,7 @@ export function HeroRoom() {
         {theme === 'night' ? <SceneLife scene="welcome" night breaths={1} /> : null}
       </div>
       <div className="lp-room__paint lp-room__paint--day">
-        <Picture art={DAY} sizes="150vw" className="lp-room__file--day" />
+        <Picture art={DAY} sizes="(max-width: 760px) 118vw, 614px" className="lp-room__file--day" />
         {theme === 'day' ? <SceneLife scene="allClear" night={false} breaths={1} /> : null}
       </div>
     </div>

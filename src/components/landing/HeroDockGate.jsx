@@ -25,9 +25,9 @@ export function HeroDockGate({ children }) {
     const cta = document.querySelector('.lp-hero .lp-cta');
     const demo = document.getElementById('try-practice');
     const elig = document.querySelector('#du-eligibility .du-teaser__pick');
-    // The interactive product panels (the feature tour's screen, the exam comparator) are content you read to the
+    // The interactive product panels (the feature tour's screen, the exam screen's frame) are content you read to the
     // last row, so the bar steps aside while a real part of one holds the screen, as it does for the demo.
-    const panels = [...document.querySelectorAll('.lp .ft, .lp .lp-exam')];
+    const panels = [...document.querySelectorAll('.lp .ft, .lp .xs-frame')];
     // One volt per screen (W-075): while a section's own volt button (pricing, the eligibility teaser, the close band)
     // is in the band between the nav and the bar, the bar steps aside so that button is the only volt on screen.
     const volts = [...document.querySelectorAll('.lp main :is(.mm-btn--primary, .btn-volt)')].filter((el) => !el.closest('.lp-hero, .lp-dockgate'));

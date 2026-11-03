@@ -94,13 +94,12 @@ test('first-timer#15: the This week header carries "4 study days", not "This wee
   assert.equal(weekDays({ studyDays: 2, daysGoal: 4 }).text, '2 of 4 study days');
 });
 
-test('hero: on a phone the bubble tail leans toward the head of Mobi, from the flat part of the bottom edge of the bubble', () => {
-  const css = read('src/app/hero-scene.css');
-  const m = css.match(/\.lp-mobi--room \.lp-mobi__bubble::after \{ right: ([\d.]+)rem; bottom: (-?\d+)px; width: (\d+)px; height: (\d+)px; rotate: (\d+)deg; \}/);
-  assert.ok(m, 'the room bubble has its own tail rule');
-  const [, right, , w, h, deg] = m;
-  assert.equal(w, h, 'a square rotated into a tail');
-  assert.ok(Number(deg) > 0 && Number(deg) < 45, 'tilted off the straight-down 45 degrees toward the right (his head)');
-  // The corner curve of the bubble is 16 px: the centre of the tail stays clear of it.
-  assert.ok(Number(right) * 16 + Number(w) / 2 >= 16, 'the tail sits on the flat part of the edge');
+// Updated 4 Nov 2026 (SPEC-HOME-1104 P2, Desk Light): the bubble sits on the floor to Mobi's right, so instead of a
+// rotated tail its own corner points at him: the bottom-left corner is the sharp one (16 16 16 4).
+test('hero: the desk bubble points at Mobi with its sharp bottom-left corner, sitting to his right on the floor', () => {
+  const css = read('src/app/hero-scene.css').replace(/\/\*[\s\S]*?\*\//g, '');
+  const bubble = css.match(/\.lp-desk__bubble \{[^}]*\}/)?.[0] || '';
+  assert.match(bubble, /border-radius: 16px 16px 16px 4px;/, 'the corner nearest him is the sharp one');
+  assert.match(bubble, /left: calc\(30px \+ var\(--bubble-x, 98px\)\);/, 'to his right (he stands 30 px in)');
+  assert.doesNotMatch(css, /\.lp-desk__bubble::after/, 'no separate tail shape');
 });
