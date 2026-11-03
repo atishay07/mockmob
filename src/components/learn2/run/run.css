@@ -632,22 +632,24 @@ html[data-motion='reduced'] .lr .lr-face { transition: opacity 120ms linear !imp
 .lr-back .kc-formula, .lr-back .kc-short { line-height: var(--lr-pitch); }
 .lr-back .kc-short { margin-top: 0; }
 .lr-face--back > .lr-back:has(.kc-ncert--entry, .katex-display) { background-image: none; padding-bottom: 0; }
-/* The deck under the card: two edges of the same paper, a shade deeper each (the light falls on the top card), the nearer
-   one 7 px down and 10 px in, the farther 14 px down and 20 px in. */
+/* The deck under the card: the next two cards of the pile, each a whole card-sized sheet (the card's full radius on all four
+   corners, the paper hairline and shadow), a shade deeper each (the light falls on the top card). The nearer one sits 7 px down
+   and 10 px in on each side, the farther 14 px down and 20 px in; the top card hides all but a sliver, and when it turns or
+   leaves, what shows is the next card, never a flat-topped slab. */
 .lr-card:not(.lr-card--lesson) { margin-bottom: 14px; }
 .lr-card:not(.lr-card--lesson)::before, .lr-card:not(.lr-card--lesson)::after {
-  content: ''; position: absolute; z-index: -1; left: 10px; right: 10px; bottom: -7px; height: 48px; pointer-events: none;
-  border: 1px solid var(--kc-paper-line); border-radius: 0 0 22px 22px; background: var(--kc-edge-1); box-shadow: var(--kc-paper-shadow);
+  content: ''; position: absolute; z-index: -1; top: 7px; right: 10px; bottom: -7px; left: 10px; pointer-events: none;
+  border: 1px solid var(--kc-paper-line); border-radius: 24px; background: var(--kc-edge-1); box-shadow: var(--kc-paper-shadow);
 }
-.lr-card:not(.lr-card--lesson)::before { left: 20px; right: 20px; bottom: -14px; background: var(--kc-edge-2); }
+.lr-card:not(.lr-card--lesson)::before { top: 14px; right: 20px; bottom: -14px; left: 20px; background: var(--kc-edge-2); }
 @media (min-width: 768px) {
   .lr-face { --lr-fx: 28px; }
   .lr-face > .kc-head, .lr-card[data-family] .lr-face > .kc-head { min-height: 52px; }
   .lr-face > .kc-head .kc-kind, .lr-card[data-family] .lr-face .kc-kind { font-size: 16px; }
   .lr-back { --lr-pitch: 30px; }
   .lr-card:not(.lr-card--lesson) { margin-bottom: 16px; }
-  .lr-card:not(.lr-card--lesson)::after { left: 14px; right: 14px; bottom: -8px; }
-  .lr-card:not(.lr-card--lesson)::before { left: 28px; right: 28px; bottom: -16px; }
+  .lr-card:not(.lr-card--lesson)::after { top: 8px; right: 14px; bottom: -8px; left: 14px; }
+  .lr-card:not(.lr-card--lesson)::before { top: 16px; right: 28px; bottom: -16px; left: 28px; }
 }
 @media (min-width: 1200px) {
   .lr-face { --lr-fx: 36px; }

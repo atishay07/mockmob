@@ -40,11 +40,18 @@ export function feedNumbers(items, states) {
  * "8 of 21 done, about 6 min left." Never a zero lead ("0 kept" is dropped); the third line is gone.
  */
 export function checkpointText(numbers, { done, of, seconds }) {
+  // done is the one count the stopped end and the stop sheet use (stoppedCount); a zero is left out of the line.
   const n = numbers || {};
   const left = timeLeftOf(seconds);
   const { big, line } = checkpointLines({ answered: n.answered, right: n.right, seen: n.seen, kept: n.kept }, { done, of, left });
   return { big, status: line, line: null };
 }
+
+/**
+ * The one "done" count of a feed: the place of the last card kept or question answered, capped at the feed's length. The checkpoint,
+ * the Close stop sheet and the stopped end all print this, so one stop never reads two numbers (a turned card holds nothing).
+ */
+export const stoppedCount = (of, itemsDone) => Math.max(0, Math.min(Number(of) || 0, Number(itemsDone) || 0));
 
 const timeLeftOf = (seconds) => (seconds > 0 ? (seconds * 1.1 < 60 ? 'Under a minute left' : `About ${Math.max(1, Math.round((seconds * 1.1) / 60))} min left`) : null);
 

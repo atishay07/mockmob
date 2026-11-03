@@ -62,7 +62,7 @@ test('R5 LK38: when a rated card comes back, in words', () => {
 
 test('R5 LK38: the keys, the stamp and the coach line use one set of words', () => {
   assert.equal(WORDS.missedIt, 'Missed it');
-  assert.equal(WORDS.coachRatings, 'How well did you know it? Missed it brings the card back soon. Got it, in a few days. Easy, much later.');
+  assert.equal(WORDS.coachRatings, 'How well did you know it? Each key shows when this card comes back: Missed it soonest, Easy latest.');
   assert.equal(backStamp(returnWords(1)), 'Back tomorrow');
   assert.equal(backStamp(returnWords(3)), 'Back in 3 days');
   assert.equal(backLine(returnWords(14)), 'back in 2 weeks');

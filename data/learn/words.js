@@ -13,7 +13,7 @@ export const WORDS = Object.freeze({
   inRevise: 'In Revise',
   revise: 'Revise',
   missedIt: 'Missed it',
-  coachRatings: 'How well did you know it? Missed it brings the card back soon. Got it, in a few days. Easy, much later.',
+  coachRatings: 'How well did you know it? Each key shows when this card comes back: Missed it soonest, Easy latest.',
   save: 'Save',
   saved: 'Saved',
   skipKnown: 'Skip what you already know',

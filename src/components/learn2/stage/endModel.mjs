@@ -103,8 +103,10 @@ export function checkpointLines({ answered = 0, right = 0, seen = 0, kept = 0 } 
   const k = num(kept);
   const s = num(seen);
   const big = a ? (r ? `${r} of ${a} right` : plural(a, 'question') + ' tried')
-    : k ? `${k} for Revise` : s ? plural(s, 'card') + ' seen' : `${num(done)} done`;
-  const line = `${num(done)} of ${num(of)} done${left ? `, ${String(left).charAt(0).toLowerCase()}${String(left).slice(1)}` : ''}.`;
+    : k ? `${k} for Revise` : s ? plural(s, 'card') + ' seen' : num(done) ? `${num(done)} done` : 'Nothing answered yet';
+  // One rule for the count (the stopped end's own): a zero is left out, so the line is only the time left, never "0 of 16 done".
+  const time = left ? `${String(left).charAt(0).toUpperCase()}${String(left).slice(1)}.` : '';
+  const line = num(done) ? `${num(done)} of ${num(of)} done${left ? `, ${String(left).charAt(0).toLowerCase()}${String(left).slice(1)}` : ''}.` : time;
   return { big, line };
 }
 

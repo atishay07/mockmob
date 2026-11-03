@@ -1,7 +1,8 @@
 // The Explore feed's client rules: one definition of every count, the re-insert, the checkpoint, Up next.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { feedNumbers, checkpointText, upNextText, questionPlaces, spliceReinsert, secondsFrom, sheetRows } from './feedModel.mjs';
+import { feedNumbers, checkpointText, upNextText, questionPlaces, spliceReinsert, secondsFrom, sheetRows, stoppedCount } from './feedModel.mjs';
+import { reachedPlace, stopSheetLine } from '../stage/endModel.mjs';
 
 const card = (id, extra = {}) => ({ id, type: 'card', seconds: 18, card: { front: `Front ${id}` }, ...extra });
 const q = (id, extra = {}) => ({ id, type: 'question', origin: 'chapter', seconds: 50, question: { body: `Stem ${id}` }, ...extra });
@@ -63,4 +64,39 @@ test('re-insert in a resumed feed goes three after the answered item (A8 F11)', 
 test('the phone sheet rows carry the state of each item', () => {
   const rows = sheetRows([card('c1'), q('q1'), q('q2')], { c1: { kept: true }, q1: ans(false) }, 3);
   assert.deepEqual(rows.map((r) => [r.n, r.kind, r.state]), [[4, 'Key card', 'kept'], [5, 'Question', 'wrong'], [6, 'Question', null]]);
+});
+
+// explore-learn-calm-2: one count of "done" for the checkpoint, the Close stop sheet and the stopped end.
+const heldOf = (states) => (i) => { const st = states[i.id] || {}; return i.type === 'card' ? Boolean(st.kept) : Boolean(st.answer?.res); };
+
+test('the checkpoint count equals the stopped end count, with one card kept', () => {
+  const items = Array.from({ length: 16 }, (_, i) => card(`c${i + 1}`));
+  const states = { c1: { seen: true, kept: true }, c2: { seen: true }, c3: { seen: true }, c4: { seen: true }, c5: { seen: true }, c6: { seen: true }, c7: { seen: true }, c8: { seen: true } };
+  const itemsDone = reachedPlace(items, heldOf(states), 0);
+  assert.equal(itemsDone, 1);
+  const done = stoppedCount(16, itemsDone);
+  const cp = checkpointText(feedNumbers(items, states), { done, of: 16, seconds: 160 });
+  assert.equal(cp.status, '1 of 16 done, about 3 min left.');
+  assert.equal(stopSheetLine(done, 16), '1 of 16 done. It’s all saved.');
+  assert.equal(cp.status.split(' of ')[0], String(stoppedCount(16, itemsDone)), 'the stopped end prints the same number');
+});
+
+test('the checkpoint count equals the stopped end count, with nothing held, and never prints a zero', () => {
+  const items = Array.from({ length: 16 }, (_, i) => card(`c${i + 1}`));
+  const states = Object.fromEntries(items.slice(0, 8).map((x) => [x.id, { seen: true }]));
+  const itemsDone = reachedPlace(items, heldOf(states), 0);
+  assert.equal(itemsDone, 0);
+  const done = stoppedCount(16, itemsDone);
+  assert.equal(done, 0);
+  const cp = checkpointText(feedNumbers(items, states), { done, of: 16, seconds: 330 });
+  assert.equal(cp.big, '8 cards seen');
+  assert.equal(cp.status, 'About 6 min left.');
+  assert.doesNotMatch(`${cp.big} ${cp.status}`, /(^|\s)0 /);
+  assert.equal(checkpointText(feedNumbers(items, {}), { done: 0, of: 16, seconds: 0 }).status, '');
+});
+
+test('stoppedCount caps at the feed length and never goes below zero', () => {
+  assert.equal(stoppedCount(10, 12), 10);
+  assert.equal(stoppedCount(10, 0), 0);
+  assert.equal(stoppedCount(10, undefined), 0);
 });

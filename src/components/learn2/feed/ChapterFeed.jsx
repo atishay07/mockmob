@@ -38,7 +38,7 @@ import { Sheet, StopSheet } from '../stage/Sheet';
 import { usePager } from '../stage/usePager';
 import { keyAction, scrollerThatCanMove } from '../stage/pagerModel.mjs';
 import { optionTexts, speakable, timeLeft } from '../stage/stageText.mjs';
-import { checkpointText, feedNumbers, secondsFrom, sheetRows, spliceReinsert, upNextText } from './feedModel.mjs';
+import { checkpointText, feedNumbers, stoppedCount, secondsFrom, sheetRows, spliceReinsert, upNextText } from './feedModel.mjs';
 import './feed.css';
 
 // The first feed's cue (R2 ruling 7): a chip with Mobi's head until the student moves once, by any means. Marked seen only
@@ -576,7 +576,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   let endView = null;
   if (mode === 'end') {
     const stopped = stoppedHere;
-    const reached = onlyEnd ? f?.done?.reached || 0 : stopped ? Math.min(of, itemsDone) : of;
+    const reached = onlyEnd ? f?.done?.reached || 0 : stopped ? stoppedCount(of, itemsDone) : of;
     const qLine = (f?.lines || []).find((l) => l.label === 'Questions')?.text || '';
     const n = onlyEnd
       ? { answered: Number((qLine.match(/of (\d+)/) || [])[1]) || 0, right: Number((qLine.match(/^(\d+) of/) || [])[1]) || 0, mistakes: Number(d?.numbers?.mistakes) || 0, fixed: Number(d?.numbers?.fixed) || 0, seen: 0 }
@@ -644,7 +644,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
 
   const rows = sheet === 'feed' ? sheetRows(items, states, base) : [];
   const overlay = sheet === 'stop' ? (
-    <StopSheet done={Math.min(itemsDone, of)} of={of} onEnd={stopHere} onKeepGoing={() => setSheet(null)} />
+    <StopSheet done={stoppedCount(of, itemsDone)} of={of} onEnd={stopHere} onKeepGoing={() => setSheet(null)} />
   ) : sheet === 'feed' ? (
     <Sheet title="This feed" bottom onClose={() => setSheet(null)}>
       <ol className="st-list">
@@ -681,14 +681,14 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
         const capLabel = slot.type === 'checkpoint' ? 'So far' : slot.item.type === 'card' ? cardFace(slot.item.card).label : slot.item.origin === 'mistake' ? (slot.item.mistake?.label || 'Question') : 'Question';
         const cap = Math.abs(i - trackAt) <= 2 ? <div className="st-cap" aria-hidden="true" data-family={slot.type !== 'checkpoint' && slot.item.type === 'card' ? kindFamily(slot.item.card?.kind) : undefined}><span className="st-cap__label">{capLabel}</span></div> : null;
         if (slot.type === 'checkpoint') {
-          const cp = checkpointText(numbers, { done: base + slot.after, of, seconds: secondsFrom(items, slot.after) });
+          const cp = checkpointText(numbers, { done: stoppedCount(of, itemsDone), of, seconds: secondsFrom(items, slot.after) });
           const keptCards = items.filter((x) => x.type === 'card' && states[x.id]?.kept).map((x) => x.card).filter(Boolean);
           return (
             <article key={slot.id} className="st-page st-page--cp" {...common} aria-label={`Checkpoint after ${base + slot.after} of ${of}`}>
               {cap}
               <div className="st-cp">
                 <p className="st-cp__n" key={here ? 'here' : 'away'}>{cp.big}</p>
-                <p className="st-cp__status">{cp.status}</p>
+                {cp.status ? <p className="st-cp__status">{cp.status}</p> : null}
                 {keptCards.length ? <div className="st-cp__fan"><KeptFan cards={keptCards} small /></div> : null}
               </div>
             </article>
