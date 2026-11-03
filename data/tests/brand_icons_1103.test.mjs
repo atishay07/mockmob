@@ -55,9 +55,10 @@ test('the swapped places draw the desk objects, not the vague glyphs', () => {
   const chapter = read('src/components/learn2/chapter/ChapterPage.jsx');
   assert.match(chapter, /SHELF_ICON = \{ cards: 'keycards', questions: 'questions', lesson: 'lesson', mistakes: 'mistakes', print: 'print' \}/);
   assert.doesNotMatch(chapter, /Printer/, 'the print sheet row ends with the chevron, no printer glyph');
+  // Learn home's Up next (R7 W) has no Or rows any more: its cells carry only the swap mark, a control, never a brand icon.
   const hero = read('src/components/learn2/home/RoadmapHero.jsx');
-  assert.match(hero, /OR_ICON = \{ revise: 'revise', fix: 'mistakes'/);
-  assert.match(hero, /<BrandIcon name=\{OR_ICON\[o\.kind\]\} size=\{36\}/);
+  assert.doesNotMatch(hero, /OR_ICON|lh-or__row/);
+  assert.match(hero, /<Repeat2 className="lh-up__cell-i"/);
   const repairs = read('src/app/(app)/dashboard/PracticeRepairs.jsx');
   assert.doesNotMatch(repairs, /Wrench|MessageCircle/);
   assert.match(repairs, /<BrandIcon name="mistakes" size=\{32\}/);
