@@ -1,4 +1,3 @@
-import { Bricolage_Grotesque, Gabarito, Hanken_Grotesk } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import "./marketing-theme.css";
@@ -14,26 +13,30 @@ import { BRAND_FLAGS } from "@/../data/brand_flags.mjs";
 // headings, numbers and moments, set exactly as the owner approved it at Gate A (the variable weight axis,
 // default optical size and width, so the pages' own weights and tracking hold). Gabarito stays declared for
 // a rollback but is not preloaded, so it costs nothing while Bricolage is on. (next/font options must be
-// literals: a rollback flips the flag and swaps the two preload values.)
-const bricolage = Bricolage_Grotesque({
+// literals: a rollback flips the flag and swaps the two preload values.) All three text faces are
+// self-hosted (the Fontsource variable latin wght files, v5.3.0, OFL, licences beside them in
+// src/app/fonts/), so a build never fetches Google Fonts.
+const bricolage = localFont({
+  src: "./fonts/BricolageGrotesque-Variable.woff2",
   variable: "--font-bricolage",
-  subsets: ["latin"],
   display: "swap",
+  weight: "200 800",
   preload: true,
 });
 
-const gabarito = Gabarito({
+const gabarito = localFont({
+  src: "./fonts/Gabarito-Variable.woff2",
   variable: "--font-gabarito",
-  subsets: ["latin"],
   display: "swap",
-  weight: ["500", "600", "700", "800", "900"],
+  weight: "400 900",
   preload: false,
 });
 
-const hanken = Hanken_Grotesk({
+const hanken = localFont({
+  src: "./fonts/HankenGrotesk-Variable.woff2",
   variable: "--font-hanken",
-  subsets: ["latin"],
   display: "swap",
+  weight: "100 900",
 });
 
 // Only the faces the first screen reads are preloaded: Bricolage (the headline, the page's largest paint) and
