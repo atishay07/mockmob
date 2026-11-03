@@ -84,3 +84,14 @@ Pro, piles and their taps, the sticky Start, Quick recap, First up, the skeleton
 
 Checks: unit tests and goldens for home and chapter (Night, Day, 360 x 800, text 1.3), every changed golden looked at; the emulator
 walk after, same states; the UI standards done check; the demo APK as `tmp/learn-app-1101/apk/demo-learn-calm.apk`.
+
+## 3. Result (3 Nov, about 2:30 pm, commit 9e26dfcca)
+
+Built as planned (items 1 to 11). Emulator walk on the after demo (same student, Night and Day, 360 x 800): `tmp/learn-calm/after/`
+(`home_*`, `chapter_*`, `chapter_resume_*`, and real-touch checks `tap_picker_sheet`, `tap_hero_key`, `tap_or_row`, `tap_roadmap_row`:
+each opened the sheet, the run, the Revise run and the chapter page). First screen of home: 4 blocks before the roadmap (was 7),
+1 outlined control (was 3), the key the only volt; the roadmap has no hairlines (was 33) and rows of 2 lines plus a wrapped title (was 2
+to 4). Tests: learn2 unit + practice 1,650+ pass; 5 new (`test/unit/learn2/learn2_pill_test.dart`); 70 home and chapter goldens
+re-recorded and looked at. Demo APK: `wt-1101-learn-app/tmp/learn-app-1101/apk/demo-learn-calm.apk` (Pro returning; its Learn engine is
+the web dev preview on port 3452, as the other demos). Not changed: the stage, the Practice door switch, the shelf row's words.
+Note for walks: Mobi idles in the hero, so `uiautomator dump` (tapd, labels) may not return on Learn home; tap by coordinates or link.
