@@ -654,10 +654,10 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | IN PROGRESS | **LK38** Missed it / Got it / Easy: nobody can tell what they do; Missed it seems to do nothing; Got it and Easy look the same. |
 | IN PROGRESS | **LK37** "Start 10 min" cannot be changed; let the student choose how many Key cards, questions and mistakes a run holds. |
 | IN PROGRESS | **LK40** Scrolling over the question area does not scroll the page. |
-| IN PROGRESS | **LK41** Desktop is scaled down with too much blank space. |
-| IN PROGRESS | **LK39** Cards look boring in Light and Dark; make them more interesting. |
-| IN PROGRESS | **LK43** Dark mode: the neon glow around every card is too much; make it subtle. |
-| IN PROGRESS | **LK42** Top bar: the Pro, credits and wallet marks look low quality; rethink the top bar (web and app). |
+| LIVE 4 Nov ~1 am (main 55a1d2f63): bigger stage and type from 1360 px | **LK41** Desktop is scaled down with too much blank space. |
+| LIVE 4 Nov ~1 am (main 55a1d2f63): Key cards as index cards (paper, family band, ruled back; Night without a rim) | **LK39** Cards look boring in Light and Dark; make them more interesting. |
+| LIVE 4 Nov ~1 am (main 55a1d2f63): Night cards with one quiet hairline, no rim; lime only on the primary key | **LK43** Dark mode: the neon glow around every card is too much; make it subtle. |
+| LIVE 4 Nov ~1 am (main 55a1d2f63) on the web (one capsule); app in 1.0.20+18 (You plan strip), not yet released | **LK42** Top bar: the Pro, credits and wallet marks look low quality; rethink the top bar (web and app). |
 | IN PROGRESS | **LK46** Web tabs: four equal tabs are fine; order Practice, Papers, Learn, Explore. App tabs: he will look on the phone first. |
 | IN PROGRESS | **LK47** The website's scroll feels too fast in its first section; slow it down. |
 | TO ANSWER | **LK48** Has copying the app's UI to the web hidden options or made some unreachable? Confirm. |
@@ -679,21 +679,21 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | Status | Item |
 |---|---|
 | OPEN | **LK55** The preview looks exactly the same as before. Top bar with credits and Pro is good if that is what it shows. |
-| OPEN | **LK56** The bar shows Practice, Papers and Explore, but there is no way to reach Learn in that version. |
-| OPEN | **LK57** "Chapter feeds did not load." shows on the preview. |
-| OPEN | **LK58** The card look is exactly the same as before (LK39 not visible). |
-| OPEN | **LK59** The intelligent recommendations that were added make the UI feel cluttered: the implementation in the UI is not good. |
-| OPEN | **LK60** No vague icons: use proper branded icons, a generated image, or something better. |
-| OPEN | **LK61** The English everywhere must be improved (repeat). |
-| OPEN | **LK62** The mobile website is now nearly a copy of the app, but the website has more features and must be a full-fledged experience; plan how, especially Learn. |
+| LIVE 4 Nov ~1 am (main 55a1d2f63): the preview tabs keep Learn v2 (a preview fault, not the live site) | **LK56** The bar shows Practice, Papers and Explore, but there is no way to reach Learn in that version. |
+| LIVE 4 Nov ~1 am (main 55a1d2f63): preview fault fixed (tabs keep the real decks) | **LK57** "Chapter feeds did not load." shows on the preview. |
+| LIVE 4 Nov ~1 am (main 55a1d2f63): the new card look, visible on phones | **LK58** The card look is exactly the same as before (LK39 not visible). |
+| LIVE 4 Nov ~1 am (main 55a1d2f63): Up next as one module, one voice (Suggested) | **LK59** The intelligent recommendations that were added make the UI feel cluttered: the implementation in the UI is not good. |
+| LIVE 4 Nov ~1 am (main 55a1d2f63) on the web; app in 1.0.20+18, not yet released | **LK60** No vague icons: use proper branded icons, a generated image, or something better. |
+| LIVE 4 Nov ~1 am (main 55a1d2f63) on the web (Learn, Explore, Key cards); app in 1.0.20+18; ~400 lines elsewhere still to do | **LK61** The English everywhere must be improved (repeat). |
+| PARTLY LIVE 4 Nov ~1 am (main 55a1d2f63): Find's sets on Learn home; more in R7 W-WEB-FULL.md "Next" | **LK62** The mobile website is now nearly a copy of the app, but the website has more features and must be a full-fledged experience; plan how, especially Learn. |
 
 ## Ship for real, 3 Nov about 11:55 pm (LK63-LK66; verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md, section "3 Nov 2026, about 11:55 pm")
 
 | Status | Item |
 | --- | --- |
-| IN PROGRESS | **LK63** Finish every open lane (Physics, app 1.0.20+18, web cards/top bar/icons/full website, English), then review the UI against all his past feedback and keep improving until satisfied. |
-| IN PROGRESS | **LK64** No prototype links or test builds: a final AAB he uploads straight to Google Play, and the final web changes deployed to www.mockmob.in so he sees them on every device. Supersedes "ship each web change only after his live look" for this round. |
-| IN PROGRESS | **LK65** Commit all uncommitted work; the project final and up to date today, recorded as a proper checkpoint, for handing over and onboarding other members. |
+| IN PROGRESS (4 Nov ~3 am stop): web lanes done and live; app merged, review done, fixes/walk/build left | **LK63** Finish every open lane (Physics, app 1.0.20+18, web cards/top bar/icons/full website, English), then review the UI against all his past feedback and keep improving until satisfied. |
+| PARTLY: web live 4 Nov ~1 am; the final AAB is not built yet | **LK64** No prototype links or test builds: a final AAB he uploads straight to Google Play, and the final web changes deployed to www.mockmob.in so he sees them on every device. Supersedes "ship each web change only after his live look" for this round. |
+| DONE 4 Nov ~3 am except the 610 MB snapshot push (his command in the handoff) | **LK65** Commit all uncommitted work; the project final and up to date today, recorded as a proper checkpoint, for handing over and onboarding other members. |
 | ANSWERED 4 Nov ~12:10 am: "Push branches to GitHub" (his button answer) | **LK66** His message ends "Everything then should be sent to": where? Push every branch to GitHub, after the production web deploy so preview builds do not queue ahead of it. Vercel is on Hobby (100 deployments a day, one build at a time): 438 branch pushes would block production for up to a day, so the ~15 current branches go up as branches and the older ones as archive/<branch> tags (tags start no Vercel build; checked on one first). |
 
 ## Home page hero and brand, 4 Nov about 2:05 am (LK67-LK76; verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md, section "4 Nov 2026, about 2:05 am"). His scores: brand vs AI slop 7/10 overall, Night 6/10; logo and fonts are good.

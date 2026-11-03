@@ -229,3 +229,9 @@ What this changes: the rule "ship each web change only after his live look" is l
 
 Reading (dictation): "Mobby" is Mobi; "AI flop" is "AI slop"; "Black mode" is Night (dark) mode; "Ghost Sans" is likely Geist Sans; "Space Grotesque" is Space Grotesk; "NT interface" is the NTA (exam) interface; "Preprou"/"Preparoo" is ug.preparoo.app (studied 4 Oct: MOBILE-REFINEMENT-PLAN-2026-10-04.md). The command failed because it ran in the parent folder, which is not a git repository (it must run in mockmob-next or with git -C).
 His scores: overall brand vs AI slop 7/10; Night 6/10; the logo and wordmark are distinct and good; the fonts are not the common AI fonts (keep that).
+
+## 4 Nov 2026, about 2:55 am IST: stop at 95% usage; handoff and a prompt for the next session (verbatim)
+
+> Usage is at 95% right now, so start stopping everything and then prepare handoff along with the prompt for the next session. Make sure that no work is lost anywhere, everything is recorded, and stop at a safe checkpoint with all the understandings and the findings that you have got until now and the work that you have done.
+
+Done in HANDOFF-2026-11-04-SINGLE-SESSION.md and PROMPT-NEXT-SESSION-2026-11-04.md.

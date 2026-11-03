@@ -1,5 +1,11 @@
 # NOW: MockMob current state
 
+## 4 Nov 2026, about 3 am IST: stopped at his order (usage ~95%); web live, app 1.0.20+18 merged but not built; home page research started
+- **Live:** main 5df0c1c72: Physics 1,403 cards; the new Key card look, top-bar capsule, Up next, Find's sets on Learn home, brand icons, English (web). No runtime errors.
+- **App:** ui/1103-app-18 at 6079162d5 holds every app change (LK50-LK53, LK42, LK60, LK61, card look). A bug review found 5 medium and 6 low issues plus the version bump; none fixed yet. Not walked, not built. WIP of a stopped agent: wip/1104-app-settle-partial.
+- **Home page (LK67-LK76):** his words recorded; Preparoo study and a 40-tell AI-slop checklist done (handoff-1104/home-research); audit, scroll forensics and brand inventory stopped part-way; no design or build yet.
+- **Next session:** paste PROMPT-NEXT-SESSION-2026-11-04.md; full state in HANDOFF-2026-11-04-SINGLE-SESSION.md.
+
 ## 4 Nov 2026, about 12:05 am IST: new account, one session; Physics live; final Play build and live website in progress (LK63-LK66)
 - **His words (3 Nov ~11:55 pm), verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md:** finish every lane, review the UI against his past feedback until satisfied, then NO prototype links or test builds: a final AAB he uploads to Play and the final web changes on www.mockmob.in; commit all uncommitted work for handover/onboarding. Ledger LK63-LK66. His message was cut off at "Everything then should be sent to" (asked).
 - **Live:** main dadc12807 = Physics 1,090 to 1,403 cards (312 typeset; ~7.2 h), deployment dpl_HmnRzrJPoKdNYyjuxw3YSwHVhEze READY, no runtime errors.
