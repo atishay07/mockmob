@@ -75,7 +75,9 @@ void main() {
 
     testWidgets('Plan and credits is one row with both balances, each named for its pool', (tester) async {
       await _pump(tester, const YouHubScreen(), height: 6000);
-      expect(find.text('38 practice credits, 8 AI credits'), findsOneWidget);
+      // One pool to a line in the plan strip's balance door (LK42), each named for its pool.
+      expect(find.text('38 practice credits'), findsOneWidget);
+      expect(find.text('8 AI credits'), findsOneWidget);
     });
 
     testWidgets('the CUET tools live in the Colleges tab, not on You', (tester) async {

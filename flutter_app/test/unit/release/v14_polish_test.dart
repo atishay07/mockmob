@@ -172,7 +172,8 @@ void main() {
 
     testWidgets('the credits half opens the Wallet', (tester) async {
       await pump(tester);
-      await tester.tap(find.text(YouCopy.stripCredits));
+      // The balance in words (LK42: one calm capsule, no wallet glyph and no "Credits" caption over a known balance).
+      await tester.tap(find.text(YouCopy.stripBalance(108)));
       await _settle(tester);
       expect(find.text(WalletCopy.title), findsWidgets);
     });
