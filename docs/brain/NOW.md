@@ -1,5 +1,15 @@
 # NOW: MockMob current state
 
+## 3 Nov 2026, about 1:45 pm IST: Maths formula cards pushed (Mathematics 349); 10 more chapters being written; app feedback LK50-LK53 with the app port session
+- **His words (3 Nov ~1:30 pm), verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md:** the app looks good but the UI can be better in many places; a stuck "Sending your answers · Computer Science mock" strip on every screen of his main account (LK50); no Explore ("Flow") feed in the app (LK51); Learn still cluttered (LK52); stronger, more premium, in the direction of Duolingo (LK53). "Continue doing all that"; he answers questions when back in 30-40 minutes. His stop of 2 Nov ~11:20 am is lifted.
+- **Pushed:** main 2152e0b74 = typeset Maths formulas on Key cards (KaTeX 0.19.0, server-drawn, readable plain text for the app), Mathematics 310 to 349 (Inverse Trigonometric Functions 21, Probability 29, Application of Integrals 11), Geist Mono self-hosted. Deploy check below in STATUS once READY.
+- **Running:** workflow wf_87f52d2b-817 writes formula cards for the other 10 Maths chapters (Sonnet author, Opus formula reviewer against the page image, Sonnet content reviewer each). Then: check-drafts-mtex-1102.mjs, merge-mtex-reviews-1102.mjs, publish, look, push.
+- **App (LK50-LK53):** handed to the app port session (local_3c5cb01e) with the diagnosis of the stuck strip (a stale local draft keeps pendingSubmission after its submit window, or after the token refresher gave up). Ends in 1.0.20+18 for him to upload.
+- **Needs his answer (running list):**
+  1. LK36 gaps: (1) English reading-comprehension cards (~200, authored like the vocabulary cards), (2) Financial Markets from NCERT's 2022 edition, (3) Computerised Accounting from NCERT's CAS book (a PDF download). Any of 1-3?
+  2. Physics: the same formula pipeline could recover the ~400 Physics cards held for flattened notation. Start it?
+  3. The four Applied Maths chapters have no NCERT book; leave them, or name a source?
+
 ## 2 Nov 2026, about 9:50 am IST: +668 Key cards live (15,469); Maths formula pipeline started on his yes; app 1.0.19+17 waiting for his upload
 - **Live:** main a16fbd62e, deployment dpl_8XasSMKTRgwwiwN6CXtVc5UtuvkW (first build passed). /, /learn, /explore, /today, /pricing, /api/stats and a Computer Science cards page answer 200.
 - **Recovery round 2:** 1,003 held cards (876 held as ambiguous, 127 Computer Science front wording) were fixed and re-reviewed independently; 668 passed. Computer Science 1,544, History 1,587, Geography 1,345, Sociology 1,190, Chemistry 1,411, Physics 1,090, Psychology 826, Mathematics 310, Accountancy 920. No published card removed or changed.
