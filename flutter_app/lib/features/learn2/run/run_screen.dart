@@ -40,7 +40,7 @@ import '../../../core/router/action_router.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../insights/data/saved_repository.dart' show savedRepositoryProvider;
-import '../../keycards/data/keycards_lines.dart' show cardFace;
+import '../../keycards/data/keycards_lines.dart' show cardFace, kindFamily;
 import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
 import '../data/learn_models.dart';
 import '../data/learn_prefs.dart';
@@ -166,7 +166,17 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
     if (from == null) return;
     final item = _c.items.where((i) => i.id == e.itemId).firstOrNull;
     final face = item is LearnCardItem ? cardFace(item.card) : null;
-    unawaited(RunFlight.fly(context, from: from, to: _posKey, kind: e.kind, label: face?.label ?? '', words: item is LearnCardItem ? item.card.back : ''));
+    unawaited(
+      RunFlight.fly(
+        context,
+        from: from,
+        to: _posKey,
+        kind: e.kind,
+        label: face?.label ?? '',
+        family: item is LearnCardItem ? kindFamily(item.card.kind) : null,
+        words: item is LearnCardItem ? item.card.back : '',
+      ),
+    );
   }
 
   /// After a save: the app's Saved list reads again, so it agrees with this run.
@@ -518,7 +528,8 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
         // The card leaves after its rating: the ghost takes over, so the real one is hidden (a fade under reduced motion).
         face = AnimatedOpacity(opacity: c.leaving ? 0 : 1, duration: c.reduced ? Motion.reducedFade : Duration.zero, child: face);
         if (c.isRecap) face = RunSwipe(onPrev: () => c.goRecap(-1), onNext: () => c.goRecap(1), child: face);
-        return StagePage.card(id: it.id, label: 'Card $pos of $of', announce: announce, child: _rise(it.id, face));
+        // The deck stays under the card while it turns, leaves and the next one rises (R8).
+        return StagePage.card(id: it.id, label: 'Card $pos of $of', announce: announce, child: RunDeck(child: _rise(it.id, face)));
       case LearnLessonItem():
         return StagePage.card(
           id: it.id,

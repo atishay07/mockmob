@@ -80,6 +80,47 @@ const Map<String, String> _kindPrefix = {'formula': r'^formula\s*:\s*', 'rule': 
   return (label: label, front: _lower.hasMatch(rest) ? '${rest[0].toUpperCase()}${rest.substring(1)}' : rest);
 }
 
+// ---- The kind's family ----
+
+/// The colour family of a card kind (the web's `kindFamily`, R6 Web D and R8): what the card is for, shown as the header band
+/// across the card's top. Display only.
+enum KcFamily {
+  /// Words to know: Definition, Term, Word, One word, Idiom, Usage (a calm green).
+  meaning,
+
+  /// Formulas, rules and entries (lilac, plum in Day).
+  rule,
+
+  /// Lists, steps, types and differences (amber, brown in Day).
+  parts,
+
+  /// Facts, key lines, quotes and examples (a cool blue).
+  fact,
+}
+
+const Map<String, KcFamily> _families = {
+  'definition': KcFamily.meaning,
+  'term': KcFamily.meaning,
+  'word': KcFamily.meaning,
+  'one_word': KcFamily.meaning,
+  'idiom': KcFamily.meaning,
+  'usage': KcFamily.meaning,
+  'formula': KcFamily.rule,
+  'rule': KcFamily.rule,
+  'entry': KcFamily.rule,
+  'list': KcFamily.parts,
+  'steps': KcFamily.parts,
+  'types': KcFamily.parts,
+  'difference': KcFamily.parts,
+  'fact': KcFamily.fact,
+  'key_line': KcFamily.fact,
+  'quote': KcFamily.fact,
+  'example': KcFamily.fact,
+};
+
+/// `kindFamily(kind)`: the family of a kind, case aside; anything else is a fact.
+KcFamily kindFamily(String? kind) => _families[(kind ?? '').trim().toLowerCase()] ?? KcFamily.fact;
+
 // ---- Lines ----
 
 /// The lines of a list, steps or types back (fragments joined by line breaks).

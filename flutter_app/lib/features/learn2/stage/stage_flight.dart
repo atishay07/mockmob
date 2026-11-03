@@ -1,5 +1,5 @@
-/// The Keep flight (the web's `flyTo`, A1 3.11): a small copy of the card (72 x 96, radius 10, raised, a 1 dp strong
-/// line) leaves the card's centre and lands on the top bar's kept count in 320 ms on `Motion.drawer`, shrinking to 0.3
+/// The Keep flight (the web's `flyTo`, A1 3.11): a small copy of the card (72 x 96, radius 10, the card's paper with its
+/// hairline and shadow, R8) leaves the card's centre and lands on the top bar's kept count in 320 ms on `Motion.drawer`, shrinking to 0.3
 /// and fading to 0.2, in the overlay. Nothing flies under reduced motion (the count still changes).
 library;
 
@@ -19,7 +19,7 @@ abstract final class StageFlight {
     if (Motion.reduced(context)) return;
     final overlay = Overlay.maybeOf(context, rootOverlay: true);
     if (overlay == null) return;
-    final colors = context.mmColors;
+    final paper = context.mmColors.paper;
     await WidgetsBinding.instance.endOfFrame;
     if (!overlay.mounted) return;
     final space = overlay.context.findRenderObject();
@@ -48,10 +48,10 @@ abstract final class StageFlight {
                     opacity: 0.95 - 0.75 * t,
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                        color: colors.raised,
+                        color: paper.paper,
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: colors.lineStrong),
-                        boxShadow: colors.cardShadow,
+                        border: Border.all(color: paper.line),
+                        boxShadow: paper.shadow,
                       ),
                     ),
                   ),
