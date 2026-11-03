@@ -1,3 +1,18 @@
+## 4 Nov 2026, about 1:30 am IST: Learn and Explore refinements to production (owner LK39, LK41-LK43, LK48, LK56-LK62; his 3 Nov ~11:55 pm "deploy the final changes to the website")
+
+**What shipped (branch web/1104-english = web/1103-proto + cards + icons + webfull + R8 cards + the English pass):**
+- **Key cards look like cards (LK39, LK43, LK58):** warm paper (Day) and neutral charcoal (Night), a header band in the card's family colour with its kind word, faint ruled lines on the back that the NCERT words sit on, the source as a footer; Night has one quiet hairline and no light rim. The run card sits on a two-card stack; the feed's peek is the next card's band. Meaning family is now a calm green (lime is the primary key's alone). Bigger stage and type on a computer from 1360 px (LK41).
+- **Top bar (LK42):** the account as one calm capsule (credits with its word, then the avatar and plan); every destination kept.
+- **Up next (LK59):** Learn home recommends in one module with Today's anatomy: one move on the card, the other moves as swap cells, the server's pick marked Suggested; roadmap rows say state ("Needs work"), not advice.
+- **The phone website as the full product (LK62, LK48):** Find's four sets (Due today, Missed lately, In Revise, Must-know lines) are on Learn home under the field; before, three of them had no way in.
+- **Brand icons (LK60):** desk objects instead of vague line icons on the chapter shelf and Practice's doors (R7 I-ICONS.md).
+- **English (LK61):** the E-ENGLISH table on the web (rows in E-APPLIED-WEB.md): one name per action (Turn over; Missed it, Got it, Easy with what each does), contractions, no middle dot except before a length, no idioms.
+
+**Verified:**
+- Every web test file (4,402): 4,334 pass, 23 fail, all pre-existing on live main: authored_w2 13, mob_v3* 7, study_content 1, round5_completion 1 and inventory_fingerprint 1 (the last two checked on an origin/main checkout).
+- `eslint .` clean; `next build --webpack` exits 0; `next build` (Turbopack) exits 0 at the ship commit in a worktree with a real node_modules (Turbopack refuses a junctioned node_modules).
+- Looked at: Learn home 390 Day and Night, 1440; Explore 390 Night; Key cards front and back at 390 and 1440, Day and Night, in the feed, the run and a typeset Maths card (tmp/learn-1103/r8-cards/after, made by scripts/design-audit/learn-r8-cards-capture.mjs). No console errors.
+
 ## 3 Nov 2026, about 11:59 pm IST: Physics formula cards (owner LK34): Physics 1,090 to 1,403 cards, about 5.5 to 7.2 hours
 
 **What shipped:**
