@@ -38,6 +38,7 @@ class KeyButtonFace extends StatelessWidget {
     this.minHeight,
     this.scaleWithDepth = true,
     this.detail,
+    this.horizontalPadding,
   });
 
   final String label;
@@ -61,6 +62,9 @@ class KeyButtonFace extends StatelessWidget {
 
   /// Applies the 0.96 pressed scale here. `KeyButton` scales on a spring itself and sets false.
   final bool scaleWithDepth;
+
+  /// The label's side room in dp, for a key in a tight row (three keys across a phone); null is the variant's own (24 dp on a pill).
+  final double? horizontalPadding;
 
   double get _minHeight =>
       minHeight ??
@@ -150,11 +154,12 @@ class KeyButtonFace extends StatelessWidget {
           constraints: BoxConstraints(minHeight: _minHeight),
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: switch (variant) {
-                KeyVariant.quiet => MmSpace.s16,
-                KeyVariant.option => MmSpace.s16,
-                _ => MmSpace.s24,
-              },
+              horizontal: horizontalPadding ??
+                  switch (variant) {
+                    KeyVariant.quiet => MmSpace.s16,
+                    KeyVariant.option => MmSpace.s16,
+                    _ => MmSpace.s24,
+                  },
               vertical: variant == KeyVariant.quiet ? MmSpace.s8 : MmSpace.s12,
             ),
             child: content,

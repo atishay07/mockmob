@@ -17,7 +17,7 @@ const web = resolve(process.env.LEARN2_WEB || resolve(app, '..', '..', 'wt-1102-
 const words = await import(pathToFileURL(resolve(web, 'data/learn/words.js')).href);
 const free = await import(pathToFileURL(resolve(web, 'data/learn/allowance.js')).href);
 
-let commit = 'unknown';
+let commit = process.env.LEARN2_WEB_COMMIT || 'unknown';
 try { commit = execSync('git rev-parse --short=9 HEAD', { cwd: web }).toString().trim(); } catch { /* not a git folder */ }
 
 const numbers = [0, 1, 2, 3, 5, 9, 10, 12, 46, 100, 0.2, 0.5, 1.2, 2.7, 6.2, 59.9, -3, -0.5, NaN, null, undefined, '4', 'x'];
@@ -26,7 +26,7 @@ const label = (v) => (v === undefined ? null : Number.isNaN(v) ? 'NaN' : v === I
 const places = [undefined, null, {}, { n: 0, of: 14 }, { n: 5 }, { n: 5, of: 0 }, { n: 5, of: 14 }, { n: 1, of: 1 }, { n: 14, of: 14 }, { n: '3', of: '7' }, { n: -2, of: 14 }, { n: 2.9, of: 14.4 }];
 
 const out = {
-  web: `wt-1102-web ${commit}`,
+  web: `${process.env.LEARN2_WEB_NAME || 'wt-1102-web'} ${commit}`,
   note: "Written by tool/learn2_parity/words.mjs from the web's own words.js and allowance.js. Do not edit by hand.",
   words: words.WORDS,
   free: {

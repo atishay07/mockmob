@@ -178,7 +178,7 @@ abstract final class ProNudgeCopy {
           ),
         ProReason.keycards => const ProSheetHead(
             'Open every Key card',
-            'Pro opens every card in every chapter and keeps them on a schedule.',
+            'Pro opens every card in every chapter and brings each one back when it’s due.',
           ),
         ProReason.general => _general,
       };

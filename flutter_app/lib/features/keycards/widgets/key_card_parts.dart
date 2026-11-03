@@ -539,6 +539,9 @@ class KcRatingKeys extends StatelessWidget {
   final ValueChanged<int> onRate;
   final int? sending;
 
+  /// The label's side room: three keys across a phone are about 104 dp each, and "Missed it" must stay on one line.
+  static const double _keySide = MmSpace.s8;
+
   static const List<(int, String)> keys = [
     (KeyCardRules.missed, KeyCardsCopy.missed),
     (KeyCardRules.gotIt, KeyCardsCopy.gotIt),
@@ -565,12 +568,13 @@ class KcRatingKeys extends StatelessWidget {
                 child: MmOverlapSwitcher(
                   fit: StackFit.passthrough,
                   child: sending == rating
-                      ? KeyButton(key: ValueKey('kc-picked-$rating'), label: label, loading: true, onPressed: () {}, semanticsLabel: label)
+                      ? KeyButton(key: ValueKey('kc-picked-$rating'), label: label, loading: true, onPressed: () {}, semanticsLabel: label, horizontalPadding: _keySide)
                       : KeyButton.secondary(
                           key: ValueKey('kc-rest-$rating'),
                           label: label,
                           onPressed: sending != null ? null : () => onRate(rating),
                           semanticsLabel: label,
+                          horizontalPadding: _keySide,
                         ),
                 ),
               ),

@@ -22,9 +22,9 @@ abstract final class ExploreCopy {
   static const String lengthLabel = 'Feed length in minutes';
   static const String subjectLabel = 'Subject';
 
-  static const String loadFailed = 'Chapter feeds did not load.';
+  static const String loadFailed = "Chapter feeds didn't load.";
   static const String tryAgain = 'Try again';
-  static String none(String subject) => 'No chapter feeds for $subject yet. The questions below still work.';
+  static String none(String subject) => 'No chapter feeds for $subject yet. You can still answer the questions below.';
   static const String thisSubject = 'this subject';
   static const String loading = 'Loading chapter feeds';
 
@@ -35,7 +35,7 @@ abstract final class ExploreCopy {
   static String pager(int at, int of) => '${CoverModel.grouped(at)} of ${CoverModel.grouped(of)}';
 
   /// The announcement after a length is picked.
-  static String showing(int minutes) => 'Showing $minutes minute feeds.';
+  static String showing(int minutes) => 'Showing $minutes-minute feeds.';
 
   /// A segment of the length control: "5 min", or just "5" where the row is narrow.
   static String length(int minutes, {required bool unit}) => unit ? '$minutes min' : '$minutes';

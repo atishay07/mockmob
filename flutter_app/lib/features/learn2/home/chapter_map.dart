@@ -16,7 +16,7 @@ import 'home_model.dart';
 /// Learn home's "Your roadmap" (the web's ChapterMap.jsx, R2 ruling 2, R3 R5, R4 ui-correctness#1 and ruling V): the book in order,
 /// grouped by part and unit. Every row has one anatomy: the chapter's name, one coverage line ("31 of 46 cards seen · 4 of 10
 /// questions tried", or "45 cards · 10 questions" before it is started; the chapter's real size on Free and Pro alike) and, once
-/// started, a 3 dp bar of the cards seen. The only verdict word is "Needs work" ("Needs work · from your papers" when the evidence is
+/// started, a 3 dp bar of the cards seen. The only verdict word is "Needs work" ("Needs work, from your papers" when the evidence is
 /// only papers); the chapter the student is in carries a volt "Start here" (a new student) or "Up next". No state ring, no
 /// percentage, never "mastered", never a zero.
 ///
@@ -410,7 +410,7 @@ class _ChapterRow extends StatelessWidget {
     final view = HomeModel.roadmapRow(row);
     final line = view.line.isNotEmpty ? view.line : HomeModel.metaLine(row);
     final verdict = view.verdict;
-    final parts = verdict?.split(' · ');
+    final parts = verdict?.split(', ');
     const centre = nodeTop + node / 2;
     return MmPressable(
       semanticsLabel: HomeModel.rowSpoken(row, here: here),
@@ -463,7 +463,7 @@ class _ChapterRow extends StatelessWidget {
                               if (here != null)
                                 LearnPill(label: here!, tone: LearnPillTone.here)
                               else if (parts != null)
-                                LearnPill(label: parts.first, trailing: parts.length > 1 ? parts.skip(1).join(' · ') : null, tone: LearnPillTone.warn),
+                                LearnPill(label: parts.first, trailing: parts.length > 1 ? parts.skip(1).join(', ') : null, tone: LearnPillTone.warn),
                             ],
                           ),
                           if (line.isNotEmpty) ...[

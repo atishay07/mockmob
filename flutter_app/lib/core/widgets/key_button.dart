@@ -40,6 +40,7 @@ class KeyButton extends ConsumerStatefulWidget {
     this.autofocus = false,
     this.tapLock = defaultTapLock,
     this.detail,
+    this.horizontalPadding,
   });
 
   const KeyButton.secondary({
@@ -54,6 +55,7 @@ class KeyButton extends ConsumerStatefulWidget {
     this.hapticOnCommit = true,
     this.autofocus = false,
     this.tapLock = defaultTapLock,
+    this.horizontalPadding,
   })  : variant = KeyVariant.secondary,
         detail = null,
         selected = false,
@@ -71,6 +73,7 @@ class KeyButton extends ConsumerStatefulWidget {
     this.tapLock = defaultTapLock,
   })  : variant = KeyVariant.quiet,
         detail = null,
+        horizontalPadding = null,
         loading = false,
         selected = false,
         minHeight = null,
@@ -87,6 +90,7 @@ class KeyButton extends ConsumerStatefulWidget {
     this.autofocus = false,
   })  : variant = KeyVariant.option,
         detail = null,
+        horizontalPadding = null,
         tapLock = Duration.zero,
         loading = false,
         disabledReason = null,
@@ -97,6 +101,9 @@ class KeyButton extends ConsumerStatefulWidget {
 
   /// A quieter second part inside the key after [label] (a length: "15 min"); primary only.
   final String? detail;
+
+  /// The label's side room in dp for a key in a tight row; null keeps the variant's own.
+  final double? horizontalPadding;
 
   /// Null disables the key.
   final VoidCallback? onPressed;
@@ -221,6 +228,7 @@ class _KeyButtonState extends ConsumerState<KeyButton> with SingleTickerProvider
               leading: widget.leading,
               minHeight: widget.minHeight,
               detail: widget.detail,
+              horizontalPadding: widget.horizontalPadding,
             ),
           ),
         ),

@@ -113,7 +113,7 @@ void main() {
     testWidgets('Revise later on a card that is on Pro: the stamp says so and the key reads Pro', (tester) async {
       await pumpFeed(tester, FixtureLearnApi(failOn: {'keep': FixtureLearnApi.proRequired}));
       await tap(tester, find.text('Revise later'));
-      expect(find.text('This card is on Pro.'), findsOneWidget);
+      expect(find.text('This card is part of Pro.'), findsOneWidget);
       expect(find.text('Pro'), findsOneWidget);
       expect(find.text('In Revise'), findsNothing);
       await finish(tester);
@@ -170,7 +170,7 @@ void main() {
       await finish(tester);
     });
 
-    testWidgets('a wrong answer: nothing buzzes, "Not quite. It’s C." with the line opening in place, and the card comes back three on', (tester) async {
+    testWidgets('a wrong answer: nothing buzzes, "Not quite. The answer is C." with the line opening in place, and the card comes back three on', (tester) async {
       final haptics = FeedHaptics();
       await pumpFeed(tester, FixtureLearnApi(), haptics: haptics);
       await goTo(tester, 4);
@@ -178,8 +178,8 @@ void main() {
       haptics.calls.clear();
       await tap(tester, find.byType(StageOptionRow).at(q.question.options.indexWhere((o) => o.key == wrongKey(q))));
       await tester.pump(const Duration(milliseconds: 600));
-      expect(find.textContaining('Not quite. It’s '), findsOneWidget);
-      expect(find.textContaining('The answer is'), findsNothing);
+      expect(find.textContaining('Not quite. The answer is '), findsOneWidget);
+      expect(find.textContaining(RegExp(r'The answer is [A-D],')), findsNothing, reason: 'the long form with the option is for a screen reader only');
       expect(find.text('The line you needed'), findsOneWidget);
       expect(haptics.calls, ['selection']);
       expect(ctl(tester).items, hasLength(17));
@@ -201,7 +201,7 @@ void main() {
       await pumpFeed(tester, FixtureLearnApi(failOn: {'answer': FixtureLearnApi.questionChanged}));
       await goTo(tester, 4);
       await tap(tester, find.byType(StageOptionRow).first);
-      expect(find.text('This question changed a moment ago, so it is left out.'), findsOneWidget);
+      expect(find.text('This question was just updated, so we skipped it.'), findsOneWidget);
       expect(find.byType(StageOptionRow), findsNothing);
       expect(find.text('Next'), findsOneWidget);
       expect(find.text('Save'), findsNothing);
@@ -459,7 +459,7 @@ void main() {
       await tap(tester, find.text('Revise later'));
       await goTo(tester, ctl(tester).endAt);
       expect(find.text('Your feed is saved'), findsOneWidget);
-      expect(find.text('Its summary did not load.'), findsOneWidget);
+      expect(find.text('The summary didn\'t load, but everything you did is saved.'), findsOneWidget);
       expect(find.text('Back to Explore'), findsOneWidget);
       expect(find.text('16 done'), findsNothing);
       expect(voltKeys(tester), 1);
@@ -568,7 +568,7 @@ void main() {
     testWidgets('the feed did not start: Try again and Back to Explore', (tester) async {
       final api = FixtureLearnApi(error: true);
       await pumpFeed(tester, api);
-      expect(find.text('The feed did not start'), findsOneWidget);
+      expect(find.text('The feed didn\'t start'), findsOneWidget);
       expect(find.text('Check your connection and try again.'), findsOneWidget);
       expect(voltKeys(tester), 1);
       api.error = false;
@@ -584,7 +584,7 @@ void main() {
       expect(voltKeys(tester), 1);
       await finish(tester);
       await pumpFeed(tester, _EmptyApi());
-      expect(find.text('Nothing to play here yet'), findsOneWidget);
+      expect(find.text('Nothing here yet'), findsOneWidget);
       expect(find.text('Open the chapter'), findsOneWidget);
       expect(voltKeys(tester), 1);
       await finish(tester);

@@ -14,7 +14,7 @@ abstract final class LearnWords {
   /// The hint on a question, shown once on the first question a student ever sees.
   static const String pickHint = 'Pick the answer you think is right.';
 
-  /// "Continue · 6 min": the key to pick up an unfinished or stopped run, on every surface.
+  /// "Continue · 6 min": the key to pick up an unfinished or stopped session, on every surface.
   static const String continueWord = 'Continue';
   static const String keepGoing = 'Keep going';
   static const String nextChapter = 'Next chapter';
@@ -30,7 +30,7 @@ abstract final class LearnWords {
   static const String missedIt = 'Missed it';
 
   /// The one coach line under the rating keys, once per student, on the first card they can rate (round 5, LK38).
-  static const String coachRatings = 'Missed it brings a card back soonest. Easy sends it furthest away.';
+  static const String coachRatings = 'How well did you know it? Missed it brings the card back soon. Got it, in a few days. Easy, much later.';
 
   /// A question to Saved (questions only, by design).
   static const String save = 'Save';
@@ -66,8 +66,8 @@ abstract final class LearnWords {
   /// "Revise 9 due cards · 3 min" (due Key cards; never a bare "9 due").
   static String reviseDue(num? n, num? minutes) => withMinutes('Revise ${_plural(_count(n), 'due card')}', minutes);
 
-  /// "Revise · 5 questions".
-  static String reviseQuestions(num? n) => 'Revise · ${_plural(_count(n), 'question')}';
+  /// "Revise 5 questions" (the middle dot is for a length only).
+  static String reviseQuestions(num? n) => 'Revise ${_plural(_count(n), 'question')}';
 
   /// "4 to revise": the Revise-later pile's label.
   static String pileLabel(num? n) => '${_count(n)} to revise';
@@ -94,8 +94,8 @@ abstract final class LearnWords {
   /// "back tomorrow": a rating key's second line.
   static String backLine(String words) => 'back $words';
 
-  /// The words for a Missed card: when the run also shows it again, "in this run, then tomorrow".
-  static String missedWords(String scheduled, bool inRun) => inRun ? 'in this run, then $scheduled' : scheduled;
+  /// The words for a Missed card: when the session also shows it again, "in this session, then tomorrow".
+  static String missedWords(String scheduled, bool inRun) => inRun ? 'in this session, then $scheduled' : scheduled;
 
   /// "Chapter 5": the short form for tight spots.
   static String chapterShort(LearnPlace? place) => place == null || place.n <= 0 ? '' : place.short;
@@ -112,6 +112,6 @@ abstract final class LearnFreeWords {
 
   /// The one quiet line of a Free run end or feed end once the day's session is used, directly above the keys.
   static const String endLine = "$doneHeadline Questions come back tomorrow.";
-  static const String capped = 'Free sessions are up to 10 minutes. Pro has any length.';
+  static const String capped = 'On Free, a session is up to 10 minutes. With Pro, pick any length.';
   static const String cardsOnly = "That was today's free session, so this one is Key cards only. Questions come back tomorrow.";
 }

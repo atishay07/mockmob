@@ -188,8 +188,8 @@ void main() {
     final page = tester.state<ScrollableState>(find.ancestor(of: find.text('List-I'), matching: find.byType(Scrollable)).first).position;
     _host(tester).set(StageAnswer.graded('B', StageResult(correct: false, key: 'A', line: StageLine(card: stageCard('oldRatio')))));
     await tester.pump();
-    expect(find.text('Not quite. It\u2019s A.'), findsOneWidget);
-    expect(find.textContaining('The answer is'), findsNothing);
+    expect(find.text('Not quite. The answer is A.'), findsOneWidget);
+    expect(find.textContaining(RegExp(r'The answer is A,')), findsNothing, reason: 'the long form with the option is for a screen reader only');
     expect(tester.widget<StageOptionRow>(_row('B')).state, StageOptionState.wrong);
     expect(tester.widget<StageOptionRow>(_row('A')).state, StageOptionState.key);
     await tester.pumpAndSettle();
@@ -354,26 +354,26 @@ void main() {
   });
 
   testWidgets('left out, closed, and an answer that was not saved', (tester) async {
-    await pumpStage(tester, _QHost(stem: _plain.stem, options: _plain.options, skipped: 'This question changed a moment ago, so it is left out.'));
+    await pumpStage(tester, _QHost(stem: _plain.stem, options: _plain.options, skipped: 'This question was just updated, so we skipped it.'));
     expect(find.byType(StageOptionRow), findsNothing);
-    expect(find.text('This question changed a moment ago, so it is left out.'), findsOneWidget);
+    expect(find.text('This question was just updated, so we skipped it.'), findsOneWidget);
 
     await tester.pumpWidget(const SizedBox());
-    await pumpStage(tester, _QHost(stem: _plain.stem, options: _plain.options, locked: 'This feed is finished, so this one is not counted.'));
+    await pumpStage(tester, _QHost(stem: _plain.stem, options: _plain.options, locked: 'This feed has ended, so this answer wasn\'t counted.'));
     expect(find.byType(StageOptionRow), findsNWidgets(4));
     await tester.tap(_row('A'));
     await tester.pump();
     expect(_host(tester).chosen, isEmpty);
-    expect(find.text('This feed is finished, so this one is not counted.'), findsOneWidget);
+    expect(find.text('This feed has ended, so this answer wasn\'t counted.'), findsOneWidget);
 
     await tester.pumpWidget(const SizedBox());
     await pumpStage(tester, _QHost(stem: _plain.stem, options: _plain.options));
     await tester.tap(_row('A'));
     _host(tester).set(const StageAnswer.pending('A'));
     await tester.pump();
-    _host(tester).set(null, err: 'That answer was not saved. Try again.');
+    _host(tester).set(null, err: 'That answer wasn\'t saved. Try again.');
     await tester.pump();
-    expect(find.text('That answer was not saved. Try again.'), findsOneWidget);
+    expect(find.text('That answer wasn\'t saved. Try again.'), findsOneWidget);
     await tester.tap(_row('C'));
     await tester.pump();
     expect(_host(tester).chosen, ['A', 'C'], reason: 'the rows answer again after a failed save');

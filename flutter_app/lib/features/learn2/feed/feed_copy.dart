@@ -3,6 +3,8 @@
 /// " · N min"). The words shared with Learn home, the run and the ends are `LearnWords`.
 library;
 
+import '../data/learn_words.dart';
+
 abstract final class FeedCopy {
   // ---------------------------------------------------------------- the stage
   static const String closeLabel = 'Close the feed';
@@ -19,8 +21,8 @@ abstract final class FeedCopy {
   /// The counter's spoken name.
   static String counterLabel(int position, int of) => '$position of $of. Open the list of this feed';
 
-  /// The title's note on a picked-up feed.
-  static String pickedUp(int at, int of) => 'Picked up at $at of $of';
+  /// The title's note on a feed that carries on from where it stopped.
+  static String pickedUp(int at, int of) => 'Carrying on from $at of $of';
 
   // ---------------------------------------------------------------- keys
   static const String turnOver = 'Turn over';
@@ -50,17 +52,17 @@ abstract final class FeedCopy {
   static const String endSaid = 'The end of the feed';
 
   // ---------------------------------------------------------------- what the item says
-  static const String keepProStamp = 'This card is on Pro.';
+  static const String keepProStamp = 'This card is part of Pro.';
   static const String notAdded = 'Not added. Try again.';
-  static const String couldNotAdd = 'Could not add that card to Revise. Try again.';
+  static const String couldNotAdd = "Couldn't add that card to Revise. Try again.";
   static const String savedSaid = 'Saved.';
-  static const String saveOnPro = 'Saving more questions is on Pro.';
-  static const String couldNotSave = 'Could not save that question. Try again.';
-  static const String notSaved = 'That answer was not saved. Try again.';
-  static const String closedLine = 'This feed is finished, so this one is not counted.';
-  static const String questionChanged = 'This question changed a moment ago, so it is left out.';
-  static const String questionHeld = 'This question is in an open Mob paper, so it is left out for now.';
-  static const String freeDoneShort = 'Your free Learn session for today is done.';
+  static const String saveOnPro = 'Saving more questions is part of Pro.';
+  static const String couldNotSave = "Couldn't save that question. Try again.";
+  static const String notSaved = "That answer wasn't saved. Try again.";
+  static const String closedLine = "This feed has ended, so this answer wasn't counted.";
+  static const String questionChanged = 'This question was just updated, so we skipped it.';
+  static const String questionHeld = "This question is in a Mob paper that's still open, so we skipped it for now.";
+  static const String freeDoneShort = LearnFreeWords.doneHeadline;
   static const String cardSide = 'The card side.';
   static String ncertLine(String back) => "NCERT's line. $back";
   static String keptSaid(String line) => 'In Revise. $line'.trim();
@@ -74,16 +76,16 @@ abstract final class FeedCopy {
   // ---------------------------------------------------------------- the end
   static const String endTitleFallback = 'This feed';
   static const String endErrorTitle = 'Your feed is saved';
-  static const String endErrorLine = 'Its summary did not load.';
+  static const String endErrorLine = "The summary didn't load, but everything you did is saved.";
   static const String backToExplore = 'Back to Explore';
   static const String startingAgain = 'Starting';
 
   // ---------------------------------------------------------------- states without items
-  static const String errorTitle = 'The feed did not start';
+  static const String errorTitle = "The feed didn't start";
   static const String errorLine = 'Check your connection and try again.';
   static const String notFoundTitle = 'This chapter is not in your book list';
   static const String notFoundLine = 'The link may be old. Your chapters are on Explore.';
-  static const String emptyTitle = 'Nothing to play here yet';
+  static const String emptyTitle = 'Nothing here yet';
   static const String emptyLine = "This chapter's cards and questions are still being checked.";
   static const String openChapter = 'Open the chapter';
 }

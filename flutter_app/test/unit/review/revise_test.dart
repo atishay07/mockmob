@@ -258,7 +258,7 @@ void main() {
     await pumpRevise(tester, api);
     await tester.tap(find.text('D. Illustrative option 5d'));
     await settle(tester);
-    expect(find.text('Your answer was not saved. Try again.'), findsOneWidget);
+    expect(find.text('Your answer wasn\'t saved. Try again.'), findsOneWidget);
     expect(find.text('Right answer'), findsNothing);
     expect(lanes(tester), ['4', '1', '1', '1']);
   });

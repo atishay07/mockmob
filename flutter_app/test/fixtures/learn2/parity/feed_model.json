@@ -1,7 +1,7 @@
 {
  "about": "Learn v2 feed rules: the website's feedModel.mjs and data/learn/feed.js over the recorded feeds and edge lists. Written by tool/learn2_parity/feed_model.mjs.",
- "web": "4b5f67e34",
- "checkpointLine": "Keep going, or end here. What you kept is already in Revise.",
+ "web": "39e0b0478",
+ "checkpointLine": "Keep going, or stop here. The cards you kept are already in Revise.",
  "every": 8,
  "minAfter": 4,
  "lists": {
@@ -6237,19 +6237,19 @@
   },
   {
    "in": 1,
-   "out": "1 kept. They are first in Revise."
+   "out": "1 card kept. They'll come first in Revise."
   },
   {
    "in": 2,
-   "out": "2 kept. They are first in Revise."
+   "out": "2 cards kept. They'll come first in Revise."
   },
   {
    "in": 6,
-   "out": "6 kept. They are first in Revise."
+   "out": "6 cards kept. They'll come first in Revise."
   },
   {
    "in": 25,
-   "out": "25 kept. They are first in Revise."
+   "out": "25 cards kept. They'll come first in Revise."
   }
  ],
  "secondsFrom": [

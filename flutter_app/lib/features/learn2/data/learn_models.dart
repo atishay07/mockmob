@@ -1178,7 +1178,7 @@ sealed class LearnItem {
 }
 
 /// When each rating would bring a card back, in the server's words (round 5, LK38; the web's `returnWords`):
-/// `{ missed, got, easy }`, e.g. `{ missed: 'in this run, then tomorrow', got: 'in 3 days', easy: 'in 8 days' }`. A key's second line is
+/// `{ missed, got, easy }`, e.g. `{ missed: 'in this session, then tomorrow', got: 'in 3 days', easy: 'in 8 days' }`. A key's second line is
 /// "back " and these words; the stamp after a rating is "Back " and them. Absent for a look, a recap, a feed and a card back from
 /// earlier: those keys have no second line.
 class LearnReturns {
@@ -1483,7 +1483,7 @@ class LearnRateResult {
 
   final bool ok;
 
-  /// "Back tomorrow" | "Back in 3 days" | "Back in this run, then tomorrow" | "In Revise" | "Due now".
+  /// "Back tomorrow" | "Back in 3 days" | "Back in this session, then tomorrow" | "In Revise" | "Due now".
   final String? stamp;
 
   /// Keep's line: "In Revise" | "In Revise, back Wed" | "In Revise, due now".
@@ -1957,7 +1957,7 @@ class LearnChapterCards {
   /// Cards Free cannot open in this chapter.
   final int lockedCount;
 
-  /// "48 more cards in this chapter. Pro opens every card in every chapter and keeps them on a schedule."
+  /// "48 more cards in this chapter. Pro opens every card in every chapter and brings each one back when it's due."
   final String? lockedLine;
   final Json raw;
 

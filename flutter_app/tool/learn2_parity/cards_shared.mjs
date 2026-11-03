@@ -38,7 +38,7 @@ register(`data:text/javascript,${encodeURIComponent(hooks)}`, import.meta.url);
 
 const shared = await import(pathToFileURL(resolve(web, 'src/components/learn2/cards/cardsShared.js')).href);
 
-let commit = 'unknown';
+let commit = process.env.LEARN2_WEB_COMMIT || 'unknown';
 try { commit = execSync('git rev-parse --short=9 HEAD', { cwd: web }).toString().trim(); } catch { /* not a git folder */ }
 
 const fixtures = resolve(app, 'test/fixtures/learn2');

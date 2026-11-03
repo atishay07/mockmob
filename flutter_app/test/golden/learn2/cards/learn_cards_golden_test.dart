@@ -81,7 +81,7 @@ void main() {
     overrides: () => cardsOverrides(FixtureLearnApi(pro: false), nudges: true),
     after: (tester, q) async {
       await typeQuery(tester, q, 'goodwill');
-      await _scrollTo(tester, find.textContaining('40 more cards match'), alignment: 0.7);
+      await _scrollTo(tester, find.textContaining('40 more matching cards are part of Pro'), alignment: 0.7);
     },
   );
   _golden(

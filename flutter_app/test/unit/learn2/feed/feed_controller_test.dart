@@ -97,7 +97,7 @@ void main() {
       free.dispose();
     });
 
-    test('a pick-up adopts the server\'s place: "Picked up at 4 of 16" and the reinsert three on', () async {
+    test('a pick-up adopts the server\'s place: "Carrying on from 4 of 16" and the reinsert three on', () async {
       final api = FixtureLearnApi();
       final first = feedController(api);
       await first.start();
@@ -112,7 +112,7 @@ void main() {
       await c.start();
       expect(api.calls.where((x) => x.startsWith('getRun')), hasLength(1));
       expect(c.base, 2);
-      expect(c.note, 'Picked up at 3 of 16');
+      expect(c.note, 'Carrying on from 3 of 16');
       expect(c.of, 16);
       expect(c.position, 3);
       // The note goes with the first move.
@@ -220,7 +220,7 @@ void main() {
       c.dispose();
     });
 
-    test('Keep on a locked card (402): "This card is on Pro." and the key opens Pro', () async {
+    test('Keep on a locked card (402): "This card is part of Pro." and the key opens Pro', () async {
       final api = FixtureLearnApi(failOn: {'keep': FixtureLearnApi.proRequired});
       final events = FeedEvents();
       final c = feedController(api, events: events);
@@ -228,8 +228,8 @@ void main() {
       final card = cardAt(c, 0);
       await c.keep(card);
       expect(c.stateOf(card.id).keepPro, isTrue);
-      expect(c.stateOf(card.id).stamp, const FeedStamp('This card is on Pro.'));
-      expect(events.said.last, 'This card is on Pro.');
+      expect(c.stateOf(card.id).stamp, const FeedStamp('This card is part of Pro.'));
+      expect(events.said.last, 'This card is part of Pro.');
       await c.keep(card);
       expect(events.seePro, ['keycards']);
       expect(api.keeps, hasLength(1));
@@ -243,7 +243,7 @@ void main() {
       await c.keep(cardAt(c, 0));
       expect(c.stateOf(c.items[0].id).stamp, const FeedStamp('Not added. Try again.', bad: true));
       expect(c.numbers.kept, 0);
-      expect(events.said.last, 'Could not add that card to Revise. Try again.');
+      expect(events.said.last, 'Couldn\'t add that card to Revise. Try again.');
       expect(events.kept, isEmpty, reason: 'no confirm before the server says yes');
       c.dispose();
     });
@@ -316,7 +316,7 @@ void main() {
       await f.start();
       await f.save(questionAt(f, 4));
       expect(f.stateOf(questionAt(f, 4).id).savePro, isTrue);
-      expect(e2.said.last, 'Saving more questions is on Pro.');
+      expect(e2.said.last, 'Saving more questions is part of Pro.');
       await f.save(questionAt(f, 4));
       expect(e2.seePro, ['saved']);
       c.dispose();
@@ -427,15 +427,15 @@ void main() {
       c.go(4);
       final q = questionAt(c, 4);
       await c.choose(q, 'A');
-      expect(c.stateOf(q.id).skipped, 'This question changed a moment ago, so it is left out.');
+      expect(c.stateOf(q.id).skipped, 'This question was just updated, so we skipped it.');
       expect(c.stateOf(q.id).answer, isNull);
-      expect(events.said.last, 'This question changed a moment ago, so it is left out.');
+      expect(events.said.last, 'This question was just updated, so we skipped it.');
       expect(c.itemsDone, 0);
       final held = FixtureLearnApi(failOn: {'answer': LearnError.fromResponse(409, {'error': 'QUESTION_HELD'})});
       final h = feedController(held);
       await h.start();
       await h.choose(questionAt(h, 4), 'A');
-      expect(h.stateOf(questionAt(h, 4).id).skipped, 'This question is in an open Mob paper, so it is left out for now.');
+      expect(h.stateOf(questionAt(h, 4).id).skipped, 'This question is in a Mob paper that\'s still open, so we skipped it for now.');
       c.dispose();
       h.dispose();
     });
@@ -446,7 +446,7 @@ void main() {
       await c.start();
       final q = questionAt(c, 4);
       await c.choose(q, 'A');
-      expect(c.stateOf(q.id).error, 'That answer was not saved. Try again.');
+      expect(c.stateOf(q.id).error, 'That answer wasn\'t saved. Try again.');
       expect(c.stateOf(q.id).answer, isNull);
       api.failOn.clear();
       await c.choose(q, rightKey(q));

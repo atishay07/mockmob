@@ -1,5 +1,5 @@
 {
-"web": "wt-1102-web 4b5f67e34",
+"web": "web/1104-english 39e0b0478",
 "note": "Written by tool/learn2_parity/stage_text.mjs from the web's own stageText.mjs and runMath.js stemParts. Do not edit by hand.",
 "counts": {
 "questions": 53,
@@ -2926,16 +2926,16 @@
 {"input":{"of":45,"seen":20},"out":{"from":0,"to":0.4444444444444444,"label":"20 of 45 cards seen"}},
 {"input":{"of":45,"seen":60,"before":50},"out":{"from":1,"to":1,"label":"45 of 45 cards seen"}},
 {"input":{"of":10,"seen":5,"before":9},"out":{"from":0.5,"to":0.5,"label":"5 of 10 cards seen"}},
-{"input":{"of":52,"seen":5,"before":0,"open":5},"out":{"from":0,"to":0.09615384615384616,"label":"5 of 52 cards seen · the rest open with Pro"}},
+{"input":{"of":52,"seen":5,"before":0,"open":5},"out":{"from":0,"to":0.09615384615384616,"label":"5 of 52 cards seen. The rest open with Pro."}},
 {"input":{"of":52,"seen":4,"before":0,"open":5},"out":{"from":0,"to":0.07692307692307693,"label":"4 of 52 cards seen"}},
-{"input":{"of":52,"seen":11,"open":5},"out":{"from":0,"to":0.21153846153846154,"label":"11 of 52 cards seen · the rest open with Pro"}},
+{"input":{"of":52,"seen":11,"open":5},"out":{"from":0,"to":0.21153846153846154,"label":"11 of 52 cards seen. The rest open with Pro."}},
 {"input":{"of":5,"seen":5,"open":5},"out":{"from":0,"to":1,"label":"5 of 5 cards seen"}},
 {"input":{"of":52,"seen":52,"open":52},"out":{"from":0,"to":1,"label":"52 of 52 cards seen"}},
 {"input":{"of":52,"seen":6,"open":0},"out":{"from":0,"to":0.11538461538461539,"label":"6 of 52 cards seen"}},
 {"input":{"of":52,"seen":6,"open":null},"out":{"from":0,"to":0.11538461538461539,"label":"6 of 52 cards seen"}},
 {"input":{"of":52,"seen":6,"open":""},"out":{"from":0,"to":0.11538461538461539,"label":"6 of 52 cards seen"}},
-{"input":{"of":52,"seen":5,"open":"5"},"out":{"from":0,"to":0.09615384615384616,"label":"5 of 52 cards seen · the rest open with Pro"}},
-{"input":{"of":52,"seen":8,"before":3,"open":5},"out":{"from":0.057692307692307696,"to":0.15384615384615385,"label":"8 of 52 cards seen · the rest open with Pro"}},
+{"input":{"of":52,"seen":5,"open":"5"},"out":{"from":0,"to":0.09615384615384616,"label":"5 of 52 cards seen. The rest open with Pro."}},
+{"input":{"of":52,"seen":8,"before":3,"open":5},"out":{"from":0.057692307692307696,"to":0.15384615384615385,"label":"8 of 52 cards seen. The rest open with Pro."}},
 {"input":{"of":"45","seen":"20"},"out":{"from":0,"to":0.4444444444444444,"label":"20 of 45 cards seen"}}
 ],
 "minis": [

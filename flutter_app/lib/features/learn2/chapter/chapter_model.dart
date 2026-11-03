@@ -169,10 +169,10 @@ enum ChapterReadStatus {
 
 abstract final class ChapterModel {
   /// Kept as a name only: since R2 ruling 9 the first-visit line is never shown (the run's own first card says how it works).
-  static const String firstVisitLine = 'Cards and questions, one at a time. Stop whenever you like; what you do is saved.';
+  static const String firstVisitLine = 'Cards and questions, one at a time. Stop whenever you like; everything you do is saved.';
   static const String onlyCardsLine = "Only Key cards here for now. This chapter's questions are still being checked.";
   static const String onlyQuestionsLine = "Only questions here for now. This chapter's Key cards are not ready yet.";
-  static const String ratingsUsedLine = "You've used today's 10 free card ratings. Cards in this run show their answers but won't be added to Revise.";
+  static const String ratingsUsedLine = "You've used today's 10 free card ratings. In this session, cards show their answers but won't go into Revise.";
 
   /// R3 ruling W: due Key cards are never a bare "46 due"; the server's "Revise first: 46 due" reads "Revise first: 46 due cards".
   static String dueWords(String? text) => (text ?? '').replaceAllMapped(RegExp(r'\b(\d[\d,]*) due\b(?! cards?)'), (m) {
@@ -239,7 +239,7 @@ abstract final class ChapterModel {
   static PileView pileView(ChapterPile pile, {int? minutes}) {
     final label = pile.label;
     if (pile.held) return PileView(state: PileState.held, line: 'Back tomorrow', aria: '$label, back tomorrow');
-    if (pile.left) return PileView(state: PileState.left, line: 'Tap to put back', aria: '$label, left out. Tap to put it back');
+    if (pile.left) return PileView(state: PileState.left, line: 'Tap to add it back', aria: '$label, left out. Tap to add it back');
     final of = pile.id == 'mistakes' && pile.of != null && pile.of! > pile.count ? pile.of : null;
     final line = of != null && minutes != null && minutes != 0 ? '${pile.count} fit in ${LearnWords.wholeMinutes(minutes)} min' : pileMinutes(pile);
     final note = pile.note == null ? null : dueWords(pile.note);
@@ -263,7 +263,7 @@ abstract final class ChapterModel {
     if (cappedText != null) return cappedText;
     final shrinkText = data.shrink?.text;
     if (shrinkText != null && data.added == null) return dueWords(shrinkText);
-    if (RegExp('ratings are used', caseSensitive: false).hasMatch(freeText ?? '')) return ratingsUsedLine;
+    if (RegExp("ratings are used|used today's 10 free card ratings", caseSensitive: false).hasMatch(freeText ?? '')) return ratingsUsedLine;
     final cards = data.shelf.cards.count;
     final questions = data.shelf.questions.total;
     if (cards > 0 && questions == 0) return onlyCardsLine;
@@ -273,7 +273,7 @@ abstract final class ChapterModel {
 
   /// "Everything in this chapter" (A4 3.2.6): only rows that lead somewhere, with plain lines. What is missing is never announced
   /// (R2 ruling 9). Free's taste is said here only ("46 cards. 5 open on Free."). [mistakeMinutes] gives the minutes n mistakes take. The
-  /// The last row is the website's "Print sheet" ("12 Must-know lines, with your name": it prints the watermarked sheet). The app
+  /// The last row is the website's "Chapter sheet" ("12 Must-know lines, with your name on it": it prints the watermarked sheet). The app
   /// builds no such sheet, so with [webSheet] false (the app's page) the row is named for what it opens, "Must-know lines", with
   /// its count as the note ("12 lines"): round 5, LK45 fix 3. The default is the web's words, which the parity test holds.
   static ShelfView shelfView(LearnPreview? data, {int Function(int n) mistakeMinutes = _same, bool webSheet = true}) {
@@ -317,8 +317,8 @@ abstract final class ChapterModel {
       rows.add(
         ShelfRowModel(
           id: 'print',
-          title: webSheet ? 'Print sheet' : 'Must-know lines',
-          line: locked ? 'Part of Pro' : (webSheet ? '${_plural(must, 'Must-know line')}, with your name' : _plural(must, 'line')),
+          title: webSheet ? 'Chapter sheet' : 'Must-know lines',
+          line: locked ? 'Part of Pro' : (webSheet ? '${_plural(must, 'Must-know line')}, with your name on it' : _plural(must, 'line')),
           locked: locked,
           link: locked,
           action: locked ? null : 'print',

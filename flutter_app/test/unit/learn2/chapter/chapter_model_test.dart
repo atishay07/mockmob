@@ -140,7 +140,7 @@ void main() {
       final pro = ChapterModel.shelfView(_recorded('preview_pf_10_pro'), webSheet: false);
       expect((pro.rows.last.title, pro.rows.last.line, pro.rows.last.action), ('Must-know lines', '12 lines', 'print'));
       final web = ChapterModel.shelfView(_recorded('preview_pf_10_pro'));
-      expect((web.rows.last.title, web.rows.last.line), ('Print sheet', '12 Must-know lines, with your name'), reason: 'the web words, held by the parity test');
+      expect((web.rows.last.title, web.rows.last.line), ('Chapter sheet', '12 Must-know lines, with your name on it'), reason: 'the web words, held by the parity test');
       final free = ChapterModel.shelfView(_recorded('preview_pf_10_free_used'), webSheet: false);
       expect((free.rows.last.title, free.rows.last.line), ('Must-know lines', 'Part of Pro'));
     });

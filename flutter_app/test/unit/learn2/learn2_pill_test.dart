@@ -16,7 +16,7 @@ Widget _wrap(Widget child, {Brightness brightness = Brightness.dark}) => Materia
 void main() {
   testWidgets('a pill keeps every word: the label and its quieter trailing words', (tester) async {
     await tester.pumpWidget(_wrap(const LearnPill(label: 'Needs work', trailing: 'from your papers', tone: LearnPillTone.warn)));
-    expect(find.text('Needs work · from your papers', findRichText: true), findsOneWidget);
+    expect(find.text('Needs work, from your papers', findRichText: true), findsOneWidget);
   });
 
   testWidgets('a chosen pill carries a check, so the choice never rests on colour alone', (tester) async {

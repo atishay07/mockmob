@@ -581,7 +581,7 @@ void main() {
       await settleHome(tester);
       await _tap(tester, find.byKey(const ValueKey('lh-find-due')));
       await settleHome(tester);
-      expect(find.text('The cards did not load'), findsOneWidget);
+      expect(find.text('The cards didn\'t load'), findsOneWidget);
       expect(find.text('Check your connection and try again.'), findsOneWidget);
       api.failOn.clear();
       await _tap(tester, _key('Try again'));
@@ -620,7 +620,7 @@ void main() {
       expect(find.descendant(of: _row(_pf), matching: find.text('12 of 45 cards seen · 3 of 10 questions tried')), findsOneWidget);
       expect(find.descendant(of: _row(_pl), matching: find.text('11 of 42 cards seen · 1 question')), findsOneWidget);
       expect(find.descendant(of: _row(_aop), matching: find.text('60 cards · 2 of 10 questions tried')), findsOneWidget, reason: 'no card seen yet: the total, never "0 of"');
-      expect(find.descendant(of: _row(_cpsr), matching: find.text('Needs work · from your papers', findRichText: true)), findsOneWidget);
+      expect(find.descendant(of: _row(_cpsr), matching: find.text('Needs work, from your papers', findRichText: true)), findsOneWidget);
       expect(find.descendant(of: _row(_aop), matching: find.text('Up next')), findsOneWidget);
       expect(find.text('Start here'), findsNothing);
       for (final gone in ['Getting there', 'Holding', 'Too few answers', 'Not started']) {
@@ -703,7 +703,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 600));
       expect(_chosen(tester, 'CAS'), isTrue);
       expect(find.text('Saving your choice'), findsNothing);
-      expect(find.text('Your choice was not saved. Try again.'), findsNothing);
+      expect(find.text('Your choice wasn\'t saved. Try again.'), findsNothing);
       expect(find.text('Showing Analysis of Financial Statements until you pick.'), findsNothing);
       expect(api.subjectReads, greaterThanOrEqualTo(2), reason: 'the home was read again after the save');
       await tester.pump(const Duration(seconds: 1));
@@ -727,7 +727,7 @@ void main() {
       gate.complete();
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 700));
-      expect(find.text('Your choice was not saved. Try again.'), findsOneWidget);
+      expect(find.text('Your choice wasn\'t saved. Try again.'), findsOneWidget);
       expect(_chosen(tester, 'CAS'), isFalse, reason: 'the choice is dropped');
       expect(find.byKey(const ValueKey('lh-row-accountancy.accounting-ratios')), findsOneWidget, reason: 'the side that shows is back');
       expect(find.text('Cards for this option are coming.'), findsNothing);
@@ -744,7 +744,7 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
       expect(find.text('Saving your choice'), findsNothing);
-      expect(find.text('Your choice was not saved. Try again.'), findsNothing);
+      expect(find.text('Your choice wasn\'t saved. Try again.'), findsNothing);
       expect(keys.saved, ['CAS', 'AFS']);
     });
 
@@ -844,11 +844,11 @@ void main() {
       expect(find.text('Your roadmap'), findsOneWidget);
     });
 
-    testWidgets('failed: "Learn did not load", what is safe, and one Try again that reads it again', (tester) async {
+    testWidgets('failed: "Learn didn\'t load", what is safe, and one Try again that reads it again', (tester) async {
       final api = HomeLearnApi(error: true);
       await pumpHome(tester, overrides: homeOverrides(api));
       await settleHome(tester);
-      expect(find.text('Learn did not load'), findsOneWidget);
+      expect(find.text('Learn didn\'t load'), findsOneWidget);
       expect(find.text('Check your connection and try again. Your cards and their schedule are safe.'), findsOneWidget);
       expect(_picker(), findsOneWidget, reason: 'the subject row stays usable');
       expect(_search(), findsOneWidget);
@@ -857,14 +857,14 @@ void main() {
       api.error = false;
       await _tap(tester, _key('Try again'));
       await settleHome(tester);
-      expect(find.text('Learn did not load'), findsNothing);
+      expect(find.text('Learn didn\'t load'), findsNothing);
       expect(find.text('Pick up Admission of a Partner'), findsOneWidget);
     });
 
     testWidgets('offline reads as failed, never as empty', (tester) async {
       await pumpHome(tester, overrides: homeOverrides(HomeLearnApi(offline: true)));
       await settleHome(tester);
-      expect(find.text('Learn did not load'), findsOneWidget);
+      expect(find.text('Learn didn\'t load'), findsOneWidget);
       expect(find.text('No chapters here yet.'), findsNothing);
     });
 
@@ -873,7 +873,7 @@ void main() {
       await settleHome(tester);
       await tester.tap(_search());
       await settleHome(tester);
-      expect(find.text('Learn did not load'), findsOneWidget);
+      expect(find.text('Learn didn\'t load'), findsOneWidget);
       expect(find.byType(FindHome), findsNothing);
       expect(find.text('Cancel'), findsOneWidget);
     });
@@ -1021,7 +1021,7 @@ void main() {
       expect(find.bySemanticsLabel(HomeModel.rowSpoken(row, here: 'Up next')), findsOneWidget);
       final weak = LearnFixtures.subject('home_accountancy_pro').chapter(_cpsr)!;
       expect(find.bySemanticsLabel(HomeModel.rowSpoken(weak)), findsOneWidget);
-      expect(HomeModel.rowSpoken(weak), contains('Needs work · from your papers'));
+      expect(HomeModel.rowSpoken(weak), contains('Needs work, from your papers'));
       handle.dispose();
     });
   });

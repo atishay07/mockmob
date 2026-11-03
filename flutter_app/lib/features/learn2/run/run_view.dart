@@ -308,7 +308,7 @@ abstract final class RunView {
     return out;
   }
 
-  /// The lead's heading, reason and key: a run's key names its length ("Start 10 minutes"); else its own verb.
+  /// The lead's heading, reason and key: a run's key names its length ("Start · 10 min"); else its own verb.
   static RunLead? leadView(LearnOption? option) {
     if (option == null) return null;
     final title = option.title ?? option.label.replaceFirst(RegExp(r', \d+ minutes?$'), '').replaceFirst(RegExp(r', \d+ min$'), '');
@@ -316,7 +316,7 @@ abstract final class RunView {
     final minutes = runMinutes != 0 ? runMinutes : ((option.minutes ?? 0) != 0 ? option.minutes : null);
     final run = option.run;
     final isRun = run != null && (run.kind == LearnKinds.mix || run.kind == LearnKinds.feed) && minutes != null;
-    final key = isRun ? 'Start $minutes minutes' : title;
+    final key = isRun ? 'Start · $minutes min' : title;
     return RunLead(heading: key == title ? null : title, reason: option.evidence, key: key);
   }
 

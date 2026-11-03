@@ -1,5 +1,5 @@
 {
- "web": "wt-1102-web 4b5f67e34",
+ "web": "web/1104-english 39e0b0478",
  "note": "Written by tool/learn2_parity/chapter_model.mjs from the web's own chapterModel.mjs and runMath.js minutesFor. Do not edit by hand.",
  "counts": {
   "previews": 15,
@@ -5400,31 +5400,31 @@
    "minutes": "about 2 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    }
   },
   {
@@ -5523,31 +5523,31 @@
    "minutes": "about 6 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    }
   },
   {
@@ -5646,31 +5646,31 @@
    "minutes": "about 2 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    }
   },
   {
@@ -5769,31 +5769,31 @@
    "minutes": "about 2 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    }
   },
   {
@@ -5892,31 +5892,31 @@
    "minutes": "about 8 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    }
   },
   {
@@ -6015,31 +6015,31 @@
    "minutes": "about 5 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    }
   },
   {
@@ -6138,31 +6138,31 @@
    "minutes": "about 5 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    }
   },
   {
@@ -6261,31 +6261,31 @@
    "minutes": "about 8 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    }
   },
   {
@@ -6343,31 +6343,31 @@
    "minutes": "under a minute",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    }
   },
   {
@@ -6384,31 +6384,31 @@
    "minutes": "under a minute",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    }
   },
   {
@@ -6507,31 +6507,31 @@
    "minutes": "about 2 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    }
   },
   {
@@ -6630,31 +6630,31 @@
    "minutes": "about 5 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    }
   },
   {
@@ -6753,31 +6753,31 @@
    "minutes": "about 3 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    }
   },
   {
@@ -6876,31 +6876,31 @@
    "minutes": "about 2 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    }
   },
   {
@@ -6999,31 +6999,31 @@
    "minutes": "about 2 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    }
   },
   {
@@ -7122,31 +7122,31 @@
    "minutes": "about 6 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    }
   },
   {
@@ -7245,31 +7245,31 @@
    "minutes": "about 2 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    }
   },
   {
@@ -7368,31 +7368,31 @@
    "minutes": "about 6 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    }
   },
   {
@@ -7491,31 +7491,31 @@
    "minutes": "about 5 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    }
   },
   {
@@ -7614,31 +7614,31 @@
    "minutes": "about 2 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    }
   },
   {
@@ -7737,31 +7737,31 @@
    "minutes": "7 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Lesson, left out. Tap to put it back"
+    "aria": "Lesson, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Lesson, left out. Tap to put it back"
+    "aria": "Lesson, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Lesson, left out. Tap to put it back"
+    "aria": "Lesson, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Lesson, left out. Tap to put it back"
+    "aria": "Lesson, left out. Tap to add it back"
    }
   },
   {
@@ -7860,31 +7860,31 @@
    "minutes": "about 2 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    }
   },
   {
@@ -7983,31 +7983,31 @@
    "minutes": "about 2 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    }
   },
   {
@@ -8108,31 +8108,31 @@
    "minutes": "about 1 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    }
   },
   {
@@ -8232,31 +8232,31 @@
    "minutes": "about 2 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    }
   },
   {
@@ -8355,31 +8355,31 @@
    "minutes": "about 2 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    }
   },
   {
@@ -8480,31 +8480,31 @@
    "minutes": "about 1 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    }
   },
   {
@@ -8604,31 +8604,31 @@
    "minutes": "about 20 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    }
   },
   {
@@ -8727,31 +8727,31 @@
    "minutes": "about 8 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    }
   },
   {
@@ -8850,31 +8850,31 @@
    "minutes": "about 4 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    }
   },
   {
@@ -8973,31 +8973,31 @@
    "minutes": "about 9 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    }
   },
   {
@@ -9096,31 +9096,31 @@
    "minutes": "7 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Lesson, left out. Tap to put it back"
+    "aria": "Lesson, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Lesson, left out. Tap to put it back"
+    "aria": "Lesson, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Lesson, left out. Tap to put it back"
+    "aria": "Lesson, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Lesson, left out. Tap to put it back"
+    "aria": "Lesson, left out. Tap to add it back"
    }
   },
   {
@@ -9219,31 +9219,31 @@
    "minutes": "about 4 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    }
   },
   {
@@ -9342,31 +9342,31 @@
    "minutes": "about 9 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    }
   },
   {
@@ -9465,31 +9465,31 @@
    "minutes": "7 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Lesson, left out. Tap to put it back"
+    "aria": "Lesson, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Lesson, left out. Tap to put it back"
+    "aria": "Lesson, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Lesson, left out. Tap to put it back"
+    "aria": "Lesson, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Lesson, left out. Tap to put it back"
+    "aria": "Lesson, left out. Tap to add it back"
    }
   },
   {
@@ -9588,31 +9588,31 @@
    "minutes": "about 1 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    }
   },
   {
@@ -9957,31 +9957,31 @@
    "minutes": "about 5 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Key cards, left out. Tap to put it back"
+    "aria": "Key cards, left out. Tap to add it back"
    }
   },
   {
@@ -10080,31 +10080,31 @@
    "minutes": "about 3 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    }
   },
   {
@@ -10205,31 +10205,31 @@
    "minutes": "about 2 min",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Your mistakes, left out. Tap to put it back"
+    "aria": "Your mistakes, left out. Tap to add it back"
    }
   },
   {
@@ -10360,31 +10360,31 @@
    "minutes": "under a minute",
    "view": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt10": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt5": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    },
    "viewAt45": {
     "state": "left",
-    "line": "Tap to put back",
+    "line": "Tap to add it back",
     "of": null,
     "note": null,
-    "aria": "Questions, left out. Tap to put it back"
+    "aria": "Questions, left out. Tap to add it back"
    }
   },
   {
@@ -12841,7 +12841,7 @@
      }
     }
    },
-   "out": "You've used today's 10 free card ratings. Cards in this run show their answers but won't be added to Revise."
+   "out": "You've used today's 10 free card ratings. In this session, cards show their answers but won't go into Revise."
   },
   {
    "name": "ratings used loses to the cap",
@@ -13135,7 +13135,7 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
+      "title": "Chapter sheet",
       "line": "Part of Pro",
       "locked": true,
       "link": true,
@@ -13283,7 +13283,7 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
+      "title": "Chapter sheet",
       "line": "Part of Pro",
       "locked": true,
       "link": true,
@@ -13425,8 +13425,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "15 Must-know lines, with your name",
+      "title": "Chapter sheet",
+      "line": "15 Must-know lines, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"
@@ -13592,8 +13592,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "15 Must-know lines, with your name",
+      "title": "Chapter sheet",
+      "line": "15 Must-know lines, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"
@@ -13757,8 +13757,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "15 Must-know lines, with your name",
+      "title": "Chapter sheet",
+      "line": "15 Must-know lines, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"
@@ -13931,7 +13931,7 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
+      "title": "Chapter sheet",
       "line": "Part of Pro",
       "locked": true,
       "link": true,
@@ -14105,8 +14105,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "15 Must-know lines, with your name",
+      "title": "Chapter sheet",
+      "line": "15 Must-know lines, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"
@@ -14277,7 +14277,7 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
+      "title": "Chapter sheet",
       "line": "Part of Pro",
       "locked": true,
       "link": true,
@@ -14443,8 +14443,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "15 Must-know lines, with your name",
+      "title": "Chapter sheet",
+      "line": "15 Must-know lines, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"
@@ -14563,8 +14563,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "6 Must-know lines, with your name",
+      "title": "Chapter sheet",
+      "line": "6 Must-know lines, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"
@@ -14689,8 +14689,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "6 Must-know lines, with your name",
+      "title": "Chapter sheet",
+      "line": "6 Must-know lines, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"
@@ -14840,8 +14840,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "6 Must-know lines, with your name",
+      "title": "Chapter sheet",
+      "line": "6 Must-know lines, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"
@@ -14991,8 +14991,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "6 Must-know lines, with your name",
+      "title": "Chapter sheet",
+      "line": "6 Must-know lines, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"
@@ -15160,7 +15160,7 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
+      "title": "Chapter sheet",
       "line": "Part of Pro",
       "locked": true,
       "link": true,
@@ -15307,8 +15307,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "12 Must-know lines, with your name",
+      "title": "Chapter sheet",
+      "line": "12 Must-know lines, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"
@@ -15367,8 +15367,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "12 Must-know lines, with your name",
+      "title": "Chapter sheet",
+      "line": "12 Must-know lines, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"
@@ -15426,7 +15426,7 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
+      "title": "Chapter sheet",
       "line": "Part of Pro",
       "locked": true,
       "link": true,
@@ -15591,7 +15591,7 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
+      "title": "Chapter sheet",
       "line": "Part of Pro",
       "locked": true,
       "link": true,
@@ -15756,7 +15756,7 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
+      "title": "Chapter sheet",
       "line": "Part of Pro",
       "locked": true,
       "link": true,
@@ -15920,8 +15920,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "1 Must-know line, with your name",
+      "title": "Chapter sheet",
+      "line": "1 Must-know line, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"
@@ -16085,8 +16085,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "15 Must-know lines, with your name",
+      "title": "Chapter sheet",
+      "line": "15 Must-know lines, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"
@@ -16248,8 +16248,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "15 Must-know lines, with your name",
+      "title": "Chapter sheet",
+      "line": "15 Must-know lines, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"
@@ -16413,8 +16413,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "15 Must-know lines, with your name",
+      "title": "Chapter sheet",
+      "line": "15 Must-know lines, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"
@@ -16578,8 +16578,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "15 Must-know lines, with your name",
+      "title": "Chapter sheet",
+      "line": "15 Must-know lines, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"
@@ -16746,8 +16746,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "15 Must-know lines, with your name",
+      "title": "Chapter sheet",
+      "line": "15 Must-know lines, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"
@@ -16911,8 +16911,8 @@
      },
      {
       "id": "print",
-      "title": "Print sheet",
-      "line": "15 Must-know lines, with your name",
+      "title": "Chapter sheet",
+      "line": "15 Must-know lines, with your name on it",
       "locked": false,
       "link": false,
       "action": "print"

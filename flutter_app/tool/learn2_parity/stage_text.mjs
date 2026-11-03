@@ -25,7 +25,7 @@ const { stemParts } = await load('src/components/learn2/run/runMath.js');
 // web's own Options sees.
 const { servedOptions } = await load('src/lib/server/learn.js');
 
-let commit = 'unknown';
+let commit = process.env.LEARN2_WEB_COMMIT || 'unknown';
 try { commit = execSync('git rev-parse --short=9 HEAD', { cwd: web }).toString().trim(); } catch { /* not a git folder */ }
 
 const questions = JSON.parse(readFileSync(resolve(web, 'data/fixtures/learn-preview-questions.json'), 'utf8')).questions;
@@ -124,7 +124,7 @@ const plurals = [[0, 'card'], [1, 'card'], [2, 'card'], [1, 'mistake', 'mistakes
 const extra = await round4({ load, web, app, cards });
 
 const out = {
-  web: `wt-1102-web ${commit}`,
+  web: `${process.env.LEARN2_WEB_NAME || 'wt-1102-web'} ${commit}`,
   note: 'Written by tool/learn2_parity/stage_text.mjs from the web\'s own stageText.mjs and runMath.js stemParts. Do not edit by hand.',
   counts: { questions: questions.length, cards: cards.length, stems: stems.length, options: options.length },
   stems,

@@ -31,7 +31,7 @@ class LearnPill extends StatelessWidget {
   final String label;
   final LearnPillTone tone;
 
-  /// Quieter words after the label, in the same pill: "Needs work · from your papers".
+  /// Quieter words after the label, in the same pill: "Needs work, from your papers".
   final String? trailing;
 
   static const double height = 28;
@@ -72,7 +72,7 @@ class LearnPill extends StatelessWidget {
               TextSpan(
                 text: label,
                 children: [
-                  if (trailing != null) TextSpan(text: ' · $trailing', style: style.copyWith(fontWeight: FontWeight.w500)),
+                  if (trailing != null) TextSpan(text: ', $trailing', style: style.copyWith(fontWeight: FontWeight.w500)),
                 ],
               ),
               style: style,
