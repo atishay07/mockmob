@@ -2,8 +2,8 @@
 ///
 ///   top bar     solid ground, nothing scrolls under it: safe top + 4, then one 44 dp row with Close (the X and the word),
 ///               the ticks and the counter ("3 of 21", a button that opens "This feed" when [StageFrame.onCounter] is
-///               set), 12 dp apart; under it one quiet 20 dp line with the chapter's name (or a note for 2.4 s). No kept
-///               count and no Revise pile in a phone's bar
+///               set), 12 dp apart; under it one quiet 20 dp line with the chapter's name (or a note for 2.4 s), taller
+///               with larger text so its words are never clipped. No kept count and no Revise pile in a phone's bar
 ///   item area   12 dp above and below; the screen puts its `StagePager` here
 ///   action bar  solid ground: `56 | 1fr | 56`, 12 dp gaps, 6 top, 16 at the sides, the safe bottom + 8; the side
 ///               keys left and right and the step slot in the middle; [StageFrame.wide] (the checkpoint) gives the
@@ -178,9 +178,17 @@ class StageTopBar extends StatelessWidget {
   /// Stands in for the title (the loading skeleton's bar).
   final Widget? titleWidget;
 
-  /// The row's height and the title line's: the bar is `safe top + 4 + 44 + 20 + 4`.
+  /// The row's height and the title line's: the bar is `safe top + 4 + 44 + 20 + 4`. The title line grows with the text (its
+  /// 13 dp words on a 20 dp line are 26 dp at text 1.3), so its words are never clipped.
   static const double rowHeight = 44;
   static const double titleHeight = 20;
+  static const double titleSize = 13;
+
+  /// The title line's height at this text size (the run's bar uses it too): never under 20 dp.
+  static double titleLineOf(BuildContext context) {
+    final line = MediaQuery.textScalerOf(context).scale(titleSize) * titleHeight / titleSize;
+    return line > titleHeight ? line : titleHeight;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -214,7 +222,10 @@ class StageTopBar extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-              child: SizedBox(height: titleHeight, child: Align(alignment: Alignment.centerLeft, child: titleWidget ?? _StageTitle(title: title, note: titleNote))),
+              child: SizedBox(
+                height: titleLineOf(context),
+                child: Align(alignment: Alignment.centerLeft, child: titleWidget ?? _StageTitle(title: title, note: titleNote)),
+              ),
             ),
           ],
         ),

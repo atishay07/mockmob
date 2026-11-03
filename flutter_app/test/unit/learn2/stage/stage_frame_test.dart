@@ -283,6 +283,11 @@ void main() {
     await pumpStage(tester, _frame(taps, of: 120, title: 'Accounting for Share Capital and Debentures'), textScale: 1.3);
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
+    expect(
+      tester.getSize(find.text('Accounting for Share Capital and Debentures')).height,
+      closeTo(26, 0.5),
+      reason: "the chapter's line grows with the text (20 dp at 1, 26 at 1.3), so its words are not clipped",
+    );
     await pumpStage(tester, _frame(taps, wide: true), textScale: 1.3);
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);

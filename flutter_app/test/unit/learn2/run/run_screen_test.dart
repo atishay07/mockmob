@@ -825,8 +825,16 @@ void main() {
     testWidgets('text scale 1.3 at 360 dp: the card, its ratings, a question, the end and the states draw without overflow', (tester) async {
       await pumpRun(tester, FixtureLearnApi(), textScale: 1.3);
       expect(tester.takeException(), isNull);
+      expect(
+        tester.getSize(find.text('Accounting for Partnership: Basic Concepts')).height,
+        closeTo(26, 0.5),
+        reason: "the chapter's line under the bar grows with the text, so its words are not clipped",
+      );
       await tap(tester, find.text('Turn over'));
       expect(tester.takeException(), isNull);
+      await runSettle(tester);
+      final fades = tester.widgetList<AnimatedOpacity>(find.descendant(of: find.byType(CardFace), matching: find.byType(AnimatedOpacity)));
+      expect(fades.map((o) => o.opacity), everyElement(0), reason: 'the turned first card fits: no foot fade over Turn back');
       await tap(tester, find.text('Got it'));
       expect(tester.takeException(), isNull);
       await goTo(tester, firstMistake);

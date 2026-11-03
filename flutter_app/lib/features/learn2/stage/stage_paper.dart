@@ -124,7 +124,9 @@ class StageKindBand extends StatelessWidget {
 /// A card's back on the paper: the [band] at the top, the [block] of words 14 dp under it, the [foot] at the card's foot. It
 /// is at least as tall as it is given (the card fills its page) and grows with its words (the card then scrolls inside).
 /// With a [pitch], the block is ruled from its top down to 14 dp above the foot, a 1 dp [rule] at the foot of every line, edge
-/// to edge, with at least one empty line under the words; the block's text is set at that pitch, so it sits on the lines.
+/// to edge; the block's text is set at that pitch, so it sits on the lines. Words that grow the back leave one empty line
+/// under them; words that fit keep the height it is given, even with less than a line under them, so a card never scrolls
+/// (and fades its foot over Turn back) for an empty line alone (the run's first card at text 1.3 on a 360 x 800 phone).
 class StageRuledBack extends MultiChildRenderObjectWidget {
   StageRuledBack({super.key, required Widget band, required Widget block, required Widget foot, this.pitch, required this.rule})
     : super(children: [band, block, foot]);
@@ -192,7 +194,8 @@ class RenderStageRuledBack extends RenderBox
     block.layout(each, parentUsesSize: true);
     foot.layout(each, parentUsesSize: true);
     const gap = StagePaper.gap;
-    final natural = band.size.height + gap + block.size.height + (_pitch ?? 0) + gap + foot.size.height;
+    final words = band.size.height + gap + block.size.height + gap + foot.size.height;
+    final natural = words > constraints.minHeight ? words + (_pitch ?? 0) : words;
     final h = constraints.constrainHeight(math.max(constraints.minHeight, natural));
     (band.parentData! as _RuledData).offset = Offset.zero;
     (block.parentData! as _RuledData).offset = Offset(0, band.size.height + gap);
