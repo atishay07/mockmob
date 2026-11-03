@@ -1,0 +1,12 @@
+/* Branded icons (BrandIcon.jsx). A fixed square box, so nothing shifts while the file decodes. */
+.brand-icon {
+  display: inline-grid; place-items: center; flex: none;
+  width: var(--bi-size, 40px); height: var(--bi-size, 40px);
+  line-height: 0; user-select: none; -webkit-user-select: none;
+}
+.brand-icon__img {
+  display: block; width: 100%; height: 100%; object-fit: contain;
+  -webkit-user-drag: none; pointer-events: none;
+}
+/* The line fallback (below 32 px or an unknown name) keeps the text's ink. */
+.brand-icon--line { color: var(--a-ink-2, currentColor); }

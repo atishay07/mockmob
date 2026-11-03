@@ -24,7 +24,8 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Check, ChevronDown, ChevronLeft, ChevronRight, Lock, Plus, Printer } from 'lucide-react';
+import { Check, ChevronDown, ChevronLeft, ChevronRight, Lock, Plus } from 'lucide-react';
+import { BrandIcon } from '@/components/brand/BrandIcon';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { LengthControl, MINUTES_KEY, OwnSheet, store, validMinutes } from '../LengthPicker';
 import { useCountUpState } from '@/lib/motion';
@@ -194,14 +195,20 @@ function PageSkeleton() {
 
 // ---------------------------------------------------------------- Shelf
 
-function ShelfRow({ href, title, line, locked = false, onPress = null, busy = false }) {
+// Each shelf row leads with its desk object (R7 packet I, LK60: branded icons instead of vague ones); the print sheet
+// ends with the same chevron as its neighbours, so no row carries a printer glyph.
+const SHELF_ICON = { cards: 'keycards', questions: 'questions', lesson: 'lesson', mistakes: 'mistakes', print: 'print' };
+
+function ShelfRow({ id, href, title, line, locked = false, onPress = null, busy = false }) {
+  const icon = SHELF_ICON[id];
   const body = (
     <>
+      {icon ? <BrandIcon name={icon} size={40} className="lc-shelf__ico" /> : null}
       <span className="lc-shelf__text">
         <span className="lc-shelf__title">{title}</span>
         <span className="lc-shelf__line">{locked ? <Lock size={13} strokeWidth={2.3} aria-hidden="true" /> : null}{line}</span>
       </span>
-      {onPress ? <Printer className="lc-shelf__chev" size={18} strokeWidth={2.2} aria-hidden="true" /> : href ? <ChevronRight className="lc-shelf__chev" size={18} strokeWidth={2.2} aria-hidden="true" /> : null}
+      {onPress || href ? <ChevronRight className="lc-shelf__chev" size={18} strokeWidth={2.2} aria-hidden="true" /> : null}
     </>
   );
   if (onPress) return <li><button type="button" className="lc-shelf__row lc-shelf__row--key" onClick={onPress} aria-busy={busy || undefined}>{body}</button></li>;
@@ -216,7 +223,7 @@ function Shelf({ data, chapterKey, minutes, links, failed = false }) {
     return (
       <aside className="lc-shelf" aria-labelledby="lc-shelf-h">
         <h2 className="lc-shelf__h" id="lc-shelf-h">Everything in this chapter</h2>
-        <ul className="lc-shelf__rows"><ShelfRow title="Key cards" line="Every card in this chapter, by section" href={links.cards(chapterKey)} /></ul>
+        <ul className="lc-shelf__rows"><ShelfRow id="cards" title="Key cards" line="Every card in this chapter, by section" href={links.cards(chapterKey)} /></ul>
       </aside>
     );
   }
@@ -241,7 +248,7 @@ function Shelf({ data, chapterKey, minutes, links, failed = false }) {
     <aside className="lc-shelf" aria-labelledby="lc-shelf-h">
       <h2 className="lc-shelf__h" id="lc-shelf-h">Everything in this chapter</h2>
       <ul className="lc-shelf__rows">
-        {view.rows.map((r) => <ShelfRow key={r.id} title={r.title} line={r.id === 'print' && printer.busy ? 'Getting the sheet ready' : r.id === 'print' && printer.failed ? 'The sheet did not load. Try again.' : r.line} locked={r.locked} href={r.link ? hrefOf[r.id] : null} onPress={r.action === 'print' ? printer.start : null} busy={r.action === 'print' && printer.busy} />)}
+        {view.rows.map((r) => <ShelfRow key={r.id} id={r.id} title={r.title} line={r.id === 'print' && printer.busy ? 'Getting the sheet ready' : r.id === 'print' && printer.failed ? 'The sheet did not load. Try again.' : r.line} locked={r.locked} href={r.link ? hrefOf[r.id] : null} onPress={r.action === 'print' ? printer.start : null} busy={r.action === 'print' && printer.busy} />)}
       </ul>
       {printer.sheet}
     </aside>

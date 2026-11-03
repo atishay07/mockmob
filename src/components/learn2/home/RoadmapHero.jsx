@@ -7,9 +7,13 @@
 import { useCallback, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
+import { BrandIcon } from '@/components/brand/BrandIcon';
 import { openUpgrade } from '@/components/pro';
 import { LengthControl, OwnSheet } from '../LengthPicker';
 import { displayTitle } from './homeModel.mjs';
+
+// The Or rows lead with the desk object of what they open (R7 packet I, LK60).
+const OR_ICON = { revise: 'revise', fix: 'mistakes', feed: 'feeds', singles: 'questions', level: 'questions', continue: 'keycards' };
 
 /** A server action ({ run } | { href, go }) as a link for where the student is (the preview keeps its own views). */
 export function actionHref(action, links) {
@@ -94,7 +98,8 @@ export default function RoadmapHero({ roadmap, links, minutes = null, onMinutes 
             if (!href) return null;
             return (
               <li key={o.kind} data-kind={o.kind}>
-                <Link className="lh-or__row" href={href}>
+                <Link className="lh-or__row" href={href} data-icon={OR_ICON[o.kind] ? '' : undefined}>
+                  {OR_ICON[o.kind] ? <BrandIcon name={OR_ICON[o.kind]} size={36} className="lh-or__ico" /> : null}
                   <span className="lh-or__text"><b>{o.label}</b>{o.line ? <span>{displayTitle(o.line)}</span> : null}</span>
                   <ChevronRight className="lh-or__chev" size={18} strokeWidth={2} aria-hidden="true" />
                 </Link>

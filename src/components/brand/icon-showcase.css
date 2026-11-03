@@ -1,0 +1,49 @@
+/* The branded icons showcase (development preview, view=icons). Tokens only, so Night and Day both hold. */
+.ics { display: grid; gap: 28px; max-width: 1080px; margin: 0 auto; padding: 8px 16px 120px; color: var(--a-ink); }
+.ics-head { display: grid; gap: 8px; }
+.ics-kicker { margin: 0; font: 600 12px/1.3 var(--font-body); letter-spacing: 0.06em; text-transform: uppercase; color: var(--a-ink-3); }
+.ics-head h1 { margin: 0; font: 750 clamp(26px, 6vw, 36px)/1.1 var(--font-display); letter-spacing: -0.02em; text-wrap: balance; }
+.ics-lede { margin: 0; max-width: 62ch; font: 500 15px/1.55 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
+.ics-sec { display: grid; gap: 12px; }
+.ics-sec h2 { margin: 0; font: 700 18px/1.3 var(--font-display); letter-spacing: -0.01em; }
+.ics-note { margin: -4px 0 0; max-width: 62ch; font: 500 13.5px/1.5 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
+
+.ics-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+@media (min-width: 640px) { .ics-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 960px) { .ics-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.ics-cell { display: grid; justify-items: start; align-content: start; gap: 6px; padding: 14px; border: 1px solid var(--a-line); border-radius: 16px; background: var(--a-raised); }
+.ics-cell b { font: 650 15px/1.3 var(--font-body); }
+.ics-was { display: inline-flex; align-items: center; gap: 6px; font: 500 12.5px/1.4 var(--font-body); color: var(--a-ink-3); }
+.ics-was svg { flex: none; }
+.ics-where { font: 500 12.5px/1.4 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
+
+.ics-sizes { display: flex; flex-wrap: wrap; gap: 18px 28px; align-items: end; }
+.ics-size { display: grid; gap: 6px; justify-items: start; }
+.ics-size__row { display: flex; gap: 8px; align-items: end; }
+.ics-size__px { font: 500 12.5px/1.3 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+
+.ics-shelf { list-style: none; margin: 0; padding: 0; max-width: 640px; }
+.ics-shelf li { border-top: 1px solid var(--a-line); }
+.ics-shelf li:last-child { border-bottom: 1px solid var(--a-line); }
+.ics-shelf__row { display: grid; grid-template-columns: 40px minmax(0, 1fr) 18px; align-items: center; gap: 14px; min-height: 64px; padding: 10px 8px; margin: 0 -8px; border-radius: 12px; color: inherit; text-decoration: none; }
+@media (hover: hover) { .ics-shelf__row:hover { background: var(--a-hover); } }
+.ics-shelf__row:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
+.ics-shelf__text { display: grid; gap: 3px; min-width: 0; }
+.ics-shelf__text b { font: 650 15.5px/1.35 var(--font-body); }
+.ics-shelf__text span { font: 500 13.5px/1.4 var(--font-body); color: var(--a-ink-2); }
+.ics-chev { color: var(--a-ink-3); }
+.ics-links { margin: 0; font: 500 14px/1.6 var(--font-body); color: var(--a-ink-2); }
+.ics-links a { color: var(--a-ink); text-decoration: underline; text-decoration-color: var(--a-volt-line, var(--a-ink-3)); text-underline-offset: 3px; }
+
+.ics-docks { display: grid; gap: 12px; max-width: 420px; }
+.ics-dock { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: end; gap: 2px; padding: 8px 6px; border: 1px solid var(--a-line); border-radius: 28px; background: var(--a-raised); box-shadow: var(--a-shadow-1); }
+.ics-dock > span { display: grid; justify-items: center; gap: 3px; font: 600 11px/1.2 var(--font-body); color: var(--a-ink-2); }
+.ics-dock > span > svg { color: var(--a-ink-2); }
+.ics-dock--obj > span:not(.ics-dock__start) { gap: 1px; }
+.ics-dock__img { width: 32px; height: 32px; object-fit: contain; }
+.ics-dock__start i { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: #d2f000; color: #0b1000; }
+
+.ics-mobi { display: flex; flex-wrap: wrap; gap: 10px; }
+.ics-key { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 1px solid var(--a-line-strong, var(--a-line)); border-radius: 12px; font: 600 14px/1.2 var(--font-body); color: var(--a-ink); background: var(--a-raised); }
+.ics-key--was { color: var(--a-ink-3); }
+.ics-key--was svg { color: var(--a-accent-text); }
