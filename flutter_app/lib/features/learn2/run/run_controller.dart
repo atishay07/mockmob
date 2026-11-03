@@ -16,7 +16,7 @@
 ///   end       read from `GET /end` (`?stop=1` after "Stop here": the run stays open to pick up today; never invented numbers),
 ///             read again on Try again
 ///   coaching  four first-run lines, once per student (not per run; R4 owner-eye#15): "Tap the card to turn it over" on the
-///             first card of the first run, "Missed it brings a card back soonest. Easy sends it furthest away." under the keys of
+///             first card of the first run, "Each key shows when this card comes back: Missed it soonest, Easy latest." under the keys of
 ///             the first card the student can rate (round 5, LK38; it replaces "Got it: it comes back when it’s due."),
 ///             "Answers are showing. Nothing is scheduled." on a recap, and "Pick the answer you think is right." above the options of the first
 ///             question a student ever sees (not a run that serves an open mistake). A line is kept as seen the first time it

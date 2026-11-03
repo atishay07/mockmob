@@ -27,9 +27,9 @@ LearnItem _item(Map<String, dynamic> json) => LearnItem.tryParse(json)!;
 void main() {
   group('the keys\' words (`returns`)', () {
     test('a card carries what each rating would do, in the server\'s words', () {
-      final item = _item(_cardJson(returns: {'missed': 'in this run, then tomorrow', 'got': 'in 3 days', 'easy': 'in 8 days'})) as LearnCardItem;
-      expect(item.returns?.missed, 'in this run, then tomorrow');
-      expect(item.returns?.forRating(1), 'in this run, then tomorrow');
+      final item = _item(_cardJson(returns: {'missed': 'in this session, then tomorrow', 'got': 'in 3 days', 'easy': 'in 8 days'})) as LearnCardItem;
+      expect(item.returns?.missed, 'in this session, then tomorrow');
+      expect(item.returns?.forRating(1), 'in this session, then tomorrow');
       expect(item.returns?.forRating(3), 'in 3 days');
       expect(item.returns?.forRating(4), 'in 8 days');
       expect(item.returns?.forRating(2), isNull);
@@ -43,7 +43,7 @@ void main() {
     });
 
     test('a put-back copy keeps the words, a moved card takes the server\'s fresh ones (no "in this run" any more)', () {
-      final first = _item(_cardJson(id: 'a', returns: {'missed': 'in this run, then tomorrow', 'got': 'in 3 days', 'easy': 'in 8 days'}));
+      final first = _item(_cardJson(id: 'a', returns: {'missed': 'in this session, then tomorrow', 'got': 'in 3 days', 'easy': 'in 8 days'}));
       final other = _item(_cardJson(id: 'b'));
       final list = [other, first, _item(_cardJson(id: 'c')), _item(_cardJson(id: 'd')), _item(_cardJson(id: 'e')), _item(_cardJson(id: 'f'))];
       final fresh = _item(_cardJson(id: 'a', returns: {'missed': 'tomorrow', 'got': 'in 3 days', 'easy': 'in 8 days'}));

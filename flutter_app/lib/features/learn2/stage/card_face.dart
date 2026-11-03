@@ -261,7 +261,8 @@ class _CardFaceState extends State<CardFace> with SingleTickerProviderStateMixin
                       button: true,
                       label: speak,
                       onTap: widget.onTurn,
-                      child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: widget.onTurn),
+                      // Translucent: a drag on a long front reaches the scroll view under it; a tap still turns the card.
+                      child: GestureDetector(behavior: HitTestBehavior.translucent, onTap: widget.onTurn),
                     ),
                   ),
                 ],

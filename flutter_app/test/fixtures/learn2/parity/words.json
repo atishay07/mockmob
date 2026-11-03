@@ -1,5 +1,5 @@
 {
- "web": "web/1104-english 39e0b0478",
+ "web": "wt-1104-web-polish 5df0c1c72",
  "note": "Written by tool/learn2_parity/words.mjs from the web's own words.js and allowance.js. Do not edit by hand.",
  "words": {
   "turnOver": "Turn over",
@@ -12,7 +12,7 @@
   "inRevise": "In Revise",
   "revise": "Revise",
   "missedIt": "Missed it",
-  "coachRatings": "How well did you know it? Missed it brings the card back soon. Got it, in a few days. Easy, much later.",
+  "coachRatings": "How well did you know it? Each key shows when this card comes back: Missed it soonest, Easy latest.",
   "save": "Save",
   "saved": "Saved",
   "skipKnown": "Skip what you already know",

@@ -336,6 +336,31 @@ void main() {
     handle.dispose();
   });
 
+  testWidgets('a long front scrolls under a drag and a tap still turns it (the tap target is translucent, never an opaque cover)', (tester) async {
+    final long = List.generate(14, (i) => 'The partners agreed clause number ${i + 1} of the deed, and the firm keeps the record for the year.').join(' ');
+    final card = KeyCard.tryParse({
+      'id': 'long-front',
+      'kind': 'key_line',
+      'front': long,
+      'back': 'The partners agreed the deed.',
+      'blanks': <String>[],
+    })!;
+    await pumpStage(tester, _onStage(_CardHost(name: 'long-front', card: card)), size: const Size(360, 640), textScale: 2.0);
+    await tester.pumpAndSettle();
+    final scrollables = find.descendant(of: _cardBox, matching: find.byType(Scrollable));
+    ScrollableState front() => tester.stateList<ScrollableState>(scrollables).firstWhere((s) => s.position.maxScrollExtent > 0, orElse: () => throw TestFailure('no inner scroll view has anything to scroll: the long front must overflow at text 2.0 on 360 x 640'));
+    final scroller = front();
+    expect(scroller.position.pixels, 0);
+    await tester.drag(_cardBox, const Offset(0, -120));
+    await tester.pump();
+    expect(scroller.position.pixels, greaterThan(0), reason: 'a drag up on the front scrolls the words, as on the back');
+    expect(tester.state<_CardHostState>(find.byType(_CardHost)).turns, 0, reason: 'a drag is not a tap');
+    await tester.tap(_cardBox);
+    await tester.pump();
+    expect(tester.state<_CardHostState>(find.byType(_CardHost)).turns, 1, reason: 'a tap still turns it');
+    await tester.pumpAndSettle();
+  });
+
   testWidgets('a blank is spoken as "blank" on the turn target', (tester) async {
     final handle = tester.ensureSemantics();
     await pumpStage(tester, _onStage(const _CardHost(name: 'paidPrivately')));

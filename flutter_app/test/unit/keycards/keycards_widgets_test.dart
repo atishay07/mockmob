@@ -145,6 +145,10 @@ void main() {
       await _tap(tester, _key(KeyCardsCopy.nextCard));
       await _tap(tester, _key(KeyCardsCopy.finish));
       expect(find.text(KeyCardsCopy.lastLookDone), findsOneWidget);
+      // The end key replays Last look, so it says Look again (the web's word), never Study again.
+      expect(find.text(KeyCardsCopy.lookAgain), findsOneWidget);
+      expect(find.text('Look again'), findsOneWidget);
+      expect(find.text(KeyCardsCopy.studyAgain), findsNothing);
       expect(api.reviews, isEmpty);
       expect(api.states, isEmpty);
     });

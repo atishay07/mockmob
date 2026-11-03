@@ -741,7 +741,7 @@ void main() {
   group('round 5: one coach line under the keys, on the first card the student can rate', () {
     test('it shows for a card with words from the server, not for a look, a recap or a card back from earlier', () async {
       final store = MemoryPrefsStore();
-      final withWords = {'missed': 'in this run, then tomorrow', 'got': 'in 3 days', 'easy': 'in 8 days'};
+      final withWords = {'missed': 'in this session, then tomorrow', 'got': 'in 3 days', 'easy': 'in 8 days'};
       final run = scriptedRun([scriptedCard(1, look: true), scriptedCard(2, stage: 'again', returns: null), scriptedCard(3, returns: withWords)]);
       final c = await started(ScriptedRunApi(run), prefs: LearnPrefs(store), studentId: 'ana');
       c.turn(c.item! as LearnCardItem);
@@ -752,7 +752,7 @@ void main() {
       c.advance();
       c.turn(c.item! as LearnCardItem);
       expect(c.statusLine?.text, RunCopy.coachRate);
-      expect(RunCopy.coachRate, 'How well did you know it? Missed it brings the card back soon. Got it, in a few days. Easy, much later.');
+      expect(RunCopy.coachRate, 'How well did you know it? Each key shows when this card comes back: Missed it soonest, Easy latest.');
     });
   });
 

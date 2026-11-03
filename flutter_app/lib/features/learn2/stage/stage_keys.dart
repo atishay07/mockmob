@@ -401,7 +401,7 @@ class StageStepKey extends StatelessWidget {
   /// A second line inside the key (13 medium, the key's ink at 70%): the end's next chapter name, or a rating key's "back tomorrow".
   final String? sub;
 
-  /// The second line wraps on its words up to this many lines (a rating key's "back in this run, then tomorrow" takes two).
+  /// The second line wraps on its words up to this many lines (a rating key's "back in this session, then tomorrow" takes up to five at the largest text).
   final int subLines;
   final double subSize;
 

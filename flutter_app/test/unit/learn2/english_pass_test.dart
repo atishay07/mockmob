@@ -56,7 +56,8 @@ void main() {
       expect(KeyCardsCopy.missed, 'Missed it');
       expect(KeyCardsCopy.tapToReveal, LearnWords.turnOver);
       expect(KeyCardsCopy.studyAgain, 'Study again');
-      expect(LearnWords.coachRatings, 'How well did you know it? Missed it brings the card back soon. Got it, in a few days. Easy, much later.');
+      expect(KeyCardsCopy.lookAgain, 'Look again');
+      expect(LearnWords.coachRatings, 'How well did you know it? Each key shows when this card comes back: Missed it soonest, Easy latest.');
     });
 
     test('the daily limit is "card ratings" everywhere', () {

@@ -531,7 +531,8 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
     switch (slot) {
       case FeedCheckpointSlot(:final id, :final after):
         final n = c.numbers;
-        final cp = FeedModel.checkpointText(n, done: c.base + after, of: of, seconds: FeedModel.secondsFrom(c.items, after));
+        // One count of "done" on the checkpoint, the stop sheet and the stopped end: the items the server holds an event for.
+        final cp = FeedModel.checkpointText(n, done: math.min(of, c.itemsDone), of: of, seconds: FeedModel.secondsFrom(c.items, after));
         final revised = [
           for (final x in c.items)
             if (x is LearnCardItem && c.stateOf(x.id).kept) StagePileCard.of(kind: x.card.kind, front: x.card.front, id: x.id),

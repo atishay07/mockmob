@@ -214,7 +214,8 @@ void main() {
       await goTo(tester, 8);
       expect(find.byType(StageCheckpoint), findsOneWidget);
       expect(find.text('1 for Revise'), findsOneWidget, reason: 'never a zero first');
-      expect(find.textContaining('8 of 16 done, '), findsOneWidget);
+      expect(find.textContaining('1 of 16 done, '), findsOneWidget, reason: 'one count of done: the card kept (the place the checkpoint stands at is not "done")');
+      expect(find.textContaining('8 of 16'), findsNothing);
       expect(find.byType(StageKeptFan), findsOneWidget, reason: 'the card sent to Revise, as the small fan');
       expect(find.text('Stop here'), findsOneWidget);
       expect(find.text('Keep going'), findsOneWidget);
@@ -223,6 +224,31 @@ void main() {
       expect(find.text('Chapter'), findsNothing);
       await tap(tester, find.text('Keep going'));
       expect(ctl(tester).active, 9);
+      await finish(tester);
+    });
+
+    testWidgets('the checkpoint and the end after its Stop here say the same count of done (one card kept)', (tester) async {
+      await pumpFeed(tester, FixtureLearnApi());
+      await tap(tester, find.text('Revise later'));
+      await goTo(tester, 8);
+      expect(find.textContaining('1 of 16 done, '), findsOneWidget);
+      await tap(tester, find.text('Stop here'));
+      expect(ctl(tester).mode, FeedMode.end);
+      expect(find.text('1 of 16 done'), findsOneWidget, reason: 'the stopped end counts the same as the checkpoint did');
+      await finish(tester);
+    });
+
+    testWidgets('with nothing held the checkpoint leaves the count out (only the time left, never a zero), and its Stop here end says no zero either', (tester) async {
+      await pumpFeed(tester, FixtureLearnApi());
+      await goTo(tester, 8);
+      expect(find.byType(StageCheckpoint), findsOneWidget);
+      expect(find.textContaining('of 16 done'), findsNothing);
+      expect(find.textContaining('0 of'), findsNothing);
+      final line = tester.widget<StageCheckpoint>(find.byType(StageCheckpoint)).status;
+      expect(line, matches(RegExp(r'^(About \d+ min|Under a minute) left\.$')));
+      await tap(tester, find.text('Stop here'));
+      expect(ctl(tester).mode, FeedMode.end);
+      expect(find.textContaining('0 of 16 done'), findsNothing);
       await finish(tester);
     });
 

@@ -262,7 +262,7 @@ class _KcLastLookState extends State<KcLastLook> {
         children: [
           Semantics(liveRegion: true, child: Text(KeyCardsCopy.lastLookDone, style: type.body)),
           const SizedBox(height: MmSpace.s16),
-          KeyButton.secondary(label: KeyCardsCopy.studyAgain, onPressed: () => setState(() => _at = 0)),
+          KeyButton.secondary(label: KeyCardsCopy.lookAgain, onPressed: () => setState(() => _at = 0)),
         ],
       );
     }

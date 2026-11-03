@@ -91,6 +91,7 @@ abstract final class KeyCardsCopy {
       [if (gotIt > 0) '$gotIt got it', if (easy > 0) '$easy easy', if (missed > 0) '$missed missed'].join(', ');
   static const String studyDone = 'Chapter session done';
   static const String studyAgain = 'Study again';
+  static const String lookAgain = 'Look again';
   static const String backToChapter = 'Back to the chapter';
   static const String studyNothing = 'No cards to study here yet.';
   static const String lastLookNote = "Must-know cards only. This won't change when your cards come back.";

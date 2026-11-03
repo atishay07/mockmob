@@ -50,7 +50,7 @@ class ExploreScreen extends ConsumerStatefulWidget {
 enum _Phase { loading, error, empty, ready }
 
 class _ExploreScreenState extends ConsumerState<ExploreScreen> {
-  /// The subject a link named, shown until the student picks another.
+  /// The subject a link named, shown for the one frame until it is the shared subject (then null: the page follows the shared one).
   String? _linked;
 
   /// The length kept on this phone has been read: until then the control waits, so it never opens on 10 and slides to the
@@ -69,14 +69,29 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
     unawaited(ref.read(learnPrefsProvider).coversNudgeSeen().then((seen) {
       if (mounted && !seen) setState(() => _nudge = true);
     }));
-    final want = widget.subject?.trim();
-    if (want != null && storedSubjectId.hasMatch(want)) {
-      final linked = _linked = canonicalSubject(want);
-      // Practice and Learn follow the link's subject; a provider is not changed while the page builds.
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted && ref.read(practiceSubjectProvider) != linked) ref.read(practiceSubjectProvider.notifier).select(linked);
-      });
-    }
+    _takeLink(widget.subject);
+  }
+
+  @override
+  void didUpdateWidget(ExploreScreen old) {
+    super.didUpdateWidget(old);
+    // A new link to this page (the same page kept by the router) hands over its subject the same way.
+    if (widget.subject != null && widget.subject != old.subject) _takeLink(widget.subject);
+  }
+
+  /// A link's `?subject=` is a one-shot handoff: it shows at once, becomes the subject Practice and Learn share after the frame,
+  /// and then the page follows that shared subject again (the Practise door's switch, another link), so a later change is never
+  /// held back by the first link.
+  void _takeLink(String? subject) {
+    final want = subject?.trim();
+    if (want == null || !storedSubjectId.hasMatch(want)) return;
+    final linked = _linked = canonicalSubject(want);
+    // Practice and Learn follow the link's subject; a provider is not changed while the page builds.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (ref.read(practiceSubjectProvider) != linked) ref.read(practiceSubjectProvider.notifier).select(linked);
+      if (_linked == linked) setState(() => _linked = null);
+    });
   }
 
   void _pickSubject(String id) {

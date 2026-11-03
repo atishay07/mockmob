@@ -30,7 +30,7 @@ abstract final class LearnWords {
   static const String missedIt = 'Missed it';
 
   /// The one coach line under the rating keys, once per student, on the first card they can rate (round 5, LK38).
-  static const String coachRatings = 'How well did you know it? Missed it brings the card back soon. Got it, in a few days. Easy, much later.';
+  static const String coachRatings = 'How well did you know it? Each key shows when this card comes back: Missed it soonest, Easy latest.';
 
   /// A question to Saved (questions only, by design).
   static const String save = 'Save';

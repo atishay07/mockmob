@@ -275,11 +275,14 @@ abstract final class FeedModel {
   }
 
   /// `checkpointText` (R2 screens 12): the checkpoint's number and its one line, "2 of 3 right" / "6 cards seen" and "8 of 21
-  /// done, about 6 min left." Never a zero lead ("0 kept" is dropped); the third line is gone.
+  /// done, about 6 min left." Never a zero lead ("0 kept" is dropped); the third line is gone. [done] is the one count of done (the
+  /// stop sheet's and the stopped end's): when it is 0 the line is only the time left.
   static FeedCheckpointText checkpointText(FeedNumbers n, {required int done, required int of, required num seconds}) {
     final left = seconds > 0 ? (seconds * 1.1 < 60 ? 'Under a minute left' : 'About ${math.max(1, ((seconds * 1.1) / 60).round())} min left') : null;
     final t = StageEndModel.checkpointLines(answered: n.answered, right: n.right, seen: n.seen, kept: n.kept, done: done, of: of, left: left);
-    return (big: t.big, status: t.line, line: null);
+    // With nothing done yet the line leaves the count out ("About 6 min left."), never "0 of 16 done".
+    final status = done > 0 ? t.line : (left == null ? '' : '$left.');
+    return (big: t.big, status: status, line: null);
   }
 
   /// `upNextText`: "Up next: ..." from the next slot, null when nothing follows.

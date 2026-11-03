@@ -103,12 +103,14 @@ void main() {
       await finish(tester);
     });
 
-    for (final scale in [1.0, 1.3]) {
+    for (final scale in [1.0, 1.3, 1.5]) {
       testWidgets('at 360 by 800 dp, text $scale: the keys fit, no overflow, one height, no label cut mid-word', (tester) async {
         await pumpRun(tester, FixtureLearnApi(), textScale: scale);
         await tap(tester, find.text('Turn over'));
         expect(tester.takeException(), isNull);
         final item = ctl(tester).item! as LearnCardItem;
+        expect(item.returns!.missed, 'in this session, then tomorrow', reason: 'the recorded run carries the live server wording');
+        expect(find.text('back in this session, then tomorrow'), findsOneWidget);
         for (final s in ['Missed it', 'Got it', 'Easy', 'back ${item.returns!.missed}', 'back ${item.returns!.got}', 'back ${item.returns!.easy}']) {
           expect(find.text(s), findsOneWidget, reason: s);
           expect(tester.getRect(find.text(s)).right, lessThanOrEqualTo(360));
@@ -180,6 +182,49 @@ void main() {
       await finish(tester);
     });
 
+    for (final brightness in [Brightness.dark, Brightness.light]) {
+      testWidgets('the deck edges are whole card-sized sheets with the corners of the card, half way through a flip and just after a rating (${brightness.name})', (tester) async {
+        await pumpRun(tester, FixtureLearnApi(), brightness: brightness, reduced: false);
+        final deck = find.byType(RunDeck);
+        final edges = find.descendant(of: deck, matching: find.byKey(const ValueKey('run-deck-edge')));
+
+        void checkEdges(String when) {
+          expect(edges, findsNWidgets(2), reason: when);
+          final card = tester.getRect(find.descendant(of: deck, matching: find.byType(CardFace)));
+          final deckBox = tester.getRect(deck);
+          final rects = [for (var i = 0; i < 2; i++) tester.getRect(edges.at(i))];
+          // The far edge, then the near one: each the card's own size (never a 48 dp slab), moved down and in.
+          expect(rects[0].height, closeTo(card.height, 0.5), reason: '$when: the far edge is a whole sheet');
+          expect(rects[1].height, closeTo(card.height, 0.5), reason: '$when: the near edge is a whole sheet');
+          expect(rects[0].top - deckBox.top, closeTo(RunDeck.depth, 0.5), reason: when);
+          expect(rects[1].top - deckBox.top, closeTo(RunDeck.depth / 2, 0.5), reason: when);
+          for (var i = 0; i < 2; i++) {
+            final shape = tester.widget<DecoratedBox>(edges.at(i)).decoration as ShapeDecoration;
+            final border = shape.shape as RoundedSuperellipseBorder;
+            final r = border.borderRadius as BorderRadius;
+            for (final c in [r.topLeft, r.topRight, r.bottomLeft, r.bottomRight]) {
+              expect(c.x, CardFace.radius, reason: '$when: edge $i has the radius of the card on all four corners (no flat top)');
+              expect(c.y, CardFace.radius, reason: when);
+            }
+          }
+        }
+
+        checkEdges('at rest');
+        await tester.tap(find.text('Turn over'));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 170));
+        checkEdges('half way through the flip');
+        await tester.pump(const Duration(milliseconds: 400));
+        await tester.pump(const Duration(milliseconds: 300));
+        await tester.tap(find.text('Got it'));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 60));
+        checkEdges('just after the rating');
+        await runSettle(tester); // the flight into the counter lands before the test ends
+        await finish(tester);
+      });
+    }
+
     testWidgets('the first card: one top bar, Turn over (the one volt key), the turn cue, "1 of 18" and no pile or time left', (tester) async {
       await pumpRun(tester, FixtureLearnApi());
       expect(find.text('Accounting for Partnership: Basic Concepts'), findsOneWidget, reason: 'the chapter as the quiet line under the bar');
@@ -203,7 +248,7 @@ void main() {
       expect(find.text('Got it'), findsOneWidget);
       expect(find.text('Easy'), findsOneWidget);
       expect(find.text('Turn over'), findsNothing);
-      expect(find.text('How well did you know it? Missed it brings the card back soon. Got it, in a few days. Easy, much later.'), findsOneWidget);
+      expect(find.text('How well did you know it? Each key shows when this card comes back: Missed it soonest, Easy latest.'), findsOneWidget);
       expect(voltKeys(tester), 1);
       final volt = tester.widgetList<StageStepKey>(find.byType(StageStepKey)).singleWhere((k) => k.tone == StageTone.volt);
       expect(volt.label, 'Got it');
@@ -834,7 +879,10 @@ void main() {
       expect(tester.takeException(), isNull);
       await runSettle(tester);
       final fades = tester.widgetList<AnimatedOpacity>(find.descendant(of: find.byType(CardFace), matching: find.byType(AnimatedOpacity)));
-      expect(fades.map((o) => o.opacity), everyElement(0), reason: 'the turned first card fits: no foot fade over Turn back');
+      // With the live words under Missed it ("back in this session, then tomorrow") the keys take a line more at 1.3, so the card is
+      // a line shorter: its back may scroll, and then (only then) the foot fade says there is more to read.
+      final scrolls = tester.stateList<ScrollableState>(find.descendant(of: find.byType(CardFace), matching: find.byType(Scrollable))).any((s) => s.position.maxScrollExtent > 0.5);
+      expect(fades.any((o) => o.opacity > 0), scrolls, reason: 'the foot fade shows exactly when the turned first card has more to read');
       await tap(tester, find.text('Got it'));
       expect(tester.takeException(), isNull);
       await goTo(tester, firstMistake);

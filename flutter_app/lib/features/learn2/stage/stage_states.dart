@@ -78,7 +78,7 @@ class StageCheckpoint extends StatelessWidget {
   /// "2 of 3 right" / "2 questions tried" / "3 for Revise" / "6 cards seen" / "8 done" (`StageEndModel.checkpointLines`).
   final String big;
 
-  /// "8 of 21 done, about 6 min left."
+  /// "8 of 21 done, about 6 min left." ("About 6 min left." with nothing done; empty when there is nothing to say).
   final String status;
 
   /// The cards kept in this feed: the fan under the line (empty: none).
@@ -109,8 +109,10 @@ class StageCheckpoint extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(height: 10),
-          Text(status, textAlign: TextAlign.center, style: quiet),
+          if (status.isNotEmpty) ...[
+            const SizedBox(height: 10),
+            Text(status, textAlign: TextAlign.center, style: quiet),
+          ],
           if (keptCards.isNotEmpty) ...[
             const SizedBox(height: 20),
             StageKeptFan(cards: keptCards, small: true, height: 128),

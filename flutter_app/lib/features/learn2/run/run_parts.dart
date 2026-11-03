@@ -346,7 +346,7 @@ class _StampPillState extends State<_StampPill> with SingleTickerProviderStateMi
 
 /// Missed it, Got it (the volt key) and Easy: equal, 8 dp apart, a group named "How well did you recall it?". Round 5 (LK38): each
 /// key says when the card would come back under its name ("back tomorrow", the server's words from FSRS, [returns]), so a student
-/// sees what each key does before pressing it; no words, no second line. A second line that wraps ("back in this run, then
+/// sees what each key does before pressing it; no words, no second line. A second line that wraps ("back in this session, then
 /// tomorrow") makes the three keys the same height. [busy] is the rating on its way (a spinner in its key); every key waits while
 /// one is, and while the card leaves ([disabled]). No haptic of their own: the screen gives the confirm or the tick once the
 /// server has the rating.
@@ -363,7 +363,7 @@ class RunRateKeys extends StatelessWidget {
   static const double _subSize = 12;
   static const double _padX = 8;
   static const double _gap = 8;
-  static const int _subLines = 3;
+  static const int _subLines = 5;
 
   /// The height every key shares: the tallest of the three at this width and text scale, never under 52 (no words) or 60 (words).
   static double keyHeight(BuildContext context, double width, LearnReturns? returns) {
@@ -553,7 +553,7 @@ class RunLessonCard extends StatelessWidget {
 
 /// The deck under a run's Key card (run.css R8): a run has no peek, so two card edges of the same paper show under the card,
 /// the nearer 7 dp down and 10 dp in at each side, the farther 14 dp down and 20 dp in, each a shade deeper (the light falls on
-/// the top card), with the paper's hairline and shadow. They stay put while the card turns, leaves after a rating and the next
+/// the top card), each a whole card-sized sheet with the card's corners, the paper's hairline and shadow. They stay put while the card turns, leaves after a rating and the next
 /// one rises; the card gives up the 14 dp they take. Nothing here moves or takes a touch.
 class RunDeck extends StatelessWidget {
   const RunDeck({super.key, required this.child});
@@ -566,11 +566,14 @@ class RunDeck extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final paper = context.mmColors.paper;
+    // Each edge is a whole sheet the size of the card, moved down and in, with the card's own corners: what shows past the card
+    // (and at every moment of a flip or a rating) reads as the next card of the deck, never a slab with a flat top.
     Widget edge(Color fill) => IgnorePointer(
       child: DecoratedBox(
+        key: const ValueKey('run-deck-edge'),
         decoration: ShapeDecoration(
           color: fill,
-          shape: mmShapeBorder(const BorderRadius.vertical(bottom: Radius.circular(22)), side: BorderSide(color: paper.line)),
+          shape: mmShapeBorder(BorderRadius.circular(CardFace.radius), side: BorderSide(color: paper.line)),
           shadows: paper.shadow,
         ),
       ),
@@ -581,8 +584,8 @@ class RunDeck extends StatelessWidget {
         clipBehavior: Clip.none,
         fit: StackFit.passthrough,
         children: [
-          Positioned(left: 20, right: 20, bottom: -depth, height: 48, child: edge(paper.edgeFar)),
-          Positioned(left: 10, right: 10, bottom: -depth / 2, height: 48, child: edge(paper.edgeNear)),
+          Positioned(left: 20, right: 20, top: depth, bottom: -depth, child: edge(paper.edgeFar)),
+          Positioned(left: 10, right: 10, top: depth / 2, bottom: -depth / 2, child: edge(paper.edgeNear)),
           child,
         ],
       ),
