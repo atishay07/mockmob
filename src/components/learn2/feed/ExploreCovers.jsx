@@ -14,11 +14,12 @@ import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, useSy
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { SegmentedControl } from '@/components/ui/controls/SegmentedControl';
+import { kindFamily } from '@/components/keycards/kinds';
 import { openUpgrade } from '@/components/pro/proNudgeStore';
 import { feedCovers, useLearnRead } from '../api';
 import { useLearnLinks } from '../links';
 import {
-  COVER_START_KEY, LENGTHS, hasHistory, hookTier, isFreePlan, keyLabelOf, leadLine, mediaOf, mixLineOf, opensQuestions, readLength, refLineOf, studentLineOf,
+  COVER_START_KEY, LENGTHS, hasHistory, hookTier, isFreePlan, keyLabelOf, kindLabel, leadLine, mediaOf, mixLineOf, opensQuestions, readLength, refLineOf, studentLineOf,
 } from './coverModel';
 import { useL2Off } from '../flag';
 import { WORDS } from '../../../../data/learn/words.js';
@@ -108,8 +109,9 @@ function Cover({ c, index, minutes, lead, history, free, freeDone, swap, tabInde
   };
   const inner = (
     <>
-      <span className="fxc-media" data-kind={media.kind} data-noref={ref ? undefined : ''}>
+      <span className="fxc-media" data-kind={media.kind} data-noref={ref ? undefined : ''} data-family={media.cardKind ? kindFamily(media.cardKind) : undefined}>
         {ref ? <span className="fxc-ref">{ref}</span> : null}
+        {media.cardKind ? <span className="kc-famtab fxc-tab" aria-hidden="true">{kindLabel(media.cardKind)}</span> : null}
         {media.kind === 'card' ? <span className="fxc-hook" id={ids.h} data-tier={hookTier(media.text)}>{media.text}</span> : null}
         {media.kind === 'locked' ? <span className="fxc-hook fxc-hook--note" id={ids.h}><span className="fxc-hook__kind">{media.label}</span><span className="fxc-hook__note">Opens with a Pro card</span></span> : null}
         {media.kind === 'questions' || media.kind === 'cards' ? <span className="fxc-hook fxc-hook--note" id={ids.h}><span className="fxc-hook__big">{media.text}</span><span className="fxc-hook__note">{media.note}</span></span> : null}

@@ -120,7 +120,8 @@ export function mediaOf(c = {}, minutes = 10) {
   const hooks = Array.isArray(lengthHooks) ? lengthHooks : Array.isArray(c.hooks) ? c.hooks : [];
   const candidates = [...hooks, own].filter(Boolean);
   const readable = candidates.find((h) => h.front && isReadableHook(h.front));
-  if (readable) return { kind: 'card', text: String(readable.front) };
+  // R6 Web D: the hook's own kind rides along (when the server sends it) for the cover's kind tab.
+  if (readable) return { kind: 'card', text: String(readable.front), ...(readable.kind ? { cardKind: String(readable.kind) } : {}) };
   const h = own;
   // Only a cloze or a long card is left: say what the feed holds instead of an unfinished sentence.
   if (h && h.front) {

@@ -171,6 +171,46 @@ html[data-theme='light'] .fxc {
   .fxc-len .ctl-seg__opt { min-width: 44px; padding: 0 10px; }
 }
 
+/* ---------- R6 Web D (LK39, LK41, LK43): covers with presence, a subtle Night, bigger on a computer ----------
+   docs/brain/learn-1031/r6/D-CARDS.md. The hook card's kind hangs from the cover's top edge as its family's tab (keycards.css
+   .kc-famtab), the cover's top hairline takes a trace of that colour. Night: the quiet hairline with one soft top light instead
+   of the light rim. From 1040 px of row: three larger covers and the peek (four from 1400), a bigger hook and title. */
+.fxc-media { position: relative; }
+.fxc-tab { position: absolute; top: 0; right: 16px; min-height: 34px; padding-top: 4px; }
+.fxc-media[data-family] .fxc-ref { padding-right: 118px; }
+.fxc-cover:has(.fxc-media[data-family]) { border-top-color: var(--kc-fam-edge); }
+.fxc-cover:has(.fxc-media[data-family='meaning']) { --kc-fam: var(--a-accent-text); }
+.fxc-cover:has(.fxc-media[data-family='rule']) { --kc-fam: var(--a-purple-text); }
+.fxc-cover:has(.fxc-media[data-family='parts']) { --kc-fam: var(--a-warn-text); }
+.fxc-cover:has(.fxc-media[data-family='fact']) { --kc-fam: #9cc0ff; }
+html[data-theme='light'] .fxc-cover:has(.fxc-media[data-family='fact']) { --kc-fam: #2c5aa8; }
+.fxc-cover { --kc-fam-edge: color-mix(in srgb, var(--kc-fam, var(--a-line-strong)) 38%, var(--a-line-strong)); }
+:where(html:not([data-theme='light'])) .fxc-cover {
+  --kc-fam-edge: color-mix(in srgb, var(--kc-fam, var(--a-line)) 30%, var(--a-line));
+  border-color: var(--a-line); box-shadow: inset 0 1px 0 rgb(244 245 240 / 0.045), 0 1px 2px rgb(0 0 0 / 0.35), 0 12px 32px -18px rgb(0 0 0 / 0.6);
+}
+:where(html:not([data-theme='light'])) .fxc-cover:has(.fxc-media[data-family]) { border-top-color: var(--kc-fam-edge); }
+:where(html:not([data-theme='light'])) .fxc-arrow { border-color: var(--a-line); }
+@container fxc (min-width: 1040px) {
+  .fxc-row { --g: 20px; --w: calc((100cqw - 2 * var(--g) - var(--peek)) / 3); --h: 344px; --media: 164px; }
+  .fxc-media { padding: 16px 22px 14px; row-gap: 12px; }
+  .fxc-body { padding: 16px 22px 20px; gap: 8px; }
+  .fxc-hook { --hs: 31px; --hl: 1.08; letter-spacing: -0.025em; }
+  .fxc-hook[data-tier='m'] { --hs: 27px; --hl: 1.12; }
+  .fxc-hook[data-tier='l'] { --hs: 23px; --hl: 1.16; }
+  .fxc-hook[data-tier='xl'] { --hs: 19px; --hl: 1.22; }
+  .fxc-hook[data-tier='xxl'] { --hs: 17px; --hl: 1.22; }
+  .fxc-hook__big { font-size: 26px; }
+  .fxc-name { font-size: 20px; }
+  .fxc-name[data-long] { font-size: 18px; }
+  .fxc-line { font-size: 14.5px; }
+  .fxc-mix { font-size: 13.5px; }
+  .fxc-key { min-height: 50px; font-size: 16px; }
+}
+@container fxc (min-width: 1400px) {
+  .fxc-row { --w: calc((100cqw - 3 * var(--g) - var(--peek)) / 4); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fxc-cover, .fxc-arrow { transition: border-color 180ms linear; }
   .fxc-cover:hover, .fxc-cover:active, .fxc-arrow:active:not(:disabled) { transform: none; }

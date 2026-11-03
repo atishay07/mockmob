@@ -140,3 +140,17 @@ test('R2: a first visit names what a feed holds in plain words, not "Key cards" 
 // R2 (packet P3): Explore's own page rules run with test:learn from here, so package.json's one-line test list is not edited by
 // three packets at once (the orchestrator may move it there).
 await import('../../feed/exploreModel.test.mjs');
+
+test('R6 Web D: a cover carries its hook card\'s kind for the kind tab; every kind has one of four families', async () => {
+  assert.deepEqual(mediaOf({ hook: { front: 'What is goodwill?', kind: 'definition' } }), { kind: 'card', text: 'What is goodwill?', cardKind: 'definition' });
+  assert.deepEqual(mediaOf({ hook: { front: 'What is goodwill?' } }), { kind: 'card', text: 'What is goodwill?' }, 'no kind from the server: no tab');
+  const { kindFamily, KIND_FAMILIES, KIND_LABELS } = await import('../../keycards/kinds.js');
+  for (const k of Object.keys(KIND_LABELS)) assert.ok(KIND_FAMILIES.includes(kindFamily(k)), k);
+  assert.equal(kindFamily('definition'), 'meaning');
+  assert.equal(kindFamily('formula'), 'rule');
+  assert.equal(kindFamily('entry'), 'rule');
+  assert.equal(kindFamily('steps'), 'parts');
+  assert.equal(kindFamily('key_line'), 'fact');
+  assert.equal(kindFamily(undefined), 'fact', 'an unknown kind is a fact');
+  assert.equal(kindFamily('Definition'), 'meaning', 'case does not matter');
+});
