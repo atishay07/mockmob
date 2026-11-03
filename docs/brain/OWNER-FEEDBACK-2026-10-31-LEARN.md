@@ -164,3 +164,16 @@ Right now your task is to build this feature completely and test out everything,
 
 "Fixes 2, 3 and 4" are the app port session's proposals of 2 Nov ~9:40 am: (2) the stop sheet and the end count the same thing; (3) the app's "Print sheet" row is named for what it opens; (4) a Revise run's head line says Revise, not the first card's chapter.
 Found at once: the verified bank's keys are skewed to A (Accountancy 1,206 of 1,405; most older subjects alike; the Claude-authored waves are balanced). NTA papers shuffle options; quick papers, Learn v2, the Explore stream and Mob papers serve the stored order.
+
+## 3 Nov 2026, about 1:30 pm IST: his look at the app on his phone, main account (verbatim)
+
+> I was seeing the app. Overall, things look good to me. Only the UI part can be improved a bit in many places.
+>
+> There is something on my main account. It is always showing on every screen: "Sending your answer is computer science mock." What is this? It is some glitch which needs to be fixed.
+>
+> The practice section on the mobile app looks clean. Your papers and Learn are there, but there is no Flow feed, and the Learn section is still a bit cluttered. The UI needs a bit of improving. In the overall app, even though I really like the aspects which are implemented right, they can be a bit stronger and a bit more premium, something in the direction of Duolingo.
+>
+> Except for this, just keep noting whichever things you need my feedback on. I'll be back in 30, 40 minutes, and I'll give you that. Right now, just focus on the things that I just said and the things that you were doing yesterday before I stopped you. Continue doing all that, and when I'm back, I'll tell you whatever you need from my side.
+
+"Sending your answer is computer science mock" is the app's live strip ("Sending your answers · Computer Science mock"; flutter_app/lib/core/widgets/bar/bar_live.dart BarSending). It shows whenever the latest local session draft has pendingSubmission and the phone is online (app_overrides.dart barSendingInputProvider), even after the submit window (endsAt + 120 s) has passed or after the token refresher gave up, so a stale draft keeps it up on every screen. "Flow feed" is the Explore feed (the web's fourth tab), which the app does not have yet.
+

@@ -663,3 +663,14 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | TO ANSWER | **LK48** Has copying the app's UI to the web hidden options or made some unreachable? Confirm. |
 | TO ANSWER | **LK36** English seems to list only Verbal Ability; are all subjects' chapters listed? |
 | STANDING | **LK49** The small UI/UX fixes he gave long ago still have to be done. |
+
+## The app on his phone, 3 Nov about 1:30 pm (LK50-LK54; verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md, section "3 Nov 2026, about 1:30 pm")
+
+| Status | Item |
+|---|---|
+| IN PROGRESS | **LK50** On his main account every app screen shows "Sending your answers · Computer Science mock". A glitch: a stale local draft keeps pendingSubmission after its submit window, so the strip never clears. |
+| IN PROGRESS | **LK51** The app has no Flow (Explore) feed; Practice, Papers and Learn are there. |
+| IN PROGRESS | **LK52** The app's Learn section is still a bit cluttered; its UI needs improving. |
+| IN PROGRESS | **LK53** The whole app: keep what is right, make it stronger and more premium, in the direction of Duolingo. |
+| STANDING | **LK54** Keep a running list of what needs his feedback; he answers when back. Continue yesterday's work (Maths formula cards, the remaining chapters). |
+
