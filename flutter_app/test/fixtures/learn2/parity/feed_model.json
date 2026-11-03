@@ -1,6 +1,6 @@
 {
  "about": "Learn v2 feed rules: the website's feedModel.mjs and data/learn/feed.js over the recorded feeds and edge lists. Written by tool/learn2_parity/feed_model.mjs.",
- "web": "39e0b0478",
+ "web": "ced6f747f",
  "checkpointLine": "Keep going, or stop here. The cards you kept are already in Revise.",
  "every": 8,
  "minAfter": 4,

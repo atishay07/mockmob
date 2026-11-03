@@ -280,9 +280,8 @@ abstract final class FeedModel {
   static FeedCheckpointText checkpointText(FeedNumbers n, {required int done, required int of, required num seconds}) {
     final left = seconds > 0 ? (seconds * 1.1 < 60 ? 'Under a minute left' : 'About ${math.max(1, ((seconds * 1.1) / 60).round())} min left') : null;
     final t = StageEndModel.checkpointLines(answered: n.answered, right: n.right, seen: n.seen, kept: n.kept, done: done, of: of, left: left);
-    // With nothing done yet the line leaves the count out ("About 6 min left."), never "0 of 16 done".
-    final status = done > 0 ? t.line : (left == null ? '' : '$left.');
-    return (big: t.big, status: status, line: null);
+    // With nothing done yet checkpointLines leaves the count out ("About 6 min left."), never "0 of 16 done".
+    return (big: t.big, status: t.line, line: null);
   }
 
   /// `upNextText`: "Up next: ..." from the next slot, null when nothing follows.

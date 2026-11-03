@@ -160,9 +160,12 @@ abstract final class StageEndModel {
     } else if (s > 0) {
       big = '${_plural(s, 'card')} seen';
     } else {
-      big = '${whole(done)} done';
+      big = whole(done) > 0 ? '${whole(done)} done' : 'Nothing answered yet';
     }
-    final tail = left == null || left.isEmpty ? '' : ', ${left.substring(0, 1).toLowerCase()}${left.substring(1)}';
+    // One rule for the count (the stopped end's own): a zero is left out, so the line is only the time left, never "0 of 16 done".
+    final hasLeft = left != null && left.isNotEmpty;
+    if (whole(done) == 0) return (big: big, line: hasLeft ? '${left.substring(0, 1).toUpperCase()}${left.substring(1)}.' : '');
+    final tail = hasLeft ? ', ${left.substring(0, 1).toLowerCase()}${left.substring(1)}' : '';
     return (big: big, line: '${whole(done)} of ${whole(of)} done$tail.');
   }
 
