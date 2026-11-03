@@ -44,6 +44,8 @@ test('the Start key waits for the answer for the chosen length: it never starts 
 });
 
 test('the control has its own place in the wide offer, and 44 px segments', () => {
-  assert.match(css, /'sub or' 'len or' 'keys or'/);
+  // R7 W: the offer is the Up next module; its move (with the length) is the left column, the other moves the right.
+  assert.match(css, /grid-template-areas: 'move or'/);
+  assert.match(hero, /<OfferLength /);
   assert.match(css, /\.lh-hero__len \.lc-len-wrap \.lc-seg \.ctl-seg__opt \{ min-height: 44px; \}/);
 });

@@ -7,6 +7,8 @@
 //              line under the field is gone (R4): the offer's Revise row says the due cards. Typing opens the results in place; Cancel
 //              returns. Focusing the field changes nothing (WCAG 3.2.1). The query and the open set live in the address (q, shelf), so Back
 //              returns to them. /learn/find (lv=find) opens Find on its own: the offer and the roadmap step aside and the field leads.
+//   Sets       R7 W (LK62): Find's sets (Due today, Missed lately, In Revise, Must-know lines) as keys under the field (CardSets), so a phone
+//              student reaches them from Learn home; a tap opens the set in place, as from Find
 //   Roadmap    "Your roadmap": the chapters in book order with their coverage (ChapterMap)
 // Every number and line comes from ONE read, GET /api/learn/home (the /subject body plus the shelves, speed.md item 3), which the
 // shell's due badge shares (learn2/api.js); nothing is made up here.
@@ -22,6 +24,7 @@ import SubjectShelf from './SubjectShelf';
 import SubjectPicker from './SubjectPicker';
 import RoadmapHero, { HeroSkeleton } from './RoadmapHero';
 import FindHome from './FindHome';
+import CardSets from './CardSets';
 import ChapterMap, { MapError, MapSkeleton } from './ChapterMap';
 import { displayTitle, findHints, setHead, shelfFromParam, subjectLine } from './homeModel.mjs';
 import './learn-home.css';
@@ -271,6 +274,9 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
           onText={(v) => { setText(v); if (v && shelf) setShelf(null); }}
           onFocus={() => { setFocused(true); dock(); }} onBlur={() => setFocused(false)} onCancel={cancel} onKeyDown={onFieldKey} />
       </div>
+
+      {/* R7 W (LK62): Learn's sets of cards, in reach at every width, under the field that finds them. */}
+      {ready && mode === 'chapters' ? <CardSets shelves={shelves} onShelf={openShelf} /> : null}
 
       {ready && data.subject?.note && mode === 'chapters' ? <p className="lh-note">{data.subject.note}</p> : null}
 

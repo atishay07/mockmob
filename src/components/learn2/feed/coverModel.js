@@ -29,14 +29,15 @@ const BOOK_ORDER = /^(chapter 1 of your book|first in the syllabus)$/i;
 const lowerFirst = (s) => (s ? s.charAt(0).toLowerCase() + s.slice(1) : s);
 
 /**
- * The lead cover's line: { prefix, text }. "For you:" only when the reason comes from the student's own history; book order
- * reads "Start here: first in the syllabus" (A2 4.6; never an unearned "For you").
+ * The lead cover's line: { prefix, text }. "Suggested:" only when the reason comes from the student's own history; book order
+ * reads "Start here: first in the syllabus" (A2 4.6; never an unearned suggestion). R7 W (LK59): the word is "Suggested", the one
+ * word the product marks its pick with (Today's Up next, Learn's Up next), where it was "For you".
  */
 export function leadLine(c = {}, { history = true } = {}) {
   if (!c.forYou) return null;
   const reason = String(c.reason || '').trim();
   if (!history || BOOK_ORDER.test(reason) || !reason) return { prefix: 'Start here:', text: 'first in the syllabus' };
-  return { prefix: 'For you:', text: openWords(lowerFirst(reason)) };
+  return { prefix: 'Suggested:', text: openWords(lowerFirst(reason)) };
 }
 
 // R2 ruling 2: the only verdict word on a chapter is "Needs work". These never show on a cover: they told a teen nothing apart.

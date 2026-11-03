@@ -48,6 +48,10 @@ export function StateRing({ shape }) {
   );
 }
 
+// R7 W (LK59): a row says its state in one word ("Needs work"); where that comes from ("from your papers") is said once, under the
+// roadmap's head (and stays in the row's spoken name), so the list never repeats a recommendation on every weak row.
+const verdictWord = (text) => String(text || '').split(' · ')[0];
+
 function Row({ row, href, here }) {
   // The row never says "free" (the header says it once) and its card count is the chapter's real size on Free and Pro alike (R4
   // ui-correctness#1). Only chapters with cards reach here (playableParts), so there is no "Coming soon" row.
@@ -59,7 +63,7 @@ function Row({ row, href, here }) {
       <Link className="lh-row__link" href={href} aria-label={spoken}>
         <span className="lh-row__head">
           <b className="lh-row__title">{displayTitle(row.title)}</b>
-          {here ? <span className="lh-row__here">{here}</span> : road.verdict ? <span className="lh-row__verdict">{road.verdict}</span> : null}
+          {here ? <span className="lh-row__here">{here}</span> : road.verdict ? <span className="lh-row__verdict"><StateRing shape="weak" />{verdictWord(road.verdict)}</span> : null}
         </span>
         {line ? <span className="lh-row__meta">{line}</span> : null}
         {road.seen > 0 ? <span className="lh-row__bar" aria-hidden="true"><span style={{ '--p': road.share }} /></span> : null}
@@ -278,6 +282,10 @@ export default function ChapterMap({ parts: allParts, subjectId, links, refresh,
   const flat = useMemo(() => (activeSort === 'book' ? null : sortRows(parts, activeSort)), [activeSort, parts]);
   const free = freeEach(flatRows(parts).map(({ row }) => row), isPro);
   const here = position ? { key: position, label: isNew ? 'Start here' : 'Up next' } : null;
+  // Said once: where "Needs work" comes from. Only the rows whose only evidence is the student's papers carry needsWorkFrom (R4 ruling V).
+  const weak = flatRows(parts).filter(({ row }) => roadmapRow(row).verdict);
+  const papers = weak.filter(({ row }) => row.needsWorkFrom === 'papers').length;
+  const fromPapers = papers === 0 ? null : papers === weak.length ? 'Needs work: from the mistakes in your papers.' : 'Needs work: from your answers here and the mistakes in your papers.';
 
   if (!parts.length) {
     return (
@@ -295,6 +303,7 @@ export default function ChapterMap({ parts: allParts, subjectId, links, refresh,
         {items.length > 1 ? <SortMenu value={activeSort} onChange={setSort} items={items} /> : null}
       </div>
       {free ? <p className="lh-map__new">{free}</p> : null}
+      {fromPapers ? <p className="lh-map__why"><StateRing shape="weak" /><span>{fromPapers}</span></p> : null}
 
       {flat ? (
         <ul className="lh-rows lh-rows--flat">

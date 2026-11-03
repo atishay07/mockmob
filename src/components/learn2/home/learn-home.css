@@ -110,6 +110,25 @@
   .lh-findband[data-stuck] { box-shadow: 0 1px 0 var(--a-line); }
 }
 
+/* ---------- R7 W (LK62): the sets under the Find field. Keys, not cards: a hairline key each, two to a row on a phone, all in one row
+   from 760 px. They sit with the field (Find's own tools), quieter than Up next: no volt, no shadow. ---------- */
+.lh-sets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 2px 0 26px; min-width: 0; }
+.lh-sets[data-n='1'] { grid-template-columns: minmax(0, 1fr); }
+.lh-set {
+  display: grid; align-content: center; gap: 2px; min-height: 60px; padding: 9px 14px; min-width: 0; border: 1px solid var(--a-line-strong); border-radius: 14px;
+  background: transparent; color: var(--a-ink); text-align: left; font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background-color 150ms var(--lh-ease), border-color 150ms var(--lh-ease), transform 100ms var(--lh-ease);
+}
+.lh-set__t { font: 650 14.5px/1.25 var(--font-body); color: var(--a-ink); text-wrap: pretty; }
+.lh-set__v { font: 500 13px/1.3 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.lh-set:active { transform: scale(0.98); background: var(--a-hover); }
+.lh-set:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .lh-set:hover { background: var(--a-hover); border-color: var(--a-line-hover); } }
+@media (prefers-reduced-motion: reduce) { .lh-set { transition: none; } .lh-set:active { transform: none; } }
+@container lh (min-width: 760px) {
+  .lh-sets { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); margin: -8px 0 32px; }
+}
+
 /* ---------- The Free line: only when today's one Learn session is used ---------- */
 .lh-note { margin: -6px 0 20px; font: 500 14px/1.5 var(--font-body); color: var(--a-ink-2); max-width: 62ch; }
 .lh-free { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 0 8px; margin: -8px 0 16px; font: 500 14px/1.5 var(--font-body); color: var(--a-ink-2); }
@@ -201,8 +220,13 @@ a.lh-row__link:active { transform: scale(0.99); }
 .lh-row__head { grid-area: head; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; min-width: 0; }
 .lh-row__title { font: 650 16px/1.35 var(--font-body); color: var(--a-ink); text-wrap: pretty; overflow-wrap: break-word; min-width: 0; }
 .lh-row[data-empty] .lh-row__title { color: var(--a-ink-3); }
-.lh-row__here { flex: none; display: inline-flex; align-items: center; height: 22px; padding: 0 9px; border-radius: 11px; background: #d2f000; color: #10140e; font: 700 12px/1 var(--font-body); letter-spacing: 0.01em; box-shadow: none; filter: none; text-shadow: none; }
-.lh-row__verdict { flex: none; font: 650 13px/1.3 var(--font-body); color: var(--a-warn-text); }
+/* R7 W (LK59): the rows carry state, never a second recommendation. "Up next" is a quiet outlined tag (the volt is the Up next key's
+   alone), and "Needs work" is ink with its ring: the word and the shape say it, colour does not shout it; why is said once, under the head. */
+.lh-row__here { flex: none; display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 11px; border: 1px solid var(--a-volt-line); background: transparent; color: var(--a-accent-text); font: 650 12px/1 var(--font-body); box-shadow: none; filter: none; text-shadow: none; }
+.lh-row__verdict { flex: none; display: inline-flex; align-items: center; gap: 5px; font: 600 12.5px/1.3 var(--font-body); color: var(--a-ink-2); }
+.lh-row__verdict .lh-ring { color: var(--a-warn-text); }
+.lh .lh-map__why { display: flex; align-items: center; gap: 6px; margin: 2px 0 4px; font: 500 13px/1.45 var(--font-body); color: var(--a-ink-3); }
+.lh .lh-map__why .lh-ring { flex: none; color: var(--a-warn-text); }
 .lh-row__meta { grid-area: meta; font: 500 13.5px/1.4 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; text-wrap: pretty; }
 .lh-row[data-empty] .lh-row__meta { color: var(--a-ink-3); }
 .lh-row__bar { grid-area: bar; display: block; height: 3px; margin-top: 4px; border-radius: 2px; background: var(--a-line); overflow: hidden; max-width: 320px; }
@@ -271,10 +295,19 @@ html[data-theme='light'] .lh-row[data-here] .lh-row__bar > span { background: #7
 :root[data-motion='reduced'] .lh :is(.lh-row__link, .lh-or__row, .lh-key):active { transform: none; }
 :root[data-motion='reduced'] .lh .lh-optgroup[data-stage='out'] { transition: opacity 120ms linear; }
 
-/* ---------- The start offer (R2 ruling 1, LK27): type on the page, not a card among cards. One volt key; at most two quiet rows. ---------- */
+/* ---------- Up next (R7 W, LK59): the one module that recommends, in Today's material and anatomy (today.css .tm): one move on the
+   card, one line saying why, the length, the page's one volt key; the other moves as cells in its footer (a tap makes one the move).
+   The card is the lit next-step card of Today, a little smaller: its volt line and the wash from its top edge over the raised
+   surface. Night stays subtle: no glow, no halo, the soft offset shadow only. ---------- */
 .lh-hero { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; min-width: 0; margin: 6px 0 22px; animation: lh-rise 260ms var(--lh-ease) both; }
-.lh-hero__title { font: 750 28px/1.14 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); text-wrap: balance; overflow-wrap: break-word; }
-.lh-hero__line { padding-top: 8px; font: 550 16px/1.4 var(--font-body); color: var(--a-ink); text-wrap: pretty; }
+.lh-up {
+  position: relative; padding: 20px 20px 0; border: 1px solid var(--a-volt-line); border-radius: 24px; overflow: hidden;
+  background: linear-gradient(180deg, var(--a-volt-wash), transparent 70%), linear-gradient(180deg, var(--a-glass-top), transparent 160px), var(--a-raised);
+  box-shadow: var(--a-shadow-1);
+}
+.lh-up__move { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; min-width: 0; padding-bottom: 20px; animation: lh-fade 200ms var(--lh-ease) both; }
+.lh-hero__title { font: 750 26px/1.14 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); text-wrap: balance; overflow-wrap: break-word; }
+.lh-hero__line { padding-top: 8px; font: 500 15.5px/1.45 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
 .lh-hero__sub { padding-top: 4px; font: 500 15px/1.4 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
 .lh-hero__track { margin-top: 12px; width: min(100%, 280px); }
 .lh-hero__track .lh-track__fill { background: #b5d000; }
@@ -291,7 +324,49 @@ html[data-theme='light'] .lh-row[data-here] .lh-row__bar > span { background: #7
 .lh-hero--skel .lh-sk--t { height: 32px; width: 78%; }
 .lh-hero--skel .lh-sk--key { height: 56px; margin-top: 20px; border-radius: 16px; }
 
-/* The "Or" rows: 56 px, a hairline between, no card, no key */
+/* The other moves: a split footer of the same card (never cards in a card), each a full-height button with a swap mark, as Today's. */
+.lh .lh-up__or { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0 -20px; border-top: 1px solid var(--a-line); }
+.lh .lh-up__or[data-n='1'] { grid-template-columns: minmax(0, 1fr); }
+.lh-up__or-h { grid-column: 1 / -1; padding: 12px 20px 0; font: 500 12.5px/1.3 var(--font-body); color: var(--a-ink-3); }
+.lh-up__cell {
+  position: relative; isolation: isolate; display: grid; align-content: start; gap: 3px; min-height: 76px; padding: 8px 38px 16px 20px; border: 0; border-radius: 14px;
+  background: transparent; color: inherit; text-align: left; font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: transform 120ms var(--lh-ease);
+}
+.lh-up__cell + .lh-up__cell { padding-left: 16px; }
+.lh-up__cell + .lh-up__cell::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 16px; width: 1px; background: var(--a-line); }
+.lh-up__cell::after { content: ''; position: absolute; z-index: -1; inset: 6px; border-radius: 12px; opacity: 0; pointer-events: none; transition: opacity 150ms var(--lh-ease); background: var(--a-hover); }
+.lh-up__cell:active { transform: scale(0.98); }
+.lh-up__cell:active::after { opacity: 1; }
+.lh-up__cell:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -3px; }
+.lh-up__cell[data-arrived] { animation: lh-fade 180ms var(--lh-ease) both; }
+.lh-up__cell-i { position: absolute; top: 10px; right: 14px; color: var(--a-ink-3); transition: color 150ms var(--lh-ease), transform 220ms var(--lh-ease); }
+.lh-up__cell:active .lh-up__cell-i { transform: rotate(-90deg); }
+.lh-up__cell-s { font: 650 12px/1.2 var(--font-body); color: var(--a-accent-text); }
+.lh-up__cell-t { font: 650 14.5px/1.3 var(--font-body); color: var(--a-ink); text-wrap: pretty; overflow-wrap: break-word; }
+.lh-up__cell-v { font: 500 13px/1.3 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+@media (hover: hover) and (pointer: fine) { .lh-up__cell:hover::after { opacity: 1; } .lh-up__cell:hover .lh-up__cell-i { color: var(--a-ink); } }
+@media (prefers-reduced-motion: reduce) { .lh :is(.lh-up__move, .lh-up__cell[data-arrived]) { animation: none; } .lh-up__cell, .lh-up__cell-i { transition: none; } }
+:root[data-motion='reduced'] .lh :is(.lh-up__move, .lh-up__cell[data-arrived]) { animation: none; }
+
+/* Wide: the move on the left, the other moves beside it as a column of cells, so the first screen is used, not left empty (LK30) */
+@container lh (min-width: 760px) {
+  .lh-up { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); grid-template-areas: 'move or'; column-gap: 0; padding: 26px 0 0 28px; margin: 4px 0 28px; }
+  .lh-up > .lh-up__move { grid-area: move; padding: 0 32px 26px 0; }
+  .lh-up .lh-hero__title { font-size: 32px; }
+  .lh-up .lh-hero__line { font-size: 16.5px; }
+  .lh-up .lh-hero__len { max-width: 440px; }
+  .lh-up .lh-hero__keys { grid-template-columns: auto auto; justify-content: start; align-items: center; gap: 4px 16px; margin-top: 18px; }
+  .lh-hero__key { width: auto; min-width: 240px; padding: 0 28px; }
+  .lh .lh-up > .lh-up__or { grid-area: or; grid-template-columns: minmax(0, 1fr); align-content: start; margin: -26px 0 0; border-top: 0; border-left: 1px solid var(--a-line); padding: 14px 0 12px; }
+  .lh-up__or-h { padding: 6px 24px 4px; }
+  .lh-up__cell { padding: 12px 44px 14px 24px; min-height: 72px; }
+  .lh-up__cell + .lh-up__cell { padding-left: 24px; }
+  .lh-up__cell + .lh-up__cell::before { left: 24px; right: 24px; top: 0; bottom: auto; width: auto; height: 1px; }
+  .lh-up:not(:has(.lh-up__or)) { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'move'; }
+}
+
+/* Rows of a list in Learn (Find's sets): 56 px, a hairline between, no card, no key */
 .lh .lh-or { display: grid; margin-top: 14px; border-top: 1px solid var(--a-line); }
 .lh-or li { border-bottom: 1px solid var(--a-line); }
 .lh-or__row {
@@ -305,20 +380,6 @@ html[data-theme='light'] .lh-row[data-here] .lh-row__bar > span { background: #7
 .lh-or__text span { font: 500 13.5px/1.35 var(--font-body); color: var(--a-ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .lh-or__chev { color: var(--a-ink-3); transition: transform 200ms var(--lh-ease), color 200ms var(--lh-ease); }
 @media (hover: hover) { .lh-or__row:hover { background: var(--a-hover); } .lh-or__row:hover .lh-or__chev { transform: translateX(2px); color: var(--a-ink); } }
-
-/* Wide: the offer on the left, the quiet rows beside it, so the first screen is used, not left empty (LK30) */
-@container lh (min-width: 760px) {
-  .lh-hero { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); grid-template-areas: 'title or' 'line or' 'track or' 'sub or' 'len or' 'keys or'; column-gap: 48px; margin: 4px 0 28px; }
-  .lh-hero > .lh-hero__title { grid-area: title; font-size: 34px; }
-  .lh-hero > .lh-hero__line { grid-area: line; font-size: 17px; }
-  .lh-hero > .lh-hero__track { grid-area: track; }
-  .lh-hero > .lh-hero__sub { grid-area: sub; }
-  .lh-hero > .lh-hero__len { grid-area: len; max-width: 440px; }
-  .lh-hero > .lh-hero__keys { grid-area: keys; grid-template-columns: auto auto; justify-content: start; align-items: center; gap: 4px 16px; margin-top: 18px; }
-  .lh-hero__key { width: auto; min-width: 240px; padding: 0 28px; }
-  .lh .lh-hero > .lh-or { grid-area: or; align-self: center; margin-top: 0; }
-  .lh-hero:not(:has(.lh-or)) { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'title' 'line' 'track' 'sub' 'len' 'keys'; }
-}
 
 /* ---------- Find with nothing typed: the student's sets as rows, or a line and four words to try ---------- */
 .lh-findhome { display: grid; gap: 24px; min-width: 0; padding-top: 12px; }

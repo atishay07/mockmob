@@ -14,10 +14,10 @@ test('R4 ruling N: a cover is labelled by its roadmap place, "Chapter 5"; never 
   assert.equal(refLineOf({}), null);
 });
 
-test('lead line: For you only from history; book order reads Start here', () => {
-  assert.deepEqual(leadLine({ forYou: true, reason: '3 old mistakes to fix' }), { prefix: 'For you:', text: '3 open mistakes to fix' }, 'R3 X4: the server line says "old", the page says "open"');
-  assert.deepEqual(leadLine({ forYou: true, reason: 'Pick up where you stopped' }), { prefix: 'For you:', text: 'pick up where you stopped' });
-  assert.deepEqual(leadLine({ forYou: true, reason: 'Next after Goodwill: Nature and Valuation' }), { prefix: 'For you:', text: 'next after Goodwill: Nature and Valuation' });
+test('lead line: Suggested (was For you, R7 W) only from history; book order reads Start here', () => {
+  assert.deepEqual(leadLine({ forYou: true, reason: '3 old mistakes to fix' }), { prefix: 'Suggested:', text: '3 open mistakes to fix' }, 'R3 X4: the server line says "old", the page says "open"');
+  assert.deepEqual(leadLine({ forYou: true, reason: 'Pick up where you stopped' }), { prefix: 'Suggested:', text: 'pick up where you stopped' });
+  assert.deepEqual(leadLine({ forYou: true, reason: 'Next after Goodwill: Nature and Valuation' }), { prefix: 'Suggested:', text: 'next after Goodwill: Nature and Valuation' });
   assert.deepEqual(leadLine({ forYou: true, reason: 'Chapter 1 of your book' }), { prefix: 'Start here:', text: 'first in the syllabus' });
   assert.deepEqual(leadLine({ forYou: true, reason: 'First in the syllabus' }), { prefix: 'Start here:', text: 'first in the syllabus' });
   assert.deepEqual(leadLine({ forYou: true, reason: '3 old mistakes to fix' }, { history: false }), { prefix: 'Start here:', text: 'first in the syllabus' });

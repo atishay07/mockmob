@@ -774,11 +774,16 @@ function PreviewInner({ candidatePathway }) {
   const view = views.includes(params.get('view')) ? params.get('view') : 'dashboard';
   const routeNames = { prepos: 'mentor', compass: 'admission-compass', radar: 'analytics', ranks: 'leaderboard', rules: 'review/rules', revise: 'review/revise', deck: 'cards', learn2: 'learn', 'learn2-chapter': 'learn', 'learn2-run': 'learn/run', 'learn2-cards': 'learn', 'learn2-feed': 'explore/run' };
   const route = `/${routeNames[view] || view}`;
-  const previewHref = (name) => `/preview/arena?${new URLSearchParams({ view: name, plan: params.get('plan') || 'free', data: params.get('data') || 'ready', ...(params.get('role') === 'moderator' ? { role: 'moderator' } : {}), ...(params.get('recovery') ? { recovery: params.get('recovery') } : {}), ...(params.get('study') ? { study: params.get('study') } : {}), ...(params.get('contribute') ? { contribute: params.get('contribute') } : {}) })}`;
-  // With ?study=on, Learn opens the Learn preview (its own fixture) instead of the signed-in route.
+  // R7 W (the prototype links rule, LK56, LK57): the shell's own links keep the settings the page was opened with (the real decks,
+  // the student, the subject, the device-session key), so a walk through the tabs on a phone never drops Learn v2 or breaks Explore.
+  const carried = ['decks', 'student', 'subject', 'kcs', 'kc', 'mob', 'cs', 'name'].flatMap((k) => (params.get(k) ? [[k, params.get(k)]] : []));
+  const previewHref = (name) => `/preview/arena?${new URLSearchParams({ view: name, plan: params.get('plan') || 'free', data: params.get('data') || 'ready', ...(params.get('role') === 'moderator' ? { role: 'moderator' } : {}), ...(params.get('recovery') ? { recovery: params.get('recovery') } : {}), ...(params.get('study') ? { study: params.get('study') } : {}), ...(params.get('contribute') ? { contribute: params.get('contribute') } : {}), ...Object.fromEntries(carried) })}`;
+  // Learn: with Learn v2 on (NEXT_PUBLIC_LEARN2, as production) or the real decks, Learn opens Learn v2's home (learn2), as on the live
+  // site. Only the older Learn (study=on without either) opens the Learn v1 preview (/preview/study).
   // &mob=off draws the shell as it is while the Mob is off (no Mob place, Your standing under You, a four-slot dock).
   // Several views draw one route (Learn: home, chapter, cards): the sidebar's Learn and Explore rows go to the route's own page, never to the last view listed.
-  const allLinks = { ...Object.fromEntries(views.map((name) => [routeNames[name] || name, previewHref(name)])), learn: previewHref('learn2'), explore: previewHref('explore'), ...(params.get('study') === 'on' ? { learn: '/preview/study' } : {}) };
+  const learnV2 = process.env.NEXT_PUBLIC_LEARN2 === 'on' || params.get('decks') === 'real';
+  const allLinks = { ...Object.fromEntries(views.map((name) => [routeNames[name] || name, previewHref(name)])), learn: previewHref('learn2'), explore: previewHref('explore'), ...(params.get('study') === 'on' && !learnV2 ? { learn: '/preview/study' } : {}) };
   const previewLinks = params.get('mob') === 'off' ? Object.fromEntries(Object.entries(allLinks).filter(([key]) => key !== 'mob')) : allLinks;
   const auth = useMemo(() => ({
     user: { id: 'preview-user', name: params.get('data') === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : params.get('name') === 'none' ? '' : params.get('name') === 'riya' ? 'Riya Sharma' : 'Preview Student', email: 'preview@example.test', role: params.get('role') === 'moderator' ? 'moderator' : 'student',

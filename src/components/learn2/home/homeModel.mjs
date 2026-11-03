@@ -320,3 +320,66 @@ export function setHead(id, { count = 0, chapters = 0, shelves = null } = {}) {
 
 /** India's calendar day (UTC+5:30), as the service counts a Free session. */
 export const istDay = (now = Date.now()) => new Date(now + 5.5 * 3600 * 1000).toISOString().slice(0, 10);
+
+// ---------------------------------------------------------------- R7 W (LK59): Up next, one module
+// The owner (3 Nov): the recommendations "making the overall UI very much more cluttered ... the implementation in the UI is just not
+// good". Learn home drew its offer, two "Or" rows with their own lines, an "Up next" chip and amber "Needs work · from your papers" on
+// the rows: five ways of saying what to do, in four looks. Now one module with Today's anatomy (TodayMove): ONE move on the card at a
+// time (its headline, one line saying why, its key) and the others as short cells in its footer; a tap makes that one the move. The
+// server's pick is marked "Suggested" while another is on the card. Every word comes from the server's roadmap (data/learn/roadmap.js);
+// the only words added here are a kind's plain reason when the server sends none, and they say only what the run is.
+
+const stripMinutes = (label) => String(label || '').replace(/\s*·\s*\d+\s*min$/i, '').trim();
+const minutesOf = (o) => {
+  const m = Number(o?.run?.minutes);
+  if (m > 0) return m;
+  try { const v = Number(new URL(o?.href || '', 'http://x').searchParams.get('min')); return v > 0 ? v : null; } catch { return null; }
+};
+/** What a kind's run is, in one line, when the server sends no line of its own. Says only what the run holds. */
+export const MOVE_WHY = Object.freeze({
+  revise: 'The cards due back today, oldest first.',
+  continue: 'Your session from today, from where you stopped.',
+  singles: 'One question at a time, with the answer explained.',
+});
+
+/** The Or row's own line said as the reason for that move: a fix's line is the chapter its mistakes are in. */
+function whyOf(o) {
+  if (o.kind === 'fix' && o.line) return `In ${displayTitle(o.line)}.`;
+  if (o.line) { const l = displayTitle(o.line); return /[.!?]$/.test(l) ? l : `${l}.`; }
+  return MOVE_WHY[o.kind] || null;
+}
+/** The key of a move from an Or row: "Start · 2 min" for a run, "Play · 10 min" for a feed, else the row's own label. */
+function keyOf(o) {
+  const m = minutesOf(o);
+  if (o.kind === 'continue') return o.label;
+  if (o.go === 'feed' && m) return `Play · ${m} min`;
+  if (o.run && m) return `Start · ${m} min`;
+  return o.label;
+}
+
+/**
+ * The moves of the Up next module: the server's offer first (id 'lead', `suggested`), then its Or rows (at most two, the server's order).
+ * Each: { id, kind, headline, why, sub, progress, key: { label, run?, href?, go? }, cell: { title, value } }. The cell is how the move reads
+ * in the footer: its title (the label without its minutes) and its value (the minutes, or the reason when there are none).
+ */
+export function upNextMoves(roadmap) {
+  if (!roadmap) return [];
+  const lead = {
+    id: 'lead', kind: roadmap.mode, suggested: true,
+    headline: displayTitle(roadmap.headline), why: roadmap.line ? displayTitle(roadmap.line) : null, sub: roadmap.sub || null, progress: roadmap.progress || null,
+    key: roadmap.key || null, quiet: roadmap.quiet || null,
+    cell: { title: displayTitle(roadmap.headline), value: roadmap.key?.label && /·\s*\d+\s*min$/i.test(roadmap.key.label) ? roadmap.key.label.replace(/^.*·\s*/, '') : '' },
+  };
+  const alts = (roadmap.or || []).slice(0, 2).map((o) => {
+    const m = minutesOf(o);
+    return {
+      id: o.kind, kind: o.kind, suggested: false, headline: stripMinutes(o.label), why: whyOf(o), sub: null, progress: null,
+      key: { ...o, label: keyOf(o) }, quiet: null,
+      cell: { title: stripMinutes(o.label), value: m ? `${m} min` : '' },
+    };
+  });
+  return [lead, ...alts];
+}
+
+/** The footer's cells for the move on the card: every other move, in the server's order (the lead first, marked Suggested). */
+export const otherMoves = (moves, onCard) => (moves || []).filter((m) => m.id !== onCard);
