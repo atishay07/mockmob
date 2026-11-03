@@ -104,7 +104,7 @@ class SavedEntry extends ConsumerWidget {
   }
 }
 
-/// For Practice: the untimed question stream.
+/// For Practice's More ways in and the Explore door: the untimed question stream, led by the answer sheet (LK60).
 class StreamEntry extends StatelessWidget {
   const StreamEntry({super.key, this.subject});
 
@@ -113,6 +113,7 @@ class StreamEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) => EntryRow(
         icon: LucideIcons.layers,
+        brand: BrandIconName.questions,
         title: InsightsCopy.streamEntryTitle,
         note: InsightsCopy.streamEntryNote,
         onTap: () => context.push(InsightsPaths.streamFor(subject: subject)),
@@ -120,13 +121,23 @@ class StreamEntry extends StatelessWidget {
 }
 
 /// A navigation row: icon, title, a quiet line, and a chevron that says it opens a page.
+///
+/// With [brand] the row leads with that desk object at [brandSize] (LK60: Practice's More ways in and the Explore door)
+/// instead of the line [icon]; the text starts at the same place on every such row.
 class EntryRow extends StatelessWidget {
-  const EntryRow({super.key, required this.icon, required this.title, required this.onTap, this.note});
+  const EntryRow({super.key, required this.icon, required this.title, required this.onTap, this.note, this.brand});
 
   final IconData icon;
   final String title;
   final String? note;
   final VoidCallback onTap;
+
+  /// The desk object that leads the row in place of [icon], or null for the line icon.
+  final BrandIconName? brand;
+
+  /// The side of a [brand] object, and the gap after it (the chapter shelf's own measures).
+  static const double brandSize = 40;
+  static const double brandGap = 14;
 
   @override
   Widget build(BuildContext context) {
@@ -145,8 +156,13 @@ class EntryRow extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
           child: Row(
             children: [
-              Icon(icon, size: 22, color: colors.ink2),
-              const SizedBox(width: MmSpace.s16),
+              if (brand case final object?) ...[
+                BrandIcon(object, size: brandSize),
+                const SizedBox(width: brandGap),
+              ] else ...[
+                Icon(icon, size: 22, color: colors.ink2),
+                const SizedBox(width: MmSpace.s16),
+              ],
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

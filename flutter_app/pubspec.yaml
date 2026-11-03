@@ -166,6 +166,8 @@ flutter:
 
   assets:
     - assets/art/
+    # Branded icons, the web's desk objects (LK60): one 192 px square webp per meaning (BrandIcon).
+    - assets/art/icons/
     - assets/mobi/
     # Mob v3 Folds: stills, heads and folds.json (tool/fold_manifest.py).
     - assets/folds/

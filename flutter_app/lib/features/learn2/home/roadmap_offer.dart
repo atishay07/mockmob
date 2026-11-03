@@ -23,6 +23,16 @@ class RoadmapOffer extends StatelessWidget {
   final ValueChanged<LearnOption> onOpen;
   final bool nudges;
 
+  /// The desk object that leads each kind of Or row (LK60, the web's OR_ICON); null keeps the words alone.
+  static BrandIconName? orIcon(String? kind) => switch (kind) {
+        'revise' => BrandIconName.revise,
+        'fix' => BrandIconName.mistakes,
+        'feed' => BrandIconName.feeds,
+        'singles' || 'level' => BrandIconName.questions,
+        'continue' => BrandIconName.keycards,
+        _ => null,
+      };
+
   /// The entrance slot of the block (see [HomeRise]).
   final int firstIndex;
 
@@ -152,7 +162,8 @@ class RoadmapOffer extends StatelessWidget {
   }
 }
 
-/// One quiet row under the offer: 56 dp at least, the label (15 w650) over its line (13.5, one line), a chevron.
+/// One quiet row under the offer: 56 dp at least, the desk object of what it opens (36 dp, LK60, the web's Or rows), the
+/// label (15 w650) over its line (13.5, one line), a chevron. A kind the set has no object for keeps the words alone.
 class _OrRow extends StatelessWidget {
   const _OrRow({super.key, required this.option, required this.onTap});
 
@@ -164,6 +175,7 @@ class _OrRow extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final line = option.line;
+    final icon = RoadmapOffer.orIcon(option.kind);
     return MmPressable(
       semanticsLabel: [option.label, ?line].join('. '),
       focusRadius: MmRadius.smallAll,
@@ -177,6 +189,7 @@ class _OrRow extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: MmSpace.s2, vertical: MmSpace.s8),
           child: Row(
             children: [
+              if (icon != null) ...[BrandIcon(icon, size: 36), const SizedBox(width: MmSpace.s12)],
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
