@@ -1,5 +1,5 @@
 {
-  "id": "lr_f70fd935822e6dbbfc9d3306",
+  "id": "lr_59d677c42fa5e97b7648be4c",
   "kind": "cards",
   "chapter": {
     "key": "accountancy.profit-and-loss-appropriation-account",
@@ -16,7 +16,7 @@
   "asked": 1,
   "items": [
     {
-      "id": "lr_f70fd935822e6dbbfc9d3306-i1",
+      "id": "lr_59d677c42fa5e97b7648be4c-i1",
       "type": "card",
       "stage": "due",
       "card": {
@@ -49,10 +49,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 12
+      "seconds": 12,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 weeks",
+        "easy": "in 5 weeks"
+      }
     },
     {
-      "id": "lr_f70fd935822e6dbbfc9d3306-i2",
+      "id": "lr_59d677c42fa5e97b7648be4c-i2",
       "type": "card",
       "stage": "due",
       "card": {
@@ -85,10 +90,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 12
+      "seconds": 12,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 6 days"
+      }
     },
     {
-      "id": "lr_f70fd935822e6dbbfc9d3306-i3",
+      "id": "lr_59d677c42fa5e97b7648be4c-i3",
       "type": "card",
       "stage": "due",
       "card": {
@@ -121,7 +131,12 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 12
+      "seconds": 12,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 weeks",
+        "easy": "in 5 weeks"
+      }
     }
   ],
   "revisePile": {

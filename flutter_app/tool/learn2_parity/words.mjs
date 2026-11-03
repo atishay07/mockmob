@@ -39,6 +39,9 @@ const out = {
   reviseDue: numbers.flatMap((n) => [[n, 3], [n, 1]].map(([c, m]) => ({ n: label(c), minutes: m, out: words.reviseDue(c, m) }))),
   reviseQuestions: numbers.map((n) => ({ n: label(n), out: words.reviseQuestions(n) })),
   pileLabel: numbers.map((n) => ({ n: label(n), out: words.pileLabel(n) })),
+  // Round 5 (LK38): when a rated card comes back, in words, and the three phrasings built from them.
+  returnWords: [0, 0.4, 1, 1.49, 1.5, 2, 2.4, 3, 8, 13, 13.4, 14, 20, 35, 55, 55.4, 56, 95, 200, -3, NaN, null, undefined].map((d) => ({ days: label(d), out: words.returnWords(d) })),
+  backs: ['tomorrow', 'in 3 days', 'in 2 weeks'].map((w) => ({ words: w, stamp: words.backStamp(w), line: words.backLine(w), missedInRun: words.missedWords(w, true), missed: words.missedWords(w, false) })),
   places: places.map((place) => ({ place: place ?? null, place_label: words.chapterPlace(place), short: words.chapterShort(place) })),
 };
 

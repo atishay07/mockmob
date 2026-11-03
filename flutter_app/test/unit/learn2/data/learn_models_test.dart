@@ -87,7 +87,7 @@ void main() {
       expect(d.isPro, isTrue);
       expect(d.isNew, isFalse);
       expect(d.subjects.map((s) => s.id), ['accountancy', 'business_studies', 'economics', 'english']);
-      expect((d.subject.id, d.subject.name, d.subject.cards, d.subject.chapters, d.subject.lessons), ('accountancy', 'Accountancy', 912, 14, 4));
+      expect((d.subject.id, d.subject.name, d.subject.cards, d.subject.chapters, d.subject.lessons), ('accountancy', 'Accountancy', 920, 14, 4));
       expect(d.freeNote, isNull);
       expect(d.free, isNull);
       expect(d.suggestions.map((s) => s.kind), ['pickup', 'due', 'fix']);
@@ -110,9 +110,9 @@ void main() {
       expect(option.hint, 'Both parts show until you choose.');
       expect(d.parts[1].units.map((u) => u.optionId), [null, 'AFS', 'CAS']);
       final aop = d.chapter('accountancy.admission-of-partner')!;
-      expect((aop.ref, aop.cards, aop.mustKnow, aop.mistakes, aop.questions), ('Ch 2', 58, 15, 2, 10));
+      expect((aop.ref, aop.cards, aop.mustKnow, aop.mistakes, aop.questions), ('Ch 2', 60, 15, 2, 10));
       expect(aop.place!.label, 'Chapter 5 of 14');
-      expect((aop.progress!.of, aop.progress!.seen, aop.progress!.questions, aop.progress!.tried), (58, 0, 10, 2));
+      expect((aop.progress!.of, aop.progress!.seen, aop.progress!.questions, aop.progress!.tried), (60, 0, 10, 2));
       expect((aop.verdict, aop.needsWorkFrom, aop.unit), (null, 'learn', 'Reconstitution of a Partnership firm'));
       expect(aop.state.key, 'getting_there');
       expect(aop.state.label, 'Getting there');
@@ -124,7 +124,7 @@ void main() {
     test('Free: the free note; after the day is used, free with its 10 minutes', () {
       final free = LearnFixtures.subject('subject_accountancy_free');
       expect(free.isPro, isFalse);
-      expect(free.freeNote, 'Free opens 5 cards in every chapter. Pro opens all 912.');
+      expect(free.freeNote, 'Free opens 5 cards in every chapter. Pro opens all 920.');
       expect(free.free, isNull);
       final used = LearnFixtures.subject('subject_accountancy_free_used');
       expect(used.free!.text, LearnFreeWords.sessionDone);
@@ -171,7 +171,7 @@ void main() {
       expect((p.resume!.done, p.resume!.of, p.resume!.minutesLeft, p.resume!.kind), (6, 16, 5, 'mix'));
       expect(p.firstVisit, isFalse);
       expect(p.freeSession, isNull);
-      expect(p.shelf.cards.count, 58);
+      expect(p.shelf.cards.count, 60);
       expect(p.shelf.cards.mustKnow, 15);
       expect(p.shelf.questions.linked, 10);
       expect(p.shelf.mistakes.open, 2);
@@ -208,7 +208,7 @@ void main() {
       expect((capped.minutes, capped.asked), (10, 20));
       expect(capped.capped!.asked, 20);
       expect(capped.capped!.text, 'Free sessions are up to 10 minutes. Pro has any length.');
-      expect(capped.free!.text, "Free opens 5 of this chapter's 58 cards.");
+      expect(capped.free!.text, "Free opens 5 of this chapter's 60 cards.");
       expect(capped.freeSession!.used, isFalse);
       expect(capped.shelf.print.locked, isTrue);
       final used = LearnFixtures.preview('preview_pf_10_free_used');
@@ -331,12 +331,12 @@ void main() {
       expect(kept.stamp, 'In Revise');
       expect(kept.line, 'In Revise');
       final missed = LearnFixtures.rate('rate_missed_pro');
-      expect(missed.stamp, 'Back later in this run');
+      expect(missed.stamp, 'Back in this run, then tomorrow');
       expect((missed.reinsert!.item! as LearnCardItem).stage, 'again');
       final gotIt = LearnFixtures.rate('rate_got_it_pro');
       expect(gotIt.stamp, startsWith('Back '));
-      expect(gotIt.revisePile, 1);
-      expect(LearnFixtures.rate('rate_easy_pro').revisePile, 2);
+      expect(gotIt.revisePile, 2, reason: 'Missed it is in Revise too: every rated card is scheduled');
+      expect(LearnFixtures.rate('rate_easy_pro').revisePile, 3);
     });
   });
 
@@ -368,7 +368,7 @@ void main() {
       expect(end.options.single.label, startsWith('Fix '));
       expect(end.options.single.run!.fresh, isTrue);
       expect(end.stopped, isFalse);
-      expect((end.progress!.of, end.progress!.before), (58, 0));
+      expect((end.progress!.of, end.progress!.before), (60, 0));
       expect(end.chapter!.place!.label, 'Chapter 5 of 14');
     });
 
@@ -382,7 +382,7 @@ void main() {
       expect(end.revisePile.map((g) => g.count), [1, 1, 1]);
       expect(end.revisePile.first.label, 'back tomorrow');
       expect(end.revisePile.last.label, startsWith('back in '));
-      expect(end.reviseCards, hasLength(2));
+      expect(end.reviseCards, hasLength(3));
       expect(end.reviseCards.first.front, isNotEmpty);
       expect(end.options.map((o) => o.label), ['Fix 2 open mistakes · 2 min']);
       expect(end.lead!.label, 'Keep going · 10 min');
@@ -407,7 +407,7 @@ void main() {
     test('the Cards view and Find shelf, Pro and Free', () {
       final pro = LearnChapterCards.parse(LearnFixtures.json('cards_aop_all_pro'));
       expect(pro.isPro, isTrue);
-      expect((pro.counts.total, pro.counts.all, pro.counts.must, pro.counts.missed), (58, 58, 15, 2));
+      expect((pro.counts.total, pro.counts.all, pro.counts.must, pro.counts.missed), (60, 60, 15, 2));
       expect(pro.counts.of('must'), 15);
       expect(pro.chapter.place!.label, 'Chapter 5 of 14');
       expect(pro.sections.first.title, 'Introduction');
@@ -415,11 +415,11 @@ void main() {
       expect(pro.cards.every((c) => !c.locked && c.card != null), isTrue);
       final free = LearnChapterCards.parse(LearnFixtures.json('cards_aop_all_free'));
       expect(free.isPro, isFalse);
-      expect((free.counts.total, free.counts.all, free.lockedCount), (58, 5, 53));
-      expect(free.lockedLine, '53 more cards in this chapter. Pro opens every card in every chapter and keeps them on a schedule.');
+      expect((free.counts.total, free.counts.all, free.lockedCount), (60, 5, 55));
+      expect(free.lockedLine, '55 more cards in this chapter. Pro opens every card in every chapter and keeps them on a schedule.');
       final shelf = LearnSubjectCards.parse(LearnFixtures.json('cards_subject_due_free'));
       expect(shelf.filter, 'due');
-      expect(shelf.lockedCount, 842);
+      expect(shelf.lockedCount, 850);
       expect(shelf.chapters.first.counts.due, 3);
       expect(shelf.cards.every((c) => c.inRevise), isTrue);
     });
@@ -430,7 +430,7 @@ void main() {
       expect(pro.dueTotal, 27);
       expect(pro.due.count, 9);
       expect((pro.missed.count, pro.missed.days), (6, 7));
-      expect((pro.revise.count, pro.must.count), (26, 235));
+      expect((pro.revise.count, pro.must.count), (26, 236));
       expect(pro.due.all, 27);
       expect(LearnShelves.parse({'due': {'all': 4}}).dueTotal, 4);
       expect(LearnShelves.parse(LearnFixtures.json('shelves_new_pro')).dueTotal, 0);
@@ -443,8 +443,8 @@ void main() {
       expect(pro.chapters.single.match.spans('title'), [const LearnSpan(0, 8)]);
       expect(pro.cards.first.match.spans('front'), isNotEmpty);
       expect(pro.cards.first.card, isNotNull);
-      expect((pro.total, pro.more), (79, 29));
-      expect(pro.cardCounts['accountancy.goodwill-valuation'], 39);
+      expect((pro.total, pro.more), (81, 31));
+      expect(pro.cardCounts['accountancy.goodwill-valuation'], 41);
       final free = LearnSearch.parse(LearnFixtures.json('search_goodwill_free'));
       final locked = free.cards.firstWhere((c) => c.locked);
       expect(locked.card, isNull);

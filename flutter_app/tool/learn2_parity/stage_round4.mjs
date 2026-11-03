@@ -83,6 +83,9 @@ export async function round4({ load, web, app, cards }) {
     answered, right, seen: seenCount, kept, done, of, left, out: endModel.checkpointLines({ answered, right, seen: seenCount, kept }, { done, of, left }),
   }));
   const stopLines = grid([0, 1, 5, 20], [0, 1, 20, 21]).map(([done, of]) => ({ done, of, out: endModel.stopSheetLine(done, of) }));
+  // R5 LK45 fix 2: the one count of "done", the place of the last item the server holds an event for.
+  const heldPatterns = [[], [false], [true], [false, false, false], [true, false, false], [false, true, false, false], [true, true, true, true], [true, false, true, false, false], [false, false, false, true]];
+  const reached = grid(heldPatterns, [0, 2, 9]).map(([held, base]) => ({ held, base, out: endModel.reachedPlace(held, (h) => h, base) }));
   const dueText = (n, m) => `Revise ${n} due card${n === 1 ? '' : 's'} · ${m} min`;
   const freeBodies = [
     {},
@@ -122,7 +125,7 @@ export async function round4({ load, web, app, cards }) {
 
   return {
     sci: { cases: sciCases, isChemistry },
-    end: { headlines, reviseLabels, numbers, progress, minis, pileSizes, checkpoints, stopLines, freeRows },
+    end: { headlines, reviseLabels, numbers, progress, minis, pileSizes, checkpoints, stopLines, reached, freeRows },
     pager: { verdicts, below },
   };
 }

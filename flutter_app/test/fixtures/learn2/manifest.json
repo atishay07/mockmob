@@ -1,9 +1,9 @@
 {
-  "web": "31af5f9dc",
-  "tag": "11020519",
-  "recorded": "2026-11-01T23:50:07.884Z",
+  "web": "4b5f67e34",
+  "tag": "11031425",
+  "recorded": "2026-11-03T08:50:41.786Z",
   "preview": "http://localhost:3452/preview/arena/realdeck",
-  "command": "bash tool/record_learn2_fixtures.sh 11020519",
+  "command": "bash tool/record_learn2_fixtures.sh 11031425",
   "fixtures": {
     "subject_accountancy_pro": {
       "status": 200,
@@ -13,7 +13,7 @@
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Learn home, Accountancy: parts (Part 2 with its option), units, chapter rows, three suggestions (pickup, due, fix)"
     },
     "home_accountancy_pro": {
@@ -24,7 +24,7 @@
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Learn home in one read (the subject body plus the shelves), Accountancy: the roadmap offer (pick up the unfinished run), Or rows, parts with place and progress"
     },
     "home_economics_pro": {
@@ -35,7 +35,7 @@
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Learn home, Economics: the returning offer (Today's 10 minutes), nothing unfinished"
     },
     "home_business_studies_pro": {
@@ -46,7 +46,7 @@
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Learn home, Business Studies"
     },
     "home_english_pro": {
@@ -57,7 +57,7 @@
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Learn home, English (the subject note)"
     },
     "subject_economics_pro": {
@@ -68,7 +68,7 @@
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Learn home, Economics"
     },
     "subject_business_studies_pro": {
@@ -79,7 +79,7 @@
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Learn home, Business Studies"
     },
     "subject_english_pro": {
@@ -90,7 +90,7 @@
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Learn home, English (the subject note: cards written for MockMob)"
     },
     "covers_accountancy_pro": {
@@ -101,7 +101,7 @@
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Explore covers: For you first, counts at 5, 10 and 20 min with hooks"
     },
     "shelves_pro": {
@@ -112,7 +112,7 @@
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "The three shelf tiles: due (all and by subject), missed, in Revise, Must-know"
     },
     "search_goodwill_pro": {
@@ -123,7 +123,7 @@
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Find: chapters, lessons and cards with match spans"
     },
     "cards_aop_all_pro": {
@@ -134,7 +134,7 @@
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Cards view, Admission of a Partner, every card"
     },
     "cards_aop_must_pro": {
@@ -145,7 +145,7 @@
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Cards view, Must-know filter"
     },
     "cards_subject_due_pro": {
@@ -156,7 +156,7 @@
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Find's shelf over the subject, cards due today"
     },
     "preview_aop_5_pro": {
@@ -171,7 +171,7 @@
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Chapter page at 5 min (resume row: the unfinished run)"
     },
     "preview_aop_10_pro": {
@@ -186,7 +186,7 @@
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Chapter page at 10 min"
     },
     "preview_aop_20_pro": {
@@ -201,7 +201,7 @@
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Chapter page at 20 min"
     },
     "preview_aop_10_out_questions_pro": {
@@ -218,7 +218,7 @@
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Chapter page, the Questions pile left out"
     },
     "preview_pf_10_pro": {
@@ -233,7 +233,7 @@
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Basic Concepts at 10 min: due cards and open mistakes"
     },
     "preview_cpsr_20_pro": {
@@ -248,7 +248,7 @@
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Change in Profit Sharing Ratio at 20 min: four piles (cards, questions, mistakes, lesson), nothing short"
     },
     "preview_cpsr_20_addnext_pro": {
@@ -264,7 +264,7 @@
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "The same asking for the next chapter too (nothing short, so none is added)"
     },
     "preview_ccss_20_pro": {
@@ -279,7 +279,7 @@
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "A short chapter at 20 min: shrink (pool) with addNext offered"
     },
     "preview_ccss_20_addnext_pro": {
@@ -295,7 +295,7 @@
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "The same with the next chapter added (added)"
     },
     "error_404_chapter_not_found_preview": {
@@ -310,7 +310,7 @@
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "A chapter that is not there (preview)"
     },
     "error_404_chapter_not_found_start": {
@@ -323,11 +323,11 @@
         "chapterKey": "accountancy.no-such-chapter",
         "minutes": 10,
         "leaveOut": [],
-        "requestKey": "lk_3e0321f68869a7636a88d497"
+        "requestKey": "lk_4737d6b2588d660766b9068c"
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "A chapter that is not there (feed start)"
     },
     "run_start_feed_aop_pro": {
@@ -340,67 +340,67 @@
         "chapterKey": "accountancy.admission-of-partner",
         "minutes": 10,
         "leaveOut": [],
-        "requestKey": "lk_9577a6a145e3fea145310b3d",
+        "requestKey": "lk_2961a208741578c75e09fe67",
         "source": "explore_cover",
         "forYou": true,
         "position": 0
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "A 10-minute feed started from the For you cover"
     },
     "keep_pro": {
       "status": 200,
       "method": "POST",
-      "route": "/api/learn/runs/lr_0e2bcf07502277f395b25116/rate",
+      "route": "/api/learn/runs/lr_b5564c09f4affc211fa40577/rate",
       "query": null,
       "body": {
-        "itemId": "lr_0e2bcf07502277f395b25116-i1",
+        "itemId": "lr_b5564c09f4affc211fa40577-i1",
         "keep": true
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Keep on the feed's first card: it joins Revise as new"
     },
     "answer_right_pro": {
       "status": 200,
       "method": "POST",
-      "route": "/api/learn/runs/lr_0e2bcf07502277f395b25116/answer",
+      "route": "/api/learn/runs/lr_b5564c09f4affc211fa40577/answer",
       "query": null,
       "body": {
-        "itemId": "lr_0e2bcf07502277f395b25116-i5",
-        "choice": "A"
+        "itemId": "lr_b5564c09f4affc211fa40577-i5",
+        "choice": "C"
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "A right answer in the feed"
     },
     "answer_wrong_pro": {
       "status": 200,
       "method": "POST",
-      "route": "/api/learn/runs/lr_0e2bcf07502277f395b25116/answer",
+      "route": "/api/learn/runs/lr_b5564c09f4affc211fa40577/answer",
       "query": null,
       "body": {
-        "itemId": "lr_0e2bcf07502277f395b25116-i13",
+        "itemId": "lr_b5564c09f4affc211fa40577-i13",
         "choice": "A"
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "A wrong answer in the feed: the line you needed and its card put back in"
     },
     "run_get_feed_aop_pro": {
       "status": 200,
       "method": "GET",
-      "route": "/api/learn/runs/lr_0e2bcf07502277f395b25116",
+      "route": "/api/learn/runs/lr_b5564c09f4affc211fa40577",
       "query": null,
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "The feed read again (?run=): only the items not done, resumed { done, of }"
     },
     "covers_accountancy_pro_open": {
@@ -411,29 +411,29 @@
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Covers with today's unfinished feed: resume and 'You stopped at'"
     },
     "run_end_feed_aop_pro": {
       "status": 200,
       "method": "GET",
-      "route": "/api/learn/runs/lr_0e2bcf07502277f395b25116/end",
+      "route": "/api/learn/runs/lr_b5564c09f4affc211fa40577/end",
       "query": null,
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "The feed's end: done, the kept pile, lines, Another 10 minutes, next, dueOffer"
     },
     "error_409_run_ended": {
       "status": 409,
       "method": "GET",
-      "route": "/api/learn/runs/lr_0e2bcf07502277f395b25116",
+      "route": "/api/learn/runs/lr_b5564c09f4affc211fa40577",
       "query": null,
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "The ended feed read again: RUN_ENDED with endHref"
     },
     "error_404_run_not_found": {
@@ -444,7 +444,7 @@
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "A run that is not there"
     },
     "run_start_mix_aop_resume_pro": {
@@ -457,11 +457,11 @@
         "chapterKey": "accountancy.admission-of-partner",
         "minutes": 10,
         "leaveOut": [],
-        "requestKey": "lk_d007a681ac3b2351c18c2776"
+        "requestKey": "lk_c311348b4380f5a73852c596"
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "A mix start of Admission of a Partner picks up today's unfinished run"
     },
     "run_start_mix_pf_pro": {
@@ -474,78 +474,78 @@
         "chapterKey": "accountancy.partnership-fundamentals",
         "minutes": 10,
         "leaveOut": [],
-        "requestKey": "lk_ea233c01a3ba6a33eee4a86c"
+        "requestKey": "lk_8e41bdf76862cfa8d21e0af0"
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "A 10-minute mix of Basic Concepts: due and new cards, questions, open mistakes"
     },
     "rate_missed_pro": {
       "status": 200,
       "method": "POST",
-      "route": "/api/learn/runs/lr_a93bbe63268cd2ca045bf8d4/rate",
+      "route": "/api/learn/runs/lr_882199e73ca562cae0462cbc/rate",
       "query": null,
       "body": {
-        "itemId": "lr_a93bbe63268cd2ca045bf8d4-i1",
+        "itemId": "lr_882199e73ca562cae0462cbc-i1",
         "rating": 1
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Missed: back later in this run (reinsert)"
     },
     "rate_got_it_pro": {
       "status": 200,
       "method": "POST",
-      "route": "/api/learn/runs/lr_a93bbe63268cd2ca045bf8d4/rate",
+      "route": "/api/learn/runs/lr_882199e73ca562cae0462cbc/rate",
       "query": null,
       "body": {
-        "itemId": "lr_a93bbe63268cd2ca045bf8d4-i2",
+        "itemId": "lr_882199e73ca562cae0462cbc-i2",
         "rating": 3
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Got it: the card's return day"
     },
     "rate_easy_pro": {
       "status": 200,
       "method": "POST",
-      "route": "/api/learn/runs/lr_a93bbe63268cd2ca045bf8d4/rate",
+      "route": "/api/learn/runs/lr_882199e73ca562cae0462cbc/rate",
       "query": null,
       "body": {
-        "itemId": "lr_a93bbe63268cd2ca045bf8d4-i3",
+        "itemId": "lr_882199e73ca562cae0462cbc-i3",
         "rating": 4
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Easy: the card's return day"
     },
     "answer_mistake_fixed_pro": {
       "status": 200,
       "method": "POST",
-      "route": "/api/learn/runs/lr_a93bbe63268cd2ca045bf8d4/answer",
+      "route": "/api/learn/runs/lr_882199e73ca562cae0462cbc/answer",
       "query": null,
       "body": {
-        "itemId": "lr_a93bbe63268cd2ca045bf8d4-i5",
-        "choice": "C"
+        "itemId": "lr_882199e73ca562cae0462cbc-i5",
+        "choice": "D"
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "An open mistake answered right: fixed, fixedText, the line collapsed"
     },
     "run_end_mix_pf_pro": {
       "status": 200,
       "method": "GET",
-      "route": "/api/learn/runs/lr_a93bbe63268cd2ca045bf8d4/end",
+      "route": "/api/learn/runs/lr_882199e73ca562cae0462cbc/end",
       "query": null,
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "The mix's end: done, numbers, lines, the Revise pile, reviseCards, lead and options"
     },
     "run_start_recap_pf_pro": {
@@ -558,11 +558,11 @@
         "chapterKey": "accountancy.partnership-fundamentals",
         "minutes": 5,
         "leaveOut": [],
-        "requestKey": "lk_056ffcaeb10f37da3f6e9397"
+        "requestKey": "lk_b22dbae72c4b9b829c2555ee"
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "A quick recap of Basic Concepts (answers showing, nothing scheduled)"
     },
     "run_start_cards_due_pro": {
@@ -580,22 +580,54 @@
         ],
         "minutes": 1,
         "leaveOut": [],
-        "requestKey": "lk_3596fbc57fa7b207ab8d37e5"
+        "requestKey": "lk_c78d72db36370087e99670a6"
       },
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Revise these: the due suggestion's cards as a cards run"
     },
-    "run_end_mix_aop_stopped_pro": {
+    "run_start_cards_span_pro": {
+      "status": 200,
+      "method": "POST",
+      "route": "/api/learn/runs",
+      "query": null,
+      "body": {
+        "kind": "cards",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "cardIds": [
+          "kc.accountancy.partnership-fundamentals.def-partnership-section-4",
+          "kc.accountancy.profit-and-loss-appropriation-account.def-pl-appropriation-meaning"
+        ],
+        "minutes": 5,
+        "leaveOut": [],
+        "requestKey": "lk_6485da37f6cd977b10d4008e"
+      },
+      "student": "commerce",
+      "plan": "pro",
+      "session": "app-rec2-11031425",
+      "note": "A cards run over two chapters (Revise's due cards): headed Revise, chapter.spans, no place"
+    },
+    "run_end_cards_span_stopped_pro": {
       "status": 200,
       "method": "GET",
-      "route": "/api/learn/runs/lr_4c9a70e34a1a7b054d3439f3/end",
+      "route": "/api/learn/runs/lr_317dcc9f358d4e6f7fa84a9d/end",
       "query": "stop=1",
       "body": null,
       "student": "commerce",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
+      "note": "The Revise run stopped before anything was done: Revise as its head, no chapter bar (progress null)"
+    },
+    "run_end_mix_aop_stopped_pro": {
+      "status": 200,
+      "method": "GET",
+      "route": "/api/learn/runs/lr_f39e3a7ba685473567fef4fc/end",
+      "query": "stop=1",
+      "body": null,
+      "student": "commerce",
+      "plan": "pro",
+      "session": "app-rec2-11031425",
       "note": "A run stopped part way (Stop here): not ended, stopped true, Continue and the fix key"
     },
     "subject_accountancy_free": {
@@ -606,7 +638,7 @@
       "body": null,
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Learn home on Free (freeNote)"
     },
     "home_accountancy_free": {
@@ -617,7 +649,7 @@
       "body": null,
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Learn home on Free, Accountancy (freeNote: 5 Key cards free in each chapter)"
     },
     "home_economics_free": {
@@ -628,7 +660,7 @@
       "body": null,
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Learn home on Free, Economics: the returning offer on Free"
     },
     "covers_accountancy_free": {
@@ -639,7 +671,7 @@
       "body": null,
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Covers on Free: 20 min composed as 10 (capped where it cuts)"
     },
     "shelves_free": {
@@ -650,7 +682,7 @@
       "body": null,
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Shelves on Free"
     },
     "search_goodwill_free": {
@@ -661,7 +693,7 @@
       "body": null,
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Find on Free: locked cards"
     },
     "cards_aop_all_free": {
@@ -672,7 +704,7 @@
       "body": null,
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Cards view on Free: locked rows and lockedCount"
     },
     "cards_subject_due_free": {
@@ -683,7 +715,7 @@
       "body": null,
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Find's due shelf on Free"
     },
     "preview_aop_5_free": {
@@ -698,7 +730,7 @@
       },
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Chapter page on Free at 5 min"
     },
     "preview_aop_10_free": {
@@ -713,7 +745,7 @@
       },
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Chapter page on Free at 10 min (freeSession not used)"
     },
     "preview_aop_20_free": {
@@ -728,7 +760,7 @@
       },
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Chapter page on Free at 20 min: composed at 10, capped"
     },
     "run_start_feed_aop_free": {
@@ -741,39 +773,39 @@
         "chapterKey": "accountancy.admission-of-partner",
         "minutes": 10,
         "leaveOut": [],
-        "requestKey": "lk_0f67a4fcf4e7cc5fd76832dc"
+        "requestKey": "lk_29d216fa38cf31e95acd3a18"
       },
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "A feed on Free (open cards only)"
     },
     "keep_free": {
       "status": 200,
       "method": "POST",
-      "route": "/api/learn/runs/lr_32e55b9270a80189c669c455/rate",
+      "route": "/api/learn/runs/lr_2d53c497d687cd20e46217ee/rate",
       "query": null,
       "body": {
-        "itemId": "lr_32e55b9270a80189c669c455-i1",
+        "itemId": "lr_2d53c497d687cd20e46217ee-i1",
         "keep": true
       },
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Keep on Free"
     },
     "answer_free_claim": {
       "status": 200,
       "method": "POST",
-      "route": "/api/learn/runs/lr_32e55b9270a80189c669c455/answer",
+      "route": "/api/learn/runs/lr_2d53c497d687cd20e46217ee/answer",
       "query": null,
       "body": {
-        "itemId": "lr_32e55b9270a80189c669c455-i2",
-        "choice": "B"
+        "itemId": "lr_2d53c497d687cd20e46217ee-i2",
+        "choice": "C"
       },
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "The first answered question on Free: it claims today's session"
     },
     "error_402_free_session_used": {
@@ -786,11 +818,11 @@
         "chapterKey": "accountancy.partnership-fundamentals",
         "minutes": 10,
         "leaveOut": [],
-        "requestKey": "lk_09b05a8cad967ad4b3ec5e35"
+        "requestKey": "lk_87acae886dc6051d321d21bd"
       },
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "A second feed on Free the same day: FREE_SESSION_USED with line, options and resume"
     },
     "subject_accountancy_free_used": {
@@ -801,7 +833,7 @@
       "body": null,
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Learn home on Free after the day's session (free)"
     },
     "home_accountancy_free_used": {
@@ -812,7 +844,7 @@
       "body": null,
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Learn home on Free after the day's session: That was today's free session, See Pro, the Or rows"
     },
     "covers_accountancy_free_used": {
@@ -823,7 +855,7 @@
       "body": null,
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Covers on Free after the day's session (free)"
     },
     "preview_pf_10_free_used": {
@@ -838,7 +870,7 @@
       },
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Chapter page on Free after the day's session: cards only, piles held"
     },
     "run_start_mix_pf_free_cards_only": {
@@ -851,22 +883,22 @@
         "chapterKey": "accountancy.partnership-fundamentals",
         "minutes": 10,
         "leaveOut": [],
-        "requestKey": "lk_454683cbd16ed3b3dca61d19"
+        "requestKey": "lk_14d40d6c531212fac9a92ab7"
       },
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "A mix on Free after the day's session: Key cards only (free)"
     },
     "run_end_feed_aop_free": {
       "status": 200,
       "method": "GET",
-      "route": "/api/learn/runs/lr_32e55b9270a80189c669c455/end",
+      "route": "/api/learn/runs/lr_2d53c497d687cd20e46217ee/end",
       "query": null,
       "body": null,
       "student": "commerce",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "The Free feed's end after the claim: free line, no Another 10 minutes"
     },
     "subject_accountancy_new_pro": {
@@ -877,7 +909,7 @@
       "body": null,
       "student": "new",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Learn home for a new student (the feed suggestion)"
     },
     "home_accountancy_new_pro": {
@@ -888,7 +920,7 @@
       "body": null,
       "student": "new",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Learn home for a new student: Start learning Accountancy, Start chapter 1 · 10 min, Skip what you already know, the feed row"
     },
     "covers_accountancy_new_pro": {
@@ -899,7 +931,7 @@
       "body": null,
       "student": "new",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Covers for a new student"
     },
     "shelves_new_pro": {
@@ -910,7 +942,7 @@
       "body": null,
       "student": "new",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Shelves for a new student (all zero)"
     },
     "preview_aop_10_new_pro": {
@@ -925,7 +957,7 @@
       },
       "student": "new",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Chapter page on a first visit (firstVisit)"
     },
     "run_start_feed_pf_new_pro": {
@@ -938,11 +970,11 @@
         "chapterKey": "accountancy.partnership-fundamentals",
         "minutes": 10,
         "leaveOut": [],
-        "requestKey": "lk_971a68ad7273ee4d52a6011c"
+        "requestKey": "lk_b104a975d8961371fa198576"
       },
       "student": "new",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "A new student's first feed"
     },
     "run_start_level_new_pro": {
@@ -955,11 +987,11 @@
         "chapterKey": "accountancy.partnership-fundamentals",
         "minutes": 6,
         "leaveOut": [],
-        "requestKey": "lk_fa800282264f74387a071a5e"
+        "requestKey": "lk_61379ad91fdbe88e909e5bf8"
       },
       "student": "new",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Find your level: questions from the first chapters"
     },
     "run_start_mix_aop_20_new_pro": {
@@ -972,11 +1004,11 @@
         "chapterKey": "accountancy.admission-of-partner",
         "minutes": 20,
         "leaveOut": [],
-        "requestKey": "lk_99e79ebc4c6ad1b3b25196f5"
+        "requestKey": "lk_dd7fd72e40f4aa8ffbe82745"
       },
       "student": "new",
       "plan": "pro",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "A 20-minute mix with the chapter's lesson item"
     },
     "subject_accountancy_new_free": {
@@ -987,7 +1019,7 @@
       "body": null,
       "student": "new",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Learn home for a new student on Free"
     },
     "home_accountancy_new_free": {
@@ -998,7 +1030,7 @@
       "body": null,
       "student": "new",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Learn home for a new student on Free (5 Key cards free in each chapter, real chapter sizes)"
     },
     "covers_accountancy_new_free": {
@@ -1009,7 +1041,7 @@
       "body": null,
       "student": "new",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Covers for a new student on Free"
     },
     "preview_aop_10_new_free": {
@@ -1024,7 +1056,7 @@
       },
       "student": "new",
       "plan": "free",
-      "session": "app-rec2-11020519",
+      "session": "app-rec2-11031425",
       "note": "Chapter page, first visit on Free"
     }
   }

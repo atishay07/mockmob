@@ -7,7 +7,7 @@
 ///   RunFrame        the top bar, the item area (12 dp above and below), the action bar; the end is a layer over it
 ///   RunActionBar    the item's keys, 6 dp, then the one status line (20 dp, always reserved)
 ///   RunStatusView   an error, a note, the stamp, a coach line or Free's look line
-///   RunRateKeys     Missed, Got it (the volt key), Easy, 52 dp, 8 dp apart
+///   RunRateKeys     Missed it, Got it (the volt key), Easy, 8 dp apart, each with when the card comes back under its name (round 5)
 ///   RunLessonCard   a lesson as a card: its kind, its title at the card's size, "Read this first."
 ///   RunSwipe        a recap card follows the finger sideways; past 72 dp (or a quick flick) it goes on
 ///   RunRound        a cards run's pause after every 20
@@ -25,6 +25,8 @@ import '../../../core/widgets/materials/edge_light.dart';
 import '../../../core/widgets/materials/shape.dart';
 import '../../../core/widgets/mm_spinner.dart';
 import '../../../core/widgets/skeleton.dart';
+import '../data/learn_models.dart' show LearnReturns;
+import '../data/learn_words.dart';
 import '../stage/card_face.dart';
 import '../stage/stage_balance.dart';
 import '../stage/stage_keys.dart';
@@ -338,47 +340,97 @@ class _StampPillState extends State<_StampPill> with SingleTickerProviderStateMi
 
 // ---------------------------------------------------------------- the keys
 
-/// Missed, Got it (the volt key) and Easy: 52 dp, equal, 8 dp apart, a group named "How well did you recall it?". [busy] is the
-/// rating on its way (a spinner in its key); every key waits while one is, and while the card leaves ([disabled]). No haptic of
-/// their own: the screen gives the confirm or the tick once the server has the rating.
+/// Missed it, Got it (the volt key) and Easy: equal, 8 dp apart, a group named "How well did you recall it?". Round 5 (LK38): each
+/// key says when the card would come back under its name ("back tomorrow", the server's words from FSRS, [returns]), so a student
+/// sees what each key does before pressing it; no words, no second line. A second line that wraps ("back in this run, then
+/// tomorrow") makes the three keys the same height. [busy] is the rating on its way (a spinner in its key); every key waits while
+/// one is, and while the card leaves ([disabled]). No haptic of their own: the screen gives the confirm or the tick once the
+/// server has the rating.
 class RunRateKeys extends StatelessWidget {
-  const RunRateKeys({super.key, required this.onRate, this.busy, this.disabled = false});
+  const RunRateKeys({super.key, required this.onRate, this.returns, this.busy, this.disabled = false});
 
   final ValueChanged<int> onRate;
+  final LearnReturns? returns;
   final int? busy;
   final bool disabled;
 
+  /// A key with words is at least this tall (the web's 60); without words, the plain 52.
+  static const double tallest = 60;
+  static const double _subSize = 12;
+  static const double _padX = 8;
+  static const double _gap = 8;
+  static const int _subLines = 3;
+
+  /// The height every key shares: the tallest of the three at this width and text scale, never under 52 (no words) or 60 (words).
+  static double keyHeight(BuildContext context, double width, LearnReturns? returns) {
+    final scaler = MediaQuery.textScalerOf(context);
+    final dir = Directionality.of(context);
+    final type = context.mmType;
+    final slot = (width - 2 * _gap) / 3 - 2 * _padX;
+    final label = type.button.copyWith(fontSize: 16, height: 1.25, fontWeight: FontWeight.w600);
+    final sub = type.body.copyWith(fontSize: _subSize, height: 1.3, fontWeight: FontWeight.w500);
+    var tall = returns == null ? 52.0 : tallest;
+    for (final (rating, name) in ratings) {
+      final words = returns?.forRating(rating);
+      final l = TextPainter(text: TextSpan(text: name, style: label), textDirection: dir, textScaler: scaler)..layout(maxWidth: slot);
+      var h = l.height + 2 * MmSpace.s8;
+      l.dispose();
+      if (words != null) {
+        final s = TextPainter(text: TextSpan(text: LearnWords.backLine(words), style: sub), textDirection: dir, textScaler: scaler, maxLines: _subLines)..layout(maxWidth: slot);
+        h += 2 + s.height;
+        s.dispose();
+      }
+      tall = math.max(tall, h);
+    }
+    return tall;
+  }
+
   static const List<(int, String)> ratings = [(1, RunCopy.missed), (3, RunCopy.gotIt), (4, RunCopy.easy)];
+
+  String? _sub(int rating) {
+    final words = returns?.forRating(rating);
+    return words == null ? null : LearnWords.backLine(words);
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    return Semantics(
-      container: true,
-      explicitChildNodes: true,
-      label: RunCopy.ratingGroup,
-      child: Row(
-        children: [
-          for (final (i, (rating, label)) in ratings.indexed) ...[
-            if (i > 0) const SizedBox(width: 8),
-            Expanded(
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  StageStepKey(
-                    label: busy == rating ? ' ' : label,
-                    semanticsLabel: label,
-                    tone: rating == 3 ? StageTone.volt : StageTone.line,
-                    haptic: false,
-                    onTap: disabled || busy != null ? null : () => onRate(rating),
+    return LayoutBuilder(
+      builder: (context, box) {
+        final height = keyHeight(context, box.maxWidth, returns);
+        return Semantics(
+          container: true,
+          explicitChildNodes: true,
+          label: RunCopy.ratingGroup,
+          child: Row(
+            children: [
+              for (final (i, (rating, label)) in ratings.indexed) ...[
+                if (i > 0) const SizedBox(width: _gap),
+                Expanded(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      StageStepKey(
+                        label: busy == rating ? ' ' : label,
+                        sub: busy == rating ? null : _sub(rating),
+                        subLines: _subLines,
+                        subSize: _subSize,
+                        padX: _padX,
+                        minHeight: height,
+                        semanticsLabel: _sub(rating) == null ? label : '$label, ${_sub(rating)}',
+                        tone: rating == 3 ? StageTone.volt : StageTone.line,
+                        haptic: false,
+                        onTap: disabled || busy != null ? null : () => onRate(rating),
+                      ),
+                      if (busy == rating) IgnorePointer(child: MmSpinner(color: rating == 3 ? colors.voltInk : colors.ink, size: 16, strokeWidth: 2.2)),
+                    ],
                   ),
-                  if (busy == rating) IgnorePointer(child: MmSpinner(color: rating == 3 ? colors.voltInk : colors.ink, size: 16, strokeWidth: 2.2)),
-                ],
-              ),
-            ),
-          ],
-        ],
-      ),
+                ),
+              ],
+            ],
+          ),
+        );
+      },
     );
   }
 }

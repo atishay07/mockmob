@@ -5,7 +5,7 @@
     {
       "key": "accountancy.goodwill-valuation",
       "title": "Goodwill: Nature and Valuation",
-      "cards": 46,
+      "cards": 48,
       "match": {
         "title": [
           {
@@ -513,6 +513,18 @@
     },
     {
       "card": {
+        "id": "kc.accountancy.goodwill-valuation.list-special-advantages-factor",
+        "kind": "list",
+        "label": "List",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
         "id": "kc.accountancy.goodwill-valuation.def-capitalisation-avg-profits-def",
         "kind": "definition",
         "label": "Definition",
@@ -556,6 +568,18 @@
       },
       "chapterKey": "accountancy.retirement-and-death-of-partner",
       "chapterTitle": "Retirement and Death of a Partner",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.list-goodwill-adjusted-at-reconstitution",
+        "kind": "list",
+        "label": "List",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
       "match": null,
       "locked": true
     },
@@ -930,36 +954,12 @@
       "chapterTitle": "Admission of a Partner",
       "match": null,
       "locked": true
-    },
-    {
-      "card": {
-        "id": "kc.accountancy.admission-of-partner.entry-e-goodwill-not-brought",
-        "kind": "entry",
-        "label": "Entry",
-        "locked": true
-      },
-      "chapterKey": "accountancy.admission-of-partner",
-      "chapterTitle": "Admission of a Partner",
-      "match": null,
-      "locked": true
-    },
-    {
-      "card": {
-        "id": "kc.accountancy.admission-of-partner.fact-part-brought-current-debited",
-        "kind": "fact",
-        "label": "Fact",
-        "locked": true
-      },
-      "chapterKey": "accountancy.admission-of-partner",
-      "chapterTitle": "Admission of a Partner",
-      "match": null,
-      "locked": true
     }
   ],
-  "more": 29,
-  "total": 79,
+  "more": 31,
+  "total": 81,
   "cardCounts": {
-    "accountancy.goodwill-valuation": 39,
+    "accountancy.goodwill-valuation": 41,
     "accountancy.change-in-profit-sharing-ratio": 2,
     "accountancy.retirement-and-death-of-partner": 18,
     "accountancy.admission-of-partner": 17,

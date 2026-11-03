@@ -1,5 +1,5 @@
 {
-  "id": "lr_ad48768aea23dbcf5cc6f921",
+  "id": "lr_a9c006fd579cf75514f5073b",
   "kind": "mix",
   "chapter": {
     "key": "accountancy.admission-of-partner",
@@ -16,7 +16,7 @@
   "asked": 20,
   "items": [
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i1",
+      "id": "lr_a9c006fd579cf75514f5073b-i1",
       "type": "lesson",
       "lesson": {
         "id": "accountancy-revaluation",
@@ -26,7 +26,7 @@
       "seconds": 382
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i2",
+      "id": "lr_a9c006fd579cf75514f5073b-i2",
       "type": "card",
       "stage": "new",
       "card": {
@@ -59,10 +59,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i3",
+      "id": "lr_a9c006fd579cf75514f5073b-i3",
       "type": "card",
       "stage": "new",
       "card": {
@@ -95,10 +100,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i4",
+      "id": "lr_a9c006fd579cf75514f5073b-i4",
       "type": "card",
       "stage": "new",
       "card": {
@@ -133,10 +143,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i5",
+      "id": "lr_a9c006fd579cf75514f5073b-i5",
       "type": "card",
       "stage": "new",
       "card": {
@@ -172,10 +187,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i6",
+      "id": "lr_a9c006fd579cf75514f5073b-i6",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -184,7 +204,7 @@
         "options": [
           {
             "key": "A",
-            "text": "Sacrifice ratio"
+            "text": "Capital ratio"
           },
           {
             "key": "B",
@@ -192,11 +212,11 @@
           },
           {
             "key": "C",
-            "text": "Profit sharing ratio"
+            "text": "Sacrifice ratio"
           },
           {
             "key": "D",
-            "text": "Capital ratio"
+            "text": "Profit sharing ratio"
           }
         ]
       },
@@ -204,7 +224,7 @@
       "seconds": 50
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i7",
+      "id": "lr_a9c006fd579cf75514f5073b-i7",
       "type": "card",
       "stage": "new",
       "card": {
@@ -240,10 +260,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i8",
+      "id": "lr_a9c006fd579cf75514f5073b-i8",
       "type": "card",
       "stage": "new",
       "card": {
@@ -278,10 +303,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i9",
+      "id": "lr_a9c006fd579cf75514f5073b-i9",
       "type": "card",
       "stage": "new",
       "card": {
@@ -314,10 +344,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i10",
+      "id": "lr_a9c006fd579cf75514f5073b-i10",
       "type": "card",
       "stage": "new",
       "card": {
@@ -350,10 +385,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i11",
+      "id": "lr_a9c006fd579cf75514f5073b-i11",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -362,19 +402,19 @@
         "options": [
           {
             "key": "A",
-            "text": "Both Assertion and Reason are true and Reason explains the Assertion"
+            "text": "Assertion false but Reason true"
           },
           {
             "key": "B",
-            "text": "Both are true but Reason does not explain the Assertion"
-          },
-          {
-            "key": "C",
             "text": "Assertion true but Reason false"
           },
           {
+            "key": "C",
+            "text": "Both Assertion and Reason are true and Reason explains the Assertion"
+          },
+          {
             "key": "D",
-            "text": "Assertion false but Reason true"
+            "text": "Both are true but Reason does not explain the Assertion"
           }
         ]
       },
@@ -382,7 +422,7 @@
       "seconds": 90
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i12",
+      "id": "lr_a9c006fd579cf75514f5073b-i12",
       "type": "card",
       "stage": "new",
       "card": {
@@ -415,10 +455,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i13",
+      "id": "lr_a9c006fd579cf75514f5073b-i13",
       "type": "card",
       "stage": "new",
       "card": {
@@ -451,10 +496,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i14",
+      "id": "lr_a9c006fd579cf75514f5073b-i14",
       "type": "card",
       "stage": "new",
       "card": {
@@ -487,10 +537,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i15",
+      "id": "lr_a9c006fd579cf75514f5073b-i15",
       "type": "card",
       "stage": "new",
       "card": {
@@ -524,10 +579,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i16",
+      "id": "lr_a9c006fd579cf75514f5073b-i16",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -536,7 +596,7 @@
         "options": [
           {
             "key": "A",
-            "text": "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)"
+            "text": "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)"
           },
           {
             "key": "B",
@@ -544,11 +604,11 @@
           },
           {
             "key": "C",
-            "text": "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)"
+            "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
           },
           {
             "key": "D",
-            "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+            "text": "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)"
           }
         ]
       },
@@ -556,7 +616,7 @@
       "seconds": 85
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i17",
+      "id": "lr_a9c006fd579cf75514f5073b-i17",
       "type": "card",
       "stage": "new",
       "card": {
@@ -589,10 +649,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i18",
+      "id": "lr_a9c006fd579cf75514f5073b-i18",
       "type": "card",
       "stage": "new",
       "card": {
@@ -625,10 +690,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i19",
+      "id": "lr_a9c006fd579cf75514f5073b-i19",
       "type": "card",
       "stage": "new",
       "card": {
@@ -664,10 +734,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i20",
+      "id": "lr_a9c006fd579cf75514f5073b-i20",
       "type": "card",
       "stage": "new",
       "card": {
@@ -702,10 +777,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i21",
+      "id": "lr_a9c006fd579cf75514f5073b-i21",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -714,19 +794,19 @@
         "options": [
           {
             "key": "A",
-            "text": "₹25,200, ₹16,800 and Nil"
-          },
-          {
-            "key": "B",
             "text": "₹30,000, ₹22,500 and ₹22,500"
           },
           {
+            "key": "B",
+            "text": "₹25,200, ₹16,800 and Nil"
+          },
+          {
             "key": "C",
-            "text": "₹45,000, ₹30,000 and Nil"
+            "text": "₹37,500, ₹37,500 and Nil"
           },
           {
             "key": "D",
-            "text": "₹37,500, ₹37,500 and Nil"
+            "text": "₹45,000, ₹30,000 and Nil"
           }
         ]
       },
@@ -734,7 +814,7 @@
       "seconds": 85
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i22",
+      "id": "lr_a9c006fd579cf75514f5073b-i22",
       "type": "card",
       "stage": "new",
       "card": {
@@ -769,10 +849,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i23",
+      "id": "lr_a9c006fd579cf75514f5073b-i23",
       "type": "card",
       "stage": "new",
       "card": {
@@ -805,10 +890,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 26
+      "seconds": 26,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i24",
+      "id": "lr_a9c006fd579cf75514f5073b-i24",
       "type": "card",
       "stage": "new",
       "card": {
@@ -841,10 +931,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_ad48768aea23dbcf5cc6f921-i25",
+      "id": "lr_a9c006fd579cf75514f5073b-i25",
       "type": "question",
       "origin": "linked",
       "question": {

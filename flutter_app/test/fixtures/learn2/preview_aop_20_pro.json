@@ -66,7 +66,7 @@
   "shrink": null,
   "free": null,
   "resume": {
-    "runId": "lr_4c9a70e34a1a7b054d3439f3",
+    "runId": "lr_f39e3a7ba685473567fef4fc",
     "done": 6,
     "of": 16,
     "minutesLeft": 5,
@@ -100,8 +100,8 @@
   "added": null,
   "shelf": {
     "cards": {
-      "count": 58,
-      "open": 58,
+      "count": 60,
+      "open": 60,
       "mustKnow": 15,
       "inRevise": 0
     },

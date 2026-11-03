@@ -51,6 +51,18 @@ void main() {
     },
   );
 
+  // Round 5 at the largest text the app is held to: the three keys keep one height and say when the card comes back, no label cut.
+  kcGolden(
+    'run_card_revealed_text13',
+    _run,
+    textScale: 1.3,
+    overrides: () => runOverrides(FixtureLearnApi()),
+    after: (tester) async {
+      _c(tester).turn(_c(tester).item! as LearnCardItem);
+      await kcSettle(tester);
+    },
+  );
+
   kcGolden(
     'run_stamp',
     _run,

@@ -44,7 +44,7 @@
       },
       "studentLine": "You stopped at 3 of 17",
       "resume": {
-        "runId": "lr_0e2bcf07502277f395b25116",
+        "runId": "lr_b5564c09f4affc211fa40577",
         "done": 3,
         "of": 17,
         "minutesLeft": 7
@@ -89,7 +89,7 @@
           ]
         },
         "20": {
-          "cards": 20,
+          "cards": 21,
           "questions": 10,
           "minutes": 20,
           "hook": {
@@ -1250,9 +1250,9 @@
           ]
         },
         "20": {
-          "cards": 32,
+          "cards": 35,
           "questions": 0,
-          "minutes": 11,
+          "minutes": 12,
           "shrink": {
             "reason": "pool"
           },
@@ -2512,6 +2512,12 @@
           "mustKnow": true
         },
         {
+          "id": "kc.accountancy.goodwill-valuation.list-goodwill-adjusted-at-reconstitution",
+          "front": "Name the three occasions of reconstitution when goodwill needs adjustment.",
+          "kind": "list",
+          "mustKnow": false
+        },
+        {
           "id": "kc.accountancy.goodwill-valuation.def-goodwill-super-profits-def",
           "front": "Define goodwill in terms of the reputation of a firm.",
           "kind": "definition",
@@ -2527,12 +2533,6 @@
           "id": "kc.accountancy.goodwill-valuation.kl-goodwill-only-super-profits",
           "front": "Any firm that earns normal profits or is incurring losses has ____.",
           "kind": "key_line",
-          "mustKnow": false
-        },
-        {
-          "id": "kc.accountancy.goodwill-valuation.list-five-factors",
-          "front": "Name the 5 main factors affecting the value of goodwill.",
-          "kind": "list",
           "mustKnow": false
         }
       ],
@@ -2561,6 +2561,12 @@
               "mustKnow": true
             },
             {
+              "id": "kc.accountancy.goodwill-valuation.list-goodwill-adjusted-at-reconstitution",
+              "front": "Name the three occasions of reconstitution when goodwill needs adjustment.",
+              "kind": "list",
+              "mustKnow": false
+            },
+            {
               "id": "kc.accountancy.goodwill-valuation.def-goodwill-super-profits-def",
               "front": "Define goodwill in terms of the reputation of a firm.",
               "kind": "definition",
@@ -2576,12 +2582,6 @@
               "id": "kc.accountancy.goodwill-valuation.kl-goodwill-only-super-profits",
               "front": "Any firm that earns normal profits or is incurring losses has ____.",
               "kind": "key_line",
-              "mustKnow": false
-            },
-            {
-              "id": "kc.accountancy.goodwill-valuation.list-five-factors",
-              "front": "Name the 5 main factors affecting the value of goodwill.",
-              "kind": "list",
               "mustKnow": false
             }
           ]
@@ -2604,6 +2604,12 @@
               "mustKnow": true
             },
             {
+              "id": "kc.accountancy.goodwill-valuation.list-goodwill-adjusted-at-reconstitution",
+              "front": "Name the three occasions of reconstitution when goodwill needs adjustment.",
+              "kind": "list",
+              "mustKnow": false
+            },
+            {
               "id": "kc.accountancy.goodwill-valuation.def-goodwill-super-profits-def",
               "front": "Define goodwill in terms of the reputation of a firm.",
               "kind": "definition",
@@ -2619,12 +2625,6 @@
               "id": "kc.accountancy.goodwill-valuation.kl-goodwill-only-super-profits",
               "front": "Any firm that earns normal profits or is incurring losses has ____.",
               "kind": "key_line",
-              "mustKnow": false
-            },
-            {
-              "id": "kc.accountancy.goodwill-valuation.list-five-factors",
-              "front": "Name the 5 main factors affecting the value of goodwill.",
-              "kind": "list",
               "mustKnow": false
             }
           ]
@@ -2650,6 +2650,12 @@
               "mustKnow": true
             },
             {
+              "id": "kc.accountancy.goodwill-valuation.list-goodwill-adjusted-at-reconstitution",
+              "front": "Name the three occasions of reconstitution when goodwill needs adjustment.",
+              "kind": "list",
+              "mustKnow": false
+            },
+            {
               "id": "kc.accountancy.goodwill-valuation.def-goodwill-super-profits-def",
               "front": "Define goodwill in terms of the reputation of a firm.",
               "kind": "definition",
@@ -2665,12 +2671,6 @@
               "id": "kc.accountancy.goodwill-valuation.kl-goodwill-only-super-profits",
               "front": "Any firm that earns normal profits or is incurring losses has ____.",
               "kind": "key_line",
-              "mustKnow": false
-            },
-            {
-              "id": "kc.accountancy.goodwill-valuation.list-five-factors",
-              "front": "Name the 5 main factors affecting the value of goodwill.",
-              "kind": "list",
               "mustKnow": false
             }
           ]

@@ -52,8 +52,8 @@ class _Learn2DoorState extends ConsumerState<Learn2Door> {
   }
 }
 
-/// "Chapter feeds" in Practise's More ways in: Explore's covers, Key cards and questions one at a time. Nothing at all
-/// while Learn v2 is off.
+/// "Chapter feeds" in Practise's More ways in: Explore's covers, Key cards and questions one at a time. It opens the Explore door
+/// of this same page (LK51), so Back from a feed returns to it. Nothing at all while Learn v2 is off.
 class ChapterFeedsRow extends ConsumerWidget {
   const ChapterFeedsRow({super.key, required this.subject});
 
@@ -69,7 +69,7 @@ class ChapterFeedsRow extends ConsumerWidget {
       icon: LucideIcons.galleryVerticalEnd,
       title: title,
       note: note,
-      onTap: () => unawaited(context.push<void>(Learn2Links.explore(subject: subject))),
+      onTap: () => context.go(Learn2Links.explore(subject: subject)),
     );
   }
 }

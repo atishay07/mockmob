@@ -1,14 +1,14 @@
 # Learn v2 fixtures (recorded)
 
-Recorded from the web dev preview of the live Learn v2 build (rounds 2 to 4), web commit 31af5f9dc (origin/main, folder
+Recorded from the web dev preview of the live Learn v2 build (rounds 2 to 4), web commit 4b5f67e34 (origin/main, folder
 `wt-1102-web`), by:
 
 ```
-bash tool/record_learn2_fixtures.sh 11020519     # from flutter_app, with the preview already running on port 3452
+bash tool/record_learn2_fixtures.sh 11031425     # from flutter_app, with the preview already running on port 3452
 ```
 
 Every answer is the production service (`src/lib/server/learn.js`) over the preview's in-memory student
-(`http://localhost:3452/preview/arena/realdeck?_to=/api/learn/<route>&...&_plan=&_student=&_s=app-rec2-11020519`). Students: `commerce` (returning: due cards,
+(`http://localhost:3452/preview/arena/realdeck?_to=/api/learn/<route>&...&_plan=&_student=&_s=app-rec2-11031425`). Students: `commerce` (returning: due cards,
 open mistakes from Mock 3 and Mock 4, an unfinished Admission of a Partner run) and `new` (nothing studied), each on Pro
 and Free. Bodies are exactly as the server sent them, pretty-printed. `manifest.json` names the status, method, route,
 query and request body of every file (FixtureLearnApi reads the status of the error files from it).
@@ -65,6 +65,8 @@ learnt by answering each once in a scratch student (`app-rec2-<tag>-scratch`), s
 | `run_end_mix_pf_pro.json` | 200 | GET /api/learn/runs/:run/end | commerce, pro | The mix's end: done, numbers, lines, the Revise pile, reviseCards, lead and options |
 | `run_start_recap_pf_pro.json` | 200 | POST /api/learn/runs | commerce, pro | A quick recap of Basic Concepts (answers showing, nothing scheduled) |
 | `run_start_cards_due_pro.json` | 200 | POST /api/learn/runs | commerce, pro | Revise these: the due suggestion's cards as a cards run |
+| `run_start_cards_span_pro.json` | 200 | POST /api/learn/runs | commerce, pro | A cards run over two chapters (Revise's due cards): headed Revise, chapter.spans, no place |
+| `run_end_cards_span_stopped_pro.json` | 200 | GET /api/learn/runs/:run/end?stop=1 | commerce, pro | The Revise run stopped before anything was done: Revise as its head, no chapter bar (progress null) |
 | `run_end_mix_aop_stopped_pro.json` | 200 | GET /api/learn/runs/:run/end?stop=1 | commerce, pro | A run stopped part way (Stop here): not ended, stopped true, Continue and the fix key |
 | `subject_accountancy_free.json` | 200 | GET /api/learn/subject?subject=accountancy | commerce, free | Learn home on Free (freeNote) |
 | `home_accountancy_free.json` | 200 | GET /api/learn/home?subject=accountancy | commerce, free | Learn home on Free, Accountancy (freeNote: 5 Key cards free in each chapter) |

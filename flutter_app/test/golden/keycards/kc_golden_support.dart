@@ -17,6 +17,7 @@ void kcGolden(
   Widget Function() build, {
   required List<Override> Function() overrides,
   Size size = const Size(360, 800),
+  double textScale = 1,
   Future<void> Function(WidgetTester tester)? after,
   Finder Function()? capture,
 }) {
@@ -30,6 +31,7 @@ void kcGolden(
         RepaintBoundary(key: boundary, child: build()),
         brightness: brightness,
         size: size,
+        textScale: textScale,
         disableAnimations: true,
         overrides: overrides(),
         wrapInScaffold: false,

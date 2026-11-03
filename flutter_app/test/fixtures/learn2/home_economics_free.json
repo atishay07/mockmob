@@ -24,12 +24,12 @@
   "subject": {
     "id": "economics",
     "name": "Economics",
-    "cards": 1195,
+    "cards": 1200,
     "chapters": 17,
     "lessons": 4,
     "note": null
   },
-  "freeNote": "Free opens 5 cards in every chapter. Pro opens all 1195.",
+  "freeNote": "Free opens 5 cards in every chapter. Pro opens all 1200.",
   "free": null,
   "suggestions": [
     {
@@ -235,7 +235,7 @@
                 "n": 3,
                 "of": 17
               },
-              "cards": 66,
+              "cards": 67,
               "mustKnow": 17,
               "due": 0,
               "mistakes": 0,
@@ -400,7 +400,7 @@
                 "n": 7,
                 "of": 17
               },
-              "cards": 78,
+              "cards": 79,
               "mustKnow": 20,
               "due": 0,
               "mistakes": 0,
@@ -479,8 +479,8 @@
                 "n": 9,
                 "of": 17
               },
-              "cards": 76,
-              "mustKnow": 19,
+              "cards": 78,
+              "mustKnow": 20,
               "due": 0,
               "mistakes": 0,
               "questions": 0,
@@ -523,7 +523,7 @@
                 "n": 10,
                 "of": 17
               },
-              "cards": 50,
+              "cards": 51,
               "mustKnow": 13,
               "due": 0,
               "mistakes": 0,

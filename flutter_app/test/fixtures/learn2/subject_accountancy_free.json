@@ -24,12 +24,12 @@
   "subject": {
     "id": "accountancy",
     "name": "Accountancy",
-    "cards": 912,
+    "cards": 920,
     "chapters": 14,
     "lessons": 4,
     "note": null
   },
-  "freeNote": "Free opens 5 cards in every chapter. Pro opens all 912.",
+  "freeNote": "Free opens 5 cards in every chapter. Pro opens all 920.",
   "free": null,
   "suggestions": [
     {
@@ -46,7 +46,7 @@
           "minutes": 5,
           "leaveOut": [],
           "kind": "mix",
-          "resume": "lr_2d0d476a552ae34e0082a36e"
+          "resume": "lr_aca268df16aa4965748a2afa"
         }
       }
     },
@@ -132,7 +132,7 @@
         "minutes": 5,
         "kind": "mix",
         "leaveOut": [],
-        "resume": "lr_2d0d476a552ae34e0082a36e"
+        "resume": "lr_aca268df16aa4965748a2afa"
       }
     },
     "or": [
@@ -296,7 +296,7 @@
                 "n": 4,
                 "of": 14
               },
-              "cards": 46,
+              "cards": 48,
               "mustKnow": 12,
               "due": 0,
               "mistakes": 0,
@@ -327,7 +327,7 @@
                 "n": 5,
                 "of": 14
               },
-              "cards": 58,
+              "cards": 60,
               "mustKnow": 15,
               "due": 0,
               "mistakes": 2,
@@ -458,7 +458,7 @@
                 "n": 8,
                 "of": 14
               },
-              "cards": 106,
+              "cards": 107,
               "mustKnow": 27,
               "due": 0,
               "mistakes": 0,
@@ -562,8 +562,8 @@
                 "n": 11,
                 "of": 14
               },
-              "cards": 32,
-              "mustKnow": 8,
+              "cards": 35,
+              "mustKnow": 9,
               "due": 0,
               "mistakes": 0,
               "questions": 0,

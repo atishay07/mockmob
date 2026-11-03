@@ -321,13 +321,13 @@ void main() {
       await tap(tester, find.text('Stop here'));
       expect(ctl(tester).mode, FeedMode.end);
       expect(api.stops, [true], reason: 'end?stop=1: the feed stays open to pick up today');
-      expect(find.text('2 of 16 done'), findsOneWidget, reason: 'the furthest item reached, as the web counts a stop part way');
+      expect(find.text('1 of 16 done'), findsOneWidget, reason: 'the place of the last item the server holds an event for (the card kept); the card only turned over holds none');
       await finish(tester);
     });
 
     testWidgets('the end\'s Close goes back where the feed came from', (tester) async {
       await pumpFeed(tester, FixtureLearnApi());
-      await tap(tester, find.text('Turn over'));
+      await tap(tester, find.text('Revise later'));
       await tap(tester, find.bySemanticsLabel('Close the feed'));
       await tap(tester, find.text('Stop here'));
       expect(ctl(tester).mode, FeedMode.end);
@@ -342,6 +342,7 @@ void main() {
       expect(find.text('host'), findsOneWidget);
 
       await pumpFeed(tester, FixtureLearnApi());
+      await tap(tester, find.text('Revise later'));
       await tap(tester, find.text('Turn over'));
       await systemBack(tester);
       expect(find.text('Stop for now?'), findsOneWidget);
@@ -390,7 +391,7 @@ void main() {
       expect(find.text('16 done'), findsOneWidget);
       expect(find.byType(StageKeptFan), findsOneWidget);
       expect(find.text('in Revise'), findsOneWidget, reason: 'the number\'s label; "kept" is not a word of the end');
-      expect(find.text('1 of 58 cards seen'), findsOneWidget);
+      expect(find.text('1 of 60 cards seen'), findsOneWidget);
       // The server's words, one key and one link: no "Another 10 minutes", no "Back to Explore", no lines table.
       expect(find.text('Keep going · 10 min'), findsOneWidget);
       expect(find.text('Fix 2 open mistakes · 2 min'), findsOneWidget);
@@ -439,7 +440,7 @@ void main() {
       await tap(tester, find.bySemanticsLabel('Close the feed'));
       await tap(tester, find.text('Stop here'));
       expect(api.stops, [true]);
-      expect(find.text('2 of 16 done'), findsOneWidget);
+      expect(find.text('1 of 16 done'), findsOneWidget);
       expect(find.text('Continue · 6 min'), findsOneWidget);
       expect(find.text('Fix 2 open mistakes · 2 min'), findsOneWidget);
       expect(voltKeys(tester), 1);

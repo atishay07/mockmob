@@ -179,7 +179,13 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
 
   void _push(String location) {
     final router = _router;
-    if (router != null) unawaited(router.push<void>(location));
+    if (router == null) return;
+    // A door of Practice (Explore, Learn) opens in place; everything else is pushed.
+    if (Learn2Links.opensInPlace(location)) {
+      router.go(location);
+    } else {
+      unawaited(router.push<void>(location));
+    }
   }
 
   void _replace(String location) {
@@ -208,7 +214,7 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
     if (widget.launch.source == 'explore_cover' && router.canPop()) {
       router.pop();
     } else {
-      unawaited(router.pushReplacement<void>(Learn2Links.explore()));
+      router.go(Learn2Links.explore());
     }
   }
 
@@ -685,7 +691,7 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
     final stopped = c.stoppedHere || raw['stopped'] == true;
     final hasDone = f != null && f.raw['done'] is Map;
     final doneJson = asJson(f?.raw['done']);
-    final reached = onlyEnd ? (hasDone ? f.done.reached : 0) : (stopped ? math.min(of, c.base + c.furthest) : of);
+    final reached = onlyEnd ? (hasDone ? f.done.reached : 0) : (stopped ? math.min(of, c.itemsDone) : of);
     final doneOf = onlyEnd ? (hasDone ? f.done.of : 0) : of;
     final minutes = doneJson['minutes'];
     // The numbers: this feed's own, or (an end opened on its own) what the server's lines say.

@@ -1,5 +1,5 @@
 {
-  "id": "lr_4c9a70e34a1a7b054d3439f3",
+  "id": "lr_f39e3a7ba685473567fef4fc",
   "kind": "mix",
   "chapter": {
     "key": "accountancy.admission-of-partner",
@@ -16,7 +16,7 @@
   "asked": 8,
   "items": [
     {
-      "id": "lr_4c9a70e34a1a7b054d3439f3-i7",
+      "id": "lr_f39e3a7ba685473567fef4fc-i7",
       "type": "card",
       "stage": "new",
       "card": {
@@ -49,10 +49,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_4c9a70e34a1a7b054d3439f3-i8",
+      "id": "lr_f39e3a7ba685473567fef4fc-i8",
       "type": "card",
       "stage": "new",
       "card": {
@@ -88,10 +93,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_4c9a70e34a1a7b054d3439f3-i9",
+      "id": "lr_f39e3a7ba685473567fef4fc-i9",
       "type": "card",
       "stage": "new",
       "card": {
@@ -124,10 +134,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_4c9a70e34a1a7b054d3439f3-i10",
+      "id": "lr_f39e3a7ba685473567fef4fc-i10",
       "type": "card",
       "stage": "new",
       "card": {
@@ -160,10 +175,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_4c9a70e34a1a7b054d3439f3-i11",
+      "id": "lr_f39e3a7ba685473567fef4fc-i11",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -172,19 +192,19 @@
         "options": [
           {
             "key": "A",
-            "text": "₹25,200, ₹16,800 and Nil"
-          },
-          {
-            "key": "B",
             "text": "₹30,000, ₹22,500 and ₹22,500"
           },
           {
+            "key": "B",
+            "text": "₹25,200, ₹16,800 and Nil"
+          },
+          {
             "key": "C",
-            "text": "₹45,000, ₹30,000 and Nil"
+            "text": "₹37,500, ₹37,500 and Nil"
           },
           {
             "key": "D",
-            "text": "₹37,500, ₹37,500 and Nil"
+            "text": "₹45,000, ₹30,000 and Nil"
           }
         ]
       },
@@ -192,7 +212,7 @@
       "seconds": 85
     },
     {
-      "id": "lr_4c9a70e34a1a7b054d3439f3-i12",
+      "id": "lr_f39e3a7ba685473567fef4fc-i12",
       "type": "card",
       "stage": "new",
       "card": {
@@ -225,10 +245,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_4c9a70e34a1a7b054d3439f3-i13",
+      "id": "lr_f39e3a7ba685473567fef4fc-i13",
       "type": "card",
       "stage": "new",
       "card": {
@@ -263,10 +288,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_4c9a70e34a1a7b054d3439f3-i14",
+      "id": "lr_f39e3a7ba685473567fef4fc-i14",
       "type": "card",
       "stage": "new",
       "card": {
@@ -302,10 +332,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_4c9a70e34a1a7b054d3439f3-i15",
+      "id": "lr_f39e3a7ba685473567fef4fc-i15",
       "type": "card",
       "stage": "new",
       "card": {
@@ -340,10 +375,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_4c9a70e34a1a7b054d3439f3-i16",
+      "id": "lr_f39e3a7ba685473567fef4fc-i16",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -352,7 +392,7 @@
         "options": [
           {
             "key": "A",
-            "text": "Sacrifice ratio"
+            "text": "Capital ratio"
           },
           {
             "key": "B",
@@ -360,11 +400,11 @@
           },
           {
             "key": "C",
-            "text": "Profit sharing ratio"
+            "text": "Sacrifice ratio"
           },
           {
             "key": "D",
-            "text": "Capital ratio"
+            "text": "Profit sharing ratio"
           }
         ]
       },

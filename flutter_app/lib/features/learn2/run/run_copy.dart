@@ -3,6 +3,8 @@
 /// label's length is the server's " · N min"). The words shared with Learn home and the ends are `LearnWords`.
 library;
 
+import '../data/learn_words.dart';
+
 abstract final class RunCopy {
   // ---------------------------------------------------------------- the stage
   static const String closeLabel = 'Close';
@@ -19,7 +21,7 @@ abstract final class RunCopy {
 
   // ---------------------------------------------------------------- keys
   static const String turnOver = 'Turn over';
-  static const String missed = 'Missed';
+  static const String missed = LearnWords.missedIt;
   static const String gotIt = 'Got it';
   static const String easy = 'Easy';
   static const String ratingGroup = 'How well did you recall it?';
@@ -60,7 +62,7 @@ abstract final class RunCopy {
 
   // ---------------------------------------------------------------- what the status line says
   static const String coachFront = 'Tap the card to turn it over';
-  static const String coachRate = 'Got it: it comes back when it\u2019s due.';
+  static const String coachRate = LearnWords.coachRatings;
   static const String coachPick = 'Pick the answer you think is right.';
   static const String coachRecap = 'Answers are showing. Nothing is scheduled.';
   static const String ratingNotSaved = 'That rating was not saved. Try again.';

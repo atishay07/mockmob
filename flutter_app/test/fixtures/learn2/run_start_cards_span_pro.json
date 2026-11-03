@@ -1,0 +1,109 @@
+{
+  "id": "lr_317dcc9f358d4e6f7fa84a9d",
+  "kind": "cards",
+  "chapter": {
+    "key": "accountancy.partnership-fundamentals",
+    "title": "Revise",
+    "ref": null,
+    "partTitle": null,
+    "number": null,
+    "place": null,
+    "spans": true
+  },
+  "minutes": 5,
+  "asked": 5,
+  "items": [
+    {
+      "id": "lr_317dcc9f358d4e6f7fa84a9d-i1",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.def-partnership-section-4",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "definition",
+        "front": "Define partnership (Section 4, Indian Partnership Act 1932).",
+        "back": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
+        "quote": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 2,
+          "section": "1.1 Nature of Partnership"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "partnership",
+          "partnership act"
+        ],
+        "order": 20,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 4 days"
+      }
+    },
+    {
+      "id": "lr_317dcc9f358d4e6f7fa84a9d-i2",
+      "type": "card",
+      "stage": "due",
+      "card": {
+        "id": "kc.accountancy.profit-and-loss-appropriation-account.def-pl-appropriation-meaning",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.profit-and-loss-appropriation-account",
+        "chapter": "Profit & Loss Appropriation Account",
+        "unit": "Accounting for Partnership",
+        "kind": "definition",
+        "front": "What is the Profit and Loss Appropriation Account?",
+        "back": "Profit and Loss Appropriation Account is merely an extension of the Profit and Loss Account of the firm.",
+        "quote": "Profit and Loss Appropriation Account is merely an extension of the Profit and Loss Account of the firm.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 8,
+          "section": "1.5.1 Profit and Loss Appropriation Account"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "p&l appropriation"
+        ],
+        "order": 550,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 12,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 weeks",
+        "easy": "in 5 weeks"
+      }
+    }
+  ],
+  "revisePile": {
+    "count": 0
+  },
+  "resumed": null,
+  "added": null,
+  "looks": null,
+  "free": null,
+  "capped": null,
+  "shrink": null
+}

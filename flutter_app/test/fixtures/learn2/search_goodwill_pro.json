@@ -5,7 +5,7 @@
     {
       "key": "accountancy.goodwill-valuation",
       "title": "Goodwill: Nature and Valuation",
-      "cards": 46,
+      "cards": 48,
       "match": {
         "title": [
           {
@@ -174,6 +174,55 @@
           {
             "start": 0,
             "end": 8
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.list-special-advantages-factor",
+        "v": 2,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "list",
+        "front": "Goodwill factor 'special advantages': name the six examples NCERT gives.",
+        "back": "import licences\nlow rate and assured supply of electricity\nlong-term contracts for supply of materials\nwell-known collaborators\npatents\ntrademarks, etc.",
+        "quote": "Special advantages: The firm that enjoys special advantages like import licences, low rate and assured supply of electricity, long-term contracts for supply of materials, well-known collaborators, patents, trademarks, etc. enjoy higher value of goodwill.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 56,
+          "section": "2.5.2 Factors Affecting the Value of Goodwill"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill",
+          "factors"
+        ],
+        "order": 295,
+        "addedIn": "top-1102",
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 0,
+            "end": 8
+          }
+        ],
+        "quote": [
+          {
+            "start": 245,
+            "end": 253
           }
         ]
       },
@@ -378,6 +427,55 @@
           {
             "start": 138,
             "end": 146
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.list-goodwill-adjusted-at-reconstitution",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "list",
+        "front": "Name the three occasions of reconstitution when goodwill needs adjustment.",
+        "back": "a change in the profit sharing ratio\nthe admission of a partner\nthe retirement or death of a partner",
+        "quote": "Goodwill is also one of the special aspects of partnership accounts which requires adjustment (also valuation if not specified) at the time of reconstitution of a firm viz., a change in the profit sharing ratio, the admission of a partner or the retirement or death of a partner.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 55,
+          "section": "2.5 Goodwill"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill",
+          "reconstitution"
+        ],
+        "order": 225,
+        "addedIn": "fix-1102",
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 48,
+            "end": 56
+          }
+        ],
+        "quote": [
+          {
+            "start": 0,
+            "end": 8
           }
         ]
       },
@@ -2415,108 +2513,12 @@
         ]
       },
       "locked": false
-    },
-    {
-      "card": {
-        "id": "kc.accountancy.retirement-and-death-of-partner.fact-goodwill-entitled",
-        "v": 1,
-        "subject": "accountancy",
-        "chapterKey": "accountancy.retirement-and-death-of-partner",
-        "chapter": "Retirement & Death of Partner",
-        "unit": "Reconstitution of a Partnership firm",
-        "kind": "fact",
-        "front": "On retirement or death of a partner, what is the retiring or deceased partner entitled to in respect of goodwill?",
-        "back": "The retiring or deceased partner is entitled to his share of goodwill at the time of retirement/death",
-        "quote": "The retiring or deceased partner is entitled to his share of goodwill at the time of retirement/death",
-        "blanks": [],
-        "source": {
-          "kind": "ncert",
-          "book": "Accountancy – Partnership Accounts",
-          "code": "leac103",
-          "chapterNo": 3,
-          "page": 113,
-          "section": "3.4 Treatment of Goodwill"
-        },
-        "importance": "good",
-        "asked": 0,
-        "tags": [
-          "goodwill"
-        ],
-        "order": 270,
-        "authorImportance": "must"
-      },
-      "chapterKey": "accountancy.retirement-and-death-of-partner",
-      "chapterTitle": "Retirement and Death of a Partner",
-      "match": {
-        "front": [
-          {
-            "start": 104,
-            "end": 112
-          }
-        ],
-        "quote": [
-          {
-            "start": 61,
-            "end": 69
-          }
-        ]
-      },
-      "locked": false
-    },
-    {
-      "card": {
-        "id": "kc.accountancy.retirement-and-death-of-partner.fact-goodwill-why-entitled",
-        "v": 1,
-        "subject": "accountancy",
-        "chapterKey": "accountancy.retirement-and-death-of-partner",
-        "chapter": "Retirement & Death of Partner",
-        "unit": "Reconstitution of a Partnership firm",
-        "kind": "fact",
-        "front": "Why is the retiring or deceased partner entitled to his share of goodwill?",
-        "back": "because the goodwill has been earned by the firm with the efforts of all the existing partners",
-        "quote": "because the goodwill has been earned by the firm with the efforts of all the existing partners",
-        "blanks": [],
-        "source": {
-          "kind": "ncert",
-          "book": "Accountancy – Partnership Accounts",
-          "code": "leac103",
-          "chapterNo": 3,
-          "page": 113,
-          "section": "3.4 Treatment of Goodwill"
-        },
-        "importance": "good",
-        "asked": 0,
-        "tags": [
-          "goodwill",
-          "retirement"
-        ],
-        "order": 275,
-        "addedIn": "top-1102",
-        "authorImportance": "must"
-      },
-      "chapterKey": "accountancy.retirement-and-death-of-partner",
-      "chapterTitle": "Retirement and Death of a Partner",
-      "match": {
-        "front": [
-          {
-            "start": 65,
-            "end": 73
-          }
-        ],
-        "quote": [
-          {
-            "start": 12,
-            "end": 20
-          }
-        ]
-      },
-      "locked": false
     }
   ],
-  "more": 29,
-  "total": 79,
+  "more": 31,
+  "total": 81,
   "cardCounts": {
-    "accountancy.goodwill-valuation": 39,
+    "accountancy.goodwill-valuation": 41,
     "accountancy.admission-of-partner": 17,
     "accountancy.retirement-and-death-of-partner": 18,
     "accountancy.change-in-profit-sharing-ratio": 2,

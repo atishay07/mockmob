@@ -1,5 +1,5 @@
 {
- "web": "wt-1102-web 31af5f9dc",
+ "web": "wt-1102-web 4b5f67e34",
  "note": "Written by tool/learn2_parity/home_model.mjs from the web's own homeModel.mjs (rounds 2 to 4). Do not edit by hand.",
  "counts": {
   "subjects": 17,
@@ -30,7 +30,7 @@
  "subjects": [
   {
    "name": "subject_accountancy_pro",
-   "subjectLine": "14 chapters · 912 Key cards · 4 lessons",
+   "subjectLine": "14 chapters · 920 Key cards · 4 lessons",
    "map": {
     "playable": [
      {
@@ -320,34 +320,34 @@
      },
      {
       "key": "accountancy.goodwill-valuation",
-      "cardsText": "46 cards",
+      "cardsText": "48 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Goodwill: Nature and Valuation",
       "verdictText": null,
       "road": {
-       "line": "46 cards",
+       "line": "48 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 46
+       "total": 48
       }
      },
      {
       "key": "accountancy.admission-of-partner",
-      "cardsText": "58 cards",
+      "cardsText": "60 cards",
       "nothingToPlay": false,
       "metaLine": "6 of 16 done today, 2 open mistakes",
       "marksText": "",
       "title": "Admission of a Partner",
       "verdictText": null,
       "road": {
-       "line": "58 cards · 2 of 10 questions tried",
+       "line": "60 cards · 2 of 10 questions tried",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 58
+       "total": 60
       }
      },
      {
@@ -384,18 +384,18 @@
      },
      {
       "key": "accountancy.share-capital",
-      "cardsText": "106 cards",
+      "cardsText": "107 cards",
       "nothingToPlay": false,
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Accounting for Share Capital",
       "verdictText": null,
       "road": {
-       "line": "106 cards",
+       "line": "107 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 106
+       "total": 107
       }
      },
      {
@@ -432,18 +432,18 @@
      },
      {
       "key": "accountancy.analysis-of-financial-statements",
-      "cardsText": "32 cards",
+      "cardsText": "35 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Analysis of Financial Statements",
       "verdictText": null,
       "road": {
-       "line": "32 cards",
+       "line": "35 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 32
+       "total": 35
       }
      },
      {
@@ -590,7 +590,7 @@
   },
   {
    "name": "subject_accountancy_free",
-   "subjectLine": "14 chapters · 912 Key cards · 4 lessons",
+   "subjectLine": "14 chapters · 920 Key cards · 4 lessons",
    "map": {
     "playable": [
      {
@@ -880,34 +880,34 @@
      },
      {
       "key": "accountancy.goodwill-valuation",
-      "cardsText": "46 cards",
+      "cardsText": "48 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Goodwill: Nature and Valuation",
       "verdictText": null,
       "road": {
-       "line": "46 cards",
+       "line": "48 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 46
+       "total": 48
       }
      },
      {
       "key": "accountancy.admission-of-partner",
-      "cardsText": "58 cards",
+      "cardsText": "60 cards",
       "nothingToPlay": false,
       "metaLine": "6 of 11 done today, 2 open mistakes",
       "marksText": "",
       "title": "Admission of a Partner",
       "verdictText": null,
       "road": {
-       "line": "58 cards · 2 of 10 questions tried",
+       "line": "60 cards · 2 of 10 questions tried",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 58
+       "total": 60
       }
      },
      {
@@ -944,18 +944,18 @@
      },
      {
       "key": "accountancy.share-capital",
-      "cardsText": "106 cards",
+      "cardsText": "107 cards",
       "nothingToPlay": false,
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Accounting for Share Capital",
       "verdictText": null,
       "road": {
-       "line": "106 cards",
+       "line": "107 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 106
+       "total": 107
       }
      },
      {
@@ -992,18 +992,18 @@
      },
      {
       "key": "accountancy.analysis-of-financial-statements",
-      "cardsText": "32 cards",
+      "cardsText": "35 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Analysis of Financial Statements",
       "verdictText": null,
       "road": {
-       "line": "32 cards",
+       "line": "35 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 32
+       "total": 35
       }
      },
      {
@@ -1150,7 +1150,7 @@
   },
   {
    "name": "subject_accountancy_free_used",
-   "subjectLine": "14 chapters · 912 Key cards · 4 lessons",
+   "subjectLine": "14 chapters · 920 Key cards · 4 lessons",
    "map": {
     "playable": [
      {
@@ -1440,34 +1440,34 @@
      },
      {
       "key": "accountancy.goodwill-valuation",
-      "cardsText": "46 cards",
+      "cardsText": "48 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Goodwill: Nature and Valuation",
       "verdictText": null,
       "road": {
-       "line": "46 cards",
+       "line": "48 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 46
+       "total": 48
       }
      },
      {
       "key": "accountancy.admission-of-partner",
-      "cardsText": "58 cards",
+      "cardsText": "60 cards",
       "nothingToPlay": false,
       "metaLine": "6 of 11 done today, 1 open mistake",
       "marksText": "",
       "title": "Admission of a Partner",
       "verdictText": null,
       "road": {
-       "line": "1 of 58 cards seen · 2 of 10 questions tried",
-       "share": 0.017241379310344827,
+       "line": "1 of 60 cards seen · 2 of 10 questions tried",
+       "share": 0.016666666666666666,
        "seen": 1,
        "verdict": null,
-       "total": 58
+       "total": 60
       }
      },
      {
@@ -1504,18 +1504,18 @@
      },
      {
       "key": "accountancy.share-capital",
-      "cardsText": "106 cards",
+      "cardsText": "107 cards",
       "nothingToPlay": false,
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Accounting for Share Capital",
       "verdictText": null,
       "road": {
-       "line": "106 cards",
+       "line": "107 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 106
+       "total": 107
       }
      },
      {
@@ -1552,18 +1552,18 @@
      },
      {
       "key": "accountancy.analysis-of-financial-statements",
-      "cardsText": "32 cards",
+      "cardsText": "35 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Analysis of Financial Statements",
       "verdictText": null,
       "road": {
-       "line": "32 cards",
+       "line": "35 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 32
+       "total": 35
       }
      },
      {
@@ -1710,7 +1710,7 @@
   },
   {
    "name": "subject_accountancy_new_pro",
-   "subjectLine": "14 chapters · 912 Key cards · 4 lessons",
+   "subjectLine": "14 chapters · 920 Key cards · 4 lessons",
    "map": {
     "playable": [
      {
@@ -2000,34 +2000,34 @@
      },
      {
       "key": "accountancy.goodwill-valuation",
-      "cardsText": "46 cards",
+      "cardsText": "48 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Goodwill: Nature and Valuation",
       "verdictText": null,
       "road": {
-       "line": "46 cards",
+       "line": "48 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 46
+       "total": 48
       }
      },
      {
       "key": "accountancy.admission-of-partner",
-      "cardsText": "58 cards",
+      "cardsText": "60 cards",
       "nothingToPlay": false,
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Admission of a Partner",
       "verdictText": null,
       "road": {
-       "line": "58 cards · 10 questions",
+       "line": "60 cards · 10 questions",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 58
+       "total": 60
       }
      },
      {
@@ -2064,18 +2064,18 @@
      },
      {
       "key": "accountancy.share-capital",
-      "cardsText": "106 cards",
+      "cardsText": "107 cards",
       "nothingToPlay": false,
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Accounting for Share Capital",
       "verdictText": null,
       "road": {
-       "line": "106 cards",
+       "line": "107 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 106
+       "total": 107
       }
      },
      {
@@ -2112,18 +2112,18 @@
      },
      {
       "key": "accountancy.analysis-of-financial-statements",
-      "cardsText": "32 cards",
+      "cardsText": "35 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Analysis of Financial Statements",
       "verdictText": null,
       "road": {
-       "line": "32 cards",
+       "line": "35 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 32
+       "total": 35
       }
      },
      {
@@ -2270,7 +2270,7 @@
   },
   {
    "name": "subject_accountancy_new_free",
-   "subjectLine": "14 chapters · 912 Key cards · 4 lessons",
+   "subjectLine": "14 chapters · 920 Key cards · 4 lessons",
    "map": {
     "playable": [
      {
@@ -2560,34 +2560,34 @@
      },
      {
       "key": "accountancy.goodwill-valuation",
-      "cardsText": "46 cards",
+      "cardsText": "48 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Goodwill: Nature and Valuation",
       "verdictText": null,
       "road": {
-       "line": "46 cards",
+       "line": "48 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 46
+       "total": 48
       }
      },
      {
       "key": "accountancy.admission-of-partner",
-      "cardsText": "58 cards",
+      "cardsText": "60 cards",
       "nothingToPlay": false,
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Admission of a Partner",
       "verdictText": null,
       "road": {
-       "line": "58 cards · 10 questions",
+       "line": "60 cards · 10 questions",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 58
+       "total": 60
       }
      },
      {
@@ -2624,18 +2624,18 @@
      },
      {
       "key": "accountancy.share-capital",
-      "cardsText": "106 cards",
+      "cardsText": "107 cards",
       "nothingToPlay": false,
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Accounting for Share Capital",
       "verdictText": null,
       "road": {
-       "line": "106 cards",
+       "line": "107 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 106
+       "total": 107
       }
      },
      {
@@ -2672,18 +2672,18 @@
      },
      {
       "key": "accountancy.analysis-of-financial-statements",
-      "cardsText": "32 cards",
+      "cardsText": "35 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Analysis of Financial Statements",
       "verdictText": null,
       "road": {
-       "line": "32 cards",
+       "line": "35 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 32
+       "total": 35
       }
      },
      {
@@ -2830,7 +2830,7 @@
   },
   {
    "name": "subject_economics_pro",
-   "subjectLine": "17 chapters · 1195 Key cards · 4 lessons",
+   "subjectLine": "17 chapters · 1200 Key cards · 4 lessons",
    "map": {
     "playable": [
      {
@@ -3194,18 +3194,18 @@
      },
      {
       "key": "economics.theory-of-firms-under-perfect-competition",
-      "cardsText": "66 cards",
+      "cardsText": "67 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "The Theory of the Firm under Perfect Competition",
       "verdictText": "Needs work · from your papers",
       "road": {
-       "line": "66 cards",
+       "line": "67 cards",
        "share": 0,
        "seen": 0,
        "verdict": "Needs work · from your papers",
-       "total": 66
+       "total": 67
       }
      },
      {
@@ -3258,18 +3258,18 @@
      },
      {
       "key": "economics.income-determination",
-      "cardsText": "78 cards",
+      "cardsText": "79 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Determination of Income and Employment",
       "verdictText": null,
       "road": {
-       "line": "78 cards",
+       "line": "79 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 78
+       "total": 79
       }
      },
      {
@@ -3290,34 +3290,34 @@
      },
      {
       "key": "economics.balance-of-payments",
-      "cardsText": "76 cards",
+      "cardsText": "78 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Open Economy Macroeconomics",
       "verdictText": null,
       "road": {
-       "line": "76 cards",
+       "line": "78 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 76
+       "total": 78
       }
      },
      {
       "key": "economics.indian-economy-on-the-eve-of-independence",
-      "cardsText": "50 cards",
+      "cardsText": "51 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Indian Economy on the Eve of Independence",
       "verdictText": "Needs work · from your papers",
       "road": {
-       "line": "50 cards",
+       "line": "51 cards",
        "share": 0,
        "seen": 0,
        "verdict": "Needs work · from your papers",
-       "total": 50
+       "total": 51
       }
      },
      {
@@ -3561,7 +3561,7 @@
   },
   {
    "name": "subject_business_studies_pro",
-   "subjectLine": "11 chapters · 901 Key cards · 5 lessons",
+   "subjectLine": "11 chapters · 902 Key cards · 5 lessons",
    "map": {
     "playable": [
      {
@@ -3889,18 +3889,18 @@
      },
      {
       "key": "business_studies.staffing",
-      "cardsText": "98 cards",
+      "cardsText": "99 cards",
       "nothingToPlay": false,
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Staffing",
       "verdictText": null,
       "road": {
-       "line": "98 cards",
+       "line": "99 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 98
+       "total": 99
       }
      },
      {
@@ -4231,7 +4231,7 @@
   },
   {
    "name": "home_accountancy_pro",
-   "subjectLine": "14 chapters · 912 Key cards · 4 lessons",
+   "subjectLine": "14 chapters · 920 Key cards · 4 lessons",
    "map": {
     "playable": [
      {
@@ -4521,34 +4521,34 @@
      },
      {
       "key": "accountancy.goodwill-valuation",
-      "cardsText": "46 cards",
+      "cardsText": "48 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Goodwill: Nature and Valuation",
       "verdictText": null,
       "road": {
-       "line": "46 cards",
+       "line": "48 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 46
+       "total": 48
       }
      },
      {
       "key": "accountancy.admission-of-partner",
-      "cardsText": "58 cards",
+      "cardsText": "60 cards",
       "nothingToPlay": false,
       "metaLine": "6 of 16 done today, 2 open mistakes",
       "marksText": "",
       "title": "Admission of a Partner",
       "verdictText": null,
       "road": {
-       "line": "58 cards · 2 of 10 questions tried",
+       "line": "60 cards · 2 of 10 questions tried",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 58
+       "total": 60
       }
      },
      {
@@ -4585,18 +4585,18 @@
      },
      {
       "key": "accountancy.share-capital",
-      "cardsText": "106 cards",
+      "cardsText": "107 cards",
       "nothingToPlay": false,
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Accounting for Share Capital",
       "verdictText": null,
       "road": {
-       "line": "106 cards",
+       "line": "107 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 106
+       "total": 107
       }
      },
      {
@@ -4633,18 +4633,18 @@
      },
      {
       "key": "accountancy.analysis-of-financial-statements",
-      "cardsText": "32 cards",
+      "cardsText": "35 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Analysis of Financial Statements",
       "verdictText": null,
       "road": {
-       "line": "32 cards",
+       "line": "35 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 32
+       "total": 35
       }
      },
      {
@@ -4791,7 +4791,7 @@
   },
   {
    "name": "home_accountancy_free",
-   "subjectLine": "14 chapters · 912 Key cards · 4 lessons",
+   "subjectLine": "14 chapters · 920 Key cards · 4 lessons",
    "map": {
     "playable": [
      {
@@ -5081,34 +5081,34 @@
      },
      {
       "key": "accountancy.goodwill-valuation",
-      "cardsText": "46 cards",
+      "cardsText": "48 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Goodwill: Nature and Valuation",
       "verdictText": null,
       "road": {
-       "line": "46 cards",
+       "line": "48 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 46
+       "total": 48
       }
      },
      {
       "key": "accountancy.admission-of-partner",
-      "cardsText": "58 cards",
+      "cardsText": "60 cards",
       "nothingToPlay": false,
       "metaLine": "6 of 11 done today, 2 open mistakes",
       "marksText": "",
       "title": "Admission of a Partner",
       "verdictText": null,
       "road": {
-       "line": "58 cards · 2 of 10 questions tried",
+       "line": "60 cards · 2 of 10 questions tried",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 58
+       "total": 60
       }
      },
      {
@@ -5145,18 +5145,18 @@
      },
      {
       "key": "accountancy.share-capital",
-      "cardsText": "106 cards",
+      "cardsText": "107 cards",
       "nothingToPlay": false,
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Accounting for Share Capital",
       "verdictText": null,
       "road": {
-       "line": "106 cards",
+       "line": "107 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 106
+       "total": 107
       }
      },
      {
@@ -5193,18 +5193,18 @@
      },
      {
       "key": "accountancy.analysis-of-financial-statements",
-      "cardsText": "32 cards",
+      "cardsText": "35 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Analysis of Financial Statements",
       "verdictText": null,
       "road": {
-       "line": "32 cards",
+       "line": "35 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 32
+       "total": 35
       }
      },
      {
@@ -5351,7 +5351,7 @@
   },
   {
    "name": "home_accountancy_free_used",
-   "subjectLine": "14 chapters · 912 Key cards · 4 lessons",
+   "subjectLine": "14 chapters · 920 Key cards · 4 lessons",
    "map": {
     "playable": [
      {
@@ -5641,34 +5641,34 @@
      },
      {
       "key": "accountancy.goodwill-valuation",
-      "cardsText": "46 cards",
+      "cardsText": "48 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Goodwill: Nature and Valuation",
       "verdictText": null,
       "road": {
-       "line": "46 cards",
+       "line": "48 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 46
+       "total": 48
       }
      },
      {
       "key": "accountancy.admission-of-partner",
-      "cardsText": "58 cards",
+      "cardsText": "60 cards",
       "nothingToPlay": false,
       "metaLine": "6 of 11 done today, 1 open mistake",
       "marksText": "",
       "title": "Admission of a Partner",
       "verdictText": null,
       "road": {
-       "line": "1 of 58 cards seen · 2 of 10 questions tried",
-       "share": 0.017241379310344827,
+       "line": "1 of 60 cards seen · 2 of 10 questions tried",
+       "share": 0.016666666666666666,
        "seen": 1,
        "verdict": null,
-       "total": 58
+       "total": 60
       }
      },
      {
@@ -5705,18 +5705,18 @@
      },
      {
       "key": "accountancy.share-capital",
-      "cardsText": "106 cards",
+      "cardsText": "107 cards",
       "nothingToPlay": false,
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Accounting for Share Capital",
       "verdictText": null,
       "road": {
-       "line": "106 cards",
+       "line": "107 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 106
+       "total": 107
       }
      },
      {
@@ -5753,18 +5753,18 @@
      },
      {
       "key": "accountancy.analysis-of-financial-statements",
-      "cardsText": "32 cards",
+      "cardsText": "35 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Analysis of Financial Statements",
       "verdictText": null,
       "road": {
-       "line": "32 cards",
+       "line": "35 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 32
+       "total": 35
       }
      },
      {
@@ -5911,7 +5911,7 @@
   },
   {
    "name": "home_accountancy_new_pro",
-   "subjectLine": "14 chapters · 912 Key cards · 4 lessons",
+   "subjectLine": "14 chapters · 920 Key cards · 4 lessons",
    "map": {
     "playable": [
      {
@@ -6201,34 +6201,34 @@
      },
      {
       "key": "accountancy.goodwill-valuation",
-      "cardsText": "46 cards",
+      "cardsText": "48 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Goodwill: Nature and Valuation",
       "verdictText": null,
       "road": {
-       "line": "46 cards",
+       "line": "48 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 46
+       "total": 48
       }
      },
      {
       "key": "accountancy.admission-of-partner",
-      "cardsText": "58 cards",
+      "cardsText": "60 cards",
       "nothingToPlay": false,
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Admission of a Partner",
       "verdictText": null,
       "road": {
-       "line": "58 cards · 10 questions",
+       "line": "60 cards · 10 questions",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 58
+       "total": 60
       }
      },
      {
@@ -6265,18 +6265,18 @@
      },
      {
       "key": "accountancy.share-capital",
-      "cardsText": "106 cards",
+      "cardsText": "107 cards",
       "nothingToPlay": false,
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Accounting for Share Capital",
       "verdictText": null,
       "road": {
-       "line": "106 cards",
+       "line": "107 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 106
+       "total": 107
       }
      },
      {
@@ -6313,18 +6313,18 @@
      },
      {
       "key": "accountancy.analysis-of-financial-statements",
-      "cardsText": "32 cards",
+      "cardsText": "35 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Analysis of Financial Statements",
       "verdictText": null,
       "road": {
-       "line": "32 cards",
+       "line": "35 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 32
+       "total": 35
       }
      },
      {
@@ -6471,7 +6471,7 @@
   },
   {
    "name": "home_accountancy_new_free",
-   "subjectLine": "14 chapters · 912 Key cards · 4 lessons",
+   "subjectLine": "14 chapters · 920 Key cards · 4 lessons",
    "map": {
     "playable": [
      {
@@ -6761,34 +6761,34 @@
      },
      {
       "key": "accountancy.goodwill-valuation",
-      "cardsText": "46 cards",
+      "cardsText": "48 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Goodwill: Nature and Valuation",
       "verdictText": null,
       "road": {
-       "line": "46 cards",
+       "line": "48 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 46
+       "total": 48
       }
      },
      {
       "key": "accountancy.admission-of-partner",
-      "cardsText": "58 cards",
+      "cardsText": "60 cards",
       "nothingToPlay": false,
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Admission of a Partner",
       "verdictText": null,
       "road": {
-       "line": "58 cards · 10 questions",
+       "line": "60 cards · 10 questions",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 58
+       "total": 60
       }
      },
      {
@@ -6825,18 +6825,18 @@
      },
      {
       "key": "accountancy.share-capital",
-      "cardsText": "106 cards",
+      "cardsText": "107 cards",
       "nothingToPlay": false,
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Accounting for Share Capital",
       "verdictText": null,
       "road": {
-       "line": "106 cards",
+       "line": "107 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 106
+       "total": 107
       }
      },
      {
@@ -6873,18 +6873,18 @@
      },
      {
       "key": "accountancy.analysis-of-financial-statements",
-      "cardsText": "32 cards",
+      "cardsText": "35 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Analysis of Financial Statements",
       "verdictText": null,
       "road": {
-       "line": "32 cards",
+       "line": "35 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 32
+       "total": 35
       }
      },
      {
@@ -7031,7 +7031,7 @@
   },
   {
    "name": "home_economics_pro",
-   "subjectLine": "17 chapters · 1195 Key cards · 4 lessons",
+   "subjectLine": "17 chapters · 1200 Key cards · 4 lessons",
    "map": {
     "playable": [
      {
@@ -7395,18 +7395,18 @@
      },
      {
       "key": "economics.theory-of-firms-under-perfect-competition",
-      "cardsText": "66 cards",
+      "cardsText": "67 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "The Theory of the Firm under Perfect Competition",
       "verdictText": "Needs work · from your papers",
       "road": {
-       "line": "66 cards",
+       "line": "67 cards",
        "share": 0,
        "seen": 0,
        "verdict": "Needs work · from your papers",
-       "total": 66
+       "total": 67
       }
      },
      {
@@ -7459,18 +7459,18 @@
      },
      {
       "key": "economics.income-determination",
-      "cardsText": "78 cards",
+      "cardsText": "79 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Determination of Income and Employment",
       "verdictText": null,
       "road": {
-       "line": "78 cards",
+       "line": "79 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 78
+       "total": 79
       }
      },
      {
@@ -7491,34 +7491,34 @@
      },
      {
       "key": "economics.balance-of-payments",
-      "cardsText": "76 cards",
+      "cardsText": "78 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Open Economy Macroeconomics",
       "verdictText": null,
       "road": {
-       "line": "76 cards",
+       "line": "78 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 76
+       "total": 78
       }
      },
      {
       "key": "economics.indian-economy-on-the-eve-of-independence",
-      "cardsText": "50 cards",
+      "cardsText": "51 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Indian Economy on the Eve of Independence",
       "verdictText": "Needs work · from your papers",
       "road": {
-       "line": "50 cards",
+       "line": "51 cards",
        "share": 0,
        "seen": 0,
        "verdict": "Needs work · from your papers",
-       "total": 50
+       "total": 51
       }
      },
      {
@@ -7762,7 +7762,7 @@
   },
   {
    "name": "home_economics_free",
-   "subjectLine": "17 chapters · 1195 Key cards · 4 lessons",
+   "subjectLine": "17 chapters · 1200 Key cards · 4 lessons",
    "map": {
     "playable": [
      {
@@ -8126,18 +8126,18 @@
      },
      {
       "key": "economics.theory-of-firms-under-perfect-competition",
-      "cardsText": "66 cards",
+      "cardsText": "67 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "The Theory of the Firm under Perfect Competition",
       "verdictText": "Needs work · from your papers",
       "road": {
-       "line": "66 cards",
+       "line": "67 cards",
        "share": 0,
        "seen": 0,
        "verdict": "Needs work · from your papers",
-       "total": 66
+       "total": 67
       }
      },
      {
@@ -8190,18 +8190,18 @@
      },
      {
       "key": "economics.income-determination",
-      "cardsText": "78 cards",
+      "cardsText": "79 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Determination of Income and Employment",
       "verdictText": null,
       "road": {
-       "line": "78 cards",
+       "line": "79 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 78
+       "total": 79
       }
      },
      {
@@ -8222,34 +8222,34 @@
      },
      {
       "key": "economics.balance-of-payments",
-      "cardsText": "76 cards",
+      "cardsText": "78 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Open Economy Macroeconomics",
       "verdictText": null,
       "road": {
-       "line": "76 cards",
+       "line": "78 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 76
+       "total": 78
       }
      },
      {
       "key": "economics.indian-economy-on-the-eve-of-independence",
-      "cardsText": "50 cards",
+      "cardsText": "51 cards",
       "nothingToPlay": false,
       "metaLine": "",
       "marksText": "",
       "title": "Indian Economy on the Eve of Independence",
       "verdictText": "Needs work · from your papers",
       "road": {
-       "line": "50 cards",
+       "line": "51 cards",
        "share": 0,
        "seen": 0,
        "verdict": "Needs work · from your papers",
-       "total": 50
+       "total": 51
       }
      },
      {
@@ -8493,7 +8493,7 @@
   },
   {
    "name": "home_business_studies_pro",
-   "subjectLine": "11 chapters · 901 Key cards · 5 lessons",
+   "subjectLine": "11 chapters · 902 Key cards · 5 lessons",
    "map": {
     "playable": [
      {
@@ -8821,18 +8821,18 @@
      },
      {
       "key": "business_studies.staffing",
-      "cardsText": "98 cards",
+      "cardsText": "99 cards",
       "nothingToPlay": false,
       "metaLine": "1 lesson",
       "marksText": "",
       "title": "Staffing",
       "verdictText": null,
       "road": {
-       "line": "98 cards",
+       "line": "99 cards",
        "share": 0,
        "seen": 0,
        "verdict": null,
-       "total": 98
+       "total": 99
       }
      },
      {
@@ -11444,7 +11444,7 @@
      "chapters": 3
     },
     "must": {
-     "count": 235,
+     "count": 236,
      "chapters": 14
     }
    },
@@ -11936,7 +11936,7 @@
      "chapters": 0
     },
     "must": {
-     "count": 235,
+     "count": 236,
      "chapters": 14
     }
    },

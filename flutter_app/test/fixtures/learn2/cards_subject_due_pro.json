@@ -257,8 +257,8 @@
         "of": 14
       },
       "counts": {
-        "total": 46,
-        "all": 46,
+        "total": 48,
+        "all": 48,
         "must": 12,
         "revise": 0,
         "missed": 0,
@@ -275,8 +275,8 @@
         "of": 14
       },
       "counts": {
-        "total": 58,
-        "all": 58,
+        "total": 60,
+        "all": 60,
         "must": 15,
         "revise": 0,
         "missed": 2,
@@ -329,8 +329,8 @@
         "of": 14
       },
       "counts": {
-        "total": 106,
-        "all": 106,
+        "total": 107,
+        "all": 107,
         "must": 27,
         "revise": 0,
         "missed": 0,
@@ -383,9 +383,9 @@
         "of": 14
       },
       "counts": {
-        "total": 32,
-        "all": 32,
-        "must": 8,
+        "total": 35,
+        "all": 35,
+        "must": 9,
         "revise": 0,
         "missed": 0,
         "due": 0

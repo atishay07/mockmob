@@ -426,13 +426,19 @@ class FixtureLearnApi implements LearnApi {
     } else if (item['look'] == true) {
       body = {'ok': true, 'saved': false, 'look': true, 'stamp': null, 'revisePile': {'count': run.revisePile}, 'limit': run.body['looks']};
     } else if (rating == 1) {
+      // Round 5, LK38: every rated card is scheduled, Missed it included, so the pile counts it. The copy put back in the run is a last
+      // look: it carries no words (`returns`).
+      run.revisePile += 1;
       body = LearnFixtures.json('rate_missed_pro');
-      body['reinsert'] = run.reinsert({...item, 'stage': 'again', 'seconds': 12}..remove('reason'), itemId);
+      body['reinsert'] = run.reinsert({...item, 'stage': 'again', 'seconds': 12}..remove('reason')..remove('returns'), itemId);
       body['revisePile'] = {'count': run.revisePile};
     } else if (rating == 3 || rating == 4) {
       run.revisePile += 1;
       body = LearnFixtures.json(rating == 3 ? 'rate_got_it_pro' : 'rate_easy_pro');
       body['revisePile'] = {'count': run.revisePile};
+      // The stamp is the key's promise: "Back " and the words the card carried.
+      final words = (item['returns'] as Map?)?[rating == 3 ? 'got' : 'easy'];
+      if (words is String) body['stamp'] = 'Back $words';
     } else {
       throw LearnError.fromResponse(422, {'error': 'INVALID_RATING'});
     }

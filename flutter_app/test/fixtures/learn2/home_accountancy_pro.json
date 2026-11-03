@@ -24,7 +24,7 @@
   "subject": {
     "id": "accountancy",
     "name": "Accountancy",
-    "cards": 912,
+    "cards": 920,
     "chapters": 14,
     "lessons": 4,
     "note": null
@@ -46,7 +46,7 @@
           "minutes": 5,
           "leaveOut": [],
           "kind": "mix",
-          "resume": "lr_4c9a70e34a1a7b054d3439f3"
+          "resume": "lr_f39e3a7ba685473567fef4fc"
         }
       }
     },
@@ -109,8 +109,8 @@
       "key": "accountancy.admission-of-partner",
       "title": "Admission of a Partner",
       "seen": 0,
-      "of": 58,
-      "unseen": 58,
+      "of": 60,
+      "unseen": 60,
       "place": {
         "n": 5,
         "of": 14
@@ -132,7 +132,7 @@
         "minutes": 5,
         "kind": "mix",
         "leaveOut": [],
-        "resume": "lr_4c9a70e34a1a7b054d3439f3"
+        "resume": "lr_f39e3a7ba685473567fef4fc"
       }
     },
     "or": [
@@ -297,7 +297,7 @@
                 "n": 4,
                 "of": 14
               },
-              "cards": 46,
+              "cards": 48,
               "mustKnow": 12,
               "due": 0,
               "mistakes": 0,
@@ -310,9 +310,9 @@
               "meta": null,
               "marksOpen": null,
               "progress": {
-                "of": 46,
+                "of": 48,
                 "seen": 0,
-                "unseen": 46,
+                "unseen": 48,
                 "questions": 0,
                 "tried": 0
               },
@@ -328,7 +328,7 @@
                 "n": 5,
                 "of": 14
               },
-              "cards": 58,
+              "cards": 60,
               "mustKnow": 15,
               "due": 0,
               "mistakes": 2,
@@ -346,9 +346,9 @@
               "meta": "6 of 16 done today, 2 open mistakes",
               "marksOpen": null,
               "progress": {
-                "of": 58,
+                "of": 60,
                 "seen": 0,
-                "unseen": 58,
+                "unseen": 60,
                 "questions": 10,
                 "tried": 2
               },
@@ -459,7 +459,7 @@
                 "n": 8,
                 "of": 14
               },
-              "cards": 106,
+              "cards": 107,
               "mustKnow": 27,
               "due": 0,
               "mistakes": 0,
@@ -477,9 +477,9 @@
               "meta": "1 lesson",
               "marksOpen": null,
               "progress": {
-                "of": 106,
+                "of": 107,
                 "seen": 0,
-                "unseen": 106,
+                "unseen": 107,
                 "questions": 0,
                 "tried": 0
               },
@@ -563,8 +563,8 @@
                 "n": 11,
                 "of": 14
               },
-              "cards": 32,
-              "mustKnow": 8,
+              "cards": 35,
+              "mustKnow": 9,
               "due": 0,
               "mistakes": 0,
               "questions": 0,
@@ -576,9 +576,9 @@
               "meta": null,
               "marksOpen": null,
               "progress": {
-                "of": 32,
+                "of": 35,
                 "seen": 0,
-                "unseen": 32,
+                "unseen": 35,
                 "questions": 0,
                 "tried": 0
               },
@@ -745,7 +745,7 @@
       "chapters": 3
     },
     "must": {
-      "count": 235,
+      "count": 236,
       "chapters": 14
     }
   }

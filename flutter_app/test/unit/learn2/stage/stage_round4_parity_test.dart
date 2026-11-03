@@ -172,6 +172,13 @@ void main() {
       }
     });
 
+    test('"done" is the place of the last item the server holds an event for', () {
+      for (final c in rows(end, 'reached')) {
+        final held = (c['held'] as List).cast<bool>();
+        expect(StageEndModel.reachedPlace<bool>(held, (h, _) => h, c['base'] as int), c['out'], reason: 'reachedPlace $c');
+      }
+    });
+
     test('Free\'s Or rows, in order, at most two', () {
       for (final c in rows(end, 'freeRows')) {
         final got = StageEndModel.freeUsedRows(c['data'] as Map<String, dynamic>?);

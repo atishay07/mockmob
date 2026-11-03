@@ -56,10 +56,10 @@
   },
   "shrink": null,
   "free": {
-    "text": "Free opens 5 of this chapter's 58 cards."
+    "text": "Free opens 5 of this chapter's 60 cards."
   },
   "resume": {
-    "runId": "lr_2d0d476a552ae34e0082a36e",
+    "runId": "lr_aca268df16aa4965748a2afa",
     "done": 6,
     "of": 11,
     "minutesLeft": 5,
@@ -97,7 +97,7 @@
   "added": null,
   "shelf": {
     "cards": {
-      "count": 58,
+      "count": 60,
       "open": 5,
       "mustKnow": 15,
       "inRevise": 0

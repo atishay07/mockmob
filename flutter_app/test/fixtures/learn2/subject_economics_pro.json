@@ -24,7 +24,7 @@
   "subject": {
     "id": "economics",
     "name": "Economics",
-    "cards": 1195,
+    "cards": 1200,
     "chapters": 17,
     "lessons": 4,
     "note": null
@@ -238,7 +238,7 @@
                 "n": 3,
                 "of": 17
               },
-              "cards": 66,
+              "cards": 67,
               "mustKnow": 17,
               "due": 0,
               "mistakes": 0,
@@ -251,9 +251,9 @@
               "meta": null,
               "marksOpen": null,
               "progress": {
-                "of": 66,
+                "of": 67,
                 "seen": 0,
-                "unseen": 66,
+                "unseen": 67,
                 "questions": 0,
                 "tried": 0
               },
@@ -403,7 +403,7 @@
                 "n": 7,
                 "of": 17
               },
-              "cards": 78,
+              "cards": 79,
               "mustKnow": 20,
               "due": 0,
               "mistakes": 0,
@@ -416,9 +416,9 @@
               "meta": null,
               "marksOpen": null,
               "progress": {
-                "of": 78,
+                "of": 79,
                 "seen": 0,
-                "unseen": 78,
+                "unseen": 79,
                 "questions": 0,
                 "tried": 0
               },
@@ -482,8 +482,8 @@
                 "n": 9,
                 "of": 17
               },
-              "cards": 76,
-              "mustKnow": 19,
+              "cards": 78,
+              "mustKnow": 20,
               "due": 0,
               "mistakes": 0,
               "questions": 0,
@@ -495,9 +495,9 @@
               "meta": null,
               "marksOpen": null,
               "progress": {
-                "of": 76,
+                "of": 78,
                 "seen": 0,
-                "unseen": 76,
+                "unseen": 78,
                 "questions": 0,
                 "tried": 0
               },
@@ -526,7 +526,7 @@
                 "n": 10,
                 "of": 17
               },
-              "cards": 50,
+              "cards": 51,
               "mustKnow": 13,
               "due": 0,
               "mistakes": 0,
@@ -539,9 +539,9 @@
               "meta": null,
               "marksOpen": null,
               "progress": {
-                "of": 50,
+                "of": 51,
                 "seen": 0,
-                "unseen": 50,
+                "unseen": 51,
                 "questions": 0,
                 "tried": 0
               },

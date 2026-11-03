@@ -37,6 +37,22 @@ void main() {
     expect(LearnWords.quickRecap, w['quickRecap']);
     expect(LearnWords.seePro, w['seePro']);
     expect(LearnWords.singles, w['singles']);
+    expect(LearnWords.revise, w['revise']);
+    expect(LearnWords.missedIt, w['missedIt']);
+    expect(LearnWords.coachRatings, w['coachRatings']);
+  });
+
+  test("when a rated card comes back is said in the web's words (round 5, LK38)", () {
+    for (final r in rows('returnWords')) {
+      expect(LearnWords.returnWords(_n(r['days'])), r['out'], reason: 'returnWords of ${r['days']}');
+    }
+    for (final r in rows('backs')) {
+      final w = r['words'] as String;
+      expect(LearnWords.backStamp(w), r['stamp']);
+      expect(LearnWords.backLine(w), r['line']);
+      expect(LearnWords.missedWords(w, true), r['missedInRun']);
+      expect(LearnWords.missedWords(w, false), r['missed']);
+    }
   });
 
   test('Free after the day\'s session says what the web says', () {

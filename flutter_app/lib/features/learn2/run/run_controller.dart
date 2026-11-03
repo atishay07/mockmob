@@ -16,8 +16,9 @@
 ///   end       read from `GET /end` (`?stop=1` after "Stop here": the run stays open to pick up today; never invented numbers),
 ///             read again on Try again
 ///   coaching  four first-run lines, once per student (not per run; R4 owner-eye#15): "Tap the card to turn it over" on the
-///             first card of the first run, "Got it: it comes back when it’s due." on its first two cards, "Answers are showing.
-///             Nothing is scheduled." on a recap, and "Pick the answer you think is right." above the options of the first
+///             first card of the first run, "Missed it brings a card back soonest. Easy sends it furthest away." under the keys of
+///             the first card the student can rate (round 5, LK38; it replaces "Got it: it comes back when it’s due."),
+///             "Answers are showing. Nothing is scheduled." on a recap, and "Pick the answer you think is right." above the options of the first
 ///             question a student ever sees (not a run that serves an open mistake). A line is kept as seen the first time it
 ///             shows
 ///
@@ -35,6 +36,7 @@ import '../data/learn_api.dart';
 import '../data/learn_models.dart';
 import '../data/learn_prefs.dart';
 import '../learn2_links.dart';
+import '../stage/stage_end_model.dart';
 import 'run_copy.dart';
 import 'run_math.dart';
 import 'run_view.dart';
@@ -230,9 +232,9 @@ class RunController extends ChangeNotifier {
   Timer? _noteTimer;
   Timer? _landTimer;
 
-  /// The coach lines' names; each is kept in Learn's prefs as `run.coach.v2:<student>:<name>`. `rate2` is the first card's,
-  /// `rate2b` the second's.
-  static const List<String> _coachIds = ['front2', 'rate2', 'rate2b', 'pick', 'recap'];
+  /// The coach lines' names; each is kept in Learn's prefs as `run.coach.v2:<student>:<name>`. `ratings3` (round 5, LK38) is the
+  /// one line under the rating keys, on the first card the student can rate; it replaces R2's `rate2` and `rate2b`.
+  static const List<String> _coachIds = ['front2', 'ratings3', 'pick', 'recap'];
 
   String _coachKey(String name) => 'run.coach.v2:${studentId ?? 'anon'}:$name';
 
@@ -253,6 +255,10 @@ class RunController extends ChangeNotifier {
 
   /// The chapter's title ('' until it is known).
   String get title => run?.chapter.title == run?.chapter.key ? '' : (run?.chapter.title ?? '');
+
+  /// A run over several chapters (Revise's due cards, a Find set): headed "Revise", no chapter and no place, and Close goes to Learn
+  /// home (round 5, LK45 fix 4). Also true of an end that says so.
+  bool get spans => (run?.chapter.spans ?? false) || (endData?.chapter?.spans ?? false);
 
   /// The chapter: the link's, else the run's.
   String? get chapterKey {
@@ -285,8 +291,17 @@ class RunController extends ChangeNotifier {
     return RunView.itemsFinished(playing: phase == RunPhase.play, at: at, length: _items.length, item: it, answered: it != null && isAnswered(it), acted: leaving);
   }
 
-  /// Items done, for the stop rule (before any, Close leaves; after one, it asks).
-  int get doneCount => offset + finished;
+  /// Items done, for the stop rule (before any, Close leaves; after one, it asks) and the stop sheet's "N of M done". Round 5, LK45
+  /// fix 2: the server's rule, the place of the last item it holds an event for (a card rated or looked at, an answered question,
+  /// a lesson read or skipped; a question skipped holds none), so the sheet reads the number the end will.
+  int get doneCount {
+    if (phase != RunPhase.play) return offset + finished;
+    return StageEndModel.reachedPlace<LearnItem>(
+      _items,
+      (it, i) => RunView.itemHeld(item: it, index: i, at: at, answered: stateOf(it.id).answer?.res != null, acted: leaving),
+      offset,
+    );
+  }
 
   RunAnswerTally get answers => RunView.answerTally(_items, _graded);
 
@@ -309,15 +324,13 @@ class RunController extends ChangeNotifier {
     final firstQuestion = _items.indexWhere((x) => x is LearnQuestionItem);
     final it = item;
     final onFirstCard = phase == RunPhase.play && !isRecap && offset == 0 && at == firstCard && it is LearnCardItem;
-    // "Got it: it comes back when it’s due." on the first two cards of the first run, then never.
-    final cardPlace = _items.take(at + 1).where((x) => x is LearnCardItem && !x.look).length;
-    final onEarlyCard = phase == RunPhase.play && !isRecap && offset == 0 && it is LearnCardItem && !it.look && cardPlace <= 2;
+    // Round 5, LK38: once per student, under the keys, on the first card they can rate (one that carries the server's words).
+    final onRateable = phase == RunPhase.play && !isRecap && it is LearnCardItem && !it.look && it.returns != null;
     // The question hint is for the first question a student ever sees: a run that serves an open mistake is not a first.
     final hasHistory = _items.any((x) => x is LearnQuestionItem && x.isMistake);
     return switch (name) {
       'front2' => onFirstCard && !isTurned(it),
-      'rate2' => onEarlyCard && cardPlace != 2 && isTurned(it),
-      'rate2b' => onEarlyCard && cardPlace == 2 && isTurned(it),
+      'ratings3' => onRateable && isTurned(it),
       'pick' => phase == RunPhase.play && !hasHistory && at == firstQuestion && it is LearnQuestionItem && !isAnswered(it),
       'recap' => phase == RunPhase.play && isRecap,
       _ => false,
@@ -334,7 +347,7 @@ class RunController extends ChangeNotifier {
     final s = stamp;
     if (s != null) return RunStatusLine(s.text, stamp: true, n: s.n);
     if (it is LearnCardItem && !isTurned(it) && _coachShow('front2')) return const RunStatusLine(RunCopy.coachFront, cue: true);
-    if (it is LearnCardItem && isTurned(it) && !isLook(it) && (_coachShow('rate2') || _coachShow('rate2b'))) return const RunStatusLine(RunCopy.coachRate);
+    if (it is LearnCardItem && isTurned(it) && !isLook(it) && _coachShow('ratings3')) return const RunStatusLine(RunCopy.coachRate);
     if (_coachShow('recap')) return const RunStatusLine(RunCopy.coachRecap);
     if (it is LearnCardItem && isLook(it) && isTurned(it) && lookLine != null && it.look) return RunStatusLine(lookLine!);
     return null;

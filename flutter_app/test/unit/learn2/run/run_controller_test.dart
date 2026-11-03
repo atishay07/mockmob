@@ -214,7 +214,7 @@ void main() {
       expect(api.ratings.single.rating, 3);
       expect(api.ratings.single.itemId, first.id);
       expect(c.tally.got, 1);
-      expect(c.stamp?.text, LearnFixtures.json('rate_got_it_pro')['stamp'], reason: 'the server\'s real day, as recorded');
+      expect(c.stamp?.text, 'Back ${first.returns!.got}', reason: 'the stamp says what the key promised: "Back " and the words the card carried');
       expect(c.statusLine?.stamp, isTrue);
       expect(events.rated.single.kind, 'got');
       expect(events.rated.single.flies, isTrue);
@@ -226,21 +226,22 @@ void main() {
       expect(c.changed, isTrue);
     });
 
-    test('Easy flies too and says its day; Missed drops away, says "Back later in this run" and the card comes back 3 on', () async {
+    test('Easy flies too and says its day; Missed drops away, says "Back in this run, then tomorrow" and the card comes back 3 on', () async {
       final api = FixtureLearnApi();
       final events = RunEvents();
       final c = await started(api, events: events);
+      final first = c.item! as LearnCardItem;
       await c.rate(4);
-      expect(c.stamp?.text, LearnFixtures.json('rate_easy_pro')['stamp']);
+      expect(c.stamp?.text, 'Back ${first.returns!.easy}');
       expect(events.rated.last.kind, 'easy');
       expect(c.tally.easy, 1);
       expect(c.pile, 1);
       await c.rate(1);
-      expect(c.stamp?.text, 'Back later in this run');
+      expect(c.stamp?.text, 'Back in this run, then tomorrow');
       expect(events.rated.last.kind, 'missed');
       expect(events.rated.last.flies, isFalse);
       expect(c.tally.missed, 1);
-      expect(c.pile, 1, reason: 'a missed card does not go to Revise');
+      expect(c.pile, 2, reason: 'Missed it is in Revise too: every rated card is scheduled (round 5)');
       expect(c.items.length, mixLength + 1);
       expect(c.total, mixLength + 1);
       final back = c.items[4];
@@ -690,6 +691,71 @@ void main() {
     });
   });
 
+  group('round 5: the stop sheet counts as the end does, and a run over several chapters is Revise', () {
+    test('doneCount is the place of the last item the server holds an event for: a card only turned over and a skipped question hold none', () async {
+      final c = await started(FixtureLearnApi());
+      expect(c.doneCount, 0);
+      expect(c.asksToStop, isFalse);
+      c.turn(c.item! as LearnCardItem);
+      expect(c.doneCount, 0, reason: 'turned over, nothing written');
+      expect(c.asksToStop, isFalse);
+      final rating = c.rate(3);
+      expect(c.doneCount, 0, reason: 'the rating is on its way: the server has nothing yet');
+      await settle();
+      expect(c.leaving, isTrue);
+      expect(c.doneCount, 1, reason: 'its rating is in the hands of the server while the card flies away');
+      expect(c.asksToStop, isTrue);
+      await rating;
+      expect(c.doneCount, 1);
+      final question = c.items.indexWhere((i) => i is LearnQuestionItem && !i.isMistake);
+      goTo(c, question);
+      expect(c.doneCount, question, reason: 'every card before it was rated');
+      c.skip();
+      expect(c.at, question + 1);
+      expect(c.doneCount, question, reason: 'a skipped question writes nothing: the sheet reads what the end will, not the place on screen');
+      expect(c.total, c.items.length);
+    });
+
+    test('an answered question is held', () async {
+      final c = await started(FixtureLearnApi());
+      final question = c.items.indexWhere((i) => i is LearnQuestionItem && !i.isMistake);
+      goTo(c, question);
+      await c.pick(rightKey(c.item! as LearnQuestionItem));
+      expect(c.doneCount, question + 1);
+    });
+
+    test('a run over several chapters arrives as Revise with no place: spans, its head is Revise, and its own end says so too', () async {
+      final c = await started(ScriptedRunApi(scriptedRun([scriptedCard(1), scriptedCard(2)], spans: true)));
+      expect(c.spans, isTrue);
+      expect(c.title, 'Revise');
+      expect(c.run?.chapter.place, isNull);
+      final one = await started(ScriptedRunApi(scriptedRun([scriptedCard(1), scriptedCard(2)])));
+      expect(one.spans, isFalse);
+      expect(one.title, 'Accounting for Partnership: Basic Concepts');
+      final recorded = await started(FixtureLearnApi(startFixtures: {'cards': 'run_start_cards_span_pro'}), launch: const RunLaunch(chapterKey: l2Pf, kind: 'cards'));
+      expect(recorded.spans, isTrue, reason: 'as the live web served it');
+      expect(recorded.title, 'Revise');
+    });
+  });
+
+  group('round 5: one coach line under the keys, on the first card the student can rate', () {
+    test('it shows for a card with words from the server, not for a look, a recap or a card back from earlier', () async {
+      final store = MemoryPrefsStore();
+      final withWords = {'missed': 'in this run, then tomorrow', 'got': 'in 3 days', 'easy': 'in 8 days'};
+      final run = scriptedRun([scriptedCard(1, look: true), scriptedCard(2, stage: 'again', returns: null), scriptedCard(3, returns: withWords)]);
+      final c = await started(ScriptedRunApi(run), prefs: LearnPrefs(store), studentId: 'ana');
+      c.turn(c.item! as LearnCardItem);
+      expect(c.statusLine?.text, isNot(RunCopy.coachRate), reason: 'a look has no ratings to explain');
+      c.advance();
+      c.turn(c.item! as LearnCardItem);
+      expect(c.statusLine?.text, isNot(RunCopy.coachRate), reason: 'a card with no words has none to explain');
+      c.advance();
+      c.turn(c.item! as LearnCardItem);
+      expect(c.statusLine?.text, RunCopy.coachRate);
+      expect(RunCopy.coachRate, 'Missed it brings a card back soonest. Easy sends it furthest away.');
+    });
+  });
+
   group('the first-run coach lines show once, each, and are kept', () {
     test('the front\'s, the rating\'s and the first question\'s lines, then never again for that student', () async {
       final store = MemoryPrefsStore();
@@ -702,7 +768,7 @@ void main() {
       expect(c.statusLine?.text, RunCopy.coachRate);
       await settle();
       expect(await prefs.coachSeen('run.coach.v2:ana:front2'), isTrue);
-      expect(await prefs.coachSeen('run.coach.v2:ana:rate2'), isTrue);
+      expect(await prefs.coachSeen('run.coach.v2:ana:ratings3'), isTrue, reason: 'one line under the keys, once per student (round 5, LK38)');
       final again = await started(FixtureLearnApi(), prefs: LearnPrefs(store), studentId: 'ana');
       expect(again.statusLine, isNull, reason: 'seen already');
       again.turn(again.item! as LearnCardItem);

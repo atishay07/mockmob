@@ -16,8 +16,9 @@ void main() {
     });
 
     test('Explore: the covers, unless the link filters questions (then the ActionRouter opens the stream)', () {
-      expect(Learn2Links.resolve('/explore'), '/explore');
-      expect(Learn2Links.resolve('/explore?subject=accountancy'), '/explore?subject=accountancy');
+      // Explore is Practice's fourth door (LK51).
+      expect(Learn2Links.resolve('/explore'), '/practice?door=explore');
+      expect(Learn2Links.resolve('/explore?subject=accountancy'), '/practice?subject=accountancy&door=explore');
       expect(Learn2Links.resolve('/explore?subject=accountancy&chapter=Goodwill'), isNull);
       expect(Learn2Links.resolve('/explore?difficulty=hard'), isNull);
     });

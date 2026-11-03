@@ -1,5 +1,5 @@
 {
-  "id": "lr_a93bbe63268cd2ca045bf8d4",
+  "id": "lr_882199e73ca562cae0462cbc",
   "kind": "mix",
   "chapter": {
     "key": "accountancy.partnership-fundamentals",
@@ -16,7 +16,7 @@
   "asked": 10,
   "items": [
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i1",
+      "id": "lr_882199e73ca562cae0462cbc-i1",
       "type": "card",
       "stage": "due",
       "card": {
@@ -50,10 +50,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 12
+      "seconds": 12,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 weeks",
+        "easy": "in 5 weeks"
+      }
     },
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i2",
+      "id": "lr_882199e73ca562cae0462cbc-i2",
       "type": "card",
       "stage": "new",
       "card": {
@@ -89,10 +94,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i3",
+      "id": "lr_882199e73ca562cae0462cbc-i3",
       "type": "card",
       "stage": "new",
       "card": {
@@ -127,10 +137,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i4",
+      "id": "lr_882199e73ca562cae0462cbc-i4",
       "type": "card",
       "stage": "new",
       "card": {
@@ -164,10 +179,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 26
+      "seconds": 26,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i5",
+      "id": "lr_882199e73ca562cae0462cbc-i5",
       "type": "question",
       "origin": "mistake",
       "question": {
@@ -176,19 +196,19 @@
         "options": [
           {
             "key": "A",
-            "text": "Debit side of Capital A/c"
-          },
-          {
-            "key": "B",
             "text": "Credit side of Capital A/c"
           },
           {
+            "key": "B",
+            "text": "Credit side of Current A/c"
+          },
+          {
             "key": "C",
-            "text": "Debit side of Current A/c"
+            "text": "Debit side of Capital A/c"
           },
           {
             "key": "D",
-            "text": "Credit side of Current A/c"
+            "text": "Debit side of Current A/c"
           }
         ]
       },
@@ -200,7 +220,7 @@
       "seconds": 60
     },
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i6",
+      "id": "lr_882199e73ca562cae0462cbc-i6",
       "type": "card",
       "stage": "new",
       "card": {
@@ -233,10 +253,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i7",
+      "id": "lr_882199e73ca562cae0462cbc-i7",
       "type": "card",
       "stage": "new",
       "card": {
@@ -270,10 +295,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i8",
+      "id": "lr_882199e73ca562cae0462cbc-i8",
       "type": "card",
       "stage": "new",
       "card": {
@@ -308,10 +338,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i9",
+      "id": "lr_882199e73ca562cae0462cbc-i9",
       "type": "question",
       "origin": "mistake",
       "question": {
@@ -320,19 +355,19 @@
         "options": [
           {
             "key": "A",
-            "text": "Both Assertion and Reason are true, and Reason is the correct explanation of Assertion."
-          },
-          {
-            "key": "B",
-            "text": "Both Assertion and Reason are true, but Reason is NOT the correct explanation of Assertion."
-          },
-          {
-            "key": "C",
             "text": "Assertion is true, but Reason is false."
           },
           {
-            "key": "D",
+            "key": "B",
+            "text": "Both Assertion and Reason are true, and Reason is the correct explanation of Assertion."
+          },
+          {
+            "key": "C",
             "text": "Assertion is false, but Reason is true."
+          },
+          {
+            "key": "D",
+            "text": "Both Assertion and Reason are true, but Reason is NOT the correct explanation of Assertion."
           }
         ]
       },
@@ -344,7 +379,7 @@
       "seconds": 60
     },
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i10",
+      "id": "lr_882199e73ca562cae0462cbc-i10",
       "type": "card",
       "stage": "new",
       "card": {
@@ -378,10 +413,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i11",
+      "id": "lr_882199e73ca562cae0462cbc-i11",
       "type": "card",
       "stage": "due",
       "card": {
@@ -416,10 +456,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 12
+      "seconds": 12,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 weeks",
+        "easy": "in 5 weeks"
+      }
     },
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i12",
+      "id": "lr_882199e73ca562cae0462cbc-i12",
       "type": "card",
       "stage": "new",
       "card": {
@@ -453,10 +498,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i13",
+      "id": "lr_882199e73ca562cae0462cbc-i13",
       "type": "card",
       "stage": "new",
       "card": {
@@ -493,10 +543,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i14",
+      "id": "lr_882199e73ca562cae0462cbc-i14",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -513,11 +568,11 @@
           },
           {
             "key": "C",
-            "text": "(B), (C), (A), (D)"
+            "text": "(B), (A), (D), (C)"
           },
           {
             "key": "D",
-            "text": "(B), (A), (D), (C)"
+            "text": "(B), (C), (A), (D)"
           }
         ]
       },
@@ -525,7 +580,7 @@
       "seconds": 85
     },
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i15",
+      "id": "lr_882199e73ca562cae0462cbc-i15",
       "type": "card",
       "stage": "due",
       "card": {
@@ -558,10 +613,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 12
+      "seconds": 12,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 6 days"
+      }
     },
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i16",
+      "id": "lr_882199e73ca562cae0462cbc-i16",
       "type": "card",
       "stage": "new",
       "card": {
@@ -595,10 +655,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 18
+      "seconds": 18,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i17",
+      "id": "lr_882199e73ca562cae0462cbc-i17",
       "type": "card",
       "stage": "new",
       "card": {
@@ -633,10 +698,15 @@
       },
       "look": false,
       "recap": false,
-      "seconds": 26
+      "seconds": 26,
+      "returns": {
+        "missed": "in this run, then tomorrow",
+        "got": "in 3 days",
+        "easy": "in 8 days"
+      }
     },
     {
-      "id": "lr_a93bbe63268cd2ca045bf8d4-i18",
+      "id": "lr_882199e73ca562cae0462cbc-i18",
       "type": "question",
       "origin": "linked",
       "question": {

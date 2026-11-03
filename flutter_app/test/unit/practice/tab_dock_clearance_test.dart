@@ -104,7 +104,7 @@ void main() {
   // right under the suggestion. Since D126 (Practice C) the owner's H6 puts the ways to practise on top instead, and Your
   // papers is a door under the title.
   // D126 (19 Oct PM, Practice C, the owner's H6): the ways to practise come first. At first view on a 360 by 800 phone
-  // with a status bar and gesture inset, the three doors (Your papers with its count) and the quick pair, titles and
+  // with a status bar and gesture inset, the three doors (Papers with its count) and the quick pair, titles and
   // notes, rest whole above the bar; the suggestion and Ask Mobi's card follow the modes.
   testWidgets('at first view the doors and the quick pair are above the bar; the suggestion and Ask Mobi follow the modes', (tester) async {
     const phone = Size(360, 800);
@@ -114,7 +114,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 150));
     }
     final barTop = phone.height - _gesture - MmBar.lift - MmBar.height;
-    expect(tester.getRect(find.text('Your papers')).bottom, lessThanOrEqualTo(barTop), reason: 'the Your papers door is whole above the bar');
+    expect(tester.getRect(find.text('Papers')).bottom, lessThanOrEqualTo(barTop), reason: 'the Papers door is whole above the bar');
     for (final (id, title) in const [('quick', 'Quick practice'), ('chapter', 'By chapter')]) {
       expect(tester.getRect(find.text(title)).bottom, lessThanOrEqualTo(barTop - MmSpace.s24), reason: '$title rests above the bar at first view');
       expect(tester.getRect(find.byKey(ValueKey('choice-$id'))).top, lessThanOrEqualTo(barTop - 120), reason: 'the $id card starts well above the bar');

@@ -1,5 +1,5 @@
 {
-  "id": "lr_8c0135a9ffeca589c2e00c3a",
+  "id": "lr_e5616a229c981afa4ed9c1a9",
   "kind": "feed",
   "chapter": {
     "key": "accountancy.partnership-fundamentals",
@@ -16,7 +16,7 @@
   "asked": 10,
   "items": [
     {
-      "id": "lr_8c0135a9ffeca589c2e00c3a-i1",
+      "id": "lr_e5616a229c981afa4ed9c1a9-i1",
       "type": "card",
       "stage": "new",
       "card": {
@@ -52,7 +52,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_8c0135a9ffeca589c2e00c3a-i2",
+      "id": "lr_e5616a229c981afa4ed9c1a9-i2",
       "type": "card",
       "stage": "new",
       "card": {
@@ -89,7 +89,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_8c0135a9ffeca589c2e00c3a-i3",
+      "id": "lr_e5616a229c981afa4ed9c1a9-i3",
       "type": "card",
       "stage": "new",
       "card": {
@@ -126,7 +126,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_8c0135a9ffeca589c2e00c3a-i4",
+      "id": "lr_e5616a229c981afa4ed9c1a9-i4",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -155,7 +155,7 @@
       "seconds": 85
     },
     {
-      "id": "lr_8c0135a9ffeca589c2e00c3a-i5",
+      "id": "lr_e5616a229c981afa4ed9c1a9-i5",
       "type": "card",
       "stage": "new",
       "card": {
@@ -192,7 +192,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_8c0135a9ffeca589c2e00c3a-i6",
+      "id": "lr_e5616a229c981afa4ed9c1a9-i6",
       "type": "card",
       "stage": "new",
       "card": {
@@ -230,7 +230,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_8c0135a9ffeca589c2e00c3a-i7",
+      "id": "lr_e5616a229c981afa4ed9c1a9-i7",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -239,19 +239,19 @@
         "options": [
           {
             "key": "A",
-            "text": "The provisions of the Indian Partnership Act, 1932"
-          },
-          {
-            "key": "B",
-            "text": "The terms of a specific agreement between the partners"
-          },
-          {
-            "key": "C",
             "text": "The rules for calculating interest on drawings"
           },
           {
-            "key": "D",
+            "key": "B",
+            "text": "The provisions of the Indian Partnership Act, 1932"
+          },
+          {
+            "key": "C",
             "text": "The adjustments made when a partner is admitted or dies"
+          },
+          {
+            "key": "D",
+            "text": "The terms of a specific agreement between the partners"
           }
         ]
       },
@@ -259,7 +259,7 @@
       "seconds": 50
     },
     {
-      "id": "lr_8c0135a9ffeca589c2e00c3a-i8",
+      "id": "lr_e5616a229c981afa4ed9c1a9-i8",
       "type": "card",
       "stage": "new",
       "card": {
@@ -296,7 +296,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_8c0135a9ffeca589c2e00c3a-i9",
+      "id": "lr_e5616a229c981afa4ed9c1a9-i9",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -305,15 +305,15 @@
         "options": [
           {
             "key": "A",
-            "text": "6% p.a. simple interest"
+            "text": "6% per month"
           },
           {
             "key": "B",
-            "text": "12% p.a. simple interest"
+            "text": "6% p.a. simple interest"
           },
           {
             "key": "C",
-            "text": "6% per month"
+            "text": "12% p.a. simple interest"
           },
           {
             "key": "D",
@@ -325,7 +325,7 @@
       "seconds": 65
     },
     {
-      "id": "lr_8c0135a9ffeca589c2e00c3a-i10",
+      "id": "lr_e5616a229c981afa4ed9c1a9-i10",
       "type": "card",
       "stage": "new",
       "card": {
@@ -362,7 +362,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_8c0135a9ffeca589c2e00c3a-i11",
+      "id": "lr_e5616a229c981afa4ed9c1a9-i11",
       "type": "card",
       "stage": "new",
       "card": {
@@ -399,7 +399,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_8c0135a9ffeca589c2e00c3a-i12",
+      "id": "lr_e5616a229c981afa4ed9c1a9-i12",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -408,19 +408,19 @@
         "options": [
           {
             "key": "A",
-            "text": "It is increased by the share of profit allocated to R."
-          },
-          {
-            "key": "B",
-            "text": "It remains unchanged during the year."
-          },
-          {
-            "key": "C",
             "text": "It is reduced by the ordinary drawings made by R."
           },
           {
-            "key": "D",
+            "key": "B",
             "text": "It is adjusted for both the share of profit and the ordinary drawings."
+          },
+          {
+            "key": "C",
+            "text": "It is increased by the share of profit allocated to R."
+          },
+          {
+            "key": "D",
+            "text": "It remains unchanged during the year."
           }
         ]
       },
@@ -428,7 +428,7 @@
       "seconds": 50
     },
     {
-      "id": "lr_8c0135a9ffeca589c2e00c3a-i13",
+      "id": "lr_e5616a229c981afa4ed9c1a9-i13",
       "type": "card",
       "stage": "new",
       "card": {
@@ -466,7 +466,7 @@
       "seconds": 18
     },
     {
-      "id": "lr_8c0135a9ffeca589c2e00c3a-i14",
+      "id": "lr_e5616a229c981afa4ed9c1a9-i14",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -483,11 +483,11 @@
           },
           {
             "key": "C",
-            "text": "(B), (C), (A), (D)"
+            "text": "(B), (A), (D), (C)"
           },
           {
             "key": "D",
-            "text": "(B), (A), (D), (C)"
+            "text": "(B), (C), (A), (D)"
           }
         ]
       },
@@ -495,7 +495,7 @@
       "seconds": 85
     },
     {
-      "id": "lr_8c0135a9ffeca589c2e00c3a-i15",
+      "id": "lr_e5616a229c981afa4ed9c1a9-i15",
       "type": "card",
       "stage": "new",
       "card": {
@@ -532,7 +532,7 @@
       "seconds": 26
     },
     {
-      "id": "lr_8c0135a9ffeca589c2e00c3a-i16",
+      "id": "lr_e5616a229c981afa4ed9c1a9-i16",
       "type": "question",
       "origin": "linked",
       "question": {
@@ -545,15 +545,15 @@
           },
           {
             "key": "B",
-            "text": "Their oral agreement is itself a Partnership Deed."
-          },
-          {
-            "key": "C",
             "text": "Their oral agreement can establish the partnership; a written document is not compulsory."
           },
           {
-            "key": "D",
+            "key": "C",
             "text": "Their partnership can come into existence without an agreement if they prepare a written deed later."
+          },
+          {
+            "key": "D",
+            "text": "Their oral agreement is itself a Partnership Deed."
           }
         ]
       },

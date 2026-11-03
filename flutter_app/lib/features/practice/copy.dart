@@ -16,10 +16,12 @@ abstract final class PracticeCopy {
   /// The modes' heading, right under the subjects (H6: the ways to practise come first).
   static const String waysHeading = 'Ways to practise';
 
-  // Practice's three doors (19 Oct PM, D126, Practice C): the switch under the title.
+  // Practice's four doors (19 Oct PM, D126, Practice C; Explore since 3 Nov, LK51): the switch under the title, in the
+  // words and order of the website: Practise, Papers, Learn, Explore.
   static const String doorPractise = 'Practise';
-  static const String doorPapers = 'Your papers';
+  static const String doorPapers = 'Papers';
   static const String doorLearn = 'Learn';
+  static const String doorExplore = 'Explore';
   static const String doorsLabel = 'Practice sections';
 
   /// What a screen reader says for the Your papers door, with the open mistakes its badge counts.

@@ -200,6 +200,11 @@ class _LearnHomeState extends ConsumerState<LearnHome> {
   void _reread() => ref.invalidate(learnSubjectProvider(ref.read(learnSubjectIdProvider)));
 
   Future<void> _go(String location) async {
+    // A door of Practice (Explore) opens in place: this page is already one.
+    if (Learn2Links.opensInPlace(location)) {
+      context.go(location);
+      return;
+    }
     await context.push<void>(location);
     // A run moves every count on this page (due, missed, in Revise, a chapter's state): read them all again.
     if (mounted) invalidateLearnReads(ref.invalidate);

@@ -1,7 +1,8 @@
-// Explore: the chapter feed covers (the web's DiscoveryFeed.jsx with ExploreCovers.jsx, Option A, phone band). A root page
-// over the shell (no dock): the back header, the student's subjects as chips, "Chapter feeds" with the feed length (5, 10 or
-// 20 minutes, kept on this phone), a row of one cover per chapter with a pager under it, then "Questions" and the way to the
-// untimed questions. Every state is drawn: loading (covers at their real size), Free at 20 minutes, Free with the day used
+// Explore: the chapter feed covers (the web's DiscoveryFeed.jsx with ExploreCovers.jsx, Option A, phone band). Practice's fourth door
+// (LK51, 3 Nov; `embedded`: inside the Practice page, under its switch, so no second back header and no page of its own to scroll)
+// or, standing alone, a root page over the shell with its back header. Its content is the student's subjects as chips,
+// "Chapter feeds" with the feed length (5, 10 or 20 minutes, kept on this phone), a row of one cover per chapter with a pager
+// under it, then "Questions" and the way to the untimed questions. Every state is drawn: loading (covers at their real size), Free at 20 minutes, Free with the day used
 // (keys open the chapter's questions), a feed to pick up, error with Try again, and no chapters.
 //
 // A tap on a cover opens its feed (`Learn2Links.feed`) and tells it where it came from (`source: explore_cover`, whether it
@@ -33,12 +34,14 @@ import 'cover_model.dart';
 import 'covers_row.dart';
 import 'explore_copy.dart';
 
-/// `/explore[?subject=]`: the chapter feed covers. [subject] is a public subject id a link named; the page then shows it
-/// (and makes it the subject Practice and Learn share).
+/// `/practice?door=explore[&subject=]` (and `/explore`, which opens it): the chapter feed covers. [subject] is a public subject id a
+/// link named; the page then shows it (and makes it the subject Practice and Learn share). [embedded]: the door's content inside
+/// Practice's own page, with no header, no scaffold and no scroll of its own.
 class ExploreScreen extends ConsumerStatefulWidget {
-  const ExploreScreen({super.key, this.subject});
+  const ExploreScreen({super.key, this.subject, this.embedded = false});
 
   final String? subject;
+  final bool embedded;
 
   @override
   ConsumerState<ExploreScreen> createState() => _ExploreScreenState();
@@ -154,6 +157,51 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
       ),
     };
 
+    final content = <Widget>[
+      if (choices.length > 1) ...[
+        ChipRail(
+          semanticLabel: ExploreCopy.subjectLabel,
+          revealIndex: choices.indexWhere((s) => s.id == practiceId),
+          children: [
+            for (final s in choices) MmChip(label: s.name, selected: s.id == practiceId, showBubble: false, onTap: () => _pickSubject(s.id)),
+          ],
+        ),
+        const SizedBox(height: MmSpace.s16),
+      ],
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+        child: _FeedsHead(count: null, minutes: minutes, onMinutes: _pickLength, lengthRead: _lengthRead),
+      ),
+      if (ready && note != null)
+        Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, 0),
+          child: _Note(text: note, seePro: freeDone && canUpgrade),
+        ),
+      const SizedBox(height: MmSpace.s12),
+      MmOverlapSwitcher(
+        alignment: Alignment.topCenter,
+        fit: StackFit.passthrough,
+        child: KeyedSubtree(key: ValueKey('$subject-${phase.name}'), child: section),
+      ),
+      const SizedBox(height: MmRhythm.section),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+        child: Divider(height: 1, thickness: 1, color: colors.line),
+      ),
+      const SizedBox(height: MmSpace.s16),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+        child: Semantics(header: true, child: Text(ExploreCopy.questionsHeading, style: _heading(context))),
+      ),
+                          const SizedBox(height: MmSpace.s4),
+                          Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: StreamEntry(subject: practiceId)),
+    ];
+
+    // The Practice door: the content in Practice's own list, under its switch (no header, no second scroll).
+    if (widget.embedded) {
+      return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: content);
+    }
+
     return Scaffold(
       backgroundColor: colors.ground,
       body: Stack(
@@ -171,45 +219,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                     Expanded(
                       child: ListView(
                         padding: EdgeInsets.fromLTRB(0, MmSpace.s8, 0, bottom),
-                        children: [
-                          if (choices.length > 1) ...[
-                            ChipRail(
-                              semanticLabel: ExploreCopy.subjectLabel,
-                              revealIndex: choices.indexWhere((s) => s.id == practiceId),
-                              children: [
-                                for (final s in choices) MmChip(label: s.name, selected: s.id == practiceId, showBubble: false, onTap: () => _pickSubject(s.id)),
-                              ],
-                            ),
-                            const SizedBox(height: MmSpace.s16),
-                          ],
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-                            child: _FeedsHead(count: null, minutes: minutes, onMinutes: _pickLength, lengthRead: _lengthRead),
-                          ),
-                          if (ready && note != null)
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, 0),
-                              child: _Note(text: note, seePro: freeDone && canUpgrade),
-                            ),
-                          const SizedBox(height: MmSpace.s12),
-                          MmOverlapSwitcher(
-                            alignment: Alignment.topCenter,
-                            fit: StackFit.passthrough,
-                            child: KeyedSubtree(key: ValueKey('$subject-${phase.name}'), child: section),
-                          ),
-                          const SizedBox(height: MmRhythm.section),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-                            child: Divider(height: 1, thickness: 1, color: colors.line),
-                          ),
-                          const SizedBox(height: MmSpace.s16),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-                            child: Semantics(header: true, child: Text(ExploreCopy.questionsHeading, style: _heading(context))),
-                          ),
-                          const SizedBox(height: MmSpace.s4),
-                          Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: StreamEntry(subject: practiceId)),
-                        ],
+                        children: content,
                       ),
                     ),
                   ],
