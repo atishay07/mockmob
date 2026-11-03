@@ -16,6 +16,7 @@ import { Search, X } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { useLearnLinks } from '../links';
 import { learnHome, useLearnRead } from '../api';
+import { MINUTES_KEY, store as lengthStore, validMinutes } from '../LengthPicker';
 import FindView from '../cards/FindView';
 import SubjectShelf from './SubjectShelf';
 import SubjectPicker from './SubjectPicker';
@@ -95,6 +96,8 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
   const [focused, setFocused] = useState(false);
   const [swapped, setSwapped] = useState(false);
   const [booted, setBooted] = useState(false);
+  // LK37: the offer's length, the one the student chose last in Learn (shared with the chapter page); null is the server's default 10.
+  const [minutes, setMinutes] = useState(null);
   const [recent, setRecent] = useState([]);
   const field = useRef(null);
   const sentinel = useRef(null);
@@ -107,6 +110,7 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
     // eslint-disable-next-line react-hooks/set-state-in-effect -- the remembered subject is read once after mount (no storage on the server)
     if (subjectProp) setSubject(subjectProp);
     else if (!booted) { const saved = read(STORE_SUBJECT); if (saved) setSubject(saved); }
+    if (!booted) { const kept = Number(lengthStore.get(MINUTES_KEY)); if (validMinutes(kept) && kept !== 10) setMinutes(kept); }
     setBooted(true);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subjectProp]);
@@ -124,10 +128,10 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
 
   const home = useLearnRead(() => {
     if (!booted) return Promise.resolve(null);
-    const out = learnHome(subject, { fresh: fresh.current });
+    const out = learnHome(subject, { fresh: fresh.current, minutes });
     fresh.current = false;
     return out;
-  }, [subject, booted]);
+  }, [subject, booted, minutes]);
   const refresh = useCallback(() => { fresh.current = true; return home.refresh(); }, [home]);
   const data = home.data;
   const shelves = data?.shelves || null;
@@ -237,7 +241,10 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
   const failed = home.status === 'error';
 
   const panelName = mode === 'results' ? 'Results' : mode === 'set' ? setHead(shelf, {}).title : mode === 'find' ? 'Find' : 'Your roadmap';
-  const offer = mode === 'chapters' ? (ready ? <RoadmapHero roadmap={data.roadmap} links={links} /> : failed ? null : <HeroSkeleton />) : null;
+  // The student's choice shows at once; the key waits for the server's answer for that length (it starts only what it says).
+  const chooseMinutes = useCallback((m) => { lengthStore.set(MINUTES_KEY, String(m)); setMinutes(m); }, []);
+  const pendingLength = Boolean(data?.roadmap) && home.status === 'refreshing' && Number(data.roadmap.asked) !== (minutes || 10);
+  const offer = mode === 'chapters' ? (ready ? <RoadmapHero roadmap={data.roadmap} links={links} minutes={minutes || 10} onMinutes={chooseMinutes} pending={pendingLength} /> : failed ? null : <HeroSkeleton />) : null;
   const hint = findHints(active)[0];
   const placeholder = hint ? `Find a topic, like ${hint}` : 'Find a chapter or topic';
 

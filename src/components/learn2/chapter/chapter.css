@@ -94,54 +94,11 @@ html[data-theme='light'] .lc {
 .lc-lined__in { display: grid; gap: 0; min-width: 0; }
 .lc-ctl { display: grid; gap: 10px; min-width: 0; }
 .lc-lined__h { font: 700 17px/1.25 var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); }
-.lc-len-wrap { position: relative; min-width: 0; }
-/* The site's SegmentedControl, stretched to the block: four equal segments, 48 px tall. */
-.lc-len-wrap .ctl-seg.lc-seg { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; flex-wrap: nowrap; }
-.lc-len-wrap .lc-seg .ctl-seg__opt { min-width: 0; min-height: 48px; padding: 0 6px; font: 650 15px/1.1 var(--font-body); }
-@media (max-width: 389px) { .lc-len-wrap .lc-seg .ctl-seg__opt { font-size: 14px; padding: 0 4px; } }
 @container lc-lined (min-width: 600px) {
   .lc-ctl { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 20px; }
   .lc-lined__h { font-size: 19px; }
 }
 
-.lc-own-layer { --lc-ease: cubic-bezier(0.22, 1, 0.36, 1); }
-/* Your own: a small sheet. A bottom sheet on a phone; a panel under the control on a wider screen. */
-.lc-own__scrim { position: fixed; inset: 0; z-index: 1000; border: 0; padding: 0; background: rgb(4 7 5 / 0.5); cursor: default; animation: kc-fade 200ms var(--lc-ease) both; }
-html[data-theme='light'] .lc-own__scrim { background: rgb(23 32 22 / 0.28); }
-.lc-own {
-  position: fixed; z-index: 1001; left: 0; right: 0; bottom: 0; display: grid; gap: 16px; padding: 10px 16px calc(20px + env(safe-area-inset-bottom));
-  border-radius: 22px 22px 0 0; background: var(--a-sheet); border: 1px solid var(--a-line-strong); border-bottom: 0; box-shadow: var(--a-shadow-2);
-  animation: lc-sheet-up 280ms var(--lc-ease) both;
-}
-.lc-own__grab { justify-self: center; width: 36px; height: 4px; border-radius: 2px; background: var(--a-line-strong); }
-.lc-own__title { font: 700 17px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
-.lc-own__presets { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.lc-own__preset {
-  min-height: 48px; border-radius: 12px; border: 1px solid var(--a-line-strong); background: var(--a-raised); color: var(--a-ink); font: 650 15px/1 var(--font-body);
-  cursor: pointer; transition: transform 100ms var(--lc-ease), border-color 200ms var(--lc-ease), background-color 200ms var(--lc-ease);
-}
-.lc-own__preset[aria-pressed='true'] { border-color: var(--a-select); box-shadow: inset 0 0 0 1px var(--a-select); }
-.lc-own__preset:active { transform: scale(0.97); }
-.lc-own__step { display: grid; grid-template-columns: 48px minmax(0, 1fr) 48px; align-items: center; gap: 8px; padding: 4px; border-radius: 14px; background: var(--a-sunken); border: 1px solid var(--a-line); }
-.lc-own__nudge { display: grid; place-items: center; width: 48px; height: 48px; border: 0; border-radius: 11px; background: var(--a-raised); color: var(--a-ink); box-shadow: inset 0 0 0 1px var(--a-line-strong); cursor: pointer; transition: transform 100ms var(--lc-ease); }
-.lc-own__nudge:active:not(:disabled) { transform: scale(0.94); }
-.lc-own__nudge:disabled { opacity: 0.4; cursor: default; }
-.lc-own__read { text-align: center; font: 600 15px/1 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; border-radius: 10px; padding: 8px 0; }
-.lc-own__read b { font: 750 26px/1 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); margin-right: 3px; }
-.lc-own__use {
-  min-height: 48px; border-radius: 14px; border: 0; background: var(--a-ink); color: var(--a-bg); font: 650 15px/1 var(--font-body); cursor: pointer;
-  font-variant-numeric: tabular-nums; transition: transform 100ms var(--lc-ease);
-}
-.lc-own__use:active { transform: scale(0.98); }
-.lc-own :is(button, [role='spinbutton']):focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-@media (min-width: 640px) {
-  .lc-own__scrim, html[data-theme='light'] .lc-own__scrim { background: transparent; animation: none; }
-  .lc-own {
-    position: absolute; top: var(--lc-own-top, 30vh); right: var(--lc-own-right, 24px); left: auto; bottom: auto; width: 340px; padding: 16px; border-radius: 18px; border-bottom: 1px solid var(--a-line-strong);
-    transform-origin: top right; animation: kc-pop 180ms var(--lc-ease) both;
-  }
-  .lc-own__grab { display: none; }
-}
 
 /* ---------- The piles ---------- */
 /* One column per pile (a left-out pile keeps its place, so leaving one out never moves the others). Four piles on a phone
@@ -156,6 +113,22 @@ html[data-theme='light'] .lc-own__scrim { background: rgb(23 32 22 / 0.28); }
   .lc-piles[data-n='4'] { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 20px; }
   .lc-piles:is([data-n='1'], [data-n='2']) { grid-template-columns: repeat(3, 212px); }
 }
+/* LK37: "What's in this run": the heading and its one live line over the switches. */
+.lc-incl { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 16px; margin: 22px 0 0; }
+.lc-incl__h { font: 700 17px/1.25 var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); }
+.lc-incl__sum { font: 600 14px/1.3 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.lc-lined .lc-incl + .lc-piles { margin-top: 8px; }
+@container lc-lined (min-width: 600px) { .lc-incl__h { font-size: 19px; } .lc-incl__sum { font-size: 15px; } }
+/* The switch under each pile: a track and a knob, with "In" or "Out" beside it. The knob slides (transform only). */
+.lc-sw { display: inline-flex; align-items: center; gap: 8px; margin-top: 6px; }
+.lc-sw__track { position: relative; flex: none; width: 36px; height: 22px; border-radius: 11px; background: color-mix(in srgb, var(--a-ink) 14%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--a-ink) 26%, transparent); transition: background-color 180ms var(--lc-ease); }
+.lc-sw__knob { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--a-ink-3); transition: transform 180ms var(--lc-ease), background-color 180ms var(--lc-ease); }
+.lc-pile:not([data-left]) .lc-sw__track { background: var(--a-select, #b5d000); box-shadow: none; }
+.lc-pile:not([data-left]) .lc-sw__knob { transform: translateX(14px); background: #0e140f; }
+html[data-theme='light'] .lc-pile:not([data-left]) .lc-sw__knob { background: #fff; }
+.lc-sw__word { font: 650 13px/1 var(--font-body); color: var(--a-ink-2); }
+.lc-pile[data-held] .lc-sw__track { opacity: 0.5; }
+.lc-pile[data-left] .lc-pile__btn { opacity: 0.55; }
 .lc-pile { min-width: 0; animation: kc-rise 260ms var(--lc-ease) both; animation-delay: calc(var(--i, 0) * 40ms); }
 .lc-pile__btn {
   display: grid; gap: 1px; width: 100%; padding: 6px 2px 4px; margin: 0; border: 0; border-radius: 16px; background: transparent; color: inherit; text-align: left;
@@ -234,7 +207,6 @@ html[data-theme='light'] .lc-own__scrim { background: rgb(23 32 22 / 0.28); }
 .lc-shake { animation: lc-shake 300ms var(--lc-ease) 1; }
 @keyframes lc-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 60% { transform: translateX(4px); } 85% { transform: translateX(-1px); } }
 @keyframes lc-respread { from { transform: none; } }
-@keyframes lc-sheet-up { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
 
 /* Before the first dry run: the page in outline at its real sizes. */
 .lc-skel { display: grid; gap: 20px; }

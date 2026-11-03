@@ -108,18 +108,19 @@ export const learnSubject = (subject) => call(`/api/learn/subject?${q({ subject 
 // ---------------------------------------------------------------- Learn home in one read, shared with the shell's badge
 
 const HOME_TTL_MS = 30_000;
-const homeCache = new Map(); // subject ('' = the student's default) -> { at, promise }
+const homeCache = new Map(); // 'subject|minutes' ('' = the student's default) -> { at, promise }
 /** Forget the kept home reads (a write, or a run's end). */
 export function clearLearnHome() { homeCache.clear(); }
 /**
  * GET /api/learn/home: the /subject body plus `shelves`, from one snapshot. A read under 30 seconds old (or still in flight) is
  * shared, so Learn home and the shell's due badge cost one call between them; `fresh` reads again (a refresh after a run).
  */
-export function learnHome(subject = null, { fresh = false } = {}) {
-  const key = subject || '';
+export function learnHome(subject = null, { fresh = false, minutes = null } = {}) {
+  // LK37: the offer's length (5, 10, 20 or the student's own) is part of the read: each length is its own kept answer.
+  const key = `${subject || ''}|${minutes || ''}`;
   const hit = homeCache.get(key);
   if (!fresh && hit && Date.now() - hit.at < HOME_TTL_MS) return hit.promise;
-  const promise = call(`/api/learn/home?${q({ subject })}`);
+  const promise = call(`/api/learn/home?${q({ subject, minutes })}`);
   homeCache.set(key, { at: Date.now(), promise });
   promise.catch(() => { if (homeCache.get(key)?.promise === promise) homeCache.delete(key); });
   return promise;

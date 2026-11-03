@@ -22,12 +22,11 @@
 // Every number on screen comes from the preview response. Links come from useLearnLinks, never built here.
 // Motion: counts roll 180 ms, fans re-spread 220 ms, the segment lens slides 240 ms; transform and opacity only.
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Check, ChevronDown, ChevronLeft, ChevronRight, Lock, Minus, Plus, Printer } from 'lucide-react';
+import { Check, ChevronDown, ChevronLeft, ChevronRight, Lock, Plus, Printer } from 'lucide-react';
 import { SubjectObject } from '@/components/brand/SubjectObject';
-import { SegmentedControl } from '@/components/ui/controls/SegmentedControl';
+import { LengthControl, MINUTES_KEY, OwnSheet, store, validMinutes } from '../LengthPicker';
 import { useCountUpState } from '@/lib/motion';
 import { previewRun } from '../api';
 import { useLearnLinks } from '../links';
@@ -36,25 +35,11 @@ import { minutesFor } from '../run/runMath';
 import { usePrintSheet } from '../print/ChapterPrintSheet';
 import { useAuth } from '@/components/AuthProvider';
 import { chapterShort } from '../../../../data/learn/words.js';
-import { chapterQuietLine, chapterVerdict, coachKeyFor, continueLabel, firstUpCards, hasSeenCards, headLines, isChapterMissing, pileView, recapLabel, shelfView, startKeyLabel, titleSize, withFlag } from './chapterModel.mjs';
+import { chapterQuietLine, chapterVerdict, coachKeyFor, continueLabel, firstUpCards, hasSeenCards, headLines, isChapterMissing, pileView, recapLabel, runSummary, shelfView, startKeyLabel, titleSize, withFlag } from './chapterModel.mjs';
 import '../../keycards/keycards.css';
 import './chapter.css';
 
-const LENGTHS = [5, 10, 20];
-const OWN_PRESETS = [30, 45, 60];
-const OWN_MIN = 5;
-const OWN_MAX = 120;
-const OWN_STEP = 5;
 const PILE_ORDER = ['lesson', 'cards', 'questions', 'mistakes'];
-const MINUTES_KEY = 'mm:learn2:minutes';
-
-const store = {
-  get(key) { try { return window.localStorage.getItem(key); } catch { return null; } },
-  set(key, value) { try { window.localStorage.setItem(key, value); } catch { /* a private window keeps nothing */ } },
-};
-
-const minutesLabel = (m) => (m >= 60 && m % 60 === 0 ? (m === 60 ? '1 hour' : `${m / 60} hours`) : `${m} min`);
-const validMinutes = (m) => Number.isFinite(m) && m >= OWN_MIN && m <= OWN_MAX;
 
 /** The page's one read: the dry run for a length, the piles left out and the next chapter; newest request wins. */
 function usePreview(chapterKey, minutes, leaveOut, addNext) {
@@ -72,93 +57,6 @@ function usePreview(chapterKey, minutes, leaveOut, addNext) {
   const status = got.failed === want ? (got.data ? 'stale' : 'error') : got.key === want ? 'ready' : got.data ? 'refreshing' : 'loading';
   const retry = useCallback(() => setNonce((n) => n + 1), []);
   return { status, data: got.data, error: got.failed === want ? got.error : null, retry };
-}
-
-// ---------------------------------------------------------------- Length
-
-/** "Your own": three ready lengths (one press chooses) and a stepper in 5-minute steps, chosen with its own key. */
-function OwnSheet({ open, minutes, onChoose, onClose, returnRef, anchorRef }) {
-  const titleId = useId();
-  const [at, setAt] = useState(null);
-  const [own, setOwn] = useState(() => (LENGTHS.includes(minutes) || OWN_PRESETS.includes(minutes) ? 35 : minutes));
-  const first = useRef(null);
-  const panel = useRef(null);
-  // Above the app's dock and bars: the sheet is drawn into <body> (the arena tokens live on <html>). On a wide screen it
-  // hangs under the length control, right-aligned to it.
-  useEffect(() => {
-    if (!open) return undefined;
-    const place = () => {
-      const r = anchorRef.current?.getBoundingClientRect();
-      if (r) setAt({ top: r.bottom + window.scrollY + 8, right: document.documentElement.clientWidth - r.right });
-    };
-    const raf = requestAnimationFrame(place);
-    window.addEventListener('resize', place);
-    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', place); };
-  }, [open, anchorRef]);
-  useEffect(() => {
-    if (!open) return undefined;
-    first.current?.focus({ preventScroll: true });
-    const key = (e) => {
-      if (e.key === 'Escape') { e.preventDefault(); onClose(); }
-      if (e.key === 'Tab' && panel.current) {
-        const f = [...panel.current.querySelectorAll('button:not(:disabled), [role="spinbutton"]')];
-        if (!f.length) return;
-        const [a, z] = [f[0], f[f.length - 1]];
-        if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
-        else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
-      }
-    };
-    document.addEventListener('keydown', key);
-    return () => document.removeEventListener('keydown', key);
-  }, [open, onClose, returnRef]);
-  if (!open || typeof document === 'undefined') return null;
-  const step = (d) => setOwn((n) => Math.min(OWN_MAX, Math.max(OWN_MIN, n + d * OWN_STEP)));
-  const spin = (e) => {
-    const map = { ArrowUp: 1, ArrowRight: 1, ArrowDown: -1, ArrowLeft: -1 };
-    if (map[e.key]) { e.preventDefault(); step(map[e.key]); }
-    if (e.key === 'Home') { e.preventDefault(); setOwn(OWN_MIN); }
-    if (e.key === 'End') { e.preventDefault(); setOwn(OWN_MAX); }
-    if (e.key === 'Enter') { e.preventDefault(); onChoose(own); }
-  };
-  return createPortal(
-    <div className="lc-own-layer">
-      <button type="button" className="lc-own__scrim" aria-label="Close" tabIndex={-1} onClick={onClose} />
-      <div ref={panel} className="lc-own" role="dialog" aria-modal="true" aria-labelledby={titleId} style={at ? { '--lc-own-top': `${at.top}px`, '--lc-own-right': `${at.right}px` } : undefined}>
-        <span className="lc-own__grab" aria-hidden="true" />
-        <h2 id={titleId} className="lc-own__title">Your own length</h2>
-        <div className="lc-own__presets">
-          {OWN_PRESETS.map((m, i) => (
-            <button key={m} ref={i === 0 ? first : undefined} type="button" className="lc-own__preset" aria-pressed={minutes === m} onClick={() => onChoose(m)}>{minutesLabel(m)}</button>
-          ))}
-        </div>
-        <div className="lc-own__step">
-          <button type="button" className="lc-own__nudge" aria-label="5 minutes less" disabled={own <= OWN_MIN} onClick={() => step(-1)}><Minus size={18} strokeWidth={2.4} aria-hidden="true" /></button>
-          <div className="lc-own__read" role="spinbutton" tabIndex={0} aria-label="Minutes" aria-valuemin={OWN_MIN} aria-valuemax={OWN_MAX} aria-valuenow={own} aria-valuetext={`${own} minutes`} onKeyDown={spin}>
-            <b>{own}</b> min
-          </div>
-          <button type="button" className="lc-own__nudge" aria-label="5 minutes more" disabled={own >= OWN_MAX} onClick={() => step(1)}><Plus size={18} strokeWidth={2.4} aria-hidden="true" /></button>
-        </div>
-        <button type="button" className="lc-own__use" onClick={() => onChoose(own)}>Use {own} minutes</button>
-      </div>
-    </div>,
-    document.body,
-  );
-}
-
-/** The site's segmented control for 5 | 10 | 20 | Other. Its segment keeps what was chosen; "Other" reopens its sheet. */
-function LengthControl({ minutes, onChange, onOwn, labelledBy, wrapRef }) {
-  const own = !LENGTHS.includes(minutes);
-  const options = [...LENGTHS.map((m) => ({ value: m, label: `${m} min` })), { value: 'own', label: own ? minutesLabel(minutes) : 'Other' }];
-  // The control ignores a press on the option already chosen; "Your own" chosen and pressed again opens its sheet.
-  const reopen = (e) => {
-    const radio = e.target.closest?.('[role="radio"]');
-    if (own && radio && radio === wrapRef.current?.querySelectorAll('[role="radio"]')[3]) onOwn();
-  };
-  return (
-    <div className="lc-len-wrap" ref={wrapRef} onClickCapture={reopen}>
-      <SegmentedControl labelledBy={labelledBy} value={own ? 'own' : minutes} options={options} className="lc-seg" onChange={(v) => (v === 'own' ? onOwn() : onChange(v))} />
-    </div>
-  );
 }
 
 // ---------------------------------------------------------------- Piles
@@ -213,6 +111,7 @@ function Pile({ pile, index, busy, onToggle, shaking, onShaken, describedBy, min
       <span className="lc-pile__label">{pile.label}</span>
       <span className="lc-pile__min">{v.line}</span>
       {v.note ? <span className="lc-pile__note">{v.note}</span> : null}
+      <span className="lc-sw" aria-hidden="true"><span className="lc-sw__track"><span className="lc-sw__knob" /></span><span className="lc-sw__word">{v.state === 'held' ? 'Tomorrow' : v.state === 'in' ? 'In' : 'Out'}</span></span>
     </>
   );
   if (v.state === 'held') {
@@ -227,7 +126,8 @@ function Pile({ pile, index, busy, onToggle, shaking, onShaken, describedBy, min
       <button
         type="button"
         className={`lc-pile__btn${shaking ? ' lc-shake' : ''}`}
-        aria-pressed={!pile.left}
+        role="switch"
+        aria-checked={!pile.left}
         aria-label={v.aria}
         aria-busy={busy || undefined}
         onClick={() => onToggle(pile)}
@@ -545,7 +445,11 @@ export default function ChapterPage({ chapterKey, minutes: asked = null }) {
                           </div>
                         ) : (
                           <>
-                            <ul className="lc-piles" aria-label="Lined up for this run" data-n={n}>
+                            <div className="lc-incl">
+                              <h3 className="lc-incl__h" id={`${headId}-incl`}>{"What's in this run"}</h3>
+                              <p className="lc-incl__sum" aria-live="polite">{runSummary(data, piles)}</p>
+                            </div>
+                            <ul className="lc-piles" aria-labelledby={`${headId}-incl`} data-n={n}>
                               {piles.map((p, i) => (
                                 <Pile key={p.id} pile={p} index={i} minutes={minutes} busy={refreshing} onToggle={toggle} shaking={shake === p.id} onShaken={() => setShake(null)} describedBy={p.held ? quietId : undefined} />
                               ))}

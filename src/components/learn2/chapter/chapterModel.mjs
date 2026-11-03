@@ -46,6 +46,17 @@ export function pileView(pile, { minutes = null } = {}) {
   return { state, line, of, note, aria: `${label}: ${pile?.count}${of ? ` of ${of}` : ''}, ${line}.${note ? ` ${note}.` : ''} Tap to leave it out` };
 }
 
+/**
+ * LK37: "What's in this run" has one live line over its switches: what is lined up and how long it takes, "21 steps · about 10 min".
+ * It counts only piles that are in (not left out, not held back on Free), so it moves with every switch. '' while nothing is lined up.
+ */
+export function runSummary(data, piles = []) {
+  const steps = (piles || []).filter((p) => !p.left && !p.held).reduce((n, p) => n + (Number(p.count) || 0), 0);
+  const m = Math.round(Number(data?.realMinutes) || 0);
+  if (!steps) return '';
+  return m >= 1 ? `${plural(steps, 'step')} · about ${m} min` : plural(steps, 'step');
+}
+
 // R2 ruling 9: the first-visit line under Start is gone (the run's own first card says how it works). Kept as a name only so
 // older callers and tests read that it is never shown.
 export const FIRST_VISIT_LINE = 'Cards and questions, one at a time. Stop whenever you like; what you do is saved.';

@@ -278,6 +278,11 @@ html[data-theme='light'] .lh-row[data-here] .lh-row__bar > span { background: #7
 .lh-hero__sub { padding-top: 4px; font: 500 15px/1.4 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
 .lh-hero__track { margin-top: 12px; width: min(100%, 280px); }
 .lh-hero__track .lh-track__fill { background: #b5d000; }
+/* LK37: the offer's length, 5 | 10 | 20 | Other, under what the offer says and above its key; 44 px segments, the control's own look. */
+.lh-hero__len { display: grid; gap: 6px; margin-top: 16px; min-width: 0; }
+.lh-hero__len .lc-len-wrap .lc-seg .ctl-seg__opt { min-height: 44px; }
+.lh-hero__cap { font: 500 13.5px/1.4 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
+.lh-hero__key[aria-disabled='true'] { cursor: progress; opacity: 0.72; }
 .lh-hero__keys { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; margin-top: 16px; }
 .lh-hero__key { width: 100%; min-height: 56px; font-size: 16px; border-radius: 16px; }
 .lh-hero__quiet { justify-self: center; display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; color: var(--a-ink); font: 650 15px/1 var(--font-body); text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 4px; }
@@ -303,15 +308,16 @@ html[data-theme='light'] .lh-row[data-here] .lh-row__bar > span { background: #7
 
 /* Wide: the offer on the left, the quiet rows beside it, so the first screen is used, not left empty (LK30) */
 @container lh (min-width: 760px) {
-  .lh-hero { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); grid-template-areas: 'title or' 'line or' 'track or' 'sub or' 'keys or'; column-gap: 48px; margin: 4px 0 28px; }
+  .lh-hero { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); grid-template-areas: 'title or' 'line or' 'track or' 'sub or' 'len or' 'keys or'; column-gap: 48px; margin: 4px 0 28px; }
   .lh-hero > .lh-hero__title { grid-area: title; font-size: 34px; }
   .lh-hero > .lh-hero__line { grid-area: line; font-size: 17px; }
   .lh-hero > .lh-hero__track { grid-area: track; }
   .lh-hero > .lh-hero__sub { grid-area: sub; }
+  .lh-hero > .lh-hero__len { grid-area: len; max-width: 440px; }
   .lh-hero > .lh-hero__keys { grid-area: keys; grid-template-columns: auto auto; justify-content: start; align-items: center; gap: 4px 16px; margin-top: 18px; }
   .lh-hero__key { width: auto; min-width: 240px; padding: 0 28px; }
   .lh .lh-hero > .lh-or { grid-area: or; align-self: center; margin-top: 0; }
-  .lh-hero:not(:has(.lh-or)) { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'title' 'line' 'track' 'sub' 'keys'; }
+  .lh-hero:not(:has(.lh-or)) { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'title' 'line' 'track' 'sub' 'len' 'keys'; }
 }
 
 /* ---------- Find with nothing typed: the student's sets as rows, or a line and four words to try ---------- */

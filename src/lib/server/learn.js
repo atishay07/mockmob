@@ -41,6 +41,9 @@ import { OPTION_ORDER_VERSION, isPermutation, servedRow, storedIndexOf, storedKe
 
 const HOUR = 3_600_000;
 const DAY = 24 * HOUR;
+/** Learn home's offer length, in minutes: the chapter page's own range (5 to 120). */
+const OFFER_MIN = 5;
+const OFFER_MAX = 120;
 const ok = (body) => ({ http: 200, body });
 const bad = (error, http = 422, extra = {}) => ({ http, body: { error, ...extra } });
 const fail = (code, cause) => Object.assign(new Error(code), { code, cause });
@@ -724,11 +727,25 @@ export function createLearn(deps) {
     const { me, sid } = await subjectAndMe(userId, p);
     if (!sid) return bad('SUBJECT_NOT_FOUND', 404);
     const S = await snapshot(userId, me, sid, { seen: true });
-    return ok({ ...subjectBody(S, sid), shelves: await shelvesOf(S, sid, userId) });
+    // LK37: the offer's length is the student's to change (5, 10, 20 or their own); the read answers for that length.
+    return ok({ ...subjectBody(S, sid, { minutes: p?.get?.('minutes') }), shelves: await shelvesOf(S, sid, userId) });
+  }
+
+  /**
+   * The length Learn home's offer is composed for (LK37): the asked minutes, whole, from 5 to 120 (the chapter page's own range);
+   * none or a bad value is the default 10. Free sessions run 10 minutes at most (the same rule as a start): `minutes` is what
+   * the offer's key really starts, `asked` what the student chose, `capped` the one line saying why they differ.
+   */
+  function offerLength(S, asked) {
+    const n = asked === null || asked === undefined || asked === '' ? NaN : Math.round(Number(asked));
+    const chosen = Number.isFinite(n) && n >= OFFER_MIN && n <= OFFER_MAX ? n : ROADMAP_RULES.minutes;
+    if (S.isPro) return { minutes: chosen, asked: chosen, capped: null };
+    const minutes = Math.min(chosen, LEARN_FREE.maxMinutes);
+    return { minutes, asked: chosen, capped: chosen > minutes ? { asked: chosen, text: FREE_CAPPED } : null };
   }
 
   /** Learn home's body from one snapshot (GET /api/learn/subject and /home). */
-  function subjectBody(S, sid) {
+  function subjectBody(S, sid, { minutes: askedMinutes = null } = {}) {
     const opts = syllabus.subjectOptions(sid);
     const units = syllabus.unitsFor(sid, {});
     const infos = new Map();
@@ -787,9 +804,11 @@ export function createLearn(deps) {
     // and the shelves' count, so the row's count is its cardIds.length and equals due.bySubject[sid].
     const dueOne = dueNow(S);
     const due = dueOne.list;
+    const length = offerLength(S, askedMinutes);
     const road = roadmapOf({
       subject: { id: sid, name: subjectName(sid) },
       isPro: S.isPro,
+      minutes: length.minutes,
       chapters: allowed.map((i) => ({
         key: i.key, title: i.title, of: i.coverage.of, cards: i.counts.cards, seen: i.coverage.seen, unseen: i.coverage.unseen, questions: i.coverage.questions,
         tried: i.coverage.tried, learnAt: i.learnAt, mistakes: i.mistakes.length, mistakeSeconds: secs.get(i.key)?.mistakeSeconds, state: i.state.key,
@@ -812,7 +831,7 @@ export function createLearn(deps) {
       freeNote: S.isPro ? null : `Free opens ${KEYCARD_RULES.free.tastePerChapter} cards in every chapter. Pro opens all ${S.cards.length}.`,
       free: !S.isPro && S.session ? { text: FREE_SESSION_DONE, maxMinutes: LEARN_FREE.maxMinutes } : null,
       suggestions: sugg,
-      roadmap: road,
+      roadmap: road ? { ...road, minutes: length.minutes, asked: length.asked, capped: length.capped } : road,
       parts: parts.map(({ book: _b, ...rest }) => rest),
     };
   }

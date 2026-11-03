@@ -1,7 +1,7 @@
 // node --test src/components/learn2/chapter/chapterModel.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { FIRST_VISIT_LINE, ONLY_CARDS_LINE, chapterQuietLine, chapterVerdict, coachKeyFor, continueLabel, firstUpCards, hasSeenCards, headLines, isChapterMissing, pileView, recapLabel, shelfView, startKeyLabel, titleSize, withFlag } from './chapterModel.mjs';
+import { FIRST_VISIT_LINE, ONLY_CARDS_LINE, chapterQuietLine, chapterVerdict, coachKeyFor, continueLabel, firstUpCards, hasSeenCards, headLines, isChapterMissing, pileView, recapLabel, runSummary, shelfView, startKeyLabel, titleSize, withFlag } from './chapterModel.mjs';
 
 test('the head: the unit only when it does not repeat the title; the ref is the roadmap place, "Chapter 5 of 14" (R4 ruling N)', () => {
   assert.deepEqual(headLines({ title: 'Admission of a Partner', unitTitle: 'Reconstitution of a Partnership firm', partTitle: 'Part 1, Partnership Accounts', ref: 'Ch 2', place: { n: 5, of: 14 } }), { eyebrow: 'Reconstitution of a Partnership firm', ref: 'Chapter 5 of 14' });
@@ -103,7 +103,7 @@ test('R2 ruling 9: the page draws no first-visit line, no missing line, one main
   const page = readFileSync(new URL('./ChapterPage.jsx', import.meta.url), 'utf8');
   assert.doesNotMatch(page, /lc-shelf__none/, 'no "No lesson yet. No open mistakes."');
   assert.doesNotMatch(page, /'Your own'/);
-  assert.match(page, /: 'Other' \}\]/);
+  assert.match(readFileSync(new URL('../LengthPicker.jsx', import.meta.url), 'utf8'), /: 'Other' }]/, 'the length control (now shared with Learn home) says Other');
   assert.match(page, /<FirstUp key=/);
   assert.match(page, /const picker = !resume \|\| fresh;/, 'with a run to pick up, the picker waits under "Start fresh instead"');
   assert.equal((page.match(/kc-btn--volt/g) || []).length, 3, 'the volt is the resume key, or the Start key (its link and its waiting button) only when there is no resume');
@@ -173,4 +173,28 @@ test('R3 W: a due count on the chapter page always says "cards", never a bare "4
   assert.equal(dueWords(null), '');
   assert.equal(pileView({ id: 'cards', label: 'Key cards', count: 5, minutes: 2, note: 'Revise first: 46 due' }).note, 'Revise first: 46 due cards');
   assert.equal(chapterQuietLine({ shrink: { text: 'Revise first: 8 due. Until then a run takes at most 5 new cards, about 2 min.' } }), 'Revise first: 8 due cards. Until then a run takes at most 5 new cards, about 2 min.');
+});
+
+test('LK37: "What\'s in this run" has one live line over its switches: only piles that are in count', () => {
+  const piles = [
+    { id: 'cards', count: 12, left: false }, { id: 'questions', count: 6, left: false },
+    { id: 'mistakes', count: 2, left: true }, { id: 'lesson', count: 1, left: false, held: 'free' },
+  ];
+  assert.equal(runSummary({ realMinutes: 10 }, piles), '18 steps · about 10 min');
+  assert.equal(runSummary({ realMinutes: 4 }, [{ id: 'mistakes', count: 1, left: false }]), '1 step · about 4 min');
+  assert.equal(runSummary({ realMinutes: 0 }, [{ id: 'cards', count: 3, left: false }]), '3 steps');
+  assert.equal(runSummary({ realMinutes: 10 }, [{ id: 'cards', count: 3, left: true }]), '', 'nothing in, nothing said');
+  assert.equal(runSummary(null, []), '');
+});
+
+test('LK37: the piles are real switches (role=switch, aria-checked) with In or Out beside them; the last one in still shakes', async () => {
+  const { readFileSync } = await import('node:fs');
+  const page = readFileSync(new URL('./ChapterPage.jsx', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
+  assert.match(page, /role="switch"\n\s+aria-checked=\{!pile\.left\}/);
+  assert.match(page, /What's in this run/);
+  assert.match(page, /runSummary\(data, piles\)/);
+  assert.match(page, /v\.state === 'in' \? 'In' : 'Out'/);
+  assert.match(page, /if \(inRun\.length <= 1\) \{\n\s+setShake\(pile\.id\);/, 'the last pile in cannot be switched off');
+  const css = readFileSync(new URL('./chapter.css', import.meta.url), 'utf8');
+  assert.match(css, /\.lc-sw__knob \{[^}]*transition: transform 180ms/, 'the knob moves by transform only');
 });
