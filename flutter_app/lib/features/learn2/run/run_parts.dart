@@ -7,7 +7,7 @@
 ///   RunFrame        the top bar, the item area (12 dp above and below), the action bar; the end is a layer over it
 ///   RunActionBar    the item's keys, 6 dp, then the one status line (20 dp, always reserved)
 ///   RunStatusView   an error, a note, the stamp, a coach line or Free's look line
-///   RunRateKeys     Missed, Got it (the volt key), Easy, 52 dp, 8 dp apart
+///   RunRateKeys     Missed it, Got it (the volt key), Easy, 8 dp apart, each with when the card comes back under its name (round 5)
 ///   RunLessonCard   a lesson as a card: its kind, its title at the card's size, "Read this first."
 ///   RunSwipe        a recap card follows the finger sideways; past 72 dp (or a quick flick) it goes on
 ///   RunRound        a cards run's pause after every 20
@@ -359,7 +359,7 @@ class RunRateKeys extends StatelessWidget {
   static const double _subSize = 12;
   static const double _padX = 8;
   static const double _gap = 8;
-  static const int _subLines = 2;
+  static const int _subLines = 3;
 
   /// The height every key shares: the tallest of the three at this width and text scale, never under 52 (no words) or 60 (words).
   static double keyHeight(BuildContext context, double width, LearnReturns? returns) {

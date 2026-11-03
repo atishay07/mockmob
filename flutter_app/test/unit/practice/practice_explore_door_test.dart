@@ -13,7 +13,6 @@ import 'package:mockmob/features/learn2/explore/explore_copy.dart';
 import 'package:mockmob/features/learn2/learn2_door.dart' show ChapterFeedsRow;
 import 'package:mockmob/features/learn2/learn2_links.dart';
 import 'package:mockmob/features/practice/copy.dart';
-import 'package:mockmob/features/practice/model/practice_door.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
 import 'package:mockmob/features/practice/widgets/door_switch.dart' show PracticeDoorSwitch;
 

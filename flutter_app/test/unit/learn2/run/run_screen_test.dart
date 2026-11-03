@@ -6,6 +6,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderParagraph;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/learn2/data/learn_api.dart';
 import 'package:mockmob/features/learn2/data/learn_models.dart';
@@ -111,6 +112,8 @@ void main() {
         for (final s in ['Missed it', 'Got it', 'Easy', 'back ${item.returns!.missed}', 'back ${item.returns!.got}', 'back ${item.returns!.easy}']) {
           expect(find.text(s), findsOneWidget, reason: s);
           expect(tester.getRect(find.text(s)).right, lessThanOrEqualTo(360));
+          final paragraph = tester.renderObject<RenderParagraph>(find.text(s));
+          expect(paragraph.didExceedMaxLines, isFalse, reason: '"$s" is whole, never cut with an ellipsis');
         }
         final heights = {for (final e in find.byType(StageStepKey).evaluate()) tester.getSize(find.byWidget(e.widget)).height};
         expect(heights, hasLength(1));
