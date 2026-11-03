@@ -13,7 +13,8 @@ const MIN_FIT = 0.6;
 function fitDisplays(root) {
   for (const d of root.querySelectorAll('.katex-display')) {
     d.style.removeProperty('--kc-fit');
-    if (d.scrollWidth - d.clientWidth > 1) d.style.setProperty('--kc-fit', Math.max(MIN_FIT, d.clientWidth / d.scrollWidth).toFixed(3));
+    // 2% under the exact ratio: KaTeX's struts and spacing do not all scale with the font size.
+    if (d.scrollWidth - d.clientWidth > 1) d.style.setProperty('--kc-fit', Math.max(MIN_FIT, (d.clientWidth / d.scrollWidth) * 0.98).toFixed(3));
   }
 }
 
@@ -24,16 +25,12 @@ export function TexHtml({ html, as: Tag = 'span', className = '', id }) {
     if (!el || !el.querySelector('.katex-display')) return undefined;
     fitDisplays(el);
     if (typeof ResizeObserver === 'undefined') return undefined;
-    // Watch the block the formula sits in (the wrapper is often an inline span, always 0 wide), and refit only when its
-    // width changes (a turned phone, a resized window), not when the fit itself changes the height.
-    const box = el.closest('.kc-ncert') || el.parentElement || el;
-    let width = box.clientWidth;
-    const ro = new ResizeObserver(() => {
-      if (box.clientWidth === width) return;
-      width = box.clientWidth;
-      fitDisplays(el);
-    });
-    ro.observe(box);
+    // Refit when the line's width changes (a turned phone, a resized window) and when a formula's own glyph runs (KaTeX's
+    // inline-block .base boxes) change size: KaTeX's fonts start loading only once a formula is drawn, so the first measure
+    // can be in the fallback face. The fit settles in one more pass (the same ratio is set again), so this does not loop.
+    const ro = new ResizeObserver(() => fitDisplays(el));
+    ro.observe(el.closest('.kc-ncert') || el.parentElement || el);
+    for (const base of el.querySelectorAll('.katex-display .base')) ro.observe(base);
     return () => ro.disconnect();
   }, [html]);
   return <Tag ref={ref} className={`kc-tex ${className}`.trim()} id={id} dangerouslySetInnerHTML={{ __html: html }} />;
